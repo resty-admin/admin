@@ -1,0 +1,14 @@
+<div class="payment-systems-page">
+	<h1 appTypography class="title" theme="1">Платежные системы</h1>
+
+	<app-input class="search" placeholder="Поиск"></app-input>
+
+	<ul class="payment-systems">
+		<li class="payment-system" *ngFor="let paymentSystem of paymentSystems$ | async">
+			<button class="button" (click)="openPaymentSystemDialog(paymentSystem)">
+				<!--			<app-image class="image" [remote]="true" [name]="paymentSystem.image"></app-image>-->
+				<p appTypography theme="2">{{ paymentSystem.name }}</p>
+			</button>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,33 @@
+<div class="ios-datepicker" [ngStyle]="wrapperStyle">
+	<div class="active-item" [ngStyle]="activeItemStyle"></div>
+
+	<ul class="list dates" [ngStyle]="listStyle" #datesContainer>
+		<li class="list-item" [ngStyle]="listItemStyle" *ngFor="let date of dates; let index = index; trackBy: trackByFn">
+			<button class="button" (click)="scrollTo(datesContainer, index)">{{ date | leadingZero }}</button>
+		</li>
+	</ul>
+
+	<ul class="list months" [ngStyle]="listStyle" #monthsContainer>
+		<li class="list-item" [ngStyle]="listItemStyle" *ngFor="let month of months; let index = index; trackBy: trackByFn">
+			<button class="button" (click)="scrollTo(monthsContainer, index)">{{ month }}</button>
+		</li>
+	</ul>
+
+	<ul class="list hours" [ngStyle]="listStyle" #hoursContainer>
+		<li class="list-item" [ngStyle]="listItemStyle" *ngFor="let hour of hours; let index = index; trackBy: trackByFn">
+			<button class="button" (click)="scrollTo(hoursContainer, index)">{{ hour | leadingZero }}</button>
+		</li>
+	</ul>
+
+	<div class="time-splitter">:</div>
+
+	<ul class="list minutes" [ngStyle]="listStyle" #minutesContainer>
+		<li
+			class="list-item"
+			[ngStyle]="listItemStyle"
+			*ngFor="let minute of minutes; let index = index; trackBy: trackByFn"
+		>
+			<button class="button" (click)="scrollTo(minutesContainer, index)">{{ minute | leadingZero }}</button>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,19 @@
+<div class="product-dialog">
+	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать блюдо" : "Добавить блюдо" }}</h1>
+
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input class="input" placeholder="Имя" formControlName="name"></app-input>
+		<app-input class="input" placeholder="Цена" formControlName="price"></app-input>
+		<app-file class="input" placeholder="Изображение" formControlName="file"></app-file>
+		<app-select
+			[options]="categories$ | async"
+			class="input"
+			placeholder="Выберите категорию"
+			bindLabel="name"
+			bindValue="id"
+			formControlName="category"
+		></app-select>
+
+		<button class="submit" appButton type="submit">Добавить</button>
+	</form>
+</div>

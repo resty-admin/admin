@@ -1,0 +1,4 @@
+<button appButton [theme]="theme" (click)="emitClick($event)" [disabled]="disabled">
+	{{ label }}
+	<ng-content></ng-content>
+</button>

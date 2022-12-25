@@ -1,0 +1,21 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-language-select.theme-1 {
+		display: flex;
+		column-gap: rem(8);
+		.language {
+			font-weight: 600;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+	}
+}
+@include dark() {
+	.app-language-select.theme-1 {
+		.language {
+			color: var(--light);
+		}
+	}
+}

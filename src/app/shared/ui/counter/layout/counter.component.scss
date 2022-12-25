@@ -1,0 +1,29 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-counter.theme-1 {
+		display: flex;
+		background-color: var(--light-grey);
+		border-radius: rem(50);
+		height: rem(40);
+		.count,
+		.add,
+		.minus {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			&.add,
+			&.minus {
+				width: rem(40);
+			}
+			&.count {
+				width: rem(20);
+			}
+		}
+	}
+}
+@include dark() {
+	.app-counter.theme-1 {
+		background-color: var(--dark-grey);
+	}
+}

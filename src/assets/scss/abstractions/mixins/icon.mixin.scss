@@ -1,0 +1,16 @@
+@import "../functions/index";
+
+@mixin icon($fill: false, $stroke: false) {
+	&::ng-deep {
+		svg {
+			@if $fill {
+				fill: $fill;
+			}
+			path {
+				@if $stroke {
+					stroke: $stroke;
+				}
+			}
+		}
+	}
+}

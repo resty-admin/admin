@@ -1,0 +1,101 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.tables-page {
+		display: grid;
+		align-items: center;
+		grid-template-areas:
+			"title add"
+			"search search"
+			"tables tables";
+		grid-template-columns: 1fr auto;
+		row-gap: rem(40);
+
+		.add {
+			grid-area: add;
+		}
+		.search {
+			grid-area: search;
+		}
+		.tables {
+			grid-area: tables;
+			display: grid;
+			grid-gap: rem(16);
+
+			@include desktop() {
+				grid-template-columns: 1fr 1fr;
+			}
+			.table {
+				position: relative;
+				background-color: var(--light-grey);
+				border-radius: rem(8);
+				display: grid;
+				grid-gap: rem(6);
+				padding: 0;
+
+				.content {
+					padding: rem(12) rem(16);
+				}
+
+				.image {
+					height: rem(232);
+
+					@include image() {
+						border-radius: rem(8) rem(8) 0 0;
+					}
+				}
+
+				.label {
+					font-weight: 500;
+					font-size: rem(20);
+					line-height: rem(32);
+					color: var(--dark);
+
+					@include noWrap();
+				}
+				.description {
+					font-weight: 400;
+					font-size: rem(13);
+					line-height: rem(24);
+					color: var(--grey);
+
+					@include noWrap();
+				}
+
+				.more {
+					position: absolute;
+					top: rem(8);
+					right: rem(8);
+					width: rem(32);
+					height: rem(32);
+					background-color: var(--light);
+					border-radius: rem(8);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					.icon {
+						width: rem(4);
+						height: rem(18);
+					}
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.tables-page {
+		.tables {
+			.table {
+				background-color: var(--dark-grey);
+				.label {
+					color: var(--light);
+				}
+				.more {
+					background-color: var(--dark);
+
+					@include icon(#fff);
+				}
+			}
+		}
+	}
+}

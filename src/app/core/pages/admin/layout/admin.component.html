@@ -1,0 +1,25 @@
+<div class="admin">
+	<app-header
+		class="header"
+		[isAsideOpen]="isAsideOpen"
+		(burgerClicked)="toggleAside()"
+		[user]="user$ | async"
+	></app-header>
+
+	<main class="main">
+		<app-aside
+			class="aside"
+			[class.open]="isAsideOpen"
+			[places]="$any(places$ | async)"
+			[companies]="$any(companies$ | async)"
+			[activeCompanyId]="$any(activeCompanyId$ | async)"
+			[activePlaceId]="$any(activePlaceId$ | async)"
+			[user]="user$ | async"
+			(linkClicked)="toggleAside()"
+		></app-aside>
+
+		<div class="pages">
+			<router-outlet></router-outlet>
+		</div>
+	</main>
+</div>

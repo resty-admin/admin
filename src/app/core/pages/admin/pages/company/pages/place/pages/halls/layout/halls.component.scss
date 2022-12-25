@@ -1,0 +1,100 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.halls-page {
+		display: grid;
+		align-items: center;
+		grid-template-areas:
+			"title ."
+			"search add"
+			"halls halls";
+		row-gap: rem(16);
+		column-gap: rem(8);
+		grid-template-columns: 1fr auto;
+
+		@include desktop() {
+			grid-template-areas:
+				"title add"
+				"search search"
+				"halls halls";
+			row-gap: rem(32);
+		}
+
+		.title {
+			grid-area: title;
+		}
+
+		.add {
+			grid-area: add;
+		}
+
+		.search {
+			grid-area: search;
+		}
+
+		.halls {
+			display: grid;
+			grid-area: halls;
+			gap: rem(8);
+
+			@include desktop() {
+				grid-template-columns: 1fr 1fr 1fr;
+			}
+			.hall {
+				.link {
+					display: block;
+					position: relative;
+					border-radius: rem(16);
+					background-color: var(--light-grey);
+
+					.image {
+						width: 100%;
+						height: rem(176);
+						background-color: white;
+						border-radius: rem(16) rem(16) 0 0;
+					}
+					.content {
+						padding: rem(14) rem(16);
+						.label {
+							font-weight: 500;
+							font-size: rem(16);
+							line-height: rem(24);
+							color: var(--dark);
+						}
+						.description {
+							font-weight: 400;
+							font-size: rem(11);
+							line-height: rem(16);
+							color: #434343;
+						}
+					}
+
+					.more {
+						position: absolute;
+						right: rem(8);
+						top: rem(8);
+					}
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.halls-page {
+		.halls {
+			.hall {
+				.link {
+					background-color: var(--dark-grey);
+					.content {
+						.label {
+							color: var(--light);
+						}
+						.description {
+							color: var(--grey);
+						}
+					}
+				}
+			}
+		}
+	}
+}

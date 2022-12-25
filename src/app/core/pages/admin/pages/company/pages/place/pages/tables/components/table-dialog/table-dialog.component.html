@@ -1,0 +1,10 @@
+<div class="table-dialog">
+	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать Стол" : "Добавить стол" }}</h1>
+
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-file class="input" placeholder="Изображение" formControlName="file"></app-file>
+		<app-input class="input" placeholder="Название" formControlName="name"></app-input>
+
+		<button class="submit" appButton type="submit">Добавить</button>
+	</form>
+</div>

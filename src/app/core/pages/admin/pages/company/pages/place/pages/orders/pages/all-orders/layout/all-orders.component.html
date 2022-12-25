@@ -1,0 +1,27 @@
+<div class="all-orders-page">
+	<app-input class="search"></app-input>
+
+	<button class="filters">
+		<app-icon class="icon" name="filters"></app-icon>
+	</button>
+
+	<app-datatable class="datatable-desktop" [rows]="orders$ | async" [columns]="columns"></app-datatable>
+
+	<ul class="datatable-mobile">
+		<li class="order" *ngFor="let order of orders$ | async">
+			<p class="code">Код: {{ order.orderCode }}</p>
+
+			<p class="date-label">Дата</p>
+			<p class="date-value">{{ order.date }}</p>
+
+			<p class="role-label">Статус</p>
+			<p [class]="'role-value' + ' ' + order.status">{{ order.status }}</p>
+
+			<ng-container *ngTemplateOutlet="actionsTemplate"></ng-container>
+		</li>
+	</ul>
+</div>
+
+<ng-template #actionsTemplate let-value="value">
+	<button class="action">Завершить</button>
+</ng-template>

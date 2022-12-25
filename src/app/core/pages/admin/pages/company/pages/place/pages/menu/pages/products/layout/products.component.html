@@ -1,0 +1,51 @@
+<div class="products-page">
+	<button appButton class="add" (click)="openProductDialog()">
+		<app-icon class="icon" name="add"></app-icon>
+		<span class="text">Добавить Блюдо</span>
+	</button>
+
+	<app-input class="search"></app-input>
+
+	<button class="filters">
+		<app-icon class="icon" name="filters"></app-icon>
+	</button>
+
+	<app-datatable class="datatable-desktop" [rows]="products$ | async" [columns]="columns"></app-datatable>
+
+	<ul class="datatable-mobile">
+		<li class="product" *ngFor="let product of products$ | async">
+			<app-image class="image" [remote]="true" placeholder="product"></app-image>
+
+			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: product }"></ng-container>
+
+			<div class="info">
+				<p class="name-label">Название</p>
+				<p class="name-value">{{ product.name }}</p>
+				<p class="description-label">Описание</p>
+				<p class="description-value">{{ product.description }}</p>
+				<p class="category-label">Категория</p>
+				<p class="category-value">{{ product.category.name }}</p>
+				<p class="price-label">Цена</p>
+				<p class="price-value">{{ product.price }} грн</p>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<ng-template #moreTemplate let-row="row">
+	<button
+		class="more"
+		appIconButton
+		[tippy]="actionsTemplate"
+		[data]="row"
+		placement="left"
+		variation="popper"
+		theme="1"
+	>
+		<app-icon class="icon" name="more"></app-icon>
+	</button>
+</ng-template>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

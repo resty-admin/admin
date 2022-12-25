@@ -1,0 +1,23 @@
+<div class="active-orders-page">
+	<app-input class="search"></app-input>
+
+	<button class="filters">
+		<app-icon class="icon" name="filters"></app-icon>
+	</button>
+
+	<ul class="orders">
+		<li class="order" *ngFor="let order of orders$ | async">
+			<app-image class="image" placeholder="table"></app-image>
+
+			<div class="info">
+				<p class="label">{{ order.hall }} Зал №1, Стол №1</p>
+				<ul class="guests">
+					<li class="guest" *ngFor="let user of order.users">
+						<p class="name">{{ user.name }}</p>
+					</li>
+				</ul>
+				<button class="button">{{ order.status }}</button>
+			</div>
+		</li>
+	</ul>
+</div>

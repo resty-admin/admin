@@ -1,12 +1,31 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { ApplicationRef, enableProdMode } from "@angular/core";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { enableElfProdMode } from "@ngneat/elf";
+import { devTools } from "@ngneat/elf-devtools";
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { AppModule } from "./app/app.module";
+import { environment } from "./environments/environment";
 
 if (environment.production) {
-  enableProdMode();
+	enableProdMode();
+	enableElfProdMode();
+} else {
+	// preventElfStateMutation();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+function bootstrap() {
+	platformBrowserDynamic()
+		.bootstrapModule(AppModule)
+		.then((moduleReference) => {
+			devTools({
+				postTimelineUpdate: () => moduleReference.injector.get(ApplicationRef).tick()
+			});
+		})
+		.catch((error) => console.error(error));
+}
+
+if (document.readyState === "complete") {
+	bootstrap();
+} else {
+	document.addEventListener("DOMContentLoaded", bootstrap);
+}

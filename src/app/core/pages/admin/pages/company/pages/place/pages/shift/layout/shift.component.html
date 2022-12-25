@@ -1,0 +1,47 @@
+<div class="shift-page">
+	<h1 appTypography theme="1" class="title">Смена</h1>
+
+	<p class="description">
+		Смена завершится через
+		<br />
+		<span class="time">12ч 34м</span>
+	</p>
+
+	<h2 appTypography theme="3" class="subtitle">Выберите столы, чтобы открыть смену</h2>
+
+	<ul class="halls">
+		<li class="hall">
+			<button class="button">Все</button>
+		</li>
+		<li class="hall" *ngFor="let hall of halls$ | async">
+			<button class="button">
+				{{ hall.name }}
+			</button>
+		</li>
+	</ul>
+
+	<ul class="tables">
+		<li class="table" *ngFor="let table of tables$ | async">
+			<button class="button">
+				<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+				<div class="content">
+					<span class="text">{{ table.name }}</span>
+					<div class="circle"></div>
+				</div>
+			</button>
+		</li>
+	</ul>
+
+	<footer class="footer">
+		<ul class="selected-tables">
+			<li class="selected-table" *ngFor="let selectedTable of selectedTables">
+				<span class="label">{{ selectedTable.hall }}</span>
+				<button class="button">
+					<app-icon class="icon" name="close"></app-icon>
+				</button>
+			</li>
+		</ul>
+
+		<button class="submit">Подтвердить {{ selectedTables.length }} стола</button>
+	</footer>
+</div>

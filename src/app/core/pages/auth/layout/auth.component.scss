@@ -1,0 +1,46 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.auth {
+		height: 100%;
+		width: 100%;
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		.header {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			column-gap: rem(16);
+			padding: rem(24) rem(16);
+		}
+		.main {
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+		}
+		.footer {
+			z-index: 1;
+			padding: rem(12) 0;
+			text-align: center;
+			background-color: #e1e1e1;
+
+			.privacy-policy {
+				font-weight: 500;
+				font-size: rem(11);
+				line-height: rem(16);
+				text-decoration-line: underline;
+				color: var(--dark);
+			}
+		}
+	}
+}
+@include dark() {
+	.auth {
+		.footer {
+			background-color: #393939;
+			.privacy-policy {
+				color: var(--light);
+			}
+		}
+	}
+}

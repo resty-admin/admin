@@ -1,0 +1,10 @@
+<div [class]="className">
+	<input class="input" type="checkbox" [id]="id" [formControl]="formControl" />
+	<div class="ellipse">
+		<div class="circle"></div>
+	</div>
+	<label class="label" [for]="id">
+		{{ label }}
+		<ng-content></ng-content>
+	</label>
+</div>

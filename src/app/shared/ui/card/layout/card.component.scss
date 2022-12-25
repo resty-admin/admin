@@ -1,0 +1,25 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	width: auto;
+	height: auto;
+	.app-card {
+		&.theme-1 {
+			background-color: var(--light);
+			border-radius: rem(24);
+			padding: rem(24) rem(16);
+
+			@include desktop() {
+				width: rem(543);
+				padding: rem(48) rem(55);
+			}
+		}
+	}
+}
+@include dark() {
+	width: auto;
+	height: auto;
+	.app-card {
+		background-color: var(--dark);
+	}
+}

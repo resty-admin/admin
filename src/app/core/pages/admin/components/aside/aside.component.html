@@ -1,0 +1,59 @@
+<aside class="aside">
+	<a class="user" *ngIf="user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="emitLinkClicked()">
+		<div class="image">{{ user.name | initials }}</div>
+		<p class="name">{{ user.name }}</p>
+		<p class="description">{{ user.role }}</p>
+
+		<button appStopPropagation class="sign-out" (click)="signOut()">
+			<app-icon class="icon" name="exit"></app-icon>
+		</button>
+	</a>
+
+	<div class="company">
+		<p class="title">
+			<span class="text">Компании</span>
+			<app-icon class="icon" name="add"></app-icon>
+		</p>
+
+		<app-select
+			[formControl]="companyControl"
+			[options]="companies"
+			class="select"
+			placeholder="Выберите компанию"
+			bindLabel="name"
+			bindValue="id"
+		></app-select>
+	</div>
+
+	<div class="place">
+		<p class="title">
+			<span class="text">Заведения</span>
+			<app-icon class="icon" name="add"></app-icon>
+		</p>
+		<app-select
+			[formControl]="placeControl"
+			[options]="places"
+			class="select"
+			placeholder="Выберите заведение"
+			bindLabel="name"
+			bindValue="id"
+		></app-select>
+	</div>
+
+	<nav class="nav">
+		<ul class="pages">
+			<li class="page" *ngFor="let page of pages">
+				<a class="link" [routerLink]="page.routerLink" routerLinkActive="active" (click)="emitLinkClicked()">
+					<app-icon class="icon" [name]="page.icon"></app-icon>
+					<span class="label">{{ page.label }}</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="support">
+		<app-icon class="icon" name="support"></app-icon>
+		<p class="label">Поддержка</p>
+		<p class="tel">+38 095 748 98 45</p>
+	</div>
+</aside>

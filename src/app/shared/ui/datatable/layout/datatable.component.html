@@ -1,0 +1,12 @@
+<ngx-datatable
+	[class]="className"
+	[rows]="rows"
+	[columns]="columns"
+	[columnMode]="columnMode.force"
+	(activate)="emitActivate($event)"
+	[headerHeight]="50"
+	[footerHeight]="50"
+	[limit]="5"
+	[messages]="messages"
+	rowHeight="auto"
+></ngx-datatable>

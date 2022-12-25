@@ -1,0 +1,42 @@
+<div [class]="className">
+	<label class="label">
+		<ng-content></ng-content>
+		{{ label }}
+	</label>
+
+	<ng-select
+		class="ng-select"
+		[class.has-value]="!!formControl.value"
+		[formControl]="formControl"
+		[items]="items"
+		[clearable]="clearable"
+		(click)="$event.stopImmediatePropagation()"
+		[searchable]="searchable"
+		[addTag]="addTag"
+		[bindValue]="value"
+		[addTagText]="messages.addTagText"
+		[notFoundText]="messages.notFoundText"
+		[compareWith]="compareWith"
+		[placeholder]="placeholder"
+	>
+		<ng-template ng-label-tmp let-item="item">
+			<ng-container
+				*ngTemplateOutlet="selectLabelTemplate || defaultLabelTemplate; context: { $implicit: item }"
+			></ng-container>
+		</ng-template>
+
+		<ng-template ng-option-tmp let-item="item">
+			<ng-container
+				*ngTemplateOutlet="selectOptionTemplate || defaultOptionTemplate; context: { $implicit: item }"
+			></ng-container>
+		</ng-template>
+	</ng-select>
+</div>
+
+<ng-template #defaultLabelTemplate let-item>
+	<p class="ng-option-label">{{ item[bindLabel] }}</p>
+</ng-template>
+
+<ng-template #defaultOptionTemplate let-item>
+	<p class="ng-option-label">{{ item[bindLabel] || item }}</p>
+</ng-template>

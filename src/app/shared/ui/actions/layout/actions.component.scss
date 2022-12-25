@@ -1,0 +1,47 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	.app-actions {
+		display: grid;
+		width: rem(200);
+		.action {
+			.button {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				column-gap: rem(12);
+				padding: rem(10) rem(14);
+				border-radius: rem(12);
+				.text {
+					font-weight: 400;
+					font-size: 16px;
+					line-height: 24px;
+					color: var(--dark);
+				}
+				.icon {
+					widows: rem(12);
+					height: rem(12);
+
+					@include icon(var(--dark), var(--dark));
+				}
+				&:hover {
+					backdrop-filter: blur(2px);
+					background-color: var(--primary);
+					.icon {
+						@include icon(var(--dark), var(--dark));
+					}
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.app-actions .action .button {
+		.text {
+			color: var(--light);
+		}
+		.icon {
+			@include icon(var(--light), var(--light));
+		}
+	}
+}

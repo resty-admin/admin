@@ -1,0 +1,16 @@
+@import "src/assets/scss/abstractions";
+
+body {
+	hot-toast-container hot-toast .hot-toast-bar-base-container .hot-toast-bar-base {
+		padding: 0;
+		border-radius: rem(12);
+		background-color: transparent;
+		max-width: 100%;
+		.hot-toast-message {
+			margin: 0;
+		}
+		.hot-toast-icon {
+			display: none;
+		}
+	}
+}

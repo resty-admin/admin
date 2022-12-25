@@ -1,0 +1,15 @@
+<code-input
+	[class]="className"
+	[inputType]="inputType"
+	[isCodeHidden]="isCodeHidden"
+	[isCharsCode]="isCharsCode"
+	[isPrevFocusableAfterClearing]="isPrevFocusableAfterClearing"
+	[isFocusingOnLastByClickIfFilled]="isFocusingOnLastByClickIfFilled"
+	[initialFocusField]="initialFocusField"
+	[code]="code"
+	[disabled]="disabled"
+	[autocapitalize]="autocapitalize"
+	[codeLength]="codeLength"
+	(codeChanged)="emitCodeChange($event)"
+	(codeCompleted)="emitCodeComplete($event)"
+></code-input>

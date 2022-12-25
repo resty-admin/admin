@@ -1,0 +1,36 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-textarea {
+		&.theme-1 {
+			background-color: var(--light-grey);
+			border: rem(1) solid transparent;
+			border-radius: rem(12);
+			height: rem(120);
+			width: 100%;
+			padding: rem(11) rem(16);
+			font-weight: 400;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+			&::placeholder {
+				color: var(--dark-d);
+			}
+			&:hover:not(:disabled),
+			&:focus:not(:disabled) {
+				border-color: var(--primary);
+			}
+		}
+	}
+}
+@include dark() {
+	.app-textarea {
+		&.theme-1 {
+			background-color: var(--dark-grey);
+			color: var(--light);
+			&::placeholder {
+				color: var(--light-t);
+			}
+		}
+	}
+}

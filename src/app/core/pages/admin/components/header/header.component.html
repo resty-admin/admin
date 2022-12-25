@@ -1,0 +1,24 @@
+<header class="header">
+	<a class="logo" routerLink="/">
+		<app-image class="image" name="logo"></app-image>
+	</a>
+	<app-language-select class="language"></app-language-select>
+	<app-theme class="theme"></app-theme>
+
+	<button class="profile" *ngIf="user" tippy="Helpful Message" placement="bottom-end" variation="popper">
+		<p class="name">{{ user.name }}</p>
+		<p class="role">{{ user.role }}</p>
+
+		<div class="icon">
+			<span class="text">{{ user.name | initials }}</span>
+		</div>
+	</button>
+
+	<button class="burger" (click)="emitBurgerClick()">
+		<app-icon class="icon" [name]="isAsideOpen ? 'close' : 'burger'"></app-icon>
+	</button>
+</header>
+
+<ng-template #dropdown let-hide>
+	<app-actions [actions]="actions" [additionalFunc]="hide"></app-actions>
+</ng-template>

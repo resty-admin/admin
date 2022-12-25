@@ -1,0 +1,75 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.toastr-error {
+		display: grid;
+		grid-template-areas:
+			"circle title close"
+			". messages .";
+		grid-row-gap: rem(5);
+		grid-column-gap: rem(15);
+		align-items: center;
+		background-color: var(--light-grey);
+		backdrop-filter: blur(2px);
+		border-radius: 12px;
+		padding: rem(8) rem(16) rem(21) rem(8);
+
+		.circle {
+			grid-area: circle;
+			width: rem(24);
+			height: rem(24);
+			background-color: var(--danger);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.icon {
+				width: rem(4);
+				height: rem(12);
+
+				@include icon(var(--light), var(--light));
+			}
+		}
+
+		.title {
+			grid-area: title;
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+
+		.messages {
+			grid-area: messages;
+			display: grid;
+			row-gap: rem(8);
+			.message {
+				font-weight: 400;
+				font-size: rem(13);
+				line-height: rem(16);
+				color: var(--dark);
+			}
+		}
+
+		.close .icon {
+			width: rem(12);
+			height: rem(12);
+
+			@include icon(var(--dark), var(--dark));
+		}
+	}
+}
+@include dark() {
+	.toastr-error {
+		background-color: var(--dark-grey);
+		.title {
+			color: var(--light);
+		}
+		.messages .message {
+			color: var(--light);
+		}
+		.close .icon {
+			@include icon(var(--light), var(--light));
+		}
+	}
+}

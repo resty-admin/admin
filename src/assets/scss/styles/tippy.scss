@@ -1,0 +1,69 @@
+@import "~tippy.js/dist/tippy.css";
+@import "~tippy.js/themes/light.css";
+@import "~tippy.js/animations/scale.css";
+@import "../abstractions";
+
+body {
+	div[data-tippy-root] {
+		transition: none;
+		.tippy-box {
+			border: rem(1) solid var(--dark-b);
+			background-color: var(--light);
+			border-radius: rem(12);
+			transition: none;
+			box-shadow: none;
+			max-width: rem(350);
+
+			.tippy-content {
+				font-weight: 400;
+				font-size: rem(13);
+				line-height: rem(16);
+				color: var(--dark);
+				transition: none;
+				padding: rem(2);
+			}
+			.tippy-arrow {
+				transition: none;
+				&:before {
+					width: rem(12);
+					height: rem(12);
+					border: rem(1) solid var(--dark-b);
+					background-color: var(--light);
+					transform: rotateZ(45deg);
+				}
+			}
+
+			&[data-theme~="light"][data-placement^="left"] > .tippy-arrow:before {
+				border-left-color: transparent;
+				border-bottom-color: transparent;
+				right: -8px;
+			}
+			&[data-theme~="light"][data-placement^="right"] > .tippy-arrow:before {
+				border-right-color: transparent;
+				border-top-color: transparent;
+				left: -8px;
+			}
+			&[data-theme~="light"][data-placement^="top"] > .tippy-arrow:before {
+				border-left-color: transparent;
+				border-top-color: transparent;
+				bottom: -8px;
+			}
+			&[data-theme~="light"][data-placement^="bottom"] > .tippy-arrow:before {
+				border-right-color: transparent;
+				border-bottom-color: transparent;
+				top: -8px;
+			}
+		}
+	}
+
+	&.dark div[data-tippy-root] .tippy-box {
+		border-color: var(--light-b);
+		background-color: var(--dark);
+		.tippy-arrow {
+			&:before {
+				border-color: var(--light-b);
+				background-color: var(--dark);
+			}
+		}
+	}
+}

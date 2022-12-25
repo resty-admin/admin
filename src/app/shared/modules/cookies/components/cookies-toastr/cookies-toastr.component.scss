@@ -1,0 +1,57 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.cookies {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: var(--light-grey);
+		backdrop-filter: blur(rem(2));
+		border-radius: rem(12);
+		padding: rem(18) rem(16);
+		column-gap: rem(16);
+
+		.icon {
+			width: rem(27);
+			height: rem(27);
+		}
+
+		.text {
+			flex: 1;
+			font-weight: 400;
+			font-size: rem(13);
+			line-height: rem(16);
+			color: var(--dark);
+
+			@include desktop() {
+				width: rem(230);
+			}
+		}
+
+		.button {
+			font-weight: 600;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+			padding: rem(8) rem(16);
+			border: rem(1) solid var(--dark);
+			border-radius: rem(12);
+			&:hover {
+				border-color: var(--primary);
+				color: var(--primary);
+			}
+		}
+	}
+}
+@include dark() {
+	.cookies {
+		background-color: var(--dark-grey);
+		.text {
+			color: var(--light);
+		}
+		.button:not(:hover) {
+			border-color: var(--light);
+			color: var(--light);
+		}
+	}
+}

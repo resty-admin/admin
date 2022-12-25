@@ -1,0 +1,47 @@
+<div class="wallet-page">
+	<h1 appTypography theme="1" class="title">Кошелек</h1>
+
+	<div class="money">
+		<p class="money-value">40 000 грн</p>
+		<p class="money-label">Заработано за месяц с нами</p>
+		<span class="first-divider"></span>
+		<p class="commission-value">5% = 2 000 грн</p>
+		<p class="commission-label">Комиссия</p>
+		<span class="second-divider"></span>
+		<p class="date-value">15.10.22</p>
+		<p class="date-label">Перевод средств</p>
+
+		<app-image class="image" name="wallet"></app-image>
+	</div>
+
+	<h2 appTypography theme="3" class="subtitle">Карты</h2>
+
+	<button appButton class="add" (click)="openCardDialog()">
+		<app-icon class="icon" name="add"></app-icon>
+		<span class="text">Добавить</span>
+	</button>
+
+	<ul class="cards">
+		<li class="card" *ngFor="let card of cards">
+			<div class="image"></div>
+			<p class="name">{{ card.name }}</p>
+			<p class="number">{{ card.code }}</p>
+
+			<button
+				class="more"
+				appIconButton
+				[tippy]="actionsTemplate"
+				[data]="card"
+				placement="left"
+				variation="popper"
+				theme="1"
+			>
+				<app-icon class="icon" name="more"></app-icon>
+			</button>
+		</li>
+	</ul>
+</div>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

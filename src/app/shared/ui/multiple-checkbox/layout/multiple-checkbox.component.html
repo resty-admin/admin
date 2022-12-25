@@ -1,0 +1,9 @@
+<ul [class]="className">
+	<li class="option" *ngFor="let option of options">
+		<span class="label">{{ option.label }}</span>
+		<input class="input" type="checkbox" [value]="value" [id]="id" [formControl]="formControl" />
+		<div class="decoration">
+			<!--			<app-icon></app-icon>-->
+		</div>
+	</li>
+</ul>

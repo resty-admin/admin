@@ -1,0 +1,41 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-input {
+		&.theme-1 {
+			.input {
+				width: 100%;
+				border-radius: rem(12);
+				padding: rem(12) rem(16);
+				color: var(--dark);
+				font-weight: 400;
+				font-size: rem(13);
+				line-height: rem(24);
+				background-color: var(--light-grey);
+				&::placeholder {
+					color: var(--dark-t);
+				}
+			}
+
+			@include desktop() {
+				.input {
+					font-size: rem(16);
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.app-input {
+		&.theme-1 {
+			.input {
+				background-color: var(--dark-grey);
+				color: var(--light);
+
+				&::placeholder {
+					color: var(--light-t);
+				}
+			}
+		}
+	}
+}

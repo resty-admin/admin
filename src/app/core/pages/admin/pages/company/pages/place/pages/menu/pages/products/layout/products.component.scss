@@ -1,0 +1,188 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.products-page {
+		display: grid;
+		grid-template-areas:
+			"add add"
+			"search filters"
+			"datatable datatable";
+		row-gap: rem(16);
+		column-gap: rem(8);
+		grid-template-columns: 1fr auto;
+
+		@include desktop() {
+			grid-template-areas:
+				"search filters add"
+				"datatable datatable datatable";
+		}
+
+		.add {
+			grid-area: add;
+		}
+		.search {
+			grid-area: search;
+		}
+		.filters {
+			grid-area: filters;
+			width: rem(48);
+			height: rem(48);
+			border: rem(1) solid var(--primary);
+			border-radius: rem(12);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.icon {
+				width: rem(20);
+				height: rem(20);
+
+				@include icon(var(--primary), var(--primary));
+			}
+		}
+		.datatable-desktop {
+			grid-area: datatable;
+			display: none;
+
+			&::ng-deep {
+				.more {
+					background-color: var(--light);
+				}
+				.datatable-row-odd .more {
+					background-color: var(--light-grey);
+				}
+			}
+
+			@include desktop() {
+				display: block;
+			}
+		}
+
+		.datatable-mobile {
+			grid-area: datatable;
+			display: grid;
+			row-gap: rem(8);
+
+			.product {
+				position: relative;
+				background-color: var(--light-grey);
+				border-radius: rem(16);
+
+				.image {
+					width: 100%;
+					height: rem(128);
+
+					@include image() {
+						border-radius: rem(16) rem(16) 0 0;
+					}
+				}
+
+				.info {
+					padding: rem(21) rem(16);
+					display: grid;
+					grid-template-areas:
+						"name-label name-label"
+						"name-value name-value"
+						"description-label description-label"
+						"description-value description-value"
+						"category-label price-label"
+						"category-value price-value";
+					grid-template-columns: 1fr auto;
+
+					.name-label,
+					.description-label,
+					.category-label,
+					.price-label {
+						font-weight: 500;
+						font-size: rem(11);
+						line-height: rem(16);
+						color: var(--dark-t);
+						margin-top: rem(12);
+						&.name-label {
+							grid-area: name-label;
+						}
+						&.description-label {
+							grid-area: description-label;
+						}
+						&.category-label {
+							grid-area: category-label;
+						}
+						&.price-label {
+							text-align: right;
+							grid-area: price-label;
+						}
+					}
+
+					.name-value,
+					.description-value,
+					.category-value,
+					.price-value {
+						font-weight: 400;
+						font-size: rem(13);
+						line-height: rem(16);
+						color: var(--dark);
+						&.name-value {
+							grid-area: name-value;
+						}
+						&.description-value {
+							grid-area: description-value;
+							color: var(--dark-t);
+						}
+						&.category-value {
+							grid-area: category-value;
+						}
+						&.price-value {
+							grid-area: price-value;
+							color: var(--primary);
+						}
+					}
+				}
+
+				.more {
+					position: absolute;
+					right: rem(8);
+					top: rem(8);
+				}
+			}
+
+			@include desktop() {
+				display: none;
+			}
+		}
+	}
+}
+@include dark() {
+	.products-page {
+		.datatable-desktop::ng-deep {
+			.more {
+				background-color: var(--dark);
+			}
+			.datatable-row-odd .more {
+				background-color: var(--dark-grey);
+			}
+		}
+
+		.datatable-mobile {
+			.product {
+				background-color: var(--dark-grey);
+
+				.info {
+					.name-label,
+					.description-label,
+					.category-label,
+					.price-label {
+						color: var(--light-t);
+					}
+
+					.name-value,
+					.category-value {
+						color: var(--light);
+					}
+
+					.description-value {
+						color: var(--light-t);
+					}
+				}
+			}
+		}
+	}
+}

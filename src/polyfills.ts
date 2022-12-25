@@ -14,9 +14,9 @@
  * Learn more in https://angular.io/guide/browser-support
  */
 
-/***************************************************************************************************
- * BROWSER POLYFILLS
- */
+// *************************************************************************************************
+// BROWSER POLYFILLS
+//
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
@@ -42,12 +42,11 @@
  *
  */
 
-/***************************************************************************************************
- * Zone JS is required by default for Angular itself.
- */
-import 'zone.js';  // Included with Angular CLI.
+// *************************************************************************************************
+// Zone JS is required by default for Angular itself.
+//
+import "zone.js"; // Included with Angular CLI.
 
-
-/***************************************************************************************************
- * APPLICATION IMPORTS
- */
+// *************************************************************************************************
+// APPLICATION IMPORTS
+//

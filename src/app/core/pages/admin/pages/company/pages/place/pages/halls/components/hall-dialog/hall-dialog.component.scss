@@ -1,0 +1,18 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.hall-dialog {
+		display: grid;
+		padding: rem(57) rem(32);
+		row-gap: rem(32);
+
+		.form {
+			display: grid;
+			row-gap: rem(24);
+
+			.submit {
+				width: 100%;
+			}
+		}
+	}
+}

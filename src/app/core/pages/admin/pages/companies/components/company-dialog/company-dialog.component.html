@@ -1,0 +1,10 @@
+<div class="company-dialog">
+	<p class="title">Добавить компанию</p>
+
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input class="input" formControlName="name" placeholder="Введите название"></app-input>
+		<app-file class="input" formControlName="logo" placeholder="Загрузить картинку"></app-file>
+
+		<button class="submit">Добавить</button>
+	</form>
+</div>

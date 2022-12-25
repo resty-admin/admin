@@ -1,0 +1,21 @@
+<div class="profile-page" *ngIf="user$ | async as user">
+	<h1 appTypography theme="1" class="title">Личный кабинет</h1>
+
+	<div class="info">
+		<p class="name">{{ user.name }}</p>
+		<p class="role">{{ user.role }}</p>
+	</div>
+
+	<form class="form">
+		<app-input class="input name" placeholder="Имя"></app-input>
+		<app-input class="input tel" placeholder="Телефон"></app-input>
+		<app-input class="input email" placeholder="Почта"></app-input>
+		<app-input class="input role" placeholder="Роль"></app-input>
+
+		<button class="submit">Сохранить</button>
+
+		<app-image class="image" name="profile"></app-image>
+	</form>
+
+	<button class="delete">Удалить профиль</button>
+</div>

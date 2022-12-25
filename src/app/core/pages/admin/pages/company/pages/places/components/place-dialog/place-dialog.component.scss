@@ -1,0 +1,32 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.place-dialog {
+		display: grid;
+		padding: rem(50) rem(32);
+		row-gap: rem(32);
+		.title {
+			font-weight: 600;
+			font-size: rem(32);
+			line-height: rem(40);
+			letter-spacing: 0.04em;
+			color: var(--dark);
+		}
+
+		.form {
+			display: grid;
+			row-gap: rem(24);
+			.submit {
+				width: 100%;
+				background-color: var(--primary);
+				border-radius: rem(12);
+				padding: rem(12);
+				text-align: center;
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+		}
+	}
+}

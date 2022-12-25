@@ -1,0 +1,26 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	position: absolute;
+	left: 0;
+	top: 0;
+	.app-progress-bar.theme-1 {
+		.ng-progress-bar {
+			.ng-bar-placeholder {
+				background-color: var(--secondary);
+				height: rem(2) !important;
+				.ng-bar {
+					background-color: var(--primary) !important;
+					.ng-meteor {
+						box-shadow: none !important;
+					}
+				}
+			}
+
+			.ng-spinner .ng-spinner-icon {
+				border-top-color: var(--primary) !important;
+				border-left-color: var(--primary) !important;
+			}
+		}
+	}
+}

@@ -1,0 +1,97 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.verification-code {
+		width: 100%;
+		height: 100%;
+		padding: rem(0) rem(20);
+		.image {
+			display: none;
+		}
+		.card {
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			display: grid;
+			grid-template-rows: auto auto 1fr;
+			padding: rem(200) 0 rem(40);
+			row-gap: rem(12);
+
+			.title {
+				font-weight: 600;
+				font-size: rem(28);
+				line-height: rem(40);
+				color: var(--dark);
+			}
+
+			.description {
+				font-weight: 400;
+				font-size: rem(13);
+				line-height: rem(16);
+				color: var(--dark-t);
+			}
+
+			.form {
+				display: grid;
+				grid-template-rows: auto auto 1fr;
+				row-gap: rem(24);
+				.help {
+					align-self: start;
+					font-weight: 400;
+					font-size: rem(11);
+					line-height: rem(16);
+					.resend {
+						color: var(--primary);
+						text-decoration: underline;
+						font-size: rem(11);
+					}
+				}
+				.submit {
+					width: 100%;
+					background-color: var(--primary);
+					border-radius: rem(12);
+					padding: rem(15) 0;
+					align-self: end;
+				}
+			}
+		}
+	}
+
+	@include desktop() {
+		.verification-code {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.image {
+				display: block;
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: -1;
+			}
+			.card {
+				width: rem(543);
+				height: auto;
+				background-color: var(--light);
+				border-radius: rem(24);
+				padding: rem(66) rem(75);
+				.title {
+					font-weight: 600;
+					font-size: rem(40);
+					line-height: rem(48);
+				}
+				.description {
+					font-weight: 400;
+					font-size: rem(16);
+					line-height: rem(24);
+				}
+				.form {
+					display: grid;
+					row-gap: rem(12);
+				}
+			}
+		}
+	}
+}

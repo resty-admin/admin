@@ -1,0 +1,79 @@
+@import "src/assets/scss/abstractions";
+
+@keyframes rotate {
+	from {
+		transform: rotate(-360deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@include component() {
+	.toastr-loading {
+		display: grid;
+		grid-template-areas:
+			"circle title close"
+			". description .";
+		grid-row-gap: rem(5);
+		grid-column-gap: rem(15);
+		align-items: center;
+		background-color: var(--light-grey);
+		backdrop-filter: blur(2px);
+		border-radius: 12px;
+		padding: rem(8) rem(16) rem(21) rem(8);
+
+		.circle {
+			grid-area: circle;
+			width: rem(24);
+			height: rem(24);
+			border: rem(1) solid var(--dark);
+			border-top-color: transparent;
+			border-radius: 50%;
+			animation-name: rotate;
+			animation-duration: 2s;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+		}
+
+		.title {
+			grid-area: title;
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+
+		.description {
+			grid-area: description;
+			font-weight: 400;
+			font-size: rem(13);
+			line-height: rem(16);
+			color: var(--dark);
+		}
+
+		.close .icon {
+			width: rem(12);
+			height: rem(12);
+
+			@include icon(var(--dark), var(--dark));
+		}
+	}
+}
+@include dark() {
+	.toastr-loading {
+		background-color: var(--dark-grey);
+		.circle {
+			border-color: var(--light) var(--light) var(--light) transparent;
+		}
+		.title {
+			color: var(--light);
+		}
+		.description {
+			color: var(--light);
+		}
+		.close .icon {
+			@include icon(var(--light), var(--light));
+		}
+	}
+}

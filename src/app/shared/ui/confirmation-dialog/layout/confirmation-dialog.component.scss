@@ -1,0 +1,36 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	.app-confirmation-dialog {
+		display: grid;
+		padding: rem(57) rem(32);
+		row-gap: rem(32);
+
+		.title {
+			width: 100%;
+
+			@include desktop() {
+				width: rem(400);
+			}
+		}
+
+		.value {
+			font-weight: 400;
+			font-size: rem(13);
+			line-height: rem(16);
+			color: var(--dark);
+
+			@include desktop() {
+				font-weight: 400;
+				font-size: rem(16);
+				line-height: rem(32);
+				letter-spacing: 0.04em;
+			}
+		}
+
+		.actions {
+			display: flex;
+			column-gap: rem(4);
+		}
+	}
+}

@@ -1,0 +1,56 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	.app-multiple-checkbox {
+		&.theme-1 {
+			display: grid;
+			row-gap: rem(8);
+			.option {
+				position: relative;
+				background-color: var(--light-grey);
+				border-radius: rem(12);
+				padding: rem(8);
+				display: flex;
+				column-gap: rem(12);
+				.input {
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					opacity: 0%;
+					&:checked ~ .decoration {
+						border-width: rem(8);
+						background-color: #ffc100;
+					}
+				}
+				.decoration {
+					width: rem(24);
+					height: rem(24);
+					border-radius: 50%;
+					background-color: var(--light);
+				}
+				.label {
+					flex: 1;
+					font-weight: 400;
+					font-size: rem(14);
+					line-height: rem(24);
+					color: var(--dark);
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.app-multiple-checkbox.theme-1 {
+		.option {
+			background-color: var(--dark-grey);
+			.label {
+				color: var(--light);
+			}
+			.decoration {
+				background-color: var(--dark);
+			}
+		}
+	}
+}

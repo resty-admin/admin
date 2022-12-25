@@ -1,0 +1,34 @@
+import { NgModule } from "@angular/core";
+import type { Route } from "@angular/router";
+import { RouterModule } from "@angular/router";
+
+import { ADMIN_ROUTES } from "../../../../../../../../../shared/routes";
+import { MenuComponent } from "./layout/menu.component";
+
+export const MENU_ROUTES: Route[] = [
+	{
+		path: "",
+		component: MenuComponent,
+		children: [
+			{
+				...ADMIN_ROUTES.CATEGORIES,
+				loadChildren: () => import("./pages/categories/categories.module").then((m) => m.CategoriesModule)
+			},
+			{
+				...ADMIN_ROUTES.PRODUCTS,
+				loadChildren: () => import("./pages/products/products.module").then((m) => m.ProductsModule)
+			},
+			{
+				path: "",
+				pathMatch: "full",
+				redirectTo: ADMIN_ROUTES.PRODUCTS.path
+			}
+		]
+	}
+];
+
+@NgModule({
+	imports: [RouterModule.forChild(MENU_ROUTES)],
+	exports: [RouterModule]
+})
+export class MenuRoutingModule {}

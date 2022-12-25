@@ -1,0 +1,23 @@
+<div class="verification-code" *transloco="let t">
+	<app-image class="image" name="sign-in"></app-image>
+
+	<div class="card">
+		<h1 class="title">
+			Введите <br />
+			код авторизации
+		</h1>
+		<p class="description">
+			На вашу почту пришел 4-х значный код <br />
+			авторизации. Введите его, чтобы <br />
+			продолжить
+		</p>
+
+		<form class="form" [formGroup]="form" (ngSubmit)="verifyCode(form.value)">
+			<app-code-input class="code-input" formControlName="verificationCode"></app-code-input>
+
+			<p class="help">Не пришел код? <button class="resend">Отправить еще раз</button></p>
+
+			<button class="submit">Отправить верификационный код</button>
+		</form>
+	</div>
+</div>

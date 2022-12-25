@@ -1,0 +1,114 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.profile-page {
+		display: grid;
+		row-gap: rem(16);
+
+		@include desktop() {
+			row-gap: rem(32);
+		}
+
+		.info {
+			display: grid;
+			padding-left: rem(16);
+			border-left: rem(2) solid var(--primary);
+			.name {
+				font-weight: 500;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+			.role {
+				font-weight: 500;
+				font-size: rem(13);
+				line-height: rem(16);
+				color: var(--primary-hover);
+			}
+		}
+
+		.form {
+			display: grid;
+			padding: rem(20) rem(16) rem(0);
+			background-color: var(--light-grey);
+			border-radius: rem(16);
+			row-gap: rem(12);
+
+			@include desktop() {
+				grid-template-areas:
+					"name email image"
+					"tel role image"
+					"submit . image";
+				grid-template-columns: 1fr 1fr auto;
+				padding-right: 0;
+				column-gap: rem(24);
+			}
+
+			.name {
+				grid-area: name;
+			}
+			.email {
+				grid-area: email;
+			}
+			.tel {
+				grid-area: tel;
+			}
+			.role {
+				grid-area: role;
+			}
+			.submit {
+				grid-area: submit;
+				align-self: start;
+				justify-self: start;
+			}
+			.image {
+				height: rem(140);
+				grid-area: image;
+				align-self: end;
+
+				@include desktop() {
+					height: rem(240);
+				}
+			}
+			.submit {
+				padding: rem(10) rem(24);
+				background-color: var(--primary);
+				border-radius: rem(12);
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+		}
+
+		.delete {
+			font-weight: 400;
+			font-size: rem(11);
+			line-height: rem(16);
+			text-decoration-line: underline;
+			color: #393939;
+			text-align: left;
+
+			@include desktop() {
+				font-size: rem(13);
+			}
+		}
+	}
+}
+@include dark() {
+	.profile-page {
+		.info {
+			.name {
+				color: var(--light);
+			}
+		}
+
+		.form {
+			background-color: var(--dark-grey);
+		}
+
+		.delete {
+			color: var(--light);
+		}
+	}
+}

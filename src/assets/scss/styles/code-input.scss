@@ -1,0 +1,45 @@
+@import "src/assets/scss/abstractions";
+
+body {
+	.app-code-input {
+		&.theme-1 {
+			display: flex;
+			gap: rem(15);
+			span {
+				padding: 0;
+				input {
+					border: rem(1) solid transparent;
+					font-weight: 400;
+					font-size: rem(32);
+					line-height: rem(46);
+					width: rem(72);
+					height: rem(72);
+					border-radius: rem(12);
+					background-color: #f8f8f8;
+					&:disabled {
+						border-color: var(--light-disable);
+						color: var(--light-disable);
+					}
+					&.has-value {
+						color: var(--primary);
+						border-color: transparent;
+					}
+					&:focus {
+						border-color: var(--primary);
+						box-shadow: none;
+					}
+				}
+			}
+		}
+	}
+
+	&.dark .app-code-input {
+		&.theme-1 span input {
+			background-color: #2b2c2b;
+			&:disabled {
+				border-color: var(--light-disable);
+				color: var(--light-disable);
+			}
+		}
+	}
+}

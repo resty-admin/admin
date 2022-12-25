@@ -1,0 +1,37 @@
+<div class="tables-page">
+	<h1 appTypography theme="1" class="title">Столы</h1>
+
+	<button appButton class="add" (click)="openTableDialog()">
+		<app-icon class="icon" name="add"></app-icon>
+		<span class="text">Добавить</span>
+	</button>
+
+	<app-input class="search" placeholder="Поиск"></app-input>
+
+	<ul class="tables">
+		<li class="table" *ngFor="let table of tables$ | async">
+			<app-image class="image" [remote]="true" [name]="table.file.url" placeholder="table"></app-image>
+
+			<div class="content">
+				<p class="label">{{ table.name }}</p>
+				<p class="description">{{ table.code }}</p>
+			</div>
+
+			<button
+				class="more"
+				appIconButton
+				[tippy]="actionsTemplate"
+				[data]="table"
+				placement="left"
+				variation="popper"
+				theme="1"
+			>
+				<app-icon class="icon" name="more"></app-icon>
+			</button>
+		</li>
+	</ul>
+</div>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

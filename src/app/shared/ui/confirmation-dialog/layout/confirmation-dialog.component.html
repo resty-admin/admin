@@ -1,0 +1,10 @@
+<div class="app-confirmation-dialog">
+	<h1 appTypography theme="2" class="title">{{ data.title }}</h1>
+
+	<p class="value">{{ data.value.label || data.value.name }}</p>
+
+	<div class="actions">
+		<button appButton theme="1" class="cancel" (click)="closeDialog(undefined)">Нет</button>
+		<button appButton theme="4" class="submit" (click)="closeDialog(data.value)">Да</button>
+	</div>
+</div>

@@ -1,0 +1,8 @@
+<div [class]="className">
+	<label class="label" [for]="id">
+		<ng-content></ng-content>
+		{{ label }}
+	</label>
+	<input class="input" [id]="id" [type]="type" [formControl]="formControl" [placeholder]="placeholder" />
+	<span class="error" *ngIf="errors">{{ errors | json }}</span>
+</div>

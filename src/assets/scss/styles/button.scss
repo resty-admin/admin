@@ -1,0 +1,72 @@
+@import "src/assets/scss/abstractions";
+
+body {
+	.app-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		column-gap: rem(10);
+		.icon {
+			width: rem(15);
+			height: rem(15);
+			svg {
+				fill: #000000;
+				stroke: #000000;
+			}
+		}
+		&.theme-1 {
+			font-weight: 600;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+			padding: rem(10) rem(32);
+			background-color: var(--primary);
+			border-radius: rem(12);
+			&:focus,
+			&:active,
+			&:hover {
+				background-color: var(--primary-hover);
+			}
+		}
+		&.theme-2 {
+			padding: rem(12) rem(34);
+			background-color: var(--light);
+			border-radius: rem(8);
+			font-weight: 400;
+			font-size: rem(16);
+			line-height: rem(18);
+			text-align: center;
+			color: var(--dark);
+		}
+		&.theme-3 {
+			padding: rem(12) rem(34);
+			border: rem(1) solid var(--primary);
+			border-radius: rem(12);
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--primary);
+		}
+		&.theme-4 {
+			font-weight: 600;
+			font-size: rem(13);
+			line-height: rem(16);
+			padding: 0 rem(20);
+			color: var(--primary);
+			border-radius: rem(12);
+			&:hover {
+				background-color: var(--light-grey);
+			}
+		}
+	}
+
+	&.dark .app-button {
+		&.theme-2 {
+			background-color: var(--dark);
+			color: var(--light);
+		}
+		&.theme-4:hover {
+			background-color: var(--dark-grey);
+		}
+	}
+}

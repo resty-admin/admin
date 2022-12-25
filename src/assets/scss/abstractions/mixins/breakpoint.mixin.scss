@@ -1,0 +1,55 @@
+$breakpoint-1: 36em;
+
+$breakpoint-2: 48em;
+
+$breakpoint-3: 55.5em;
+
+$breakpoint-4: 75em;
+
+$breakpoint-5: 87.5em;
+
+$breakpoints: (
+	1: (
+		min-width: $breakpoint-1
+	),
+	2: (
+		min-width: $breakpoint-2
+	),
+	3: (
+		min-width: $breakpoint-3
+	),
+	4: (
+		min-width: $breakpoint-4
+	),
+	5: (
+		min-width: $breakpoint-5
+	),
+	6: (
+		max-width: $breakpoint-5
+	)
+) !default;
+
+@mixin desktop() {
+	@media #{inspect(map-get($breakpoints , 3))} {
+		@content;
+	}
+}
+@mixin breakpoint($breakpoint) {
+	@media #{inspect(map-get($breakpoints , $breakpoint))} {
+		@content;
+	}
+}
+@mixin hideOnMobile($displayType: block) {
+	display: none;
+
+	@include desktop() {
+		display: $displayType;
+	}
+}
+@mixin hideOnDesktop($displayType: block) {
+	display: $displayType;
+
+	@include desktop() {
+		display: none;
+	}
+}

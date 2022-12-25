@@ -1,0 +1,45 @@
+@import "src/assets/scss/abstractions";
+
+body {
+	.app-typography {
+		&.theme-1 {
+			font-weight: 600;
+			font-size: rem(28);
+			line-height: rem(40);
+			color: var(--dark);
+
+			@include desktop() {
+				font-size: rem(48);
+				line-height: rem(56);
+			}
+		}
+
+		&.theme-2 {
+			font-weight: 600;
+			font-size: rem(28);
+			line-height: rem(32);
+			letter-spacing: 0.04em;
+			color: var(--dark);
+
+			@include desktop() {
+				font-size: rem(32);
+				line-height: rem(40);
+			}
+		}
+
+		&.theme-3 {
+			font-weight: 400;
+			font-size: rem(32);
+			line-height: rem(40);
+			color: var(--dark);
+		}
+	}
+
+	&.dark .app-typography {
+		&.theme-1,
+		&.theme-2,
+		&.theme-3 {
+			color: var(--light);
+		}
+	}
+}

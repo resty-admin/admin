@@ -1,0 +1,144 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-chip {
+		&.theme-1 {
+			@include noWrap();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: rem(32);
+			padding: 0 rem(24);
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			border-radius: rem(8);
+			border: rem(1) solid var(--primary);
+			color: var(--primary);
+		}
+
+		&.theme-2 {
+			@include noWrap();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: rem(32);
+			padding: 0 rem(24);
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			border-radius: rem(8);
+			border: rem(1) solid inherit;
+		}
+
+		&.theme-3 {
+			@include noWrap();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: rem(32);
+			padding: 0 rem(10);
+			font-size: rem(12);
+			line-height: rem(16);
+			border-radius: rem(10);
+			background-color: var(--light-gray);
+			border: rem(1) solid var(--light-gray);
+			color: var(--dark);
+		}
+
+		&.theme-4 {
+			@include noWrap();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: rem(40);
+			padding: 0 rem(12);
+			font-size: rem(12);
+			line-height: rem(16);
+			border-radius: rem(8);
+			background-color: var(--gray);
+			color: var(--purple);
+		}
+
+		&.theme-5 {
+			@include noWrap();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: rem(40);
+			padding: 0 rem(12);
+			font-size: rem(12);
+			line-height: rem(16);
+			border-radius: rem(8);
+			background-color: var(--gray);
+			color: var(--brown);
+		}
+
+		&.theme-6 {
+			@include noWrap();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: rem(40);
+			padding: 0 rem(12);
+			font-size: rem(12);
+			line-height: rem(16);
+			border-radius: rem(8);
+			background-color: var(--gray);
+			color: var(--light-success);
+		}
+
+		&.theme-7 {
+			@include noWrap();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: rem(40);
+			padding: 0 rem(12);
+			font-size: rem(12);
+			line-height: rem(16);
+			border-radius: rem(8);
+			background-color: var(--gray);
+			color: var(--blue);
+		}
+	}
+
+	&.light {
+		.app-chip {
+			&.theme-2 {
+				color: var(--dark);
+			}
+		}
+	}
+
+	&.dark {
+		.app-chip {
+			&.theme-2 {
+				color: var(--light);
+			}
+
+			&.theme-3 {
+				background-color: var(--dark);
+				border: rem(1) solid var(--dark);
+				color: var(--light);
+			}
+
+			&.theme-4 {
+				background-color: var(--second-dark);
+			}
+
+			&.theme-5 {
+				background-color: var(--second-dark);
+				color: var(--primary);
+			}
+
+			&.theme-6 {
+				background-color: var(--second-dark);
+			}
+
+			&.theme-7 {
+				background-color: var(--second-dark);
+			}
+		}
+	}
+}

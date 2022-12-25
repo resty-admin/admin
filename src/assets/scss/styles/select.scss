@@ -1,0 +1,95 @@
+@import "src/assets/scss/abstractions";
+
+body {
+	.app-select {
+		&.theme-1 .ng-select {
+			.ng-select-container {
+				background-color: var(--light-grey);
+				border-radius: rem(12);
+				padding: rem(11) rem(16);
+				border: rem(1) solid transparent;
+				.ng-value-container {
+					.ng-placeholder {
+						font-weight: 400;
+						font-size: rem(13);
+						line-height: rem(24);
+						color: var(--dark-t);
+
+						@include desktop() {
+							font-size: rem(16);
+						}
+					}
+					.ng-value .ng-option-label {
+						font-weight: 400;
+						font-size: rem(13);
+						line-height: rem(24);
+						color: var(--dark);
+
+						@include desktop() {
+							font-size: rem(16);
+						}
+					}
+				}
+				&.ng-has-value .ng-placeholder {
+					display: none;
+				}
+			}
+			.ng-dropdown-panel {
+				z-index: 1000;
+				.ng-dropdown-panel-items {
+					background-color: var(--light-grey);
+					border-radius: 0 0 rem(12) rem(12);
+					margin-top: rem(-10);
+					padding: rem(18) rem(16) rem(8);
+					.ng-option {
+						padding: rem(8) 0;
+						font-weight: 400;
+						font-size: rem(13);
+						line-height: rem(16);
+						color: var(--dark);
+
+						@include desktop() {
+							font-size: rem(16);
+						}
+						&.ng-option-selected {
+							color: var(--primary);
+						}
+						&.ng-option-disabled {
+							color: var(--dark-d);
+						}
+					}
+				}
+			}
+
+			&.ng-select-opened .ng-select-container {
+				border-color: var(--primary);
+			}
+		}
+	}
+
+	&.dark .app-select {
+		&.theme-1 .ng-select {
+			.ng-select-container {
+				background-color: var(--dark-grey);
+				.ng-value-container .ng-placeholder {
+					color: var(--light-t);
+				}
+				&.ng-has-value .ng-value .ng-option-label {
+					color: var(--light);
+				}
+			}
+			.ng-dropdown-panel .ng-dropdown-panel-items {
+				background-color: var(--dark-grey);
+				.ng-option {
+					color: var(--light);
+					&.ng-option-selected {
+						color: var(--primary);
+					}
+					&.ng-option-disabled {
+						color: var(--light-d);
+					}
+				}
+			}
+		}
+	}
+}

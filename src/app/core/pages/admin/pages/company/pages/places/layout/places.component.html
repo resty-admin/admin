@@ -1,0 +1,20 @@
+<div class="places-page">
+	<app-image class="image" name="places"></app-image>
+
+	<div class="card">
+		<h1 class="title">Выберите Заведение</h1>
+
+		<ul class="places">
+			<li class="place" *ngFor="let place of places$ | async">
+				<a class="link" [routerLink]="place.id">
+					{{ place.name | initials }}
+				</a>
+			</li>
+			<li class="place">
+				<button class="button" (click)="openAddPlaceDialog()">
+					<app-icon class="icon" name="add"></app-icon>
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>

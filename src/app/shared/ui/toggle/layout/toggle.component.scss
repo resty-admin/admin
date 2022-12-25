@@ -1,0 +1,107 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-toggle.theme-1 {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: rem(6);
+		.input {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0%;
+			z-index: 1;
+
+			&:hover:not(:disabled) ~ .box {
+				border-color: var(--dark-primary);
+			}
+
+			&:checked ~ .ellipse {
+				background-color: var(--primary);
+				border-color: var(--primary);
+				.circle {
+					transform: translateX(rem(20));
+				}
+			}
+		}
+
+		.ellipse {
+			display: flex;
+			align-items: center;
+			width: rem(40);
+			height: rem(24);
+			border: rem(1) solid transparent;
+			border-radius: rem(16);
+
+			.circle {
+				width: rem(16);
+				height: rem(16);
+				border-radius: rem(16);
+				transition: transform 0.3s;
+				transform: translateX(rem(4));
+			}
+		}
+
+		.label {
+			font-weight: 400;
+			font-size: rem(14);
+			line-height: rem(24);
+		}
+	}
+
+	&.light .app-toggle.theme-1 {
+		.input:disabled {
+			& ~ .ellipse {
+				background-color: var(--light-gray);
+				border-color: var(--light-gray);
+				.circle {
+					background-color: var(--light-disable);
+				}
+			}
+			& ~ .label {
+				color: var(--light-disable);
+			}
+		}
+		.ellipse {
+			border-color: var(--dark);
+			.circle {
+				background-color: var(--dark);
+			}
+		}
+		.label {
+			color: var(--dark);
+		}
+	}
+
+	&.dark .app-toggle.theme-1 {
+		.input {
+			&:disabled {
+				& ~ .ellipse {
+					background-color: var(--dark-grey);
+					border-color: var(--dark-grey);
+					.circle {
+						background-color: var(--light-disable);
+					}
+				}
+				& ~ .label {
+					color: var(--dark-disable);
+				}
+			}
+			&:checked ~ .ellipse .circle {
+				background-color: var(--dark);
+			}
+		}
+		.ellipse {
+			border-color: var(--light);
+			.circle {
+				background-color: var(--light);
+			}
+		}
+		.label {
+			color: var(--light);
+		}
+	}
+}

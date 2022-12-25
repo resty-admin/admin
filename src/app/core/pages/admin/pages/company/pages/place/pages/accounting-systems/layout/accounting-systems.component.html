@@ -1,0 +1,14 @@
+<div class="accounting-systems-page">
+	<h1 appTypography class="title" theme="1">Системы учета</h1>
+
+	<app-input class="search" placeholder="Поиск"></app-input>
+
+	<ul class="accounting-systems">
+		<li class="accounting-system" *ngFor="let accountingSystem of accountingSystems$ | async">
+			<button class="button" (click)="openAccountingSystemDialog(accountingSystem)">
+				<!--			<app-image class="image" [remote]="true" [name]="accountingSystem.image"></app-image>-->
+				<p appTypography theme="2">{{ accountingSystem.name }}</p>
+			</button>
+		</li>
+	</ul>
+</div>

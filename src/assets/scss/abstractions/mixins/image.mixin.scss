@@ -1,0 +1,9 @@
+@import "../functions/index";
+
+@mixin image() {
+	&::ng-deep {
+		.app-image {
+			@content;
+		}
+	}
+}
