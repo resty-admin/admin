@@ -13,6 +13,7 @@
 		row-gap: rem(16);
 		column-gap: rem(8);
 
+		@include pagePadding ();
 		@include desktop() {
 			grid-template-areas:
 				"title add"

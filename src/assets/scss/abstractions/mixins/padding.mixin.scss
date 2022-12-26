@@ -1,0 +1,10 @@
+@import "./breakpoint.mixin";
+@import "../functions/rem.function";
+
+@mixin pagePadding {
+	padding: rem(42) rem(16);
+
+	@include desktop() {
+		padding: rem(67) rem(25);
+	}
+}

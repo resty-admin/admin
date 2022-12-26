@@ -1,6 +1,7 @@
 export * from "./accounting-systems";
 export * from "./angular";
 export * from "./apollo";
+export * from "./attributes";
 export * from "./auth";
 export * from "./categories";
 export * from "./commands";

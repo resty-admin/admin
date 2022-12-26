@@ -125,6 +125,14 @@ export const ADMIN_ROUTES = {
 		path: `products/${DYNAMIC_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/products/${DYNAMIC_ID}`
 	},
+	ATTRIBUTES: {
+		path: `attributes`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/attributes`
+	},
+	ATTRIBUTE: {
+		path: `attributes/${DYNAMIC_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/attributes/${DYNAMIC_ID}`
+	},
 	COMMANDS: {
 		path: `commands`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/commands`

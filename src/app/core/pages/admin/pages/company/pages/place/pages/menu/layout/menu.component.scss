@@ -5,6 +5,7 @@
 		display: grid;
 		row-gap: rem(12);
 
+		@include pagePadding ();
 		@include desktop() {
 			row-gap: rem(24);
 		}

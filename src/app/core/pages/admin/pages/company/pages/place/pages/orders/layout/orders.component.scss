@@ -11,6 +11,7 @@
 		grid-template-columns: 1fr auto;
 		row-gap: rem(16);
 
+		@include pagePadding ();
 		@include desktop() {
 			row-gap: rem(24);
 		}

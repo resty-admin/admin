@@ -1,0 +1,21 @@
+<div class="attribute-dialog">
+	<h1 appTypography theme="2" class="title">
+		{{ data ? "Редактировать группу модификацию" : "Добавить группу модификацию" }}
+	</h1>
+
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input class="input" placeholder="Имя" formControlName="name"></app-input>
+		<app-file class="input" placeholder="Изображение" formControlName="file"></app-file>
+
+		<app-select
+			class="input"
+			placeholder="Модификации"
+			formControlName="attributes"
+			[options]="attributes$ | async"
+			[searchable]="true"
+			[addTag]="addTag"
+		></app-select>
+
+		<button class="submit" appButton type="submit">Добавить</button>
+	</form>
+</div>
