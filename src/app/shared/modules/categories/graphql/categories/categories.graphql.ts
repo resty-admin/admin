@@ -9,6 +9,10 @@ export const CATEGORIES_QUERY = gql`
 				file {
 					url
 				}
+				#				products {
+				#					id
+				#					name
+				#				}
 			}
 			totalCount
 			page

@@ -71,14 +71,11 @@
 				}
 				.products {
 					.product {
-						padding: rem(12) rem(16);
+						position: relative;
+						padding: rem(4) rem(4) rem(16) rem(16);
 						display: grid;
-						border-bottom: rem(1) solid var(--dark-t);
-
-						@include desktop() {
-							grid-auto-flow: column;
-							justify-content: space-between;
-						}
+						align-items: center;
+						border-bottom: rem(1) solid var(--dark-b);
 
 						.name-label,
 						.description-label,
@@ -87,6 +84,7 @@
 							font-size: rem(11);
 							line-height: rem(16);
 							color: var(--dark-t);
+							margin-top: rem(10);
 
 							@include desktop() {
 								display: none;
@@ -102,6 +100,22 @@
 							color: var(--dark);
 							&.description-value {
 								color: var(--dark-t);
+							}
+						}
+
+						.more {
+							position: absolute;
+							right: rem(4);
+							top: rem(12);
+							background-color: var(--light-grey);
+						}
+
+						@include desktop() {
+							padding: rem(10) rem(8) rem(10) rem(24);
+							grid-auto-flow: column;
+							justify-content: space-between;
+							.more {
+								position: static;
 							}
 						}
 					}
@@ -120,7 +134,7 @@
 
 				.products {
 					.product {
-						border-color: var(--light-t);
+						border-color: var(--light-b);
 
 						.name-label,
 						.description-label,
@@ -135,6 +149,10 @@
 							&.description-value {
 								color: var(--light-t);
 							}
+						}
+
+						.more {
+							background-color: var(--dark-grey);
 						}
 					}
 				}

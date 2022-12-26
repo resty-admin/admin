@@ -1,5 +1,5 @@
 <div class="company-dialog">
-	<p class="title">Добавить компанию</p>
+	<p appTypography theme="2" class="title">Добавить компанию</p>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input class="input" formControlName="name" placeholder="Введите название"></app-input>

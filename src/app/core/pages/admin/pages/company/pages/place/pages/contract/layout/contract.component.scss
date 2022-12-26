@@ -1,7 +1,10 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.contract {
-		@include pagePadding ();
+	.contract-page {
+		@include pagePadding();
+		.pdf {
+			padding: rem(15) 0;
+		}
 	}
 }

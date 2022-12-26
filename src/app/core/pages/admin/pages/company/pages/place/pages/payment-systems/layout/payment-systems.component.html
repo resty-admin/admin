@@ -6,7 +6,7 @@
 	<ul class="payment-systems">
 		<li class="payment-system" *ngFor="let paymentSystem of paymentSystems$ | async">
 			<button class="button" (click)="openPaymentSystemDialog(paymentSystem)">
-				<!--			<app-image class="image" [remote]="true" [name]="paymentSystem.image"></app-image>-->
+				<app-image class="image" [remote]="true" [name]="paymentSystem.image"></app-image>
 				<p appTypography theme="2">{{ paymentSystem.name }}</p>
 			</button>
 		</li>

@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { BehaviorSubject, filter, tap } from "rxjs";
+import { BehaviorSubject, filter } from "rxjs";
 import { ControlValueAccessor } from "src/app/shared/classes";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 import { getControlValueAccessorProviders } from "src/app/shared/functions";
@@ -67,13 +67,9 @@ export class FileComponent extends ControlValueAccessor<string> implements OnIni
 		this.formControl.valueChanges
 			.pipe(
 				untilDestroyed(this),
-				tap((value) => {
-					console.log("here?", value);
-				}),
 				filter((value) => Boolean(value))
 			)
 			.subscribe((value: any) => {
-				console.log(value);
 				this.fileName = value.id;
 				this.srcSubject.next(`${this._fileConfig.assetsUrl}/${value.url}`);
 			});

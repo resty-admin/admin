@@ -88,11 +88,6 @@
 					line-height: rem(24);
 					color: var(--dark);
 				}
-				.icon {
-					//width: rem(12);
-					//height: rem(12);
-					//@include icon(null, var(--primary));
-				}
 			}
 		}
 
@@ -191,7 +186,7 @@
 			}
 		}
 		.nav {
-			border-color: var(--light-t);
+			border-color: var(--light-b);
 			.pages {
 				.page {
 					.link {

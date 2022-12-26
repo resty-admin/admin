@@ -1,7 +1,7 @@
 import { gql } from "apollo-angular";
 
 export const CATEGORY_QUERY = gql`
-	query getCategories($skip: Int!, $take: Int!) {
+	query getCategory($skip: Int!, $take: Int!) {
 		categories(skip: $skip, take: $take) {
 			data {
 				id

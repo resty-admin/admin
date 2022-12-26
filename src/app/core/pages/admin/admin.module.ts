@@ -12,6 +12,7 @@ import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { ActionsModule } from "../../../shared/ui/actions";
+import { TooltipModule } from "../../../shared/ui/tooltip";
 import { AdminRoutingModule } from "./admin-routing.module";
 import { ADMIN_COMPONENTS } from "./components";
 import { AdminComponent } from "./layout/admin.component";
@@ -31,8 +32,8 @@ import { AdminComponent } from "./layout/admin.component";
 		ReactiveFormsModule,
 		ActionsModule,
 		DirectivesModule,
-		PipesModule
-		// TooltipModule,
+		PipesModule,
+		TooltipModule
 	],
 	exports: [AdminComponent]
 })

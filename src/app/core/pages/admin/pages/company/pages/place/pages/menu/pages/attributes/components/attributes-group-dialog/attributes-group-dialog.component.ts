@@ -22,7 +22,9 @@ import { AttributeDialogComponent } from "../attribute-dialog/attribute-dialog.c
 export class AttributesGroupDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
-		file: ""
+		file: "",
+		attributes: [[]],
+		isUniq: false
 	});
 
 	readonly attributes$ = this._attributesService.attributes$;
@@ -38,7 +40,7 @@ export class AttributesGroupDialogComponent implements OnInit {
 							...attributeGroup,
 							place: this._routerService.getParams(PLACE_ID.slice(1))
 						} as unknown as any)
-						.pipe(take(1), this._toastrService.observe("Категории"))
+						.pipe(take(1), this._toastrService.observe("Модификация"))
 				)
 			)
 		);

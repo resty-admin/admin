@@ -10,11 +10,18 @@
 			width: 100%;
 			height: 100%;
 			opacity: 0%;
+			&:focus ~ .preview {
+				border-color: var(--primary);
+			}
+			&:hover ~ .preview {
+				border-color: var(--primary-hover);
+			}
 		}
 		.preview {
 			height: rem(216);
 			background-color: var(--light-grey);
 			border-radius: rem(12);
+			border: rem(1) solid var(--dark-b);
 			.image {
 				width: 100%;
 				height: 100%;
@@ -41,9 +48,16 @@
 	.app-file.theme-1 {
 		.preview {
 			background-color: var(--dark-grey);
+			border-color: var(--light-b);
 		}
 		.placeholder {
 			color: var(--light-t);
+		}
+		&:focus ~ .preview {
+			border-color: var(--primary);
+		}
+		&:hover ~ .preview {
+			border-color: var(--primary-hover);
 		}
 	}
 }

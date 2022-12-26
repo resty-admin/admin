@@ -1,5 +1,6 @@
 import { TemplateRef } from "@angular/core";
 import { ChangeDetectionStrategy, Component, ContentChild, Input } from "@angular/core";
+import { isArray } from "@apollo/client/cache/inmemory/helpers";
 import type { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
 import { CompareWithFn } from "@ng-select/ng-select/lib/ng-select.component";
 import { ControlValueAccessor } from "src/app/shared/classes";
@@ -19,6 +20,7 @@ export class SelectComponent extends ControlValueAccessor<any> {
 	@ContentChild("selectLabelTemplate", { static: true }) selectLabelTemplate?: TemplateRef<unknown>;
 	@ContentChild("selectOptionTemplate", { static: true }) selectOptionTemplate?: TemplateRef<unknown>;
 
+	@Input() multiple = false;
 	@Input() label = "";
 	@Input() theme: ISelectTheme = "1";
 	@Input() clearable = false;
@@ -33,8 +35,15 @@ export class SelectComponent extends ControlValueAccessor<any> {
 		super(null);
 	}
 
+	get hasValue() {
+		return isArray(this.formControl.value) ? this.formControl.value.length : this.formControl.value;
+	}
+
 	get messages() {
-		return {} as any;
+		return {
+			addTagText: "Добавить: ",
+			notFoundText: "Не найдено"
+		};
 	}
 
 	get className() {

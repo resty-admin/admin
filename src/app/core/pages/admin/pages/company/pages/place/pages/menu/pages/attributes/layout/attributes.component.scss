@@ -1,12 +1,12 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.categories-page {
+	.attributes-page {
 		display: grid;
 		grid-template-areas:
 			"add add add"
 			"search search filters"
-			"categories categories categories";
+			"attributes-groups attributes-groups attributes-groups";
 		row-gap: rem(16);
 		column-gap: rem(8);
 		grid-template-columns: 1fr auto;
@@ -14,7 +14,7 @@
 		@include desktop() {
 			grid-template-areas:
 				"search filters add"
-				"categories categories categories";
+				"attributes-groups attributes-groups attributes-groups";
 		}
 
 		.add {
@@ -40,11 +40,11 @@
 			}
 		}
 
-		.categories {
+		.attributes-groups {
 			display: grid;
-			grid-area: categories;
+			grid-area: attributes-groups;
 			row-gap: rem(14);
-			.category {
+			.attributes-group {
 				.header {
 					background-color: var(--light-grey);
 					border-radius: rem(8);
@@ -69,16 +69,13 @@
 						}
 					}
 				}
-				.products {
-					.product {
-						padding: rem(12) rem(16);
+				.attributes {
+					.attribute {
+						position: relative;
+						padding: rem(4) rem(4) rem(16) rem(16);
 						display: grid;
-						border-bottom: rem(1) solid var(--dark-t);
-
-						@include desktop() {
-							grid-auto-flow: column;
-							justify-content: space-between;
-						}
+						align-items: center;
+						border-bottom: rem(1) solid var(--dark-b);
 
 						.name-label,
 						.description-label,
@@ -87,6 +84,7 @@
 							font-size: rem(11);
 							line-height: rem(16);
 							color: var(--dark-t);
+							margin-top: rem(10);
 
 							@include desktop() {
 								display: none;
@@ -104,6 +102,22 @@
 								color: var(--dark-t);
 							}
 						}
+
+						.more {
+							position: absolute;
+							right: rem(4);
+							top: rem(12);
+							background-color: var(--light-grey);
+						}
+
+						@include desktop() {
+							padding: rem(10) rem(8) rem(10) rem(24);
+							grid-auto-flow: column;
+							justify-content: space-between;
+							.more {
+								position: static;
+							}
+						}
 					}
 				}
 			}
@@ -111,16 +125,16 @@
 	}
 }
 @include dark() {
-	.categories-page {
-		.categories {
-			.category {
+	.attributes-page {
+		.attributes-groups {
+			.attributes-group {
 				.header {
 					background-color: var(--dark-grey);
 				}
 
-				.products {
-					.product {
-						border-color: var(--light-t);
+				.attributes {
+					.attribute {
+						border-color: var(--light-b);
 
 						.name-label,
 						.description-label,
@@ -135,6 +149,10 @@
 							&.description-value {
 								color: var(--light-t);
 							}
+						}
+
+						.more {
+							background-color: var(--dark-grey);
 						}
 					}
 				}
