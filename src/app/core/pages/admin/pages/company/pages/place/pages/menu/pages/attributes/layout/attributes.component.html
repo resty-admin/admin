@@ -1,0 +1,45 @@
+<div class="categories-page">
+	<button appButton class="add" (click)="openAttributeGroupDialog()">
+		<app-icon class="icon" name="add"></app-icon>
+		<span class="text">Добавить группу модификаций</span>
+	</button>
+
+	<app-input class="search"></app-input>
+
+	<button class="filters">
+		<app-icon class="icon" name="filters"></app-icon>
+	</button>
+
+	<ul class="categories">
+		<li class="category" *ngFor="let attributesGroup of attributesGroups$ | async">
+			<div class="header">
+				<h1 class="label">{{ attributesGroup.name }}</h1>
+
+				<button
+					class="more"
+					appIconButton
+					[tippy]="actionsTemplate"
+					[data]="attributesGroup"
+					placement="left"
+					variation="popper"
+					theme="1"
+				>
+					<app-icon class="icon" name="more"></app-icon>
+				</button>
+			</div>
+
+			<ul class="products">
+				<li class="product" *ngFor="let attribute of attributesGroup.attributes">
+					<p class="name-label">Название</p>
+					<p class="name-value">{{ attribute.name }}</p>
+					<p class="description-label">Описание</p>
+					<p class="description-value">{{ attribute.description }}</p>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

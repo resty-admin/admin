@@ -16,6 +16,7 @@ body {
 				.icon {
 					svg {
 						fill: var(--primary);
+						stroke: var(--primary);
 					}
 				}
 			}
@@ -24,6 +25,7 @@ body {
 				height: rem(16);
 				svg {
 					fill: var(--dark);
+					stroke: var(--dark);
 				}
 			}
 		}

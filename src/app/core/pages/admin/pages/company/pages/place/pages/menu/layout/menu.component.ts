@@ -17,6 +17,10 @@ export class MenuComponent {
 		{
 			label: "Категории",
 			routerLink: ADMIN_ROUTES.CATEGORIES.path
+		},
+		{
+			label: "Модификации",
+			routerLink: ADMIN_ROUTES.ATTRIBUTES.path
 		}
 	];
 }

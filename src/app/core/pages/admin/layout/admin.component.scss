@@ -7,9 +7,12 @@
 		display: grid;
 		grid-template-rows: auto 1fr;
 		background-color: var(--light);
+		position: relative;
 
 		.header {
-			z-index: 2;
+			//z-index: 1053;
+			//position: sticky;
+			//top: 0;
 		}
 
 		.main {
@@ -41,11 +44,6 @@
 			.pages {
 				flex: 1;
 				overflow: auto;
-				padding: rem(42) rem(16);
-
-				@include desktop() {
-					padding: rem(67) rem(25);
-				}
 			}
 		}
 	}

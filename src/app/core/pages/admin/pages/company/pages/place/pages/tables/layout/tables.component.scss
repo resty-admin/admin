@@ -11,6 +11,7 @@
 		grid-template-columns: 1fr auto;
 		row-gap: rem(40);
 
+		@include pagePadding ();
 		.add {
 			grid-area: add;
 		}

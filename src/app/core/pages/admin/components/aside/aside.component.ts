@@ -75,6 +75,8 @@ const PAGES = [
 })
 export class AsideComponent implements OnChanges {
 	@Output() linkClicked = new EventEmitter();
+	@Output() addPlaceClicked = new EventEmitter();
+	@Output() addCompanyClicked = new EventEmitter();
 
 	readonly companyId = COMPANY_ID;
 	readonly placeId = PLACE_ID;
@@ -105,6 +107,14 @@ export class AsideComponent implements OnChanges {
 
 	async signOut() {
 		await this._authService.signOut();
+	}
+
+	emitAddCompanyClicked() {
+		this.addCompanyClicked.emit();
+	}
+
+	emitAddPlaceClicked() {
+		this.addPlaceClicked.emit();
 	}
 
 	emitLinkClicked() {

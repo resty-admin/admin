@@ -1,4 +1,6 @@
 export * from "./accounting-systems.endpoints";
+export * from "./attributes.endpoints";
+export * from "./attributes-groups.endpoints";
 export * from "./auth.endpoints";
 export * from "./categories.endpoints";
 export * from "./commands.endpoints";

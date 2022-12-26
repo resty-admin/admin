@@ -89,8 +89,9 @@
 					color: var(--dark);
 				}
 				.icon {
-					width: rem(12);
-					height: rem(12);
+					//width: rem(12);
+					//height: rem(12);
+					//@include icon(null, var(--primary));
 				}
 			}
 		}

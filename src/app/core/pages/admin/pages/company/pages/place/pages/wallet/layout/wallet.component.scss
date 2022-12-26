@@ -12,6 +12,8 @@
 		align-items: center;
 		grid-template-columns: 1fr auto;
 
+		@include pagePadding ();
+
 		.title {
 			grid-area: title;
 		}

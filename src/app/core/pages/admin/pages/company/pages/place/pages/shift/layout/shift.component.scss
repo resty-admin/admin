@@ -7,6 +7,8 @@
 		position: relative;
 		height: 100%;
 		row-gap: rem(12);
+
+		@include pagePadding ();
 		.description {
 			font-weight: 400;
 			font-size: rem(16);

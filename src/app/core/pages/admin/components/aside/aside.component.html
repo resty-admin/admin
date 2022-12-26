@@ -12,7 +12,9 @@
 	<div class="company">
 		<p class="title">
 			<span class="text">Компании</span>
-			<app-icon class="icon" name="add"></app-icon>
+			<button appIconButton class="button" (click)="emitAddCompanyClicked()">
+				<app-icon class="icon" name="add"></app-icon>
+			</button>
 		</p>
 
 		<app-select
@@ -28,7 +30,9 @@
 	<div class="place">
 		<p class="title">
 			<span class="text">Заведения</span>
-			<app-icon class="icon" name="add"></app-icon>
+			<button appIconButton class="button" (click)="emitAddPlaceClicked()">
+				<app-icon class="icon" name="add"></app-icon>
+			</button>
 		</p>
 		<app-select
 			[formControl]="placeControl"
