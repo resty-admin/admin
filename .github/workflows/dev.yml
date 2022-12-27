@@ -8,11 +8,11 @@ on:
 
 env:
   REGISTRY: "registry.digitalocean.com/resty-registry"
-  NGX_ADMIN: "ngx-admin"
+  NGX_ADMIN: "admin"
 
 jobs:
   deploy:
-    name: Build API image
+    name: Build Admin image
     runs-on: ubuntu-latest
     timeout-minutes: 40
 
@@ -41,5 +41,5 @@ jobs:
             cd /home/resty/k8s
             kubectl apply -f cloudflared.yaml
             cd /home/resty/admin
-            kubectl delete -f k8s/ngx-admin.k8s.yaml
-            kubectl apply -f k8s/ngx-admin.k8s.yaml
+            kubectl delete -f admin.k8s.yaml
+            kubectl apply -f admin.k8s.yaml
