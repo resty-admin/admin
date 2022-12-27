@@ -38,7 +38,8 @@ jobs:
             docker push $(echo $REGISTRY)/$(echo $NGX_ADMIN):latest
 
 
+            cd /home/resty/k8s
+            kubectl apply -f cloudflared.yaml
+            cd /home/resty/admin
             kubectl delete -f k8s/ngx-admin.k8s.yaml
-            kubectl delete -f k8s/cloudflared.admin.yaml
-            kubectl apply -f k8s/cloudflared.admin.yaml
             kubectl apply -f k8s/ngx-admin.k8s.yaml
