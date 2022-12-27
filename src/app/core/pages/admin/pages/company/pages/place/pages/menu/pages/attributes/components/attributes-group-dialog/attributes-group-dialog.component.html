@@ -14,7 +14,12 @@
 			[options]="attributes$ | async"
 			[searchable]="true"
 			[addTag]="addTag"
+			bindLabel="name"
+			bindValue="value"
+			[multiple]="true"
 		></app-select>
+
+		<app-toggle theme="2" formControlName="isUniq" label="Уникальный"></app-toggle>
 
 		<button class="submit" appButton type="submit">Добавить</button>
 	</form>

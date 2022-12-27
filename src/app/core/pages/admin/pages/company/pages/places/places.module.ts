@@ -8,6 +8,7 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 
+import { TypographyModule } from "../../../../../../../shared/ui/typography";
 import { PLACES_COMPONENTS } from "./components";
 import { PlacesComponent } from "./layout/places.component";
 import { PlacesRoutingModule } from "./places-routing.module";
@@ -23,7 +24,8 @@ import { PlacesRoutingModule } from "./places-routing.module";
 		InputModule,
 		ButtonModule,
 		PipesModule,
-		FileModule
+		FileModule,
+		TypographyModule
 	],
 	exports: [PlacesComponent]
 })

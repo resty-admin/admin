@@ -47,7 +47,15 @@
 	<nav class="nav">
 		<ul class="pages">
 			<li class="page" *ngFor="let page of pages">
-				<a class="link" [routerLink]="page.routerLink" routerLinkActive="active" (click)="emitLinkClicked()">
+				<a
+					appLink
+					class="link"
+					theme="0"
+					[routerLink]="page.routerLink"
+					routerLinkActive="active"
+					(click)="emitLinkClicked()"
+					[class.disabled]="page.disabled"
+				>
 					<app-icon class="icon" [name]="page.icon"></app-icon>
 					<span class="label">{{ page.label }}</span>
 				</a>

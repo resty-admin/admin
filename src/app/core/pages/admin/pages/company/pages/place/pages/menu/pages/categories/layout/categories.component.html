@@ -4,7 +4,7 @@
 		<span class="text">Добавить категорию</span>
 	</button>
 
-	<app-input class="search"></app-input>
+	<app-input class="search" placeholder="Поиск"></app-input>
 
 	<button class="filters">
 		<app-icon class="icon" name="filters"></app-icon>
@@ -18,7 +18,7 @@
 				<button
 					class="more"
 					appIconButton
-					[tippy]="actionsTemplate"
+					[tippy]="categoryActionsTemplate"
 					[data]="category"
 					placement="left"
 					variation="popper"
@@ -36,12 +36,46 @@
 					<p class="description-value">{{ product.description }}</p>
 					<p class="price-label">Цена</p>
 					<p class="price-value">{{ product.price }} грн</p>
+					<button
+						class="more"
+						appIconButton
+						[tippy]="productsActionsTemplate"
+						[data]="category"
+						placement="left"
+						variation="popper"
+						theme="1"
+					>
+						<app-icon class="icon" name="more"></app-icon>
+					</button>
+				</li>
+				<li class="product">
+					<p class="name-label">Название</p>
+					<p class="name-value">{{ "asd" }}</p>
+					<p class="description-label">Описание</p>
+					<p class="description-value">{{ "asda" }}</p>
+					<p class="price-label">Цена</p>
+					<p class="price-value">{{ "qwewqe" }} грн</p>
+					<button
+						class="more"
+						appIconButton
+						[tippy]="productsActionsTemplate"
+						[data]="category"
+						placement="left"
+						variation="popper"
+						theme="1"
+					>
+						<app-icon class="icon" name="more"></app-icon>
+					</button>
 				</li>
 			</ul>
 		</li>
 	</ul>
 </div>
 
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+<ng-template #categoryActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="categoryActions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>
+
+<ng-template #productsActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="productActions" [data]="data" [additionalFunc]="hide"></app-actions>
 </ng-template>

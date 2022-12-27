@@ -6,17 +6,17 @@ import type { IAttributesGroup } from "src/app/shared/interfaces";
 import { ApiService } from "src/app/shared/modules/api";
 import { ApolloService } from "src/app/shared/modules/apollo";
 
-import { ATTRIBUTES_GROUP_QUERY, ATTRIBUTES_QUERY } from "../../graphql";
+import { ATTRIBUTES_GROUP_QUERY, ATTRIBUTES_GROUPS_QUERY } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class AttributesGroupsService {
 	readonly attributesGroupsQuery = this._apolloService.watchQuery<any>({
-		query: ATTRIBUTES_QUERY,
+		query: ATTRIBUTES_GROUPS_QUERY,
 		variables: { take: 5, skip: 0, filtersString: "" }
 	});
 
 	readonly attributesGroups$ = this.attributesGroupsQuery.valueChanges.pipe(
-		map(({ data }) => data.attributesGroups?.data)
+		map(({ data }) => data.attributeGroups?.data)
 	);
 
 	constructor(private readonly _apolloService: ApolloService, private readonly _apiService: ApiService) {}

@@ -12,8 +12,15 @@
 				font-size: rem(13);
 				line-height: rem(24);
 				background-color: var(--light-grey);
+				border: rem(1) solid var(--dark-b);
 				&::placeholder {
 					color: var(--dark-t);
+				}
+				&:focus {
+					border-color: var(--primary);
+				}
+				&:hover:not(:focus) {
+					border-color: var(--primary-hover);
 				}
 			}
 
@@ -31,9 +38,13 @@
 			.input {
 				background-color: var(--dark-grey);
 				color: var(--light);
+				border-color: var(--light-b);
 
 				&::placeholder {
 					color: var(--light-t);
+				}
+				&:focus {
+					border-color: var(--primary);
 				}
 			}
 		}

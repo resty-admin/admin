@@ -3,13 +3,21 @@
 body {
 	.app-select {
 		&.theme-1 .ng-select {
+			.ng-input {
+				position: absolute;
+				left: 0;
+				width: 100%;
+				padding: 0 rem(16);
+			}
 			.ng-select-container {
 				background-color: var(--light-grey);
 				border-radius: rem(12);
-				padding: rem(11) rem(16);
-				border: rem(1) solid transparent;
+				border: rem(1) solid var(--dark-b);
 				.ng-value-container {
+					padding: rem(11) rem(16);
+					column-gap: rem(5);
 					.ng-placeholder {
+						position: static;
 						font-weight: 400;
 						font-size: rem(13);
 						line-height: rem(24);
@@ -33,6 +41,9 @@ body {
 				&.ng-has-value .ng-placeholder {
 					display: none;
 				}
+				&:hover {
+					border-color: var(--primary-hover);
+				}
 			}
 			.ng-dropdown-panel {
 				z-index: 1000;
@@ -41,6 +52,7 @@ body {
 					border-radius: 0 0 rem(12) rem(12);
 					margin-top: rem(-10);
 					padding: rem(18) rem(16) rem(8);
+					border: rem(1) solid var(--dark-b);
 					.ng-option {
 						padding: rem(8) 0;
 						font-weight: 400;
@@ -61,6 +73,14 @@ body {
 				}
 			}
 
+			&.ng-select-filtered {
+				.ng-value-container .ng-value,
+				.ng-placeholder {
+					display: block;
+					opacity: 0%;
+				}
+			}
+			&.ng-select-focused .ng-select-container,
 			&.ng-select-opened .ng-select-container {
 				border-color: var(--primary);
 			}
@@ -71,15 +91,20 @@ body {
 		&.theme-1 .ng-select {
 			.ng-select-container {
 				background-color: var(--dark-grey);
+				border-color: var(--light-b);
 				.ng-value-container .ng-placeholder {
 					color: var(--light-t);
 				}
 				&.ng-has-value .ng-value .ng-option-label {
 					color: var(--light);
 				}
+				&:hover {
+					border-color: var(--primary-hover);
+				}
 			}
 			.ng-dropdown-panel .ng-dropdown-panel-items {
 				background-color: var(--dark-grey);
+				border-color: var(--light-b);
 				.ng-option {
 					color: var(--light);
 					&.ng-option-selected {
@@ -89,6 +114,10 @@ body {
 						color: var(--light-d);
 					}
 				}
+			}
+			&.ng-select-focused .ng-select-container,
+			&.ng-select-opened .ng-select-container {
+				border-color: var(--primary);
 			}
 		}
 	}

@@ -12,6 +12,7 @@ import { SelectModule } from "src/app/shared/ui/select";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { ToggleModule } from "../../../../../../../../../../../shared/ui/toggle";
 import { AttributesRoutingModule } from "./attributes-routing.module";
 import { ATTRIBUTES_COMPONENTS } from "./components";
 import { AttributesComponent } from "./layout/attributes.component";
@@ -31,7 +32,8 @@ import { AttributesComponent } from "./layout/attributes.component";
 		TypographyModule,
 		TooltipModule,
 		ActionsModule,
-		TippyDirective
+		TippyDirective,
+		ToggleModule
 	],
 	exports: [AttributesComponent]
 })

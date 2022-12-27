@@ -4,7 +4,7 @@
 		<span class="text">Добавить Блюдо</span>
 	</button>
 
-	<app-input class="search"></app-input>
+	<app-input class="search" placeholder="Поиск"></app-input>
 
 	<button class="filters">
 		<app-icon class="icon" name="filters"></app-icon>
@@ -14,7 +14,7 @@
 
 	<ul class="datatable-mobile">
 		<li class="product" *ngFor="let product of products$ | async">
-			<app-image class="image" [remote]="true" placeholder="product"></app-image>
+			<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: product }"></ng-container>
 

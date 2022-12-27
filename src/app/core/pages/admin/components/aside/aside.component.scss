@@ -88,11 +88,6 @@
 					line-height: rem(24);
 					color: var(--dark);
 				}
-				.icon {
-					//width: rem(12);
-					//height: rem(12);
-					//@include icon(null, var(--primary));
-				}
 			}
 		}
 
@@ -117,6 +112,15 @@
 						background-color: transparent;
 						&.active {
 							background-color: var(--primary);
+						}
+						&.disabled {
+							@include disableLink ();
+							span {
+								color: var(--dark-d);
+							}
+							.icon {
+								@include icon(var(--dark-d));
+							}
 						}
 						.label {
 							font-weight: 400;
@@ -191,7 +195,7 @@
 			}
 		}
 		.nav {
-			border-color: var(--light-t);
+			border-color: var(--light-b);
 			.pages {
 				.page {
 					.link {

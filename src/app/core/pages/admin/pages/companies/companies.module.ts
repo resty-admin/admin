@@ -7,6 +7,7 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 
+import { TypographyModule } from "../../../../../shared/ui/typography";
 import { CompaniesRoutingModule } from "./companies-routing.module";
 import { COMPANIES_COMPONENTS } from "./components";
 import { CompaniesComponent } from "./layout/companies.component";
@@ -21,7 +22,8 @@ import { CompaniesComponent } from "./layout/companies.component";
 		IconModule,
 		InputModule,
 		FileModule,
-		PipesModule
+		PipesModule,
+		TypographyModule
 	],
 	exports: [CompaniesComponent]
 })

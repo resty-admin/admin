@@ -7,7 +7,7 @@
 
 	<ul class="orders">
 		<li class="order" *ngFor="let order of orders$ | async">
-			<app-image class="image" placeholder="table"></app-image>
+			<app-image class="image" placeholder="table" [remote]="true" [name]="order.table"></app-image>
 
 			<div class="info">
 				<p class="label">{{ order.hall }} Зал №1, Стол №1</p>

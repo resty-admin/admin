@@ -1,24 +1,24 @@
-<div class="categories-page">
+<div class="attributes-page">
 	<button appButton class="add" (click)="openAttributeGroupDialog()">
 		<app-icon class="icon" name="add"></app-icon>
 		<span class="text">Добавить группу модификаций</span>
 	</button>
 
-	<app-input class="search"></app-input>
+	<app-input class="search" placeholder="Поиск"></app-input>
 
 	<button class="filters">
 		<app-icon class="icon" name="filters"></app-icon>
 	</button>
 
-	<ul class="categories">
-		<li class="category" *ngFor="let attributesGroup of attributesGroups$ | async">
+	<ul class="attributes-groups">
+		<li class="attributes-group" *ngFor="let attributesGroup of attributesGroups$ | async">
 			<div class="header">
 				<h1 class="label">{{ attributesGroup.name }}</h1>
 
 				<button
 					class="more"
 					appIconButton
-					[tippy]="actionsTemplate"
+					[tippy]="attributesGroupActionsTemplate"
 					[data]="attributesGroup"
 					placement="left"
 					variation="popper"
@@ -28,18 +28,50 @@
 				</button>
 			</div>
 
-			<ul class="products">
-				<li class="product" *ngFor="let attribute of attributesGroup.attributes">
+			<ul class="attributes">
+				<li class="attribute" *ngFor="let attribute of attributesGroup.attributes">
 					<p class="name-label">Название</p>
 					<p class="name-value">{{ attribute.name }}</p>
 					<p class="description-label">Описание</p>
 					<p class="description-value">{{ attribute.description }}</p>
+					<button
+						class="more"
+						appIconButton
+						[tippy]="attributeActionsTemplate"
+						[data]="attribute"
+						placement="left"
+						variation="popper"
+						theme="1"
+					>
+						<app-icon class="icon" name="more"></app-icon>
+					</button>
+				</li>
+				<li class="attribute">
+					<p class="name-label">Название</p>
+					<p class="name-value">{{ "adssad" }}</p>
+					<p class="description-label">Описание</p>
+					<p class="description-value">{{ "asdasd" }}</p>
+					<button
+						class="more"
+						appIconButton
+						[tippy]="attributeActionsTemplate"
+						[data]="attributesGroup"
+						placement="left"
+						variation="popper"
+						theme="1"
+					>
+						<app-icon class="icon" name="more"></app-icon>
+					</button>
 				</li>
 			</ul>
 		</li>
 	</ul>
 </div>
 
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+<ng-template #attributesGroupActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="attributesGroupActions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>
+
+<ng-template #attributeActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="attributeActions" [data]="data" [additionalFunc]="hide"></app-actions>
 </ng-template>

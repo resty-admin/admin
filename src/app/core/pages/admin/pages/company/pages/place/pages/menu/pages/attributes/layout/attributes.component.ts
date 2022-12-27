@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { filter, switchMap, take } from "rxjs";
-import type { IAttributesGroup } from "src/app/shared/interfaces";
+import type { IAttribute, IAttributesGroup } from "src/app/shared/interfaces";
 import { DialogService } from "src/app/shared/ui/dialog";
 import { ToastrService } from "src/app/shared/ui/toastr";
 
@@ -13,7 +13,7 @@ import {
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
 import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
-import { AttributesGroupDialogComponent } from "../components";
+import { AttributeDialogComponent, AttributesGroupDialogComponent } from "../components";
 
 @UntilDestroy()
 @Component({
@@ -24,7 +24,7 @@ import { AttributesGroupDialogComponent } from "../components";
 })
 export class AttributesComponent {
 	readonly attributesGroups$ = this._attributesGroupsService.attributesGroups$;
-	readonly actions: IAction<IAttributesGroup>[] = [
+	readonly attributesGroupActions: IAction<IAttributesGroup>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
@@ -43,6 +43,25 @@ export class AttributesComponent {
 		}
 	];
 
+	readonly attributeActions: IAction<IAttribute>[] = [
+		{
+			label: "Редактировать",
+			icon: "edit",
+			func: (attribute?: IAttribute) => this.openAttributeDialog(attribute)
+		},
+		{
+			label: "Удалить",
+			icon: "delete",
+			func: (attribute?: IAttribute) => {
+				if (!attribute) {
+					return;
+				}
+
+				this.openDeleteAttributeDialog(attribute);
+			}
+		}
+	];
+
 	constructor(
 		private readonly _attributesService: AttributesService,
 		private readonly _attributesGroupsService: AttributesGroupsService,
@@ -51,24 +70,18 @@ export class AttributesComponent {
 		private readonly _routerService: RouterService
 	) {}
 
-	openAttributeGroupDialog(attributeGroup?: Partial<IAttributesGroup>) {
+	openDeleteAttributeDialog(attribute: Partial<IAttribute>) {
 		this._dialogService
-			.open(AttributesGroupDialogComponent, { data: attributeGroup })
+			.open(ConfirmationDialogComponent, {
+				data: {
+					title: "Вы уверены, что хотите удалить модификаций?",
+					value: attribute
+				}
+			})
 			.afterClosed$.pipe(
 				take(1),
-				filter((attributeGroup) => Boolean(attributeGroup)),
-				switchMap((attributeGroup: Partial<IAttributesGroup>) =>
-					attributeGroup.id
-						? this._attributesGroupsService
-								.updateAttributesGroup(attributeGroup.id, attributeGroup)
-								.pipe(take(1), this._toastrService.observe("Категории"))
-						: this._attributesGroupsService
-								.createAttributesGroup({
-									...attributeGroup,
-									place: this._routerService.getParams(PLACE_ID.slice(1))
-								} as unknown as any)
-								.pipe(take(1), this._toastrService.observe("Категории"))
-				)
+				filter((attribute) => Boolean(attribute)),
+				switchMap((attribute) => this._attributesService.deleteAttribute(attribute.id))
 			)
 			.subscribe();
 	}
@@ -85,6 +98,50 @@ export class AttributesComponent {
 				take(1),
 				filter((attributeGroup) => Boolean(attributeGroup)),
 				switchMap((attributeGroup) => this._attributesGroupsService.deleteAttributesGroup(attributeGroup.id))
+			)
+			.subscribe();
+	}
+
+	openAttributeDialog(attribute?: Partial<IAttribute>) {
+		this._dialogService
+			.open(AttributeDialogComponent, { data: attribute })
+			.afterClosed$.pipe(
+				take(1),
+				filter((attribute) => Boolean(attribute)),
+				switchMap((attribute: Partial<IAttributesGroup>) =>
+					attribute.id
+						? this._attributesService
+								.updateAttribute(attribute.id, attribute)
+								.pipe(take(1), this._toastrService.observe("Модификация"))
+						: this._attributesService
+								.createAttribute({
+									...attribute,
+									place: this._routerService.getParams(PLACE_ID.slice(1))
+								} as unknown as any)
+								.pipe(take(1), this._toastrService.observe("Модификация"))
+				)
+			)
+			.subscribe();
+	}
+
+	openAttributeGroupDialog(attributeGroup?: Partial<IAttributesGroup>) {
+		this._dialogService
+			.open(AttributesGroupDialogComponent, { data: attributeGroup })
+			.afterClosed$.pipe(
+				take(1),
+				filter((attributeGroup) => Boolean(attributeGroup)),
+				switchMap((attributeGroup: Partial<IAttributesGroup>) =>
+					attributeGroup.id
+						? this._attributesGroupsService
+								.updateAttributesGroup(attributeGroup.id, attributeGroup)
+								.pipe(take(1), this._toastrService.observe("Группа модификаций"))
+						: this._attributesGroupsService
+								.createAttributesGroup({
+									...attributeGroup,
+									place: this._routerService.getParams(PLACE_ID.slice(1))
+								} as unknown as any)
+								.pipe(take(1), this._toastrService.observe("Группа модификаций"))
+				)
 			)
 			.subscribe();
 	}

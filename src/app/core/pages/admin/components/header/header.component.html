@@ -1,11 +1,11 @@
 <header class="header">
 	<a class="logo" routerLink="/">
-		<app-image class="image" name="logo"></app-image>
+		<app-image class="image" name="logo" placeholder="logo"></app-image>
 	</a>
 	<app-language-select class="language"></app-language-select>
 	<app-theme class="theme"></app-theme>
 
-	<button class="profile" *ngIf="user" tippy="Helpful Message" placement="bottom-end" variation="popper">
+	<button class="profile" *ngIf="user" [tippy]="dropdown" placement="bottom-end" variation="popper">
 		<p class="name">{{ user.name }}</p>
 		<p class="role">{{ user.role }}</p>
 
