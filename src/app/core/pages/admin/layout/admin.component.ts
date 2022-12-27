@@ -1,5 +1,7 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
+import { NavigationEnd, Router, Scroll } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, from, shareReplay, switchMap, take } from "rxjs";
 
 import { COMPANY_ID } from "../../../../shared/constants";
@@ -13,7 +15,6 @@ import { ToastrService } from "../../../../shared/ui/toastr";
 import { AuthService } from "../../auth/services";
 import { CompanyDialogComponent } from "../pages/companies/components";
 import { PlaceDialogComponent } from "../pages/company/pages/places/components";
-import { AsideService } from "../services/aside/aside.service";
 
 @UntilDestroy()
 @Component({
@@ -22,24 +23,44 @@ import { AsideService } from "../services/aside/aside.service";
 	styleUrls: ["./admin.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminComponent {
-	readonly places$ = this._asideService.places$;
-	readonly companies$ = this._asideService.companies$;
-	readonly activePlaceId$ = this._asideService.activePlaceId$;
-	readonly activeCompanyId$ = this._asideService.activeCompanyId$;
+export class AdminComponent implements OnInit {
+	readonly places$ = this._placesService.places$;
+	readonly companies$ = this._companiesService.companies$;
+
 	readonly user$ = this._authService.getMe().pipe(shareReplay({ refCount: true }));
 
 	isAsideOpen = false;
+	activePlaceId = "";
+	activeCompanyId = "";
 
 	constructor(
-		private readonly _asideService: AsideService,
 		private readonly _authService: AuthService,
 		private readonly _dialogService: DialogService,
 		private readonly _placesService: PlacesService,
 		private readonly _companiesService: CompaniesService,
 		private readonly _routerService: RouterService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _router: Router
 	) {}
+
+	updateNav(companyId: string, placeId: string) {
+		this.activeCompanyId = companyId;
+		this.activePlaceId = placeId;
+	}
+
+	ngOnInit() {
+		this._router.events.pipe(untilDestroyed(this)).subscribe((event) => {
+			if (event instanceof NavigationEnd) {
+				const [_, __, companyId, ___, placeId] = event.url.split("/");
+				this.updateNav(companyId, placeId);
+			}
+
+			if (event instanceof Scroll && event.routerEvent instanceof NavigationEnd) {
+				const [_, __, companyId, ___, placeId] = event.routerEvent.url.split("/");
+				this.updateNav(companyId, placeId);
+			}
+		});
+	}
 
 	toggleAside() {
 		this.isAsideOpen = !this.isAsideOpen;

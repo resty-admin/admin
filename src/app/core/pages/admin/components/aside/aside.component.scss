@@ -113,6 +113,15 @@
 						&.active {
 							background-color: var(--primary);
 						}
+						&.disabled {
+							@include disableLink ();
+							span {
+								color: var(--dark-d);
+							}
+							.icon {
+								@include icon(var(--dark-d));
+							}
+						}
 						.label {
 							font-weight: 400;
 							font-size: rem(16);

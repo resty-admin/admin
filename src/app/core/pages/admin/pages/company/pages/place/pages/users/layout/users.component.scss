@@ -13,7 +13,7 @@
 		row-gap: rem(16);
 		column-gap: rem(8);
 
-		@include pagePadding ();
+		@include pagePadding();
 		@include desktop() {
 			grid-template-areas:
 				"title add"
@@ -64,7 +64,7 @@
 				grid-template-columns: 1fr auto;
 				padding: rem(8) rem(15) rem(21);
 				border-radius: rem(16);
-				background-color: var(--light-grey);
+				background-color: transparent;
 
 				.tel-label,
 				.email-label,
@@ -122,6 +122,14 @@
 					position: absolute;
 					right: rem(8);
 					top: rem(8);
+					background-color: var(--light-grey);
+				}
+
+				&:nth-child(2n + 1) {
+					background-color: var(--light-grey);
+					.more {
+						background-color: var(--light);
+					}
 				}
 			}
 
@@ -146,12 +154,15 @@
 				.name-value {
 					color: var(--light);
 				}
+
+				.more {
+					background-color: var(--dark-grey);
+				}
+
 				&:nth-child(2n + 1) {
 					background-color: var(--dark-grey);
-					.actions {
-						.button {
-							background-color: var(--dark);
-						}
+					.more {
+						background-color: var(--dark);
 					}
 				}
 			}

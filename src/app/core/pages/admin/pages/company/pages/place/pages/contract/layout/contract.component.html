@@ -1,7 +1,10 @@
 <div class="contract-page">
 	<h1 appTypography theme="1">Договор</h1>
 
-	<div class="pdf">
-		<app-pdf src="/assets/pdf/resty.pdf"></app-pdf>
-	</div>
+	<button appButton class="add">
+		<app-icon class="icon" name="edit"></app-icon>
+		<span class="text">Подписать</span>
+	</button>
+
+	<app-pdf class="pdf" src="/assets/pdf/resty.pdf"></app-pdf>
 </div>

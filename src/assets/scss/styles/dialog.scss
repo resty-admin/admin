@@ -27,21 +27,18 @@ body {
 					align-items: center;
 					justify-content: center;
 
-					&:hover {
-						background-color: var(--light);
-					}
-
 					@include desktop() {
 						top: 0;
 						right: rem(-50);
 						background-color: var(--light);
-						&:hover {
-							background-color: var(--light-grey);
-						}
 					}
 
-					svg {
+					svg path {
 						fill: var(--dark);
+					}
+
+					&:hover svg path {
+						fill: var(--primary);
 					}
 				}
 			}
@@ -52,18 +49,11 @@ body {
 		background-color: var(--dark);
 		.ngneat-close-dialog {
 			background-color: var(--dark-grey);
-			&:hover {
-				background-color: var(--dark);
+			&:hover svg path {
+				fill: var(--primary);
 			}
 
-			@include desktop() {
-				background-color: var(--dark);
-				&:hover {
-					background-color: var(--dark-grey);
-				}
-			}
-
-			svg {
+			svg path {
 				fill: var(--light);
 			}
 		}

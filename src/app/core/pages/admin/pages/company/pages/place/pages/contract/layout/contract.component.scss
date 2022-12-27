@@ -2,9 +2,24 @@
 
 @include page() {
 	.contract-page {
+		display: grid;
+		align-items: center;
+		row-gap: rem(32);
+
 		@include pagePadding();
+		grid-template-areas:
+			"title sign"
+			"pdf pdf";
+		grid-template-columns: 1fr auto;
+
+		.title {
+			grid-area: title;
+		}
+		.sign {
+			grid-area: sign;
+		}
 		.pdf {
-			padding: rem(15) 0;
+			grid-area: pdf;
 		}
 	}
 }
