@@ -2,7 +2,7 @@ FROM node:16 AS builder
 WORKDIR /home
 COPY package.json ./
 RUN yarn install
-COPY . .
+COPY src .
 RUN yarn run build-dev
 
 FROM nginx:latest

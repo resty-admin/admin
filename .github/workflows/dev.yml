@@ -32,7 +32,7 @@ jobs:
             git checkout dev
             git pull
             docker system prune -f --volumes
-            docker build --no-cache -f src/Dockerfile.dev -t $(echo $REGISTRY)/$(echo $NGX_ADMIN):latest .
+            docker build --no-cache -f Dockerfile.dev -t $(echo $REGISTRY)/$(echo $NGX_ADMIN):latest .
 
             doctl registry login
             docker push $(echo $REGISTRY)/$(echo $NGX_ADMIN):latest
