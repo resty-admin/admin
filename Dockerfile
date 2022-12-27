@@ -9,4 +9,5 @@ FROM nginx:latest
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY ./apps/ngx/admin/nginx-k8s.conf /etc/nginx/nginx.conf
+COPY ./admin/nginx-k8s.conf /etc/nginx/nginx.conf
 COPY --from=builder /home/dist/admin/browser .

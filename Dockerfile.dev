@@ -4,6 +4,8 @@ COPY package.json ./
 RUN yarn install
 COPY . .
 RUN yarn run build-dev
+COPY src .
+RUN yarn run build:dev
 
 FROM nginx:latest
 WORKDIR /usr/share/nginx/html
