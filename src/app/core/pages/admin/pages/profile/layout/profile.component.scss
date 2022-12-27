@@ -5,6 +5,7 @@
 		display: grid;
 		row-gap: rem(16);
 
+		@include pagePadding();
 		@include desktop() {
 			row-gap: rem(32);
 		}
@@ -23,7 +24,7 @@
 				font-weight: 500;
 				font-size: rem(13);
 				line-height: rem(16);
-				color: var(--primary-hover);
+				color: var(--primary);
 			}
 		}
 

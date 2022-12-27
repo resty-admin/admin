@@ -47,7 +47,7 @@
 				align-items: center;
 				width: rem(40);
 				height: rem(24);
-				border: rem(1) solid var(--dark);
+				border: rem(1) solid transparent;
 				border-radius: rem(16);
 
 				.circle {
@@ -81,10 +81,7 @@
 				opacity: 0%;
 				z-index: 1;
 
-				&:hover:not(:disabled):not(:checked) ~ .ellipse {
-					border-color: var(--primary-hover);
-				}
-
+				&:hover ~ .ellipse,
 				&:focus ~ .ellipse {
 					border-color: var(--primary);
 				}
@@ -100,7 +97,7 @@
 				align-items: center;
 				width: rem(40);
 				height: rem(24);
-				border: rem(1) solid var(--dark-b);
+				border: rem(1) solid transparent;
 				background-color: var(--light-grey);
 				border-radius: rem(16);
 
@@ -122,7 +119,7 @@
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.app-toggle {
 		&.theme-1 {
 			.input {

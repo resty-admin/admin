@@ -12,15 +12,13 @@
 				font-size: rem(13);
 				line-height: rem(24);
 				background-color: var(--light-grey);
-				border: rem(1) solid var(--dark-b);
+				border: rem(1) solid transparent;
 				&::placeholder {
 					color: var(--dark-t);
 				}
-				&:focus {
+				&:focus,
+				&:hover {
 					border-color: var(--primary);
-				}
-				&:hover:not(:focus) {
-					border-color: var(--primary-hover);
 				}
 			}
 
@@ -38,11 +36,12 @@
 			.input {
 				background-color: var(--dark-grey);
 				color: var(--light);
-				border-color: var(--light-b);
 
 				&::placeholder {
 					color: var(--light-t);
 				}
+
+				&:hover,
 				&:focus {
 					border-color: var(--primary);
 				}
