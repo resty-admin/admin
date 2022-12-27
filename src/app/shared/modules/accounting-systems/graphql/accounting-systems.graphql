@@ -1,0 +1,10 @@
+query getAccountingSystems($skip: Int!, $take: Int!) {
+	accountingSystems(skip: $skip, take: $take) {
+		data {
+			id
+			name
+		}
+		totalCount
+		page
+	}
+}

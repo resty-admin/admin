@@ -1,0 +1,6 @@
+query getAccountingSystem($id: String!) {
+	accountingSystem(id: $id) {
+		id
+		name
+	}
+}
