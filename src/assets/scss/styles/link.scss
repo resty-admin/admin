@@ -14,5 +14,9 @@ body {
 
 			@include disableLink();
 		}
+		&:focus,
+		&:hover {
+			color: var(--primary-hover);
+		}
 	}
 }

@@ -37,6 +37,11 @@ body {
 			line-height: rem(18);
 			text-align: center;
 			color: var(--dark);
+			&:focus,
+			&:active,
+			&:hover {
+				background-color: var(--dark-b);
+			}
 		}
 		&.theme-3 {
 			padding: rem(12) rem(34);
@@ -64,6 +69,11 @@ body {
 		&.theme-2 {
 			background-color: var(--dark-grey);
 			color: var(--light);
+			&:focus,
+			&:active,
+			&:hover {
+				background-color: var(--light-b);
+			}
 		}
 		&.theme-4:hover {
 			background-color: var(--dark-grey);

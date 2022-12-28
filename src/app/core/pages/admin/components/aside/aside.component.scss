@@ -114,7 +114,7 @@
 							background-color: var(--primary);
 						}
 						&.disabled {
-							@include disableLink ();
+							@include disableLink();
 							span {
 								color: var(--dark-d);
 							}
@@ -204,6 +204,14 @@
 						}
 						.icon {
 							@include icon(var(--light));
+						}
+						&.disabled {
+							span {
+								color: var(--light-b);
+							}
+							.icon {
+								@include icon(var(--light-b));
+							}
 						}
 					}
 				}
