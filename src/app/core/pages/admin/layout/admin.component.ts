@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import { BehaviorSubject, map, shareReplay } from "rxjs";
+import { COMPANY_ID } from "src/app/shared/constants";
 
 import { CompaniesService } from "../../../../features/companies";
 import { PlacesService } from "../../../../features/places";
@@ -39,6 +40,8 @@ export class AdminComponent {
 	}
 
 	openAddPlaceDialog() {
-		this._placesService.openCreateOrUpdatePlaceDialog().subscribe();
+		const company = this._routerService.getParams(COMPANY_ID.slice(1));
+
+		this._placesService.openCreateOrUpdatePlaceDialog({ company }).subscribe();
 	}
 }

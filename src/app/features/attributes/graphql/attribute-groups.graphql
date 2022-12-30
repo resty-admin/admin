@@ -4,8 +4,12 @@ query AttributeGroups($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 		totalCount
 		data {
 			id
-			isUniq
+			type
+			maxItemsForPick
 			name
+			attributes {
+				name
+			}
 		}
 	}
 }
@@ -13,7 +17,8 @@ query AttributeGroups($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 mutation CreateAttrGroup($attrGroup: CreateAttributeGroupInput!) {
 	createAttrGroup(attrGroup: $attrGroup) {
 		id
-		isUniq
+		type
+		maxItemsForPick
 		name
 	}
 }
@@ -21,7 +26,8 @@ mutation CreateAttrGroup($attrGroup: CreateAttributeGroupInput!) {
 mutation UpdateAttrGroup($attrGroup: UpdateAttributeGroupInput!) {
 	updateAttrGroup(attrGroup: $attrGroup) {
 		id
-		isUniq
+		type
+		maxItemsForPick
 		name
 	}
 }

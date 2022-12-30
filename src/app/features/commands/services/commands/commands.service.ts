@@ -31,7 +31,9 @@ export class CommandsService {
 		}
 	];
 
-	readonly commands$ = this._commandsGQL.watch().valueChanges.pipe(map((result) => result.data.commands.data));
+	readonly commands$ = this._commandsGQL
+		.watch({ skip: 0, take: 10 })
+		.valueChanges.pipe(map((result) => result.data.commands.data));
 
 	constructor(
 		private readonly _commandsGQL: CommandsGQL,
@@ -43,12 +45,12 @@ export class CommandsService {
 	) {}
 
 	async refetch() {
-		await this._commandsGQL.watch().refetch();
+		await this._commandsGQL.watch({ skip: 0, take: 5 }).refetch();
 	}
 
-	openCreateOrUpdateCommandDialog(command?: any) {
+	openCreateOrUpdateCommandDialog(data?: any) {
 		return this._dialogService
-			.openFormDialog(CommandDialogComponent, { data: { command } })
+			.openFormDialog(CommandDialogComponent, { data })
 			.pipe(switchMap((command: any) => (command.id ? this.updateCommand(command) : this.createCommand(command))));
 	}
 
@@ -60,7 +62,7 @@ export class CommandsService {
 					value: command
 				}
 			})
-			.pipe(switchMap((command) => this._deleteCommandGQL.mutate(command.id)));
+			.pipe(switchMap((command) => this.deleteCommand(command.id)));
 	}
 
 	createCommand(command: CreateCommandInput) {

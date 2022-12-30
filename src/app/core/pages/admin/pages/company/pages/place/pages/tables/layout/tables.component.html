@@ -10,7 +10,7 @@
 
 	<ul class="tables">
 		<li class="table" *ngFor="let table of tables$ | async">
-			<app-image class="image" [remote]="true" [name]="table.file.url" placeholder="table"></app-image>
+			<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 
 			<div class="content">
 				<p class="label">{{ table.name }}</p>

@@ -1,4 +1,4 @@
-import { Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 import type { IAttributeGroup } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
@@ -15,10 +15,10 @@ import {
 	UpdateAttrGroupGQL
 } from "../../graphql/attribute-groups";
 
-@Inject({ providedIn: "root" })
+@Injectable({ providedIn: "root" })
 export class AttributeGroupsService {
 	readonly attributeGroups$ = this._attributeGroupsGQL
-		.watch()
+		.watch({ skip: 0, take: 10 })
 		.valueChanges.pipe(map((result) => result.data.attributeGroups.data));
 
 	readonly actions: IAction<any>[] = [
@@ -50,17 +50,22 @@ export class AttributeGroupsService {
 	) {}
 
 	async refetch() {
-		await this._attributeGroupsGQL.watch().refetch();
+		await this._attributeGroupsGQL.watch({ skip: 0, take: 5 }).refetch();
 	}
 
-	openCreateOrUpdateAttributeGroupDialog(attributeGroup?: any) {
-		return this._dialogService
-			.openFormDialog(AttributeGroupDialogComponent, { data: { attributeGroup } })
-			.pipe(
-				switchMap((attributeGroup: any) =>
-					attributeGroup.id ? this.updateAttributeGroup(attributeGroup) : this.createAttributeGroup(attributeGroup)
-				)
-			);
+	openCreateOrUpdateAttributeGroupDialog(data?: any) {
+		return this._dialogService.openFormDialog(AttributeGroupDialogComponent, { data }).pipe(
+			switchMap((attributeGroup: any) =>
+				attributeGroup.id
+					? this.updateAttributeGroup(attributeGroup)
+					: this.createAttributeGroup({
+							...attributeGroup,
+							attributes: attributeGroup.attributes.map(({ id }: any) => id),
+							type: attributeGroup.type.value,
+							maxItemsForPick: Number.parseInt(attributeGroup.maxItemsForPick)
+					  })
+			)
+		);
 	}
 
 	openDeleteAttributeGroupDialog(attributeGroup: IAttributeGroup) {
@@ -71,7 +76,7 @@ export class AttributeGroupsService {
 					value: attributeGroup
 				}
 			})
-			.pipe(switchMap((attributeGroup) => this._deleteAttributeGroupGQL.mutate(attributeGroup.id)));
+			.pipe(switchMap((attributeGroup) => this.deleteAttributeGroup(attributeGroup.id)));
 	}
 
 	createAttributeGroup(attrGroup: CreateAttributeGroupInput) {

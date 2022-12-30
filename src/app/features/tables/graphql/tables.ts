@@ -21,7 +21,7 @@ export interface TablesQuery {
 					id: string;
 					name: string;
 					code: number;
-					file: { __typename?: "FileEntity"; url: string };
+					file?: { __typename?: "FileEntity"; url: string } | null;
 			  }[]
 			| null;
 	};

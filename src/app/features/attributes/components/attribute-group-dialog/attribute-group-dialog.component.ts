@@ -2,14 +2,14 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { filter, firstValueFrom, map, switchMap, take } from "rxjs";
+import { filter, firstValueFrom, switchMap, take } from "rxjs";
+import { AttributesService } from "src/app/features/attributes/";
 import type { ICategory } from "src/app/shared/interfaces";
 
-import { PLACE_ID } from "../../../../shared/constants";
+import { AttributeGroupTypeEnum } from "../../../../../graphql";
 import { RouterService } from "../../../../shared/modules/router";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
-import { AttributesGQL, CreateAttrGQL } from "../../graphql/attributes";
 import { AttributeDialogComponent } from "../attribute-dialog/attribute-dialog.component";
 
 @Component({
@@ -21,25 +21,24 @@ import { AttributeDialogComponent } from "../attribute-dialog/attribute-dialog.c
 export class AttributeGroupDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
-		file: "",
 		attributes: [[]],
-		isUniq: false
+		maxItemsForPick: 0,
+		type: ""
 	});
 
-	readonly attributes$ = this._attrGQL.watch().valueChanges.pipe(map((result) => result.data.attributes.data));
+	readonly attributeGroupTypes = Object.entries(AttributeGroupTypeEnum).map(([key, value]) => ({
+		name: key,
+		value
+	}));
 
-	get placeId() {
-		return this._routerService.getParams(PLACE_ID.slice(1));
-	}
+	readonly attributes$ = this._attributesService.attributes$;
 
 	readonly addTag = (name: string) =>
 		firstValueFrom(
 			this._dialogService.open(AttributeDialogComponent, { data: { name } }).afterClosed$.pipe(
 				take(1),
 				filter((attr) => Boolean(attr)),
-				switchMap((attr: any) =>
-					this._createAttrGQL.mutate({ attr }).pipe(take(1), this._toastrService.observe("Модификация"))
-				)
+				switchMap((attr: any) => this._attributesService.createAttribute(attr))
 			)
 		);
 
@@ -49,8 +48,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 		private readonly _dialogService: DialogService,
 		private readonly _routerService: RouterService,
 		private readonly _toastrService: ToastrService,
-		private readonly _attrGQL: AttributesGQL,
-		private readonly _createAttrGQL: CreateAttrGQL
+		private readonly _attributesService: AttributesService
 	) {}
 
 	get data() {

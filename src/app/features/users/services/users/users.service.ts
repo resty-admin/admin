@@ -1,4 +1,4 @@
-import { Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 import type { IUser } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
@@ -10,7 +10,7 @@ import { ToastrService } from "../../../../shared/ui/toastr";
 import { UserDialogComponent } from "../../components";
 import { CreateUserGQL, DeleteUserGQL, UpdateUserGQL, UsersGQL } from "../../graphql/users";
 
-@Inject({ providedIn: "root" })
+@Injectable({ providedIn: "root" })
 export class UsersService {
 	readonly actions: IAction<IUser>[] = [
 		{
@@ -31,7 +31,9 @@ export class UsersService {
 		}
 	];
 
-	readonly users$ = this._usersGQL.watch().valueChanges.pipe(map((result) => result.data.users.data));
+	readonly users$ = this._usersGQL
+		.watch({ skip: 0, take: 10 })
+		.valueChanges.pipe(map((result) => result.data.users.data));
 
 	constructor(
 		private readonly _usersGQL: UsersGQL,
@@ -43,12 +45,12 @@ export class UsersService {
 	) {}
 
 	async refetch() {
-		await this._usersGQL.watch().refetch();
+		await this._usersGQL.watch({ skip: 0, take: 5 }).refetch();
 	}
 
-	openCreateOrUpdateUserDialog(user?: any) {
+	openCreateOrUpdateUserDialog(data?: any) {
 		return this._dialogService
-			.openFormDialog(UserDialogComponent, { data: { user } })
+			.openFormDialog(UserDialogComponent, { data })
 			.pipe(switchMap((user: any) => (user.id ? this.updateUser(user) : this.createUser(user))));
 	}
 
@@ -60,7 +62,7 @@ export class UsersService {
 					value: user
 				}
 			})
-			.pipe(switchMap((user) => this._deleteUserGQL.mutate(user.id)));
+			.pipe(switchMap((user) => this.deleteUser(user.id)));
 	}
 
 	createUser(user: CreateUserInput) {

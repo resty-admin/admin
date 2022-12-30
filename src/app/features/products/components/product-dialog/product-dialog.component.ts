@@ -2,10 +2,10 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { map } from "rxjs";
 import type { IProduct } from "src/app/shared/interfaces";
 
-import { CategoriesGQL } from "../../../categories/graphql/categories";
+import { AttributeGroupsService } from "../../../attributes";
+import { CategoriesService } from "../../../categories";
 
 @Component({
 	selector: "app-product-dialog",
@@ -18,15 +18,18 @@ export class ProductDialogComponent implements OnInit {
 		name: null,
 		price: null,
 		file: null,
-		category: null
+		category: null,
+		attrsGroups: []
 	});
 
-	readonly categories$ = this._categoriesGQL.watch().valueChanges.pipe(map((result) => result.data.categories.data));
+	readonly categories$ = this._categoriesService.categories$;
+	readonly attributeGroups$ = this._attributeGroupsService.attributeGroups$;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
-		private readonly _categoriesGQL: CategoriesGQL
+		private readonly _categoriesService: CategoriesService,
+		private readonly _attributeGroupsService: AttributeGroupsService
 	) {}
 
 	get data() {

@@ -1,4 +1,4 @@
-import { Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 import type { IOrder } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
@@ -10,7 +10,7 @@ import { ToastrService } from "../../../../shared/ui/toastr";
 import { OrderDialogComponent } from "../../components";
 import { CreateOrderGQL, DeleteOrderGQL, OrdersGQL, UpdateOrderGQL } from "../../graphql/orders";
 
-@Inject({ providedIn: "root" })
+@Injectable({ providedIn: "root" })
 export class OrdersService {
 	readonly actions: IAction<IOrder>[] = [
 		{
@@ -31,7 +31,9 @@ export class OrdersService {
 		}
 	];
 
-	readonly orders$ = this._ordersGQL.watch().valueChanges.pipe(map((result) => result.data.orders.data));
+	readonly orders$ = this._ordersGQL
+		.watch({ skip: 0, take: 10 })
+		.valueChanges.pipe(map((result) => result.data.orders.data));
 
 	constructor(
 		private readonly _ordersGQL: OrdersGQL,
@@ -43,12 +45,12 @@ export class OrdersService {
 	) {}
 
 	async refetch() {
-		await this._ordersGQL.watch().refetch();
+		await this._ordersGQL.watch({ skip: 0, take: 5 }).refetch();
 	}
 
-	openCreateOrUpdateOrderDialog(order?: any) {
+	openCreateOrUpdateOrderDialog(data?: any) {
 		return this._dialogService
-			.openFormDialog(OrderDialogComponent, { data: { order } })
+			.openFormDialog(OrderDialogComponent, { data })
 			.pipe(switchMap((order: any) => (order.id ? this.updateOrder(order) : this.createOrder(order))));
 	}
 
@@ -60,7 +62,7 @@ export class OrdersService {
 					value: order
 				}
 			})
-			.pipe(switchMap((order) => this._deleteOrderGQL.mutate(order.id)));
+			.pipe(switchMap((order) => this.deleteOrder(order.id)));
 	}
 
 	createOrder(order: CreateOrderInput) {

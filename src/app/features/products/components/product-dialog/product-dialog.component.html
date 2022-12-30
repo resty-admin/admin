@@ -13,6 +13,15 @@
 			bindValue="id"
 			formControlName="category"
 		></app-select>
+		<app-select
+			[options]="attributeGroups$ | async"
+			class="input"
+			placeholder="Выберите группы атрибутов"
+			bindLabel="name"
+			bindValue="id"
+			formControlName="attrsGroups"
+			[multiple]="true"
+		></app-select>
 
 		<button class="submit" appButton type="submit">Добавить</button>
 	</form>

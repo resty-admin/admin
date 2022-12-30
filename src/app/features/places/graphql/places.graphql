@@ -1,5 +1,5 @@
-query Places {
-	places {
+query Places($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	places(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 		data {
 			name
 			id

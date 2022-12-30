@@ -3,7 +3,11 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type CommandsQueryVariables = Types.Exact<Record<string, never>>;
+export type CommandsQueryVariables = Types.Exact<{
+	take: Types.Scalars["Int"];
+	skip: Types.Scalars["Int"];
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+}>;
 
 export interface CommandsQuery {
 	__typename?: "Query";
@@ -43,8 +47,8 @@ export interface DeleteCommandMutation {
 }
 
 export const CommandsDocument = gql`
-	query Commands {
-		commands {
+	query Commands($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+		commands(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			data {
 				id
 				name

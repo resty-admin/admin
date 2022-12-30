@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { ICategory } from "src/app/shared/interfaces";
+import type { IAttribute } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-attribute-dialog",
@@ -13,7 +13,7 @@ import type { ICategory } from "src/app/shared/interfaces";
 export class AttributeDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
-		file: ""
+		price: 0
 	});
 
 	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
@@ -30,7 +30,7 @@ export class AttributeDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(category: Partial<ICategory>) {
-		this._dialogRef.close({ ...this.data, ...category });
+	closeDialog(attribute: Partial<IAttribute>) {
+		this._dialogRef.close({ ...this.data, ...attribute });
 	}
 }

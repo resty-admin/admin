@@ -21,6 +21,7 @@ export interface CategoriesQuery {
 					id: string;
 					name: string;
 					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+					products?: { __typename?: "ProductEntity"; name: string; price: number }[] | null;
 			  }[]
 			| null;
 	};
@@ -72,6 +73,10 @@ export const CategoriesDocument = gql`
 				file {
 					id
 					url
+				}
+				products {
+					name
+					price
 				}
 			}
 			page

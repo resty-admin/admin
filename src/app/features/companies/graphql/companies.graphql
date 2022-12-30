@@ -1,5 +1,5 @@
-query Companies {
-	companies {
+query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 		data {
 			name
 			employees {
@@ -11,6 +11,7 @@ query Companies {
 			id
 			logo {
 				id
+				url
 			}
 			name
 			owner {

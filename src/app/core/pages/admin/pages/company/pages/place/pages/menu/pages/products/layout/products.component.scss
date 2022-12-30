@@ -3,6 +3,7 @@
 @include page() {
 	.products-page {
 		display: grid;
+		align-items: center;
 		grid-template-areas:
 			"add add"
 			"search filters"

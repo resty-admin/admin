@@ -1,4 +1,4 @@
-import { Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 import type { IAttribute } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
@@ -10,9 +10,11 @@ import { ToastrService } from "../../../../shared/ui/toastr";
 import { AttributeDialogComponent } from "../../components";
 import { AttributesGQL, CreateAttrGQL, DeleteAttrGQL, UpdateAttrGQL } from "../../graphql/attributes";
 
-@Inject({ providedIn: "root" })
+@Injectable({ providedIn: "root" })
 export class AttributesService {
-	readonly attributes$ = this._attributesGQL.watch().valueChanges.pipe(map((result) => result.data.attributes.data));
+	readonly attributes$ = this._attributesGQL
+		.watch({ skip: 0, take: 10 })
+		.valueChanges.pipe(map((result) => result.data.attributes.data));
 
 	readonly actions: IAction<IAttribute>[] = [
 		{
@@ -43,17 +45,20 @@ export class AttributesService {
 	) {}
 
 	async refetch() {
-		await this._attributesGQL.watch().refetch();
+		await this._attributesGQL.watch({ skip: 0, take: 5 }).refetch();
 	}
 
-	openCreateOrUpdateAttributeDialog(attribute?: any) {
-		return this._dialogService
-			.openFormDialog(AttributeDialogComponent, { data: { attribute } })
-			.pipe(
-				switchMap((attribute: any) =>
-					attribute.id ? this.updateAttribute(attribute) : this.createAttribute(attribute)
-				)
-			);
+	openCreateOrUpdateAttributeDialog(data?: any) {
+		return this._dialogService.openFormDialog(AttributeDialogComponent, { data }).pipe(
+			switchMap((attribute: any) =>
+				attribute.id
+					? this.updateAttribute(attribute)
+					: this.createAttribute({
+							...attribute,
+							price: Number.parseFloat(attribute.price)
+					  })
+			)
+		);
 	}
 
 	openDeleteAttributeDialog(attribute: IAttribute) {
@@ -64,11 +69,12 @@ export class AttributesService {
 					value: attribute
 				}
 			})
-			.pipe(switchMap((attribute) => this._deleteAttributeGQL.mutate(attribute.id)));
+			.pipe(switchMap((attribute) => this.deleteAttribute(attribute.id)));
 	}
 
 	createAttribute(attr: CreateAttributeInput) {
 		return this._createAttributeGQL.mutate({ attr }).pipe(
+			map((result) => result.data?.createAttr),
 			take(1),
 			this._toastrService.observe("Модификация"),
 			tap(async () => {

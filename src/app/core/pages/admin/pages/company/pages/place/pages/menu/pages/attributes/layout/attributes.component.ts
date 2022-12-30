@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
-import { AttributesService } from "src/app/features/attributes";
-import { AttributeGroupsService } from "src/app/features/attributes/services/attribute-groups/attribute-groups.service";
+import { AttributeGroupsService, AttributesService } from "src/app/features/attributes";
+import { PLACE_ID } from "src/app/shared/constants";
 import type { IAttribute, IAttributeGroup } from "src/app/shared/interfaces";
-
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
+import { RouterService } from "src/app/shared/modules/router";
+import type { IAction } from "src/app/shared/ui/actions";
 
 @UntilDestroy()
 @Component({
@@ -21,10 +21,13 @@ export class AttributesComponent {
 
 	constructor(
 		private readonly _attributeGroupsService: AttributeGroupsService,
-		private readonly _attributesService: AttributesService
+		private readonly _attributesService: AttributesService,
+		private readonly _routerService: RouterService
 	) {}
 
 	openCreateAttributeGroupDialog() {
-		this._attributeGroupsService.openCreateOrUpdateAttributeGroupDialog().subscribe();
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		this._attributeGroupsService.openCreateOrUpdateAttributeGroupDialog({ place }).subscribe();
 	}
 }

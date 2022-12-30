@@ -1,3 +1,4 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
@@ -9,22 +10,21 @@ import type { IPlace } from "src/app/shared/interfaces";
 	styleUrls: ["./place-dialog.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlaceDialogComponent {
+export class PlaceDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group({
 		name: "",
 		address: "",
-		startTime: 0,
-		endTime: 0,
-		file: null
+		file: null,
+		company: ""
 	});
 
 	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
 
+	ngOnInit(): void {
+		this.formGroup.patchValue(this._dialogRef.data);
+	}
+
 	closeDialog(place: Partial<IPlace>) {
-		this._dialogRef.close({
-			...place,
-			startTime: Number(place.startTime),
-			endTime: Number(place.endTime)
-		});
+		this._dialogRef.close(place);
 	}
 }

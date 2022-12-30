@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
+import { of } from "rxjs";
 import type { IFile } from "src/app/shared/interfaces";
 
+import type { FileEntityInput } from "../../../../../../graphql";
 import { ApiService } from "../../../api";
 import { FILE_FIELD, FILES_ENDPOINTS, FILES_FIELD } from "../../constants";
 
@@ -9,7 +11,7 @@ import { FILE_FIELD, FILES_ENDPOINTS, FILES_FIELD } from "../../constants";
 export class FilesService {
 	constructor(private readonly _apiService: ApiService) {}
 
-	getFormData(fields: Record<string, any>) {
+	private _getFormData(fields: Record<string, any>) {
 		const formData = new FormData();
 
 		for (const field in fields) {
@@ -19,11 +21,19 @@ export class FilesService {
 		return formData;
 	}
 
+	getFile(file?: FileEntityInput | IFile | null): Observable<any> {
+		if (file instanceof File) {
+			return this.uploadOne(file);
+		}
+
+		return of(file?.url ? file : null);
+	}
+
 	uploadOne(file: File): Observable<IFile> {
-		return this._apiService.post<IFile>(FILES_ENDPOINTS.UPLOAD_ONE, this.getFormData({ [FILE_FIELD]: file }));
+		return this._apiService.post<IFile>(FILES_ENDPOINTS.UPLOAD_ONE, this._getFormData({ [FILE_FIELD]: file }));
 	}
 
 	uploadMany(files: File[]): Observable<IFile[]> {
-		return this._apiService.post<IFile[]>(FILES_ENDPOINTS.UPLOAD_MANY, this.getFormData({ [FILES_FIELD]: files }));
+		return this._apiService.post<IFile[]>(FILES_ENDPOINTS.UPLOAD_MANY, this._getFormData({ [FILES_FIELD]: files }));
 	}
 }

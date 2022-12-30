@@ -5,7 +5,6 @@
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input class="input" placeholder="Имя" formControlName="name"></app-input>
-		<app-file class="input" placeholder="Изображение" formControlName="file"></app-file>
 
 		<app-select
 			class="input"
@@ -19,7 +18,16 @@
 			[multiple]="true"
 		></app-select>
 
-		<app-toggle theme="2" formControlName="isUniq" label="Уникальный"></app-toggle>
+		<app-select
+			class="input"
+			placeholder="Выберите тип"
+			formControlName="type"
+			[options]="attributeGroupTypes"
+			bindLabel="name"
+			bindValue="value"
+		></app-select>
+
+		<app-input class="input" placeholder="Имя" formControlName="maxItemsForPick"></app-input>
 
 		<button class="submit" appButton type="submit">Добавить</button>
 	</form>

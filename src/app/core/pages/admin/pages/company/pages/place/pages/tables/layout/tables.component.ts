@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import type { Observable } from "rxjs";
 import { TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
@@ -21,7 +22,7 @@ export class TablesComponent {
 
 	readonly actions = this._tablesService.actions;
 
-	readonly tables$ = this._tablesService.tables$;
+	readonly tables$: Observable<any> = this._tablesService.tables$;
 
 	constructor(private readonly _tablesService: TablesService, private readonly _routerService: RouterService) {}
 

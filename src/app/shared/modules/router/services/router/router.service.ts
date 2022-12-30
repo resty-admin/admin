@@ -12,7 +12,6 @@ export class RouterService {
 		map((event: NavigationEnd | Scroll) => {
 			const { url } = event instanceof Scroll ? event.routerEvent : event;
 
-			console.log(url);
 			return url;
 		})
 	);

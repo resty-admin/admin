@@ -3,7 +3,11 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type CompaniesQueryVariables = Types.Exact<Record<string, never>>;
+export type CompaniesQueryVariables = Types.Exact<{
+	take: Types.Scalars["Int"];
+	skip: Types.Scalars["Int"];
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+}>;
 
 export interface CompaniesQuery {
 	__typename?: "Query";
@@ -19,7 +23,7 @@ export interface CompaniesQuery {
 					status: Types.CompanyStatusEnum;
 					employees?: { __typename?: "UserEntity"; id: string }[] | null;
 					fondy?: { __typename?: "FondyEntity"; id: string } | null;
-					logo?: { __typename?: "FileEntity"; id: string } | null;
+					logo?: { __typename?: "FileEntity"; id: string; url: string } | null;
 					owner: { __typename?: "UserEntity"; id: string };
 					places?: { __typename?: "PlaceEntity"; id: string }[] | null;
 			  }[]
@@ -55,8 +59,8 @@ export interface DeleteCompanyMutation {
 }
 
 export const CompaniesDocument = gql`
-	query Companies {
-		companies {
+	query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+		companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			data {
 				name
 				employees {
@@ -68,6 +72,7 @@ export const CompaniesDocument = gql`
 				id
 				logo {
 					id
+					url
 				}
 				name
 				owner {

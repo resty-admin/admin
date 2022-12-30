@@ -7,6 +7,9 @@ query Products($take: Int!, $filtersArgs: FiltersArgsDto, $skip: Int!) {
 			name
 			id
 			description
+			category {
+				name
+			}
 			file {
 				url
 				id

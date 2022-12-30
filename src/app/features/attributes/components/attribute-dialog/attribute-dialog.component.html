@@ -3,7 +3,6 @@
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input class="input" placeholder="Имя" formControlName="name"></app-input>
-		<app-file class="input" placeholder="Изображение" formControlName="file"></app-file>
 
 		<button class="submit" appButton type="submit">Добавить</button>
 	</form>

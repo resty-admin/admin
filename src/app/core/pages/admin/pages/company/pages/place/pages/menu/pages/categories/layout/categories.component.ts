@@ -4,6 +4,9 @@ import type { Observable } from "rxjs";
 import { CategoriesService } from "src/app/features/categories";
 import { ProductsService } from "src/app/features/products";
 
+import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
+import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
+
 @UntilDestroy()
 @Component({
 	selector: "app-categories",
@@ -19,10 +22,12 @@ export class CategoriesComponent {
 
 	constructor(
 		private readonly _categoriesService: CategoriesService,
-		private readonly _productsService: ProductsService
+		private readonly _productsService: ProductsService,
+		private readonly _routerService: RouterService
 	) {}
 
 	openCreateCategoryDialog() {
-		this._categoriesService.openCreateOrUpdateCategoryDialog().subscribe();
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+		this._categoriesService.openCreateOrUpdateCategoryDialog({ place }).subscribe();
 	}
 }

@@ -5,6 +5,7 @@ import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
 import type { CreateTableInput, UpdateTableInput } from "../../../../../graphql";
+import { FilesService } from "../../../../shared/modules/file";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import { TableDialogComponent } from "../../components";
@@ -31,7 +32,9 @@ export class TablesService {
 		}
 	];
 
-	readonly tables$ = this._tablesGQL.watch().valueChanges.pipe(map((result) => result.data.tables.data));
+	readonly tables$ = this._tablesGQL
+		.watch({ skip: 0, take: 10 })
+		.valueChanges.pipe(map((result) => result.data.tables.data));
 
 	constructor(
 		private readonly _tablesGQL: TablesGQL,
@@ -39,16 +42,17 @@ export class TablesService {
 		private readonly _updateTableGQL: UpdateTableGQL,
 		private readonly _deleteTableGQL: DeleteTableGQL,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _filesService: FilesService
 	) {}
 
 	async refetch() {
-		await this._tablesGQL.watch().refetch();
+		await this._tablesGQL.watch({ skip: 0, take: 5 }).refetch();
 	}
 
-	openCreateOrUpdateTableDialog(table?: any) {
+	openCreateOrUpdateTableDialog(data?: any) {
 		return this._dialogService
-			.openFormDialog(TableDialogComponent, { data: { table } })
+			.openFormDialog(TableDialogComponent, { data })
 			.pipe(switchMap((table: any) => (table.id ? this.updateTable(table) : this.createTable(table))));
 	}
 
@@ -60,11 +64,12 @@ export class TablesService {
 					value: table
 				}
 			})
-			.pipe(switchMap((table) => this._deleteTableGQL.mutate(table.id)));
+			.pipe(switchMap((table) => this.deleteTable(table.id)));
 	}
 
 	createTable(table: CreateTableInput) {
-		return this._createTableGQL.mutate({ table }).pipe(
+		return this._filesService.getFile(table.file).pipe(
+			switchMap((file) => this._createTableGQL.mutate({ table: { ...table, file } })),
 			take(1),
 			this._toastrService.observe("Залы"),
 			tap(async () => {

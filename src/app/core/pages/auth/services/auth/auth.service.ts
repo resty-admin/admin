@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { catchError, map, of, shareReplay, take, tap } from "rxjs";
+import { catchError, map, of, shareReplay, tap } from "rxjs";
 import { AUTH_ENDPOINTS } from "src/app/shared/endpoints";
 import type {
 	IAccessToken,
@@ -18,6 +18,7 @@ import { JwtService } from "src/app/shared/modules/jwt";
 import { RouterService } from "src/app/shared/modules/router";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 
+import { GetMeGQL } from "../../graphql/auth";
 import { AuthRepository } from "../../repositories";
 
 @Injectable({
@@ -33,7 +34,8 @@ export class AuthService {
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
 		private readonly _jwtService: JwtService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _getMeGQL: GetMeGQL
 	) {}
 
 	private _encryptPassword<T extends { password: string }>(body: T) {
@@ -54,9 +56,8 @@ export class AuthService {
 	}
 
 	getMe() {
-		return this._apiService.get<IAccessToken>(AUTH_ENDPOINTS.GET_ME).pipe(
-			take(1),
-			map(({ accessToken }) => this._jwtService.decodeToken<IUser>(accessToken)),
+		return this._getMeGQL.watch().valueChanges.pipe(
+			map((result) => this._jwtService.decodeToken<IUser>(result.data.getMe.accessToken)),
 			catchError(() => of(undefined))
 		);
 	}

@@ -1,16 +1,17 @@
-import { Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 import type { IProduct } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
 import type { CreateProductInput, UpdateProductInput } from "../../../../../graphql";
+import { FilesService } from "../../../../shared/modules/file";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import { ProductDialogComponent } from "../../components";
 import { CreateProductGQL, DeleteProductGQL, ProductsGQL, UpdateProductGQL } from "../../graphql/products";
 
-@Inject({ providedIn: "root" })
+@Injectable({ providedIn: "root" })
 export class ProductsService {
 	readonly actions: IAction<IProduct>[] = [
 		{
@@ -31,7 +32,9 @@ export class ProductsService {
 		}
 	];
 
-	readonly products$ = this._productsGQL.watch().valueChanges.pipe(map((result) => result.data.products.data));
+	readonly products$ = this._productsGQL
+		.watch({ skip: 0, take: 10 })
+		.valueChanges.pipe(map((result) => result.data.products.data));
 
 	constructor(
 		private readonly _productsGQL: ProductsGQL,
@@ -39,17 +42,27 @@ export class ProductsService {
 		private readonly _updateProductGQL: UpdateProductGQL,
 		private readonly _deleteProductGQL: DeleteProductGQL,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _filesService: FilesService
 	) {}
 
 	async refetch() {
-		await this._productsGQL.watch().refetch();
+		await this._productsGQL.watch({ skip: 0, take: 5 }).refetch();
 	}
 
-	openCreateOrUpdateProductDialog(product?: any) {
-		return this._dialogService
-			.openFormDialog(ProductDialogComponent, { data: { product } })
-			.pipe(switchMap((product: any) => (product.id ? this.updateProduct(product) : this.createProduct(product))));
+	openCreateOrUpdateProductDialog(data?: any) {
+		return this._dialogService.openFormDialog(ProductDialogComponent, { data }).pipe(
+			switchMap((product: any) =>
+				product.id
+					? this.updateProduct(product)
+					: this.createProduct({
+							...product,
+							category: product.category?.id,
+							attrsGroups: product.attrsGroups?.map(({ id }: any) => id),
+							price: Number.parseFloat(product.price)
+					  })
+			)
+		);
 	}
 
 	openDeleteProductDialog(product: IProduct) {
@@ -60,13 +73,14 @@ export class ProductsService {
 					value: product
 				}
 			})
-			.pipe(switchMap((product) => this._deleteProductGQL.mutate(product.id)));
+			.pipe(switchMap((product) => this.deleteProduct(product.id)));
 	}
 
 	createProduct(product: CreateProductInput) {
-		return this._createProductGQL.mutate({ product }).pipe(
+		return this._filesService.getFile(product.file).pipe(
+			switchMap((file) => this._createProductGQL.mutate({ product: { ...product, file } })),
 			take(1),
-			this._toastrService.observe("Заказ"),
+			this._toastrService.observe("Продукты"),
 			tap(async () => {
 				await this.refetch();
 			})
@@ -76,7 +90,7 @@ export class ProductsService {
 	updateProduct(product: UpdateProductInput) {
 		return this._updateProductGQL.mutate({ product }).pipe(
 			take(1),
-			this._toastrService.observe("Заказ"),
+			this._toastrService.observe("Продукты"),
 			tap(async () => {
 				await this.refetch();
 			})
@@ -86,7 +100,7 @@ export class ProductsService {
 	deleteProduct(productId: string) {
 		return this._deleteProductGQL.mutate({ productId }).pipe(
 			take(1),
-			this._toastrService.observe("Заказ"),
+			this._toastrService.observe("Продукты"),
 			tap(async () => {
 				await this.refetch();
 			})

@@ -15,7 +15,16 @@ export interface AttributeGroupsQuery {
 		__typename?: "PaginatedAttributeGroups";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "AttributesGroupEntity"; id: string; isUniq?: boolean | null; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "AttributesGroupEntity";
+					id: string;
+					type: Types.AttributeGroupTypeEnum;
+					maxItemsForPick: number;
+					name: string;
+					attributes?: { __typename?: "AttributesEntity"; name: string }[] | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -25,7 +34,13 @@ export type CreateAttrGroupMutationVariables = Types.Exact<{
 
 export interface CreateAttrGroupMutation {
 	__typename?: "Mutation";
-	createAttrGroup: { __typename?: "AttributesGroupEntity"; id: string; isUniq?: boolean | null; name: string };
+	createAttrGroup: {
+		__typename?: "AttributesGroupEntity";
+		id: string;
+		type: Types.AttributeGroupTypeEnum;
+		maxItemsForPick: number;
+		name: string;
+	};
 }
 
 export type UpdateAttrGroupMutationVariables = Types.Exact<{
@@ -34,7 +49,13 @@ export type UpdateAttrGroupMutationVariables = Types.Exact<{
 
 export interface UpdateAttrGroupMutation {
 	__typename?: "Mutation";
-	updateAttrGroup: { __typename?: "AttributesGroupEntity"; id: string; isUniq?: boolean | null; name: string };
+	updateAttrGroup: {
+		__typename?: "AttributesGroupEntity";
+		id: string;
+		type: Types.AttributeGroupTypeEnum;
+		maxItemsForPick: number;
+		name: string;
+	};
 }
 
 export type DeleteAttrGroupMutationVariables = Types.Exact<{
@@ -53,8 +74,12 @@ export const AttributeGroupsDocument = gql`
 			totalCount
 			data {
 				id
-				isUniq
+				type
+				maxItemsForPick
 				name
+				attributes {
+					name
+				}
 			}
 		}
 	}
@@ -74,7 +99,8 @@ export const CreateAttrGroupDocument = gql`
 	mutation CreateAttrGroup($attrGroup: CreateAttributeGroupInput!) {
 		createAttrGroup(attrGroup: $attrGroup) {
 			id
-			isUniq
+			type
+			maxItemsForPick
 			name
 		}
 	}
@@ -94,7 +120,8 @@ export const UpdateAttrGroupDocument = gql`
 	mutation UpdateAttrGroup($attrGroup: UpdateAttributeGroupInput!) {
 		updateAttrGroup(attrGroup: $attrGroup) {
 			id
-			isUniq
+			type
+			maxItemsForPick
 			name
 		}
 	}

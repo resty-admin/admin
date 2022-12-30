@@ -22,6 +22,7 @@ export interface ProductsQuery {
 					name: string;
 					id: string;
 					description?: string | null;
+					category: { __typename?: "CategoryEntity"; name: string };
 					file?: { __typename?: "FileEntity"; url: string; id: string } | null;
 			  }[]
 			| null;
@@ -79,6 +80,9 @@ export const ProductsDocument = gql`
 				name
 				id
 				description
+				category {
+					name
+				}
 				file {
 					url
 					id
