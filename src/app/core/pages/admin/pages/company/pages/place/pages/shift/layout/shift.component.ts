@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-
-import { HallsService } from "../../../../../../../../../../shared/modules/halls";
-import { TablesService } from "../../../../../../../../../../shared/modules/tables";
+import { of } from "rxjs";
+import { ShiftsService } from "src/app/features/shift";
 
 @Component({
 	selector: "app-shift",
@@ -10,14 +9,10 @@ import { TablesService } from "../../../../../../../../../../shared/modules/tabl
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShiftComponent {
-	readonly selectedTables: any[] = [
-		{ label: "Зал 1, стол 4", value: "" },
-		{ label: "Зал 2, стол 2", value: "" },
-		{ label: "Зал 1, стол 6", value: "" }
-	];
+	readonly selectedTables: any = [];
 
-	readonly halls$ = this._hallsService.halls$;
-	readonly tables$ = this._tablesService.tables$;
+	readonly halls$: any = of([]);
+	readonly tables$: any = of([]);
 
-	constructor(private readonly _hallsService: HallsService, private readonly _tablesService: TablesService) {}
+	constructor(private readonly _shiftsService: ShiftsService) {}
 }

@@ -33,16 +33,7 @@
 			}
 
 			.title {
-				font-weight: 600;
-				font-size: rem(24);
-				line-height: rem(32);
-				letter-spacing: 0.04em;
-				color: var(--dark);
-
-				@include desktop() {
-					font-size: rem(40);
-					line-height: rem(48);
-				}
+				text-align: left;
 			}
 
 			.companies {
@@ -85,7 +76,7 @@
 								height: rem(24);
 
 								@include icon(var(--primary), var(--primary));
-								@include desktop () {
+								@include desktop() {
 									width: rem(32);
 									height: rem(32);
 								}

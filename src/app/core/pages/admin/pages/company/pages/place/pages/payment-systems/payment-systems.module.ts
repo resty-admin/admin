@@ -8,12 +8,11 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { PAYMENT_SYSTEMS_COMPONENTS } from "./components";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 
 @NgModule({
-	declarations: [PaymentSystemsComponent, ...PAYMENT_SYSTEMS_COMPONENTS],
+	declarations: [PaymentSystemsComponent],
 	imports: [
 		CommonModule,
 		PaymentSystemsRoutingModule,
@@ -24,7 +23,6 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		ButtonModule,
 		IconModule,
 		ImageModule
-	],
-	exports: [PaymentSystemsComponent]
+	]
 })
 export class PaymentSystemsModule {}

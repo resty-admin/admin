@@ -13,11 +13,9 @@ import { AuthService } from "../../../auth/services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-	@Input() isAsideOpen = false;
 	@Output() burgerClicked = new EventEmitter();
-
+	@Input() isAsideOpen: boolean | null = false;
 	@Input() user?: IUser | null;
-
 	readonly actions: IAction<IUser>[] = [
 		{
 			label: "Профиль",

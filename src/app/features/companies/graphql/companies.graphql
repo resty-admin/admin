@@ -1,0 +1,44 @@
+query Companies {
+	companies {
+		data {
+			name
+			employees {
+				id
+			}
+			fondy {
+				id
+			}
+			id
+			logo {
+				id
+			}
+			name
+			owner {
+				id
+			}
+			places {
+				id
+			}
+			status
+		}
+		totalCount
+		page
+	}
+}
+
+mutation UpdateCompany($company: UpdateCompanyInput!) {
+	updateCompany(company: $company) {
+		name
+	}
+}
+
+mutation CreateCompany($company: CreateCompanyInput!) {
+	createCompany(company: $company) {
+		id
+		name
+	}
+}
+
+mutation DeleteCompany($companyId: String!) {
+	deleteCompany(companyId: $companyId)
+}

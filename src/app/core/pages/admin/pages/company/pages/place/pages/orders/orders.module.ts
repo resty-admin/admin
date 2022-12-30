@@ -9,12 +9,11 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { DatepickerModule } from "../../../../../../../../../shared/ui/datepicker";
-import { ORDERS_COMPONENTS } from "./components";
 import { OrdersComponent } from "./layout/orders.component";
 import { OrderRoutingModule } from "./orders-routing.module";
 
 @NgModule({
-	declarations: [OrdersComponent, ...ORDERS_COMPONENTS],
+	declarations: [OrdersComponent],
 	imports: [
 		CommonModule,
 		OrderRoutingModule,
@@ -26,7 +25,6 @@ import { OrderRoutingModule } from "./orders-routing.module";
 		DatepickerModule,
 		RadioButtonModule,
 		IconModule
-	],
-	exports: [OrdersComponent]
+	]
 })
 export class OrdersModule {}

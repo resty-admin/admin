@@ -1,0 +1,34 @@
+query Tables($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	tables(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			id
+			name
+			code
+			file {
+				url
+			}
+		}
+	}
+}
+
+mutation CreateTable($table: CreateTableInput!) {
+	createTable(table: $table) {
+		id
+		name
+		code
+	}
+}
+
+mutation UpdateTable($table: UpdateTableInput!) {
+	updateTable(table: $table) {
+		code
+		id
+		name
+	}
+}
+
+mutation DeleteTable($tableId: String!) {
+	deleteTable(tableId: $tableId)
+}

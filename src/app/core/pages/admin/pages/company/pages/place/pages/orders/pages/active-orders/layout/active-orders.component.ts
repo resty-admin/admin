@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-
-import { OrdersService } from "../../../../../../../../../../../../shared/modules/orders";
+import type { Observable } from "rxjs";
+import { OrdersService } from "src/app/features/orders";
 
 @Component({
 	selector: "app-active-orders",
@@ -9,7 +9,7 @@ import { OrdersService } from "../../../../../../../../../../../../shared/module
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrdersComponent {
-	readonly orders$ = this._ordersService.orders$;
+	readonly orders$: Observable<any> = this._ordersService.orders$;
 
 	constructor(private readonly _ordersService: OrdersService) {}
 }

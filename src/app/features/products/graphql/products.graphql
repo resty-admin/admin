@@ -1,0 +1,46 @@
+query Products($take: Int!, $filtersArgs: FiltersArgsDto, $skip: Int!) {
+	products(take: $take, filtersArgs: $filtersArgs, skip: $skip) {
+		page
+		totalCount
+		data {
+			price
+			name
+			id
+			description
+			file {
+				url
+				id
+			}
+		}
+	}
+}
+
+mutation CreateProduct($product: CreateProductInput!) {
+	createProduct(product: $product) {
+		description
+		file {
+			url
+			id
+		}
+		id
+		name
+		price
+	}
+}
+
+mutation UpdateProduct($product: UpdateProductInput!) {
+	updateProduct(product: $product) {
+		description
+		file {
+			url
+			id
+		}
+		id
+		name
+		price
+	}
+}
+
+mutation DeleteProduct($productId: String!) {
+	deleteProduct(productId: $productId)
+}

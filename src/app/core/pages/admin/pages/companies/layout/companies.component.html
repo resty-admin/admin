@@ -2,7 +2,7 @@
 	<app-image class="image" name="companies"></app-image>
 
 	<div class="card">
-		<h1 class="title">Выберите компанию</h1>
+		<h1 appTypography theme="2" class="title">Выберите компанию</h1>
 
 		<ul class="companies">
 			<li class="company" *ngFor="let company of companies$ | async">
@@ -11,7 +11,7 @@
 				</a>
 			</li>
 			<li class="company">
-				<button class="button" (click)="openAddCompanyDialog()">
+				<button class="button" (click)="openCreateCompanyDialog()">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>
 			</li>

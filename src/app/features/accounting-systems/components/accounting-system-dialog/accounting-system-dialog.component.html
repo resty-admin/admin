@@ -1,0 +1,20 @@
+<div class="accounting-system-dialog">
+	<p appTypography theme="2" class="title">Подключить систему учета</p>
+
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input
+			class="input"
+			label="Публичный ключ"
+			formControlName="publicKey"
+			placeholder="Введите публичный ключ"
+		></app-input>
+		<app-input
+			class="input"
+			label="Приватный ключ"
+			formControlName="privateKey"
+			placeholder="Введите приватный ключ"
+		></app-input>
+
+		<button class="submit">Подключить</button>
+	</form>
+</div>

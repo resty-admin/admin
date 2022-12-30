@@ -5,8 +5,7 @@
 
 	<ul class="accounting-systems">
 		<li class="accounting-system" *ngFor="let accountingSystem of accountingSystems$ | async">
-			<button class="button" (click)="openAccountingSystemDialog(accountingSystem)">
-				<!--			<app-image class="image" [remote]="true" [name]="accountingSystem.image"></app-image>-->
+			<button class="button">
 				<p appTypography theme="2">{{ accountingSystem.name }}</p>
 			</button>
 		</li>

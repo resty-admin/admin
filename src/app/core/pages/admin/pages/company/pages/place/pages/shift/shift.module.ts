@@ -23,7 +23,6 @@ import { ShiftRoutingModule } from "./shift-routing.module";
 		ButtonModule,
 		ImageModule,
 		IconModule
-	],
-	exports: [ShiftComponent]
+	]
 })
 export class ShiftModule {}

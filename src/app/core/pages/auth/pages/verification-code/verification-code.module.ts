@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CodeInputModule } from "angular-code-input";
 import { I18nModule } from "src/app/shared/modules/i18n";
+import { CodeInputModule } from "src/app/shared/ui/code-input";
 import { ImageModule } from "src/app/shared/ui/image";
 import { TypographyModule } from "src/app/shared/ui/typography";
 

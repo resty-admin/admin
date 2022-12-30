@@ -1,7 +1,7 @@
 <div class="commands-page">
 	<h1 appTypography theme="1" class="title">Команды</h1>
 
-	<button appButton class="add" (click)="openCommandDialog()">
+	<button appButton class="add" (click)="openCreateCommandDialog()">
 		<app-icon class="icon" name="add"></app-icon>
 		<span class="text">Добавить</span>
 	</button>
@@ -24,7 +24,7 @@
 				<app-icon class="icon" name="more"></app-icon>
 			</button>
 
-			<p class="description">{{ command.description }}</p>
+			<!--			<p class="description">{{ command.description }}</p>-->
 		</li>
 	</ul>
 </div>

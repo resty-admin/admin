@@ -1,30 +1,24 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
 import { PipesModule } from "src/app/shared/modules/pipes";
-import { FileModule } from "src/app/shared/ui/file";
-import { IconModule } from "src/app/shared/ui/icon";
-import { ImageModule } from "src/app/shared/ui/image";
-import { InputModule } from "src/app/shared/ui/input";
 
+import { CompaniesFeatureModule } from "../../../../../features/companies";
+import { IconModule } from "../../../../../shared/ui/icon";
+import { ImageModule } from "../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../shared/ui/typography";
 import { CompaniesRoutingModule } from "./companies-routing.module";
-import { COMPANIES_COMPONENTS } from "./components";
 import { CompaniesComponent } from "./layout/companies.component";
 
 @NgModule({
-	declarations: [CompaniesComponent, ...COMPANIES_COMPONENTS],
+	declarations: [CompaniesComponent],
 	imports: [
 		CommonModule,
 		CompaniesRoutingModule,
-		ReactiveFormsModule,
-		ImageModule,
 		IconModule,
-		InputModule,
-		FileModule,
+		ImageModule,
 		PipesModule,
-		TypographyModule
-	],
-	exports: [CompaniesComponent]
+		TypographyModule,
+		CompaniesFeatureModule
+	]
 })
 export class CompaniesModule {}

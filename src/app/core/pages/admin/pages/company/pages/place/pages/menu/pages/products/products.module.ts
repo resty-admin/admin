@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { ProductsFeatureModule } from "src/app/features/products";
 import { ButtonModule } from "src/app/shared/ui/button";
 import { DatatableModule } from "src/app/shared/ui/datatable";
 import { FileModule } from "src/app/shared/ui/file";
@@ -12,12 +12,11 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
-import { PRODUCTS_COMPONENTS } from "./components";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
 
 @NgModule({
-	declarations: [ProductsComponent, ...PRODUCTS_COMPONENTS],
+	declarations: [ProductsComponent],
 	imports: [
 		CommonModule,
 		ProductsRoutingModule,
@@ -25,14 +24,13 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		InputModule,
 		SelectModule,
 		FileModule,
-		ReactiveFormsModule,
 		IconModule,
 		ImageModule,
 		TypographyModule,
 		DatatableModule,
 		ActionsModule,
-		TooltipModule
-	],
-	exports: [ProductsComponent]
+		TooltipModule,
+		ProductsFeatureModule
+	]
 })
 export class ProductsModule {}

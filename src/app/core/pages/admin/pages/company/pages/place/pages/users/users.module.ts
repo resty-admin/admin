@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { UsersFeatureModule } from "src/app/features/users";
 import { ButtonModule } from "src/app/shared/ui/button";
 import { DatatableModule } from "src/app/shared/ui/datatable";
 import { IconModule } from "src/app/shared/ui/icon";
@@ -10,17 +11,15 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
-import { USERS_COMPONENTS } from "./components";
 import { UsersComponent } from "./layout/users.component";
 import { UserRoutingModule } from "./users-routing.module";
 
 @NgModule({
-	declarations: [UsersComponent, ...USERS_COMPONENTS],
+	declarations: [UsersComponent],
 	imports: [
 		CommonModule,
 		UserRoutingModule,
 		InputModule,
-		ReactiveFormsModule,
 		TypographyModule,
 		DatatableModule,
 		ButtonModule,
@@ -28,7 +27,8 @@ import { UserRoutingModule } from "./users-routing.module";
 		SelectModule,
 		FormsModule,
 		ActionsModule,
-		TooltipModule
+		TooltipModule,
+		UsersFeatureModule
 	],
 	exports: [UsersComponent]
 })

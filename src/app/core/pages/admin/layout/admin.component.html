@@ -1,7 +1,7 @@
 <div class="admin">
 	<app-header
 		class="header"
-		[isAsideOpen]="isAsideOpen"
+		[isAsideOpen]="isAsideOpen$ | async"
 		(burgerClicked)="toggleAside()"
 		[user]="user$ | async"
 	></app-header>
@@ -9,11 +9,11 @@
 	<main class="main">
 		<app-aside
 			class="aside"
-			[class.open]="isAsideOpen"
+			[class.open]="isAsideOpen$ | async"
 			[places]="$any(places$ | async)"
 			[companies]="$any(companies$ | async)"
-			[activeCompanyId]="activeCompanyId"
-			[activePlaceId]="activePlaceId"
+			[activeCompanyId]="$any(activeCompanyId$ | async)"
+			[activePlaceId]="$any(activePlaceId$ | async)"
 			(addCompanyClicked)="openAddCompanyDialog()"
 			(addPlaceClicked)="openAddPlaceDialog()"
 			[user]="user$ | async"

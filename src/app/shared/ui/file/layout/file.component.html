@@ -1,4 +1,8 @@
 <div [class]="className">
+	<label class="label" [for]="id">
+		<ng-content></ng-content>
+		{{ label }}
+	</label>
 	<input
 		class="input"
 		type="file"
@@ -10,12 +14,8 @@
 	/>
 	<div class="preview">
 		<img *ngIf="src$ | async as src" class="image" [src]="src" [alt]="fileName" />
+		<span class="placeholder">
+			{{ placeholder }}
+		</span>
 	</div>
-	<span class="placeholder">
-		{{ placeholder }}
-	</span>
-	<label class="label" [for]="id">
-		<ng-content></ng-content>
-		{{ label }}
-	</label>
 </div>

@@ -1,2 +1,2 @@
 export * from "./attribute.interface";
-export * from "./attributes-group.interface";
+export * from "./attribute-group.interface";

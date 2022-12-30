@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
 import { TippyDirective } from "@ngneat/helipopper";
+import { CategoriesFeatureModule } from "src/app/features/categories";
 import { ButtonModule } from "src/app/shared/ui/button";
 import { FileModule } from "src/app/shared/ui/file";
 import { IconModule } from "src/app/shared/ui/icon";
@@ -13,11 +13,10 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { CategoriesRoutingModule } from "./categories-routing.module";
-import { CATEGORIES_COMPONENTS } from "./components";
 import { CategoriesComponent } from "./layout/categories.component";
 
 @NgModule({
-	declarations: [CategoriesComponent, ...CATEGORIES_COMPONENTS],
+	declarations: [CategoriesComponent],
 	imports: [
 		CommonModule,
 		CategoriesRoutingModule,
@@ -25,14 +24,13 @@ import { CategoriesComponent } from "./layout/categories.component";
 		InputModule,
 		SelectModule,
 		FileModule,
-		ReactiveFormsModule,
 		ImageModule,
 		IconModule,
 		TypographyModule,
 		TooltipModule,
 		ActionsModule,
-		TippyDirective
-	],
-	exports: [CategoriesComponent]
+		TippyDirective,
+		CategoriesFeatureModule
+	]
 })
 export class CategoriesModule {}

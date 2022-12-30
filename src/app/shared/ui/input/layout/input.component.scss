@@ -22,6 +22,20 @@
 				}
 			}
 
+			.label {
+				display: block;
+				font-weight: 400;
+				font-size: 11px;
+				line-height: 16px;
+				color: var(--dark-t);
+				margin-bottom: rem(5);
+				margin-left: rem(15);
+
+				@include desktop() {
+					font-size: 13px;
+				}
+			}
+
 			@include desktop() {
 				.input {
 					font-size: rem(16);
@@ -61,7 +75,7 @@
 				margin-bottom: rem(5);
 				margin-left: rem(15);
 
-				@include desktop () {
+				@include desktop() {
 					font-size: 13px;
 				}
 			}
@@ -82,6 +96,10 @@
 				&:hover,
 				&:focus {
 					border-color: var(--primary);
+				}
+
+				.label {
+					color: var(--light-t);
 				}
 			}
 		}

@@ -1,0 +1,16 @@
+query User($userId: String!) {
+	user(id: $userId) {
+		email
+		googleId
+		id
+		name
+		password
+		role
+		status
+		tel
+		telegramId
+		telegramToken
+		theme
+		verificationCode
+	}
+}

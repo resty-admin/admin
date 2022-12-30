@@ -1,14 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
+import { CommandsService } from "src/app/features/commands";
+import { PLACE_ID } from "src/app/shared/constants";
 import type { ICommand } from "src/app/shared/interfaces";
-import { CommandsService } from "src/app/shared/modules/commands";
-import type { IAction } from "src/app/shared/ui/actions";
+import { RouterService } from "src/app/shared/modules/router";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
-import { DialogService } from "src/app/shared/ui/dialog";
-import { ToastrService } from "src/app/shared/ui/toastr";
-
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { CommandDialogComponent } from "../components";
 
 @Component({
 	selector: "app-commands",
@@ -24,65 +19,19 @@ export class CommandsComponent {
 		}
 	];
 
-	readonly actions: IAction<ICommand>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (command?: ICommand) => this.openCommandDialog(command)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (command?: ICommand) => {
-				if (!command) {
-					return;
-				}
-
-				this.openCommandDialog(command);
-			}
-		}
-	];
+	readonly actions = this._commandsService.actions;
 
 	readonly commands$ = this._commandsService.commands$;
 
-	constructor(
-		private readonly _commandsService: CommandsService,
-		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
-	) {}
+	constructor(private readonly _commandsService: CommandsService, private readonly _routerService: RouterService) {}
 
-	openCommandDialog(command?: Partial<ICommand>) {
-		this._dialogService
-			.open(CommandDialogComponent, { data: command })
-			.afterClosed$.pipe(
-				take(1),
-				filter((result) => Boolean(result)),
-				switchMap((command: Partial<ICommand>) =>
-					command.id
-						? this._commandsService
-								.updateCommand(command.id, command)
-								.pipe(take(1), this._toastrService.observe("Комманды"))
-						: this._commandsService.createCommand(command).pipe(take(1), this._toastrService.observe("Комманды"))
-				)
-			)
-			.subscribe(async () => {
-				await this._commandsService.refetchCommands();
-			});
+	openCreateCommandDialog() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		this._commandsService.openCreateOrUpdateCommandDialog({ place }).subscribe();
 	}
 
-	openDeleteCommandDialog(command: Partial<ICommand>) {
-		this._dialogService
-			.open(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить пользователя?",
-					value: command
-				}
-			})
-			.afterClosed$.pipe(
-				take(1),
-				filter((command) => Boolean(command)),
-				switchMap((command) => this._commandsService.deleteCommand(command.id))
-			)
-			.subscribe();
+	openDeleteCommandDialog(command: ICommand) {
+		this._commandsService.openDeleteCommandDialog(command).subscribe();
 	}
 }

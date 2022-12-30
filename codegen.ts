@@ -11,7 +11,10 @@ const config: CodegenConfig = {
 		"src/": {
 			preset: "near-operation-file",
 			presetConfig: { extension: ".ts", baseTypesPath: "graphql.ts" },
-			plugins: ["typescript-operations", "typescript-apollo-angular"]
+			plugins: ["typescript-operations", "typescript-apollo-angular"],
+			config: {
+				addExplicitOverride: true
+			}
 		},
 		"./graphql.schema.json": {
 			plugins: ["introspection"]

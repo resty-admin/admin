@@ -1,0 +1,27 @@
+query Commands {
+	commands {
+		data {
+			id
+			name
+		}
+		totalCount
+		page
+	}
+}
+
+mutation UpdateCommand($command: UpdateCommandInput!) {
+	updateCommand(command: $command) {
+		name
+	}
+}
+
+mutation CreateCommand($command: CreateCommandInput!) {
+	createCommand(command: $command) {
+		id
+		name
+	}
+}
+
+mutation DeleteCommand($commandId: String!) {
+	deleteCommand(commandId: $commandId)
+}

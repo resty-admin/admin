@@ -8,7 +8,6 @@ import { CompanyComponent } from "./layout/company.component";
 
 @NgModule({
 	declarations: [CompanyComponent],
-	imports: [CommonModule, CompanyRoutingModule, TypographyModule, LinkModule],
-	exports: [CompanyComponent]
+	imports: [CommonModule, CompanyRoutingModule, TypographyModule, LinkModule]
 })
 export class CompanyModule {}

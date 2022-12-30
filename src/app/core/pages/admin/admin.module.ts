@@ -36,7 +36,6 @@ import { AdminComponent } from "./layout/admin.component";
 		PipesModule,
 		TooltipModule,
 		LinkModule
-	],
-	exports: [AdminComponent]
+	]
 })
 export class AdminModule {}

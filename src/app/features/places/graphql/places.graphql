@@ -1,0 +1,29 @@
+query Places {
+	places {
+		data {
+			name
+			id
+			name
+			status
+		}
+		totalCount
+		page
+	}
+}
+
+mutation UpdatePlace($place: UpdatePlaceInput!) {
+	updatePlace(place: $place) {
+		name
+	}
+}
+
+mutation CreatePlaces($place: CreatePlaceInput!) {
+	createPlace(place: $place) {
+		id
+		name
+	}
+}
+
+mutation DeletePlace($placeId: String!) {
+	deletePlace(placeId: $placeId)
+}

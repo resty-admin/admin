@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { catchError, map, of, take, tap } from "rxjs";
+import { catchError, map, of, shareReplay, take, tap } from "rxjs";
 import { AUTH_ENDPOINTS } from "src/app/shared/endpoints";
 import type {
 	IAccessToken,
@@ -25,6 +25,8 @@ import { AuthRepository } from "../../repositories";
 })
 export class AuthService {
 	readonly store$ = this._authRepository.store$;
+
+	readonly me$ = this.getMe().pipe(shareReplay({ refCount: true }));
 
 	constructor(
 		private readonly _apiService: ApiService,

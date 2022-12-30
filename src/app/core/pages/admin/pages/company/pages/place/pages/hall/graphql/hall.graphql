@@ -1,0 +1,10 @@
+query Hall($hallId: String!) {
+	hall(id: $hallId) {
+		id
+		file {
+			id
+			url
+		}
+		name
+	}
+}

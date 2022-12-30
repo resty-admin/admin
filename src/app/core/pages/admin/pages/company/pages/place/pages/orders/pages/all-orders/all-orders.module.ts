@@ -9,7 +9,6 @@ import { AllOrdersComponent } from "./layout/all-orders.component";
 
 @NgModule({
 	declarations: [AllOrdersComponent],
-	imports: [CommonModule, AllOrdersRoutingModule, InputModule, IconModule, DatatableModule],
-	exports: []
+	imports: [CommonModule, AllOrdersRoutingModule, InputModule, IconModule, DatatableModule]
 })
 export class AllOrdersModule {}

@@ -1,0 +1,31 @@
+query AttributeGroups($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	attributeGroups(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			id
+			isUniq
+			name
+		}
+	}
+}
+
+mutation CreateAttrGroup($attrGroup: CreateAttributeGroupInput!) {
+	createAttrGroup(attrGroup: $attrGroup) {
+		id
+		isUniq
+		name
+	}
+}
+
+mutation UpdateAttrGroup($attrGroup: UpdateAttributeGroupInput!) {
+	updateAttrGroup(attrGroup: $attrGroup) {
+		id
+		isUniq
+		name
+	}
+}
+
+mutation DeleteAttrGroup($attrGroupId: String!) {
+	deleteAttrGroup(attrGroupId: $attrGroupId)
+}

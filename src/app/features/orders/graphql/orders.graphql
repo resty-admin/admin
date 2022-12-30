@@ -1,0 +1,32 @@
+query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	orders(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			orderCode
+			id
+		}
+	}
+}
+
+mutation CreateOrder($order: CreateOrderInput!) {
+	createOrder(order: $order) {
+		id
+		orderCode
+		status
+		type
+	}
+}
+
+mutation UpdateOrder($order: UpdateOrderInput!) {
+	updateOrder(order: $order) {
+		id
+		orderCode
+		status
+		type
+	}
+}
+
+mutation DeleteOrder($orderId: String!) {
+	deleteOrder(orderId: $orderId)
+}

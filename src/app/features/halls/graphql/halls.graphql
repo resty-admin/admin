@@ -1,0 +1,41 @@
+query Halls($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	halls(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			tables {
+				id
+				hall {
+					id
+					file {
+						id
+						url
+					}
+					name
+				}
+			}
+		}
+	}
+}
+
+mutation CreateHall($hall: CreateHallInput!) {
+	createHall(hall: $hall) {
+		id
+		name
+	}
+}
+
+mutation UpdateHall($hall: UpdateHallInput!) {
+	updateHall(hall: $hall) {
+		file {
+			url
+			id
+		}
+		id
+		name
+	}
+}
+
+mutation DeleteHall($hallId: String!) {
+	deleteHall(hallId: $hallId)
+}

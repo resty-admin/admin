@@ -9,7 +9,6 @@ import { ActiveOrdersComponent } from "./layout/active-orders.component";
 
 @NgModule({
 	declarations: [ActiveOrdersComponent],
-	imports: [CommonModule, ActiveOrdersRoutingModule, InputModule, IconModule, ImageModule],
-	exports: []
+	imports: [CommonModule, ActiveOrdersRoutingModule, InputModule, IconModule, ImageModule]
 })
 export class ActiveOrdersModule {}
