@@ -1,6 +1,17 @@
 <div class="payment-system-dialog">
 	<form [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input formControlName="name"></app-input>
+		<app-input
+			class="input"
+			label="Публичный ключ"
+			formControlName="publicKey"
+			placeholder="Введите публичный ключ"
+		></app-input>
+		<app-input
+			class="input"
+			label="Приватный ключ"
+			formControlName="privateKey"
+			placeholder="Введите приватный ключ"
+		></app-input>
 
 		<button appButton type="submit">submit</button>
 	</form>

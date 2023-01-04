@@ -22,7 +22,7 @@ export interface AttributeGroupsQuery {
 					type: Types.AttributeGroupTypeEnum;
 					maxItemsForPick: number;
 					name: string;
-					attributes?: { __typename?: "AttributesEntity"; name: string }[] | null;
+					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price?: number | null }[] | null;
 			  }[]
 			| null;
 	};
@@ -78,7 +78,9 @@ export const AttributeGroupsDocument = gql`
 				maxItemsForPick
 				name
 				attributes {
+					id
 					name
+					price
 				}
 			}
 		}

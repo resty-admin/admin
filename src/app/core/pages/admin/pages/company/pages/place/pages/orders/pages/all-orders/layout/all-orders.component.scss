@@ -34,10 +34,8 @@
 			display: none;
 
 			&::ng-deep {
-				.datatable-row-odd .action {
-					background-color: var(--primary);
-					color: var(--dark);
-					border-color: transparent;
+				.datatable-row-odd .more {
+					background-color: var(--light-grey);
 				}
 			}
 

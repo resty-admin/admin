@@ -8,7 +8,9 @@ query AttributeGroups($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 			maxItemsForPick
 			name
 			attributes {
+				id
 				name
+				price
 			}
 		}
 	}

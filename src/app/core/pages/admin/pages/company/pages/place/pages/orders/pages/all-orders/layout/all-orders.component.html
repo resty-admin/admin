@@ -9,7 +9,7 @@
 
 	<ul class="datatable-mobile">
 		<li class="order" *ngFor="let order of orders$ | async">
-			<p class="code">Код: {{ order.orderCode }}</p>
+			<p class="code">Код: {{ order.code }}</p>
 
 			<p class="date-label">Дата</p>
 			<!--			<p class="date-value">{{ order.date }}</p>-->
@@ -22,6 +22,20 @@
 	</ul>
 </div>
 
-<ng-template #actionsTemplate let-value="value">
-	<button class="action">Завершить</button>
+<ng-template #moreTemplate let-row="row">
+	<button
+		class="more"
+		appIconButton
+		[tippy]="actionsTemplate"
+		[data]="row"
+		placement="left"
+		variation="popper"
+		theme="1"
+	>
+		<app-icon class="icon" name="more"></app-icon>
+	</button>
+</ng-template>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
 </ng-template>

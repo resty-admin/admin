@@ -15,7 +15,7 @@ export interface OrdersQuery {
 		__typename?: "PaginatedActiveOrder";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "ActiveOrderEntity"; orderCode: string; id: string }[] | null;
+		data?: { __typename?: "ActiveOrderEntity"; code: number; id: string }[] | null;
 	};
 }
 
@@ -28,7 +28,7 @@ export interface CreateOrderMutation {
 	createOrder: {
 		__typename?: "ActiveOrderEntity";
 		id: string;
-		orderCode: string;
+		code: number;
 		status: Types.OrderStatusEnum;
 		type: Types.OrderTypeEnum;
 	};
@@ -43,7 +43,7 @@ export interface UpdateOrderMutation {
 	updateOrder: {
 		__typename?: "ActiveOrderEntity";
 		id: string;
-		orderCode: string;
+		code: number;
 		status: Types.OrderStatusEnum;
 		type: Types.OrderTypeEnum;
 	};
@@ -64,7 +64,7 @@ export const OrdersDocument = gql`
 			page
 			totalCount
 			data {
-				orderCode
+				code
 				id
 			}
 		}
@@ -85,7 +85,7 @@ export const CreateOrderDocument = gql`
 	mutation CreateOrder($order: CreateOrderInput!) {
 		createOrder(order: $order) {
 			id
-			orderCode
+			code
 			status
 			type
 		}
@@ -106,7 +106,7 @@ export const UpdateOrderDocument = gql`
 	mutation UpdateOrder($order: UpdateOrderInput!) {
 		updateOrder(order: $order) {
 			id
-			orderCode
+			code
 			status
 			type
 		}

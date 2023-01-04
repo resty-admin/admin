@@ -10,6 +10,7 @@ import { OrdersService } from "src/app/features/orders";
 })
 export class ActiveOrdersComponent {
 	readonly orders$: Observable<any> = this._ordersService.orders$;
+	readonly actions = this._ordersService.actions;
 
 	constructor(private readonly _ordersService: OrdersService) {}
 }

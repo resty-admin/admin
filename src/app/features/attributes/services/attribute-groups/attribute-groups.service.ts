@@ -25,7 +25,7 @@ export class AttributeGroupsService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (attributesGroup?: any) => this.openCreateOrUpdateAttributeGroupDialog(attributesGroup)
+			func: (attributesGroup?: any) => this.openCreateOrUpdateAttributeGroupDialog(attributesGroup).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -35,7 +35,7 @@ export class AttributeGroupsService {
 					return;
 				}
 
-				this.openDeleteAttributeGroupDialog(attributesGroup);
+				this.openDeleteAttributeGroupDialog(attributesGroup).subscribe();
 			}
 		}
 	];
@@ -57,12 +57,18 @@ export class AttributeGroupsService {
 		return this._dialogService.openFormDialog(AttributeGroupDialogComponent, { data }).pipe(
 			switchMap((attributeGroup: any) =>
 				attributeGroup.id
-					? this.updateAttributeGroup(attributeGroup)
+					? this.updateAttributeGroup({
+							id: attributeGroup.id,
+							name: attributeGroup.name,
+							type: attributeGroup.type,
+							maxItemsForPick: attributeGroup.maxItemsForPick,
+							attributes: attributeGroup.attributes.map(({ id }: any) => id)
+					  })
 					: this.createAttributeGroup({
 							...attributeGroup,
-							attributes: attributeGroup.attributes.map(({ id }: any) => id),
-							type: attributeGroup.type.value,
-							maxItemsForPick: Number.parseInt(attributeGroup.maxItemsForPick)
+							type: attributeGroup.type,
+							maxItemsForPick: Number.parseInt(attributeGroup.maxItemsForPick),
+							attributes: attributeGroup.attributes.map(({ id }: any) => id)
 					  })
 			)
 		);

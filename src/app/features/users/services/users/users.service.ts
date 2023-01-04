@@ -16,7 +16,7 @@ export class UsersService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (user?: IUser) => this.openCreateOrUpdateUserDialog(user)
+			func: (user?: IUser) => this.openCreateOrUpdateUserDialog(user).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -26,7 +26,7 @@ export class UsersService {
 					return;
 				}
 
-				this.openDeleteUserDialog(user);
+				this.openDeleteUserDialog(user).subscribe();
 			}
 		}
 	];
@@ -49,9 +49,17 @@ export class UsersService {
 	}
 
 	openCreateOrUpdateUserDialog(data?: any) {
-		return this._dialogService
-			.openFormDialog(UserDialogComponent, { data })
-			.pipe(switchMap((user: any) => (user.id ? this.updateUser(user) : this.createUser(user))));
+		return this._dialogService.openFormDialog(UserDialogComponent, { data }).pipe(
+			switchMap((user: any) =>
+				user.id
+					? this.updateUser({
+							id: user.id,
+							tel: user.tel,
+							email: user.email
+					  })
+					: this.createUser(user)
+			)
+		);
 	}
 
 	openDeleteUserDialog(user: IUser) {

@@ -7,6 +7,8 @@ import { COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
 import type { AtLeast, ICompany, IPlace, ISimpleChanges, IUser } from "src/app/shared/interfaces";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 
+import { CompaniesService } from "../../../../../features/companies";
+import { PlacesService } from "../../../../../features/places";
 import { RouterService } from "../../../../../shared/modules/router";
 // import type { IPlace, IUser } from "src/app/shared/interfaces";
 // import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "src/app/shared/enums";
@@ -90,12 +92,28 @@ export class AsideComponent implements OnChanges, OnInit {
 	@Input() activePlaceId = "";
 	@Input() user?: IUser | null;
 
+	readonly companiesActions = this._companiesService.actions;
+	readonly placesActions = this._placesService.actions;
+
 	pages: any[] = [];
 
 	readonly companyControl = new FormControl<AtLeast<ICompany, "id">>();
 	readonly placeControl = new FormControl<AtLeast<IPlace, "id">>();
 
-	constructor(private readonly _authService: AuthService, private readonly _routerService: RouterService) {}
+	constructor(
+		private readonly _authService: AuthService,
+		private readonly _routerService: RouterService,
+		private readonly _companiesService: CompaniesService,
+		private readonly _placesService: PlacesService
+	) {}
+
+	getCompanyById(id: string) {
+		return this.companies?.find((company) => company.id === id);
+	}
+
+	getPlaceById(id: string) {
+		return this.places?.find((place) => place.id === id);
+	}
 
 	ngOnInit() {
 		this.companyControl.value$

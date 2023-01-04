@@ -2,9 +2,9 @@
 	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать зал" : "Добавить зал" }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" formControlName="name" placeholder="Введите имя"></app-input>
-		<app-file class="input" formControlName="file" placeholder="Введите файл"></app-file>
+		<app-input class="input" label="Название" formControlName="name" placeholder="Выберите название"></app-input>
+		<app-file class="input" label="Изображние" formControlName="file" placeholder="Выберите изображние"></app-file>
 
-		<button class="submit" appButton type="submit">Добавить</button>
+		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
 	</form>
 </div>

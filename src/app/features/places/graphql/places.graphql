@@ -5,6 +5,11 @@ query Places($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 			id
 			name
 			status
+			address
+			file {
+				id
+				url
+			}
 		}
 		totalCount
 		page

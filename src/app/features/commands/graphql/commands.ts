@@ -15,7 +15,7 @@ export interface CommandsQuery {
 		__typename?: "PaginatedCommand";
 		totalCount: number;
 		page: number;
-		data?: { __typename?: "CommandEntity"; id: string; name: string }[] | null;
+		data?: { __typename?: "CommandEntity"; id: string; name: string; description: string }[] | null;
 	};
 }
 
@@ -52,6 +52,7 @@ export const CommandsDocument = gql`
 			data {
 				id
 				name
+				description
 			}
 			totalCount
 			page

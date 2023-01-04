@@ -3,6 +3,7 @@ query Commands($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 		data {
 			id
 			name
+			description
 		}
 		totalCount
 		page

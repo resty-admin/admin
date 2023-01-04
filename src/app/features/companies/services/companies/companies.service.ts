@@ -4,6 +4,8 @@ import { map, switchMap, take, tap } from "rxjs";
 import type { CreateCompanyInput, UpdateCompanyInput } from "../../../../../graphql";
 import type { ICompany } from "../../../../shared/interfaces";
 import { FilesService } from "../../../../shared/modules/file";
+import type { IAction } from "../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import { CompanyDialogComponent } from "../../components";
@@ -14,6 +16,25 @@ export class CompaniesService {
 	readonly companies$ = this._companiesGQL
 		.watch({ skip: 0, take: 10 })
 		.valueChanges.pipe(map((result) => result.data.companies.data));
+
+	readonly actions: IAction<ICompany>[] = [
+		{
+			label: "Редактировать",
+			icon: "edit",
+			func: (company?: ICompany) => this.openCreateOrUpdateCompanyDialog(company).subscribe()
+		},
+		{
+			label: "Удалить",
+			icon: "delete",
+			func: (company?: ICompany) => {
+				if (!company) {
+					return;
+				}
+
+				this.openDeleteCompanyDialog(company).subscribe();
+			}
+		}
+	];
 
 	constructor(
 		private readonly _companiesGQL: CompaniesGQL,
@@ -30,16 +51,33 @@ export class CompaniesService {
 	}
 
 	openCreateOrUpdateCompanyDialog(data?: any) {
-		return this._dialogService
-			.openFormDialog(CompanyDialogComponent, { data })
-			.pipe(switchMap((company: ICompany) => (company.id ? this.updateCompany(company) : this.createCompany(company))));
+		return this._dialogService.openFormDialog(CompanyDialogComponent, { data }).pipe(
+			switchMap((company: any) =>
+				company.id
+					? this.updateCompany({
+							id: company.id,
+							name: company.name,
+							logo: company.logo
+					  })
+					: this.createCompany(company)
+			)
+		);
 	}
 
-	openDeleteCompanyDialog() {}
+	openDeleteCompanyDialog(company: any) {
+		return this._dialogService
+			.openFormDialog(ConfirmationDialogComponent, {
+				data: {
+					title: "Вы уверены, что хотите удалить компанию?",
+					value: company
+				}
+			})
+			.pipe(switchMap((company) => this.deleteCompany(company.id)));
+	}
 
 	createCompany(company: CreateCompanyInput) {
 		return this._filesService.getFile(company.logo).pipe(
-			switchMap((logo) => this._createCompanyGQL.mutate({ company: { ...company, logo } })),
+			switchMap((logo) => this._createCompanyGQL.mutate({ company: { ...company, logo: logo?.id } })),
 			take(1),
 			this._toastrService.observe("Компании"),
 			tap(async () => {
@@ -49,7 +87,8 @@ export class CompaniesService {
 	}
 
 	updateCompany(company: UpdateCompanyInput) {
-		return this._updateCompanyGQL.mutate({ company }).pipe(
+		return this._filesService.getFile(company.logo).pipe(
+			switchMap((logo) => this._updateCompanyGQL.mutate({ company: { ...company, logo: logo?.id } })),
 			take(1),
 			this._toastrService.observe("Компании"),
 			tap(async () => {

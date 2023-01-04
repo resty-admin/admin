@@ -12,11 +12,12 @@ import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AllOrdersComponent implements AfterViewInit {
-	@ViewChild("actionsTemplate", { static: true }) actionsTemplate!: any;
+	@ViewChild("moreTemplate", { static: true }) moreTemplate!: any;
 
 	columns: IDatatableColumn[] = [];
 
 	readonly orders$: Observable<any> = this._ordersService.orders$;
+	readonly actions = this._ordersService.actions;
 
 	constructor(private readonly _ordersService: OrdersService) {}
 
@@ -27,7 +28,7 @@ export class AllOrdersComponent implements AfterViewInit {
 	ngAfterViewInit() {
 		this.columns = [
 			{
-				prop: "orderCode",
+				prop: "code",
 				name: "Код"
 			},
 			{
@@ -39,7 +40,7 @@ export class AllOrdersComponent implements AfterViewInit {
 				name: "Статус"
 			},
 			{
-				cellTemplate: this.actionsTemplate
+				cellTemplate: this.moreTemplate
 			}
 		];
 	}

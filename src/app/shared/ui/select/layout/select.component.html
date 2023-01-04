@@ -1,5 +1,5 @@
 <div [class]="className">
-	<label class="label">
+	<label class="label" *ngIf="label">
 		<ng-content></ng-content>
 		{{ label }}
 	</label>

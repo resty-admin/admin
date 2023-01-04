@@ -31,10 +31,6 @@ export class UsersComponent implements AfterViewInit {
 		this._usersService.openCreateOrUpdateUserDialog({ place }).subscribe();
 	}
 
-	openDeleteUserDialog(user: IUser) {
-		this._usersService.openDeleteUserDialog(user).subscribe();
-	}
-
 	ngAfterViewInit() {
 		this.columns = [
 			{

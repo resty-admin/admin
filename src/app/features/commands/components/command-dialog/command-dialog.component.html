@@ -2,9 +2,9 @@
 	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать команду" : "Добавить команду" }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input formControlName="name" placeholder="Название"></app-input>
-		<app-textarea formControlName="description" placeholder="Описание"></app-textarea>
+		<app-input formControlName="name" label="Название" placeholder="Название"></app-input>
+		<app-textarea formControlName="description" label="Описание" placeholder="Описание"></app-textarea>
 
-		<button class="submit" appButton type="submit">Добавить</button>
+		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
 	</form>
 </div>

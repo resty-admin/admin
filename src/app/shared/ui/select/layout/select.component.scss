@@ -1,4 +1,26 @@
 @import "src/assets/scss/abstractions";
 
 @include component() {
+	.app-select {
+		.label {
+			display: block;
+			font-weight: 400;
+			font-size: 11px;
+			line-height: 16px;
+			color: var(--dark-t);
+			margin-bottom: rem(5);
+			margin-left: rem(15);
+
+			@include desktop() {
+				font-size: 13px;
+			}
+		}
+	}
+}
+@include dark () {
+	.app-select {
+		.label {
+			color: var(--light-t);
+		}
+	}
 }

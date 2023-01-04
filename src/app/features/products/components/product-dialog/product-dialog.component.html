@@ -2,12 +2,19 @@
 	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать блюдо" : "Добавить блюдо" }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" placeholder="Имя" formControlName="name"></app-input>
-		<app-input class="input" placeholder="Цена" formControlName="price"></app-input>
-		<app-file class="input" placeholder="Изображение" formControlName="file"></app-file>
+		<app-input class="input" label="Название" placeholder="Введите название" formControlName="name"></app-input>
+		<app-textarea
+			class="input"
+			label="Описание"
+			placeholder="Введите описание"
+			formControlName="description"
+		></app-textarea>
+		<app-input class="input" label="Цена" placeholder="Введите цену" formControlName="price"></app-input>
+		<app-file class="input" label="Изображение" placeholder="Выберите изображение" formControlName="file"></app-file>
 		<app-select
 			[options]="categories$ | async"
 			class="input"
+			label="Категория"
 			placeholder="Выберите категорию"
 			bindLabel="name"
 			bindValue="id"
@@ -16,6 +23,7 @@
 		<app-select
 			[options]="attributeGroups$ | async"
 			class="input"
+			label="Группы атрибутов"
 			placeholder="Выберите группы атрибутов"
 			bindLabel="name"
 			bindValue="id"
@@ -23,6 +31,6 @@
 			[multiple]="true"
 		></app-select>
 
-		<button class="submit" appButton type="submit">Добавить</button>
+		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
 	</form>
 </div>

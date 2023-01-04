@@ -16,6 +16,7 @@ import { CategoriesService } from "../../../categories";
 export class ProductDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: null,
+		description: "",
 		price: null,
 		file: null,
 		category: null,
@@ -41,6 +42,7 @@ export class ProductDialogComponent implements OnInit {
 			return;
 		}
 
+		console.log(this.data);
 		this.formGroup.patchValue(this.data);
 	}
 

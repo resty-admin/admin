@@ -20,7 +20,7 @@ export class AttributesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (attribute?: IAttribute) => this.openCreateOrUpdateAttributeDialog(attribute)
+			func: (attribute?: IAttribute) => this.openCreateOrUpdateAttributeDialog(attribute).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -30,7 +30,7 @@ export class AttributesService {
 					return;
 				}
 
-				this.openDeleteAttributeDialog(attribute);
+				this.openDeleteAttributeDialog(attribute).subscribe();
 			}
 		}
 	];
@@ -52,11 +52,12 @@ export class AttributesService {
 		return this._dialogService.openFormDialog(AttributeDialogComponent, { data }).pipe(
 			switchMap((attribute: any) =>
 				attribute.id
-					? this.updateAttribute(attribute)
-					: this.createAttribute({
-							...attribute,
-							price: Number.parseFloat(attribute.price)
+					? this.updateAttribute({
+							id: attribute.id,
+							name: attribute.name,
+							price: Number.parseInt(attribute.price)
 					  })
+					: this.createAttribute(attribute)
 			)
 		);
 	}
@@ -73,7 +74,7 @@ export class AttributesService {
 	}
 
 	createAttribute(attr: CreateAttributeInput) {
-		return this._createAttributeGQL.mutate({ attr }).pipe(
+		return this._createAttributeGQL.mutate({ attr: { ...attr, price: Number.parseFloat(attr.price as any) } }).pipe(
 			map((result) => result.data?.createAttr),
 			take(1),
 			this._toastrService.observe("Модификация"),

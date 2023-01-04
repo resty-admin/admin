@@ -17,7 +17,7 @@ export class HallsService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (hall?: IHall) => this.openCreateOrUpdateHallDialog(hall)
+			func: (hall?: IHall) => this.openCreateOrUpdateHallDialog(hall).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -27,7 +27,7 @@ export class HallsService {
 					return;
 				}
 
-				this.openDeleteHallDialog(hall);
+				this.openDeleteHallDialog(hall).subscribe();
 			}
 		}
 	];
@@ -51,9 +51,17 @@ export class HallsService {
 	}
 
 	openCreateOrUpdateHallDialog(data?: any) {
-		return this._dialogService
-			.openFormDialog(HallDialogComponent, { data })
-			.pipe(switchMap((hall: any) => (hall.id ? this.updateHall(hall) : this.createHall(hall))));
+		return this._dialogService.openFormDialog(HallDialogComponent, { data }).pipe(
+			switchMap((hall: any) =>
+				hall.id
+					? this.updateHall({
+							id: hall.id,
+							name: hall.name,
+							file: hall.file
+					  })
+					: this.createHall(hall)
+			)
+		);
 	}
 
 	openDeleteHallDialog(hall: IHall) {
@@ -70,7 +78,7 @@ export class HallsService {
 	createHall(hall: CreateHallInput) {
 		return this._filesService.getFile(hall.file).pipe(
 			switchMap((file) =>
-				this._createHallGQL.mutate({ hall: { ...hall, file } }).pipe(
+				this._createHallGQL.mutate({ hall: { ...hall, file: file?.id } }).pipe(
 					take(1),
 					this._toastrService.observe("Залы"),
 					tap(async () => {
@@ -82,12 +90,16 @@ export class HallsService {
 	}
 
 	updateHall(hall: UpdateHallInput) {
-		return this._updateHallGQL.mutate({ hall }).pipe(
-			take(1),
-			this._toastrService.observe("Залы"),
-			tap(async () => {
-				await this.refetch();
-			})
+		return this._filesService.getFile(hall.file).pipe(
+			switchMap((file) =>
+				this._updateHallGQL.mutate({ hall: { ...hall, file: file?.id } }).pipe(
+					take(1),
+					this._toastrService.observe("Залы"),
+					tap(async () => {
+						await this.refetch();
+					})
+				)
+			)
 		);
 	}
 

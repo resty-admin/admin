@@ -1,14 +1,15 @@
 <div class="attribute-dialog">
 	<h1 appTypography theme="2" class="title">
-		{{ data ? "Редактировать группу модификацию" : "Добавить группу модификацию" }}
+		{{ data.id ? "Редактировать группу модификацию" : "Добавить группу модификацию" }}
 	</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" placeholder="Имя" formControlName="name"></app-input>
+		<app-input class="input" label="Название" placeholder="Введите название" formControlName="name"></app-input>
 
 		<app-select
 			class="input"
-			placeholder="Модификации"
+			label="Модификации"
+			placeholder="Выберите модификации"
 			formControlName="attributes"
 			[options]="attributes$ | async"
 			[searchable]="true"
@@ -20,6 +21,7 @@
 
 		<app-select
 			class="input"
+			label="Тип"
 			placeholder="Выберите тип"
 			formControlName="type"
 			[options]="attributeGroupTypes"
@@ -27,8 +29,13 @@
 			bindValue="value"
 		></app-select>
 
-		<app-input class="input" placeholder="Имя" formControlName="maxItemsForPick"></app-input>
+		<app-input
+			class="input"
+			label="Макс. кол-во выбранных элементов"
+			placeholder="Введите количество"
+			formControlName="maxItemsForPick"
+		></app-input>
 
-		<button class="submit" appButton type="submit">Добавить</button>
+		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
 	</form>
 </div>

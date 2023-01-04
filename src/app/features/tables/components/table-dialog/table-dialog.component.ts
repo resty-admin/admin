@@ -12,7 +12,7 @@ import type { ITable } from "src/app/shared/interfaces";
 })
 export class TableDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<Partial<ITable>>({
-		// code: 0,
+		code: 0,
 		name: "",
 		file: ""
 	});

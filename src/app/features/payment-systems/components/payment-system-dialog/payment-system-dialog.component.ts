@@ -11,8 +11,9 @@ import type { IPaymentSystem } from "src/app/shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemDialogComponent implements OnInit {
-	readonly formGroup = this._formBuilder.group<Partial<IPaymentSystem>>({
-		name: ""
+	readonly formGroup = this._formBuilder.group<Partial<any>>({
+		publicKey: "",
+		privateKey: ""
 	});
 
 	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}

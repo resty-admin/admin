@@ -2,11 +2,18 @@
 	<p appTypography theme="2" class="title">{{ data ? "Редактировать пользователя" : "Добавить пользователя" }}</p>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" placeholder="Введите имя" formControlName="name"></app-input>
-		<app-input class="input" placeholder="Введите почту" formControlName="email"></app-input>
-		<app-input class="input" placeholder="Введите пароль" formControlName="password"></app-input>
-		<app-select [options]="roles" class="input" placeholder="Выберите роль" formControlName="role"></app-select>
+		<app-input class="input" label="Имя" placeholder="Введите имя" formControlName="name"></app-input>
+		<app-input class="input" label="Почта" placeholder="Введите почту" formControlName="email"></app-input>
+		<app-input class="input" label="Телефон" placeholder="Введите телефон" formControlName="tel"></app-input>
+		<app-input class="input" label="Пароль" placeholder="Введите пароль" formControlName="password"></app-input>
+		<app-select
+			[options]="roles"
+			class="input"
+			label="Роль"
+			placeholder="Выберите роль"
+			formControlName="role"
+		></app-select>
 
-		<button class="submit" appButton type="submit">Добавить</button>
+		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
 	</form>
 </div>

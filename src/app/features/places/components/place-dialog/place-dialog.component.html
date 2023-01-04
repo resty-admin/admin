@@ -1,11 +1,11 @@
 <div class="place-dialog">
-	<p appTypography theme="2" class="title">Добавить заведение</p>
+	<p appTypography theme="2" class="title">{{ data.id ? "Редактировать заведение" : "Добавить заведение" }}</p>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" formControlName="name" placeholder="Введите название"></app-input>
-		<app-input class="input" formControlName="address" placeholder="Введите адресс"></app-input>
-		<app-file class="input" formControlName="file" placeholder="Загрузить картинку"></app-file>
+		<app-input class="input" formControlName="name" label="Название" placeholder="Введите название"></app-input>
+		<app-input class="input" formControlName="address" label="Адресс" placeholder="Введите адресс"></app-input>
+		<app-file class="input" formControlName="file" label="Картинка" placeholder="Загрузить картинку"></app-file>
 
-		<button class="submit">Добавить</button>
+		<button class="submit">{{ data.id ? "Редактировать" : "Создать" }}</button>
 	</form>
 </div>

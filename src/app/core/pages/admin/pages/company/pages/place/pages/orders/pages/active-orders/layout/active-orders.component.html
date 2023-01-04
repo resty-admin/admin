@@ -16,8 +16,25 @@
 						<p class="name">{{ user.name }}</p>
 					</li>
 				</ul>
-				<button class="button">{{ order.status }}</button>
+
+				<a class="button" appButton theme="2">Ожидают</a>
 			</div>
+
+			<button
+				class="more"
+				appIconButton
+				[tippy]="actionsTemplate"
+				[data]="order"
+				placement="left"
+				variation="popper"
+				theme="1"
+			>
+				<app-icon class="icon" name="more"></app-icon>
+			</button>
 		</li>
 	</ul>
 </div>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

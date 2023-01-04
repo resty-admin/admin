@@ -10,6 +10,13 @@ query Categories($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 			products {
 				name
 				price
+				attrsGroups {
+					id
+					name
+				}
+				file {
+					url
+				}
 			}
 		}
 		page

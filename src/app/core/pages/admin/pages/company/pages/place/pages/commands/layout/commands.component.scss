@@ -11,7 +11,7 @@
 		grid-template-columns: 1fr auto;
 		gap: rem(16);
 
-		@include pagePadding ();
+		@include pagePadding();
 		@include desktop() {
 			grid-template-areas:
 				"title add"
@@ -44,12 +44,13 @@
 				border-radius: rem(12);
 				padding: rem(10) rem(16);
 				background-color: var(--light-grey);
-				display: flex;
-				justify-content: space-between;
-				flex-wrap: wrap;
+				display: grid;
 				grid-template-columns: 1fr auto;
 				align-items: center;
 				gap: rem(8);
+				grid-template-areas:
+					"label more"
+					"description description";
 
 				.label {
 					grid-area: label;

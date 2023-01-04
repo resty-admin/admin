@@ -54,7 +54,15 @@ export class ProductsService {
 		return this._dialogService.openFormDialog(ProductDialogComponent, { data }).pipe(
 			switchMap((product: any) =>
 				product.id
-					? this.updateProduct(product)
+					? this.updateProduct({
+							id: product.id,
+							name: product.name,
+							description: product.description,
+							price: Number.parseFloat(product.price) || 0,
+							file: product.file,
+							category: product.category?.id,
+							attrsGroups: product.attrsGroups?.map(({ id }: any) => id)
+					  })
 					: this.createProduct({
 							...product,
 							category: product.category?.id,
@@ -78,7 +86,7 @@ export class ProductsService {
 
 	createProduct(product: CreateProductInput) {
 		return this._filesService.getFile(product.file).pipe(
-			switchMap((file) => this._createProductGQL.mutate({ product: { ...product, file } })),
+			switchMap((file) => this._createProductGQL.mutate({ product: { ...product, file: file?.id } })),
 			take(1),
 			this._toastrService.observe("Продукты"),
 			tap(async () => {
@@ -88,7 +96,8 @@ export class ProductsService {
 	}
 
 	updateProduct(product: UpdateProductInput) {
-		return this._updateProductGQL.mutate({ product }).pipe(
+		return this._filesService.getFile(product.file).pipe(
+			switchMap((file) => this._updateProductGQL.mutate({ product: { ...product, file: file?.id } })),
 			take(1),
 			this._toastrService.observe("Продукты"),
 			tap(async () => {

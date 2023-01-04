@@ -5,6 +5,10 @@ query Halls($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 		data {
 			id
 			name
+			file {
+				id
+				url
+			}
 		}
 	}
 }

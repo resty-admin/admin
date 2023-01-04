@@ -1,10 +1,10 @@
 <div class="company-dialog">
-	<p appTypography theme="2" class="title">Добавить компанию</p>
+	<p appTypography theme="2" class="title">{{ data.id ? "Редактировать компанию" : "Добавить компанию" }}</p>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-file class="input" label="Логотип" formControlName="logo" placeholder="Загрузите логотип"></app-file>
 		<app-input class="input" label="Название" formControlName="name" placeholder="Введите название"></app-input>
 
-		<button class="submit">Создать</button>
+		<button class="submit">{{ data.id ? "Редактировать" : "Добавить" }}</button>
 	</form>
 </div>

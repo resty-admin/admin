@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { of } from "rxjs";
+import { of, take } from "rxjs";
 import type { IFile } from "src/app/shared/interfaces";
 
-import type { FileEntityInput } from "../../../../../../graphql";
 import { ApiService } from "../../../api";
 import { FILE_FIELD, FILES_ENDPOINTS, FILES_FIELD } from "../../constants";
 
@@ -21,12 +20,12 @@ export class FilesService {
 		return formData;
 	}
 
-	getFile(file?: FileEntityInput | IFile | null): Observable<any> {
+	getFile(file?: any): Observable<any> {
 		if (file instanceof File) {
-			return this.uploadOne(file);
+			return this.uploadOne(file).pipe(take(1));
 		}
 
-		return of(file?.url ? file : null);
+		return of(file?.url ? file : null).pipe(take(1));
 	}
 
 	uploadOne(file: File): Observable<IFile> {

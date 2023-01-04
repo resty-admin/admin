@@ -22,6 +22,7 @@ export class UserDialogComponent implements OnInit {
 		name: "",
 		email: "",
 		password: "",
+		tel: "",
 		role: UserRoleEnum.CLIENT
 	});
 

@@ -4,7 +4,7 @@ import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { filter, firstValueFrom, switchMap, take } from "rxjs";
 import { AttributesService } from "src/app/features/attributes/";
-import type { ICategory } from "src/app/shared/interfaces";
+import type { IAttributeGroup } from "src/app/shared/interfaces";
 
 import { AttributeGroupTypeEnum } from "../../../../../graphql";
 import { RouterService } from "../../../../shared/modules/router";
@@ -23,7 +23,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 		name: "",
 		attributes: [[]],
 		maxItemsForPick: 0,
-		type: ""
+		type: AttributeGroupTypeEnum.Add
 	});
 
 	readonly attributeGroupTypes = Object.entries(AttributeGroupTypeEnum).map(([key, value]) => ({
@@ -63,7 +63,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(category: Partial<ICategory>) {
-		this._dialogRef.close({ ...this.data, ...category });
+	closeDialog(attributeGroup: Partial<IAttributeGroup>) {
+		this._dialogRef.close({ ...this.data, ...attributeGroup });
 	}
 }

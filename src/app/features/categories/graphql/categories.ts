@@ -21,7 +21,15 @@ export interface CategoriesQuery {
 					id: string;
 					name: string;
 					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-					products?: { __typename?: "ProductEntity"; name: string; price: number }[] | null;
+					products?:
+						| {
+								__typename?: "ProductEntity";
+								name: string;
+								price: number;
+								attrsGroups?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
+								file?: { __typename?: "FileEntity"; url: string } | null;
+						  }[]
+						| null;
 			  }[]
 			| null;
 	};
@@ -77,6 +85,13 @@ export const CategoriesDocument = gql`
 				products {
 					name
 					price
+					attrsGroups {
+						id
+						name
+					}
+					file {
+						url
+					}
 				}
 			}
 			page

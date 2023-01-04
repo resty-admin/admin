@@ -17,7 +17,7 @@ export class CategoriesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (category?: ICategory) => this.openCreateOrUpdateCategoryDialog(category)
+			func: (category?: ICategory) => this.openCreateOrUpdateCategoryDialog(category).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -27,7 +27,7 @@ export class CategoriesService {
 					return;
 				}
 
-				this.openDeleteCategoryDialog(category);
+				this.openDeleteCategoryDialog(category).subscribe();
 			}
 		}
 	];
@@ -51,11 +51,17 @@ export class CategoriesService {
 	}
 
 	openCreateOrUpdateCategoryDialog(data?: any) {
-		return this._dialogService
-			.openFormDialog(CategoryDialogComponent, { data })
-			.pipe(
-				switchMap((category: any) => (category.id ? this.updateCategory(category) : this.createCategory(category)))
-			);
+		return this._dialogService.openFormDialog(CategoryDialogComponent, { data }).pipe(
+			switchMap((category: any) =>
+				category.id
+					? this.updateCategory({
+							id: category.id,
+							name: category.name,
+							file: category.file
+					  })
+					: this.createCategory(category)
+			)
+		);
 	}
 
 	openDeleteCategoryDialog(category: ICategory) {
@@ -71,10 +77,7 @@ export class CategoriesService {
 
 	createCategory(category: CreateCategoryInput) {
 		return this._filesService.getFile(category.file).pipe(
-			tap((file) => {
-				console.log(file);
-			}),
-			switchMap((file) => this._createCategoryGQL.mutate({ category: { ...category, file } })),
+			switchMap((file) => this._createCategoryGQL.mutate({ category: { ...category, file: file?.id } })),
 			take(1),
 			this._toastrService.observe("Категория"),
 			tap(async () => {
@@ -84,7 +87,8 @@ export class CategoriesService {
 	}
 
 	updateCategory(category: UpdateCategoryInput) {
-		return this._updateCategoryGQL.mutate({ category }).pipe(
+		return this._filesService.getFile(category.file).pipe(
+			switchMap((file) => this._updateCategoryGQL.mutate({ category: { ...category, file: file?.id } })),
 			take(1),
 			this._toastrService.observe("Категория"),
 			tap(async () => {

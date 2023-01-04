@@ -3,7 +3,7 @@ query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 		page
 		totalCount
 		data {
-			orderCode
+			code
 			id
 		}
 	}
@@ -12,7 +12,7 @@ query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 mutation CreateOrder($order: CreateOrderInput!) {
 	createOrder(order: $order) {
 		id
-		orderCode
+		code
 		status
 		type
 	}
@@ -21,7 +21,7 @@ mutation CreateOrder($order: CreateOrderInput!) {
 mutation UpdateOrder($order: UpdateOrderInput!) {
 	updateOrder(order: $order) {
 		id
-		orderCode
+		code
 		status
 		type
 	}

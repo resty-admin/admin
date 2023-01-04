@@ -16,7 +16,7 @@ export class CommandsService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (command?: ICommand) => this.openCreateOrUpdateCommandDialog(command)
+			func: (command?: ICommand) => this.openCreateOrUpdateCommandDialog(command).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -26,7 +26,7 @@ export class CommandsService {
 					return;
 				}
 
-				this.openDeleteCommandDialog(command);
+				this.openDeleteCommandDialog(command).subscribe();
 			}
 		}
 	];
@@ -49,9 +49,17 @@ export class CommandsService {
 	}
 
 	openCreateOrUpdateCommandDialog(data?: any) {
-		return this._dialogService
-			.openFormDialog(CommandDialogComponent, { data })
-			.pipe(switchMap((command: any) => (command.id ? this.updateCommand(command) : this.createCommand(command))));
+		return this._dialogService.openFormDialog(CommandDialogComponent, { data }).pipe(
+			switchMap((command: any) =>
+				command.id
+					? this.updateCommand({
+							id: command.id,
+							name: command.name,
+							description: command.description
+					  })
+					: this.createCommand(command)
+			)
+		);
 	}
 
 	openDeleteCommandDialog(command: ICommand) {

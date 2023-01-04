@@ -17,14 +17,28 @@
 			</button>
 		</p>
 
-		<app-select
-			[formControl]="companyControl"
-			[options]="companies"
-			class="select"
-			placeholder="Выберите компанию"
-			bindLabel="name"
-			bindValue="id"
-		></app-select>
+		<div class="container">
+			<app-select
+				[formControl]="companyControl"
+				[options]="companies"
+				class="select"
+				placeholder="Выберите компанию"
+				bindLabel="name"
+				bindValue="id"
+			></app-select>
+
+			<button
+				appIconButton
+				class="button"
+				theme="1"
+				[tippy]="companiesActionsTemplate"
+				[data]="companyControl.value"
+				placement="left"
+				variation="popper"
+			>
+				<app-icon class="icon" name="more"></app-icon>
+			</button>
+		</div>
 	</div>
 
 	<div class="place">
@@ -34,14 +48,27 @@
 				<app-icon class="icon" name="add"></app-icon>
 			</button>
 		</p>
-		<app-select
-			[formControl]="placeControl"
-			[options]="places"
-			class="select"
-			placeholder="Выберите заведение"
-			bindLabel="name"
-			bindValue="id"
-		></app-select>
+		<div class="container">
+			<app-select
+				[formControl]="placeControl"
+				[options]="places"
+				class="select"
+				placeholder="Выберите заведение"
+				bindLabel="name"
+				bindValue="id"
+			></app-select>
+			<button
+				appIconButton
+				class="button"
+				theme="1"
+				[tippy]="placesActionsTemplate"
+				[data]="placeControl.value"
+				placement="left"
+				variation="popper"
+			>
+				<app-icon class="icon" name="more"></app-icon>
+			</button>
+		</div>
 	</div>
 
 	<nav class="nav">
@@ -69,3 +96,11 @@
 		<p class="tel">+38 095 748 98 45</p>
 	</div>
 </aside>
+
+<ng-template #companiesActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="companiesActions" [data]="getCompanyById(data)" [additionalFunc]="hide"></app-actions>
+</ng-template>
+
+<ng-template #placesActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="placesActions" [data]="getPlaceById(data)" [additionalFunc]="hide"></app-actions>
+</ng-template>

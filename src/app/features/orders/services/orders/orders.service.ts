@@ -16,7 +16,7 @@ export class OrdersService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (order?: IOrder) => this.openCreateOrUpdateOrderDialog(order)
+			func: (order?: IOrder) => this.openCreateOrUpdateOrderDialog(order).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -26,7 +26,7 @@ export class OrdersService {
 					return;
 				}
 
-				this.openDeleteOrderDialog(order);
+				this.openDeleteOrderDialog(order).subscribe();
 			}
 		}
 	];

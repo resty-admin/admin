@@ -17,7 +17,7 @@ export class TablesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (table?: ITable) => this.openCreateOrUpdateTableDialog(table)
+			func: (table?: ITable) => this.openCreateOrUpdateTableDialog(table).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -27,7 +27,7 @@ export class TablesService {
 					return;
 				}
 
-				this.openDeleteTableDialog(table);
+				this.openDeleteTableDialog(table).subscribe();
 			}
 		}
 	];
@@ -51,9 +51,18 @@ export class TablesService {
 	}
 
 	openCreateOrUpdateTableDialog(data?: any) {
-		return this._dialogService
-			.openFormDialog(TableDialogComponent, { data })
-			.pipe(switchMap((table: any) => (table.id ? this.updateTable(table) : this.createTable(table))));
+		return this._dialogService.openFormDialog(TableDialogComponent, { data }).pipe(
+			switchMap((table: any) =>
+				table.id
+					? this.updateTable({
+							id: table.id,
+							name: table.name,
+							file: table.file,
+							code: Number.parseInt(table.code)
+					  })
+					: this.createTable(table)
+			)
+		);
 	}
 
 	openDeleteTableDialog(table: ITable) {
@@ -69,7 +78,7 @@ export class TablesService {
 
 	createTable(table: CreateTableInput) {
 		return this._filesService.getFile(table.file).pipe(
-			switchMap((file) => this._createTableGQL.mutate({ table: { ...table, file } })),
+			switchMap((file) => this._createTableGQL.mutate({ table: { ...table, file: file?.id } })),
 			take(1),
 			this._toastrService.observe("Залы"),
 			tap(async () => {
@@ -79,7 +88,8 @@ export class TablesService {
 	}
 
 	updateTable(table: UpdateTableInput) {
-		return this._updateTableGQL.mutate({ table }).pipe(
+		return this._filesService.getFile(table.file).pipe(
+			switchMap((file) => this._updateTableGQL.mutate({ table: { ...table, file: file?.id } })),
 			take(1),
 			this._toastrService.observe("Залы"),
 			tap(async () => {
