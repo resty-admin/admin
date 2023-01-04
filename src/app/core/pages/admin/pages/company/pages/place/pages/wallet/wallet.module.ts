@@ -8,13 +8,14 @@ import { InputModule } from "src/app/shared/ui/input";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { CardsFeatureModule } from "../../../../../../../../../features/cards/cards.feature.module";
+import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
-import { WALLET_COMPONENTS } from "./components";
 import { WalletComponent } from "./layout/wallet.component";
 import { WalletRoutingModule } from "./wallet-routing.module";
 
 @NgModule({
-	declarations: [WalletComponent, ...WALLET_COMPONENTS],
+	declarations: [WalletComponent],
 	imports: [
 		CommonModule,
 		WalletRoutingModule,
@@ -25,7 +26,9 @@ import { WalletRoutingModule } from "./wallet-routing.module";
 		InputModule,
 		ImageModule,
 		TooltipModule,
-		ActionsModule
+		ActionsModule,
+		TranslocoModule,
+		CardsFeatureModule
 	],
 	exports: [WalletComponent]
 })

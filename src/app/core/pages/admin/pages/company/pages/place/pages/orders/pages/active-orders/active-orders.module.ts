@@ -4,6 +4,7 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 
+import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { ButtonModule } from "../../../../../../../../../../../shared/ui/button";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
@@ -20,7 +21,8 @@ import { ActiveOrdersComponent } from "./layout/active-orders.component";
 		ImageModule,
 		ButtonModule,
 		ActionsModule,
-		TooltipModule
+		TooltipModule,
+		TranslocoModule
 	]
 })
 export class ActiveOrdersModule {}

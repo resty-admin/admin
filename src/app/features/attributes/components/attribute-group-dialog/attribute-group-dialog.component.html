@@ -1,41 +1,44 @@
-<div class="attribute-dialog">
-	<h1 appTypography theme="2" class="title">
-		{{ data.id ? "Редактировать группу модификацию" : "Добавить группу модификацию" }}
-	</h1>
+<div class="attribute-dialog" *transloco="let t">
+	<h1 appTypography theme="2" class="title">{{ t("ATTRIBUTE_DIALOG_" + (data ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" label="Название" placeholder="Введите название" formControlName="name"></app-input>
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+		></app-input>
 
 		<app-select
 			class="input"
-			label="Модификации"
-			placeholder="Выберите модификации"
 			formControlName="attributes"
+			bindLabel="name"
+			bindValue="value"
+			[label]="t('FORM.ATTRIBUTES_LABEL')"
+			[placeholder]="t('FORM.ATTRIBUTES_PLACEHOLDER')"
 			[options]="attributes$ | async"
 			[searchable]="true"
 			[addTag]="addTag"
-			bindLabel="name"
-			bindValue="value"
 			[multiple]="true"
 		></app-select>
 
 		<app-select
 			class="input"
-			label="Тип"
-			placeholder="Выберите тип"
 			formControlName="type"
-			[options]="attributeGroupTypes"
 			bindLabel="name"
 			bindValue="value"
+			[options]="attributeGroupTypes"
+			[label]="t('FORM.TYPE_LABEL')"
+			[placeholder]="t('FORM.TYPE_PLACEHOLDER')"
 		></app-select>
 
 		<app-input
 			class="input"
-			label="Макс. кол-во выбранных элементов"
-			placeholder="Введите количество"
 			formControlName="maxItemsForPick"
+			[label]="t('FORM.MAX_ITEMS_LABEL')"
+			[placeholder]="t('FORM.MAX_ITEMS_PLACEHOLDER')"
 		></app-input>
 
-		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON_" + (data ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

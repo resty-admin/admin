@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { SelectModule } from "src/app/shared/ui/select";
 
+import { I18nModule } from "../../shared/modules/i18n";
 import { ButtonModule } from "../../shared/ui/button";
 import { FileModule } from "../../shared/ui/file";
 import { InputModule } from "../../shared/ui/input";
@@ -20,7 +21,8 @@ import { PRODUCTS_COMPONENTS } from "./components";
 		FileModule,
 		SelectModule,
 		ReactiveFormsModule,
-		TextareaModule
+		TextareaModule,
+		I18nModule
 	],
 	exports: PRODUCTS_COMPONENTS
 })

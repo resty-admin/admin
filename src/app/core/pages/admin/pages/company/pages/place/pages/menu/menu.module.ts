@@ -11,6 +11,7 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { MultipleCheckboxModule } from "../../../../../../../../../shared/ui/multiple-checkbox";
 import { MenuComponent } from "./layout/menu.component";
 import { MenuRoutingModule } from "./menu-routing.module";
@@ -30,7 +31,8 @@ import { MenuRoutingModule } from "./menu-routing.module";
 		SelectModule,
 		IconModule,
 		DatepickerModule,
-		MultipleCheckboxModule
+		MultipleCheckboxModule,
+		I18nModule
 	],
 	exports: [MenuComponent]
 })

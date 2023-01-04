@@ -1,9 +1,9 @@
-<div class="orders-page">
-	<h1 appTypography theme="1" class="title">Заказы</h1>
+<div class="orders-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("ORDERS.TITLE") }}</h1>
 
 	<button appButton theme="1" class="add" (click)="openOrderDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить Заказ</span>
+		<span class="text">{{ t("BUTTON.ADD") }}</span>
 	</button>
 
 	<ul class="links">

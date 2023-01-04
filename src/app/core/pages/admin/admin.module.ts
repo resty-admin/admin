@@ -11,6 +11,7 @@ import { LanguageSelectModule } from "src/app/shared/ui/language-select";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../shared/modules/i18n";
 import { ActionsModule } from "../../../shared/ui/actions";
 import { LinkModule } from "../../../shared/ui/link";
 import { TooltipModule } from "../../../shared/ui/tooltip";
@@ -35,7 +36,8 @@ import { AdminComponent } from "./layout/admin.component";
 		DirectivesModule,
 		PipesModule,
 		TooltipModule,
-		LinkModule
+		LinkModule,
+		I18nModule
 	]
 })
 export class AdminModule {}

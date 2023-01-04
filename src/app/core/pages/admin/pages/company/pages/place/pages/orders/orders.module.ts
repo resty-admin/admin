@@ -8,6 +8,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { DatepickerModule } from "../../../../../../../../../shared/ui/datepicker";
 import { OrdersComponent } from "./layout/orders.component";
 import { OrderRoutingModule } from "./orders-routing.module";
@@ -24,7 +25,8 @@ import { OrderRoutingModule } from "./orders-routing.module";
 		ButtonModule,
 		DatepickerModule,
 		RadioButtonModule,
-		IconModule
+		IconModule,
+		I18nModule
 	]
 })
 export class OrdersModule {}

@@ -7,12 +7,11 @@ import { I18nModule } from "../../shared/modules/i18n";
 import { ButtonModule } from "../../shared/ui/button";
 import { FileModule } from "../../shared/ui/file";
 import { InputModule } from "../../shared/ui/input";
-import { ToggleModule } from "../../shared/ui/toggle";
 import { TypographyModule } from "../../shared/ui/typography";
-import { ATTRIBUTES_COMPONENTS } from "./components";
+import { CARDS_COMPONENTS } from "./components";
 
 @NgModule({
-	declarations: ATTRIBUTES_COMPONENTS,
+	declarations: CARDS_COMPONENTS,
 	imports: [
 		CommonModule,
 		ButtonModule,
@@ -21,9 +20,8 @@ import { ATTRIBUTES_COMPONENTS } from "./components";
 		FileModule,
 		SelectModule,
 		ReactiveFormsModule,
-		ToggleModule,
 		I18nModule
 	],
-	exports: ATTRIBUTES_COMPONENTS
+	exports: CARDS_COMPONENTS
 })
-export class AttributesFeatureModule {}
+export class CardsFeatureModule {}

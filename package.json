@@ -28,7 +28,9 @@
 		"docs:json": "compodoc -p ./tsconfig.json -e json -d .",
 		"storybook": "yarn docs:json && start-storybook -p 6006",
 		"build-storybook": "yarn docs:json && build-storybook",
-		"codegen": "graphql-codegen --config codegen.ts"
+		"codegen": "graphql-codegen --config codegen.ts",
+		"i18n:extract": "transloco-keys-manager extract --unflat",
+		"i18n:find": "transloco-keys-manager find"
 	},
 	"private": true,
 	"dependencies": {
@@ -101,6 +103,8 @@
 		"@graphql-codegen/typescript": "^2.8.5",
 		"@graphql-codegen/typescript-apollo-angular": "3.5.6",
 		"@graphql-codegen/typescript-operations": "^2.5.10",
+		"@ngneat/transloco-keys-manager": "^3.5.0",
+		"@ngneat/transloco-validator": "^3.0.1",
 		"@nguniversal/builders": "15.0.0",
 		"@storybook/addon-actions": "^6.5.15",
 		"@storybook/addon-essentials": "^6.5.15",

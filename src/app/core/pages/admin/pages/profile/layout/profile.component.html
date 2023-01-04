@@ -1,21 +1,43 @@
 <div class="profile-page" *ngIf="user$ | async as user">
-	<h1 appTypography theme="1" class="title">Личный кабинет</h1>
+	<ng-container *transloco="let t">
+		<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
 
-	<div class="info">
-		<p class="name">{{ user.name }}</p>
-		<p class="role">{{ user.role }}</p>
-	</div>
+		<div class="info">
+			<p class="name">{{ user.name }}</p>
+			<p class="role">{{ user.role }}</p>
+		</div>
 
-	<form class="form">
-		<app-input label="Имя" class="input name" theme="2" placeholder="Введите имя"></app-input>
-		<app-input label="Телефон" class="input tel" theme="2" placeholder="Введите телефон"></app-input>
-		<app-input label="Почта" class="input email" theme="2" placeholder="Введите почту"></app-input>
-		<app-input label="Роль" class="input role" theme="2" placeholder="Выберите роль"></app-input>
+		<form class="form">
+			<app-input
+				class="input name"
+				theme="2"
+				[label]="t('FORM.NAME_LABEL')"
+				[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				class="input tel"
+				theme="2"
+				[label]="t('FORM.TEL_LABEL')"
+				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				class="input email"
+				theme="2"
+				[label]="t('FORM.EMAIL_LABEL')"
+				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				class="input role"
+				theme="2"
+				[label]="t('FORM.ROLE_LABEL')"
+				[placeholder]="t('FORM.ROLE_PLACEHOLDER')"
+			></app-input>
 
-		<button class="submit">Сохранить</button>
+			<button class="submit">{{ t("BUTTON.SUBMIT") }}</button>
 
-		<app-image class="image" name="profile"></app-image>
-	</form>
+			<app-image class="image" name="profile"></app-image>
+		</form>
 
-	<button class="delete">Удалить профиль</button>
+		<button class="delete">{{ t("PROFILE.DELETE_PROFILE") }}</button>
+	</ng-container>
 </div>

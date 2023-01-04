@@ -1,18 +1,20 @@
-<div class="payment-system-dialog">
-	<form [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+<div class="accounting-system-dialog" *transloco="let t">
+	<p appTypography theme="2" class="title">{{ t("PAYMENT_SYSTEMS.TITLE") }}</p>
+
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
-			label="Публичный ключ"
 			formControlName="publicKey"
-			placeholder="Введите публичный ключ"
+			[label]="t('FORM.PUBLIC_KEY_LABEL')"
+			[placeholder]="t('FORM.PUBLIC_KEY_DESCRIPTION')"
 		></app-input>
 		<app-input
 			class="input"
-			label="Приватный ключ"
 			formControlName="privateKey"
-			placeholder="Введите приватный ключ"
+			[label]="t('FORM.PRIVATE_KEY_LABEL')"
+			[placeholder]="t('FORM.PRIVATE_KEY_DESCRIPTION')"
 		></app-input>
 
-		<button appButton type="submit">submit</button>
+		<button class="submit">{{ t("PAYMENT_SYSTEMS.CONNECT") }}</button>
 	</form>
 </div>

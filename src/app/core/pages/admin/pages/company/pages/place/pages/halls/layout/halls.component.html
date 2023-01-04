@@ -1,12 +1,12 @@
-<div class="halls-page">
-	<h1 appTypography theme="1" class="title">Залы</h1>
+<div class="halls-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("HALLS.TITLE") }}</h1>
 
 	<button appButton class="add" (click)="openCreateHallDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить</span>
+		<span class="text">{{ t("BUTTON.ADD") }}</span>
 	</button>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
+	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
 	<ul class="halls">
 		<li class="hall" *ngFor="let hall of halls$ | async">

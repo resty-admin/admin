@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { TablesComponent } from "./layout/tables.component";
@@ -26,7 +27,8 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		ImageModule,
 		ActionsModule,
 		TooltipModule,
-		TablesFeatureModule
+		TablesFeatureModule,
+		TranslocoModule
 	]
 })
 export class TablesModule {}

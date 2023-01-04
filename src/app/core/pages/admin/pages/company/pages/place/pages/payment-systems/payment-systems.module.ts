@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 
@@ -22,7 +23,8 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		DatatableModule,
 		ButtonModule,
 		IconModule,
-		ImageModule
+		ImageModule,
+		TranslocoModule
 	]
 })
 export class PaymentSystemsModule {}

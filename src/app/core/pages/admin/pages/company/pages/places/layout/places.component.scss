@@ -32,19 +32,6 @@
 				padding: rem(82) rem(100);
 			}
 
-			.title {
-				font-weight: 600;
-				font-size: rem(24);
-				line-height: rem(32);
-				letter-spacing: 0.04em;
-				color: var(--dark);
-
-				@include desktop() {
-					font-size: rem(40);
-					line-height: rem(48);
-				}
-			}
-
 			.places {
 				display: flex;
 				justify-content: center;
@@ -85,7 +72,7 @@
 								height: rem(24);
 
 								@include icon(var(--primary), var(--primary));
-								@include desktop () {
+								@include desktop() {
 									width: rem(32);
 									height: rem(32);
 								}

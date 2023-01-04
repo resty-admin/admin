@@ -1,10 +1,10 @@
-<div class="categories-page">
+<div class="categories-page" *transloco="let t">
 	<button appButton class="add" (click)="openCreateCategoryDialog()">
 		<app-icon class="icon" name="add"></app-icon>
 		<span class="text">Добавить категорию</span>
 	</button>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
+	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
 	<button class="filters">
 		<app-icon class="icon" name="filters"></app-icon>

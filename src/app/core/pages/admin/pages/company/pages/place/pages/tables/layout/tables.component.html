@@ -1,12 +1,12 @@
-<div class="tables-page">
-	<h1 appTypography theme="1" class="title">Столы</h1>
+<div class="tables-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("TABLES.TITLE") }}</h1>
 
 	<button appButton class="add" (click)="openCreateTableDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить</span>
+		<span class="text">{{ t("BUTTON.ADD") }}</span>
 	</button>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
+	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
 	<ul class="tables">
 		<li class="table" *ngFor="let table of tables$ | async">

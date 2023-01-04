@@ -1,17 +1,17 @@
-<div class="shift-page">
-	<h1 appTypography theme="1" class="title">Смена</h1>
+<div class="shift-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("SHIFT.TITLE") }}</h1>
 
 	<p class="description">
-		Смена завершится через
+		{{ t("SHIFT.END") }}
 		<br />
 		<span class="time">12ч 34м</span>
 	</p>
 
-	<h2 appTypography theme="3" class="subtitle">Выберите столы, чтобы открыть смену</h2>
+	<h2 appTypography theme="3" class="subtitle">{{ t("SHIFT.SUBTITLE") }}</h2>
 
 	<ul class="halls">
 		<li class="hall">
-			<button class="button">Все</button>
+			<button class="button">{{ t("BUTTON.ALL") }}</button>
 		</li>
 		<li class="hall" *ngFor="let hall of halls$ | async">
 			<button class="button">
@@ -42,6 +42,6 @@
 			</li>
 		</ul>
 
-		<button class="submit">Подтвердить {{ selectedTables.length }} стола</button>
+		<button class="submit">{{ t("BUTTON.SUBMIT") }}</button>
 	</footer>
 </div>

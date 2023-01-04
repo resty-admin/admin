@@ -2,7 +2,8 @@ import { environment } from "../../../environments/environment";
 
 export const I18N_CONFIG = {
 	prodMode: environment.production,
-	url: `${environment.assetsUrl}/i18n/`,
+	// url: `${environment.assetsUrl}/i18n/`,
+	url: `assets/i18n/`,
 	availableLangs: ["uk", "ru", "en"],
 	fallbackLang: ["ru", "en"],
 	defaultLang: "ru",

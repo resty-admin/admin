@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from "./layout/dashboard.component";
 
@@ -22,7 +23,8 @@ import { DashboardComponent } from "./layout/dashboard.component";
 		DatatableModule,
 		ButtonModule,
 		IconModule,
-		ImageModule
+		ImageModule,
+		I18nModule
 	],
 	exports: [DashboardComponent]
 })

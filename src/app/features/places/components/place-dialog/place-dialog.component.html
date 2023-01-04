@@ -1,11 +1,26 @@
-<div class="place-dialog">
-	<p appTypography theme="2" class="title">{{ data.id ? "Редактировать заведение" : "Добавить заведение" }}</p>
+<div class="place-dialog" *transloco="let t">
+	<h1 appTypography theme="2" class="title">{{ t("PLACE_" + (data ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" formControlName="name" label="Название" placeholder="Введите название"></app-input>
-		<app-input class="input" formControlName="address" label="Адресс" placeholder="Введите адресс"></app-input>
-		<app-file class="input" formControlName="file" label="Картинка" placeholder="Загрузить картинку"></app-file>
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="address"
+			[label]="t('FORM.ADDRESS_LABEL')"
+			[placeholder]="t('FORM.ADDRESS_PLACEHOLDER')"
+		></app-input>
+		<app-file
+			class="input"
+			formControlName="file"
+			[label]="t('FORM.FILE_LABEL')"
+			[placeholder]="t('FORM.FILE_PLACEHOLDER')"
+		></app-file>
 
-		<button class="submit">{{ data.id ? "Редактировать" : "Создать" }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON_" + (data ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

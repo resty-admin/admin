@@ -1,36 +1,51 @@
-<div class="product-dialog">
-	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать блюдо" : "Добавить блюдо" }}</h1>
+<div class="product-dialog" *transloco="let t">
+	<h1 appTypography theme="2" class="title">{{ t("PRODUCT_" + (data ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" label="Название" placeholder="Введите название" formControlName="name"></app-input>
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+		></app-input>
 		<app-textarea
 			class="input"
-			label="Описание"
-			placeholder="Введите описание"
 			formControlName="description"
+			[label]="t('FORM.DESCRIPTION_LABEL')"
+			[placeholder]="t('FORM.DESCRIPTION_PLACEHOLDER')"
 		></app-textarea>
-		<app-input class="input" label="Цена" placeholder="Введите цену" formControlName="price"></app-input>
-		<app-file class="input" label="Изображение" placeholder="Выберите изображение" formControlName="file"></app-file>
-		<app-select
-			[options]="categories$ | async"
+		<app-input
 			class="input"
-			label="Категория"
-			placeholder="Выберите категорию"
+			formControlName="price"
+			[label]="t('FORM.PRICE_LABEL')"
+			[placeholder]="t('FORM.PRICE_PLACEHOLDER')"
+		></app-input>
+		<app-file
+			class="input"
+			formControlName="file"
+			[label]="t('FORM.FILE_LABEL')"
+			[placeholder]="t('FORM.FILE_PLACEHOLDER')"
+		></app-file>
+		<app-select
+			class="input"
 			bindLabel="name"
 			bindValue="id"
 			formControlName="category"
+			[label]="t('FORM.CATEGORY_LABEL')"
+			[placeholder]="t('FORM.CATEGORY_PLACEHOLDER')"
+			[options]="categories$ | async"
 		></app-select>
 		<app-select
-			[options]="attributeGroups$ | async"
 			class="input"
-			label="Группы атрибутов"
-			placeholder="Выберите группы атрибутов"
 			bindLabel="name"
 			bindValue="id"
 			formControlName="attrsGroups"
+			[label]="t('FORM.ATTRIBUTE_GROUPS_LABEL')"
+			[placeholder]="t('FORM.ATTRIBUTE_GROUPS_PLACEHOLDER')"
+			[options]="attributeGroups$ | async"
 			[multiple]="true"
 		></app-select>
 
-		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON_" + data ? "EDIT" : "CREATE") }}</button>
 	</form>
 </div>

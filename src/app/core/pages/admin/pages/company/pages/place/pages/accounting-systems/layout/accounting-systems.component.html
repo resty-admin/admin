@@ -1,7 +1,7 @@
-<div class="accounting-systems-page">
-	<h1 appTypography class="title" theme="1">Системы учета</h1>
+<div class="accounting-systems-page" *transloco="let t">
+	<h1 appTypography class="title" theme="1">{{ t("ACCOUNTING_SYSTEMS.TITLE") }}</h1>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
+	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
 	<ul class="accounting-systems">
 		<li class="accounting-system" *ngFor="let accountingSystem of accountingSystems$ | async">

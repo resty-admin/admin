@@ -1,19 +1,39 @@
-<div class="user-dialog">
-	<p appTypography theme="2" class="title">{{ data ? "Редактировать пользователя" : "Добавить пользователя" }}</p>
+<div class="user-dialog" *transloco="let t">
+	<h1 appTypography theme="2" class="title">{{ t("USER_" + (data ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" label="Имя" placeholder="Введите имя" formControlName="name"></app-input>
-		<app-input class="input" label="Почта" placeholder="Введите почту" formControlName="email"></app-input>
-		<app-input class="input" label="Телефон" placeholder="Введите телефон" formControlName="tel"></app-input>
-		<app-input class="input" label="Пароль" placeholder="Введите пароль" formControlName="password"></app-input>
-		<app-select
-			[options]="roles"
+		<app-input
 			class="input"
-			label="Роль"
-			placeholder="Выберите роль"
+			formControlName="name"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="email"
+			[label]="t('FORM.EMAIL_LABEL')"
+			[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="tel"
+			[label]="t('FORM.TEL_LABEL')"
+			[placeholder]="t('FORM.TEL_PLACEHOLDER')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="password"
+			[label]="t('FORM.PASSWORD_LABEL')"
+			[placeholder]="t('FORM.PASSWORD_PLACEHOLDER')"
+		></app-input>
+		<app-select
+			class="input"
 			formControlName="role"
+			[options]="roles"
+			[label]="t('FORM.ROLE_LABEL')"
+			[placeholder]="t('FORM.ROLE_PLACEHOLDER')"
 		></app-select>
 
-		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON_" + (data ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

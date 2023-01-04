@@ -1,1 +1,145 @@
-{}
+{
+	"ASIDE": {
+		"COMPANIES": "Компании",
+		"PLACES": "Заведения",
+		"SUPPORT": "Поддержка",
+		"DASHBOARD": "Дешборд",
+		"SHIFT": "Смена",
+		"ORDERS": "Заказы",
+		"MENU": "Меню",
+		"HALLS": "Залы",
+		"USERS": "Пользователи",
+		"COMMANDS": "Команды",
+		"WALLET": "Кошелек",
+		"CONTRACT": "Контракт",
+		"ACCOUNTING_SYSTEMS": "Системы учета",
+		"PAYMENT_SYSTEMS": "Платежные системы"
+	},
+	"FORM": {
+		"COMPANY_LABEL": "Компания",
+		"COMPANY_PLACEHOLDER": "Выберите компанию",
+		"PLACE_LABEL": "Заведение",
+		"PLACE_PLACEHOLDER": "Выберите заведение",
+		"SEARCH_LABEL": "Поиск",
+		"SEARCH_PLACEHOLDER": "Начните писать",
+		"NAME_LABEL": "Имя",
+		"NAME_PLACEHOLDER": "Введите имя",
+		"TEL_LABEL": "Телефон",
+		"TEL_PLACEHOLDER": "Введите телефон",
+		"EMAIL_LABEL": "Почта",
+		"EMAIL_PLACEHOLDER": "Введите телефон",
+		"ROLE_LABEL": "Роль",
+		"ROLE_PLACEHOLDER": "Выберить роль",
+		"PASSWORD_LABEL": "Пароль",
+		"PASSWORD_PLACEHOLDER": "Введите пароль",
+		"PUBLIC_KEY_LABEL": "Публичный ключ",
+		"PUBLIC_KEY_DESCRIPTION": "Введите публичный ключ",
+		"PRIVATE_KEY_LABEL": "Приватный ключ",
+		"PRIVATE_KEY_DESCRIPTION": "Введите приватный ключ",
+		"PRICE_LABEL": "Цена",
+		"PRICE_PLACEHOLDER": "Введите цену",
+		"ATTRIBUTES_LABEL": "Аттрибуты",
+		"ATTRIBUTES_PLACEHOLDER": "Выберите аттрибуты",
+		"TYPE_LABEL": "Тип",
+		"TYPE_PLACEHOLDER": "Выберите тип",
+		"MAX_ITEMS_LABEL": "Максимальное кол-во элементов",
+		"MAX_ITEMS_PLACEHOLDER": "Введите кол-во",
+		"FILE_LABEL": "Файл",
+		"FILE_PLACEHOLDER": "Загрузите файл",
+		"DESCRIPTION_LABEL": "Описание",
+		"DESCRIPTION_PLACEHOLDER": "Введите описание",
+		"CODE_LABEL": "Код",
+		"CODE_PLACEHOLDER": "Введите код",
+		"ADDRESS_LABEL": "Адрес",
+		"ADDRESS_PLACEHOLDER": "Введите адрес",
+		"CATEGORY_LABEL": "Категория",
+		"CATEGORY_PLACEHOLDER": "Выберите категорию",
+		"ATTRIBUTE_GROUPS_LABEL": "Группа атрибутов",
+		"ATTRIBUTE_GROUPS_PLACEHOLDER": "Выберите группу атрибутов"
+	},
+	"COMPANIES": {
+		"TITLE": "Компании"
+	},
+	"ACCOUNTING_SYSTEMS": {
+		"TITLE": "Системы учета",
+		"CONNECT": "Подключиться"
+	},
+	"COMMANDS": {
+		"TITLE": "Комманды"
+	},
+	"BUTTON": {
+		"ADD": "Добавить",
+		"SIGN": "Подписать",
+		"ALL": "Все",
+		"SUBMIT": "Подтвердить"
+	},
+	"CONTRACT": {
+		"TITLE": "Контракт"
+	},
+	"DASHBOARD": {
+		"TITLE": "Дешборд",
+		"MONEY_LABEL": "Деньги",
+		"COMISSION_LABEL": "Коммисия",
+		"STATUS_LABEL": "Статус",
+		"STATUS_DESCRIPTION": "Статус деск",
+		"STATUS_INFO": "Статус инфо",
+		"CHANGE_STATUS": "Изменить статус"
+	},
+	"HALLS": {
+		"TITLE": "Залы"
+	},
+	"MENU": {
+		"TITLE": "Меню"
+	},
+	"ORDERS": {
+		"TITLE": "Заказы"
+	},
+	"PAYMENT_SYSTEMS": {
+		"TITLE": "Платежные системы",
+		"CONNECT": "Подключить"
+	},
+	"SHIFT": {
+		"TITLE": "Смена",
+		"END": "Заканчивает в",
+		"SUBTITLE": "..."
+	},
+	"TABLES": {
+		"TITLE": "Столы"
+	},
+	"USERS": {
+		"TITLE": "Пользователи"
+	},
+	"DATATABLE": {
+		"NAME": "Имя",
+		"EMAIL": "Почта",
+		"TEL": "Телефон",
+		"ROLE": "Роль"
+	},
+	"WALLET": {
+		"TITLE": "Кошелек",
+		"MONEY_LABEL": "Деньги",
+		"COMISSION_LABEL": "Комиссия",
+		"DATE_LABEL": "Дата",
+		"CARDS": "Карты"
+	},
+	"PLACES": {
+		"TITLE": "Заведения"
+	},
+	"PROFILE": {
+		"TITLE": "Профиль",
+		"DELETE_PROFILE": "Удалить профиль"
+	},
+	"AUTH": {
+		"PRIVACY_POLICY": "Privacy Policy",
+		"FORGOT_PASSWORD": "Забыли пароль",
+		"SIGN_IN": "Вход",
+		"SIGN_UP": "Регистрация",
+		"RESET_PASSWORD": "Сбросить пароль",
+		"OR": "Или",
+		"GOOGLE": "Google",
+		"TELEGRAM": "Telegram",
+		"PRIVACY_POLICY_DESCRIPTION": "Политика Безопасности"
+	},
+	"EDIT": "Редактировать",
+	"CREATE": "Создать"
+}

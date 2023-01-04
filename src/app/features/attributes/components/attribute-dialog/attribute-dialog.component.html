@@ -1,10 +1,20 @@
-<div class="attribute-dialog">
-	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать модификацию" : "Добавить модификацию" }}</h1>
+<div class="attribute-dialog" *transloco="let t">
+	<h1 appTypography theme="2" class="title">{{ t("ATTRIBUTE_" + (data ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" label="Название" placeholder="Введите название" formControlName="name"></app-input>
-		<app-input class="input" label="Цена" placeholder="Введите цену" formControlName="price"></app-input>
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="price"
+			[label]="t('FORM.PRICE_LABEL')"
+			[placeholder]="t('FORM.PRICE_PLACEHOLDER')"
+		></app-input>
 
-		<button class="submit" appButton type="submit">{{ data ? "Редактировать" : "Добавить" }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON_" + (data ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

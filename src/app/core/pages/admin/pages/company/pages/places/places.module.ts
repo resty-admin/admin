@@ -5,6 +5,7 @@ import { ButtonModule } from "src/app/shared/ui/button";
 import { IconModule } from "src/app/shared/ui/icon";
 
 import { PlacesFeatureModule } from "../../../../../../../features/places";
+import { I18nModule } from "../../../../../../../shared/modules/i18n";
 import { ImageModule } from "../../../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../../../shared/ui/typography";
 import { PlacesComponent } from "./layout/places.component";
@@ -20,7 +21,8 @@ import { PlacesRoutingModule } from "./places-routing.module";
 		ButtonModule,
 		PipesModule,
 		TypographyModule,
-		PlacesFeatureModule
+		PlacesFeatureModule,
+		I18nModule
 	]
 })
 export class PlacesModule {}

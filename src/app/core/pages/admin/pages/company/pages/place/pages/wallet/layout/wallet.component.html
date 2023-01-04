@@ -1,24 +1,24 @@
-<div class="wallet-page">
-	<h1 appTypography theme="1" class="title">Кошелек</h1>
+<div class="wallet-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("WALLET.TITLE") }}</h1>
 
 	<div class="money">
 		<p class="money-value">40 000 грн</p>
-		<p class="money-label">Заработано за месяц с нами</p>
+		<p class="money-label">{{ t("WALLET.MONEY_LABEL") }}</p>
 		<span class="first-divider"></span>
 		<p class="commission-value">5% = 2 000 грн</p>
-		<p class="commission-label">Комиссия</p>
+		<p class="commission-label">{{ t("WALLET.COMISSION_LABEL") }}</p>
 		<span class="second-divider"></span>
 		<p class="date-value">15.10.22</p>
-		<p class="date-label">Перевод средств</p>
+		<p class="date-label">{{ t("WALLET.DATE_LABEL") }}</p>
 
 		<app-image class="image" name="wallet"></app-image>
 	</div>
 
-	<h2 appTypography theme="3" class="subtitle">Карты</h2>
+	<h2 appTypography theme="3" class="subtitle">{{ t("WALLET.CARDS") }}</h2>
 
 	<button appButton class="add" (click)="openCardDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить</span>
+		<span class="text">{{ t("BUTTON.ADD") }}</span>
 	</button>
 
 	<ul class="cards">

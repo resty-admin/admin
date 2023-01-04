@@ -1,5 +1,5 @@
-<div class="active-orders-page">
-	<app-input class="search"></app-input>
+<div class="active-orders-page" *transloco="let t">
+	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
 	<button class="filters">
 		<app-icon class="icon" name="filters"></app-icon>

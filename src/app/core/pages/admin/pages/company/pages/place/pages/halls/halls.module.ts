@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { HallsRoutingModule } from "./halls-routing.module";
@@ -26,7 +27,8 @@ import { HallsComponent } from "./layout/halls.component";
 		ImageModule,
 		ActionsModule,
 		TooltipModule,
-		DirectivesModule
+		DirectivesModule,
+		TranslocoModule
 	]
 })
 export class HallsModule {}

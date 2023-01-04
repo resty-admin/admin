@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { PipesModule } from "src/app/shared/modules/pipes";
 
 import { CompaniesFeatureModule } from "../../../../../features/companies";
+import { I18nModule } from "../../../../../shared/modules/i18n";
 import { IconModule } from "../../../../../shared/ui/icon";
 import { ImageModule } from "../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../shared/ui/typography";
@@ -18,7 +19,8 @@ import { CompaniesComponent } from "./layout/companies.component";
 		ImageModule,
 		PipesModule,
 		TypographyModule,
-		CompaniesFeatureModule
+		CompaniesFeatureModule,
+		I18nModule
 	]
 })
 export class CompaniesModule {}

@@ -47,7 +47,7 @@
 				font-size: rem(16);
 				line-height: rem(24);
 				color: var(--dark);
-				align-self: end;
+				align-self: flex-end;
 			}
 			.description {
 				grid-area: description;
@@ -91,11 +91,10 @@
 			}
 			.container {
 				display: flex;
-				align-items: center;
+				align-items: flex-end;
 				column-gap: rem(5);
 				.button {
 					background-color: var(--light-grey);
-					height: 100%;
 				}
 				.select {
 					flex: 1;

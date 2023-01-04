@@ -1,10 +1,10 @@
-<div class="products-page">
+<div class="products-page" *transloco="let t">
 	<button appButton class="add" (click)="openCreateProductDialog()">
 		<app-icon class="icon" name="add"></app-icon>
 		<span class="text">Добавить Блюдо</span>
 	</button>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
+	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
 	<button class="filters">
 		<app-icon class="icon" name="filters"></app-icon>

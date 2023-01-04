@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { filter, take } from "rxjs";
 import { DialogService } from "src/app/shared/ui/dialog";
 
+import { CardDialogComponent } from "../../../../../../../../../../features/cards/components";
 import type { IAction } from "../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { CardDialogComponent } from "../components";
 
 @Component({
 	selector: "app-wallet",

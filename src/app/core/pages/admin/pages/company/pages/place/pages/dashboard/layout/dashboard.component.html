@@ -1,14 +1,14 @@
-<div class="dashboard">
-	<h1 appTypography theme="1" class="title">Дешборд</h1>
+<div class="dashboard" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("DASHBOARD.TITLE") }}</h1>
 
 	<div class="money">
 		<p class="money-value">40 000 грн</p>
-		<p class="money-label">Заработано за месяц с нами</p>
+		<p class="money-label">{{ t("DASHBOARD.MONEY_LABEL") }}</p>
 
 		<div class="divider"></div>
 
 		<p class="comission-value">5% = 2 000 грн</p>
-		<p class="comission-label">Комиссия</p>
+		<p class="comission-label">{{ t("DASHBOARD.COMISSION_LABEL") }}</p>
 
 		<app-image class="image" name="dashboard"></app-image>
 	</div>
@@ -26,10 +26,10 @@
 	</ul>
 
 	<div class="status">
-		<p class="status-type">Тестовый</p>
-		<p class="description">Статус заведения</p>
+		<p class="status-type">{{ t("DASHBOARD.STATUS_LABEL") }}</p>
+		<p class="description">{{ t("DASHBOARD.STATUS_DESCRIPTION") }}</p>
 
-		<p class="info">Чтобы открыться - подпишите договор и добавьте карту</p>
-		<button class="button">Изменить статус</button>
+		<p class="info">{{ t("DASHBOARD.STATUS_INFO") }}</p>
+		<button class="button">{{ t("DASHBOARD.CHANGE_STATUS") }}</button>
 	</div>
 </div>

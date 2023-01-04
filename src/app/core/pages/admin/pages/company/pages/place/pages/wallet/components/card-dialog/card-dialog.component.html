@@ -1,9 +1,0 @@
-<div class="card-dialog">
-	<h1 appTypography theme="2" class="title">{{ data ? "Редактировать карту" : "Добавить карту" }}</h1>
-
-	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input class="input" formControlName="name"></app-input>
-
-		<button class="submit" appButton type="submit">Добавить</button>
-	</form>
-</div>

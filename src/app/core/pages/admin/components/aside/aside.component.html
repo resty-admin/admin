@@ -1,4 +1,4 @@
-<aside class="aside">
+<aside class="aside" *transloco="let t">
 	<a class="user" *ngIf="user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="emitLinkClicked()">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>
@@ -11,7 +11,7 @@
 
 	<div class="company">
 		<p class="title">
-			<span class="text">Компании</span>
+			<span class="text">{{ t("ASIDE.COMPANIES") }}</span>
 			<button appIconButton class="button" (click)="emitAddCompanyClicked()">
 				<app-icon class="icon" name="add"></app-icon>
 			</button>
@@ -19,22 +19,23 @@
 
 		<div class="container">
 			<app-select
-				[formControl]="companyControl"
-				[options]="companies"
 				class="select"
-				placeholder="Выберите компанию"
 				bindLabel="name"
 				bindValue="id"
+				[label]="t('FORM.COMPANY_LABEL')"
+				[placeholder]="t('FORM.COMPANY_PLACEHOLDER')"
+				[formControl]="companyControl"
+				[options]="companies"
 			></app-select>
 
 			<button
 				appIconButton
 				class="button"
 				theme="1"
-				[tippy]="companiesActionsTemplate"
-				[data]="companyControl.value"
 				placement="left"
 				variation="popper"
+				[tippy]="companiesActionsTemplate"
+				[data]="companyControl.value"
 			>
 				<app-icon class="icon" name="more"></app-icon>
 			</button>
@@ -43,28 +44,29 @@
 
 	<div class="place">
 		<p class="title">
-			<span class="text">Заведения</span>
+			<span class="text">{{ t("ASIDE.PLACES") }}</span>
 			<button appIconButton class="button" (click)="emitAddPlaceClicked()">
 				<app-icon class="icon" name="add"></app-icon>
 			</button>
 		</p>
 		<div class="container">
 			<app-select
-				[formControl]="placeControl"
-				[options]="places"
 				class="select"
-				placeholder="Выберите заведение"
 				bindLabel="name"
 				bindValue="id"
+				[label]="t('FORM.PLACE_LABEL')"
+				[placeholder]="t('FORM.PLACE_PLACEHOLDER')"
+				[formControl]="placeControl"
+				[options]="places"
 			></app-select>
 			<button
 				appIconButton
 				class="button"
 				theme="1"
-				[tippy]="placesActionsTemplate"
-				[data]="placeControl.value"
 				placement="left"
 				variation="popper"
+				[tippy]="placesActionsTemplate"
+				[data]="placeControl.value"
 			>
 				<app-icon class="icon" name="more"></app-icon>
 			</button>
@@ -78,13 +80,13 @@
 					appLink
 					class="link"
 					theme="0"
-					[routerLink]="page.routerLink"
 					routerLinkActive="active"
+					[routerLink]="page.routerLink"
 					(click)="emitLinkClicked()"
 					[class.disabled]="page.disabled"
 				>
 					<app-icon class="icon" [name]="page.icon"></app-icon>
-					<span class="label">{{ page.label }}</span>
+					<span class="label">{{ t("ASIDE." + page.label) }}</span>
 				</a>
 			</li>
 		</ul>
@@ -92,7 +94,7 @@
 
 	<div class="support">
 		<app-icon class="icon" name="support"></app-icon>
-		<p class="label">Поддержка</p>
+		<p class="label">{{ t("ASIDE.SUPPORT") }}</p>
 		<p class="tel">+38 095 748 98 45</p>
 	</div>
 </aside>

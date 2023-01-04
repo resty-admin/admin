@@ -10,6 +10,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { CategoriesRoutingModule } from "./categories-routing.module";
@@ -30,7 +31,8 @@ import { CategoriesComponent } from "./layout/categories.component";
 		TooltipModule,
 		ActionsModule,
 		TippyDirective,
-		CategoriesFeatureModule
+		CategoriesFeatureModule,
+		TranslocoModule
 	]
 })
 export class CategoriesModule {}

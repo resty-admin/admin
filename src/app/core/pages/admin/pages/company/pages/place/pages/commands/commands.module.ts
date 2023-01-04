@@ -7,6 +7,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { CommandsRoutingModule } from "./commands-routing.module";
 import { CommandsComponent } from "./layout/commands.component";
 
@@ -20,7 +21,8 @@ import { CommandsComponent } from "./layout/commands.component";
 		ButtonModule,
 		IconModule,
 		ActionsModule,
-		TooltipModule
+		TooltipModule,
+		TranslocoModule
 	]
 })
 export class CommandsModule {}

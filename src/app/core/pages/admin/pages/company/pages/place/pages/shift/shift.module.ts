@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { ShiftComponent } from "./layout/shift.component";
 import { ShiftRoutingModule } from "./shift-routing.module";
 
@@ -22,7 +23,8 @@ import { ShiftRoutingModule } from "./shift-routing.module";
 		DatatableModule,
 		ButtonModule,
 		ImageModule,
-		IconModule
+		IconModule,
+		I18nModule
 	]
 })
 export class ShiftModule {}

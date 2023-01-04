@@ -13,6 +13,7 @@ import { SelectModule } from "src/app/shared/ui/select";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ToggleModule } from "../../../../../../../../../../../shared/ui/toggle";
 import { AttributesRoutingModule } from "./attributes-routing.module";
 import { AttributesComponent } from "./layout/attributes.component";
@@ -34,7 +35,8 @@ import { AttributesComponent } from "./layout/attributes.component";
 		ActionsModule,
 		TippyDirective,
 		ToggleModule,
-		AttributesFeatureModule
+		AttributesFeatureModule,
+		TranslocoModule
 	]
 })
 export class AttributesModule {}

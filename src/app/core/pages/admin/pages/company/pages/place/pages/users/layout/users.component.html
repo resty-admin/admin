@@ -1,12 +1,12 @@
-<div class="users-page">
-	<h1 appTypography theme="1" class="title">Пользователи</h1>
+<div class="users-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("USERS.TITLE") }}</h1>
 
 	<button appButton class="add" (click)="openCreateUserDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить</span>
+		<span class="text">{{ t("BUTTON.ADD") }}</span>
 	</button>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
+	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 	<app-select class="role" placeholder="Выберите роль"></app-select>
 
 	<!--desktop-->
@@ -17,16 +17,16 @@
 		<li class="user" *ngFor="let user of users$ | async">
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: user }"></ng-container>
 
-			<p class="name-label">ФИО</p>
+			<p class="name-label">{{ t("DATATABLE.NAME") }}</p>
 			<p class="name-value">{{ user.name }}</p>
 
-			<p class="email-label">Почта</p>
+			<p class="email-label">{{ t("DATATABLE.EMAIL") }}</p>
 			<p class="email-value">{{ user.email }}</p>
 
-			<p class="tel-label">Телефон</p>
+			<p class="tel-label">{{ t("DATATABLE.TEL") }}</p>
 			<p class="tel-value">{{ user.tel }}</p>
 
-			<p class="role-label">Роль</p>
+			<p class="role-label">{{ t("DATATABLE.ROLE") }}</p>
 			<p class="role-value">{{ user.role }}</p>
 		</li>
 	</ul>

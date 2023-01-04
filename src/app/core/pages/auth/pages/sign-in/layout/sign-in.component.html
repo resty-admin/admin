@@ -3,47 +3,56 @@
 
 	<app-card theme="1" class="card">
 		<app-image class="logo" name="logo"></app-image>
+
 		<form class="form" [formGroup]="form" [ngSwitch]="typeControl.value" (ngSubmit)="signIn(form.value)">
 			<app-radio-button class="radio-button" theme="1" [options]="types" [formControl]="typeControl"></app-radio-button>
 
 			<app-input
-				class="input"
 				*ngSwitchCase="'email'"
+				class="input"
 				type="email"
-				placeholder="Введите почту"
 				formControlName="email"
+				[label]="t('FORM.EMAIL_LABEL')"
+				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				*ngSwitchCase="'tel'"
+				class="input"
+				type="tel"
+				formControlName="tel"
+				[label]="t('FORM.TEL_LABEL')"
+				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input"
-				*ngSwitchCase="'tel'"
-				type="tel"
-				placeholder="Введите тел"
-				formControlName="tel"
+				type="password"
+				formControlName="password"
+				[label]="t('FORM.PASSWORD_LABEL')"
+				[placeholder]="t('FORM.PASSWORD_PLACEHOLDER')"
 			></app-input>
-			<app-input class="input" type="password" placeholder="Введите пароль" formControlName="password"></app-input>
 
 			<div class="social-medias">
-				<p class="label">Или через:</p>
+				<p class="label">{{ t("AUTH.OR") }}</p>
 				<button appButton theme="2" class="button" type="button">
 					<app-icon class="icon" name="google"></app-icon>
-					<span class="text">Google</span>
+					<span class="text">{{ t("AUTH.GOOGLE") }}</span>
 				</button>
 				<button appButton theme="2" class="button" type="button">
 					<app-icon class="icon" name="telegram"></app-icon>
-					<span class="text">Telegram</span>
+					<span class="text">{{ t("AUTH.TELEGRAM") }}</span>
 				</button>
 			</div>
 
-			<button appButton class="submit">Войти</button>
+			<button appButton class="submit">{{ t("AUTH.SIGN_IN") }}</button>
 		</form>
 
 		<div class="links">
-			<a appLink [routerLink]="adminRoutes.SIGN_UP.absolutePath" class="link">Зарегестрироваться</a>
-			<a appLink [routerLink]="adminRoutes.FORGOT_PASSWORD.absolutePath" class="link">Восстановить пароль</a>
+			<a appLink [routerLink]="adminRoutes.SIGN_UP.absolutePath" class="link">{{ t("AUTH.SIGN_UP") }}</a>
+			<a appLink [routerLink]="adminRoutes.FORGOT_PASSWORD.absolutePath" class="link">{{
+				t("AUTH.FORGOT_PASSWORD")
+			}}</a>
 		</div>
 
-		<p class="privacy-policy">
-			Нажимая на кнопку вы соглашаетесь с правилами обработки персональных данных и политикой конфидициальности сервиса
-		</p>
+		<p class="privacy-policy">{{ t("AUTH.PRIVACY_POLICY_DESCRIPTION") }}</p>
 	</app-card>
 </div>
