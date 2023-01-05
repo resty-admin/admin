@@ -60,7 +60,7 @@ export class TablesService {
 							file: table.file,
 							code: Number.parseInt(table.code)
 					  })
-					: this.createTable(table)
+					: this.createTable({ ...table, code: Number.parseInt(table.code) })
 			)
 		);
 	}

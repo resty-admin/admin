@@ -34,3 +34,8 @@
 		}
 	}
 }
+@include dark () {
+	.app-confirmation-dialog .value {
+		color: var(--light);
+	}
+}

@@ -22,7 +22,7 @@ export interface ProductsQuery {
 					name: string;
 					id: string;
 					description?: string | null;
-					category: { __typename?: "CategoryEntity"; name: string };
+					category?: { __typename?: "CategoryEntity"; name: string } | null;
 					file?: { __typename?: "FileEntity"; url: string; id: string } | null;
 			  }[]
 			| null;

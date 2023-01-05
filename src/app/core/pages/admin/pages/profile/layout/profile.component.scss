@@ -10,6 +10,17 @@
 			row-gap: rem(32);
 		}
 
+		.header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.tools {
+				display: flex;
+				align-items: center;
+				column-gap: rem(15);
+			}
+		}
+
 		.info {
 			display: grid;
 			padding-left: rem(16);
@@ -34,6 +45,13 @@
 			background-color: var(--light-grey);
 			border-radius: rem(16);
 			row-gap: rem(12);
+			grid-template-areas:
+				"name"
+				"email"
+				"tel"
+				"role"
+				"submit"
+				"image";
 
 			@include desktop() {
 				grid-template-areas:
@@ -61,9 +79,13 @@
 				grid-area: submit;
 				align-self: start;
 				justify-self: start;
+				width: 100%;
+
+				@include desktop () {
+					width: auto;
+				}
 			}
 			.image {
-				height: rem(140);
 				grid-area: image;
 				align-self: end;
 
@@ -88,9 +110,10 @@
 			line-height: rem(16);
 			text-decoration-line: underline;
 			color: #393939;
-			text-align: left;
+			text-align: center;
 
 			@include desktop() {
+				text-align: left;
 				font-size: rem(13);
 			}
 		}

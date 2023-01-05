@@ -3,21 +3,21 @@
 @include page() {
 	.halls-page {
 		display: grid;
-		align-items: center;
+		align-items: end;
 		grid-template-areas:
-			"title ."
-			"search add"
-			"halls halls";
+			"title add add"
+			"search search filters"
+			"halls halls halls";
 		row-gap: rem(16);
 		column-gap: rem(8);
 		grid-template-columns: 1fr auto;
 
-		@include pagePadding ();
+		@include pagePadding();
 		@include desktop() {
 			grid-template-areas:
-				"title add"
-				"search search"
-				"halls halls";
+				"title add add"
+				"search search filters"
+				"halls halls halls";
 			row-gap: rem(32);
 		}
 
@@ -31,6 +31,23 @@
 
 		.search {
 			grid-area: search;
+		}
+
+		.filters {
+			grid-area: filters;
+			width: rem(48);
+			height: rem(48);
+			border: rem(1) solid var(--primary);
+			border-radius: rem(12);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.icon {
+				width: rem(20);
+				height: rem(20);
+
+				@include icon(var(--primary), var(--primary));
+			}
 		}
 
 		.halls {
@@ -81,20 +98,14 @@
 	}
 }
 @include dark() {
-	.halls-page {
-		.halls {
-			.hall {
-				.link {
-					background-color: var(--dark-grey);
-					.content {
-						.label {
-							color: var(--light);
-						}
-						.description {
-							color: var(--grey);
-						}
-					}
-				}
+	.halls-page .halls .hall .link {
+		background-color: var(--dark-grey);
+		.content {
+			.label {
+				color: var(--light);
+			}
+			.description {
+				color: var(--grey);
 			}
 		}
 	}

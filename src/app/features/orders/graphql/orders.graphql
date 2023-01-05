@@ -5,6 +5,11 @@ query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 		data {
 			code
 			id
+			status
+			users {
+				id
+				name
+			}
 		}
 	}
 }

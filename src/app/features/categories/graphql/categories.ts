@@ -24,6 +24,7 @@ export interface CategoriesQuery {
 					products?:
 						| {
 								__typename?: "ProductEntity";
+								id: string;
 								name: string;
 								price: number;
 								attrsGroups?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
@@ -83,6 +84,7 @@ export const CategoriesDocument = gql`
 					url
 				}
 				products {
+					id
 					name
 					price
 					attrsGroups {

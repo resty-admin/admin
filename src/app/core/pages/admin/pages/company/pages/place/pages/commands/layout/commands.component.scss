@@ -3,10 +3,10 @@
 @include page() {
 	.commands-page {
 		display: grid;
-		align-items: center;
+		align-items: end;
 		grid-template-areas:
-			"title title"
-			"search add"
+			"title add"
+			"search search"
 			"commands commands";
 		grid-template-columns: 1fr auto;
 		gap: rem(16);

@@ -3,7 +3,7 @@
 @include page() {
 	.attributes-page {
 		display: grid;
-		align-items: center;
+		align-items: end;
 		grid-template-areas:
 			"add add add"
 			"search search filters"

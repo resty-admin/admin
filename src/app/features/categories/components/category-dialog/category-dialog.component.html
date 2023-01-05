@@ -1,5 +1,5 @@
 <div class="category-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("CATEGORY_" + (data ? "EDIT" : "CREATE")) }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("CATEGORY." + (data ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
@@ -15,6 +15,6 @@
 			[placeholder]="t('FORM.FILE_PLACEHOLDER')"
 		></app-file>
 
-		<button class="submit" appButton type="submit">{{ t("BUTTON_" + (data ? "EDIT" : "CREATE")) }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON." + (data ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

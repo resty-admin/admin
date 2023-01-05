@@ -10,14 +10,8 @@
 			<app-image class="image" placeholder="table" [remote]="true" [name]="order.table"></app-image>
 
 			<div class="info">
-				<p class="label">{{ order.hall }} Зал №1, Стол №1</p>
-				<ul class="guests">
-					<li class="guest" *ngFor="let user of order.users">
-						<p class="name">{{ user.name }}</p>
-					</li>
-				</ul>
-
-				<a class="button" appButton theme="2">Ожидают</a>
+				<p class="code">{{ order.code }}</p>
+				<p class="status">{{ order.status }}</p>
 			</div>
 
 			<button

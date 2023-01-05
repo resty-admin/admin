@@ -1,10 +1,10 @@
 <div class="company-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("COMPANY_" + (data ? "EDIT" : "CREATE")) }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("COMPANY." + (data ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-file class="input" label="Логотип" formControlName="logo" placeholder="Загрузите логотип"></app-file>
 		<app-input class="input" label="Название" formControlName="name" placeholder="Введите название"></app-input>
 
-		<button class="submit" appButton type="submit">{{ t("BUTTON_" + (data ? "EDIT" : "CREATE")) }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON." + (data ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

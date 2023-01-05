@@ -3,7 +3,7 @@
 @include page() {
 	.categories-page {
 		display: grid;
-		align-items: center;
+		align-items: end;
 		grid-template-areas:
 			"add add add"
 			"search search filters"
@@ -40,7 +40,6 @@
 				@include icon(var(--primary), var(--primary));
 			}
 		}
-
 		.categories {
 			display: grid;
 			grid-area: categories;
@@ -126,37 +125,31 @@
 	}
 }
 @include dark() {
-	.categories-page {
-		.categories {
-			.category {
-				.header {
-					background-color: var(--dark-grey);
+	.categories-page .categories .category {
+		.header {
+			background-color: var(--dark-grey);
+		}
+
+		.products .product {
+			border-color: var(--light-b);
+
+			.name-label,
+			.description-label,
+			.price-label {
+				color: var(--light-t);
+			}
+
+			.name-value,
+			.description-value,
+			.price-value {
+				color: var(--light);
+				&.description-value {
+					color: var(--light-t);
 				}
+			}
 
-				.products {
-					.product {
-						border-color: var(--light-b);
-
-						.name-label,
-						.description-label,
-						.price-label {
-							color: var(--light-t);
-						}
-
-						.name-value,
-						.description-value,
-						.price-value {
-							color: var(--light);
-							&.description-value {
-								color: var(--light-t);
-							}
-						}
-
-						.more {
-							background-color: var(--dark-grey);
-						}
-					}
-				}
+			.more {
+				background-color: var(--dark-grey);
 			}
 		}
 	}

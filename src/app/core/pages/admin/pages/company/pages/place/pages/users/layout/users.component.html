@@ -7,8 +7,10 @@
 	</button>
 
 	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
-	<app-select class="role" placeholder="Выберите роль"></app-select>
 
+	<button class="filters">
+		<app-icon class="icon" name="filters"></app-icon>
+	</button>
 	<!--desktop-->
 	<app-datatable class="datatable-desktop" [rows]="users$ | async" [columns]="columns"></app-datatable>
 

@@ -50,7 +50,7 @@ body {
 								line-height: rem(24);
 								color: var(--dark);
 
-								@include noWrap ();
+								@include noWrap();
 							}
 						}
 					}
@@ -69,6 +69,30 @@ body {
 					color: var(--dark);
 				}
 			}
+			.datatable-pager .pager {
+				display: flex;
+				justify-content: end;
+				column-gap: rem(5);
+				.pages {
+					&:hover:not(.active) a {
+						border-color: var(--primary);
+					}
+					&.active a {
+						background-color: var(--primary);
+					}
+					a {
+						width: rem(25);
+						height: rem(25);
+						border-radius: rem(6);
+						background-color: var(--light-grey);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						border: rem(1) solid transparent;
+						color: var(--dark);
+					}
+				}
+			}
 		}
 	}
 
@@ -81,10 +105,24 @@ body {
 				color: var(--light);
 			}
 		}
-		.datatable-footer .datatable-footer-inner {
-			border-top-color: var(--light-b);
-			.page-count {
-				color: var(--light);
+		.datatable-footer {
+			.datatable-footer-inner {
+				border-top-color: var(--light-b);
+				.page-count {
+					color: var(--light);
+				}
+			}
+			.datatable-pager .pager .pages {
+				&:hover:not(.active) a {
+					border-color: var(--primary);
+				}
+				&.active a {
+					background-color: var(--primary);
+				}
+				a {
+					background-color: var(--dark-grey);
+					color: var(--light);
+				}
 			}
 		}
 	}

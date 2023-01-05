@@ -1,6 +1,13 @@
 <div class="profile-page" *ngIf="user$ | async as user">
 	<ng-container *transloco="let t">
-		<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
+		<div class="header">
+			<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
+
+			<div class="tools">
+				<app-language-select class="language"></app-language-select>
+				<app-theme class="theme"></app-theme>
+			</div>
+		</div>
 
 		<div class="info">
 			<p class="name">{{ user.name }}</p>

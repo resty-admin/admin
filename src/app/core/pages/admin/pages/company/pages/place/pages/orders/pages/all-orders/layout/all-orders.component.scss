@@ -9,6 +9,7 @@
 		row-gap: rem(16);
 		column-gap: rem(8);
 		grid-template-columns: 1fr auto;
+		align-items: end;
 
 		.search {
 			grid-area: search;
@@ -30,32 +31,21 @@
 			}
 		}
 		.datatable-desktop {
+			@include hideOnMobile();
 			grid-area: datatable;
-			display: none;
-
-			&::ng-deep {
-				.datatable-row-odd .more {
-					background-color: var(--light-grey);
-				}
-			}
-
-			@include desktop() {
-				display: block;
+			&::ng-deep .datatable-row-odd .more {
+				background-color: var(--light-grey);
 			}
 		}
 		.datatable-mobile {
+			@include hideOnDesktop ();
 			grid-area: datatable;
-
-			@include desktop() {
-				display: none;
-			}
-
 			.order {
 				border-radius: rem(16);
 				padding: rem(20) rem(16);
 				display: grid;
 				grid-template-areas:
-					"code code"
+					"code more"
 					"date-label role-label"
 					"date-value role-value"
 					"button button";
@@ -63,10 +53,8 @@
 
 				&:nth-child(2n + 1) {
 					background-color: var(--light-grey);
-					.action {
-						border-color: transparent;
-						background-color: var(--primary);
-						color: var(--dark);
+					.more {
+						background-color: var(--light);
 					}
 				}
 
@@ -114,23 +102,21 @@
 						}
 					}
 				}
-			}
-		}
 
-		.action {
-			border: rem(1) solid var(--primary);
-			grid-area: button;
-			padding: rem(7) rem(28);
-			border-radius: rem(8);
-			font-weight: 600;
-			font-size: rem(13);
-			line-height: rem(16);
-			color: var(--primary);
+				.more {
+					justify-self: end;
+				}
+			}
 		}
 	}
 }
 @include dark() {
 	.all-orders-page {
+		.datatable-desktop {
+			&::ng-deep .datatable-row-odd .more {
+				background-color: var(--dark-grey);
+			}
+		}
 		.datatable-mobile {
 			.order {
 				.code {
@@ -143,6 +129,9 @@
 
 				&:nth-child(2n + 1) {
 					background-color: var(--dark-grey);
+					.more {
+						background-color: var(--dark);
+					}
 				}
 			}
 		}

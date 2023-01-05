@@ -2,11 +2,8 @@
 
 @include page() {
 	.header {
-		display: grid;
-		align-items: center;
-		grid-auto-flow: column;
-		column-gap: rem(16);
-		grid-template-columns: 1fr auto auto auto;
+		display: flex;
+		justify-content: space-between;
 		padding: rem(8) rem(16);
 		background-color: var(--light-grey);
 		box-shadow: 0 rem(4) rem(20) rgb(0 0 0 / 10%);
@@ -26,7 +23,6 @@
 
 		.profile {
 			justify-self: end;
-			border-left: rem(1) solid var(--dark-b);
 			padding-left: rem(16);
 
 			@include hideOnMobile();

@@ -15,7 +15,15 @@ export interface OrdersQuery {
 		__typename?: "PaginatedActiveOrder";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "ActiveOrderEntity"; code: number; id: string }[] | null;
+		data?:
+			| {
+					__typename?: "ActiveOrderEntity";
+					code: number;
+					id: string;
+					status: Types.OrderStatusEnum;
+					users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -66,6 +74,11 @@ export const OrdersDocument = gql`
 			data {
 				code
 				id
+				status
+				users {
+					id
+					name
+				}
 			}
 		}
 	}

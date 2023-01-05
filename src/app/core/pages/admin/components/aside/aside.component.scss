@@ -95,6 +95,7 @@
 				column-gap: rem(5);
 				.button {
 					background-color: var(--light-grey);
+					height: rem(48);
 				}
 				.select {
 					flex: 1;
@@ -121,6 +122,9 @@
 						padding: rem(11);
 						border-radius: rem(8);
 						background-color: transparent;
+						&:hover {
+							background-color: var(--primary-t);
+						}
 						&.active {
 							background-color: var(--primary);
 						}
@@ -187,7 +191,6 @@
 	.aside {
 		background-color: var(--dark);
 		border-color: var(--light-b);
-
 		.user {
 			background-color: var(--dark-grey);
 			.name {
@@ -199,31 +202,28 @@
 		}
 		.company,
 		.place {
-			.title {
-				.text {
-					color: var(--light);
-				}
+			.title .text {
+				color: var(--light);
+			}
+			.container .button {
+				background-color: var(--dark-grey);
 			}
 		}
 		.nav {
 			border-color: var(--light-b);
-			.pages {
-				.page {
-					.link {
-						.label {
-							color: var(--light);
-						}
-						.icon {
-							@include icon(var(--light));
-						}
-						&.disabled {
-							span {
-								color: var(--light-b);
-							}
-							.icon {
-								@include icon(var(--light-b));
-							}
-						}
+			.pages .page .link {
+				.label {
+					color: var(--light);
+				}
+				.icon {
+					@include icon(var(--light));
+				}
+				&.disabled {
+					span {
+						color: var(--light-b);
+					}
+					.icon {
+						@include icon(var(--light-b));
 					}
 				}
 			}

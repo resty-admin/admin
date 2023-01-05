@@ -22,6 +22,8 @@ body {
 			padding: rem(10) rem(32);
 			background-color: var(--primary);
 			border-radius: rem(12);
+
+			@include noWrap ();
 			&:focus,
 			&:active,
 			&:hover {

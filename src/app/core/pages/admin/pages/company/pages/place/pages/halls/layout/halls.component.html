@@ -8,6 +8,10 @@
 
 	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
+	<button class="filters">
+		<app-icon class="icon" name="filters"></app-icon>
+	</button>
+
 	<ul class="halls">
 		<li class="hall" *ngFor="let hall of halls$ | async">
 			<a class="link" [routerLink]="hall.id">

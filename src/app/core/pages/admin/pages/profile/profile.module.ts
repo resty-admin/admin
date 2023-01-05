@@ -6,12 +6,24 @@ import { LinkModule } from "src/app/shared/ui/link";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { I18nModule } from "../../../../../shared/modules/i18n";
+import { ThemeModule } from "../../../../../shared/modules/theme";
+import { LanguageSelectModule } from "../../../../../shared/ui/language-select";
 import { ProfileComponent } from "./layout/profile.component";
 import { ProfileRoutingModule } from "./profile-routing.module";
 
 @NgModule({
 	declarations: [ProfileComponent],
-	imports: [CommonModule, ProfileRoutingModule, TypographyModule, LinkModule, InputModule, ImageModule, I18nModule],
+	imports: [
+		CommonModule,
+		ProfileRoutingModule,
+		TypographyModule,
+		LinkModule,
+		InputModule,
+		ImageModule,
+		I18nModule,
+		LanguageSelectModule,
+		ThemeModule
+	],
 	exports: [ProfileComponent]
 })
 export class ProfileModule {}

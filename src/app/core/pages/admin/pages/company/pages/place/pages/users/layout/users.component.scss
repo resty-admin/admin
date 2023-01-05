@@ -3,12 +3,11 @@
 @include page() {
 	.users-page {
 		display: grid;
-		align-items: center;
+		align-items: end;
 		grid-template-areas:
-			"title title"
-			"search add"
-			"role role"
-			"datatable datatable";
+			"title add add"
+			"search search filters"
+			"datatable datatable datatable";
 		grid-template-columns: 1fr auto;
 		row-gap: rem(16);
 		column-gap: rem(8);
@@ -16,15 +15,17 @@
 		@include pagePadding();
 		@include desktop() {
 			grid-template-areas:
-				"title add"
-				"search role"
-				"datatable datatable";
+				"title add add"
+				"search search filters"
+				"datatable datatable datatable";
 			row-gap: rem(32);
 			column-gap: rem(16);
 		}
 
 		.title {
 			grid-area: title;
+
+			@include noWrap ();
 		}
 		.add {
 			grid-area: add;
@@ -32,9 +33,23 @@
 		.search {
 			grid-area: search;
 		}
-		.role {
-			grid-area: role;
+		.filters {
+			grid-area: filters;
+			width: rem(48);
+			height: rem(48);
+			border: rem(1) solid var(--primary);
+			border-radius: rem(12);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.icon {
+				width: rem(20);
+				height: rem(20);
+
+				@include icon(var(--primary), var(--primary));
+			}
 		}
+
 		.datatable-desktop {
 			grid-area: datatable;
 			display: none;

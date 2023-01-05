@@ -9,6 +9,7 @@
 		row-gap: rem(16);
 		column-gap: rem(8);
 		grid-template-columns: 1fr auto;
+		align-items: end;
 
 		.search {
 			grid-area: search;
@@ -29,7 +30,6 @@
 				@include icon(var(--primary), var(--primary));
 			}
 		}
-
 		.orders {
 			display: grid;
 			grid-area: orders;
@@ -48,33 +48,27 @@
 					height: rem(160);
 					background-color: var(--dark);
 
-					@include image () {
+					@include image() {
 						border-radius: rem(12) rem(12) 0 0;
 					}
 				}
 
 				.info {
 					display: grid;
+					grid-template-areas: "code status";
 					row-gap: rem(6);
 					padding: rem(14) rem(16);
-					.label {
+					.code {
+						grid-area: code;
 						font-weight: 500;
 						font-size: rem(16);
 						line-height: rem(24);
-						color: var(--dark);
+						color: var(--light);
 					}
-					.guests {
-						.guest {
-							.name {
-								font-weight: 500;
-								font-size: rem(13);
-								line-height: rem(16);
-								color: var(--blue);
-							}
-						}
-					}
-					.button {
-						background-color: var(--light);
+					.status {
+						grid-area: status;
+						justify-self: end;
+						color: var(--grey);
 					}
 				}
 
@@ -91,12 +85,11 @@
 	.active-orders-page .orders .order {
 		background-color: var(--dark-grey);
 		.info {
-			.label {
+			.code {
 				color: var(--light);
 			}
-			.button {
-				color: var(--dark);
-				background-color: var(--light);
+			.status {
+				color: var(--grey);
 			}
 		}
 	}
