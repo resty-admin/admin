@@ -1,0 +1,16 @@
+query CategoriesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	categories(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+			products {
+				id
+				name
+				description
+				price
+			}
+		}
+	}
+}

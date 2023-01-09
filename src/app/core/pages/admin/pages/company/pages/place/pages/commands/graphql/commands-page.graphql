@@ -1,0 +1,10 @@
+query CommandsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	commands(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+}

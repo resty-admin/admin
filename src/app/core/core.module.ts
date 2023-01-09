@@ -1,6 +1,8 @@
-import { NgModule } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Injectable, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
+import type { Translation, TranslocoLoader } from "@ngneat/transloco";
 
 import { ApiModule } from "../shared/modules/api";
 import { ApolloModule } from "../shared/modules/apollo";
@@ -24,6 +26,7 @@ import { TooltipModule } from "../shared/ui/tooltip";
 import {
 	API_CONFIG,
 	APOLLO_CONFIG,
+	BROWSER_MODULE_CONFIG,
 	CRYPTO_CONFIG,
 	DATATABLE_CONFIG,
 	ERRORS_CONFIG,
@@ -36,21 +39,31 @@ import {
 	THEME_CONFIG,
 	TOASTR_CONFIG
 } from "./configs";
+import { CODE_INPUT_CONFIG } from "./configs/code-input.config";
 import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
+
+@Injectable({ providedIn: "root" })
+export class TranslocoHttpLoader implements TranslocoLoader {
+	constructor(private http: HttpClient) {}
+
+	getTranslation(lang: string) {
+		return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
+	}
+}
 
 @NgModule({
 	declarations: [CoreComponent],
 	imports: [
-		BrowserModule.withServerTransition({ appId: "serverApp" }),
+		BrowserModule.withServerTransition(BROWSER_MODULE_CONFIG),
 		CoreRoutingModule,
-		ProgressBarModule.forRoot(),
 		StoreModule,
+		DialogModule,
+		ProgressBarModule.forRoot(),
 		FilesModule.forRoot(),
 		FileModule.forRoot(FILE_CONFIG),
 		ApolloModule.forRoot(APOLLO_CONFIG),
 		ApiModule.forRoot(API_CONFIG),
-		I18nModule.forRoot(I18N_CONFIG),
 		ThemeModule.forRoot(THEME_CONFIG),
 		IconModule.forRoot(ICON_CONFIG),
 		ImageModule.forRoot(IMAGE_CONFIG),
@@ -58,11 +71,11 @@ import { CoreComponent } from "./layout/core.component";
 		CryptoModule.forRoot(CRYPTO_CONFIG),
 		ToastrModule.forRoot(TOASTR_CONFIG),
 		ErrorsModule.forRoot(ERRORS_CONFIG),
-		DialogModule,
 		DatatableModule.forRoot(DATATABLE_CONFIG),
 		SelectModule.forRoot(SELECT_CONFIG),
 		TooltipModule.forRoot(),
-		CodeInputModule.forRoot({ codeLength: 4, isCharsCode: false }),
+		CodeInputModule.forRoot(CODE_INPUT_CONFIG),
+		I18nModule.forRoot(I18N_CONFIG),
 		CookiesModule
 	],
 	exports: [CoreComponent]

@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { ICommand } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-command-dialog",
@@ -11,7 +10,7 @@ import type { ICommand } from "src/app/shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandDialogComponent implements OnInit {
-	readonly formGroup = this._formBuilder.group<Partial<ICommand>>({
+	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
 		description: ""
 	});
@@ -30,7 +29,7 @@ export class CommandDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(command: Partial<ICommand>) {
+	closeDialog(command: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...command });
 	}
 }

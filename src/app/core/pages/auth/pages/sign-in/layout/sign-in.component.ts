@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { take } from "rxjs";
-import type { ISignIn } from "src/app/shared/interfaces";
 import { RouterService } from "src/app/shared/modules/router";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 import { ToastrService } from "src/app/shared/ui/toastr";
@@ -46,7 +45,7 @@ export class SignInComponent implements OnInit {
 		});
 	}
 
-	signIn(formValue: ISignIn) {
+	signIn(formValue: any) {
 		this._authService
 			.signIn(formValue)
 			.pipe(take(1), this._toastrService.observe("Вход", "Вы успешно вошли"))

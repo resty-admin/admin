@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type OrdersQueryVariables = Types.Exact<{
 	take: Types.Scalars["Int"];
 	skip: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface OrdersQuery {
@@ -67,7 +67,7 @@ export interface DeleteOrderMutation {
 }
 
 export const OrdersDocument = gql`
-	query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	query Orders($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		orders(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			page
 			totalCount

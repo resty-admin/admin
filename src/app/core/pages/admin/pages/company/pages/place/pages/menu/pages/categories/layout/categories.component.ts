@@ -1,11 +1,13 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { map } from "rxjs";
 import { CategoriesService } from "src/app/features/categories";
 import { ProductsService } from "src/app/features/products";
 
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
+import { CategoriesPageGQL } from "../graphql/categories-page";
 
 @UntilDestroy()
 @Component({
@@ -14,17 +16,30 @@ import { RouterService } from "../../../../../../../../../../../../shared/module
 	styleUrls: ["./categories.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CategoriesComponent {
-	readonly categories$: Observable<any> = this._categoriesService.categories$;
-
+export class CategoriesComponent implements OnInit {
 	readonly productActions = this._productsService.actions;
 	readonly categoryActions = this._categoriesService.actions;
+
+	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
+	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
 
 	constructor(
 		private readonly _categoriesService: CategoriesService,
 		private readonly _productsService: ProductsService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _categoriesPageGQL: CategoriesPageGQL
 	) {}
+
+	ngOnInit() {
+		this._routerService
+			.selectParams(PLACE_ID.slice(1))
+			.pipe(untilDestroyed(this))
+			.subscribe(async (placeId) => {
+				await this._categoriesPageQuery.setVariables({
+					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+				});
+			});
+	}
 
 	openCreateCategoryDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));

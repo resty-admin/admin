@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { OrderTypeEnum } from "src/app/shared/enums";
-import type { IOrder } from "src/app/shared/interfaces";
 import { CryptoService } from "src/app/shared/modules/crypto";
 
 @Component({
@@ -13,7 +12,7 @@ import { CryptoService } from "src/app/shared/modules/crypto";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderDialogComponent implements OnInit {
-	readonly formGroup = this._formBuilder.group<Partial<IOrder>>({
+	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
 		code: 0,
 		type: OrderTypeEnum.IN_PLACE
@@ -37,7 +36,7 @@ export class OrderDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(order: Partial<IOrder>) {
+	closeDialog(order: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...order });
 	}
 }

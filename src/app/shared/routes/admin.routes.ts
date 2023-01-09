@@ -73,6 +73,14 @@ export const ADMIN_ROUTES = {
 		path: `users/${DYNAMIC_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/${DYNAMIC_ID}`
 	},
+	WORKERS: {
+		path: `workers`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/workers`
+	},
+	GUESTS: {
+		path: `guests`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/guests `
+	},
 	HALLS: {
 		path: `halls`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/halls`
@@ -95,11 +103,11 @@ export const ADMIN_ROUTES = {
 	},
 	ACTIVE_ORDERS: {
 		path: `active-orders`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/active-orders`
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/active-orders`
 	},
 	ALL_ORDERS: {
 		path: `all-orders`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/all-orders`
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/all-orders`
 	},
 	ORDER: {
 		path: `orders/${DYNAMIC_ID}`,

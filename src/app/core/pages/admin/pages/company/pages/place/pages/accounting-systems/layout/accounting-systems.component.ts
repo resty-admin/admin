@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { AccountingSystemsService } from "src/app/features/accounting-systems";
+import { map } from "rxjs";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
+
+import { AccountingSystemsPageGQL } from "../graphql/accounting-systems-page";
 
 @Component({
 	selector: "app-accounting-systems",
@@ -16,7 +18,11 @@ export class AccountingSystemsComponent {
 		}
 	];
 
-	readonly accountingSystems$ = this._accountingSystemsGQL.accountingSystems$;
+	private readonly _accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
 
-	constructor(private readonly _accountingSystemsGQL: AccountingSystemsService) {}
+	readonly accountingSystems$ = this._accountingSystemsPageQuery.valueChanges.pipe(
+		map((result) => result.data.accountingSystems.data)
+	);
+
+	constructor(private readonly _accountingSystemsPageGQL: AccountingSystemsPageGQL) {}
 }

@@ -1,0 +1,13 @@
+query WorkersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	users(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+			email
+			role
+			tel
+		}
+	}
+}

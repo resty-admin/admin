@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getScopeProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
@@ -29,6 +30,7 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		TooltipModule,
 		TablesFeatureModule,
 		TranslocoModule
-	]
+	],
+	providers: [getScopeProvider("tables", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class TablesModule {}

@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type HallsQueryVariables = Types.Exact<{
 	skip: Types.Scalars["Int"];
 	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface HallsQuery {
@@ -59,7 +59,7 @@ export interface DeleteHallMutation {
 }
 
 export const HallsDocument = gql`
-	query Halls($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	query Halls($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		halls(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			page
 			totalCount

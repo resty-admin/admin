@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { IProduct } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
-import type { CreateProductInput, UpdateProductInput } from "../../../../../graphql";
+import type { CreateProductInput, ProductEntity, UpdateProductInput } from "../../../../../graphql";
 import { FilesService } from "../../../../shared/modules/file";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
@@ -13,16 +12,20 @@ import { CreateProductGQL, DeleteProductGQL, ProductsGQL, UpdateProductGQL } fro
 
 @Injectable({ providedIn: "root" })
 export class ProductsService {
-	readonly actions: IAction<IProduct>[] = [
+	private readonly _productsQuery = this._productsGQL.watch({ skip: 0, take: 10 });
+
+	readonly products$ = this._productsQuery.valueChanges.pipe(map((result) => result.data.products.data));
+
+	readonly actions: IAction<ProductEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (product?: IProduct) => this.openCreateOrUpdateProductDialog(product).subscribe()
+			func: (product?: ProductEntity) => this.openCreateOrUpdateProductDialog(product).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (product?: IProduct) => {
+			func: (product?: ProductEntity) => {
 				if (!product) {
 					return;
 				}
@@ -31,10 +34,6 @@ export class ProductsService {
 			}
 		}
 	];
-
-	readonly products$ = this._productsGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.products.data));
 
 	constructor(
 		private readonly _productsGQL: ProductsGQL,
@@ -45,10 +44,6 @@ export class ProductsService {
 		private readonly _toastrService: ToastrService,
 		private readonly _filesService: FilesService
 	) {}
-
-	async refetch() {
-		await this._productsGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
 
 	openCreateOrUpdateProductDialog(data?: any) {
 		return this._dialogService.openFormDialog(ProductDialogComponent, { data }).pipe(
@@ -73,7 +68,7 @@ export class ProductsService {
 		);
 	}
 
-	openDeleteProductDialog(product: IProduct) {
+	openDeleteProductDialog(product: ProductEntity) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -90,7 +85,7 @@ export class ProductsService {
 			take(1),
 			this._toastrService.observe("Продукты"),
 			tap(async () => {
-				await this.refetch();
+				await this._productsQuery.refetch();
 			})
 		);
 	}
@@ -101,7 +96,7 @@ export class ProductsService {
 			take(1),
 			this._toastrService.observe("Продукты"),
 			tap(async () => {
-				await this.refetch();
+				await this._productsQuery.refetch();
 			})
 		);
 	}
@@ -111,7 +106,7 @@ export class ProductsService {
 			take(1),
 			this._toastrService.observe("Продукты"),
 			tap(async () => {
-				await this.refetch();
+				await this._productsQuery.refetch();
 			})
 		);
 	}

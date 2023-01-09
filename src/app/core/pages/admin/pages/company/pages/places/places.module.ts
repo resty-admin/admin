@@ -5,6 +5,7 @@ import { ButtonModule } from "src/app/shared/ui/button";
 import { IconModule } from "src/app/shared/ui/icon";
 
 import { PlacesFeatureModule } from "../../../../../../../features/places";
+import { getScopeProvider } from "../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../shared/modules/i18n";
 import { ImageModule } from "../../../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../../../shared/ui/typography";
@@ -23,6 +24,7 @@ import { PlacesRoutingModule } from "./places-routing.module";
 		TypographyModule,
 		PlacesFeatureModule,
 		I18nModule
-	]
+	],
+	providers: [getScopeProvider("places", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PlacesModule {}

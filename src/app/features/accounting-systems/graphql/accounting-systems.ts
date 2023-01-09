@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type AccountingSystemsQueryVariables = Types.Exact<{
 	skip: Types.Scalars["Int"];
 	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface AccountingSystemsQuery {
@@ -20,7 +20,7 @@ export interface AccountingSystemsQuery {
 }
 
 export const AccountingSystemsDocument = gql`
-	query AccountingSystems($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	query AccountingSystems($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		accountingSystems(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			totalCount
 			page

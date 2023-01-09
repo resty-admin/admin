@@ -1,24 +1,17 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { catchError, map, of, shareReplay, tap } from "rxjs";
+import { catchError, map, of, shareReplay, take, tap } from "rxjs";
 import { AUTH_ENDPOINTS } from "src/app/shared/endpoints";
-import type {
-	IAccessToken,
-	IForgotPassword,
-	IResetPassword,
-	ISignIn,
-	ISignUp,
-	ITelegramUser,
-	IUser,
-	IVerifyCode
-} from "src/app/shared/interfaces";
+import type { ITelegramUser } from "src/app/shared/interfaces";
 import { ApiService } from "src/app/shared/modules/api";
 import { CryptoService } from "src/app/shared/modules/crypto";
 import { JwtService } from "src/app/shared/modules/jwt";
 import { RouterService } from "src/app/shared/modules/router";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 
-import { GetMeGQL } from "../../graphql/auth";
+import type { UpdateUserInput, UserEntity } from "../../../../../../graphql";
+import { ToastrService } from "../../../../../shared/ui/toastr";
+import { DeleteMeGQL, GetMeGQL, UpdateMeGQL } from "../../graphql/auth";
 import { AuthRepository } from "../../repositories";
 
 @Injectable({
@@ -35,14 +28,17 @@ export class AuthService {
 		private readonly _authRepository: AuthRepository,
 		private readonly _jwtService: JwtService,
 		private readonly _routerService: RouterService,
-		private readonly _getMeGQL: GetMeGQL
+		private readonly _toastrService: ToastrService,
+		private readonly _getMeGQL: GetMeGQL,
+		private readonly _updateMeGQL: UpdateMeGQL,
+		private readonly _deleteMeGQL: DeleteMeGQL
 	) {}
 
 	private _encryptPassword<T extends { password: string }>(body: T) {
 		return { ...body, password: this._cryptoService.encrypt(body.password) };
 	}
 
-	private _updateAccessToken(): (source$: Observable<IAccessToken>) => Observable<IAccessToken> {
+	private _updateAccessToken(): (source$: Observable<any>) => Observable<any> {
 		return (source$) =>
 			source$.pipe(
 				tap(({ accessToken }) => {
@@ -57,20 +53,28 @@ export class AuthService {
 
 	getMe() {
 		return this._getMeGQL.watch().valueChanges.pipe(
-			map((result) => this._jwtService.decodeToken<IUser>(result.data.getMe.accessToken)),
+			map((result) => this._jwtService.decodeToken<UserEntity>(result.data.getMe.accessToken)),
 			catchError(() => of(undefined))
 		);
 	}
 
-	signIn(body: ISignIn) {
+	updateMe(user: UpdateUserInput) {
+		return this._updateMeGQL.mutate({ user }).pipe(take(1), this._toastrService.observe("Пользователь"));
+	}
+
+	deleteMe() {
+		return this._deleteMeGQL.mutate().pipe(take(1), this._toastrService.observe("Пользователь"));
+	}
+
+	signIn(body: any) {
 		return this._apiService
-			.post<IAccessToken>(AUTH_ENDPOINTS.SIGN_IN, this._encryptPassword(body))
+			.post<any>(AUTH_ENDPOINTS.SIGN_IN, this._encryptPassword(body))
 			.pipe(this._updateAccessToken());
 	}
 
-	signUp(body: ISignUp) {
+	signUp(body: any) {
 		return this._apiService
-			.post<IAccessToken>(AUTH_ENDPOINTS.SIGN_UP, this._encryptPassword(body))
+			.post<any>(AUTH_ENDPOINTS.SIGN_UP, this._encryptPassword(body))
 			.pipe(this._updateAccessToken());
 	}
 
@@ -80,19 +84,19 @@ export class AuthService {
 		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
 	}
 
-	verifyCode(body: IVerifyCode) {
-		return this._apiService.post<IAccessToken>(AUTH_ENDPOINTS.VERIFY_CODE, body).pipe(this._updateAccessToken());
+	verifyCode(body: any) {
+		return this._apiService.post<any>(AUTH_ENDPOINTS.VERIFY_CODE, body).pipe(this._updateAccessToken());
 	}
 
-	forgotPassword(body: IForgotPassword) {
-		return this._apiService.post<IAccessToken>(AUTH_ENDPOINTS.FORGOT_PASSWOR, body).pipe(this._updateAccessToken());
+	forgotPassword(body: any) {
+		return this._apiService.post<any>(AUTH_ENDPOINTS.FORGOT_PASSWOR, body).pipe(this._updateAccessToken());
 	}
 
-	resetPassword(body: IResetPassword) {
-		return this._apiService.post<IAccessToken>(AUTH_ENDPOINTS.RESET_PASSWOR, body).pipe(this._updateAccessToken());
+	resetPassword(body: any) {
+		return this._apiService.post<any>(AUTH_ENDPOINTS.RESET_PASSWOR, body).pipe(this._updateAccessToken());
 	}
 
 	telegram(telegramUser: ITelegramUser) {
-		return this._apiService.post<IAccessToken>(AUTH_ENDPOINTS.TELEGRAM, telegramUser).pipe(this._updateAccessToken());
+		return this._apiService.post<any>(AUTH_ENDPOINTS.TELEGRAM, telegramUser).pipe(this._updateAccessToken());
 	}
 }

@@ -1,9 +1,9 @@
-<div class="contract-page" *transloco="let t">
-	<h1 appTypography theme="1">{{ t("CONTRACT.TITLE") }}</h1>
+<div class="contract-page" *transloco="let t; read: 'contract'">
+	<h1 appTypography theme="1">{{ t("title") }}</h1>
 
 	<button appButton class="add">
 		<app-icon class="icon" name="edit"></app-icon>
-		<span class="text">{{ t("BUTTON.SIGN") }}</span>
+		<span class="text">{{ t("sign") }}</span>
 	</button>
 
 	<app-pdf class="pdf" src="/assets/pdf/resty.pdf"></app-pdf>

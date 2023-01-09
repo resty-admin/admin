@@ -1,5 +1,8 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
+import { FormBuilder } from "@ngneat/reactive-forms";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { shareReplay } from "rxjs";
 
 import { AuthService } from "../../../../auth/services";
 
@@ -10,8 +13,33 @@ import { AuthService } from "../../../../auth/services";
 	styleUrls: ["./profile.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileComponent {
-	readonly user$ = this._authService.getMe();
+export class ProfileComponent implements OnInit {
+	readonly user$ = this._authService.getMe().pipe(shareReplay({ refCount: true }));
 
-	constructor(private readonly _authService: AuthService) {}
+	readonly formGroup = this._formBuilder.group<any>({
+		name: "",
+		tel: "",
+		email: ""
+	});
+
+	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
+
+	ngOnInit() {
+		this.user$.pipe(untilDestroyed(this)).subscribe((user) => {
+			console.log(user);
+			if (!user) {
+				return;
+			}
+
+			this.formGroup.patchValue(user);
+		});
+	}
+
+	updateMe(formValue: any) {
+		this._authService.updateMe(formValue).subscribe();
+	}
+
+	deleteMe() {
+		this._authService.deleteMe().subscribe();
+	}
 }

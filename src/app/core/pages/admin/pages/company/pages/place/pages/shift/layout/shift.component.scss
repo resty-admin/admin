@@ -3,82 +3,39 @@
 @include page() {
 	.shift-page {
 		display: grid;
-		grid-template-rows: auto auto auto auto 1fr;
+		align-items: center;
+		grid-template-areas:
+			"title close"
+			"subtitle subtitle"
+			"halls halls"
+			"tables-select tables-select";
+		grid-template-columns: 1fr auto;
+		grid-template-rows: auto auto auto 1fr;
 		position: relative;
 		height: 100%;
 		row-gap: rem(12);
 
-		@include pagePadding ();
+		.title {
+			grid-area: title;
+		}
+		.close {
+			grid-area: close;
+		}
 		.description {
-			font-weight: 400;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--dark-t);
-			.time {
-				color: var(--dark);
-			}
+			grid-area: description;
 		}
-
 		.subtitle {
-			font-weight: 500;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--dark);
+			grid-area: subtitle;
 		}
-
 		.halls {
-			display: flex;
-			gap: rem(8);
-			.hall {
-				.button {
-					font-weight: 600;
-					font-size: rem(13);
-					line-height: rem(16);
-					color: var(--dark);
-					border: rem(1) solid var(--dark-t);
-					border-radius: rem(8);
-					padding: rem(7) rem(12);
-				}
-			}
+			grid-area: halls;
+		}
+		.tables-select {
+			align-self: start;
+			grid-area: tables-select;
 		}
 
-		.tables {
-			display: grid;
-			gap: rem(8);
-
-			@include desktop() {
-				grid-template-columns: 1fr 1fr 1fr;
-			}
-			.table {
-				.button {
-					width: 100%;
-					background-color: var(--light-grey);
-					border-radius: rem(20);
-					.image {
-						border-radius: rem(20) rem(20) 0 0;
-						height: rem(160);
-						width: 100%;
-					}
-					.content {
-						padding: rem(14) rem(15);
-						display: flex;
-						justify-content: space-between;
-						.text {
-							font-weight: 500;
-							font-size: rem(16);
-							line-height: rem(24);
-							color: var(--dark);
-						}
-						.circle {
-							width: rem(24);
-							height: rem(24);
-							border: rem(1) solid var(--dark-t);
-							border-radius: 50%;
-						}
-					}
-				}
-			}
-		}
+		@include pagePadding();
 
 		.footer {
 			position: absolute;
@@ -86,47 +43,21 @@
 			left: 0;
 			width: 100%;
 			padding: rem(16);
-			display: grid;
 			row-gap: rem(16);
 			border: rem(1) solid transparent;
 			background-color: var(--light-grey);
 			border-radius: rem(8);
+			display: grid;
 
 			@include desktop() {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				bottom: rem(-25);
+				column-gap: rem(10);
 			}
 			.selected-tables {
-				display: flex;
-				overflow: auto;
-				column-gap: rem(8);
-				.selected-table {
-					display: flex;
-					text-align: center;
-					justify-content: center;
-					column-gap: rem(5);
-					background-color: var(--light);
-					border-radius: rem(8);
-					padding: rem(3) rem(8);
-					.label {
-						font-weight: 400;
-						font-size: rem(13);
-						line-height: rem(16);
-						color: var(--dark);
-
-						@include noWrap();
-					}
-					.button {
-						.icon {
-							width: rem(8);
-							height: rem(8);
-
-							@include icon(var(--dark), var(--dark));
-						}
-					}
-				}
+				flex: 1;
+				overflow: hidden;
 			}
 			.submit {
 				width: 100%;
@@ -156,48 +87,11 @@
 		.subtitle {
 			color: var(--light);
 		}
-		.halls {
-			.hall {
-				.button {
-					color: var(--light);
-					border-color: var(--light);
-				}
-			}
-		}
-		.tables {
-			.table {
-				.button {
-					background-color: var(--dark-grey);
-					border-color: var(--dark-t);
-					.content {
-						.text {
-							color: var(--light);
-						}
-						.circle {
-							border-color: var(--light-t);
-						}
-					}
-				}
-			}
-		}
 		.footer {
 			background-color: var(--dark-grey);
 
 			@include desktop() {
 				border-color: var(--light-t);
-			}
-			.selected-tables {
-				.selected-table {
-					background-color: var(--dark);
-					.label {
-						color: var(--light);
-					}
-					.button {
-						.icon {
-							@include icon(var(--light), var(--light));
-						}
-					}
-				}
 			}
 		}
 	}

@@ -5,7 +5,7 @@ import * as Apollo from "apollo-angular";
 import type * as Types from "../../../../graphql";
 export type ProductsQueryVariables = Types.Exact<{
 	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 	skip: Types.Scalars["Int"];
 }>;
 
@@ -71,7 +71,7 @@ export interface DeleteProductMutation {
 }
 
 export const ProductsDocument = gql`
-	query Products($take: Int!, $filtersArgs: FiltersArgsDto, $skip: Int!) {
+	query Products($take: Int!, $filtersArgs: [FiltersArgsDto!], $skip: Int!) {
 		products(take: $take, filtersArgs: $filtersArgs, skip: $skip) {
 			page
 			totalCount

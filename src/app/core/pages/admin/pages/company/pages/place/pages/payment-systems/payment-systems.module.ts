@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getScopeProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
@@ -25,6 +26,7 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		IconModule,
 		ImageModule,
 		TranslocoModule
-	]
+	],
+	providers: [getScopeProvider("paymentSystems", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PaymentSystemsModule {}

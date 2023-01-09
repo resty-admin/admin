@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type PaymentsQueryVariables = Types.Exact<{
 	skip: Types.Scalars["Int"];
 	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface PaymentsQuery {
@@ -20,7 +20,7 @@ export interface PaymentsQuery {
 }
 
 export const PaymentsDocument = gql`
-	query Payments($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	query Payments($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		paymentSystems(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			page
 			totalCount

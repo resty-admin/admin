@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type PlacesQueryVariables = Types.Exact<{
 	take: Types.Scalars["Int"];
 	skip: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface PlacesQuery {
@@ -34,7 +34,7 @@ export type UpdatePlaceMutationVariables = Types.Exact<{
 
 export interface UpdatePlaceMutation {
 	__typename?: "Mutation";
-	updatePlace: { __typename?: "PlaceEntity"; name: string };
+	updatePlace: { __typename?: "PlaceEntity"; id: string; name: string };
 }
 
 export type CreatePlacesMutationVariables = Types.Exact<{
@@ -56,7 +56,7 @@ export interface DeletePlaceMutation {
 }
 
 export const PlacesDocument = gql`
-	query Places($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	query Places($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		places(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			data {
 				name
@@ -88,6 +88,7 @@ export class PlacesGQL extends Apollo.Query<PlacesQuery, PlacesQueryVariables> {
 export const UpdatePlaceDocument = gql`
 	mutation UpdatePlace($place: UpdatePlaceInput!) {
 		updatePlace(place: $place) {
+			id
 			name
 		}
 	}

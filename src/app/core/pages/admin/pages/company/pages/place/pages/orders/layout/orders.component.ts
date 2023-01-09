@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { OrdersService } from "src/app/features/orders";
-import type { IOrder } from "src/app/shared/interfaces";
 
 import { ADMIN_ROUTES } from "../../../../../../../../../../shared/routes";
 
@@ -24,7 +23,7 @@ export class OrdersComponent {
 
 	constructor(private readonly _ordersService: OrdersService) {}
 
-	openOrderDialog(order?: Partial<IOrder>) {
+	openOrderDialog(order?: Partial<any>) {
 		this._ordersService.openCreateOrUpdateOrderDialog(order).subscribe();
 	}
 }

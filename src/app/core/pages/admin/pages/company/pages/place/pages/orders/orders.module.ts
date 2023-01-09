@@ -8,6 +8,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getScopeProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { DatepickerModule } from "../../../../../../../../../shared/ui/datepicker";
 import { OrdersComponent } from "./layout/orders.component";
@@ -27,6 +28,7 @@ import { OrderRoutingModule } from "./orders-routing.module";
 		RadioButtonModule,
 		IconModule,
 		I18nModule
-	]
+	],
+	providers: [getScopeProvider("orders", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class OrdersModule {}

@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { IAttribute } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-attribute-dialog",
@@ -30,7 +29,7 @@ export class AttributeDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(attribute: Partial<IAttribute>) {
+	closeDialog(attribute: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...attribute });
 	}
 }

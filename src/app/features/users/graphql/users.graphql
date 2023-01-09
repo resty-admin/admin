@@ -1,4 +1,4 @@
-query Users($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+query Users($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	users(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		page
 		totalCount

@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { IPlace } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-place-dialog",
@@ -28,7 +27,7 @@ export class PlaceDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(place: Partial<IPlace>) {
+	closeDialog(place: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...place });
 	}
 }

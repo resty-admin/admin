@@ -1,4 +1,4 @@
-query AccountingSystems($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+query AccountingSystems($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	accountingSystems(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		totalCount
 		page

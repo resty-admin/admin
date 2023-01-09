@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { IHall } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
@@ -13,16 +12,20 @@ import { CreateHallGQL, DeleteHallGQL, HallsGQL, UpdateHallGQL } from "../../gra
 
 @Injectable({ providedIn: "root" })
 export class HallsService {
-	readonly actions: IAction<IHall>[] = [
+	private readonly _hallsQuery = this._hallsGQL.watch({ skip: 0, take: 10 });
+
+	readonly halls$ = this._hallsQuery.valueChanges.pipe(map((result) => result.data.halls.data));
+
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (hall?: IHall) => this.openCreateOrUpdateHallDialog(hall).subscribe()
+			func: (hall?: any) => this.openCreateOrUpdateHallDialog(hall).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (hall?: IHall) => {
+			func: (hall?: any) => {
 				if (!hall) {
 					return;
 				}
@@ -31,10 +34,6 @@ export class HallsService {
 			}
 		}
 	];
-
-	readonly halls$ = this._hallsGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.halls.data));
 
 	constructor(
 		private readonly _hallsGQL: HallsGQL,
@@ -45,10 +44,6 @@ export class HallsService {
 		private readonly _toastrService: ToastrService,
 		private readonly _filesService: FilesService
 	) {}
-
-	async refetch() {
-		await this._hallsGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
 
 	openCreateOrUpdateHallDialog(data?: any) {
 		return this._dialogService.openFormDialog(HallDialogComponent, { data }).pipe(
@@ -64,7 +59,7 @@ export class HallsService {
 		);
 	}
 
-	openDeleteHallDialog(hall: IHall) {
+	openDeleteHallDialog(hall: any) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -82,7 +77,7 @@ export class HallsService {
 					take(1),
 					this._toastrService.observe("Залы"),
 					tap(async () => {
-						await this.refetch();
+						await this._hallsQuery.refetch();
 					})
 				)
 			)
@@ -96,7 +91,7 @@ export class HallsService {
 					take(1),
 					this._toastrService.observe("Залы"),
 					tap(async () => {
-						await this.refetch();
+						await this._hallsQuery.refetch();
 					})
 				)
 			)
@@ -108,7 +103,7 @@ export class HallsService {
 			take(1),
 			this._toastrService.observe("Залы"),
 			tap(async () => {
-				await this.refetch();
+				await this._hallsQuery.refetch();
 			})
 		);
 	}

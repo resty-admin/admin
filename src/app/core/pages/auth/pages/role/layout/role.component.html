@@ -1,7 +1,7 @@
-<div class="role-page" *transloco="let t">
+<div class="role-page" *transloco="let t; read: 'role'">
 	<app-image class="background-image" name="sign-in"></app-image>
 
-	<h1 class="title">Выберите роль</h1>
+	<h1 class="title">{{ t("title") }}</h1>
 
 	<ul class="roles">
 		<li class="role" *ngFor="let role of roles; trackBy: trackByFn">
@@ -13,5 +13,5 @@
 		</li>
 	</ul>
 
-	<button class="select">Выбрать</button>
+	<button class="select">{{ t("select") }}</button>
 </div>

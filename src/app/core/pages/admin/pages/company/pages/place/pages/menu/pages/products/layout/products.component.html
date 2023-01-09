@@ -1,7 +1,7 @@
-<div class="products-page" *transloco="let t">
+<div class="products-page" *transloco="let t; read: 'products'">
 	<button appButton class="add" (click)="openCreateProductDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить Блюдо</span>
+		<span class="text">{{ t("add") }}</span>
 	</button>
 
 	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
@@ -19,13 +19,13 @@
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: product }"></ng-container>
 
 			<div class="info">
-				<p class="name-label">Название</p>
+				<p class="name-label">{{ t("name") }}</p>
 				<p class="name-value">{{ product.name }}</p>
-				<p class="description-label">Описание</p>
+				<p class="description-label">{{ t("description") }}</p>
 				<p class="description-value">{{ product.description }}</p>
-				<p class="category-label">Категория</p>
-				<p class="category-value">{{ product.category.name }}</p>
-				<p class="price-label">Цена</p>
+				<p class="category-label">{{ t("category") }}</p>
+				<p class="category-value">{{ product.category?.name }}</p>
+				<p class="price-label">{{ t("price") }}</p>
 				<p class="price-value">{{ product.price }} грн</p>
 			</div>
 		</li>

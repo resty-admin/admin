@@ -11,16 +11,16 @@ export const ADMIN_ROUTES: Route[] = [
 		component: AdminComponent,
 		children: [
 			{
+				...SHARED_ADMIN_ROUTES.PROFILE,
+				loadChildren: () => import("./pages/profile/profile.module").then((m) => m.ProfileModule)
+			},
+			{
 				...SHARED_ADMIN_ROUTES.COMPANIES,
 				loadChildren: () => import("./pages/companies/companies.module").then((m) => m.CompaniesModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.COMPANY,
 				loadChildren: () => import("./pages/company/company.module").then((m) => m.CompanyModule)
-			},
-			{
-				...SHARED_ADMIN_ROUTES.PROFILE,
-				loadChildren: () => import("./pages/profile/profile.module").then((m) => m.ProfileModule)
 			},
 			{
 				path: "**",

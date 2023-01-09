@@ -2,7 +2,8 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { ITable } from "src/app/shared/interfaces";
+
+import type { TableEntity } from "../../../../../graphql";
 
 @Component({
 	selector: "app-table-dialog",
@@ -11,7 +12,7 @@ import type { ITable } from "src/app/shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableDialogComponent implements OnInit {
-	readonly formGroup = this._formBuilder.group<Partial<ITable>>({
+	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		code: 0,
 		name: "",
 		file: ""
@@ -31,7 +32,7 @@ export class TableDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(table: Partial<ITable>) {
+	closeDialog(table: Partial<TableEntity>) {
 		this._dialogRef.close({ ...this.data, ...table });
 	}
 }

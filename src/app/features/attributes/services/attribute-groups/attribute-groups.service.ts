@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { IAttributeGroup } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
@@ -17,9 +16,11 @@ import {
 
 @Injectable({ providedIn: "root" })
 export class AttributeGroupsService {
-	readonly attributeGroups$ = this._attributeGroupsGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.attributeGroups.data));
+	private readonly _attributeGroupsQuery = this._attributeGroupsGQL.watch({ skip: 0, take: 10 });
+
+	readonly attributeGroups$ = this._attributeGroupsQuery.valueChanges.pipe(
+		map((result) => result.data.attributeGroups.data)
+	);
 
 	readonly actions: IAction<any>[] = [
 		{
@@ -49,10 +50,6 @@ export class AttributeGroupsService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	async refetch() {
-		await this._attributeGroupsGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
-
 	openCreateOrUpdateAttributeGroupDialog(data?: any) {
 		return this._dialogService.openFormDialog(AttributeGroupDialogComponent, { data }).pipe(
 			switchMap((attributeGroup: any) =>
@@ -74,7 +71,7 @@ export class AttributeGroupsService {
 		);
 	}
 
-	openDeleteAttributeGroupDialog(attributeGroup: IAttributeGroup) {
+	openDeleteAttributeGroupDialog(attributeGroup: any) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -90,7 +87,7 @@ export class AttributeGroupsService {
 			take(1),
 			this._toastrService.observe("Группа Модификаций"),
 			tap(async () => {
-				await this.refetch();
+				await this._attributeGroupsQuery.refetch();
 			})
 		);
 	}
@@ -100,7 +97,7 @@ export class AttributeGroupsService {
 			take(1),
 			this._toastrService.observe("Группа Модификаций"),
 			tap(async () => {
-				await this.refetch();
+				await this._attributeGroupsQuery.refetch();
 			})
 		);
 	}
@@ -110,7 +107,7 @@ export class AttributeGroupsService {
 			take(1),
 			this._toastrService.observe("Группа Модификаций"),
 			tap(async () => {
-				await this.refetch();
+				await this._attributeGroupsQuery.refetch();
 			})
 		);
 	}

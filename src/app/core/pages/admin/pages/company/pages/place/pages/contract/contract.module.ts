@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getScopeProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { PdfModule } from "../../../../../../../../../shared/modules/pdf";
 import { ButtonModule } from "../../../../../../../../../shared/ui/button";
@@ -12,6 +13,6 @@ import { ContractComponent } from "./layout/contract.component";
 @NgModule({
 	declarations: [ContractComponent],
 	imports: [CommonModule, ContractRoutingModule, TypographyModule, PdfModule, ButtonModule, IconModule, I18nModule],
-	exports: [ContractComponent]
+	providers: [getScopeProvider("contract", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ContractModule {}

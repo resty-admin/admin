@@ -1,4 +1,4 @@
-query Orders($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+query Orders($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	orders(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 		page
 		totalCount

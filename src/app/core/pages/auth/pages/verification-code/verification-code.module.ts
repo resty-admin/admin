@@ -6,6 +6,7 @@ import { CodeInputModule } from "src/app/shared/ui/code-input";
 import { ImageModule } from "src/app/shared/ui/image";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getScopeProvider } from "../../../../../shared/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { CardModule } from "../../../../../shared/ui/card";
 import { VerificationCodeComponent } from "./layout/verification-code.component";
@@ -24,6 +25,7 @@ import { VerificationCodeRoutingModule } from "./verification-code-routing.modul
 		ReactiveFormsModule,
 		CardModule,
 		ButtonModule
-	]
+	],
+	providers: [getScopeProvider("verificationCode", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class VerificationCodeModule {}

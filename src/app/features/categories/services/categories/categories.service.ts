@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { ICategory } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
@@ -13,16 +12,19 @@ import { CategoriesGQL, CreateCategoryGQL, DeleteCategoryGQL, UpdateCategoryGQL 
 
 @Injectable({ providedIn: "root" })
 export class CategoriesService {
-	readonly actions: IAction<ICategory>[] = [
+	private readonly _categoriesQuery = this._categoriesGQL.watch({ skip: 0, take: 10 });
+	readonly categories$ = this._categoriesQuery.valueChanges.pipe(map((result) => result.data.categories.data));
+
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (category?: ICategory) => this.openCreateOrUpdateCategoryDialog(category).subscribe()
+			func: (category?: any) => this.openCreateOrUpdateCategoryDialog(category).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (category?: ICategory) => {
+			func: (category?: any) => {
 				if (!category) {
 					return;
 				}
@@ -31,10 +33,6 @@ export class CategoriesService {
 			}
 		}
 	];
-
-	readonly categories$ = this._categoriesGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.categories.data));
 
 	constructor(
 		private readonly _categoriesGQL: CategoriesGQL,
@@ -45,10 +43,6 @@ export class CategoriesService {
 		private readonly _toastrService: ToastrService,
 		private readonly _filesService: FilesService
 	) {}
-
-	async refetch() {
-		await this._categoriesGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
 
 	openCreateOrUpdateCategoryDialog(data?: any) {
 		return this._dialogService.openFormDialog(CategoryDialogComponent, { data }).pipe(
@@ -64,7 +58,7 @@ export class CategoriesService {
 		);
 	}
 
-	openDeleteCategoryDialog(category: ICategory) {
+	openDeleteCategoryDialog(category: any) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -81,7 +75,7 @@ export class CategoriesService {
 			take(1),
 			this._toastrService.observe("Категория"),
 			tap(async () => {
-				await this.refetch();
+				await this._categoriesQuery.refetch();
 			})
 		);
 	}
@@ -92,7 +86,7 @@ export class CategoriesService {
 			take(1),
 			this._toastrService.observe("Категория"),
 			tap(async () => {
-				await this.refetch();
+				await this._categoriesQuery.refetch();
 			})
 		);
 	}
@@ -102,7 +96,7 @@ export class CategoriesService {
 			take(1),
 			this._toastrService.observe("Категория"),
 			tap(async () => {
-				await this.refetch();
+				await this._categoriesQuery.refetch();
 			})
 		);
 	}

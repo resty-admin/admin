@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { IHall } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-hall-dialog",
@@ -30,7 +29,7 @@ export class HallDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(hall: Partial<IHall>) {
+	closeDialog(hall: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...hall });
 	}
 }

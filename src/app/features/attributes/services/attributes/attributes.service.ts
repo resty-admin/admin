@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { IAttribute } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
@@ -12,20 +11,20 @@ import { AttributesGQL, CreateAttrGQL, DeleteAttrGQL, UpdateAttrGQL } from "../.
 
 @Injectable({ providedIn: "root" })
 export class AttributesService {
-	readonly attributes$ = this._attributesGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.attributes.data));
+	private readonly _attributesQuery = this._attributesGQL.watch({ skip: 0, take: 10 });
 
-	readonly actions: IAction<IAttribute>[] = [
+	readonly attributes$ = this._attributesQuery.valueChanges.pipe(map((result) => result.data.attributes.data));
+
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (attribute?: IAttribute) => this.openCreateOrUpdateAttributeDialog(attribute).subscribe()
+			func: (attribute?: any) => this.openCreateOrUpdateAttributeDialog(attribute).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (attribute?: IAttribute) => {
+			func: (attribute?: any) => {
 				if (!attribute) {
 					return;
 				}
@@ -44,10 +43,6 @@ export class AttributesService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	async refetch() {
-		await this._attributesGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
-
 	openCreateOrUpdateAttributeDialog(data?: any) {
 		return this._dialogService.openFormDialog(AttributeDialogComponent, { data }).pipe(
 			switchMap((attribute: any) =>
@@ -62,7 +57,7 @@ export class AttributesService {
 		);
 	}
 
-	openDeleteAttributeDialog(attribute: IAttribute) {
+	openDeleteAttributeDialog(attribute: any) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -79,7 +74,7 @@ export class AttributesService {
 			take(1),
 			this._toastrService.observe("Модификация"),
 			tap(async () => {
-				await this.refetch();
+				await this._attributesQuery.refetch();
 			})
 		);
 	}
@@ -89,7 +84,7 @@ export class AttributesService {
 			take(1),
 			this._toastrService.observe("Модификация"),
 			tap(async () => {
-				await this.refetch();
+				await this._attributesQuery.refetch();
 			})
 		);
 	}
@@ -99,7 +94,7 @@ export class AttributesService {
 			take(1),
 			this._toastrService.observe("Модификация"),
 			tap(async () => {
-				await this.refetch();
+				await this._attributesQuery.refetch();
 			})
 		);
 	}

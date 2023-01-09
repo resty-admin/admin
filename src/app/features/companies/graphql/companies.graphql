@@ -1,4 +1,4 @@
-query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+query Companies($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 		data {
 			name
@@ -29,6 +29,7 @@ query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
 
 mutation UpdateCompany($company: UpdateCompanyInput!) {
 	updateCompany(company: $company) {
+		id
 		name
 	}
 }

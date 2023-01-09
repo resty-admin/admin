@@ -1,0 +1,9 @@
+{
+	"title": "Дешборд",
+	"money": "Деньги",
+	"comission": "Комиссия",
+	"status_label": "Статус",
+	"status_description": "Описание статуса",
+	"status_info": "Информация о статусе",
+	"change_status": "Изменить статус"
+}

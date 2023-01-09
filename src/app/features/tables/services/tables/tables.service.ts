@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { ITable } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
-import type { CreateTableInput, UpdateTableInput } from "../../../../../graphql";
+import type { CreateTableInput, TableEntity, UpdateTableInput } from "../../../../../graphql";
 import { FilesService } from "../../../../shared/modules/file";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
@@ -13,16 +12,20 @@ import { CreateTableGQL, DeleteTableGQL, TablesGQL, UpdateTableGQL } from "../..
 
 @Injectable({ providedIn: "root" })
 export class TablesService {
-	readonly actions: IAction<ITable>[] = [
+	private readonly _tablesQuery = this._tablesGQL.watch({ skip: 0, take: 10 });
+
+	readonly tables$ = this._tablesQuery.valueChanges.pipe(map((result) => result.data.tables.data));
+
+	readonly actions: IAction<TableEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (table?: ITable) => this.openCreateOrUpdateTableDialog(table).subscribe()
+			func: (table?: TableEntity) => this.openCreateOrUpdateTableDialog(table).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (table?: ITable) => {
+			func: (table?: TableEntity) => {
 				if (!table) {
 					return;
 				}
@@ -31,10 +34,6 @@ export class TablesService {
 			}
 		}
 	];
-
-	readonly tables$ = this._tablesGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.tables.data));
 
 	constructor(
 		private readonly _tablesGQL: TablesGQL,
@@ -45,10 +44,6 @@ export class TablesService {
 		private readonly _toastrService: ToastrService,
 		private readonly _filesService: FilesService
 	) {}
-
-	async refetch() {
-		await this._tablesGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
 
 	openCreateOrUpdateTableDialog(data?: any) {
 		return this._dialogService.openFormDialog(TableDialogComponent, { data }).pipe(
@@ -65,7 +60,7 @@ export class TablesService {
 		);
 	}
 
-	openDeleteTableDialog(table: ITable) {
+	openDeleteTableDialog(table: TableEntity) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -82,7 +77,7 @@ export class TablesService {
 			take(1),
 			this._toastrService.observe("Залы"),
 			tap(async () => {
-				await this.refetch();
+				await this._tablesQuery.refetch();
 			})
 		);
 	}
@@ -93,7 +88,7 @@ export class TablesService {
 			take(1),
 			this._toastrService.observe("Залы"),
 			tap(async () => {
-				await this.refetch();
+				await this._tablesQuery.refetch();
 			})
 		);
 	}
@@ -103,7 +98,7 @@ export class TablesService {
 			take(1),
 			this._toastrService.observe("Залы"),
 			tap(async () => {
-				await this.refetch();
+				await this._tablesQuery.refetch();
 			})
 		);
 	}

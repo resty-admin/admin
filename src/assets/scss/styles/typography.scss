@@ -33,12 +33,20 @@ body {
 			line-height: rem(40);
 			color: var(--dark);
 		}
+
+		&.theme-4 {
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
 	}
 
 	&.dark .app-typography {
 		&.theme-1,
 		&.theme-2,
-		&.theme-3 {
+		&.theme-3,
+		&.theme-4 {
 			color: var(--light);
 		}
 	}

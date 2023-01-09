@@ -2,9 +2,10 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { UserRoleEnum } from "src/app/shared/enums";
-import type { IUser } from "src/app/shared/interfaces";
 import { CryptoService } from "src/app/shared/modules/crypto";
+
+import type { UserEntity } from "../../../../../graphql";
+import { UserRoleEnum } from "../../../../../graphql";
 
 @Component({
 	selector: "app-user-dialog",
@@ -23,7 +24,7 @@ export class UserDialogComponent implements OnInit {
 		email: "",
 		password: "",
 		tel: "",
-		role: UserRoleEnum.CLIENT
+		role: UserRoleEnum.Client
 	});
 
 	constructor(
@@ -44,7 +45,7 @@ export class UserDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(user: Partial<IUser>) {
+	closeDialog(user: Partial<UserEntity>) {
 		this._dialogRef.close({ ...this.data, ...user, password: this._cryptoService.encrypt(user.password || "") });
 	}
 }

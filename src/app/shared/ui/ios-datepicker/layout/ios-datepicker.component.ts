@@ -1,7 +1,7 @@
 import type { AfterViewInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Dayjs } from "dayjs";
 import * as dayjs from "dayjs";
 import * as localeData from "dayjs/plugin/localeData";
@@ -11,6 +11,7 @@ import { getControlValueAccessorProviders } from "src/app/shared/functions";
 
 dayjs.extend(localeData);
 
+@UntilDestroy()
 @Component({
 	selector: "app-ios-datepicker",
 	templateUrl: "./ios-datepicker.component.html",

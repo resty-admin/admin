@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { ICategory } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-category-dialog",
@@ -30,7 +29,7 @@ export class CategoryDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(category: Partial<ICategory>) {
+	closeDialog(category: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...category });
 	}
 }

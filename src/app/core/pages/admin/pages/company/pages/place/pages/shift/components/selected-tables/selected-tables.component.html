@@ -1,0 +1,8 @@
+<ul class="selected-tables">
+	<li class="selected-table" *ngFor="let selectedTable of selectedTables$ | async">
+		<span class="label">{{ selectedTable.name }}</span>
+		<button class="button" (click)="removeSelectedTable(selectedTable)">
+			<app-icon class="icon" name="close"></app-icon>
+		</button>
+	</li>
+</ul>

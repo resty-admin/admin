@@ -4,7 +4,6 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { take } from "rxjs";
 import { DYNAMIC_TOKEN } from "src/app/shared/constants";
-import type { IVerifyCode } from "src/app/shared/interfaces";
 import { RouterService } from "src/app/shared/modules/router";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 
@@ -18,7 +17,7 @@ import { AuthService } from "../../../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VerificationCodeComponent implements OnInit {
-	readonly form = this._formBuilder.group<IVerifyCode>({
+	readonly form = this._formBuilder.group<any>({
 		verificationCode: 0
 	});
 
@@ -37,7 +36,7 @@ export class VerificationCodeComponent implements OnInit {
 			});
 	}
 
-	verifyCode(formValue: IVerifyCode) {
+	verifyCode(formValue: any) {
 		this._authService
 			.verifyCode(formValue)
 			.pipe(take(1))

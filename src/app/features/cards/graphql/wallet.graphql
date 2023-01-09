@@ -1,4 +1,4 @@
-query Payments($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+query Payments($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	paymentSystems(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		page
 		totalCount

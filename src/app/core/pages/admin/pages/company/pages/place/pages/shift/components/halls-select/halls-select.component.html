@@ -1,0 +1,12 @@
+<form class="halls-select" [formGroup]="hallsGroup">
+	<ul class="halls">
+		<li class="hall">
+			<input class="checkbox" type="checkbox" id="all" formControlName="all" />
+			<label class="label" for="all">Все</label>
+		</li>
+		<li class="hall" *ngFor="let hall of halls; let i = index">
+			<input class="checkbox" type="checkbox" [id]="i" [formControlName]="hall.id" />
+			<label class="label" [for]="i">{{ hall.name }}</label>
+		</li>
+	</ul>
+</form>

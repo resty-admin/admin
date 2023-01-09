@@ -3,3 +3,14 @@ query GetMe {
 		accessToken
 	}
 }
+
+mutation UpdateMe($user: UpdateMeInput!) {
+	updateMe(user: $user) {
+		id
+		name
+	}
+}
+
+mutation DeleteMe {
+	deleteMe
+}

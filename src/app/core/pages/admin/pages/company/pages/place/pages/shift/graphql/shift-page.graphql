@@ -1,0 +1,14 @@
+query ShiftPage {
+	activeShift {
+		id
+		tables {
+			id
+			name
+			code
+			hall {
+				id
+				name
+			}
+		}
+	}
+}

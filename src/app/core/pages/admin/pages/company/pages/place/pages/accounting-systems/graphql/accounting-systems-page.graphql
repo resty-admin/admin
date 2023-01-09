@@ -1,0 +1,10 @@
+query AccountingSystemsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	accountingSystems(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+}

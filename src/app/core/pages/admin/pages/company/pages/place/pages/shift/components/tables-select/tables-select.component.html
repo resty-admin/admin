@@ -1,0 +1,13 @@
+<form class="tables-select" [formGroup]="tablesGroup">
+	<ul class="tables">
+		<li class="table" *ngFor="let table of tables; let i = index">
+			<input class="checkbox" type="checkbox" [id]="'tables-select_' + i" [formControlName]="table.id" />
+			<div class="content">
+				<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+				<div class="container">
+					<span class="text">{{ table.name }}</span>
+				</div>
+			</div>
+		</li>
+	</ul>
+</form>

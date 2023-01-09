@@ -1,9 +1,9 @@
-<div class="commands-page" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("COMMANDS.TITLE") }}</h1>
+<div class="commands-page" *transloco="let t; read: 'commands'">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<button appButton class="add" (click)="openCreateCommandDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("BUTTON.ADD") }}</span>
+		<span class="text">{{ t("add") }}</span>
 	</button>
 
 	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
@@ -24,7 +24,7 @@
 				<app-icon class="icon" name="more"></app-icon>
 			</button>
 
-			<p class="description">{{ command.description }}</p>
+			<!--			<p class="description">{{ command.description }}</p>-->
 		</li>
 	</ul>
 </div>

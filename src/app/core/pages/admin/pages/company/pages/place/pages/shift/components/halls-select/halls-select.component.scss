@@ -1,0 +1,39 @@
+@import "/src/assets/scss/abstractions";
+
+@include component () {
+	.halls-select .halls {
+		display: flex;
+		column-gap: rem(12);
+		.hall {
+			position: relative;
+			.label {
+				display: block;
+				border: rem(1) solid transparent;
+				padding: rem(5) rem(24);
+				border-radius: rem(12);
+				color: var(--dark);
+				font-weight: 600;
+				font-size: rem(14);
+				line-height: rem(24);
+				cursor: pointer;
+			}
+			.checkbox {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0%;
+				&:checked ~ .label {
+					border-color: var(--primary);
+					color: var(--primary);
+				}
+			}
+		}
+	}
+}
+@include dark () {
+	.halls-select .halls .hall .label {
+		color: var(--light);
+	}
+}

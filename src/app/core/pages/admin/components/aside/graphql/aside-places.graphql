@@ -1,0 +1,10 @@
+query AsidePlaces($filtersArgs: [FiltersArgsDto!]) {
+	places(filtersArgs: $filtersArgs) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+}

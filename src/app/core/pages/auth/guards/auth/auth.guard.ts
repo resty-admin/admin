@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import type { CanActivate } from "@angular/router";
 import { map } from "rxjs";
-import type { UserRoleEnum } from "src/app/shared/enums";
-import { UserStatusEnum } from "src/app/shared/enums";
 import type { IActivatedRouteSnapshot } from "src/app/shared/interfaces";
 import { RouterService } from "src/app/shared/modules/router";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 
+import type { UserRoleEnum } from "../../../../../../graphql";
+import { UserStatusEnum } from "../../../../../../graphql";
 import { AuthService } from "../../services";
 
 @Injectable({ providedIn: "root" })
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 
 		return this._authService.getMe().pipe(
 			map((user) => {
-				if (user && user.status === UserStatusEnum.VERIFIED && (data.roles || []).includes(user.role)) {
+				if (user && user.status === UserStatusEnum.Verified && (data.roles || []).includes(user.role)) {
 					return true;
 				}
 

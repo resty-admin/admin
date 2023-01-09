@@ -2,8 +2,11 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { IProduct } from "src/app/shared/interfaces";
+import { firstValueFrom } from "rxjs";
 
+import type { ProductEntity } from "../../../../../graphql";
+import { PLACE_ID } from "../../../../shared/constants";
+import { RouterService } from "../../../../shared/modules/router";
 import { AttributeGroupsService } from "../../../attributes";
 import { CategoriesService } from "../../../categories";
 
@@ -26,7 +29,19 @@ export class ProductDialogComponent implements OnInit {
 	readonly categories$ = this._categoriesService.categories$;
 	readonly attributeGroups$ = this._attributeGroupsService.attributeGroups$;
 
+	readonly addCategoryTag = (name: string) =>
+		firstValueFrom(this._categoriesService.openCreateOrUpdateCategoryDialog({ name }));
+
+	readonly addAttributeGroupTag = (name: string) =>
+		firstValueFrom(
+			this._attributeGroupsService.openCreateOrUpdateAttributeGroupDialog({
+				name,
+				place: this._routerService.getParams(PLACE_ID.slice(1))
+			})
+		);
+
 	constructor(
+		private readonly _routerService: RouterService,
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
 		private readonly _categoriesService: CategoriesService,
@@ -42,11 +57,10 @@ export class ProductDialogComponent implements OnInit {
 			return;
 		}
 
-		console.log(this.data);
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(product: Partial<IProduct>) {
+	closeDialog(product: Partial<ProductEntity>) {
 		this._dialogRef.close({ ...this.data, ...product });
 	}
 }

@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { ICompany } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-company-dialog",
@@ -26,7 +25,7 @@ export class CompanyDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(company: Partial<ICompany>) {
+	closeDialog(company: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...company });
 	}
 }

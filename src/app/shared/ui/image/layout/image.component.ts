@@ -14,7 +14,7 @@ import { IImageConfig, IImageTheme } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageComponent implements OnChanges {
-	@Input() name = "";
+	@Input() name? = "";
 	@Input() theme: IImageTheme = "1";
 	@Input() format: "png" | "svg" = "png";
 	@Input() remote = false;

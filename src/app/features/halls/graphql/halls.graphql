@@ -1,4 +1,4 @@
-query Halls($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+query Halls($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	halls(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		page
 		totalCount

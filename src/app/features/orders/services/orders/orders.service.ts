@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { IOrder } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
@@ -12,16 +11,20 @@ import { CreateOrderGQL, DeleteOrderGQL, OrdersGQL, UpdateOrderGQL } from "../..
 
 @Injectable({ providedIn: "root" })
 export class OrdersService {
-	readonly actions: IAction<IOrder>[] = [
+	private readonly _ordersQuery = this._ordersGQL.watch({ skip: 0, take: 10 });
+
+	readonly orders$ = this._ordersQuery.valueChanges.pipe(map((result) => result.data.orders.data));
+
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (order?: IOrder) => this.openCreateOrUpdateOrderDialog(order).subscribe()
+			func: (order?: any) => this.openCreateOrUpdateOrderDialog(order).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (order?: IOrder) => {
+			func: (order?: any) => {
 				if (!order) {
 					return;
 				}
@@ -30,10 +33,6 @@ export class OrdersService {
 			}
 		}
 	];
-
-	readonly orders$ = this._ordersGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.orders.data));
 
 	constructor(
 		private readonly _ordersGQL: OrdersGQL,
@@ -44,17 +43,13 @@ export class OrdersService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	async refetch() {
-		await this._ordersGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
-
 	openCreateOrUpdateOrderDialog(data?: any) {
 		return this._dialogService
 			.openFormDialog(OrderDialogComponent, { data })
 			.pipe(switchMap((order: any) => (order.id ? this.updateOrder(order) : this.createOrder(order))));
 	}
 
-	openDeleteOrderDialog(order: IOrder) {
+	openDeleteOrderDialog(order: any) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -70,7 +65,7 @@ export class OrdersService {
 			take(1),
 			this._toastrService.observe("Заказ"),
 			tap(async () => {
-				await this.refetch();
+				await this._ordersQuery.refetch();
 			})
 		);
 	}
@@ -80,7 +75,7 @@ export class OrdersService {
 			take(1),
 			this._toastrService.observe("Заказ"),
 			tap(async () => {
-				await this.refetch();
+				await this._ordersQuery.refetch();
 			})
 		);
 	}
@@ -90,7 +85,7 @@ export class OrdersService {
 			take(1),
 			this._toastrService.observe("Заказ"),
 			tap(async () => {
-				await this.refetch();
+				await this._ordersQuery.refetch();
 			})
 		);
 	}

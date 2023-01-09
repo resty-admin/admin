@@ -1,0 +1,10 @@
+query PaymentSystemsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	paymentSystems(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+}

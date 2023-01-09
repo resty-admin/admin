@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import type { IPaymentSystem } from "src/app/shared/interfaces";
 
 @Component({
 	selector: "app-payment-system-dialog",
@@ -30,7 +29,7 @@ export class PaymentSystemDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(paymentSystem: Partial<IPaymentSystem>) {
+	closeDialog(paymentSystem: Partial<any>) {
 		this._dialogRef.close({ ...this.data, ...paymentSystem });
 	}
 }

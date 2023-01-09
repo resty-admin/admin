@@ -1,0 +1,15 @@
+query AttributesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	attributeGroups(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+			attributes {
+				id
+				name
+				price
+			}
+		}
+	}
+}

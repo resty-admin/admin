@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
-import type { IUser } from "src/app/shared/interfaces";
 import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
-import type { CreateUserInput, UpdateUserInput } from "../../../../../graphql";
+import type { CreateUserInput, UpdateUserInput, UserEntity } from "../../../../../graphql";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import { UserDialogComponent } from "../../components";
@@ -12,16 +11,20 @@ import { CreateUserGQL, DeleteUserGQL, UpdateUserGQL, UsersGQL } from "../../gra
 
 @Injectable({ providedIn: "root" })
 export class UsersService {
-	readonly actions: IAction<IUser>[] = [
+	private readonly _usersQuery = this._usersGQL.watch({ skip: 0, take: 10 });
+
+	readonly users$ = this._usersQuery.valueChanges.pipe(map((result) => result.data.users.data));
+
+	readonly actions: IAction<UserEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (user?: IUser) => this.openCreateOrUpdateUserDialog(user).subscribe()
+			func: (user?: UserEntity) => this.openCreateOrUpdateUserDialog(user).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (user?: IUser) => {
+			func: (user?: UserEntity) => {
 				if (!user) {
 					return;
 				}
@@ -31,10 +34,6 @@ export class UsersService {
 		}
 	];
 
-	readonly users$ = this._usersGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.users.data));
-
 	constructor(
 		private readonly _usersGQL: UsersGQL,
 		private readonly _createUserGQL: CreateUserGQL,
@@ -43,10 +42,6 @@ export class UsersService {
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService
 	) {}
-
-	async refetch() {
-		await this._usersGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
 
 	openCreateOrUpdateUserDialog(data?: any) {
 		return this._dialogService.openFormDialog(UserDialogComponent, { data }).pipe(
@@ -62,7 +57,7 @@ export class UsersService {
 		);
 	}
 
-	openDeleteUserDialog(user: IUser) {
+	openDeleteUserDialog(user: UserEntity) {
 		return this._dialogService
 			.openFormDialog(ConfirmationDialogComponent, {
 				data: {
@@ -78,7 +73,7 @@ export class UsersService {
 			take(1),
 			this._toastrService.observe("Пользователи"),
 			tap(async () => {
-				await this.refetch();
+				await this._usersQuery.refetch();
 			})
 		);
 	}
@@ -88,7 +83,7 @@ export class UsersService {
 			take(1),
 			this._toastrService.observe("Пользователи"),
 			tap(async () => {
-				await this.refetch();
+				await this._usersQuery.refetch();
 			})
 		);
 	}
@@ -98,7 +93,7 @@ export class UsersService {
 			take(1),
 			this._toastrService.observe("Пользователи"),
 			tap(async () => {
-				await this.refetch();
+				await this._usersQuery.refetch();
 			})
 		);
 	}

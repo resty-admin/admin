@@ -1,43 +1,39 @@
-<div class="profile-page" *ngIf="user$ | async as user">
-	<ng-container *transloco="let t">
+<ng-container *transloco="let t; read: 'profile'">
+	<div class="profile-page" *ngIf="user$ | async as user">
 		<div class="header">
-			<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
+			<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 			<div class="tools">
 				<app-language-select class="language"></app-language-select>
 				<app-theme class="theme"></app-theme>
 			</div>
 		</div>
-
 		<div class="info">
 			<p class="name">{{ user.name }}</p>
 			<p class="role">{{ user.role }}</p>
 		</div>
 
-		<form class="form">
+		<form class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
 			<app-input
 				class="input name"
 				theme="2"
+				formControlName="name"
 				[label]="t('FORM.NAME_LABEL')"
 				[placeholder]="t('FORM.NAME_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input tel"
 				theme="2"
+				formControlName="tel"
 				[label]="t('FORM.TEL_LABEL')"
 				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input email"
 				theme="2"
+				formControlName="email"
 				[label]="t('FORM.EMAIL_LABEL')"
 				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
-			></app-input>
-			<app-input
-				class="input role"
-				theme="2"
-				[label]="t('FORM.ROLE_LABEL')"
-				[placeholder]="t('FORM.ROLE_PLACEHOLDER')"
 			></app-input>
 
 			<button class="submit">{{ t("BUTTON.SUBMIT") }}</button>
@@ -45,6 +41,6 @@
 			<app-image class="image" name="profile"></app-image>
 		</form>
 
-		<button class="delete">{{ t("PROFILE.DELETE_PROFILE") }}</button>
-	</ng-container>
-</div>
+		<button class="delete" (click)="deleteMe()">{{ t("delete_profile") }}</button>
+	</div>
+</ng-container>

@@ -10,6 +10,7 @@ import { LinkModule } from "src/app/shared/ui/link";
 import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getScopeProvider } from "../../../../../shared/i18n";
 import { ResetPasswordComponent } from "./layout/reset-password.component";
 import { ResetPasswordRoutingModule } from "./reset-password-routing.module";
 
@@ -27,6 +28,7 @@ import { ResetPasswordRoutingModule } from "./reset-password-routing.module";
 		LinkModule,
 		CardModule,
 		ImageModule
-	]
+	],
+	providers: [getScopeProvider("resetPassword", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ResetPasswordModule {}

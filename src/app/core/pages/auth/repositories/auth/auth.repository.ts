@@ -4,7 +4,6 @@ import { persistState } from "@ngneat/elf-persist-state";
 import { includeKeys } from "elf-sync-state";
 import { shareReplay } from "rxjs";
 import { ACCESS_TOKEN } from "src/app/shared/constants";
-import type { IUser } from "src/app/shared/interfaces";
 import { LocalforageService } from "src/app/shared/modules/localforage";
 
 import type { IAuthState } from "../../interfaces";
@@ -33,7 +32,7 @@ export class AuthRepository {
 		return this._store.update(setProp(ACCESS_TOKEN, accessToken));
 	}
 
-	updateUser(user?: IUser) {
+	updateUser(user?: any) {
 		return this._store.update(setProp("user", user));
 	}
 }

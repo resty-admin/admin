@@ -1,7 +1,7 @@
-<div class="categories-page" *transloco="let t">
+<div class="categories-page" *transloco="let t; read: 'categories'">
 	<button appButton class="add" (click)="openCreateCategoryDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить категорию</span>
+		<span class="text">{{ t("add") }}</span>
 	</button>
 
 	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
@@ -30,11 +30,11 @@
 
 			<ul class="products">
 				<li class="product" *ngFor="let product of category.products">
-					<p class="name-label">Название</p>
+					<p class="name-label">{{ t("name") }}</p>
 					<p class="name-value">{{ product.name }}</p>
-					<p class="description-label">Описание</p>
+					<p class="description-label">{{ t("description") }}</p>
 					<p class="description-value">{{ product.description }}</p>
-					<p class="price-label">Цена</p>
+					<p class="price-label">{{ t("price") }}</p>
 					<p class="price-value">{{ product.price }} грн</p>
 					<button
 						class="more"

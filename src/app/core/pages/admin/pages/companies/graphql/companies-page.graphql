@@ -1,0 +1,10 @@
+query CompaniesPage($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
+	companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+		}
+		totalCount
+		page
+	}
+}

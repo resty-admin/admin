@@ -1,13 +1,7 @@
-import type { AfterViewInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
-import type { Observable } from "rxjs";
-import { UsersService } from "src/app/features/users";
-import { PLACE_ID } from "src/app/shared/constants";
-import type { IUser } from "src/app/shared/interfaces";
-import { RouterService } from "src/app/shared/modules/router";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
-import type { IAction } from "../../../../../../../../../../shared/ui/actions";
+import { UsersService } from "../../../../../../../../../../features/users";
+import { ADMIN_ROUTES } from "../../../../../../../../../../shared/routes";
 
 @Component({
 	selector: "app-users",
@@ -15,43 +9,21 @@ import type { IAction } from "../../../../../../../../../../shared/ui/actions";
 	styleUrls: ["./users.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersComponent implements AfterViewInit {
-	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
+export class UsersComponent {
+	readonly pages = [
+		{
+			label: "Работники",
+			routerLink: ADMIN_ROUTES.WORKERS.path
+		},
+		{
+			label: "Гости",
+			routerLink: ADMIN_ROUTES.GUESTS.path
+		}
+	];
 
-	readonly actions: IAction<IUser>[] = this._usersService.actions;
+	constructor(private readonly _usersService: UsersService) {}
 
-	readonly users$: Observable<any> = this._usersService.users$;
-
-	columns: IDatatableColumn[] = [];
-
-	constructor(private readonly _usersService: UsersService, private readonly _routerService: RouterService) {}
-
-	openCreateUserDialog() {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-		this._usersService.openCreateOrUpdateUserDialog({ place }).subscribe();
-	}
-
-	ngAfterViewInit() {
-		this.columns = [
-			{
-				prop: "name",
-				name: "ФИО"
-			},
-			{
-				prop: "email",
-				name: "Почта"
-			},
-			{
-				prop: "tel",
-				name: "Телефон"
-			},
-			{
-				prop: "role",
-				name: "Роль"
-			},
-			{
-				cellTemplate: this.moreTemplate
-			}
-		];
+	openOrderDialog(user?: Partial<any>) {
+		this._usersService.openCreateOrUpdateUserDialog(user).subscribe();
 	}
 }

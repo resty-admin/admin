@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { take } from "rxjs";
-import type { IForgotPassword } from "src/app/shared/interfaces";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 import type { IRadioButtonOption } from "src/app/shared/ui/radio-button";
 
@@ -19,7 +18,7 @@ export class ForgotPasswordComponent {
 	readonly adminRoutes = ADMIN_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group<IForgotPassword>({
+	readonly form = this._formBuilder.group<any>({
 		email: "",
 		tel: ""
 	});
@@ -28,7 +27,7 @@ export class ForgotPasswordComponent {
 
 	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
 
-	forgotPassword(formValue: IForgotPassword) {
+	forgotPassword(formValue: any) {
 		this._authService.forgotPassword(formValue).pipe(take(1)).subscribe();
 	}
 }

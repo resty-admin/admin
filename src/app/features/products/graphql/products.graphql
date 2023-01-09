@@ -1,4 +1,4 @@
-query Products($take: Int!, $filtersArgs: FiltersArgsDto, $skip: Int!) {
+query Products($take: Int!, $filtersArgs: [FiltersArgsDto!], $skip: Int!) {
 	products(take: $take, filtersArgs: $filtersArgs, skip: $skip) {
 		page
 		totalCount

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import type { IUser } from "src/app/shared/interfaces";
 import { RouterService } from "src/app/shared/modules/router";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 import type { IAction } from "src/app/shared/ui/actions";
@@ -15,8 +14,8 @@ import { AuthService } from "../../../auth/services";
 export class HeaderComponent {
 	@Output() burgerClicked = new EventEmitter();
 	@Input() isAsideOpen: boolean | null = false;
-	@Input() user?: IUser | null;
-	readonly actions: IAction<IUser>[] = [
+	@Input() user?: any | null;
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Профиль",
 			icon: "profile",

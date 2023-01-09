@@ -1,4 +1,4 @@
-query Commands($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+query Commands($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	commands(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 		data {
 			id

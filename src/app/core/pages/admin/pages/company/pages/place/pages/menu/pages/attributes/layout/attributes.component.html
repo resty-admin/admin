@@ -1,7 +1,7 @@
-<div class="attributes-page" *transloco="let t">
+<div class="attributes-page" *transloco="let t; read: 'attributes'">
 	<button appButton class="add" (click)="openCreateAttributeGroupDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить группу модификаций</span>
+		<span class="text">{{ t("add") }}</span>
 	</button>
 
 	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
@@ -11,7 +11,7 @@
 	</button>
 
 	<ul class="attributes-groups">
-		<li class="attributes-group" *ngFor="let attributesGroup of attributesGroups$ | async">
+		<li class="attributes-group" *ngFor="let attributesGroup of attributeGroups$ | async">
 			<div class="header">
 				<h1 class="label">{{ attributesGroup.name }}</h1>
 

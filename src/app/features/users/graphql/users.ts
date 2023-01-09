@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type UsersQueryVariables = Types.Exact<{
 	skip: Types.Scalars["Int"];
 	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface UsersQuery {
@@ -87,7 +87,7 @@ export interface DeleteUserMutation {
 }
 
 export const UsersDocument = gql`
-	query Users($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	query Users($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		users(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			page
 			totalCount

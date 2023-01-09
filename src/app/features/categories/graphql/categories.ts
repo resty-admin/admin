@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type CategoriesQueryVariables = Types.Exact<{
 	skip: Types.Scalars["Int"];
 	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface CategoriesQuery {
@@ -74,7 +74,7 @@ export interface DeleteCategoryMutation {
 }
 
 export const CategoriesDocument = gql`
-	query Categories($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+	query Categories($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		categories(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			data {
 				id

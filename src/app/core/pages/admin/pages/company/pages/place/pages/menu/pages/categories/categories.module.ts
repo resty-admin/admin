@@ -10,6 +10,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { getScopeProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
@@ -33,6 +34,7 @@ import { CategoriesComponent } from "./layout/categories.component";
 		TippyDirective,
 		CategoriesFeatureModule,
 		TranslocoModule
-	]
+	],
+	providers: [getScopeProvider("categories", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class CategoriesModule {}

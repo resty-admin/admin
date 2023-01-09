@@ -4,11 +4,11 @@ import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, take } from "rxjs";
 import { DYNAMIC_TOKEN } from "src/app/shared/constants";
-import { UserRoleEnum } from "src/app/shared/enums";
 import { RouterService } from "src/app/shared/modules/router";
 import { ADMIN_ROUTES } from "src/app/shared/routes";
 import { ToastrService } from "src/app/shared/ui/toastr";
 
+import { UserRoleEnum } from "../../../../../../../graphql";
 import type { IAuthType } from "../../../interfaces";
 import { AuthService } from "../../../services";
 import { AUTH_TYPES } from "../../../utils";
@@ -23,7 +23,7 @@ import { AUTH_TYPES } from "../../../utils";
 export class SignUpComponent implements OnInit {
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
-	readonly roles = [UserRoleEnum.ADMIN, UserRoleEnum.HOSTESS, UserRoleEnum.WAITER, UserRoleEnum.HOOKAH].map((role) => ({
+	readonly roles = [UserRoleEnum.Admin, UserRoleEnum.Hostess, UserRoleEnum.Waiter, UserRoleEnum.Hookah].map((role) => ({
 		label: role,
 		value: role
 	}));
@@ -33,7 +33,7 @@ export class SignUpComponent implements OnInit {
 		email: "",
 		tel: "",
 		password: "",
-		role: UserRoleEnum.ADMIN
+		role: UserRoleEnum.Admin
 	});
 
 	constructor(

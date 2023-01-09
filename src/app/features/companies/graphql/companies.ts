@@ -6,7 +6,7 @@ import type * as Types from "../../../../graphql";
 export type CompaniesQueryVariables = Types.Exact<{
 	take: Types.Scalars["Int"];
 	skip: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface CompaniesQuery {
@@ -37,7 +37,7 @@ export type UpdateCompanyMutationVariables = Types.Exact<{
 
 export interface UpdateCompanyMutation {
 	__typename?: "Mutation";
-	updateCompany: { __typename?: "CompanyEntity"; name: string };
+	updateCompany: { __typename?: "CompanyEntity"; id: string; name: string };
 }
 
 export type CreateCompanyMutationVariables = Types.Exact<{
@@ -59,7 +59,7 @@ export interface DeleteCompanyMutation {
 }
 
 export const CompaniesDocument = gql`
-	query Companies($take: Int!, $skip: Int!, $filtersArgs: FiltersArgsDto) {
+	query Companies($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 		companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
 			data {
 				name
@@ -102,6 +102,7 @@ export class CompaniesGQL extends Apollo.Query<CompaniesQuery, CompaniesQueryVar
 export const UpdateCompanyDocument = gql`
 	mutation UpdateCompany($company: UpdateCompanyInput!) {
 		updateCompany(company: $company) {
+			id
 			name
 		}
 	}

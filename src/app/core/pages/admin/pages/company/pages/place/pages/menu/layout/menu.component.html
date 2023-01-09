@@ -1,5 +1,5 @@
-<div class="menu-page" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("MENU.TITLE") }}</h1>
+<div class="menu-page" *transloco="let t; read: 'menu'">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<ul class="links">
 		<li class="link-item" *ngFor="let page of pages">

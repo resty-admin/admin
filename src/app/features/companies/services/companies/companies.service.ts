@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 
 import type { CreateCompanyInput, UpdateCompanyInput } from "../../../../../graphql";
-import type { ICompany } from "../../../../shared/interfaces";
 import { FilesService } from "../../../../shared/modules/file";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
@@ -13,20 +12,19 @@ import { CompaniesGQL, CreateCompanyGQL, DeleteCompanyGQL, UpdateCompanyGQL } fr
 
 @Injectable({ providedIn: "root" })
 export class CompaniesService {
-	readonly companies$ = this._companiesGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.companies.data));
+	private readonly _companiesQuery = this._companiesGQL.watch({ skip: 0, take: 10 });
+	readonly companies$ = this._companiesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
 
-	readonly actions: IAction<ICompany>[] = [
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (company?: ICompany) => this.openCreateOrUpdateCompanyDialog(company).subscribe()
+			func: (company?: any) => this.openCreateOrUpdateCompanyDialog(company).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (company?: ICompany) => {
+			func: (company?: any) => {
 				if (!company) {
 					return;
 				}
@@ -45,10 +43,6 @@ export class CompaniesService {
 		private readonly _toastrService: ToastrService,
 		private readonly _filesService: FilesService
 	) {}
-
-	async refetch() {
-		await this._companiesGQL.watch({ skip: 0, take: 5 }).refetch();
-	}
 
 	openCreateOrUpdateCompanyDialog(data?: any) {
 		return this._dialogService.openFormDialog(CompanyDialogComponent, { data }).pipe(
@@ -78,10 +72,11 @@ export class CompaniesService {
 	createCompany(company: CreateCompanyInput) {
 		return this._filesService.getFile(company.logo).pipe(
 			switchMap((logo) => this._createCompanyGQL.mutate({ company: { ...company, logo: logo?.id } })),
+			map((result) => result.data?.createCompany),
 			take(1),
 			this._toastrService.observe("Компании"),
 			tap(async () => {
-				await this.refetch();
+				await this._companiesQuery.refetch();
 			})
 		);
 	}
@@ -89,10 +84,11 @@ export class CompaniesService {
 	updateCompany(company: UpdateCompanyInput) {
 		return this._filesService.getFile(company.logo).pipe(
 			switchMap((logo) => this._updateCompanyGQL.mutate({ company: { ...company, logo: logo?.id } })),
+			map((result) => result.data?.updateCompany),
 			take(1),
 			this._toastrService.observe("Компании"),
 			tap(async () => {
-				await this.refetch();
+				await this._companiesQuery.refetch();
 			})
 		);
 	}
@@ -102,7 +98,7 @@ export class CompaniesService {
 			take(1),
 			this._toastrService.observe("Компании"),
 			tap(async () => {
-				await this.refetch();
+				await this._companiesQuery.refetch();
 			})
 		);
 	}

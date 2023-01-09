@@ -36,6 +36,7 @@ jobs:
 
             doctl registry login
             docker push $(echo $REGISTRY)/$(echo $NGX_ADMIN):latest
+            doctl registry garbage-collection start --include-untagged-manifests --force
 
 
             cd /home/resty/k8s

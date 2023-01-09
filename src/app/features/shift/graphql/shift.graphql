@@ -1,4 +1,19 @@
-query Shifts($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
+query ActiveShift {
+	activeShift {
+		id
+		tables {
+			id
+			name
+			code
+			hall {
+				id
+				name
+			}
+		}
+	}
+}
+
+query Shifts($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
 	shifts(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		page
 		totalCount
@@ -6,4 +21,20 @@ query Shifts($skip: Int!, $take: Int!, $filtersArgs: FiltersArgsDto) {
 			id
 		}
 	}
+}
+
+mutation CreateShift($shift: CreateShiftInput!) {
+	createShift(shift: $shift) {
+		id
+	}
+}
+
+mutation UpdateShift($shift: UpdateShiftInput!) {
+	updateShift(shift: $shift) {
+		id
+	}
+}
+
+mutation CloseShift($shiftId: String!) {
+	closeShift(shiftId: $shiftId)
 }

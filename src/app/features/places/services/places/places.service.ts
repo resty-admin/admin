@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 
 import type { CreatePlaceInput, UpdatePlaceInput } from "../../../../../graphql";
-import type { IPlace } from "../../../../shared/interfaces";
 import { FilesService } from "../../../../shared/modules/file";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
@@ -13,20 +12,20 @@ import { CreatePlacesGQL, DeletePlaceGQL, PlacesGQL, UpdatePlaceGQL } from "../.
 
 @Injectable({ providedIn: "root" })
 export class PlacesService {
-	readonly places$ = this._placesGQL
-		.watch({ skip: 0, take: 10 })
-		.valueChanges.pipe(map((result) => result.data.places.data));
+	private readonly _placesQuery = this._placesGQL.watch({ skip: 0, take: 10 });
 
-	readonly actions: IAction<IPlace>[] = [
+	readonly places$ = this._placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
+
+	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (place?: IPlace) => this.openCreateOrUpdatePlaceDialog(place).subscribe()
+			func: (place?: any) => this.openCreateOrUpdatePlaceDialog(place).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (place?: IPlace) => {
+			func: (place?: any) => {
 				if (!place) {
 					return;
 				}
@@ -46,8 +45,12 @@ export class PlacesService {
 		private readonly _filesService: FilesService
 	) {}
 
-	async refetch() {
-		await this._placesGQL.watch({ skip: 0, take: 5 }).refetch();
+	getPlaces(company: string) {
+		this._placesQuery
+			.setVariables({ take: 10, skip: 0, filtersArgs: { key: "company", operator: "=", value: company } })
+			.then();
+
+		return this.places$;
 	}
 
 	openCreateOrUpdatePlaceDialog(data?: any) {
@@ -79,10 +82,11 @@ export class PlacesService {
 	createPlace(place: CreatePlaceInput) {
 		return this._filesService.getFile(place.file).pipe(
 			switchMap((file) => this._createPlaceGQL.mutate({ place: { ...place, file: file?.id } })),
+			map((place) => place.data?.createPlace),
 			take(1),
 			this._toastrService.observe("Заведения"),
 			tap(async () => {
-				await this.refetch();
+				await this._placesQuery.refetch();
 			})
 		);
 	}
@@ -90,10 +94,11 @@ export class PlacesService {
 	updatePlace(place: UpdatePlaceInput) {
 		return this._filesService.getFile(place.file).pipe(
 			switchMap((file) => this._updatePlaceGQL.mutate({ place: { ...place, file: file?.id } })),
+			map((place) => place.data?.updatePlace),
 			take(1),
 			this._toastrService.observe("Заведения"),
 			tap(async () => {
-				await this.refetch();
+				await this._placesQuery.refetch();
 			})
 		);
 	}
@@ -103,7 +108,7 @@ export class PlacesService {
 			take(1),
 			this._toastrService.observe("Заведения"),
 			tap(async () => {
-				await this.refetch();
+				await this._placesQuery.refetch();
 			})
 		);
 	}

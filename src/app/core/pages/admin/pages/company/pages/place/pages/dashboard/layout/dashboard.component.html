@@ -1,14 +1,14 @@
-<div class="dashboard" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("DASHBOARD.TITLE") }}</h1>
+<div class="dashboard" *transloco="let t; read: 'dashboard'">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<div class="money">
 		<p class="money-value">40 000 грн</p>
-		<p class="money-label">{{ t("DASHBOARD.MONEY_LABEL") }}</p>
+		<p class="money-label">{{ t("money") }}</p>
 
 		<div class="divider"></div>
 
 		<p class="comission-value">5% = 2 000 грн</p>
-		<p class="comission-label">{{ t("DASHBOARD.COMISSION_LABEL") }}</p>
+		<p class="comission-label">{{ t("comission") }}</p>
 
 		<app-image class="image" name="dashboard"></app-image>
 	</div>
@@ -26,10 +26,10 @@
 	</ul>
 
 	<div class="status">
-		<p class="status-type">{{ t("DASHBOARD.STATUS_LABEL") }}</p>
-		<p class="description">{{ t("DASHBOARD.STATUS_DESCRIPTION") }}</p>
+		<p class="status-type">{{ t("status_label") }}</p>
+		<p class="description">{{ t("status_description") }}</p>
 
-		<p class="info">{{ t("DASHBOARD.STATUS_INFO") }}</p>
-		<button class="button">{{ t("DASHBOARD.CHANGE_STATUS") }}</button>
+		<p class="info">{{ t("status_info") }}</p>
+		<button class="button">{{ t("change_status") }}</button>
 	</div>
 </div>

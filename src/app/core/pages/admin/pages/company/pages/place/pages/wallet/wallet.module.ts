@@ -9,6 +9,7 @@ import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { CardsFeatureModule } from "../../../../../../../../../features/cards/cards.feature.module";
+import { getScopeProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { WalletComponent } from "./layout/wallet.component";
@@ -30,6 +31,6 @@ import { WalletRoutingModule } from "./wallet-routing.module";
 		TranslocoModule,
 		CardsFeatureModule
 	],
-	exports: [WalletComponent]
+	providers: [getScopeProvider("wallet", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class WalletModule {}

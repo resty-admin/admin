@@ -1,5 +1,5 @@
-<div class="payment-systems-page" *transloco="let t">
-	<h1 appTypography class="title" theme="1">{{ t("PAYMENT_SYSTEMS.TITLE") }}</h1>
+<div class="payment-systems-page" *transloco="let t; read: 'paymentSystems'">
+	<h1 appTypography class="title" theme="1">{{ t("title") }}</h1>
 
 	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
 
