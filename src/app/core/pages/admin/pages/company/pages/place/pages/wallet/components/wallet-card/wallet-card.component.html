@@ -1,0 +1,21 @@
+<div class="wallet-card">
+	<div class="image"></div>
+	<p class="name">{{ card.name }}</p>
+	<p class="number">{{ card.code }}</p>
+
+	<button
+		class="more"
+		appIconButton
+		[tippy]="actionsTemplate"
+		[data]="card"
+		placement="left"
+		variation="popper"
+		theme="1"
+	>
+		<app-icon class="icon" name="more"></app-icon>
+	</button>
+</div>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

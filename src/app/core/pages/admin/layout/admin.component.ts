@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { BehaviorSubject, map, shareReplay } from "rxjs";
 import { COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import { CompaniesService } from "../../../../features/companies";
 import { PlacesService } from "../../../../features/places";
 import { RouterService } from "../../../../shared/modules/router";
-import { ADMIN_ROUTES } from "../../../../shared/routes";
 import { AuthService } from "../../auth/services";
 
 @Component({

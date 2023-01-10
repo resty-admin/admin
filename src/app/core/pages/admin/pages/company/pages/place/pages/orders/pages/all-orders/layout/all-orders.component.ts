@@ -26,7 +26,7 @@ export class AllOrdersComponent implements AfterViewInit, OnInit {
 
 	private readonly _allOrdersPageQuery = this._allOrdersPageGQL.watch();
 	readonly allOrders$: Observable<any> = this._allOrdersPageQuery.valueChanges.pipe(
-		map((result) => result.data.orders.data)
+		map((result) => result.data.historyOrders.data)
 	);
 
 	constructor(
@@ -41,7 +41,7 @@ export class AllOrdersComponent implements AfterViewInit, OnInit {
 			.pipe(untilDestroyed(this))
 			.subscribe(async (placeId) => {
 				await this._allOrdersPageQuery.setVariables({
-					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+					filtersArgs: [{ key: "place", operator: "=", value: placeId }]
 				});
 			});
 	}

@@ -1,15 +1,3 @@
-query Commands($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	commands(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
-		data {
-			id
-			name
-			description
-		}
-		totalCount
-		page
-	}
-}
-
 mutation UpdateCommand($command: UpdateCommandInput!) {
 	updateCommand(command: $command) {
 		name

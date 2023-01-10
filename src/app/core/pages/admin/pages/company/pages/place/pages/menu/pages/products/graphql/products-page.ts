@@ -37,16 +37,16 @@ export const ProductsPageDocument = gql`
 			data {
 				id
 				name
+				description
+				price
 				file {
 					id
 					url
 				}
-				description
 				category {
 					id
 					name
 				}
-				price
 			}
 		}
 	}

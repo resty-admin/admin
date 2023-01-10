@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map } from "rxjs";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
 import { AccountingSystemsPageGQL } from "../graphql/accounting-systems-page";
 
@@ -11,13 +10,6 @@ import { AccountingSystemsPageGQL } from "../graphql/accounting-systems-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemsComponent {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
-
 	private readonly _accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
 
 	readonly accountingSystems$ = this._accountingSystemsPageQuery.valueChanges.pipe(

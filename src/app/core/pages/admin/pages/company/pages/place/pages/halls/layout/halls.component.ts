@@ -7,7 +7,6 @@ import { map } from "rxjs";
 import { HallsService } from "src/app/features/halls";
 import { PLACE_ID } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
 import { HallsPageGQL } from "../graphql/halls";
 
@@ -19,17 +18,13 @@ import { HallsPageGQL } from "../graphql/halls";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallsComponent implements OnInit {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
+	private readonly _hallPageQuery = this._hallsPageGQL.watch();
+	readonly halls$: Observable<any> = this._hallPageQuery.valueChanges.pipe(
+		map((result) => result.data.halls.data),
+		map((halls) => halls?.map((hall) => ({ ...hall, routerLink: hall.id })))
+	);
 
 	readonly actions = this._hallsService.actions;
-
-	private readonly _hallPageQuery = this._hallsPageGQL.watch();
-	readonly halls$: Observable<any> = this._hallPageQuery.valueChanges.pipe(map((result) => result.data.halls.data));
 
 	constructor(
 		private readonly _hallsService: HallsService,

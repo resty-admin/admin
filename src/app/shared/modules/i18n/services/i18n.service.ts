@@ -4,30 +4,11 @@ import { TranslocoService } from "@ngneat/transloco";
 import type { TranslocoScope } from "@ngneat/transloco/lib/types";
 import type { LoadOptions } from "@ngneat/transloco/lib/types";
 import type { Observable } from "rxjs";
-import { catchError, firstValueFrom, map, of, switchMap, tap } from "rxjs";
+import { catchError, firstValueFrom, of, tap } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class I18nService {
-	readonly events$ = this._translocoService.events$;
-
 	constructor(private readonly _translocoService: TranslocoService) {}
-
-	translateArray<T>(prefix: string = ""): (source: Observable<T[]>) => Observable<T[]> {
-		return (source) =>
-			source.pipe(
-				switchMap((items) =>
-					this.selectTranslation().pipe(
-						map((translation) =>
-							items.map((item) => {
-								const key = `${prefix}${item}`.toUpperCase();
-
-								return translation[key] || key;
-							})
-						)
-					)
-				)
-			);
-	}
 
 	selectTranslate<T = any>(
 		key: TranslateParams,

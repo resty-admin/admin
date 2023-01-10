@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
 import type { IAction } from "src/app/shared/ui/actions";
 
 import { AuthService } from "../../../auth/services";

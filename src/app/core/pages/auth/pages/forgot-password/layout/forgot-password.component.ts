@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { take } from "rxjs";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 import type { IRadioButtonOption } from "src/app/shared/ui/radio-button";
 
 import type { IAuthType } from "../../../interfaces";
-import { AuthService } from "../../../services";
 import { AUTH_TYPES } from "../../../utils";
+import { ForgotPasswordGQL } from "../graphql/forgot-password";
 
 @Component({
 	selector: "app-forgot-password",
@@ -25,9 +25,9 @@ export class ForgotPasswordComponent {
 
 	readonly types: IRadioButtonOption[] = AUTH_TYPES;
 
-	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
+	constructor(private readonly _formBuilder: FormBuilder, private readonly _forgotPasswordGQL: ForgotPasswordGQL) {}
 
-	forgotPassword(formValue: any) {
-		this._authService.forgotPassword(formValue).pipe(take(1)).subscribe();
+	forgotPassword(body: any) {
+		this._forgotPasswordGQL.mutate({ body }).pipe(take(1)).subscribe();
 	}
 }

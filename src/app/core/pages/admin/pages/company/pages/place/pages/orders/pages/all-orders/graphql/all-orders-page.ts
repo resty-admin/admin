@@ -11,22 +11,29 @@ export type AllOrdersPageQueryVariables = Types.Exact<{
 
 export interface AllOrdersPageQuery {
 	__typename?: "Query";
-	orders: {
-		__typename?: "PaginatedActiveOrder";
+	historyOrders: {
+		__typename?: "PaginatedHistoryOrder";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "ActiveOrderEntity"; id: string; code: number; status: Types.OrderStatusEnum }[] | null;
+		data?:
+			| {
+					__typename?: "HistoryOrderEntity";
+					id: string;
+					orderNumber: number;
+					status: Types.OrderStatusEnum;
+			  }[]
+			| null;
 	};
 }
 
 export const AllOrdersPageDocument = gql`
 	query AllOrdersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-		orders(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		historyOrders(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
 			page
 			totalCount
 			data {
 				id
-				code
+				orderNumber
 				status
 			}
 		}

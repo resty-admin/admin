@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import { UserRoleEnum } from "../../graphql";
-import { ADMIN_ROUTES } from "../shared/routes";
 import { ROUTER_CONFIG } from "./configs/router.config";
 import { AuthGuard } from "./pages/auth/guards";
 

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { map, switchMap, take, tap } from "rxjs";
 
 import type { CreatePlaceInput, UpdatePlaceInput } from "../../../../../graphql";
-import { FilesService } from "../../../../shared/modules/file";
+import { FilesService } from "../../../../shared/modules/files";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";

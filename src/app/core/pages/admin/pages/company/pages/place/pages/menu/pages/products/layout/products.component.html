@@ -4,11 +4,7 @@
 		<span class="text">{{ t("add") }}</span>
 	</button>
 
-	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
-
-	<button class="filters">
-		<app-icon class="icon" name="filters"></app-icon>
-	</button>
+	<app-filters class="filters"></app-filters>
 
 	<app-datatable class="datatable-desktop" [rows]="products$ | async" [columns]="columns"></app-datatable>
 

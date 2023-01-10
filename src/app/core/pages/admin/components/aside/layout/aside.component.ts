@@ -4,12 +4,12 @@ import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map } from "rxjs";
 import { COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 import type { ISimpleChanges } from "src/app/shared/interfaces";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
 
 import { CompaniesService } from "../../../../../../features/companies";
 import { PlacesService } from "../../../../../../features/places";
-import { getScopeProvider } from "../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../shared/i18n";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { AuthService } from "../../../../auth/services";
 import { PAGES } from "../data";
@@ -22,7 +22,7 @@ import { AsidePlacesGQL } from "../graphql/aside-places";
 	templateUrl: "./aside.component.html",
 	styleUrls: ["./aside.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [getScopeProvider("aside", (lang) => import(`../i18n/${lang}.json`))]
+	providers: [getI18nProvider("aside", (lang) => import(`../i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class AsideComponent implements OnChanges, OnInit {
 	@Output() linkClicked = new EventEmitter();

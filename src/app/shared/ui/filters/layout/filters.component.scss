@@ -1,0 +1,34 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-filters {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		column-gap: rem(15);
+		align-items: flex-end;
+		.search {
+			flex: 1;
+		}
+
+		.button {
+			width: rem(48);
+			height: rem(48);
+			border: rem(1) solid var(--primary);
+			border-radius: rem(12);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.icon {
+				width: rem(20);
+				height: rem(20);
+
+				@include icon(var(--primary), var(--primary));
+			}
+		}
+	}
+}
+@include dark() {
+	.app-filters {
+	}
+}

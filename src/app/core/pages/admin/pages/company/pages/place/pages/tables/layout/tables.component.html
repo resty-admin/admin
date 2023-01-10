@@ -1,37 +1,16 @@
 <div class="tables-page" *transloco="let t; read: 'tables'">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+	<app-add-header
+		class="add-header"
+		[title]="t('title')"
+		[add]="t('add')"
+		(clicked)="openCreateTableDialog()"
+	></app-add-header>
 
-	<button appButton class="add" (click)="openCreateTableDialog()">
-		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("add") }}</span>
-	</button>
+	<app-filters class="filters"></app-filters>
 
-	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
-
-	<ul class="tables">
-		<li class="table" *ngFor="let table of tables$ | async">
-			<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
-
-			<div class="content">
-				<p class="label">{{ table.name }}</p>
-				<p class="description">{{ table.code }}</p>
-			</div>
-
-			<button
-				class="more"
-				appIconButton
-				[tippy]="actionsTemplate"
-				[data]="table"
-				placement="left"
-				variation="popper"
-				theme="1"
-			>
-				<app-icon class="icon" name="more"></app-icon>
-			</button>
-		</li>
-	</ul>
+	<app-list [items]="tables$ | async" [itemTemplate]="tableTemplate"></app-list>
 </div>
 
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+<ng-template let-item #tableTemplate>
+	<app-table [table]="item" [actions]="actions"></app-table>
 </ng-template>

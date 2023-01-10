@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import { UserRoleEnum } from "../../../../../../../graphql";
 

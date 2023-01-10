@@ -11,9 +11,10 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getScopeProvider } from "../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { MultipleCheckboxModule } from "../../../../../../../../../shared/ui/multiple-checkbox";
+import { TabsModule } from "../../../../../../../../../shared/ui/tabs";
 import { MenuComponent } from "./layout/menu.component";
 import { MenuRoutingModule } from "./menu-routing.module";
 
@@ -33,8 +34,9 @@ import { MenuRoutingModule } from "./menu-routing.module";
 		IconModule,
 		DatepickerModule,
 		MultipleCheckboxModule,
-		I18nModule
+		I18nModule,
+		TabsModule
 	],
-	providers: [getScopeProvider("menu", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("menu", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class MenuModule {}

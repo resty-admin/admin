@@ -1,0 +1,5 @@
+mutation SignUp($body: SignUpInput!) {
+	signUp(body: $body) {
+		accessToken
+	}
+}

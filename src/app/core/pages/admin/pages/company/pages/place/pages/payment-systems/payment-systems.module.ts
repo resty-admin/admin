@@ -8,13 +8,16 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getScopeProvider } from "../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
+import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
+import { ListModule } from "../../../../../../../../../shared/ui/list";
+import { PAYMENT_SYSTEMS_COMPONENTS } from "./components";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 
 @NgModule({
-	declarations: [PaymentSystemsComponent],
+	declarations: [PaymentSystemsComponent, ...PAYMENT_SYSTEMS_COMPONENTS],
 	imports: [
 		CommonModule,
 		PaymentSystemsRoutingModule,
@@ -25,8 +28,10 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		ButtonModule,
 		IconModule,
 		ImageModule,
-		TranslocoModule
+		TranslocoModule,
+		ListModule,
+		FiltersModule
 	],
-	providers: [getScopeProvider("paymentSystems", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("paymentSystems", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PaymentSystemsModule {}

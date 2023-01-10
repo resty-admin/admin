@@ -13,30 +13,30 @@
 			<p class="role">{{ user.role }}</p>
 		</div>
 
-		<form class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
+		<form *transloco="let f; read: 'form'" class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
 			<app-input
 				class="input name"
 				theme="2"
 				formControlName="name"
-				[label]="t('FORM.NAME_LABEL')"
-				[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+				[label]="f('name_label')"
+				[placeholder]="f('name_placeholder')"
 			></app-input>
 			<app-input
 				class="input tel"
 				theme="2"
 				formControlName="tel"
-				[label]="t('FORM.TEL_LABEL')"
-				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
+				[label]="f('tel_label')"
+				[placeholder]="f('tel_placeholder')"
 			></app-input>
 			<app-input
 				class="input email"
 				theme="2"
 				formControlName="email"
-				[label]="t('FORM.EMAIL_LABEL')"
-				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+				[label]="f('email_label')"
+				[placeholder]="f('email_placeholder')"
 			></app-input>
 
-			<button class="submit">{{ t("BUTTON.SUBMIT") }}</button>
+			<button class="submit">{{ f("submit") }}</button>
 
 			<app-image class="image" name="profile"></app-image>
 		</form>

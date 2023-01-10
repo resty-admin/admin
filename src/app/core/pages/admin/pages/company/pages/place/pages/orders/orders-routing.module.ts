@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
-import { ADMIN_ROUTES } from "../../../../../../../../../shared/routes";
 import { OrdersComponent } from "./layout/orders.component";
 
 export const ORDERS_ROUTES: Route[] = [

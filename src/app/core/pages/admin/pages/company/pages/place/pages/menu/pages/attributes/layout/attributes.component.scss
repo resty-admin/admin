@@ -6,7 +6,7 @@
 		align-items: end;
 		grid-template-areas:
 			"add add add"
-			"search search filters"
+			"filters filters filters"
 			"attributes-groups attributes-groups attributes-groups";
 		row-gap: rem(16);
 		column-gap: rem(8);
@@ -14,31 +14,12 @@
 
 		@include desktop() {
 			grid-template-areas:
-				"search filters add"
+				"filters filters add"
 				"attributes-groups attributes-groups attributes-groups";
 		}
 
-		.add {
-			grid-area: add;
-		}
-		.search {
-			grid-area: search;
-		}
 		.filters {
 			grid-area: filters;
-			width: rem(48);
-			height: rem(48);
-			border: rem(1) solid var(--primary);
-			border-radius: rem(12);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			.icon {
-				width: rem(20);
-				height: rem(20);
-
-				@include icon(var(--primary), var(--primary));
-			}
 		}
 
 		.attributes-groups {
@@ -126,36 +107,32 @@
 	}
 }
 @include dark() {
-	.attributes-page {
-		.attributes-groups {
-			.attributes-group {
-				.header {
-					background-color: var(--dark-grey);
+	.attributes-page .attributes-groups .attributes-group {
+		.header {
+			background-color: var(--dark-grey);
+		}
+
+		.attributes {
+			.attribute {
+				border-color: var(--light-b);
+
+				.name-label,
+				.description-label,
+				.price-label {
+					color: var(--light-t);
 				}
 
-				.attributes {
-					.attribute {
-						border-color: var(--light-b);
-
-						.name-label,
-						.description-label,
-						.price-label {
-							color: var(--light-t);
-						}
-
-						.name-value,
-						.description-value,
-						.price-value {
-							color: var(--light);
-							&.description-value {
-								color: var(--light-t);
-							}
-						}
-
-						.more {
-							background-color: var(--dark-grey);
-						}
+				.name-value,
+				.description-value,
+				.price-value {
+					color: var(--light);
+					&.description-value {
+						color: var(--light-t);
 					}
+				}
+
+				.more {
+					background-color: var(--dark-grey);
 				}
 			}
 		}

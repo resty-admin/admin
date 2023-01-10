@@ -3,22 +3,6 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type CommandsQueryVariables = Types.Exact<{
-	take: Types.Scalars["Int"];
-	skip: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-}>;
-
-export interface CommandsQuery {
-	__typename?: "Query";
-	commands: {
-		__typename?: "PaginatedCommand";
-		totalCount: number;
-		page: number;
-		data?: { __typename?: "CommandEntity"; id: string; name: string; description: string }[] | null;
-	};
-}
-
 export type UpdateCommandMutationVariables = Types.Exact<{
 	command: Types.UpdateCommandInput;
 }>;
@@ -46,30 +30,6 @@ export interface DeleteCommandMutation {
 	deleteCommand: string;
 }
 
-export const CommandsDocument = gql`
-	query Commands($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-		commands(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
-			data {
-				id
-				name
-				description
-			}
-			totalCount
-			page
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class CommandsGQL extends Apollo.Query<CommandsQuery, CommandsQueryVariables> {
-	override document = CommandsDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
 export const UpdateCommandDocument = gql`
 	mutation UpdateCommand($command: UpdateCommandInput!) {
 		updateCommand(command: $command) {

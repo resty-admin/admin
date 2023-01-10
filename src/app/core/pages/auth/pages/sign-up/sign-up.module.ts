@@ -12,7 +12,7 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getScopeProvider } from "../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../shared/i18n";
 import { SignUpComponent } from "./layout/sign-up.component";
 import { SignUpRoutingModule } from "./sign-up-routing.module";
 
@@ -33,6 +33,6 @@ import { SignUpRoutingModule } from "./sign-up-routing.module";
 		IconModule,
 		SelectModule
 	],
-	providers: [getScopeProvider("signUp", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("signUp", (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class SignUpModule {}

@@ -1,0 +1,25 @@
+<div class="hall">
+	<app-image class="image" [remote]="true" [name]="hall.file?.url" placeholder="hall"></app-image>
+
+	<div class="content">
+		<p class="label">{{ hall.name }}</p>
+		<p class="description">{{ hall.description }}</p>
+	</div>
+
+	<button
+		appIconButton
+		appStopPropagation
+		class="more"
+		[tippy]="actionsTemplate"
+		[data]="hall"
+		placement="left"
+		variation="popper"
+		theme="1"
+	>
+		<app-icon class="icon" name="more"></app-icon>
+	</button>
+</div>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

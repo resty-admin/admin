@@ -2,14 +2,16 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { take } from "rxjs";
+import { map, take } from "rxjs";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
 import { ToastrService } from "src/app/shared/ui/toastr";
 
+import { CryptoService } from "../../../../../../shared/modules/crypto";
 import type { IAuthType } from "../../../interfaces";
 import { AuthService } from "../../../services";
 import { AUTH_TYPES } from "../../../utils";
+import { SignInGQL } from "../graphql/sign-in";
 
 @UntilDestroy()
 @Component({
@@ -33,7 +35,9 @@ export class SignInComponent implements OnInit {
 		private readonly _routerService: RouterService,
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _cryptoService: CryptoService,
+		private readonly _signInGQL: SignInGQL
 	) {}
 
 	ngOnInit() {
@@ -45,11 +49,20 @@ export class SignInComponent implements OnInit {
 		});
 	}
 
-	signIn(formValue: any) {
-		this._authService
-			.signIn(formValue)
-			.pipe(take(1), this._toastrService.observe("Вход", "Вы успешно вошли"))
-			.subscribe(async () => {
+	signIn(body: any) {
+		this._signInGQL
+			.mutate({ body: { ...body, password: this._cryptoService.encrypt(body.password) } })
+			.pipe(
+				take(1),
+				map((result) => result.data?.signIn.accessToken),
+				this._toastrService.observe("Вход", "Вы успешно вошли")
+			)
+			.subscribe(async (accessToken) => {
+				if (!accessToken) {
+					return;
+				}
+
+				this._authService.updateAccessToken(accessToken);
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 			});
 	}

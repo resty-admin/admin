@@ -11,5 +11,6 @@
 	"wallet": "Wallet",
 	"contract": "Contract",
 	"accounting_systems": "Accounting systems",
-	"payment_systems": "Payment systems"
+	"payment_systems": "Payment systems",
+	"support": "Support"
 }

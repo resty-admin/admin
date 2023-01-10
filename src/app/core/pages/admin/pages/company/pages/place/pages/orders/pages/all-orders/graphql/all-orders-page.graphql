@@ -1,10 +1,10 @@
 query AllOrdersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-	orders(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+	historyOrders(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
 		page
 		totalCount
 		data {
 			id
-			code
+			orderNumber
 			status
 		}
 	}

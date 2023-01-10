@@ -3,52 +3,13 @@
 @include page() {
 	.users-page {
 		display: grid;
-		align-items: end;
-		grid-template-areas:
-			"search search filters"
-			"datatable datatable datatable";
-		grid-template-columns: 1fr auto;
 		row-gap: rem(16);
-		column-gap: rem(8);
 
 		@include desktop() {
-			grid-template-areas:
-				"search search filters"
-				"datatable datatable datatable";
 			row-gap: rem(32);
-			column-gap: rem(16);
-		}
-
-		.title {
-			grid-area: title;
-
-			@include noWrap();
-		}
-		.add {
-			grid-area: add;
-		}
-		.search {
-			grid-area: search;
-		}
-		.filters {
-			grid-area: filters;
-			width: rem(48);
-			height: rem(48);
-			border: rem(1) solid var(--primary);
-			border-radius: rem(12);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			.icon {
-				width: rem(20);
-				height: rem(20);
-
-				@include icon(var(--primary), var(--primary));
-			}
 		}
 
 		.datatable-desktop {
-			grid-area: datatable;
 			display: none;
 
 			&::ng-deep .datatable-row-odd .more {
@@ -60,7 +21,6 @@
 			}
 		}
 		.datatable-mobile {
-			grid-area: datatable;
 			display: grid;
 			row-gap: rem(8);
 			.user {
@@ -153,29 +113,27 @@
 }
 @include dark() {
 	.users-page {
-		.datatable-mobile {
-			.user {
-				.tel-label,
-				.email-label,
-				.name-label,
-				.role-label {
-					color: var(--light-t);
-				}
-				.tel-value,
-				.email-value,
-				.name-value {
-					color: var(--light);
-				}
+		.datatable-mobile .user {
+			.tel-label,
+			.email-label,
+			.name-label,
+			.role-label {
+				color: var(--light-t);
+			}
+			.tel-value,
+			.email-value,
+			.name-value {
+				color: var(--light);
+			}
 
+			.more {
+				background-color: var(--dark-grey);
+			}
+
+			&:nth-child(2n + 1) {
+				background-color: var(--dark-grey);
 				.more {
-					background-color: var(--dark-grey);
-				}
-
-				&:nth-child(2n + 1) {
-					background-color: var(--dark-grey);
-					.more {
-						background-color: var(--dark);
-					}
+					background-color: var(--dark);
 				}
 			}
 		}

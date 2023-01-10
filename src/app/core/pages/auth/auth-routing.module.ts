@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import type { Routes } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import { JwtGuard, RoleGuard } from "./guards";
 import { AuthComponent } from "./layout/auth.component";

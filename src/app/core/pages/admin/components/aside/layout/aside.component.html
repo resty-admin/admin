@@ -9,69 +9,71 @@
 		</button>
 	</a>
 
-	<div class="company">
-		<p class="title">
-			<span class="text">{{ t("companies") }}</span>
-			<button appIconButton class="button" (click)="emitAddCompanyClicked()">
-				<app-icon class="icon" name="add"></app-icon>
-			</button>
-		</p>
+	<ng-container *transloco="let f; read: 'form'">
+		<div class="company">
+			<p class="title">
+				<span class="text">{{ t("companies") }}</span>
+				<button appIconButton class="button" (click)="emitAddCompanyClicked()">
+					<app-icon class="icon" name="add"></app-icon>
+				</button>
+			</p>
 
-		<div class="container">
-			<app-select
-				class="select"
-				bindLabel="name"
-				bindValue="id"
-				[label]="t('FORM.COMPANY_LABEL')"
-				[placeholder]="t('FORM.COMPANY_PLACEHOLDER')"
-				[formControl]="companyControl"
-				[options]="companies$ | async"
-			></app-select>
+			<div class="container">
+				<app-select
+					class="select"
+					bindLabel="name"
+					bindValue="id"
+					[label]="f('company_label')"
+					[placeholder]="f('company_placeholder')"
+					[formControl]="companyControl"
+					[options]="companies$ | async"
+				></app-select>
 
-			<button
-				appIconButton
-				class="button"
-				theme="1"
-				placement="left"
-				variation="popper"
-				[tippy]="companiesActionsTemplate"
-				[data]="companyControl.value"
-			>
-				<app-icon class="icon" name="more"></app-icon>
-			</button>
+				<button
+					appIconButton
+					class="button"
+					theme="1"
+					placement="left"
+					variation="popper"
+					[tippy]="companiesActionsTemplate"
+					[data]="companyControl.value"
+				>
+					<app-icon class="icon" name="more"></app-icon>
+				</button>
+			</div>
 		</div>
-	</div>
 
-	<div class="place">
-		<p class="title">
-			<span class="text">{{ t("places") }}</span>
-			<button appIconButton class="button" (click)="emitAddPlaceClicked()">
-				<app-icon class="icon" name="add"></app-icon>
-			</button>
-		</p>
-		<div class="container">
-			<app-select
-				class="select"
-				bindLabel="name"
-				bindValue="id"
-				[label]="t('FORM.PLACE_LABEL')"
-				[placeholder]="t('FORM.PLACE_PLACEHOLDER')"
-				[formControl]="placeControl"
-				[options]="places$ | async"
-			></app-select>
-			<button
-				appIconButton
-				class="button"
-				theme="1"
-				placement="left"
-				variation="popper"
-				[tippy]="placesActionsTemplate"
-				[data]="placeControl.value"
-			>
-				<app-icon class="icon" name="more"></app-icon>
-			</button>
+		<div class="place">
+			<p class="title">
+				<span class="text">{{ t("places") }}</span>
+				<button appIconButton class="button" (click)="emitAddPlaceClicked()">
+					<app-icon class="icon" name="add"></app-icon>
+				</button>
+			</p>
+			<div class="container">
+				<app-select
+					class="select"
+					bindLabel="name"
+					bindValue="id"
+					[label]="f('place_label')"
+					[placeholder]="f('place_placeholder')"
+					[formControl]="placeControl"
+					[options]="places$ | async"
+				></app-select>
+				<button
+					appIconButton
+					class="button"
+					theme="1"
+					placement="left"
+					variation="popper"
+					[tippy]="placesActionsTemplate"
+					[data]="placeControl.value"
+				>
+					<app-icon class="icon" name="more"></app-icon>
+				</button>
+			</div>
 		</div>
-	</div>
+	</ng-container>
 
 	<nav class="nav">
 		<ul class="pages">

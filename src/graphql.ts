@@ -11,6 +11,7 @@ export interface Scalars {
 	Int: number;
 	Float: number;
 	DateTime: any;
+	JSONObject: any;
 }
 
 export interface AccessToken {
@@ -300,6 +301,11 @@ export interface FondyEntityInput {
 	secretKey: Scalars["String"];
 }
 
+export interface ForgotPasswordInput {
+	email: Scalars["String"];
+	tel: Scalars["String"];
+}
+
 export interface HallEntity {
 	__typename?: "HallEntity";
 	file?: Maybe<FileEntity>;
@@ -322,13 +328,13 @@ export interface HistoryOrderEntity {
 	__typename?: "HistoryOrderEntity";
 	id: Scalars["String"];
 	orderNumber: Scalars["Int"];
-	place: Scalars["String"];
+	place: Scalars["JSONObject"];
 	status: OrderStatusEnum;
-	table?: Maybe<Scalars["String"][]>;
+	table?: Maybe<Scalars["JSONObject"]>;
 	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
-	users: Scalars["String"][];
-	usersToOrders: Scalars["String"][];
+	users: Scalars["JSONObject"][];
+	usersToOrders: Scalars["JSONObject"][];
 }
 
 export interface LanguageEntity {
@@ -375,9 +381,14 @@ export interface Mutation {
 	deleteShift: Scalars["String"];
 	deleteTable: Scalars["String"];
 	deleteUser: Scalars["String"];
+	forgotPassword: Scalars["String"];
 	removeEmployeeFromPlace: PlaceEntity;
 	removeTableFromOrder: ActiveOrderEntity;
 	removeUserProductInOrder: Scalars["String"];
+	resetPassword: AccessToken;
+	signIn: AccessToken;
+	signUp: AccessToken;
+	telegram: AccessToken;
 	updateAccountingSystem: AccountingSystemEntity;
 	updateAttr: AttributesEntity;
 	updateAttrGroup: AttributesGroupEntity;
@@ -394,6 +405,7 @@ export interface Mutation {
 	updateTable: TableEntity;
 	updateUser: UserEntity;
 	updateUserProductInOrder: ActiveOrderEntity;
+	verifyCode: AccessToken;
 }
 
 export interface MutationAddEmployeeToPlaceArgs {
@@ -534,6 +546,10 @@ export interface MutationDeleteUserArgs {
 	userId: Scalars["String"];
 }
 
+export interface MutationForgotPasswordArgs {
+	body: ForgotPasswordInput;
+}
+
 export interface MutationRemoveEmployeeFromPlaceArgs {
 	employeeData: AddEmployeeInput;
 }
@@ -544,6 +560,22 @@ export interface MutationRemoveTableFromOrderArgs {
 
 export interface MutationRemoveUserProductInOrderArgs {
 	userToOrderId: Scalars["String"];
+}
+
+export interface MutationResetPasswordArgs {
+	body: ResetPasswordInput;
+}
+
+export interface MutationSignInArgs {
+	body: SignInInput;
+}
+
+export interface MutationSignUpArgs {
+	body: SignUpInput;
+}
+
+export interface MutationTelegramArgs {
+	telegramUser: TelegramUserInput;
 }
 
 export interface MutationUpdateAccountingSystemArgs {
@@ -608,6 +640,10 @@ export interface MutationUpdateUserArgs {
 
 export interface MutationUpdateUserProductInOrderArgs {
 	userToOrder: UpdateUserToOrderInput;
+}
+
+export interface MutationVerifyCodeArgs {
+	code: VerifyCodeInput;
 }
 
 export enum OrderStatusEnum {
@@ -1013,6 +1049,23 @@ export interface QueryUsersArgs {
 	take?: InputMaybe<Scalars["Int"]>;
 }
 
+export interface ResetPasswordInput {
+	password: Scalars["String"];
+}
+
+export interface SignInInput {
+	email: Scalars["String"];
+	password: Scalars["String"];
+	tel: Scalars["String"];
+}
+
+export interface SignUpInput {
+	email: Scalars["String"];
+	password: Scalars["String"];
+	role: UserRoleEnum;
+	tel: Scalars["String"];
+}
+
 export interface TableEntity {
 	__typename?: "TableEntity";
 	code: Scalars["Int"];
@@ -1031,6 +1084,17 @@ export interface TableEntityInput {
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
+}
+
+export interface TelegramUserInput {
+	added_to_attachment_menu?: InputMaybe<Scalars["Boolean"]>;
+	first_name: Scalars["String"];
+	id: Scalars["String"];
+	is_bot: Scalars["Boolean"];
+	is_premium?: InputMaybe<Scalars["Boolean"]>;
+	language_code?: InputMaybe<Scalars["String"]>;
+	last_name?: InputMaybe<Scalars["String"]>;
+	username?: InputMaybe<Scalars["String"]>;
 }
 
 export enum ThemeEnum {
@@ -1221,6 +1285,10 @@ export interface UserToOrderEntityInput {
 	product: ProductEntityInput;
 	status: ProductToOrderStatusEnum;
 	user: UserEntityInput;
+}
+
+export interface VerifyCodeInput {
+	verificationCode: Scalars["Int"];
 }
 
 export interface WorkingHoursInput {

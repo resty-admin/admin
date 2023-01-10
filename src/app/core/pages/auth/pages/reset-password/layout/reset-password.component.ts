@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { take } from "rxjs";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import type { IAuthType } from "../../../interfaces";
-import { AuthService } from "../../../services";
+import { ResetPasswordGQL } from "../graphql/reset-password";
 
 @Component({
 	selector: "app-reset-password",
@@ -20,9 +20,9 @@ export class ResetPasswordComponent {
 		password: ""
 	});
 
-	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
+	constructor(private readonly _formBuilder: FormBuilder, private readonly _resetPasswordGQL: ResetPasswordGQL) {}
 
-	resetPassword(formValue: any) {
-		this._authService.resetPassword(formValue).pipe(take(1)).subscribe();
+	resetPassword(body: any) {
+		this._resetPasswordGQL.mutate({ body }).pipe(take(1)).subscribe();
 	}
 }

@@ -1,16 +1,12 @@
 <div class="users-page" *transloco="let t; read: 'users'">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+	<app-add-header
+		class="add-header"
+		[title]="t('title')"
+		[add]="t('add')"
+		(clicked)="openUserDialog()"
+	></app-add-header>
 
-	<button appButton theme="1" class="add" (click)="openOrderDialog()">
-		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("add") }}</span>
-	</button>
-
-	<ul class="links">
-		<li class="link-item" *ngFor="let page of pages">
-			<a class="link" [routerLink]="page.routerLink" routerLinkActive="active">{{ page.label }}</a>
-		</li>
-	</ul>
+	<app-tabs class="tabs" [tabs]="pages"></app-tabs>
 
 	<div class="pages">
 		<router-outlet></router-outlet>

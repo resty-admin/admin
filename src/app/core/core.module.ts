@@ -3,13 +3,14 @@ import { Injectable, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
 import type { Translation, TranslocoLoader } from "@ngneat/transloco";
+import { TRANSLOCO_SCOPE } from "@ngneat/transloco";
 
 import { ApiModule } from "../shared/modules/api";
 import { ApolloModule } from "../shared/modules/apollo";
 import { CookiesModule } from "../shared/modules/cookies";
 import { CryptoModule } from "../shared/modules/crypto";
 import { ErrorsModule } from "../shared/modules/errors";
-import { FilesModule } from "../shared/modules/file";
+import { FilesModule } from "../shared/modules/files";
 import { I18nModule } from "../shared/modules/i18n";
 import { StoreModule } from "../shared/modules/store";
 import { ThemeModule } from "../shared/modules/theme";
@@ -77,6 +78,12 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 		CodeInputModule.forRoot(CODE_INPUT_CONFIG),
 		I18nModule.forRoot(I18N_CONFIG),
 		CookiesModule
+	],
+	providers: [
+		{
+			provide: TRANSLOCO_SCOPE,
+			useValue: "form"
+		}
 	],
 	exports: [CoreComponent]
 })

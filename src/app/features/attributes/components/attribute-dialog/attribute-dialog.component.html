@@ -1,20 +1,20 @@
 <div class="attribute-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("ATTRIBUTES." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="t('FORM.NAME_LABEL')"
-			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[label]="t('name_label')"
+			[placeholder]="t('name_placeholder')"
 		></app-input>
 		<app-input
 			class="input"
 			formControlName="price"
-			[label]="t('FORM.PRICE_LABEL')"
-			[placeholder]="t('FORM.PRICE_PLACEHOLDER')"
+			[label]="t('price_label')"
+			[placeholder]="t('price_placeholder')"
 		></app-input>
 
-		<button class="submit" appButton type="submit">{{ t("BUTTON." + (data?.id ? "EDIT" : "CREATE")) }}</button>
+		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
 	</form>
 </div>

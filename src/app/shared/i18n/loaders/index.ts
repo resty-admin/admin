@@ -1,1 +1,1 @@
-export * from "./scope.loader";
+export * from "./get-scope.loader";

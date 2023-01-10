@@ -1,7 +1,0 @@
-export enum ProductToOrderStatusEnum {
-	"ADDED" = "ADDED",
-	"REQUESTED_TO_CONFIRM" = "REQUESTED_TO_CONFIRM",
-	"CONFIRMED" = "CONFIRMED",
-	"REQUESTED_TO_PAY" = "REQUESTED_TO_PAY",
-	"PAID" = "PAID"
-}

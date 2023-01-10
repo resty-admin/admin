@@ -6,7 +6,7 @@
 		align-items: end;
 		grid-template-areas:
 			"add add"
-			"search filters"
+			"filters filters"
 			"datatable datatable";
 		row-gap: rem(16);
 		column-gap: rem(8);
@@ -14,31 +14,12 @@
 
 		@include desktop() {
 			grid-template-areas:
-				"search filters add"
+				"filters filters add"
 				"datatable datatable datatable";
 		}
 
-		.add {
-			grid-area: add;
-		}
-		.search {
-			grid-area: search;
-		}
 		.filters {
 			grid-area: filters;
-			width: rem(48);
-			height: rem(48);
-			border: rem(1) solid var(--primary);
-			border-radius: rem(12);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			.icon {
-				width: rem(20);
-				height: rem(20);
-
-				@include icon(var(--primary), var(--primary));
-			}
 		}
 		.datatable-desktop {
 			grid-area: datatable;
@@ -57,7 +38,6 @@
 				display: block;
 			}
 		}
-
 		.datatable-mobile {
 			grid-area: datatable;
 			display: grid;
@@ -162,26 +142,24 @@
 			}
 		}
 
-		.datatable-mobile {
-			.product {
-				background-color: var(--dark-grey);
+		.datatable-mobile .product {
+			background-color: var(--dark-grey);
 
-				.info {
-					.name-label,
-					.description-label,
-					.category-label,
-					.price-label {
-						color: var(--light-t);
-					}
+			.info {
+				.name-label,
+				.description-label,
+				.category-label,
+				.price-label {
+					color: var(--light-t);
+				}
 
-					.name-value,
-					.category-value {
-						color: var(--light);
-					}
+				.name-value,
+				.category-value {
+					color: var(--light);
+				}
 
-					.description-value {
-						color: var(--light-t);
-					}
+				.description-value {
+					color: var(--light-t);
 				}
 			}
 		}

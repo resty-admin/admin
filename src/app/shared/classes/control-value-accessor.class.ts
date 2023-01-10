@@ -48,6 +48,7 @@ export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, 
 		}
 
 		if (changes.disabled) {
+			console.log("?");
 			this.formControl.setDisable(changes.disabled.currentValue);
 		}
 	}

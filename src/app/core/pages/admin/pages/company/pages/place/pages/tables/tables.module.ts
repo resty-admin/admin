@@ -8,15 +8,19 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getScopeProvider } from "../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
+import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
+import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
+import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
+import { TABLES_COMPONENTS } from "./components";
 import { TablesComponent } from "./layout/tables.component";
 import { TablesRoutingModule } from "./tables-routing.module";
 
 @NgModule({
-	declarations: [TablesComponent],
+	declarations: [TablesComponent, ...TABLES_COMPONENTS],
 	imports: [
 		CommonModule,
 		TablesRoutingModule,
@@ -29,8 +33,11 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		ActionsModule,
 		TooltipModule,
 		TablesFeatureModule,
-		TranslocoModule
+		TranslocoModule,
+		AddHeaderModule,
+		FiltersModule,
+		ListModule
 	],
-	providers: [getScopeProvider("tables", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("tables", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class TablesModule {}

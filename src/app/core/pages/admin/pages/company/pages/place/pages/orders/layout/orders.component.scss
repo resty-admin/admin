@@ -3,75 +3,11 @@
 @include page() {
 	.orders-page {
 		display: grid;
-		align-items: center;
-		grid-template-areas:
-			"title add"
-			"links links"
-			"pages pages";
-		grid-template-columns: 1fr auto;
 		row-gap: rem(16);
 
-		@include pagePadding ();
+		@include pagePadding();
 		@include desktop() {
 			row-gap: rem(24);
-		}
-
-		.add {
-			grid-area: add;
-		}
-
-		.links {
-			grid-area: links;
-			width: 100%;
-			display: inline-flex;
-			align-items: center;
-			justify-content: space-between;
-			border-bottom: rem(1) solid var(--dark);
-
-			@include desktop() {
-				width: auto;
-				column-gap: rem(32);
-				border-bottom: transparent;
-			}
-			.link-item {
-				flex: 1;
-				.link {
-					display: inline-block;
-					width: 100%;
-					font-weight: 500;
-					font-size: rem(16);
-					line-height: rem(24);
-					text-align: center;
-					color: var(--dark);
-					padding-bottom: rem(11);
-					border-bottom: rem(2) solid transparent;
-					margin-bottom: rem(-1);
-					&.active {
-						color: var(--primary);
-						border-color: var(--primary);
-					}
-
-					@include desktop() {
-						font-size: rem(20);
-						line-height: rem(32);
-					}
-				}
-			}
-		}
-		.pages {
-			grid-area: pages;
-		}
-	}
-}
-@include dark() {
-	.orders-page {
-		.links {
-			border-color: var(--light-t);
-			.link-item {
-				.link:not(.active) {
-					color: var(--light);
-				}
-			}
 		}
 	}
 }

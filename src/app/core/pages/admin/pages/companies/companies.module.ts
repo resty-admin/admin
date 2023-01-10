@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { PipesModule } from "src/app/shared/modules/pipes";
 
 import { CompaniesFeatureModule } from "../../../../../features/companies";
-import { getScopeProvider } from "../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../shared/i18n";
 import { I18nModule } from "../../../../../shared/modules/i18n";
 import { IconModule } from "../../../../../shared/ui/icon";
 import { ImageModule } from "../../../../../shared/ui/image";
@@ -23,6 +23,6 @@ import { CompaniesComponent } from "./layout/companies.component";
 		CompaniesFeatureModule,
 		I18nModule
 	],
-	providers: [getScopeProvider("companies", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("companies", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class CompaniesModule {}

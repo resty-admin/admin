@@ -3,43 +3,16 @@
 @include page() {
 	.all-orders-page {
 		display: grid;
-		grid-template-areas:
-			"search search filters"
-			"datatable datatable datatable";
 		row-gap: rem(16);
-		column-gap: rem(8);
-		grid-template-columns: 1fr auto;
-		align-items: end;
 
-		.search {
-			grid-area: search;
-		}
-		.filters {
-			grid-area: filters;
-			width: rem(48);
-			height: rem(48);
-			border: rem(1) solid var(--primary);
-			border-radius: rem(12);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			.icon {
-				width: rem(20);
-				height: rem(20);
-
-				@include icon(var(--primary), var(--primary));
-			}
-		}
 		.datatable-desktop {
 			@include hideOnMobile();
-			grid-area: datatable;
 			&::ng-deep .datatable-row-odd .more {
 				background-color: var(--light-grey);
 			}
 		}
 		.datatable-mobile {
-			@include hideOnDesktop ();
-			grid-area: datatable;
+			@include hideOnDesktop();
 			.order {
 				border-radius: rem(16);
 				padding: rem(20) rem(16);
@@ -112,26 +85,22 @@
 }
 @include dark() {
 	.all-orders-page {
-		.datatable-desktop {
-			&::ng-deep .datatable-row-odd .more {
-				background-color: var(--dark-grey);
-			}
+		.datatable-desktop::ng-deep .datatable-row-odd .more {
+			background-color: var(--dark-grey);
 		}
-		.datatable-mobile {
-			.order {
-				.code {
-					color: var(--light);
-				}
+		.datatable-mobile .order {
+			.code {
+				color: var(--light);
+			}
 
-				.date-value {
-					color: var(--light);
-				}
+			.date-value {
+				color: var(--light);
+			}
 
-				&:nth-child(2n + 1) {
-					background-color: var(--dark-grey);
-					.more {
-						background-color: var(--dark);
-					}
+			&:nth-child(2n + 1) {
+				background-color: var(--dark-grey);
+				.more {
+					background-color: var(--dark);
 				}
 			}
 		}

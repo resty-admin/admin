@@ -9,9 +9,10 @@ import { InputModule } from "src/app/shared/ui/input";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getScopeProvider } from "../../../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
+import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { GuestsRoutingModule } from "./guests-routing.module";
 import { GuestsComponent } from "./layout/guests.component";
@@ -31,8 +32,9 @@ import { GuestsComponent } from "./layout/guests.component";
 		ActionsModule,
 		TooltipModule,
 		UsersFeatureModule,
-		TranslocoModule
+		TranslocoModule,
+		FiltersModule
 	],
-	providers: [getScopeProvider("guests", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("guests", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class GuestsModule {}

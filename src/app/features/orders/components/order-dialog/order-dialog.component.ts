@@ -2,8 +2,9 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { OrderTypeEnum } from "src/app/shared/enums";
 import { CryptoService } from "src/app/shared/modules/crypto";
+
+import { OrderTypeEnum } from "../../../../../graphql";
 
 @Component({
 	selector: "app-order-dialog",
@@ -15,7 +16,7 @@ export class OrderDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
 		code: 0,
-		type: OrderTypeEnum.IN_PLACE
+		type: OrderTypeEnum.InPlace
 	});
 
 	constructor(

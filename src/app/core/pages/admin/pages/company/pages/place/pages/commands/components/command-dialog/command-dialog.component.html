@@ -1,0 +1,14 @@
+<div class="command-dialog" *transloco="let t; read: 'form'">
+	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
+
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input formControlName="name" [label]="t('name_label')" [placeholder]="t('name_placeholder')"></app-input>
+		<app-textarea
+			formControlName="description"
+			[label]="t('description_label')"
+			[placeholder]="t('description_placeholder')"
+		></app-textarea>
+
+		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
+	</form>
+</div>

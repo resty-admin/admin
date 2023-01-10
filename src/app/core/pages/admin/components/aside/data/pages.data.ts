@@ -1,4 +1,4 @@
-import { ADMIN_ROUTES } from "../../../../../../shared/routes";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 export const PAGES = [
 	{

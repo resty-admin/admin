@@ -1,0 +1,12 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.add-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: end;
+		.title {
+			flex: 1;
+		}
+	}
+}

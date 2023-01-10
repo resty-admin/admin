@@ -1,13 +1,11 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
 import { catchError, map, of, shareReplay, take, tap } from "rxjs";
-import { AUTH_ENDPOINTS } from "src/app/shared/endpoints";
-import type { ITelegramUser } from "src/app/shared/interfaces";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { ApiService } from "src/app/shared/modules/api";
 import { CryptoService } from "src/app/shared/modules/crypto";
 import { JwtService } from "src/app/shared/modules/jwt";
 import { RouterService } from "src/app/shared/modules/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
 
 import type { UpdateUserInput, UserEntity } from "../../../../../../graphql";
 import { ToastrService } from "../../../../../shared/ui/toastr";
@@ -18,8 +16,6 @@ import { AuthRepository } from "../../repositories";
 	providedIn: "root"
 })
 export class AuthService {
-	readonly store$ = this._authRepository.store$;
-
 	readonly me$ = this.getMe().pipe(shareReplay({ refCount: true }));
 
 	constructor(
@@ -66,37 +62,9 @@ export class AuthService {
 		return this._deleteMeGQL.mutate().pipe(take(1), this._toastrService.observe("Пользователь"));
 	}
 
-	signIn(body: any) {
-		return this._apiService
-			.post<any>(AUTH_ENDPOINTS.SIGN_IN, this._encryptPassword(body))
-			.pipe(this._updateAccessToken());
-	}
-
-	signUp(body: any) {
-		return this._apiService
-			.post<any>(AUTH_ENDPOINTS.SIGN_UP, this._encryptPassword(body))
-			.pipe(this._updateAccessToken());
-	}
-
 	async signOut() {
 		this._authRepository.updateUser(undefined);
 		this._authRepository.updateAccessToken(undefined);
 		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
-	}
-
-	verifyCode(body: any) {
-		return this._apiService.post<any>(AUTH_ENDPOINTS.VERIFY_CODE, body).pipe(this._updateAccessToken());
-	}
-
-	forgotPassword(body: any) {
-		return this._apiService.post<any>(AUTH_ENDPOINTS.FORGOT_PASSWOR, body).pipe(this._updateAccessToken());
-	}
-
-	resetPassword(body: any) {
-		return this._apiService.post<any>(AUTH_ENDPOINTS.RESET_PASSWOR, body).pipe(this._updateAccessToken());
-	}
-
-	telegram(telegramUser: ITelegramUser) {
-		return this._apiService.post<any>(AUTH_ENDPOINTS.TELEGRAM, telegramUser).pipe(this._updateAccessToken());
 	}
 }

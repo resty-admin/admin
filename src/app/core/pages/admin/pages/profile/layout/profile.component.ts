@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
 
 	ngOnInit() {
 		this.user$.pipe(untilDestroyed(this)).subscribe((user) => {
-			console.log(user);
 			if (!user) {
 				return;
 			}

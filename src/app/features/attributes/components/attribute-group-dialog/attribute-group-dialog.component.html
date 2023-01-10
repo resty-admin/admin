@@ -1,12 +1,12 @@
-<div class="attribute-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("ATTRIBUTES_GROUPS." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
+<div class="attribute-dialog" *transloco="let t; read: 'form'">
+	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="t('FORM.NAME_LABEL')"
-			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[label]="t('name_label')"
+			[placeholder]="t('name_placeholder')"
 		></app-input>
 
 		<app-select
@@ -14,8 +14,8 @@
 			formControlName="attributes"
 			bindLabel="name"
 			bindValue="value"
-			[label]="t('FORM.ATTRIBUTES_LABEL')"
-			[placeholder]="t('FORM.ATTRIBUTES_PLACEHOLDER')"
+			[label]="t('attributes_label')"
+			[placeholder]="t('attributes_description')"
 			[options]="attributes$ | async"
 			[searchable]="true"
 			[addTag]="addTag"
@@ -28,17 +28,17 @@
 			bindLabel="name"
 			bindValue="value"
 			[options]="attributeGroupTypes"
-			[label]="t('FORM.TYPE_LABEL')"
-			[placeholder]="t('FORM.TYPE_PLACEHOLDER')"
+			[label]="t('type_label')"
+			[placeholder]="t('type_placeholder')"
 		></app-select>
 
 		<app-input
 			class="input"
 			formControlName="maxItemsForPick"
-			[label]="t('FORM.MAX_ITEMS_LABEL')"
-			[placeholder]="t('FORM.MAX_ITEMS_PLACEHOLDER')"
+			[label]="t('max_items_label')"
+			[placeholder]="t('max_items_placeholder')"
 		></app-input>
 
-		<button class="submit" appButton type="submit">{{ t("BUTTON." + (data?.id ? "EDIT" : "CREATE")) }}</button>
+		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
 	</form>
 </div>

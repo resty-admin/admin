@@ -1,0 +1,5 @@
+mutation VerifyCode($code: VerifyCodeInput!) {
+	verifyCode(code: $code) {
+		accessToken
+	}
+}

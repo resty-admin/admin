@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-
-import { UsersService } from "../../../../../../../../../../features/users";
-import { ADMIN_ROUTES } from "../../../../../../../../../../shared/routes";
+import { UsersService } from "src/app/features/users";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 @Component({
 	selector: "app-users",
@@ -23,7 +22,7 @@ export class UsersComponent {
 
 	constructor(private readonly _usersService: UsersService) {}
 
-	openOrderDialog(user?: Partial<any>) {
+	openUserDialog(user?: Partial<any>) {
 		this._usersService.openCreateOrUpdateUserDialog(user).subscribe();
 	}
 }

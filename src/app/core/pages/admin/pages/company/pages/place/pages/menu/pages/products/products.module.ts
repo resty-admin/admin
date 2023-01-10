@@ -10,9 +10,10 @@ import { InputModule } from "src/app/shared/ui/input";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getScopeProvider } from "../../../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
+import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
@@ -33,8 +34,9 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		ActionsModule,
 		TooltipModule,
 		ProductsFeatureModule,
-		TranslocoModule
+		TranslocoModule,
+		FiltersModule
 	],
-	providers: [getScopeProvider("products", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("products", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ProductsModule {}

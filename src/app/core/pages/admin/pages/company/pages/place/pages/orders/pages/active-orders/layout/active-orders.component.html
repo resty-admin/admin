@@ -1,9 +1,5 @@
 <div class="active-orders-page" *transloco="let t; read: 'active-orders'">
-	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
-
-	<button class="filters">
-		<app-icon class="icon" name="filters"></app-icon>
-	</button>
+	<app-filters class="filters"></app-filters>
 
 	<ul class="orders">
 		<li class="order" *ngFor="let order of orders$ | async">

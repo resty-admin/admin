@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { OrdersService } from "src/app/features/orders";
-
-import { ADMIN_ROUTES } from "../../../../../../../../../../shared/routes";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 @Component({
 	selector: "app-orders",
@@ -23,7 +22,7 @@ export class OrdersComponent {
 
 	constructor(private readonly _ordersService: OrdersService) {}
 
-	openOrderDialog(order?: Partial<any>) {
-		this._ordersService.openCreateOrUpdateOrderDialog(order).subscribe();
+	openCreateOrderDialog() {
+		this._ordersService.openCreateOrUpdateOrderDialog().subscribe();
 	}
 }

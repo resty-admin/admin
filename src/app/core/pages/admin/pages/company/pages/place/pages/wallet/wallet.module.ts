@@ -8,15 +8,15 @@ import { InputModule } from "src/app/shared/ui/input";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { CardsFeatureModule } from "../../../../../../../../../features/cards/cards.feature.module";
-import { getScopeProvider } from "../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
+import { WALLET_COMPONENTS } from "./components";
 import { WalletComponent } from "./layout/wallet.component";
 import { WalletRoutingModule } from "./wallet-routing.module";
 
 @NgModule({
-	declarations: [WalletComponent],
+	declarations: [WalletComponent, ...WALLET_COMPONENTS],
 	imports: [
 		CommonModule,
 		WalletRoutingModule,
@@ -28,9 +28,8 @@ import { WalletRoutingModule } from "./wallet-routing.module";
 		ImageModule,
 		TooltipModule,
 		ActionsModule,
-		TranslocoModule,
-		CardsFeatureModule
+		TranslocoModule
 	],
-	providers: [getScopeProvider("wallet", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("wallet", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class WalletModule {}

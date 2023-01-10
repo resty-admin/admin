@@ -1,1 +1,1 @@
-export * from "./get-scope.provider";
+export * from "./get-i18n.provider";

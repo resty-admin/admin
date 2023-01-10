@@ -1,35 +1,38 @@
 <div class="dashboard" *transloco="let t; read: 'dashboard'">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<div class="money">
-		<p class="money-value">40 000 грн</p>
-		<p class="money-label">{{ t("money") }}</p>
-
-		<div class="divider"></div>
-
-		<p class="comission-value">5% = 2 000 грн</p>
-		<p class="comission-label">{{ t("comission") }}</p>
-
-		<app-image class="image" name="dashboard"></app-image>
-	</div>
+	<app-dashboard-header class="header"></app-dashboard-header>
 
 	<ul class="cards">
-		<li class="card" *ngFor="let card of cards">
-			<a class="link" [routerLink]="card.routerLink">
-				<p class="value">{{ card.value }}</p>
-				<p class="label">{{ card.label }}</p>
-				<div class="icon-wrapper">
-					<app-icon class="icon" [name]="card.icon"></app-icon>
-				</div>
-			</a>
-		</li>
+		<app-dashboard-card
+			class="card"
+			link="../users/guests"
+			[value]="usersCount$ | async"
+			[label]="t('guests')"
+			icon="group"
+		></app-dashboard-card>
+		<app-dashboard-card
+			class="card"
+			link="../users/workers"
+			[value]="usersCount$ | async"
+			[label]="t('workers')"
+			icon="user"
+		></app-dashboard-card>
+		<app-dashboard-card
+			class="card"
+			link="../halls"
+			[value]="hallsCount$ | async"
+			[label]="t('halls')"
+			icon="halls"
+		></app-dashboard-card>
+		<app-dashboard-card
+			class="card"
+			link="../halls"
+			[value]="tablesCount$ | async"
+			[label]="t('tables')"
+			icon="table"
+		></app-dashboard-card>
 	</ul>
 
-	<div class="status">
-		<p class="status-type">{{ t("status_label") }}</p>
-		<p class="description">{{ t("status_description") }}</p>
-
-		<p class="info">{{ t("status_info") }}</p>
-		<button class="button">{{ t("change_status") }}</button>
-	</div>
+	<app-dashboard-footer class="footer"></app-dashboard-footer>
 </div>

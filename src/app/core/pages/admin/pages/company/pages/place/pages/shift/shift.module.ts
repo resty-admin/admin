@@ -8,7 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getScopeProvider } from "../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { SHIFT_COMPONENTS } from "./components";
 import { ShiftComponent } from "./layout/shift.component";
@@ -28,6 +28,6 @@ import { ShiftRoutingModule } from "./shift-routing.module";
 		IconModule,
 		I18nModule
 	],
-	providers: [getScopeProvider("shift", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("shift", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ShiftModule {}

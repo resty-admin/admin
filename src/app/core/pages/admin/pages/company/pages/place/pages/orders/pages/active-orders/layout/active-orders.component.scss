@@ -3,36 +3,10 @@
 @include page() {
 	.active-orders-page {
 		display: grid;
-		grid-template-areas:
-			"search search filters"
-			"orders orders orders";
 		row-gap: rem(16);
-		column-gap: rem(8);
-		grid-template-columns: 1fr auto;
-		align-items: end;
 
-		.search {
-			grid-area: search;
-		}
-		.filters {
-			grid-area: filters;
-			width: rem(48);
-			height: rem(48);
-			border: rem(1) solid var(--primary);
-			border-radius: rem(12);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			.icon {
-				width: rem(20);
-				height: rem(20);
-
-				@include icon(var(--primary), var(--primary));
-			}
-		}
 		.orders {
 			display: grid;
-			grid-area: orders;
 			gap: rem(8);
 
 			@include desktop() {

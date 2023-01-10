@@ -1,44 +1,11 @@
 <div class="halls-page" *transloco="let t; read: 'halls'">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+	<app-add-header [title]="t('title')" [add]="t('add')" (clicked)="openCreateHallDialog()"></app-add-header>
 
-	<button appButton class="add" (click)="openCreateHallDialog()">
-		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("add") }}</span>
-	</button>
+	<app-filters class="filters"></app-filters>
 
-	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
-
-	<button class="filters">
-		<app-icon class="icon" name="filters"></app-icon>
-	</button>
-
-	<ul class="halls">
-		<li class="hall" *ngFor="let hall of halls$ | async">
-			<a class="link" [routerLink]="hall.id">
-				<app-image class="image" [remote]="true" [name]="hall.file?.url" placeholder="hall"></app-image>
-
-				<div class="content">
-					<p class="label">{{ hall.name }}</p>
-					<p class="description">{{ hall.description }}</p>
-				</div>
-
-				<button
-					appIconButton
-					appStopPropagation
-					class="more"
-					[tippy]="actionsTemplate"
-					[data]="hall"
-					placement="left"
-					variation="popper"
-					theme="1"
-				>
-					<app-icon class="icon" name="more"></app-icon>
-				</button>
-			</a>
-		</li>
-	</ul>
+	<app-list [items]="halls$ | async" [itemTemplate]="hallTemplate" type="link"></app-list>
 </div>
 
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+<ng-template let-item #hallTemplate>
+	<app-hall [hall]="item"></app-hall>
 </ng-template>

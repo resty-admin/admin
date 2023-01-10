@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { PaymentSystemsService } from "src/app/features/payment-systems";
+import { map } from "rxjs";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
+
+import { PaymentSystemsPageGQL } from "../graphql/payment-systems-page";
 
 @Component({
 	selector: "app-payment-systems",
@@ -16,7 +18,9 @@ export class PaymentSystemsComponent {
 		}
 	];
 
-	readonly paymentSystems$ = this._paymentSystensService.paymentSystems$;
+	readonly paymentSystems$ = this._paymentSystemsPage
+		.watch()
+		.valueChanges.pipe(map((result) => result.data.paymentSystems.data));
 
-	constructor(private readonly _paymentSystensService: PaymentSystemsService) {}
+	constructor(private readonly _paymentSystemsPage: PaymentSystemsPageGQL) {}
 }

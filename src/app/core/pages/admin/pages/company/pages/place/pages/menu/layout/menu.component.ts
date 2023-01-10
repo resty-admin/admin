@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-
-import { ADMIN_ROUTES } from "../../../../../../../../../../shared/routes";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 @Component({
 	selector: "app-menu",

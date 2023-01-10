@@ -4,10 +4,11 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 
-import { getScopeProvider } from "../../../../../../../../../../../shared/i18n";
+import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { ButtonModule } from "../../../../../../../../../../../shared/ui/button";
+import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { ActiveOrdersRoutingModule } from "./active-orders-routing.module";
 import { ActiveOrdersComponent } from "./layout/active-orders.component";
@@ -23,8 +24,9 @@ import { ActiveOrdersComponent } from "./layout/active-orders.component";
 		ButtonModule,
 		ActionsModule,
 		TooltipModule,
-		TranslocoModule
+		TranslocoModule,
+		FiltersModule
 	],
-	providers: [getScopeProvider("active-orders", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("active-orders", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ActiveOrdersModule {}

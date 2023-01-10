@@ -1,13 +1,11 @@
 <div class="accounting-systems-page" *transloco="let t; read: 'accountingSystems'">
 	<h1 appTypography class="title" theme="1">{{ t("title") }}</h1>
 
-	<app-input class="search" [label]="t('FORM.SEARCH_LABEL')" [placeholder]="t('FORM.SEARCH_PLACEHOLDER')"></app-input>
+	<app-filters class="filters"></app-filters>
 
-	<ul class="accounting-systems">
-		<li class="accounting-system" *ngFor="let accountingSystem of accountingSystems$ | async">
-			<button class="button">
-				<p appTypography theme="2">{{ accountingSystem.name }}</p>
-			</button>
-		</li>
-	</ul>
+	<app-list class="list" [items]="accountingSystems$ | async" [itemTemplate]="accountingSystemTemplate"></app-list>
 </div>
+
+<ng-template let-item #accountingSystemTemplate>
+	<app-accounting-system [accountingSystem]="item"></app-accounting-system>
+</ng-template>

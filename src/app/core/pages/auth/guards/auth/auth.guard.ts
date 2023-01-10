@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import type { CanActivate } from "@angular/router";
 import { map } from "rxjs";
+import { ADMIN_ROUTES } from "src/app/shared/constants";
 import type { IActivatedRouteSnapshot } from "src/app/shared/interfaces";
 import { RouterService } from "src/app/shared/modules/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
 
 import type { UserRoleEnum } from "../../../../../../graphql";
 import { UserStatusEnum } from "../../../../../../graphql";

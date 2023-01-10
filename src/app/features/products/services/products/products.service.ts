@@ -4,7 +4,7 @@ import type { IAction } from "src/app/shared/ui/actions";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
 import type { CreateProductInput, ProductEntity, UpdateProductInput } from "../../../../../graphql";
-import { FilesService } from "../../../../shared/modules/file";
+import { FilesService } from "../../../../shared/modules/files";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import { ProductDialogComponent } from "../../components";
