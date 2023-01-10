@@ -3197,8 +3197,8 @@
 							"kind": "NON_NULL",
 							"name": null,
 							"ofType": {
-								"kind": "SCALAR",
-								"name": "JSONObject",
+								"kind": "OBJECT",
+								"name": "PlaceEntity",
 								"ofType": null
 							}
 						},
@@ -5372,8 +5372,8 @@
 									"kind": "NON_NULL",
 									"name": null,
 									"ofType": {
-										"kind": "INPUT_OBJECT",
-										"name": "VerifyCodeInput",
+										"kind": "SCALAR",
+										"name": "Int",
 										"ofType": null
 									}
 								},
@@ -8989,13 +8989,9 @@
 						"name": "email",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -9021,13 +9017,9 @@
 						"name": "tel",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -9048,13 +9040,9 @@
 						"name": "email",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -9096,13 +9084,9 @@
 						"name": "tel",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -9395,7 +9379,7 @@
 							"name": null,
 							"ofType": {
 								"kind": "SCALAR",
-								"name": "String",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -11321,33 +11305,6 @@
 							"ofType": {
 								"kind": "INPUT_OBJECT",
 								"name": "UserEntityInput",
-								"ofType": null
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					}
-				],
-				"interfaces": null,
-				"enumValues": null,
-				"possibleTypes": null
-			},
-			{
-				"kind": "INPUT_OBJECT",
-				"name": "VerifyCodeInput",
-				"description": null,
-				"fields": null,
-				"inputFields": [
-					{
-						"name": "verificationCode",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "Int",
 								"ofType": null
 							}
 						},

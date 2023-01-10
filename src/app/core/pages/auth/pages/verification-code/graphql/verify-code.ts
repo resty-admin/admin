@@ -4,7 +4,7 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../graphql";
 export type VerifyCodeMutationVariables = Types.Exact<{
-	code: Types.VerifyCodeInput;
+	code: Types.Scalars["Int"];
 }>;
 
 export interface VerifyCodeMutation {
@@ -13,7 +13,7 @@ export interface VerifyCodeMutation {
 }
 
 export const VerifyCodeDocument = gql`
-	mutation VerifyCode($code: VerifyCodeInput!) {
+	mutation VerifyCode($code: Int!) {
 		verifyCode(code: $code) {
 			accessToken
 		}

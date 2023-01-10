@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { filter, map, take } from "rxjs";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
+import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 import { ToastrService } from "src/app/shared/ui/toastr";
 
@@ -74,12 +74,15 @@ export class SignUpComponent implements OnInit {
 				this._toastrService.observe("Регистрация", "Вы успешно зарегестрировались")
 			)
 			.subscribe(async (accessToken) => {
+				console.log("acc", accessToken);
 				if (!accessToken) {
 					return;
 				}
 
 				this._authService.updateAccessToken(accessToken);
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
+				await this._routerService.navigateByUrl(
+					ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+				);
 			});
 	}
 }

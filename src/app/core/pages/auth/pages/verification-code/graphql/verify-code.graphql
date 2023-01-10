@@ -1,4 +1,4 @@
-mutation VerifyCode($code: VerifyCodeInput!) {
+mutation VerifyCode($code: Int!) {
 	verifyCode(code: $code) {
 		accessToken
 	}

@@ -328,7 +328,7 @@ export interface HistoryOrderEntity {
 	__typename?: "HistoryOrderEntity";
 	id: Scalars["String"];
 	orderNumber: Scalars["Int"];
-	place: Scalars["JSONObject"];
+	place: PlaceEntity;
 	status: OrderStatusEnum;
 	table?: Maybe<Scalars["JSONObject"]>;
 	totalPrice?: Maybe<Scalars["Int"]>;
@@ -643,7 +643,7 @@ export interface MutationUpdateUserProductInOrderArgs {
 }
 
 export interface MutationVerifyCodeArgs {
-	code: VerifyCodeInput;
+	code: Scalars["Int"];
 }
 
 export enum OrderStatusEnum {
@@ -1054,16 +1054,16 @@ export interface ResetPasswordInput {
 }
 
 export interface SignInInput {
-	email: Scalars["String"];
+	email?: InputMaybe<Scalars["String"]>;
 	password: Scalars["String"];
-	tel: Scalars["String"];
+	tel?: InputMaybe<Scalars["String"]>;
 }
 
 export interface SignUpInput {
-	email: Scalars["String"];
+	email?: InputMaybe<Scalars["String"]>;
 	password: Scalars["String"];
 	role: UserRoleEnum;
-	tel: Scalars["String"];
+	tel?: InputMaybe<Scalars["String"]>;
 }
 
 export interface TableEntity {
@@ -1089,7 +1089,7 @@ export interface TableEntityInput {
 export interface TelegramUserInput {
 	added_to_attachment_menu?: InputMaybe<Scalars["Boolean"]>;
 	first_name: Scalars["String"];
-	id: Scalars["String"];
+	id: Scalars["Int"];
 	is_bot: Scalars["Boolean"];
 	is_premium?: InputMaybe<Scalars["Boolean"]>;
 	language_code?: InputMaybe<Scalars["String"]>;
@@ -1285,10 +1285,6 @@ export interface UserToOrderEntityInput {
 	product: ProductEntityInput;
 	status: ProductToOrderStatusEnum;
 	user: UserEntityInput;
-}
-
-export interface VerifyCodeInput {
-	verificationCode: Scalars["Int"];
 }
 
 export interface WorkingHoursInput {
