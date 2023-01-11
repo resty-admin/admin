@@ -1,13 +1,9 @@
 import type { OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { combineLatest, map, skip, take } from "rxjs";
+import { combineLatest, map, skip } from "rxjs";
 
-import { AsideService } from "../../../../../../features/app";
-import { AuthService } from "../../../../../../features/auth/services";
-import { CompaniesService } from "../../../../../../features/companies";
-import { PlacesService } from "../../../../../../features/places";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "../../../../../../shared/constants";
 import { getI18nProvider } from "../../../../../../shared/i18n";
 import { RouterService } from "../../../../../../shared/modules/router";
@@ -22,18 +18,18 @@ import { ASIDE_PAGES } from "../data";
 	providers: [getI18nProvider("aside", (lang) => import(`../i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class AsideComponent implements OnInit {
+	@Output() closeClicked = new EventEmitter();
+	@Output() signOutClicked = new EventEmitter();
+	@Output() addCompanyClicked = new EventEmitter();
+	@Output() addPlaceClicked = new EventEmitter();
+	@Input() user: any;
+	@Input() isAsideOpen: any;
+	@Input() companyActions: any;
+	@Input() placeActions: any;
+	@Input() companies: any;
+	@Input() places: any;
+
 	readonly adminRoutes = ADMIN_ROUTES;
-
-	readonly companyActions = this._companiesService.actions;
-	readonly placeActions = this._placesService.actions;
-
-	readonly places$ = this._placesService.placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
-
-	readonly companies$ = this._companiesService.companiesQuery.valueChanges.pipe(
-		map((result) => result.data.companies.data)
-	);
-
-	readonly user$ = this._authService.me$;
 
 	readonly companyControl = new FormControl<any>();
 	readonly placeControl = new FormControl<any>();
@@ -48,13 +44,23 @@ export class AsideComponent implements OnInit {
 		)
 	);
 
-	constructor(
-		private readonly _placesService: PlacesService,
-		private readonly _companiesService: CompaniesService,
-		private readonly _authService: AuthService,
-		private readonly _routerService: RouterService,
-		private readonly _asideService: AsideService
-	) {}
+	constructor(private readonly _routerService: RouterService) {}
+
+	emitSignOutClick() {
+		this.signOutClicked.emit();
+	}
+
+	emitCloseClick() {
+		this.closeClicked.emit();
+	}
+
+	emitAddCompanyClick() {
+		this.addCompanyClicked.emit();
+	}
+
+	emitAddPlaceClick() {
+		this.addPlaceClicked.emit();
+	}
 
 	ngOnInit() {
 		let isCompanyProgramatic = false;
@@ -118,23 +124,5 @@ export class AsideComponent implements OnInit {
 				this.placeControl.setValue(placeId);
 			}
 		});
-	}
-
-	openCreateCompanyDialog() {
-		this._companiesService.openCreateCompanyDialog().pipe(take(1)).subscribe();
-	}
-
-	openCreatePlaceDialog() {
-		const company = this.companyControl.value?.id;
-
-		this._placesService.openCreatePlaceDialog({ company }).pipe(take(1)).subscribe();
-	}
-
-	async signOut() {
-		await this._authService.signOut();
-	}
-
-	closeAside() {
-		this._asideService.closeAside();
 	}
 }

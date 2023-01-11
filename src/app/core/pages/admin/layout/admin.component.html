@@ -1,8 +1,26 @@
 <div class="admin">
-	<app-header class="header"></app-header>
+	<app-header
+		class="header"
+		[profileActions]="profileActions"
+		[user]="user$ | async"
+		[isAsideOpen]="isAsideOpen$ | async"
+		(burgerClicked)="toggleAside()"
+	></app-header>
 
 	<main class="main">
-		<app-aside class="aside" [class.open]="isAsideOpen$ | async"></app-aside>
+		<app-aside
+			class="aside"
+			[class.open]="isAsideOpen$ | async"
+			[companyActions]="companyActions"
+			[placeActions]="placeActions"
+			[user]="user$ | async"
+			(closeClicked)="toggleAside()"
+			(addCompanyClicked)="openCreateCompanyDialog()"
+			(addPlaceClicked)="openCreatePlaceDialog()"
+			(signOutClicked)="signOut()"
+			[companies]="companies$ | async"
+			[places]="places$ | async"
+		></app-aside>
 
 		<div class="pages">
 			<router-outlet></router-outlet>

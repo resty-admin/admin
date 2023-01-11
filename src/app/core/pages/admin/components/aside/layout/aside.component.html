@@ -1,10 +1,10 @@
 <aside class="aside" *transloco="let t; read: 'aside'">
-	<a class="user" *ngIf="user$ | async as user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="closeAside()">
+	<a class="user" *ngIf="user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="emitCloseClick()">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>
 		<p class="description">{{ user.role }}</p>
 
-		<button appStopPropagation class="sign-out" (click)="signOut()">
+		<button appStopPropagation class="sign-out" (click)="emitSignOutClick()">
 			<app-icon class="icon" name="exit"></app-icon>
 		</button>
 	</a>
@@ -13,7 +13,7 @@
 		<div class="company">
 			<p class="title">
 				<span class="text">{{ t("companies") }}</span>
-				<button appIconButton class="button" (click)="openCreateCompanyDialog()">
+				<button appIconButton class="button" (click)="emitAddCompanyClick()">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>
 			</p>
@@ -26,7 +26,7 @@
 					[label]="f('company_label')"
 					[placeholder]="f('company_placeholder')"
 					[formControl]="companyControl"
-					[options]="companies$ | async"
+					[options]="companies"
 				></app-select>
 
 				<button
@@ -46,7 +46,7 @@
 		<div class="place">
 			<p class="title">
 				<span class="text">{{ t("places") }}</span>
-				<button appIconButton class="button" (click)="openCreatePlaceDialog()" [disabled]="!companyControl.value?.id">
+				<button appIconButton class="button" (click)="emitAddPlaceClick()" [disabled]="!companyControl.value?.id">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>
 			</p>
@@ -58,7 +58,7 @@
 					[label]="f('place_label')"
 					[placeholder]="f('place_placeholder')"
 					[formControl]="placeControl"
-					[options]="places$ | async"
+					[options]="places"
 				></app-select>
 				<button
 					appIconButton
@@ -84,7 +84,7 @@
 					theme="0"
 					routerLinkActive="active"
 					[routerLink]="page.routerLink"
-					(click)="closeAside()"
+					(click)="emitCloseClick()"
 					[class.disabled]="page.disabled"
 				>
 					<app-icon class="icon" [name]="page.icon"></app-icon>

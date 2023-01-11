@@ -3,7 +3,7 @@
 		<app-image class="image" name="logo" placeholder="logo"></app-image>
 	</a>
 
-	<button class="profile" *ngIf="user$ | async as user" [tippy]="dropdown" placement="bottom-end" variation="popper">
+	<button class="profile" *ngIf="user" [tippy]="dropdown" placement="bottom-end" variation="popper">
 		<p class="name">{{ user.name }}</p>
 		<p class="role">{{ user.role }}</p>
 
@@ -12,11 +12,11 @@
 		</div>
 	</button>
 
-	<button class="burger" (click)="toggleAside()">
-		<app-icon class="icon" [name]="(isAsideOpen$ | async) ? 'close' : 'burger'"></app-icon>
+	<button class="burger" (click)="emitBurgerClick()">
+		<app-icon class="icon" [name]="isAsideOpen ? 'close' : 'burger'"></app-icon>
 	</button>
 </header>
 
 <ng-template #dropdown let-hide>
-	<app-actions [actions]="actions" [additionalFunc]="hide"></app-actions>
+	<app-actions [actions]="profileActions" [additionalFunc]="hide"></app-actions>
 </ng-template>
