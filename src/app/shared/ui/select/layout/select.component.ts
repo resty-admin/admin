@@ -1,3 +1,4 @@
+import type { OnChanges } from "@angular/core";
 import { TemplateRef } from "@angular/core";
 import { ChangeDetectionStrategy, Component, ContentChild, Input } from "@angular/core";
 import { isArray } from "@apollo/client/cache/inmemory/helpers";
@@ -16,7 +17,7 @@ import { ISelectTheme } from "../interfaces";
 	providers: getControlValueAccessorProviders(SelectComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectComponent extends ControlValueAccessor<any> {
+export class SelectComponent extends ControlValueAccessor<any> implements OnChanges {
 	@ContentChild("selectLabelTemplate", { static: true }) selectLabelTemplate?: TemplateRef<unknown>;
 	@ContentChild("selectOptionTemplate", { static: true }) selectOptionTemplate?: TemplateRef<unknown>;
 

@@ -1,1 +1,1 @@
-export * from "./pages.data";
+export * from "./aside-pages.data";

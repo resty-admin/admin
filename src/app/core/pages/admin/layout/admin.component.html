@@ -1,26 +1,8 @@
 <div class="admin">
-	<app-header
-		class="header"
-		[isAsideOpen]="isAsideOpen$ | async"
-		(burgerClicked)="toggleAside()"
-		[user]="user$ | async"
-	></app-header>
+	<app-header class="header"></app-header>
 
 	<main class="main">
-		<app-aside
-			class="aside"
-			[class.open]="isAsideOpen$ | async"
-			[places]="$any(places$ | async)"
-			[companies]="$any(companies$ | async)"
-			[companyActions]="companyActions"
-			[placeActions]="placeActions"
-			[activeCompanyId]="$any(activeCompanyId$ | async)"
-			[activePlaceId]="$any(activePlaceId$ | async)"
-			(createCompanyClicked)="openCreateCompanyDialog()"
-			(createPlaceClicked)="openCreatePlaceDialog()"
-			[user]="user$ | async"
-			(linkClicked)="toggleAside()"
-		></app-aside>
+		<app-aside class="aside" [class.open]="isAsideOpen$ | async"></app-aside>
 
 		<div class="pages">
 			<router-outlet></router-outlet>

@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 import type { IAction } from "src/app/shared/ui/actions";
 
+import { AsideService } from "../../../../../features/app";
 import { AuthService } from "../../../../../features/auth/services";
 
 @Component({
@@ -12,9 +13,6 @@ import { AuthService } from "../../../../../features/auth/services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-	@Output() burgerClicked = new EventEmitter();
-	@Input() isAsideOpen: boolean | null = false;
-	@Input() user?: any | null;
 	readonly actions: IAction<any>[] = [
 		{
 			label: "Профиль",
@@ -32,9 +30,17 @@ export class HeaderComponent {
 		}
 	];
 
-	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
+	readonly isAsideOpen$ = this._asideService.isOpen$;
 
-	emitBurgerClick() {
-		this.burgerClicked.emit();
+	readonly user$ = this._authService.me$;
+
+	constructor(
+		private readonly _routerService: RouterService,
+		private readonly _authService: AuthService,
+		private readonly _asideService: AsideService
+	) {}
+
+	toggleAside() {
+		this._asideService.toggleAside();
 	}
 }

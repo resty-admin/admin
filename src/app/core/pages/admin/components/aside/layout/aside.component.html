@@ -1,10 +1,10 @@
 <aside class="aside" *transloco="let t; read: 'aside'">
-	<a class="user" *ngIf="user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="emitLinkClick()">
+	<a class="user" *ngIf="user$ | async as user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="closeAside()">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>
 		<p class="description">{{ user.role }}</p>
 
-		<button appStopPropagation class="sign-out" (click)="emitSignOutClick()">
+		<button appStopPropagation class="sign-out" (click)="signOut()">
 			<app-icon class="icon" name="exit"></app-icon>
 		</button>
 	</a>
@@ -13,7 +13,7 @@
 		<div class="company">
 			<p class="title">
 				<span class="text">{{ t("companies") }}</span>
-				<button appIconButton class="button" (click)="emitCreateCompanyClick()">
+				<button appIconButton class="button" (click)="openCreateCompanyDialog()">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>
 			</p>
@@ -26,7 +26,7 @@
 					[label]="f('company_label')"
 					[placeholder]="f('company_placeholder')"
 					[formControl]="companyControl"
-					[options]="companies"
+					[options]="companies$ | async"
 				></app-select>
 
 				<button
@@ -46,7 +46,7 @@
 		<div class="place">
 			<p class="title">
 				<span class="text">{{ t("places") }}</span>
-				<button appIconButton class="button" (click)="emitCreatePlaceClick()">
+				<button appIconButton class="button" (click)="openCreatePlaceDialog()" [disabled]="!companyControl.value?.id">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>
 			</p>
@@ -58,7 +58,7 @@
 					[label]="f('place_label')"
 					[placeholder]="f('place_placeholder')"
 					[formControl]="placeControl"
-					[options]="places"
+					[options]="places$ | async"
 				></app-select>
 				<button
 					appIconButton
@@ -77,14 +77,14 @@
 
 	<nav class="nav">
 		<ul class="pages">
-			<li class="page" *ngFor="let page of pages">
+			<li class="page" *ngFor="let page of pages$ | async">
 				<a
 					appLink
 					class="link"
 					theme="0"
 					routerLinkActive="active"
 					[routerLink]="page.routerLink"
-					(click)="emitLinkClick()"
+					(click)="closeAside()"
 					[class.disabled]="page.disabled"
 				>
 					<app-icon class="icon" [name]="page.icon"></app-icon>
@@ -102,9 +102,9 @@
 </aside>
 
 <ng-template #companiesActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="companyActions" [data]="getCompanyById(data)" [additionalFunc]="hide"></app-actions>
+	<app-actions [actions]="companyActions" [data]="data" [additionalFunc]="hide"></app-actions>
 </ng-template>
 
 <ng-template #placesActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="placeActions" [data]="getPlaceById(data)" [additionalFunc]="hide"></app-actions>
+	<app-actions [actions]="placeActions" [data]="data" [additionalFunc]="hide"></app-actions>
 </ng-template>

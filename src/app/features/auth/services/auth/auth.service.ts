@@ -50,8 +50,8 @@ export class AuthService {
 		return { body: { ...body, password: this._cryptoService.encrypt(body.password) } };
 	}
 
-	private _updateAccessToken(source$: Observable<string | undefined>): Observable<string | undefined> {
-		return source$.pipe(tap((accessToken) => this.updateAccessToken(accessToken)));
+	private _updateAccessToken(): (source$: Observable<string | undefined>) => Observable<string | undefined> {
+		return (source$) => source$.pipe(tap((accessToken) => this._authRepository.updateAccessToken(accessToken)));
 	}
 
 	updateAccessToken(accessToken?: string) {
@@ -61,21 +61,21 @@ export class AuthService {
 	signIn(body: any) {
 		return this._signInGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.signIn.accessToken),
-			this._updateAccessToken
+			this._updateAccessToken()
 		);
 	}
 
 	signUp(body: any) {
 		return this._signUpGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.signUp.accessToken),
-			this._updateAccessToken
+			this._updateAccessToken()
 		);
 	}
 
 	resetPassword(body: any) {
 		return this._resetPasswordGQL.mutate({ body }).pipe(
 			map((result) => result.data?.resetPassword.accessToken),
-			this._updateAccessToken
+			this._updateAccessToken()
 		);
 	}
 
@@ -86,21 +86,21 @@ export class AuthService {
 	verifyCode(code: number) {
 		return this._verifyCodeGQL.mutate({ code }).pipe(
 			map((result) => result.data?.verifyCode.accessToken),
-			this._updateAccessToken
+			this._updateAccessToken()
 		);
 	}
 
 	telegram(telegramUser: any) {
 		return this._telegramGQL.mutate({ telegramUser }).pipe(
 			map((result) => result.data?.telegram.accessToken),
-			this._updateAccessToken
+			this._updateAccessToken()
 		);
 	}
 
 	google(telegramUser: any) {
 		return this._googleGQL.mutate({ telegramUser }).pipe(
 			map((result) => result.data?.telegram.accessToken),
-			this._updateAccessToken
+			this._updateAccessToken()
 		);
 	}
 

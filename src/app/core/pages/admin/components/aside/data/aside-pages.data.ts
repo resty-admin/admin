@@ -1,6 +1,6 @@
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
-export const PAGES = [
+export const ASIDE_PAGES = [
 	{
 		label: "dashboard",
 		icon: "dashboard",

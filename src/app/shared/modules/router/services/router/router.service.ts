@@ -1,16 +1,17 @@
 import { Injectable } from "@angular/core";
 import type { NavigationBehaviorOptions, NavigationExtras, UrlTree } from "@angular/router";
-import { NavigationEnd, Router, Scroll } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 import { RouterRepository } from "@ngneat/elf-ng-router-store";
 import type { Observable } from "rxjs";
-import { filter, map } from "rxjs";
+import { filter, map, startWith } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class RouterService {
 	readonly url$ = this._router.events.pipe(
-		filter((event: any) => event instanceof NavigationEnd || event instanceof Scroll),
-		map((event: NavigationEnd | Scroll) => {
-			const { url } = event instanceof Scroll ? event.routerEvent : event;
+		filter((event: any) => event instanceof NavigationEnd),
+		startWith(this._router),
+		map((event: NavigationEnd) => {
+			const { url } = event;
 
 			return url;
 		})
