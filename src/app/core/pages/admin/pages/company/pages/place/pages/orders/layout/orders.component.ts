@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { OrdersService } from "src/app/features/orders";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
+import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+
 @Component({
 	selector: "app-orders",
 	templateUrl: "./orders.component.html",
@@ -20,9 +22,9 @@ export class OrdersComponent {
 		}
 	];
 
-	constructor(private readonly _ordersService: OrdersService) {}
+	constructor(private readonly _ordersService: OrdersService, private readonly _dialogService: DialogService) {}
 
 	openCreateOrderDialog() {
-		this._ordersService.openCreateOrUpdateOrderDialog().subscribe();
+		return this._ordersService.openCreateOrderDialog();
 	}
 }

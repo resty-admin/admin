@@ -4,9 +4,9 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
 export type CompaniesQueryVariables = Types.Exact<{
-	take: Types.Scalars["Int"];
-	skip: Types.Scalars["Int"];
 	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
+	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
 }>;
 
 export interface CompaniesQuery {
@@ -15,19 +15,7 @@ export interface CompaniesQuery {
 		__typename?: "PaginatedCompany";
 		totalCount: number;
 		page: number;
-		data?:
-			| {
-					__typename?: "CompanyEntity";
-					name: string;
-					id: string;
-					status: Types.CompanyStatusEnum;
-					employees?: { __typename?: "UserEntity"; id: string }[] | null;
-					fondy?: { __typename?: "FondyEntity"; id: string } | null;
-					logo?: { __typename?: "FileEntity"; id: string; url: string } | null;
-					owner: { __typename?: "UserEntity"; id: string };
-					places?: { __typename?: "PlaceEntity"; id: string }[] | null;
-			  }[]
-			| null;
+		data?: { __typename?: "CompanyEntity"; id: string; name: string }[] | null;
 	};
 }
 
@@ -37,7 +25,7 @@ export type UpdateCompanyMutationVariables = Types.Exact<{
 
 export interface UpdateCompanyMutation {
 	__typename?: "Mutation";
-	updateCompany: { __typename?: "CompanyEntity"; id: string; name: string };
+	updateCompany: { __typename?: "CompanyEntity"; id: string };
 }
 
 export type CreateCompanyMutationVariables = Types.Exact<{
@@ -46,7 +34,7 @@ export type CreateCompanyMutationVariables = Types.Exact<{
 
 export interface CreateCompanyMutation {
 	__typename?: "Mutation";
-	createCompany: { __typename?: "CompanyEntity"; id: string; name: string };
+	createCompany: { __typename?: "CompanyEntity"; id: string };
 }
 
 export type DeleteCompanyMutationVariables = Types.Exact<{
@@ -59,29 +47,11 @@ export interface DeleteCompanyMutation {
 }
 
 export const CompaniesDocument = gql`
-	query Companies($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-		companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
+	query Companies($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+		companies(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
 			data {
-				name
-				employees {
-					id
-				}
-				fondy {
-					id
-				}
 				id
-				logo {
-					id
-					url
-				}
 				name
-				owner {
-					id
-				}
-				places {
-					id
-				}
-				status
 			}
 			totalCount
 			page
@@ -103,7 +73,6 @@ export const UpdateCompanyDocument = gql`
 	mutation UpdateCompany($company: UpdateCompanyInput!) {
 		updateCompany(company: $company) {
 			id
-			name
 		}
 	}
 `;
@@ -122,7 +91,6 @@ export const CreateCompanyDocument = gql`
 	mutation CreateCompany($company: CreateCompanyInput!) {
 		createCompany(company: $company) {
 			id
-			name
 		}
 	}
 `;

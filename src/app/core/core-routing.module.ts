@@ -4,8 +4,8 @@ import { RouterModule } from "@angular/router";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import { UserRoleEnum } from "../../graphql";
+import { AuthGuard } from "../features/auth/guards";
 import { ROUTER_CONFIG } from "./configs/router.config";
-import { AuthGuard } from "./pages/auth/guards";
 
 export const CORE_ROUTES: Route[] = [
 	{

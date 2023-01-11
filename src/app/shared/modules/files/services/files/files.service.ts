@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { of, take } from "rxjs";
+import { of } from "rxjs";
 import type { IFile } from "src/app/shared/interfaces";
 
 import { ApiService } from "../../../api";
@@ -22,10 +22,10 @@ export class FilesService {
 
 	getFile(file?: any): Observable<any> {
 		if (file instanceof File) {
-			return this.uploadOne(file).pipe(take(1));
+			return this.uploadOne(file);
 		}
 
-		return of(file?.url ? file : null).pipe(take(1));
+		return of(file?.url ? file : null);
 	}
 
 	uploadOne(file: File): Observable<IFile> {

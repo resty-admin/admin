@@ -1,20 +1,14 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map } from "rxjs";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import type { ISimpleChanges } from "src/app/shared/interfaces";
 
-import { CompaniesService } from "../../../../../../features/companies";
-import { PlacesService } from "../../../../../../features/places";
 import { getI18nProvider } from "../../../../../../shared/i18n";
 import { RouterService } from "../../../../../../shared/modules/router";
-import { AuthService } from "../../../../auth/services";
 import { PAGES } from "../data";
-import { AsideCompaniesGQL } from "../graphql/aside-companies";
-import { AsidePlacesGQL } from "../graphql/aside-places";
 
 @UntilDestroy()
 @Component({
@@ -26,39 +20,26 @@ import { AsidePlacesGQL } from "../graphql/aside-places";
 })
 export class AsideComponent implements OnChanges, OnInit {
 	@Output() linkClicked = new EventEmitter();
-	@Output() addPlaceClicked = new EventEmitter();
-	@Output() addCompanyClicked = new EventEmitter();
+	@Output() createPlaceClicked = new EventEmitter();
+	@Output() createCompanyClicked = new EventEmitter();
+	@Output() signOutClicked = new EventEmitter();
 
 	@Input() places?: any[] | null;
 	@Input() companies?: any[] | null;
+	@Input() placeActions?: any;
+	@Input() companyActions?: any;
 	@Input() activeCompanyId = "";
 	@Input() activePlaceId = "";
 	@Input() user?: any | null;
 
 	readonly adminRoutes = ADMIN_ROUTES;
 
-	readonly companiesActions = this._companiesService.actions;
-	readonly placesActions = this._placesService.actions;
-
 	pages: any[] = [];
 
 	readonly companyControl = new FormControl<any>();
 	readonly placeControl = new FormControl<any>();
 
-	private readonly _asidePlacesQuery = this._asidePlacesGQL.watch();
-	readonly places$ = this._asidePlacesQuery.valueChanges.pipe(map((result) => result.data.places.data));
-
-	private readonly _asideCompaniesQuery = this._asideCompaniesGQL.watch();
-	readonly companies$ = this._asideCompaniesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
-
-	constructor(
-		private readonly _authService: AuthService,
-		private readonly _routerService: RouterService,
-		private readonly _companiesService: CompaniesService,
-		private readonly _placesService: PlacesService,
-		private readonly _asidePlacesGQL: AsidePlacesGQL,
-		private readonly _asideCompaniesGQL: AsideCompaniesGQL
-	) {}
+	constructor(private readonly _routerService: RouterService) {}
 
 	getCompanyById(id: string) {
 		return this.companies?.find((company) => company.id === id);
@@ -69,28 +50,29 @@ export class AsideComponent implements OnChanges, OnInit {
 	}
 
 	ngOnInit() {
-		this.companyControl.value$
-			.pipe(
-				untilDestroyed(this),
-				filter((company) => Boolean(company?.id))
-			)
-			.subscribe(async (company) => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.PLACES.absolutePath.replace(COMPANY_ID, company.id));
-				await this._asidePlacesQuery.setVariables({
-					filtersArgs: [{ key: "company.id", operator: "=", value: company.id }]
-				});
-			});
-
-		this.placeControl.value$
-			.pipe(
-				untilDestroyed(this),
-				filter((place) => Boolean(place?.id))
-			)
-			.subscribe(async (place) => {
-				await this._routerService.navigateByUrl(
-					ADMIN_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, place.id).replace(COMPANY_ID, this.activeCompanyId)
-				);
-			});
+		console.log("check");
+		// this.companyControl.value$
+		// 	.pipe(
+		// 		untilDestroyed(this),
+		// 		filter((company) => Boolean(company?.id))
+		// 	)
+		// 	.subscribe(async (company) => {
+		// 		await this._routerService.navigateByUrl(ADMIN_ROUTES.PLACES.absolutePath.replace(COMPANY_ID, company.id));
+		// 		await this._asidePlacesQuery.setVariables({
+		// 			filtersArgs: [{ key: "company.id", operator: "=", value: company.id }]
+		// 		});
+		// 	});
+		//
+		// this.placeControl.value$
+		// 	.pipe(
+		// 		untilDestroyed(this),
+		// 		filter((place) => Boolean(place?.id))
+		// 	)
+		// 	.subscribe(async (place) => {
+		// 		await this._routerService.navigateByUrl(
+		// 			ADMIN_ROUTES.DASHBOARD.absolutePath.replace(PLACE_ID, place.id).replace(COMPANY_ID, this.activeCompanyId)
+		// 		);
+		// 	});
 	}
 
 	async ngOnChanges(changes: ISimpleChanges<AsideComponent>) {
@@ -129,19 +111,19 @@ export class AsideComponent implements OnChanges, OnInit {
 		}));
 	}
 
-	emitAddCompanyClicked() {
-		this.addCompanyClicked.emit();
+	emitCreateCompanyClick() {
+		this.createCompanyClicked.emit();
 	}
 
-	emitAddPlaceClicked() {
-		this.addPlaceClicked.emit();
+	emitCreatePlaceClick() {
+		this.createPlaceClicked.emit();
 	}
 
-	emitLinkClicked() {
+	emitLinkClick() {
 		this.linkClicked.emit();
 	}
 
-	async signOut() {
-		await this._authService.signOut();
+	emitSignOutClick() {
+		this.signOutClicked.emit();
 	}
 }

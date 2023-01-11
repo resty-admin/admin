@@ -1,30 +1,3 @@
-query Categories($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	categories(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
-		data {
-			id
-			name
-			file {
-				id
-				url
-			}
-			products {
-				id
-				name
-				price
-				attrsGroups {
-					id
-					name
-				}
-				file {
-					url
-				}
-			}
-		}
-		page
-		totalCount
-	}
-}
-
 mutation CreateCategory($category: CreateCategoryInput!) {
 	createCategory(category: $category) {
 		id

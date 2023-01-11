@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { PaymentSystemDialogModule } from "../../../../../../../../../features/payment-systems/ui/payment-system-dialog/payment-system-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
@@ -30,7 +31,8 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		ImageModule,
 		TranslocoModule,
 		ListModule,
-		FiltersModule
+		FiltersModule,
+		PaymentSystemDialogModule
 	],
 	providers: [getI18nProvider("paymentSystems", (lang) => import(`./i18n/${lang}.json`))]
 })

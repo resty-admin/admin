@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { CardDialogComponent } from "../components";
+import { CardsService } from "../../../../../../../../../../features/cards/services";
 
 @Component({
 	selector: "app-wallet",
@@ -12,9 +11,9 @@ import { CardDialogComponent } from "../components";
 export class WalletComponent {
 	readonly cards = [{ name: "Mikhail Khomenko", code: "**** **** **** 0000" }];
 
-	constructor(private readonly _dialogService: DialogService) {}
+	constructor(private readonly _cardsService: CardsService) {}
 
 	openCreateCardDialog() {
-		this._dialogService.openFormDialog(CardDialogComponent).subscribe();
+		this._cardsService.openCreateCardDialog().subscribe();
 	}
 }

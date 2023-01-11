@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map } from "rxjs";
+import { map, take } from "rxjs";
 import { CategoriesService } from "src/app/features/categories";
 import { ProductsService } from "src/app/features/products";
 
@@ -17,18 +17,23 @@ import { CategoriesPageGQL } from "../graphql/categories-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit {
-	readonly productActions = this._productsService.actions;
-	readonly categoryActions = this._categoriesService.actions;
-
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
 	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
+	readonly categoryActions = this._categoriesService.actions;
+	readonly productActions = this._productsService.actions;
 
 	constructor(
+		private readonly _categoriesPageGQL: CategoriesPageGQL,
 		private readonly _categoriesService: CategoriesService,
 		private readonly _productsService: ProductsService,
-		private readonly _routerService: RouterService,
-		private readonly _categoriesPageGQL: CategoriesPageGQL
+		private readonly _routerService: RouterService
 	) {}
+
+	openCreateCategoryDialog() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		this._categoriesService.openCreateCategoryDialog(place).pipe(take(1)).subscribe();
+	}
 
 	ngOnInit() {
 		this._routerService
@@ -39,10 +44,5 @@ export class CategoriesComponent implements OnInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
-	}
-
-	openCreateCategoryDialog() {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-		this._categoriesService.openCreateOrUpdateCategoryDialog({ place }).subscribe();
 	}
 }

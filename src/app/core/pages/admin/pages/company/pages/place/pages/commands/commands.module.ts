@@ -8,6 +8,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { CommandDialogModule } from "../../../../../../../../../features/commands/ui/command-dialog/command-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
@@ -34,7 +35,8 @@ import { CommandsComponent } from "./layout/commands.component";
 		FiltersModule,
 		ListModule,
 		TextareaModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		CommandDialogModule
 	],
 	providers: [getI18nProvider("commands", (lang) => import(`./i18n/${lang}.json`))]
 })

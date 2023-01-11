@@ -4,8 +4,6 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
 export type PlacesQueryVariables = Types.Exact<{
-	take: Types.Scalars["Int"];
-	skip: Types.Scalars["Int"];
 	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
@@ -13,18 +11,9 @@ export interface PlacesQuery {
 	__typename?: "Query";
 	places: {
 		__typename?: "PaginatedPlace";
-		totalCount: number;
 		page: number;
-		data?:
-			| {
-					__typename?: "PlaceEntity";
-					name: string;
-					id: string;
-					status: Types.PlaceStatusEnum;
-					address?: string | null;
-					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-			  }[]
-			| null;
+		totalCount: number;
+		data?: { __typename?: "PlaceEntity"; id: string; name: string }[] | null;
 	};
 }
 
@@ -34,7 +23,7 @@ export type UpdatePlaceMutationVariables = Types.Exact<{
 
 export interface UpdatePlaceMutation {
 	__typename?: "Mutation";
-	updatePlace: { __typename?: "PlaceEntity"; id: string; name: string };
+	updatePlace: { __typename?: "PlaceEntity"; id: string };
 }
 
 export type CreatePlacesMutationVariables = Types.Exact<{
@@ -43,7 +32,7 @@ export type CreatePlacesMutationVariables = Types.Exact<{
 
 export interface CreatePlacesMutation {
 	__typename?: "Mutation";
-	createPlace: { __typename?: "PlaceEntity"; id: string; name: string };
+	createPlace: { __typename?: "PlaceEntity"; id: string };
 }
 
 export type DeletePlaceMutationVariables = Types.Exact<{
@@ -56,21 +45,14 @@ export interface DeletePlaceMutation {
 }
 
 export const PlacesDocument = gql`
-	query Places($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-		places(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
+	query Places($filtersArgs: [FiltersArgsDto!]) {
+		places(filtersArgs: $filtersArgs) {
+			page
+			totalCount
 			data {
-				name
 				id
 				name
-				status
-				address
-				file {
-					id
-					url
-				}
 			}
-			totalCount
-			page
 		}
 	}
 `;
@@ -89,7 +71,6 @@ export const UpdatePlaceDocument = gql`
 	mutation UpdatePlace($place: UpdatePlaceInput!) {
 		updatePlace(place: $place) {
 			id
-			name
 		}
 	}
 `;
@@ -108,7 +89,6 @@ export const CreatePlacesDocument = gql`
 	mutation CreatePlaces($place: CreatePlaceInput!) {
 		createPlace(place: $place) {
 			id
-			name
 		}
 	}
 `;

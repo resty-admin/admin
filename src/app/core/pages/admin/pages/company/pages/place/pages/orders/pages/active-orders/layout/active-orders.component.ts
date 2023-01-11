@@ -1,7 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
 import { map } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 
@@ -17,16 +16,15 @@ import { ActiveOrdersPageGQL } from "../graphql/active-orders-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrdersComponent implements OnInit {
-	readonly orders$: Observable<any> = this._ordersService.orders$;
+	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
+	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders.data));
+
 	readonly actions = this._ordersService.actions;
 
-	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
-	readonly _activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders.data));
-
 	constructor(
+		private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL,
 		private readonly _ordersService: OrdersService,
-		private readonly _routerService: RouterService,
-		private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL
+		private readonly _routerService: RouterService
 	) {}
 
 	ngOnInit() {

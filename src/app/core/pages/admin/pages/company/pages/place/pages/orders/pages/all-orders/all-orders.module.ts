@@ -4,6 +4,7 @@ import { DatatableModule } from "src/app/shared/ui/datatable";
 import { IconModule } from "src/app/shared/ui/icon";
 import { InputModule } from "src/app/shared/ui/input";
 
+import { OrderDialogModule } from "../../../../../../../../../../../features/orders/ui/order-dialog/order-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
@@ -25,7 +26,8 @@ import { AllOrdersComponent } from "./layout/all-orders.component";
 		ButtonModule,
 		ActionsModule,
 		TranslocoModule,
-		FiltersModule
+		FiltersModule,
+		OrderDialogModule
 	],
 	providers: [getI18nProvider("all-orders", (lang) => import(`./i18n/${lang}.json`))]
 })

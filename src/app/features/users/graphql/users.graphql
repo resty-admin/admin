@@ -1,51 +1,12 @@
-query Users($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	users(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
-		page
-		totalCount
-		data {
-			email
-			googleId
-			id
-			name
-			password
-			tel
-			telegramId
-			telegramToken
-			role
-		}
-	}
-}
-
 mutation CreateUser($user: CreateUserInput!) {
 	createUser(user: $user) {
-		email
-		googleId
 		id
-		name
-		password
-		role
-		status
-		tel
-		telegramId
-		telegramToken
-		theme
-		verificationCode
 	}
 }
 
 mutation UpdateUser($user: UpdateUserInput!) {
 	updateUser(user: $user) {
-		email
-		googleId
 		id
-		name
-		password
-		role
-		status
-		tel
-		telegramId
-		telegramToken
-		verificationCode
 	}
 }
 

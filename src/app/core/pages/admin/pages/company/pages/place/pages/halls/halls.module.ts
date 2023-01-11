@@ -8,6 +8,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { HallDialogModule } from "../../../../../../../../../features/halls/ui/hall-dialog/hall-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
@@ -36,7 +37,8 @@ import { HallsComponent } from "./layout/halls.component";
 		TranslocoModule,
 		FiltersModule,
 		AddHeaderModule,
-		ListModule
+		ListModule,
+		HallDialogModule
 	],
 	providers: [getI18nProvider("halls", (lang) => import(`./i18n/${lang}.json`))]
 })

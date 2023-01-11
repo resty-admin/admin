@@ -3,8 +3,9 @@ import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { take } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
-import type { IAuthType } from "../../../interfaces";
-import { ResetPasswordGQL } from "../graphql/reset-password";
+import type { IAuthType } from "../../../../../../features/auth/interfaces";
+import { AuthService } from "../../../../../../features/auth/services";
+import { RouterService } from "../../../../../../shared/modules/router";
 
 @Component({
 	selector: "app-reset-password",
@@ -20,9 +21,18 @@ export class ResetPasswordComponent {
 		password: ""
 	});
 
-	constructor(private readonly _formBuilder: FormBuilder, private readonly _resetPasswordGQL: ResetPasswordGQL) {}
+	constructor(
+		private readonly _formBuilder: FormBuilder,
+		private readonly _authService: AuthService,
+		private readonly _routerService: RouterService
+	) {}
 
 	resetPassword(body: any) {
-		this._resetPasswordGQL.mutate({ body }).pipe(take(1)).subscribe();
+		this._authService
+			.resetPassword(body)
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
+			});
 	}
 }

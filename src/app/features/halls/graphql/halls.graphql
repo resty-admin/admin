@@ -1,33 +1,12 @@
-query Halls($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	halls(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
-		page
-		totalCount
-		data {
-			id
-			name
-			file {
-				id
-				url
-			}
-		}
-	}
-}
-
 mutation CreateHall($hall: CreateHallInput!) {
 	createHall(hall: $hall) {
 		id
-		name
 	}
 }
 
 mutation UpdateHall($hall: UpdateHallInput!) {
 	updateHall(hall: $hall) {
-		file {
-			url
-			id
-		}
 		id
-		name
 	}
 }
 

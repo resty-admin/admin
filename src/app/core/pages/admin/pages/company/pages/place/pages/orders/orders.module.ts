@@ -8,6 +8,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { OrderDialogModule } from "../../../../../../../../../features/orders/ui/order-dialog/order-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
@@ -31,7 +32,8 @@ import { OrderRoutingModule } from "./orders-routing.module";
 		IconModule,
 		I18nModule,
 		TabsModule,
-		AddHeaderModule
+		AddHeaderModule,
+		OrderDialogModule
 	],
 	providers: [getI18nProvider("orders", (lang) => import(`./i18n/${lang}.json`))]
 })

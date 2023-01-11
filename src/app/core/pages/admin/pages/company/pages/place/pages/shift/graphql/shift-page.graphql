@@ -1,4 +1,4 @@
-query ShiftPage {
+query ShiftPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 	activeShift {
 		id
 		tables {
@@ -9,6 +9,22 @@ query ShiftPage {
 				id
 				name
 			}
+		}
+	}
+	tables(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+	halls(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
 		}
 	}
 }

@@ -1,25 +1,20 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, take, tap } from "rxjs";
-import type { IAction } from "src/app/shared/ui/actions";
-import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
+import { filter, switchMap, take } from "rxjs";
 
 import type { CreateAttributeInput, UpdateAttributeInput } from "../../../../../graphql";
+import type { IAction } from "../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../shared/ui/toastr";
-import { AttributeDialogComponent } from "../../components";
-import { AttributesGQL, CreateAttrGQL, DeleteAttrGQL, UpdateAttrGQL } from "../../graphql/attributes";
+import { CreateAttrGQL, DeleteAttrGQL, UpdateAttrGQL } from "../../graphql/attributes";
+import { AttributeDialogComponent } from "../../ui/attribute-dialog/layout/attribute-dialog.component";
 
 @Injectable({ providedIn: "root" })
 export class AttributesService {
-	private readonly _attributesQuery = this._attributesGQL.watch({ skip: 0, take: 10 });
-
-	readonly attributes$ = this._attributesQuery.valueChanges.pipe(map((result) => result.data.attributes.data));
-
 	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (attribute?: any) => this.openCreateOrUpdateAttributeDialog(attribute).subscribe()
+			func: (attribute?: any) => this.openUpdateAttributeDialog(attribute).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -29,73 +24,57 @@ export class AttributesService {
 					return;
 				}
 
-				this.openDeleteAttributeDialog(attribute).subscribe();
+				this.openDeleteAttributeDialog(attribute).pipe(take(1)).subscribe();
 			}
 		}
 	];
 
 	constructor(
-		private readonly _attributesGQL: AttributesGQL,
 		private readonly _createAttributeGQL: CreateAttrGQL,
 		private readonly _updateAttributeGQL: UpdateAttrGQL,
 		private readonly _deleteAttributeGQL: DeleteAttrGQL,
-		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateOrUpdateAttributeDialog(data?: any) {
-		return this._dialogService.openFormDialog(AttributeDialogComponent, { data }).pipe(
-			switchMap((attribute: any) =>
-				attribute.id
-					? this.updateAttribute({
-							id: attribute.id,
-							name: attribute.name,
-							price: Number.parseInt(attribute.price)
-					  })
-					: this.createAttribute(attribute)
-			)
+	openCreateAttributeDialog(data?: any) {
+		return this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((attribute) => Boolean(attribute)),
+			switchMap((attribute: any) => this.createAttribute(attribute))
+		);
+	}
+
+	openUpdateAttributeDialog(data: any) {
+		return this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((attribute) => Boolean(attribute)),
+			switchMap((attribute: any) => this.updateAttribute(attribute))
 		);
 	}
 
 	openDeleteAttributeDialog(attribute: any) {
-		return this._dialogService
-			.openFormDialog(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить модификацию?",
-					value: attribute
-				}
-			})
-			.pipe(switchMap((attribute) => this.deleteAttribute(attribute.id)));
+		const config = {
+			data: {
+				title: "Вы уверены, что хотите удалить модификацию?",
+				value: attribute
+			}
+		};
+		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
+			take(1),
+			filter((attribute) => Boolean(attribute)),
+			switchMap((attribute) => this.deleteAttribute(attribute.id))
+		);
 	}
 
 	createAttribute(attr: CreateAttributeInput) {
-		return this._createAttributeGQL.mutate({ attr: { ...attr, price: Number.parseFloat(attr.price as any) } }).pipe(
-			map((result) => result.data?.createAttr),
-			take(1),
-			this._toastrService.observe("Модификация"),
-			tap(async () => {
-				await this._attributesQuery.refetch();
-			})
-		);
+		return this._createAttributeGQL.mutate({ attr });
 	}
 
 	updateAttribute(attr: UpdateAttributeInput) {
-		return this._updateAttributeGQL.mutate({ attr }).pipe(
-			take(1),
-			this._toastrService.observe("Модификация"),
-			tap(async () => {
-				await this._attributesQuery.refetch();
-			})
-		);
+		return this._updateAttributeGQL.mutate({ attr });
 	}
 
 	deleteAttribute(attrId: string) {
-		return this._deleteAttributeGQL.mutate({ attrId }).pipe(
-			take(1),
-			this._toastrService.observe("Модификация"),
-			tap(async () => {
-				await this._attributesQuery.refetch();
-			})
-		);
+		return this._deleteAttributeGQL.mutate({ attrId });
 	}
 }

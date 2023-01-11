@@ -4,9 +4,9 @@ import { take } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import type { IRadioButtonOption } from "src/app/shared/ui/radio-button";
 
-import type { IAuthType } from "../../../interfaces";
-import { AUTH_TYPES } from "../../../utils";
-import { ForgotPasswordGQL } from "../graphql/forgot-password";
+import type { IAuthType } from "../../../../../../features/auth/interfaces";
+import { AuthService } from "../../../../../../features/auth/services";
+import { AUTH_TYPES } from "../../../data";
 
 @Component({
 	selector: "app-forgot-password",
@@ -25,9 +25,9 @@ export class ForgotPasswordComponent {
 
 	readonly types: IRadioButtonOption[] = AUTH_TYPES;
 
-	constructor(private readonly _formBuilder: FormBuilder, private readonly _forgotPasswordGQL: ForgotPasswordGQL) {}
+	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
 
 	forgotPassword(body: any) {
-		this._forgotPasswordGQL.mutate({ body }).pipe(take(1)).subscribe();
+		this._authService.forgotPassword(body).pipe(take(1)).subscribe();
 	}
 }

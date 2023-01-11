@@ -22,7 +22,7 @@ export class UsersComponent {
 
 	constructor(private readonly _usersService: UsersService) {}
 
-	openUserDialog(user?: Partial<any>) {
-		this._usersService.openCreateOrUpdateUserDialog(user).subscribe();
+	openCreateUserDialog() {
+		return this._usersService.openCreateUserDialog().subscribe();
 	}
 }

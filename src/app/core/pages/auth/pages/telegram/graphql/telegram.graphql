@@ -1,5 +1,0 @@
-mutation Telegram($telegramUser: TelegramUserInput!) {
-	telegram(telegramUser: $telegramUser) {
-		accessToken
-	}
-}

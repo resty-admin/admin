@@ -3,43 +3,13 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type OrdersQueryVariables = Types.Exact<{
-	take: Types.Scalars["Int"];
-	skip: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-}>;
-
-export interface OrdersQuery {
-	__typename?: "Query";
-	orders: {
-		__typename?: "PaginatedActiveOrder";
-		page: number;
-		totalCount: number;
-		data?:
-			| {
-					__typename?: "ActiveOrderEntity";
-					code: number;
-					id: string;
-					status: Types.OrderStatusEnum;
-					users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
-			  }[]
-			| null;
-	};
-}
-
 export type CreateOrderMutationVariables = Types.Exact<{
 	order: Types.CreateOrderInput;
 }>;
 
 export interface CreateOrderMutation {
 	__typename?: "Mutation";
-	createOrder: {
-		__typename?: "ActiveOrderEntity";
-		id: string;
-		code: number;
-		status: Types.OrderStatusEnum;
-		type: Types.OrderTypeEnum;
-	};
+	createOrder: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
 export type UpdateOrderMutationVariables = Types.Exact<{
@@ -48,13 +18,7 @@ export type UpdateOrderMutationVariables = Types.Exact<{
 
 export interface UpdateOrderMutation {
 	__typename?: "Mutation";
-	updateOrder: {
-		__typename?: "ActiveOrderEntity";
-		id: string;
-		code: number;
-		status: Types.OrderStatusEnum;
-		type: Types.OrderTypeEnum;
-	};
+	updateOrder: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
 export type DeleteOrderMutationVariables = Types.Exact<{
@@ -66,41 +30,10 @@ export interface DeleteOrderMutation {
 	deleteOrder: string;
 }
 
-export const OrdersDocument = gql`
-	query Orders($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-		orders(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
-			page
-			totalCount
-			data {
-				code
-				id
-				status
-				users {
-					id
-					name
-				}
-			}
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class OrdersGQL extends Apollo.Query<OrdersQuery, OrdersQueryVariables> {
-	override document = OrdersDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($order: CreateOrderInput!) {
 		createOrder(order: $order) {
 			id
-			code
-			status
-			type
 		}
 	}
 `;
@@ -119,9 +52,6 @@ export const UpdateOrderDocument = gql`
 	mutation UpdateOrder($order: UpdateOrderInput!) {
 		updateOrder(order: $order) {
 			id
-			code
-			status
-			type
 		}
 	}
 `;

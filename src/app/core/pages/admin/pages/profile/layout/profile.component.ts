@@ -4,7 +4,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { shareReplay } from "rxjs";
 
-import { AuthService } from "../../../../auth/services";
+import { AuthService } from "../../../../../../features/auth/services";
 
 @UntilDestroy()
 @Component({

@@ -8,6 +8,7 @@ import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
+import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
 import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 
 @UntilDestroy()
@@ -19,20 +20,20 @@ import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 })
 export class AllOrdersComponent implements AfterViewInit, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: any;
-
-	columns: IDatatableColumn[] = [];
-
-	readonly actions = this._ordersService.actions;
-
 	private readonly _allOrdersPageQuery = this._allOrdersPageGQL.watch();
 	readonly allOrders$: Observable<any> = this._allOrdersPageQuery.valueChanges.pipe(
 		map((result) => result.data.historyOrders.data)
 	);
 
+	readonly actions = this._ordersService.actions;
+
+	columns: IDatatableColumn[] = [];
+
 	constructor(
+		private readonly _allOrdersPageGQL: AllOrdersPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
-		private readonly _allOrdersPageGQL: AllOrdersPageGQL
+		private readonly _dialogService: DialogService
 	) {}
 
 	ngOnInit() {

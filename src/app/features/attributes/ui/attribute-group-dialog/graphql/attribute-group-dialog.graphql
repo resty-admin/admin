@@ -1,0 +1,10 @@
+query AttributeGroupDialog($filtersArgs: [FiltersArgsDto!], $skip: Int, $take: Int) {
+	attributes(filtersArgs: $filtersArgs, skip: $skip, take: $take) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+}

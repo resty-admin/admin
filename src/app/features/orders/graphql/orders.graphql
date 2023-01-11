@@ -1,34 +1,12 @@
-query Orders($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	orders(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
-		page
-		totalCount
-		data {
-			code
-			id
-			status
-			users {
-				id
-				name
-			}
-		}
-	}
-}
-
 mutation CreateOrder($order: CreateOrderInput!) {
 	createOrder(order: $order) {
 		id
-		code
-		status
-		type
 	}
 }
 
 mutation UpdateOrder($order: UpdateOrderInput!) {
 	updateOrder(order: $order) {
 		id
-		code
-		status
-		type
 	}
 }
 

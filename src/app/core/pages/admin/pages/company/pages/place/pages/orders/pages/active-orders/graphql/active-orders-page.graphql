@@ -6,6 +6,10 @@ query ActiveOrdersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) 
 			id
 			code
 			status
+			table {
+				id
+				name
+			}
 		}
 	}
 }

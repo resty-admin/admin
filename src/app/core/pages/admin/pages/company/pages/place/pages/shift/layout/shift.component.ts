@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, shareReplay, switchMap, take } from "rxjs";
+import { filter, of, switchMap, take } from "rxjs";
 import { ShiftsService } from "src/app/features/shift";
 
 import { HallsService } from "../../../../../../../../../../features/halls";
@@ -20,8 +20,8 @@ import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShiftComponent implements OnInit {
-	readonly halls$ = this._hallsService.halls$;
-	readonly tables$ = this._tablesService.tables$.pipe(shareReplay({ refCount: true }));
+	readonly halls$ = of([]);
+	readonly tables$ = of([]);
 	readonly activeShiftGroup = this._formBuilder.group<any>({
 		id: "",
 		tables: []
@@ -45,7 +45,7 @@ export class ShiftComponent implements OnInit {
 	ngOnInit() {
 		this.tables$
 			.pipe(
-				switchMap(() => this._shiftsService.activeShift$),
+				// switchMap(() => this._shiftsService.activeShift$),
 				untilDestroyed(this)
 			)
 			.subscribe((activeShift: any) => {
@@ -67,11 +67,11 @@ export class ShiftComponent implements OnInit {
 	}
 
 	closeShift(shiftId: string) {
+		const config = { data: { title: "Вы уверены, что хотите закрыть смену?", value: { label: "" } } };
+
 		this._dialogService
-			.openFormDialog(ConfirmationDialogComponent, {
-				data: { title: "Вы уверены, что хотите закрыть смену?", value: { label: "" } }
-			})
-			.pipe(
+			.open(ConfirmationDialogComponent, config)
+			.afterClosed$.pipe(
 				take(1),
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() => this._shiftsService.closeShift(shiftId))

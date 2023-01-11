@@ -1,21 +1,3 @@
-query AttributeGroups($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	attributeGroups(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
-		page
-		totalCount
-		data {
-			id
-			type
-			maxItemsForPick
-			name
-			attributes {
-				id
-				name
-				price
-			}
-		}
-	}
-}
-
 mutation CreateAttrGroup($attrGroup: CreateAttributeGroupInput!) {
 	createAttrGroup(attrGroup: $attrGroup) {
 		id

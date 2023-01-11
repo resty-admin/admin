@@ -15,7 +15,15 @@ export interface ActiveOrdersPageQuery {
 		__typename?: "PaginatedActiveOrder";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "ActiveOrderEntity"; id: string; code: number; status: Types.OrderStatusEnum }[] | null;
+		data?:
+			| {
+					__typename?: "ActiveOrderEntity";
+					id: string;
+					code: number;
+					status: Types.OrderStatusEnum;
+					table?: { __typename?: "TableEntity"; id: string; name: string } | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -28,6 +36,10 @@ export const ActiveOrdersPageDocument = gql`
 				id
 				code
 				status
+				table {
+					id
+					name
+				}
 			}
 		}
 	}

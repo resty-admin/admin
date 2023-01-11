@@ -1,26 +1,8 @@
-query Companies($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	companies(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
+query Companies($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	companies(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
 		data {
-			name
-			employees {
-				id
-			}
-			fondy {
-				id
-			}
 			id
-			logo {
-				id
-				url
-			}
 			name
-			owner {
-				id
-			}
-			places {
-				id
-			}
-			status
 		}
 		totalCount
 		page
@@ -30,14 +12,12 @@ query Companies($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
 mutation UpdateCompany($company: UpdateCompanyInput!) {
 	updateCompany(company: $company) {
 		id
-		name
 	}
 }
 
 mutation CreateCompany($company: CreateCompanyInput!) {
 	createCompany(company: $company) {
 		id
-		name
 	}
 }
 

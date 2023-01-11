@@ -5,8 +5,7 @@ import { map, switchMap, take } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
-import { AuthService } from "../../../services";
-import { TelegramGQL } from "../graphql/telegram";
+import { AuthService } from "../../../../../../features/auth/services";
 
 @UntilDestroy()
 @Component({
@@ -16,11 +15,7 @@ import { TelegramGQL } from "../graphql/telegram";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TelegramComponent implements OnInit {
-	constructor(
-		private readonly _routerService: RouterService,
-		private readonly _telegramGQL: TelegramGQL,
-		private readonly _authService: AuthService
-	) {}
+	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
 
 	ngOnInit() {
 		this._routerService
@@ -28,18 +23,9 @@ export class TelegramComponent implements OnInit {
 			.pipe(
 				untilDestroyed(this),
 				map((value) => JSON.parse(new URLSearchParams(value).get("user") || "")),
-				switchMap((telegramUser) =>
-					this._telegramGQL.mutate({ telegramUser }).pipe(
-						take(1),
-						map((result) => result.data?.telegram.accessToken)
-					)
-				)
+				switchMap((telegramUser) => this._authService.telegram(telegramUser).pipe(take(1)))
 			)
-			.subscribe(async (token) => {
-				if (!token) {
-					return;
-				}
-				this._authService.updateAccessToken(token);
+			.subscribe(async () => {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 			});
 	}

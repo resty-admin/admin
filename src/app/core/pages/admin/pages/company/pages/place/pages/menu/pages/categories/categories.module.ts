@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { TippyDirective } from "@ngneat/helipopper";
-import { CategoriesFeatureModule } from "src/app/features/categories";
 import { ButtonModule } from "src/app/shared/ui/button";
 import { FileModule } from "src/app/shared/ui/file";
 import { IconModule } from "src/app/shared/ui/icon";
@@ -10,6 +9,8 @@ import { InputModule } from "src/app/shared/ui/input";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { CategoryDialogModule } from "../../../../../../../../../../../features/categories/ui/category-dialog/category-dialog.module";
+import { ProductDialogModule } from "../../../../../../../../../../../features/products/ui/product-dialog/product-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
@@ -33,9 +34,10 @@ import { CategoriesComponent } from "./layout/categories.component";
 		TooltipModule,
 		ActionsModule,
 		TippyDirective,
-		CategoriesFeatureModule,
 		TranslocoModule,
-		FiltersModule
+		FiltersModule,
+		CategoryDialogModule,
+		ProductDialogModule
 	],
 	providers: [getI18nProvider("categories", (lang) => import(`./i18n/${lang}.json`))]
 })

@@ -3,7 +3,11 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../graphql";
-export type ShiftPageQueryVariables = Types.Exact<Record<string, never>>;
+export type ShiftPageQueryVariables = Types.Exact<{
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
+	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
+}>;
 
 export interface ShiftPageQuery {
 	__typename?: "Query";
@@ -20,10 +24,22 @@ export interface ShiftPageQuery {
 			  }[]
 			| null;
 	} | null;
+	tables: {
+		__typename?: "PaginatedTable";
+		page: number;
+		totalCount: number;
+		data?: { __typename?: "TableEntity"; id: string; name: string }[] | null;
+	};
+	halls: {
+		__typename?: "PaginatedHall";
+		page: number;
+		totalCount: number;
+		data?: { __typename?: "HallEntity"; id: string; name: string }[] | null;
+	};
 }
 
 export const ShiftPageDocument = gql`
-	query ShiftPage {
+	query ShiftPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		activeShift {
 			id
 			tables {
@@ -34,6 +50,22 @@ export const ShiftPageDocument = gql`
 					id
 					name
 				}
+			}
+		}
+		tables(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+			page
+			totalCount
+			data {
+				id
+				name
+			}
+		}
+		halls(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+			page
+			totalCount
+			data {
+				id
+				name
 			}
 		}
 	}

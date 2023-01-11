@@ -1,26 +1,22 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, take, tap } from "rxjs";
-import type { IAction } from "src/app/shared/ui/actions";
-import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
+import { filter, switchMap, take } from "rxjs";
 
-import type { CreateProductInput, ProductEntity, UpdateProductInput } from "../../../../../graphql";
+import type { CreateProductInput, UpdateProductInput } from "../../../../../graphql";
+import type { ProductEntity } from "../../../../../graphql";
 import { FilesService } from "../../../../shared/modules/files";
+import type { IAction } from "../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../shared/ui/toastr";
-import { ProductDialogComponent } from "../../components";
-import { CreateProductGQL, DeleteProductGQL, ProductsGQL, UpdateProductGQL } from "../../graphql/products";
+import { CreateProductGQL, DeleteProductGQL, UpdateProductGQL } from "../../graphql/products";
+import { ProductDialogComponent } from "../../ui/product-dialog/layout/product-dialog.component";
 
 @Injectable({ providedIn: "root" })
 export class ProductsService {
-	private readonly _productsQuery = this._productsGQL.watch({ skip: 0, take: 10 });
-
-	readonly products$ = this._productsQuery.valueChanges.pipe(map((result) => result.data.products.data));
-
 	readonly actions: IAction<ProductEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (product?: ProductEntity) => this.openCreateOrUpdateProductDialog(product).subscribe()
+			func: (product?: ProductEntity) => this.openUpdateProductDialog(product).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -30,84 +26,82 @@ export class ProductsService {
 					return;
 				}
 
-				this.openDeleteProductDialog(product).subscribe();
+				this.openDeleteProductDialog(product).pipe(take(1)).subscribe();
 			}
 		}
 	];
 
 	constructor(
-		private readonly _productsGQL: ProductsGQL,
 		private readonly _createProductGQL: CreateProductGQL,
 		private readonly _updateProductGQL: UpdateProductGQL,
 		private readonly _deleteProductGQL: DeleteProductGQL,
-		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService,
-		private readonly _filesService: FilesService
+		private readonly _filesService: FilesService,
+		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateOrUpdateProductDialog(data?: any) {
-		return this._dialogService.openFormDialog(ProductDialogComponent, { data }).pipe(
+	openCreateProductDialog() {
+		return this._dialogService.open(ProductDialogComponent).afterClosed$.pipe(
+			take(1),
+			filter((product) => Boolean(product)),
 			switchMap((product: any) =>
-				product.id
-					? this.updateProduct({
-							id: product.id,
-							name: product.name,
-							description: product.description,
-							price: Number.parseFloat(product.price) || 0,
-							file: product.file,
-							category: product.category?.id,
-							attrsGroups: product.attrsGroups?.map(({ id }: any) => id)
-					  })
-					: this.createProduct({
-							...product,
-							category: product.category?.id,
-							attrsGroups: product.attrsGroups?.map(({ id }: any) => id),
-							price: Number.parseFloat(product.price)
-					  })
+				this.createProduct({
+					...product,
+					category: product.category?.id,
+					attrsGroups: product.attrsGroups?.map(({ id }: any) => id),
+					price: Number.parseFloat(product.price)
+				})
+			)
+		);
+	}
+
+	openUpdateProductDialog(data?: any) {
+		return this._dialogService.open(ProductDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((product) => Boolean(product)),
+			switchMap((product: any) =>
+				this.updateProduct({
+					id: product.id,
+					name: product.name,
+					description: product.description,
+					price: Number.parseFloat(product.price) || 0,
+					file: product.file,
+					category: product.category?.id,
+					attrsGroups: product.attrsGroups?.map(({ id }: any) => id)
+				})
 			)
 		);
 	}
 
 	openDeleteProductDialog(product: ProductEntity) {
-		return this._dialogService
-			.openFormDialog(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить продукт?",
-					value: product
-				}
-			})
-			.pipe(switchMap((product) => this.deleteProduct(product.id)));
+		const config = {
+			data: {
+				title: "Вы уверены, что хотите удалить продукт?",
+				value: product
+			}
+		};
+
+		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
+			take(1),
+			filter((product) => Boolean(product)),
+			switchMap((product) => this.deleteProduct(product.id))
+		);
 	}
 
 	createProduct(product: CreateProductInput) {
 		return this._filesService.getFile(product.file).pipe(
-			switchMap((file) => this._createProductGQL.mutate({ product: { ...product, file: file?.id } })),
 			take(1),
-			this._toastrService.observe("Продукты"),
-			tap(async () => {
-				await this._productsQuery.refetch();
-			})
+			switchMap((file) => this._createProductGQL.mutate({ product: { ...product, file: file?.id } }))
 		);
 	}
 
 	updateProduct(product: UpdateProductInput) {
 		return this._filesService.getFile(product.file).pipe(
-			switchMap((file) => this._updateProductGQL.mutate({ product: { ...product, file: file?.id } })),
 			take(1),
-			this._toastrService.observe("Продукты"),
-			tap(async () => {
-				await this._productsQuery.refetch();
-			})
+			switchMap((file) => this._updateProductGQL.mutate({ product: { ...product, file: file?.id } }))
 		);
 	}
 
 	deleteProduct(productId: string) {
-		return this._deleteProductGQL.mutate({ productId }).pipe(
-			take(1),
-			this._toastrService.observe("Продукты"),
-			tap(async () => {
-				await this._productsQuery.refetch();
-			})
-		);
+		return this._deleteProductGQL.mutate({ productId });
 	}
 }

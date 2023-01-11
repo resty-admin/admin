@@ -1,26 +1,21 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, take, tap } from "rxjs";
-import type { IAction } from "src/app/shared/ui/actions";
-import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
+import { filter, switchMap, take } from "rxjs";
 
 import type { CreateHallInput, UpdateHallInput } from "../../../../../graphql";
 import { FilesService } from "../../../../shared/modules/files";
+import type { IAction } from "../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../shared/ui/toastr";
-import { HallDialogComponent } from "../../components";
-import { CreateHallGQL, DeleteHallGQL, HallsGQL, UpdateHallGQL } from "../../graphql/halls";
+import { CreateHallGQL, DeleteHallGQL, UpdateHallGQL } from "../../graphql/halls";
+import { HallDialogComponent } from "../../ui/hall-dialog/layout/hall-dialog.component";
 
 @Injectable({ providedIn: "root" })
 export class HallsService {
-	private readonly _hallsQuery = this._hallsGQL.watch({ skip: 0, take: 10 });
-
-	readonly halls$ = this._hallsQuery.valueChanges.pipe(map((result) => result.data.halls.data));
-
 	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (hall?: any) => this.openCreateOrUpdateHallDialog(hall).subscribe()
+			func: (hall?: any) => this.openUpdateHallDialog(hall).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -36,75 +31,57 @@ export class HallsService {
 	];
 
 	constructor(
-		private readonly _hallsGQL: HallsGQL,
 		private readonly _createHallGQL: CreateHallGQL,
 		private readonly _updateHallGQL: UpdateHallGQL,
 		private readonly _deleteHallGQL: DeleteHallGQL,
-		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService,
-		private readonly _filesService: FilesService
+		private readonly _filesService: FilesService,
+		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateOrUpdateHallDialog(data?: any) {
-		return this._dialogService.openFormDialog(HallDialogComponent, { data }).pipe(
-			switchMap((hall: any) =>
-				hall.id
-					? this.updateHall({
-							id: hall.id,
-							name: hall.name,
-							file: hall.file
-					  })
-					: this.createHall(hall)
-			)
+	openCreateHallDialog(place: string) {
+		return this._dialogService.open(HallDialogComponent, { data: { place } }).afterClosed$.pipe(
+			take(1),
+			switchMap((hall: any) => this.createHall(hall))
+		);
+	}
+
+	openUpdateHallDialog(data?: any) {
+		return this._dialogService.open(HallDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((hall) => Boolean(hall)),
+			switchMap((hall: any) => this.updateHall(hall))
 		);
 	}
 
 	openDeleteHallDialog(hall: any) {
-		return this._dialogService
-			.openFormDialog(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить зал?",
-					value: hall
-				}
-			})
-			.pipe(switchMap((hall) => this.deleteHall(hall.id)));
+		const config = {
+			data: {
+				title: "Вы уверены, что хотите удалить зал?",
+				value: hall
+			}
+		};
+
+		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
+			take(1),
+			switchMap((hall) => this.deleteHall(hall.id))
+		);
 	}
 
 	createHall(hall: CreateHallInput) {
 		return this._filesService.getFile(hall.file).pipe(
-			switchMap((file) =>
-				this._createHallGQL.mutate({ hall: { ...hall, file: file?.id } }).pipe(
-					take(1),
-					this._toastrService.observe("Залы"),
-					tap(async () => {
-						await this._hallsQuery.refetch();
-					})
-				)
-			)
+			take(1),
+			switchMap((file) => this._createHallGQL.mutate({ hall: { ...hall, file: file?.id } }))
 		);
 	}
 
 	updateHall(hall: UpdateHallInput) {
 		return this._filesService.getFile(hall.file).pipe(
-			switchMap((file) =>
-				this._updateHallGQL.mutate({ hall: { ...hall, file: file?.id } }).pipe(
-					take(1),
-					this._toastrService.observe("Залы"),
-					tap(async () => {
-						await this._hallsQuery.refetch();
-					})
-				)
-			)
+			take(1),
+			switchMap((file) => this._updateHallGQL.mutate({ hall: { ...hall, file: file?.id } }))
 		);
 	}
 
 	deleteHall(hallId: string) {
-		return this._deleteHallGQL.mutate({ hallId }).pipe(
-			take(1),
-			this._toastrService.observe("Залы"),
-			tap(async () => {
-				await this._hallsQuery.refetch();
-			})
-		);
+		return this._deleteHallGQL.mutate({ hallId });
 	}
 }

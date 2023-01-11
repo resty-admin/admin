@@ -72,6 +72,12 @@ export interface AddEmployeeInput {
 	userId: Scalars["String"];
 }
 
+export interface AddProductToOrderInput {
+	attrs?: InputMaybe<Scalars["String"][]>;
+	orderId: Scalars["String"];
+	productId: Scalars["String"];
+}
+
 export enum AttributeGroupTypeEnum {
 	Add = "ADD",
 	AddUniq = "ADD_UNIQ",
@@ -264,13 +270,6 @@ export interface CreateUserInput {
 	tel?: InputMaybe<Scalars["String"]>;
 }
 
-export interface CreateUserToOrderInput {
-	attributes?: InputMaybe<Scalars["String"][]>;
-	count: Scalars["Int"];
-	product: Scalars["String"];
-	user: Scalars["String"];
-}
-
 export interface FileEntity {
 	__typename?: "FileEntity";
 	id: Scalars["String"];
@@ -383,8 +382,8 @@ export interface Mutation {
 	deleteUser: Scalars["String"];
 	forgotPassword: Scalars["String"];
 	removeEmployeeFromPlace: PlaceEntity;
+	removeProductFromOrder: Scalars["String"];
 	removeTableFromOrder: ActiveOrderEntity;
-	removeUserProductInOrder: Scalars["String"];
 	resetPassword: AccessToken;
 	signIn: AccessToken;
 	signUp: AccessToken;
@@ -404,7 +403,6 @@ export interface Mutation {
 	updateShift: ActiveShiftEntity;
 	updateTable: TableEntity;
 	updateUser: UserEntity;
-	updateUserProductInOrder: ActiveOrderEntity;
 	verifyCode: AccessToken;
 }
 
@@ -413,8 +411,7 @@ export interface MutationAddEmployeeToPlaceArgs {
 }
 
 export interface MutationAddProductToOrderArgs {
-	orderId: Scalars["String"];
-	product: CreateUserToOrderInput;
+	productToOrder: AddProductToOrderInput;
 }
 
 export interface MutationAddTableToOrderArgs {
@@ -554,12 +551,12 @@ export interface MutationRemoveEmployeeFromPlaceArgs {
 	employeeData: AddEmployeeInput;
 }
 
-export interface MutationRemoveTableFromOrderArgs {
-	orderId: Scalars["String"];
+export interface MutationRemoveProductFromOrderArgs {
+	productFromOrder: RemoveProductFromOrderInput;
 }
 
-export interface MutationRemoveUserProductInOrderArgs {
-	userToOrderId: Scalars["String"];
+export interface MutationRemoveTableFromOrderArgs {
+	orderId: Scalars["String"];
 }
 
 export interface MutationResetPasswordArgs {
@@ -636,10 +633,6 @@ export interface MutationUpdateTableArgs {
 
 export interface MutationUpdateUserArgs {
 	user: UpdateUserInput;
-}
-
-export interface MutationUpdateUserProductInOrderArgs {
-	userToOrder: UpdateUserToOrderInput;
 }
 
 export interface MutationVerifyCodeArgs {
@@ -1049,6 +1042,12 @@ export interface QueryUsersArgs {
 	take?: InputMaybe<Scalars["Int"]>;
 }
 
+export interface RemoveProductFromOrderInput {
+	attrs?: InputMaybe<Scalars["String"][]>;
+	orderId: Scalars["String"];
+	productId: Scalars["String"];
+}
+
 export interface ResetPasswordInput {
 	password: Scalars["String"];
 }
@@ -1089,8 +1088,8 @@ export interface TableEntityInput {
 export interface TelegramUserInput {
 	added_to_attachment_menu?: InputMaybe<Scalars["Boolean"]>;
 	first_name: Scalars["String"];
-	id: Scalars["Int"];
-	is_bot: Scalars["Boolean"];
+	id: Scalars["ID"];
+	is_bot?: InputMaybe<Scalars["Boolean"]>;
 	is_premium?: InputMaybe<Scalars["Boolean"]>;
 	language_code?: InputMaybe<Scalars["String"]>;
 	last_name?: InputMaybe<Scalars["String"]>;
@@ -1205,14 +1204,6 @@ export interface UpdateUserInput {
 	id: Scalars["String"];
 	name?: InputMaybe<Scalars["String"]>;
 	tel?: InputMaybe<Scalars["String"]>;
-}
-
-export interface UpdateUserToOrderInput {
-	attributes?: InputMaybe<Scalars["String"][]>;
-	count?: InputMaybe<Scalars["Int"]>;
-	id: Scalars["String"];
-	product?: InputMaybe<Scalars["String"]>;
-	user?: InputMaybe<Scalars["String"]>;
 }
 
 export interface UserEntity {

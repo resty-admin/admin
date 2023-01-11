@@ -1,26 +1,23 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, take, tap } from "rxjs";
+import { filter, switchMap, take } from "rxjs";
 
 import type { CreatePlaceInput, UpdatePlaceInput } from "../../../../../graphql";
 import { FilesService } from "../../../../shared/modules/files";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../shared/ui/toastr";
-import { PlaceDialogComponent } from "../../components";
 import { CreatePlacesGQL, DeletePlaceGQL, PlacesGQL, UpdatePlaceGQL } from "../../graphql/places";
+import { PlaceDialogComponent } from "../../ui/place-dialog/layout/place-dialog.component";
 
 @Injectable({ providedIn: "root" })
 export class PlacesService {
-	private readonly _placesQuery = this._placesGQL.watch({ skip: 0, take: 10 });
-
-	readonly places$ = this._placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
+	readonly placesQuery = this._placesGQL.watch();
 
 	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (place?: any) => this.openCreateOrUpdatePlaceDialog(place).subscribe()
+			func: (place?: any) => this.openUpdatePlaceDialog(place).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -30,7 +27,7 @@ export class PlacesService {
 					return;
 				}
 
-				this.openDeletePlaceDialog(place).subscribe();
+				this.openDeletePlaceDialog(place).pipe(take(1)).subscribe();
 			}
 		}
 	];
@@ -40,76 +37,56 @@ export class PlacesService {
 		private readonly _createPlaceGQL: CreatePlacesGQL,
 		private readonly _updatePlaceGQL: UpdatePlaceGQL,
 		private readonly _deletePlaceGQL: DeletePlaceGQL,
-		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService,
-		private readonly _filesService: FilesService
+		private readonly _filesService: FilesService,
+		private readonly _dialogService: DialogService
 	) {}
 
-	getPlaces(company: string) {
-		this._placesQuery
-			.setVariables({ take: 10, skip: 0, filtersArgs: { key: "company", operator: "=", value: company } })
-			.then();
-
-		return this.places$;
+	openCreatePlaceDialog(data?: any) {
+		return this._dialogService.open(PlaceDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((place) => Boolean(place)),
+			switchMap((place) => this.createPlace(place))
+		);
 	}
 
-	openCreateOrUpdatePlaceDialog(data?: any) {
-		return this._dialogService.openFormDialog(PlaceDialogComponent, { data }).pipe(
-			switchMap((place) =>
-				place.id
-					? this.updatePlace({
-							id: place.id,
-							name: place.name,
-							address: place.address,
-							file: place.file
-					  })
-					: this.createPlace(place)
-			)
+	openUpdatePlaceDialog(data: any) {
+		return this._dialogService.open(PlaceDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((place) => Boolean(place)),
+			switchMap((place) => this.updatePlace(place))
 		);
 	}
 
 	openDeletePlaceDialog(place: any) {
-		return this._dialogService
-			.openFormDialog(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить заведение?",
-					value: place
-				}
-			})
-			.pipe(switchMap((place) => this.deletePlace(place.id)));
+		const config = {
+			data: {
+				title: "Вы уверены, что хотите удалить заведение?",
+				value: place
+			}
+		};
+
+		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
+			take(1),
+			filter((place) => Boolean(place)),
+			switchMap((place) => this.deletePlace(place.id))
+		);
 	}
 
 	createPlace(place: CreatePlaceInput) {
 		return this._filesService.getFile(place.file).pipe(
-			switchMap((file) => this._createPlaceGQL.mutate({ place: { ...place, file: file?.id } })),
-			map((place) => place.data?.createPlace),
 			take(1),
-			this._toastrService.observe("Заведения"),
-			tap(async () => {
-				await this._placesQuery.refetch();
-			})
+			switchMap((file) => this._createPlaceGQL.mutate({ place: { ...place, file: file?.id } }))
 		);
 	}
 
 	updatePlace(place: UpdatePlaceInput) {
 		return this._filesService.getFile(place.file).pipe(
-			switchMap((file) => this._updatePlaceGQL.mutate({ place: { ...place, file: file?.id } })),
-			map((place) => place.data?.updatePlace),
 			take(1),
-			this._toastrService.observe("Заведения"),
-			tap(async () => {
-				await this._placesQuery.refetch();
-			})
+			switchMap((file) => this._updatePlaceGQL.mutate({ place: { ...place, file: file?.id } }))
 		);
 	}
 
 	deletePlace(placeId: string) {
-		return this._deletePlaceGQL.mutate({ placeId }).pipe(
-			take(1),
-			this._toastrService.observe("Заведения"),
-			tap(async () => {
-				await this._placesQuery.refetch();
-			})
-		);
+		return this._deletePlaceGQL.mutate({ placeId });
 	}
 }

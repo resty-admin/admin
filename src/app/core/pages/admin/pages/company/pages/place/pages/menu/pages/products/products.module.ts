@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ProductsFeatureModule } from "src/app/features/products";
 import { ButtonModule } from "src/app/shared/ui/button";
 import { DatatableModule } from "src/app/shared/ui/datatable";
 import { FileModule } from "src/app/shared/ui/file";
@@ -10,6 +9,9 @@ import { InputModule } from "src/app/shared/ui/input";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { AttributeGroupDialogModule } from "../../../../../../../../../../../features/attributes/ui/attribute-group-dialog/attribute-group-dialog.module";
+import { CategoryDialogModule } from "../../../../../../../../../../../features/categories/ui/category-dialog/category-dialog.module";
+import { ProductDialogModule } from "../../../../../../../../../../../features/products/ui/product-dialog/product-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
@@ -33,9 +35,11 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		DatatableModule,
 		ActionsModule,
 		TooltipModule,
-		ProductsFeatureModule,
 		TranslocoModule,
-		FiltersModule
+		FiltersModule,
+		ProductDialogModule,
+		CategoryDialogModule,
+		AttributeGroupDialogModule
 	],
 	providers: [getI18nProvider("products", (lang) => import(`./i18n/${lang}.json`))]
 })

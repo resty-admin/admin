@@ -8,6 +8,7 @@ import { InputModule } from "src/app/shared/ui/input";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { CardDialogModule } from "../../../../../../../../../features/cards/ui/card-dialog/card-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
@@ -28,7 +29,8 @@ import { WalletRoutingModule } from "./wallet-routing.module";
 		ImageModule,
 		TooltipModule,
 		ActionsModule,
-		TranslocoModule
+		TranslocoModule,
+		CardDialogModule
 	],
 	providers: [getI18nProvider("wallet", (lang) => import(`./i18n/${lang}.json`))]
 })

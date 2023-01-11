@@ -7,7 +7,6 @@ import { map } from "rxjs";
 import { UsersService } from "../../../../../../../../../../../../features/users";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
 import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
 import { GuestsPageGQL } from "../graphql/guests-page";
 
@@ -21,12 +20,10 @@ import { GuestsPageGQL } from "../graphql/guests-page";
 export class GuestsComponent implements OnInit, AfterViewInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
-	readonly actions: IAction<any>[] = this._usersService.actions;
-
-	columns: IDatatableColumn[] = [];
-
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
 	readonly users$: Observable<any> = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
+	readonly actions = this._usersService.actions;
+	columns: IDatatableColumn[] = [];
 
 	constructor(
 		private readonly _usersService: UsersService,
@@ -41,11 +38,6 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 			.subscribe(async (placeId) => {
 				await this._guestsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
 			});
-	}
-
-	openCreateUserDialog() {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-		this._usersService.openCreateOrUpdateUserDialog({ place }).subscribe();
 	}
 
 	ngAfterViewInit() {

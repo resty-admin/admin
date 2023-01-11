@@ -1,25 +1,21 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, take, tap } from "rxjs";
-import type { IAction } from "src/app/shared/ui/actions";
-import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
+import { filter, switchMap, take } from "rxjs";
 
 import type { CreateCategoryInput, UpdateCategoryInput } from "../../../../../graphql";
 import { FilesService } from "../../../../shared/modules/files";
+import type { IAction } from "../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../shared/ui/toastr";
-import { CategoryDialogComponent } from "../../components";
-import { CategoriesGQL, CreateCategoryGQL, DeleteCategoryGQL, UpdateCategoryGQL } from "../../graphql/categories";
+import { CreateCategoryGQL, DeleteCategoryGQL, UpdateCategoryGQL } from "../../graphql/categories";
+import { CategoryDialogComponent } from "../../ui/category-dialog/layout/category-dialog.component";
 
 @Injectable({ providedIn: "root" })
 export class CategoriesService {
-	private readonly _categoriesQuery = this._categoriesGQL.watch({ skip: 0, take: 10 });
-	readonly categories$ = this._categoriesQuery.valueChanges.pipe(map((result) => result.data.categories.data));
-
 	readonly actions: IAction<any>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (category?: any) => this.openCreateOrUpdateCategoryDialog(category).subscribe()
+			func: (category?: any) => this.openUpdateCategoryDialog(category).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -35,69 +31,58 @@ export class CategoriesService {
 	];
 
 	constructor(
-		private readonly _categoriesGQL: CategoriesGQL,
 		private readonly _createCategoryGQL: CreateCategoryGQL,
 		private readonly _updateCategoryGQL: UpdateCategoryGQL,
 		private readonly _deleteCategoryGQL: DeleteCategoryGQL,
-		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService,
-		private readonly _filesService: FilesService
+		private readonly _filesService: FilesService,
+		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateOrUpdateCategoryDialog(data?: any) {
-		return this._dialogService.openFormDialog(CategoryDialogComponent, { data }).pipe(
-			switchMap((category: any) =>
-				category.id
-					? this.updateCategory({
-							id: category.id,
-							name: category.name,
-							file: category.file
-					  })
-					: this.createCategory(category)
-			)
+	openCreateCategoryDialog(data?: any) {
+		return this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((category) => Boolean(category)),
+			switchMap((category: any) => this.createCategory(category))
+		);
+	}
+
+	openUpdateCategoryDialog(data: any) {
+		return this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((category) => Boolean(category)),
+			switchMap((category: any) => this.updateCategory(category))
 		);
 	}
 
 	openDeleteCategoryDialog(category: any) {
-		return this._dialogService
-			.openFormDialog(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить категорию?",
-					value: category
-				}
-			})
-			.pipe(switchMap((category) => this.deleteCategory(category.id)));
+		const config = {
+			data: {
+				title: "Вы уверены, что хотите удалить категорию?",
+				value: category
+			}
+		};
+		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
+			take(1),
+			filter((category) => Boolean(category)),
+			switchMap((category) => this.deleteCategory(category.id))
+		);
 	}
 
 	createCategory(category: CreateCategoryInput) {
 		return this._filesService.getFile(category.file).pipe(
-			switchMap((file) => this._createCategoryGQL.mutate({ category: { ...category, file: file?.id } })),
 			take(1),
-			this._toastrService.observe("Категория"),
-			tap(async () => {
-				await this._categoriesQuery.refetch();
-			})
+			switchMap((file) => this._createCategoryGQL.mutate({ category: { ...category, file: file?.id } }))
 		);
 	}
 
 	updateCategory(category: UpdateCategoryInput) {
 		return this._filesService.getFile(category.file).pipe(
-			switchMap((file) => this._updateCategoryGQL.mutate({ category: { ...category, file: file?.id } })),
 			take(1),
-			this._toastrService.observe("Категория"),
-			tap(async () => {
-				await this._categoriesQuery.refetch();
-			})
+			switchMap((file) => this._updateCategoryGQL.mutate({ category: { ...category, file: file?.id } }))
 		);
 	}
 
 	deleteCategory(categoryId: string) {
-		return this._deleteCategoryGQL.mutate({ categoryId }).pipe(
-			take(1),
-			this._toastrService.observe("Категория"),
-			tap(async () => {
-				await this._categoriesQuery.refetch();
-			})
-		);
+		return this._deleteCategoryGQL.mutate({ categoryId });
 	}
 }

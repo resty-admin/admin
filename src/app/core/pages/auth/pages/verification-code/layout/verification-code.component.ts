@@ -2,13 +2,12 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, take } from "rxjs";
+import { take } from "rxjs";
 import { DYNAMIC_TOKEN } from "src/app/shared/constants";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
-import { AuthService } from "../../../services";
-import { VerifyCodeGQL } from "../graphql/verify-code";
+import { AuthService } from "../../../../../../features/auth/services";
 
 @UntilDestroy()
 @Component({
@@ -25,13 +24,12 @@ export class VerificationCodeComponent implements OnInit {
 	constructor(
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
-		private readonly _routerService: RouterService,
-		private readonly _verifyCodeGQL: VerifyCodeGQL
+		private readonly _routerService: RouterService
 	) {}
 
 	ngOnInit() {
 		this._routerService
-			.selectParams(DYNAMIC_TOKEN)
+			.selectParams(DYNAMIC_TOKEN.slice(1))
 			.pipe(untilDestroyed(this))
 			.subscribe((accessToken) => {
 				this._authService.updateAccessToken(accessToken);
@@ -39,18 +37,10 @@ export class VerificationCodeComponent implements OnInit {
 	}
 
 	verifyCode({ verificationCode }: any) {
-		this._verifyCodeGQL
-			.mutate({ code: verificationCode })
-			.pipe(
-				take(1),
-				map((result) => result.data?.verifyCode.accessToken)
-			)
-			.subscribe(async (accessToken) => {
-				if (!accessToken) {
-					return;
-				}
-
-				this._authService.updateAccessToken(accessToken);
+		this._authService
+			.verifyCode(verificationCode)
+			.pipe(take(1))
+			.subscribe(async () => {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 			});
 	}

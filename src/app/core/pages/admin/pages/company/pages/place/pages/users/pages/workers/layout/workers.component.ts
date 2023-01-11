@@ -7,7 +7,6 @@ import { map } from "rxjs";
 import { UsersService } from "../../../../../../../../../../../../features/users";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
 import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
 import { WorkersPageGQL } from "../graphql/workers-page";
 
@@ -21,17 +20,16 @@ import { WorkersPageGQL } from "../graphql/workers-page";
 export class WorkersComponent implements OnInit, AfterViewInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
-	readonly actions: IAction<any>[] = this._usersService.actions;
-
-	columns: IDatatableColumn[] = [];
-
 	private readonly _workersPageQuery = this._workersPageGQL.watch();
 	readonly users$: Observable<any> = this._workersPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 
+	readonly actions = this._usersService.actions;
+	columns: IDatatableColumn[] = [];
+
 	constructor(
+		private readonly _workersPageGQL: WorkersPageGQL,
 		private readonly _usersService: UsersService,
-		private readonly _routerService: RouterService,
-		private readonly _workersPageGQL: WorkersPageGQL
+		private readonly _routerService: RouterService
 	) {}
 
 	ngOnInit() {
@@ -43,11 +41,6 @@ export class WorkersComponent implements OnInit, AfterViewInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
-	}
-
-	openCreateUserDialog() {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-		this._usersService.openCreateOrUpdateUserDialog({ place }).subscribe();
 	}
 
 	ngAfterViewInit() {

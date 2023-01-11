@@ -4,7 +4,7 @@ import { PipesModule } from "src/app/shared/modules/pipes";
 import { ButtonModule } from "src/app/shared/ui/button";
 import { IconModule } from "src/app/shared/ui/icon";
 
-import { PlacesFeatureModule } from "../../../../../../../features/places";
+import { PlaceDialogModule } from "../../../../../../../features/places/ui/place-dialog/place-dialog.module";
 import { getI18nProvider } from "../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../shared/modules/i18n";
 import { ImageModule } from "../../../../../../../shared/ui/image";
@@ -22,8 +22,8 @@ import { PlacesRoutingModule } from "./places-routing.module";
 		ButtonModule,
 		PipesModule,
 		TypographyModule,
-		PlacesFeatureModule,
-		I18nModule
+		I18nModule,
+		PlaceDialogModule
 	],
 	providers: [getI18nProvider("places", (lang) => import(`./i18n/${lang}.json`))]
 })

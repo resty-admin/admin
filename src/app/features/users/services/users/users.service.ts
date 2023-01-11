@@ -1,25 +1,22 @@
 import { Injectable } from "@angular/core";
-import { map, switchMap, take, tap } from "rxjs";
-import type { IAction } from "src/app/shared/ui/actions";
-import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
+import { filter, switchMap, take } from "rxjs";
 
-import type { CreateUserInput, UpdateUserInput, UserEntity } from "../../../../../graphql";
+import type { CreateUserInput, UpdateUserInput } from "../../../../../graphql";
+import type { UserEntity } from "../../../../../graphql";
+import type { IAction } from "../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
-import { UserDialogComponent } from "../../components";
-import { CreateUserGQL, DeleteUserGQL, UpdateUserGQL, UsersGQL } from "../../graphql/users";
+import { CreateUserGQL, DeleteUserGQL, UpdateUserGQL } from "../../graphql/users";
+import { UserDialogComponent } from "../../ui/user-dialog/layout/user-dialog.component";
 
 @Injectable({ providedIn: "root" })
 export class UsersService {
-	private readonly _usersQuery = this._usersGQL.watch({ skip: 0, take: 10 });
-
-	readonly users$ = this._usersQuery.valueChanges.pipe(map((result) => result.data.users.data));
-
 	readonly actions: IAction<UserEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (user?: UserEntity) => this.openCreateOrUpdateUserDialog(user).subscribe()
+			func: (user?: UserEntity) => this.openUpdateUserDialog(user).subscribe()
 		},
 		{
 			label: "Удалить",
@@ -35,7 +32,6 @@ export class UsersService {
 	];
 
 	constructor(
-		private readonly _usersGQL: UsersGQL,
 		private readonly _createUserGQL: CreateUserGQL,
 		private readonly _updateUserGQL: UpdateUserGQL,
 		private readonly _deleteUserGQL: DeleteUserGQL,
@@ -43,58 +39,46 @@ export class UsersService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	openCreateOrUpdateUserDialog(data?: any) {
-		return this._dialogService.openFormDialog(UserDialogComponent, { data }).pipe(
-			switchMap((user: any) =>
-				user.id
-					? this.updateUser({
-							id: user.id,
-							tel: user.tel,
-							email: user.email
-					  })
-					: this.createUser(user)
-			)
+	openCreateUserDialog() {
+		return this._dialogService.open(UserDialogComponent).afterClosed$.pipe(
+			take(1),
+			filter((user) => Boolean(user)),
+			switchMap((user: any) => this.createUser(user))
 		);
 	}
 
-	openDeleteUserDialog(user: UserEntity) {
-		return this._dialogService
-			.openFormDialog(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить пользователя?",
-					value: user
-				}
-			})
-			.pipe(switchMap((user) => this.deleteUser(user.id)));
+	openUpdateUserDialog(user: any) {
+		return this._dialogService.open(UserDialogComponent, { data: user }).afterClosed$.pipe(
+			take(1),
+			filter((user) => Boolean(user)),
+			switchMap((user: any) => this.updateUser(user))
+		);
+	}
+
+	openDeleteUserDialog(user: any) {
+		const config = {
+			data: {
+				title: "Вы уверены, что хотите удалить пользователя?",
+				value: user
+			}
+		};
+
+		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
+			take(1),
+			filter((user) => Boolean(user)),
+			switchMap((table) => this.deleteUser(table.id))
+		);
 	}
 
 	createUser(user: CreateUserInput) {
-		return this._createUserGQL.mutate({ user }).pipe(
-			take(1),
-			this._toastrService.observe("Пользователи"),
-			tap(async () => {
-				await this._usersQuery.refetch();
-			})
-		);
+		return this._createUserGQL.mutate({ user });
 	}
 
 	updateUser(user: UpdateUserInput) {
-		return this._updateUserGQL.mutate({ user }).pipe(
-			take(1),
-			this._toastrService.observe("Пользователи"),
-			tap(async () => {
-				await this._usersQuery.refetch();
-			})
-		);
+		return this._updateUserGQL.mutate({ user });
 	}
 
 	deleteUser(userId: string) {
-		return this._deleteUserGQL.mutate({ userId }).pipe(
-			take(1),
-			this._toastrService.observe("Пользователи"),
-			tap(async () => {
-				await this._usersQuery.refetch();
-			})
-		);
+		return this._deleteUserGQL.mutate({ userId });
 	}
 }

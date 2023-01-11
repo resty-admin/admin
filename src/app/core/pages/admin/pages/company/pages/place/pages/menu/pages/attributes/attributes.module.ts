@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TippyDirective } from "@ngneat/helipopper";
-import { AttributesFeatureModule } from "src/app/features/attributes";
 import { ActionsModule } from "src/app/shared/ui/actions";
 import { ButtonModule } from "src/app/shared/ui/button";
 import { FileModule } from "src/app/shared/ui/file";
@@ -13,6 +12,8 @@ import { SelectModule } from "src/app/shared/ui/select";
 import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { AttributeDialogModule } from "../../../../../../../../../../../features/attributes/ui/attribute-dialog/attribute-dialog.module";
+import { AttributeGroupDialogModule } from "../../../../../../../../../../../features/attributes/ui/attribute-group-dialog/attribute-group-dialog.module";
 import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
@@ -37,9 +38,10 @@ import { AttributesComponent } from "./layout/attributes.component";
 		ActionsModule,
 		TippyDirective,
 		ToggleModule,
-		AttributesFeatureModule,
 		TranslocoModule,
-		FiltersModule
+		FiltersModule,
+		AttributeDialogModule,
+		AttributeGroupDialogModule
 	],
 	providers: [getI18nProvider("attributes", (lang) => import(`./i18n/${lang}.json`))]
 })

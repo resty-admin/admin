@@ -8,6 +8,7 @@ import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
+import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
 import { ProductsPageGQL } from "../graphql/products-page";
 
 @UntilDestroy()
@@ -19,21 +20,21 @@ import { ProductsPageGQL } from "../graphql/products-page";
 })
 export class ProductsComponent implements AfterViewInit, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
-
-	readonly actions = this._productsService.actions;
-
-	columns: IDatatableColumn[] = [];
-
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 
 	readonly products$: Observable<any> = this._productsPageQuery.valueChanges.pipe(
 		map((result) => result.data.products.data)
 	);
 
+	readonly actions = this._productsService.actions;
+
+	columns: IDatatableColumn[] = [];
+
 	constructor(
-		private readonly _productsService: ProductsService,
 		private readonly _productsPageGQL: ProductsPageGQL,
-		private readonly _routerService: RouterService
+		private readonly _productsService: ProductsService,
+		private readonly _routerService: RouterService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	ngOnInit() {
@@ -48,7 +49,7 @@ export class ProductsComponent implements AfterViewInit, OnInit {
 	}
 
 	openCreateProductDialog() {
-		this._productsService.openCreateOrUpdateProductDialog().subscribe();
+		this._productsService.openCreateProductDialog().subscribe();
 	}
 
 	ngAfterViewInit() {

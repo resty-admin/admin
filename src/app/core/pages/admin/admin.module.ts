@@ -11,6 +11,8 @@ import { LanguageSelectModule } from "src/app/shared/ui/language-select";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { CompanyDialogModule } from "../../../features/companies/ui/company-dialog/company-dialog.module";
+import { PlaceDialogModule } from "../../../features/places/ui/place-dialog/place-dialog.module";
 import { I18nModule } from "../../../shared/modules/i18n";
 import { ActionsModule } from "../../../shared/ui/actions";
 import { LinkModule } from "../../../shared/ui/link";
@@ -37,7 +39,9 @@ import { AdminComponent } from "./layout/admin.component";
 		PipesModule,
 		TooltipModule,
 		LinkModule,
-		I18nModule
+		I18nModule,
+		CompanyDialogModule,
+		PlaceDialogModule
 	]
 })
 export class AdminModule {}

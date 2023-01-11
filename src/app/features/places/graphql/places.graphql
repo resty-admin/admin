@@ -1,32 +1,23 @@
-query Places($take: Int!, $skip: Int!, $filtersArgs: [FiltersArgsDto!]) {
-	places(take: $take, skip: $skip, filtersArgs: $filtersArgs) {
+query Places($filtersArgs: [FiltersArgsDto!]) {
+	places(filtersArgs: $filtersArgs) {
+		page
+		totalCount
 		data {
-			name
 			id
 			name
-			status
-			address
-			file {
-				id
-				url
-			}
 		}
-		totalCount
-		page
 	}
 }
 
 mutation UpdatePlace($place: UpdatePlaceInput!) {
 	updatePlace(place: $place) {
 		id
-		name
 	}
 }
 
 mutation CreatePlaces($place: CreatePlaceInput!) {
 	createPlace(place: $place) {
 		id
-		name
 	}
 }
 

@@ -1,5 +1,0 @@
-mutation SignIn($body: SignInInput!) {
-	signIn(body: $body) {
-		accessToken
-	}
-}

@@ -2,8 +2,8 @@
 	<app-filters class="filters"></app-filters>
 
 	<ul class="orders">
-		<li class="order" *ngFor="let order of orders$ | async">
-			<app-image class="image" placeholder="table" [remote]="true" [name]="order.table"></app-image>
+		<li class="order" *ngFor="let order of activeOrders$ | async">
+			<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.name"></app-image>
 
 			<div class="info">
 				<p class="code">{{ order.code }}</p>

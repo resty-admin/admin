@@ -1,5 +1,0 @@
-mutation VerifyCode($code: Int!) {
-	verifyCode(code: $code) {
-		accessToken
-	}
-}

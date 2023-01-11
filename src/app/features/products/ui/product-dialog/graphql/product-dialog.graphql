@@ -1,0 +1,16 @@
+query ProductDialog($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	categories(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+		}
+		page
+		totalCount
+	}
+	attributeGroups {
+		data {
+			id
+			name
+		}
+	}
+}

@@ -3,39 +3,6 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type CategoriesQueryVariables = Types.Exact<{
-	skip: Types.Scalars["Int"];
-	take: Types.Scalars["Int"];
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-}>;
-
-export interface CategoriesQuery {
-	__typename?: "Query";
-	categories: {
-		__typename?: "PaginatedCategory";
-		page: number;
-		totalCount: number;
-		data?:
-			| {
-					__typename?: "CategoryEntity";
-					id: string;
-					name: string;
-					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-					products?:
-						| {
-								__typename?: "ProductEntity";
-								id: string;
-								name: string;
-								price: number;
-								attrsGroups?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
-								file?: { __typename?: "FileEntity"; url: string } | null;
-						  }[]
-						| null;
-			  }[]
-			| null;
-	};
-}
-
 export type CreateCategoryMutationVariables = Types.Exact<{
 	category: Types.CreateCategoryInput;
 }>;
@@ -73,45 +40,6 @@ export interface DeleteCategoryMutation {
 	deleteCategory: string;
 }
 
-export const CategoriesDocument = gql`
-	query Categories($skip: Int!, $take: Int!, $filtersArgs: [FiltersArgsDto!]) {
-		categories(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
-			data {
-				id
-				name
-				file {
-					id
-					url
-				}
-				products {
-					id
-					name
-					price
-					attrsGroups {
-						id
-						name
-					}
-					file {
-						url
-					}
-				}
-			}
-			page
-			totalCount
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class CategoriesGQL extends Apollo.Query<CategoriesQuery, CategoriesQueryVariables> {
-	override document = CategoriesDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
 export const CreateCategoryDocument = gql`
 	mutation CreateCategory($category: CreateCategoryInput!) {
 		createCategory(category: $category) {
