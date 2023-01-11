@@ -1,26 +1,15 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input } from "@angular/core";
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { ControlValueAccessor } from "src/app/shared/classes";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 
+import { getControlValueAccessorProviders } from "../../../functions";
 import { IInputTheme, IInputType } from "../interfaces";
 
 @Component({
 	selector: "app-input",
 	templateUrl: "./input.component.html",
 	styleUrls: ["./input.component.scss"],
-	providers: [
-		{
-			provide: NG_VALUE_ACCESSOR,
-			useExisting: forwardRef(() => InputComponent),
-			multi: true
-		},
-		{
-			provide: NG_VALIDATORS,
-			useExisting: forwardRef(() => InputComponent),
-			multi: true
-		}
-	],
+	providers: getControlValueAccessorProviders(InputComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputComponent extends ControlValueAccessor<string> {
