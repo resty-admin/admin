@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 
+import { FORM_I18N } from "../../../../../core/constants";
+
 @Component({
 	selector: "app-payment-system-dialog",
 	templateUrl: "./payment-system-dialog.component.html",
@@ -10,6 +12,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemDialogComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		publicKey: "",
 		privateKey: ""

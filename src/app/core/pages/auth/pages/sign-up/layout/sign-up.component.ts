@@ -9,7 +9,9 @@ import { RouterService } from "src/app/shared/modules/router";
 import { UserRoleEnum } from "../../../../../../../graphql";
 import type { IAuthType } from "../../../../../../features/auth/interfaces";
 import { AuthService } from "../../../../../../features/auth/services";
+import { FORM_I18N } from "../../../../../constants";
 import { AUTH_TYPES } from "../../../data";
+import { SIGN_UP_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -19,6 +21,8 @@ import { AUTH_TYPES } from "../../../data";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
+	readonly signUpPageI18n = SIGN_UP_PAGE_I18N;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 	readonly roles = [UserRoleEnum.Admin, UserRoleEnum.Hostess, UserRoleEnum.Waiter, UserRoleEnum.Hookah].map((role) => ({

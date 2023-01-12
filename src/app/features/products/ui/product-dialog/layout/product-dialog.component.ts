@@ -5,6 +5,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { firstValueFrom, map, shareReplay, take } from "rxjs";
 
 import type { ProductEntity } from "../../../../../../graphql";
+import { FORM_I18N } from "../../../../../core/constants";
 import { PLACE_ID } from "../../../../../shared/constants";
 import { FilesService } from "../../../../../shared/modules/files";
 import { RouterService } from "../../../../../shared/modules/router";
@@ -19,6 +20,7 @@ import { ProductDialogGQL } from "../graphql/product-dialog";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDialogComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: null,
 		description: "",

@@ -1,4 +1,4 @@
-<div class="accounting-system-dialog" *transloco="let t; read: 'form'">
+<div class="accounting-system-dialog" *transloco="let t; read: formI18n">
 	<p appTypography theme="2" class="title">{{ t("add") }}</p>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">

@@ -6,6 +6,7 @@ import { map, take } from "rxjs";
 import { CommandsService } from "../../../../../../../../../../features/commands/services/commands/commands.service";
 import { PLACE_ID } from "../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
+import { COMMANDS_PAGE_I18N } from "../constants";
 import { CommandsPageGQL } from "../graphql/commands-page";
 
 @UntilDestroy()
@@ -16,6 +17,7 @@ import { CommandsPageGQL } from "../graphql/commands-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandsComponent implements OnInit {
+	readonly commandsPageI18n = COMMANDS_PAGE_I18N;
 	private readonly _commandsPageQuery = this._commandsPageGQL.watch();
 	readonly commands$ = this._commandsPageQuery.valueChanges.pipe(map((result) => result.data.commands.data));
 

@@ -8,6 +8,7 @@ import { UsersService } from "../../../../../../../../../../../../features/users
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
 import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
+import { WORKERS_PAGE_I18N } from "../constants";
 import { WorkersPageGQL } from "../graphql/workers-page";
 
 @UntilDestroy()
@@ -19,6 +20,8 @@ import { WorkersPageGQL } from "../graphql/workers-page";
 })
 export class WorkersComponent implements OnInit, AfterViewInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
+
+	readonly workersPageI18n = WORKERS_PAGE_I18N;
 
 	private readonly _workersPageQuery = this._workersPageGQL.watch();
 	readonly users$: Observable<any> = this._workersPageQuery.valueChanges.pipe(map((result) => result.data.users.data));

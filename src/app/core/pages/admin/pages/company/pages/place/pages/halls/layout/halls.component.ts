@@ -7,6 +7,7 @@ import { HallsService } from "src/app/features/halls";
 import { PLACE_ID } from "src/app/shared/constants";
 
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
+import { HALLS_PAGE_I18N } from "../constants";
 import { HallsPageGQL } from "../graphql/halls-page";
 
 @UntilDestroy()
@@ -17,6 +18,7 @@ import { HallsPageGQL } from "../graphql/halls-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallsComponent implements OnInit {
+	readonly hallsPageI18n = HALLS_PAGE_I18N;
 	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
 	readonly halls$: Observable<any> = this._hallsPageQuery.valueChanges.pipe(
 		map((result) => result.data.halls.data),

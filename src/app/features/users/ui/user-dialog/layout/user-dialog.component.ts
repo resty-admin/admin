@@ -6,6 +6,7 @@ import { CryptoService } from "src/app/shared/modules/crypto";
 
 import type { UserEntity } from "../../../../../../graphql";
 import { UserRoleEnum } from "../../../../../../graphql";
+import { FORM_I18N } from "../../../../../core/constants";
 
 @Component({
 	selector: "app-user-dialog",
@@ -14,6 +15,7 @@ import { UserRoleEnum } from "../../../../../../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDialogComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	readonly roles = Object.keys(UserRoleEnum).map((role) => ({
 		label: role,
 		value: role

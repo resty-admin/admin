@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map } from "rxjs";
 
+import { ACCOUNTING_SYSTEMS_PAGE_I18N } from "../constants";
 import { AccountingSystemsPageGQL } from "../graphql/accounting-systems-page";
 
 @Component({
@@ -10,6 +11,7 @@ import { AccountingSystemsPageGQL } from "../graphql/accounting-systems-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemsComponent {
+	readonly accountingSystemsPageI18n = ACCOUNTING_SYSTEMS_PAGE_I18N;
 	private readonly _accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
 
 	readonly accountingSystems$ = this._accountingSystemsPageQuery.valueChanges.pipe(

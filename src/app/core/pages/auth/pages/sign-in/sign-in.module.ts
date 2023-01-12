@@ -12,6 +12,7 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { getI18nProvider } from "../../../../../shared/i18n";
+import { SIGN_IN_PAGE_I18N } from "./constants";
 import { SignInComponent } from "./layout/sign-in.component";
 import { SignInRoutingModule } from "./sign-in-routing.module";
 
@@ -31,6 +32,6 @@ import { SignInRoutingModule } from "./sign-in-routing.module";
 		ImageModule,
 		CardModule
 	],
-	providers: [getI18nProvider("signIn", (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
+	providers: [getI18nProvider(SIGN_IN_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class SignInModule {}

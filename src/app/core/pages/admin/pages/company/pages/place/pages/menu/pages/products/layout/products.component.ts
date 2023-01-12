@@ -9,6 +9,7 @@ import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { PRODUCTS_PAGE_I18N } from "../constants";
 import { ProductsPageGQL } from "../graphql/products-page";
 
 @UntilDestroy()
@@ -20,6 +21,8 @@ import { ProductsPageGQL } from "../graphql/products-page";
 })
 export class ProductsComponent implements AfterViewInit, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
+
+	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 
 	readonly products$: Observable<any> = this._productsPageQuery.valueChanges.pipe(

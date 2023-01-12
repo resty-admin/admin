@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
+import { ROLE_PAGE_I18N } from "../constants";
 import { ROLES_DATA } from "../data";
 
 @Component({
@@ -10,6 +11,7 @@ import { ROLES_DATA } from "../data";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoleComponent {
+	readonly rolePageI18n = ROLE_PAGE_I18N;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly roles = ROLES_DATA;
 

@@ -8,6 +8,7 @@ import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { AuthService } from "../../../../../../features/auth/services";
+import { VERIFICATION_CODE_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -17,6 +18,7 @@ import { AuthService } from "../../../../../../features/auth/services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VerificationCodeComponent implements OnInit {
+	readonly verificationCodePageI18n = VERIFICATION_CODE_PAGE_I18N;
 	readonly form = this._formBuilder.group<any>({
 		verificationCode: 0
 	});

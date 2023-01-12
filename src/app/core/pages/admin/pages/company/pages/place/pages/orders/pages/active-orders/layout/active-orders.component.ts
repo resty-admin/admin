@@ -6,6 +6,7 @@ import { OrdersService } from "src/app/features/orders";
 
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
+import { ACTIVE_ORDERS_PAGE_I18N } from "../constants";
 import { ActiveOrdersPageGQL } from "../graphql/active-orders-page";
 
 @UntilDestroy()
@@ -16,6 +17,7 @@ import { ActiveOrdersPageGQL } from "../graphql/active-orders-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrdersComponent implements OnInit {
+	readonly activeOrdersPageI18n = ACTIVE_ORDERS_PAGE_I18N;
 	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
 	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders.data));
 

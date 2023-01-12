@@ -17,6 +17,7 @@ import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { HALLS_COMPONENTS } from "./components";
+import { HALLS_PAGE_I18N } from "./constants";
 import { HallsRoutingModule } from "./halls-routing.module";
 import { HallsComponent } from "./layout/halls.component";
 
@@ -40,6 +41,6 @@ import { HallsComponent } from "./layout/halls.component";
 		ListModule,
 		HallDialogModule
 	],
-	providers: [getI18nProvider("halls", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(HALLS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class HallsModule {}

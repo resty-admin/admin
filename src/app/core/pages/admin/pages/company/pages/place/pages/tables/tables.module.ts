@@ -16,6 +16,7 @@ import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { TABLES_COMPONENTS } from "./components";
+import { TABLES_PAGE_I18N } from "./constants";
 import { TablesComponent } from "./layout/tables.component";
 import { TablesRoutingModule } from "./tables-routing.module";
 
@@ -38,6 +39,6 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		ListModule,
 		TableDialogModule
 	],
-	providers: [getI18nProvider("tables", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(TABLES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class TablesModule {}

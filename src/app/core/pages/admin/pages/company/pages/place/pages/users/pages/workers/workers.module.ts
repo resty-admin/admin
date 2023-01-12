@@ -14,6 +14,7 @@ import { TranslocoModule } from "../../../../../../../../../../../shared/modules
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
+import { WORKERS_PAGE_I18N } from "./constants";
 import { WorkersComponent } from "./layout/workers.component";
 import { WorkersRoutingModule } from "./workers-routing.module";
 
@@ -35,6 +36,6 @@ import { WorkersRoutingModule } from "./workers-routing.module";
 		FiltersModule,
 		UserDialogModule
 	],
-	providers: [getI18nProvider("workers", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(WORKERS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class WorkersModule {}

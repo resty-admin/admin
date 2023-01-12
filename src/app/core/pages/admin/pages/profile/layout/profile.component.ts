@@ -5,6 +5,8 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { shareReplay } from "rxjs";
 
 import { AuthService } from "../../../../../../features/auth/services";
+import { FORM_I18N } from "../../../../../constants";
+import { PROFILE_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -14,6 +16,8 @@ import { AuthService } from "../../../../../../features/auth/services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
+	readonly profilePageI18n = PROFILE_PAGE_I18N;
 	readonly user$ = this._authService.getMe().pipe(shareReplay({ refCount: true }));
 
 	readonly formGroup = this._formBuilder.group<any>({

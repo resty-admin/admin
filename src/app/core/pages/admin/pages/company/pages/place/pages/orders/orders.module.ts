@@ -14,6 +14,7 @@ import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
 import { DatepickerModule } from "../../../../../../../../../shared/ui/datepicker";
 import { TabsModule } from "../../../../../../../../../shared/ui/tabs";
+import { ORDERS_PAGE_I18N } from "./constants/orders-page-i18n.constant";
 import { OrdersComponent } from "./layout/orders.component";
 import { OrderRoutingModule } from "./orders-routing.module";
 
@@ -35,6 +36,6 @@ import { OrderRoutingModule } from "./orders-routing.module";
 		AddHeaderModule,
 		OrderDialogModule
 	],
-	providers: [getI18nProvider("orders", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(ORDERS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class OrdersModule {}

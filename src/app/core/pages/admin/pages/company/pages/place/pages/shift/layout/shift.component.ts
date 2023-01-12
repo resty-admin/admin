@@ -11,6 +11,7 @@ import { PLACE_ID } from "../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+import { SHIFT_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -20,6 +21,7 @@ import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShiftComponent implements OnInit {
+	readonly shiftPageI18n = SHIFT_PAGE_I18N;
 	readonly halls$ = of([]);
 	readonly tables$ = of([]);
 	readonly activeShiftGroup = this._formBuilder.group<any>({

@@ -1,8 +1,6 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
-import type { Translation, TranslocoLoader } from "@ngneat/transloco";
 import { TRANSLOCO_SCOPE } from "@ngneat/transloco";
 
 import { ApiModule } from "../shared/modules/api";
@@ -41,17 +39,9 @@ import {
 	TOASTR_CONFIG
 } from "./configs";
 import { CODE_INPUT_CONFIG } from "./configs/code-input.config";
+import { FORM_I18N } from "./constants";
 import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
-
-@Injectable({ providedIn: "root" })
-export class TranslocoHttpLoader implements TranslocoLoader {
-	constructor(private http: HttpClient) {}
-
-	getTranslation(lang: string) {
-		return this.http.get<Translation>(`/assets/i18n/${lang}.json`);
-	}
-}
 
 @NgModule({
 	declarations: [CoreComponent],
@@ -82,7 +72,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 	providers: [
 		{
 			provide: TRANSLOCO_SCOPE,
-			useValue: "form"
+			useValue: FORM_I18N
 		}
 	],
 	exports: [CoreComponent]

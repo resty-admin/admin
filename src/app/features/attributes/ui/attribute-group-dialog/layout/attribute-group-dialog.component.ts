@@ -6,6 +6,7 @@ import { firstValueFrom, map } from "rxjs";
 import { AttributesService } from "src/app/features/attributes/index";
 
 import { AttributeGroupTypeEnum } from "../../../../../../graphql";
+import { FORM_I18N } from "../../../../../core/constants";
 import { AttributeGroupDialogGQL } from "../graphql/attribute-group-dialog";
 
 @Component({
@@ -15,6 +16,7 @@ import { AttributeGroupDialogGQL } from "../graphql/attribute-group-dialog";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributeGroupDialogComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
 		attributes: [[]],

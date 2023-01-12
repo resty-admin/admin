@@ -17,6 +17,7 @@ import { ActionsModule } from "../../../../../../../../../../../shared/ui/action
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { CategoriesRoutingModule } from "./categories-routing.module";
+import { CATEGORIES_PAGE_I18N } from "./constants";
 import { CategoriesComponent } from "./layout/categories.component";
 
 @NgModule({
@@ -39,6 +40,6 @@ import { CategoriesComponent } from "./layout/categories.component";
 		CategoryDialogModule,
 		ProductDialogModule
 	],
-	providers: [getI18nProvider("categories", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(CATEGORIES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class CategoriesModule {}

@@ -9,6 +9,7 @@ import { getI18nProvider } from "../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../shared/modules/i18n";
 import { ImageModule } from "../../../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../../../shared/ui/typography";
+import { PLACES_PAGE_I18N } from "./constants";
 import { PlacesComponent } from "./layout/places.component";
 import { PlacesRoutingModule } from "./places-routing.module";
 
@@ -25,6 +26,6 @@ import { PlacesRoutingModule } from "./places-routing.module";
 		I18nModule,
 		PlaceDialogModule
 	],
-	providers: [getI18nProvider("places", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(PLACES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PlacesModule {}

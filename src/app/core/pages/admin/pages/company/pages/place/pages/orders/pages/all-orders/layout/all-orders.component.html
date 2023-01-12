@@ -1,4 +1,4 @@
-<div class="all-orders-page" *transloco="let t; read: 'all-orders'">
+<div class="all-orders-page" *transloco="let t; read: allOrdersPageI18n">
 	<app-filters class="filters"></app-filters>
 
 	<app-datatable class="datatable-desktop" [rows]="allOrders$ | async" [columns]="columns"></app-datatable>

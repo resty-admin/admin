@@ -1,4 +1,4 @@
-<aside class="aside" *transloco="let t; read: 'aside'">
+<aside class="aside" *transloco="let t; read: asideI18n">
 	<a class="user" *ngIf="user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="emitCloseClick()">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>
@@ -9,7 +9,7 @@
 		</button>
 	</a>
 
-	<ng-container *transloco="let f; read: 'form'">
+	<ng-container *transloco="let f; read: formI18n">
 		<div class="company">
 			<p class="title">
 				<span class="text">{{ t("companies") }}</span>

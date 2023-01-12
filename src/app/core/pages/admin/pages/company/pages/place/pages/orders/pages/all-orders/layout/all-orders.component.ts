@@ -9,6 +9,7 @@ import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { ALL_ORDERS_PAGE_I18N } from "../constants";
 import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 
 @UntilDestroy()
@@ -20,6 +21,7 @@ import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 })
 export class AllOrdersComponent implements AfterViewInit, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: any;
+	readonly allOrdersPageI18n = ALL_ORDERS_PAGE_I18N;
 	private readonly _allOrdersPageQuery = this._allOrdersPageGQL.watch();
 	readonly allOrders$: Observable<any> = this._allOrdersPageQuery.valueChanges.pipe(
 		map((result) => result.data.historyOrders.data)

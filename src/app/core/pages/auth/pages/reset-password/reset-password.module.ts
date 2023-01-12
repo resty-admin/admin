@@ -11,6 +11,7 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { getI18nProvider } from "../../../../../shared/i18n";
+import { RESET_PASSWORD_PAGE_I18N } from "./constants";
 import { ResetPasswordComponent } from "./layout/reset-password.component";
 import { ResetPasswordRoutingModule } from "./reset-password-routing.module";
 
@@ -29,6 +30,6 @@ import { ResetPasswordRoutingModule } from "./reset-password-routing.module";
 		CardModule,
 		ImageModule
 	],
-	providers: [getI18nProvider("resetPassword", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(RESET_PASSWORD_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ResetPasswordModule {}

@@ -15,6 +15,7 @@ import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { MultipleCheckboxModule } from "../../../../../../../../../shared/ui/multiple-checkbox";
 import { TabsModule } from "../../../../../../../../../shared/ui/tabs";
+import { MENU_PAGE_I18N } from "./constants";
 import { MenuComponent } from "./layout/menu.component";
 import { MenuRoutingModule } from "./menu-routing.module";
 
@@ -37,6 +38,6 @@ import { MenuRoutingModule } from "./menu-routing.module";
 		I18nModule,
 		TabsModule
 	],
-	providers: [getI18nProvider("menu", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(MENU_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class MenuModule {}

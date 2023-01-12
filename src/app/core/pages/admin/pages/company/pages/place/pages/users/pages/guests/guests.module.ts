@@ -14,6 +14,7 @@ import { TranslocoModule } from "../../../../../../../../../../../shared/modules
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
+import { GUESTS_PAGE_I18N } from "./constants";
 import { GuestsRoutingModule } from "./guests-routing.module";
 import { GuestsComponent } from "./layout/guests.component";
 
@@ -35,6 +36,6 @@ import { GuestsComponent } from "./layout/guests.component";
 		FiltersModule,
 		UserDialogModule
 	],
-	providers: [getI18nProvider("guests", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(GUESTS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class GuestsModule {}

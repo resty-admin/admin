@@ -9,6 +9,7 @@ import { IconModule } from "../../../../../shared/ui/icon";
 import { ImageModule } from "../../../../../shared/ui/image";
 import { TypographyModule } from "../../../../../shared/ui/typography";
 import { CompaniesRoutingModule } from "./companies-routing.module";
+import { COMPANIES_PAGE_I18N } from "./constants/companies-page-i18n.constant";
 import { CompaniesComponent } from "./layout/companies.component";
 
 @NgModule({
@@ -23,6 +24,6 @@ import { CompaniesComponent } from "./layout/companies.component";
 		CompanyDialogModule,
 		I18nModule
 	],
-	providers: [getI18nProvider("companies", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(COMPANIES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class CompaniesModule {}

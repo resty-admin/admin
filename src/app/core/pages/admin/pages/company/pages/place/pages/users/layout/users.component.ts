@@ -3,6 +3,7 @@ import { UsersService } from "src/app/features/users";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
+import { USERS_PAGE_I18N } from "../constants";
 
 @Component({
 	selector: "app-users",
@@ -11,6 +12,7 @@ import { RouterService } from "../../../../../../../../../../shared/modules/rout
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersComponent {
+	readonly usersPageI18n = USERS_PAGE_I18N;
 	readonly pages = [
 		{
 			label: "Работники",

@@ -5,6 +5,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { take } from "rxjs";
 
 import type { CategoryEntity } from "../../../../../../graphql";
+import { FORM_I18N } from "../../../../../core/constants";
 import { FilesService } from "../../../../../shared/modules/files";
 
 @Component({
@@ -14,6 +15,7 @@ import { FilesService } from "../../../../../shared/modules/files";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryDialogComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
 		name: "",
 		file: ""

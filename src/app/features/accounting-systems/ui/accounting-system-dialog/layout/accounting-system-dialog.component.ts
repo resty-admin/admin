@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 
+import { FORM_I18N } from "../../../../../core/constants";
+
 @Component({
 	selector: "app-accounting-system-dialog",
 	templateUrl: "./accounting-system-dialog.component.html",
@@ -9,6 +11,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemDialogComponent {
+	readonly formi18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group({
 		publicKey: "",
 		privateKey: ""

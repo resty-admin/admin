@@ -12,6 +12,8 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { getI18nProvider } from "../../../../../shared/i18n";
+import { FORM_I18N } from "../../../../constants";
+import { FORGOT_PASSWORD_PAGE_I18N } from "./constants";
 import { ForgotPasswordRoutingModule } from "./forgot-password-routing.module";
 import { ForgotPasswordComponent } from "./layout/forgot-password.component";
 
@@ -31,6 +33,9 @@ import { ForgotPasswordComponent } from "./layout/forgot-password.component";
 		ImageModule,
 		IconModule
 	],
-	providers: [getI18nProvider("forgotPassword", (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
+	providers: [
+		getI18nProvider(FORGOT_PASSWORD_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`)),
+		getI18nProvider(FORM_I18N)
+	]
 })
 export class ForgotPasswordModule {}

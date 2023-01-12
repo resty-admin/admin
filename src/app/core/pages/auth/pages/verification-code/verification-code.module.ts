@@ -9,6 +9,7 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 import { getI18nProvider } from "../../../../../shared/i18n";
 import { ButtonModule } from "../../../../../shared/ui/button";
 import { CardModule } from "../../../../../shared/ui/card";
+import { VERIFICATION_CODE_PAGE_I18N } from "./constants";
 import { VerificationCodeComponent } from "./layout/verification-code.component";
 import { VerificationCodeRoutingModule } from "./verification-code-routing.module";
 
@@ -26,6 +27,6 @@ import { VerificationCodeRoutingModule } from "./verification-code-routing.modul
 		CardModule,
 		ButtonModule
 	],
-	providers: [getI18nProvider("verificationCode", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(VERIFICATION_CODE_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class VerificationCodeModule {}

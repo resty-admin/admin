@@ -7,6 +7,8 @@ import { combineLatest, map, skip } from "rxjs";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "../../../../../../shared/constants";
 import { getI18nProvider } from "../../../../../../shared/i18n";
 import { RouterService } from "../../../../../../shared/modules/router";
+import { FORM_I18N } from "../../../../../constants";
+import { ASIDE_I18N } from "../constants";
 import { ASIDE_PAGES } from "../data";
 
 @UntilDestroy()
@@ -15,9 +17,10 @@ import { ASIDE_PAGES } from "../data";
 	templateUrl: "./aside.component.html",
 	styleUrls: ["./aside.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [getI18nProvider("aside", (lang) => import(`../i18n/${lang}.json`)), getI18nProvider("form")]
+	providers: [getI18nProvider(ASIDE_I18N, (lang) => import(`../i18n/${lang}.json`)), getI18nProvider("form")]
 })
 export class AsideComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	@Output() closeClicked = new EventEmitter();
 	@Output() signOutClicked = new EventEmitter();
 	@Output() addCompanyClicked = new EventEmitter();
@@ -28,6 +31,8 @@ export class AsideComponent implements OnInit {
 	@Input() placeActions: any;
 	@Input() companies: any;
 	@Input() places: any;
+
+	readonly asideI18n = ASIDE_I18N;
 
 	readonly adminRoutes = ADMIN_ROUTES;
 

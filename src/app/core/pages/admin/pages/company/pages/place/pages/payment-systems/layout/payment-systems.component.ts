@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { map } from "rxjs";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
+import { PAYMENT_SYSTEMS_PAGE_I18N } from "../constants";
 import { PaymentSystemsPageGQL } from "../graphql/payment-systems-page";
 
 @Component({
@@ -11,12 +11,7 @@ import { PaymentSystemsPageGQL } from "../graphql/payment-systems-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemsComponent {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
+	readonly paymentSystemsPageI18n = PAYMENT_SYSTEMS_PAGE_I18N;
 
 	readonly paymentSystems$ = this._paymentSystemsPage
 		.watch()

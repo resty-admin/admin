@@ -1,10 +1,10 @@
-<div class="sign-up" *transloco="let t; read: 'signUp'">
+<div class="sign-up" *transloco="let t; read: signUpPageI18n">
 	<app-image class="image" name="auth"></app-image>
 
 	<app-card theme="1" class="card">
 		<app-image class="logo" name="logo"></app-image>
 		<form
-			*transloco="let f; read: 'form'"
+			*transloco="let f; read: formI18n"
 			class="form"
 			[formGroup]="form"
 			[ngSwitch]="typeControl.value"

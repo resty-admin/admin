@@ -12,6 +12,7 @@ import { ButtonModule } from "../../../../../../../../../../../shared/ui/button"
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { AllOrdersRoutingModule } from "./all-orders-routing.module";
+import { ALL_ORDERS_PAGE_I18N } from "./constants";
 import { AllOrdersComponent } from "./layout/all-orders.component";
 
 @NgModule({
@@ -29,6 +30,6 @@ import { AllOrdersComponent } from "./layout/all-orders.component";
 		FiltersModule,
 		OrderDialogModule
 	],
-	providers: [getI18nProvider("all-orders", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(ALL_ORDERS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class AllOrdersModule {}

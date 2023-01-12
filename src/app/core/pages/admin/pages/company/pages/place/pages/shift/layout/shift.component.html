@@ -1,4 +1,4 @@
-<form class="shift-page" *transloco="let t; read: 'shift'" [formGroup]="activeShiftGroup">
+<form class="shift-page" *transloco="let t; read: shiftPageI18n" [formGroup]="activeShiftGroup">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<button *ngIf="formValue.id" appButton theme="2" class="close" (click)="closeShift(formValue.id)">

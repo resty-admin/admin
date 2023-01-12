@@ -8,6 +8,7 @@ import { UsersService } from "../../../../../../../../../../../../features/users
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
 import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
+import { GUESTS_PAGE_I18N } from "../constants";
 import { GuestsPageGQL } from "../graphql/guests-page";
 
 @UntilDestroy()
@@ -19,6 +20,8 @@ import { GuestsPageGQL } from "../graphql/guests-page";
 })
 export class GuestsComponent implements OnInit, AfterViewInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
+
+	readonly guestsPageI18n = GUESTS_PAGE_I18N;
 
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
 	readonly users$: Observable<any> = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));

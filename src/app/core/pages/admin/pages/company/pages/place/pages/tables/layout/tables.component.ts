@@ -7,6 +7,7 @@ import { TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { DYNAMIC_ID } from "../../../../../../../../../../shared/constants";
+import { TABLES_PAGE_I18N } from "../constants";
 import { TablesPageGQL } from "../graphql/tables-page";
 
 @UntilDestroy()
@@ -17,6 +18,7 @@ import { TablesPageGQL } from "../graphql/tables-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TablesComponent implements OnInit {
+	readonly tablesPageI18n = TABLES_PAGE_I18N;
 	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
 	readonly tables$: Observable<any> = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
 	readonly actions = this._tablesService.actions;

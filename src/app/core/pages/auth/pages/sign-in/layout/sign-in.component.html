@@ -1,11 +1,11 @@
-<div class="sign-in" *transloco="let t; read: 'signIn'">
+<div class="sign-in" *transloco="let t; read: signInPageI18n">
 	<app-image class="image" name="auth"></app-image>
 
 	<app-card theme="1" class="card">
 		<app-image class="logo" name="logo"></app-image>
 
 		<form
-			*transloco="let f; read: 'form'"
+			*transloco="let f; read: formI18n"
 			class="form"
 			[formGroup]="form"
 			[ngSwitch]="typeControl.value"

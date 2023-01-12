@@ -15,6 +15,7 @@ import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
 import { TabsModule } from "../../../../../../../../../shared/ui/tabs";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
+import { USERS_PAGE_I18N } from "./constants";
 import { UsersComponent } from "./layout/users.component";
 import { UserRoutingModule } from "./users-routing.module";
 
@@ -37,6 +38,6 @@ import { UserRoutingModule } from "./users-routing.module";
 		TabsModule,
 		UserDialogModule
 	],
-	providers: [getI18nProvider("users", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(USERS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class UsersModule {}

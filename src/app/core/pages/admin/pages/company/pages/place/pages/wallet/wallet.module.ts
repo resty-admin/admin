@@ -12,6 +12,7 @@ import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { WALLET_COMPONENTS } from "./components";
+import { WALLET_PAGE_I18N } from "./constants/wallet-page-i18n.constant";
 import { WalletComponent } from "./layout/wallet.component";
 import { WalletRoutingModule } from "./wallet-routing.module";
 
@@ -30,6 +31,6 @@ import { WalletRoutingModule } from "./wallet-routing.module";
 		ActionsModule,
 		TranslocoModule
 	],
-	providers: [getI18nProvider("wallet", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(WALLET_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class WalletModule {}

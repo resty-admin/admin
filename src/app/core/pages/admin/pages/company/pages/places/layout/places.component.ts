@@ -7,6 +7,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { PlacesService } from "../../../../../../../../features/places";
 import { DialogService } from "../../../../../../../../shared/ui/dialog";
+import { PLACES_PAGE_I18N } from "../constants";
 
 @UntilDestroy()
 @Component({
@@ -16,6 +17,7 @@ import { DialogService } from "../../../../../../../../shared/ui/dialog";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlacesComponent implements OnInit {
+	readonly placesPageI18n = PLACES_PAGE_I18N;
 	readonly places$ = this._placesService.placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
 	constructor(

@@ -14,6 +14,7 @@ import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n"
 import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { PAYMENT_SYSTEMS_COMPONENTS } from "./components";
+import { PAYMENT_SYSTEMS_PAGE_I18N } from "./constants";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 
@@ -34,6 +35,6 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		FiltersModule,
 		PaymentSystemDialogModule
 	],
-	providers: [getI18nProvider("paymentSystems", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(PAYMENT_SYSTEMS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class PaymentSystemsModule {}

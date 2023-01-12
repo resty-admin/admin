@@ -17,6 +17,7 @@ import { TranslocoModule } from "../../../../../../../../../../../shared/modules
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
+import { PRODUCTS_PAGE_I18N } from "./constants";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
 
@@ -41,6 +42,6 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		CategoryDialogModule,
 		AttributeGroupDialogModule
 	],
-	providers: [getI18nProvider("products", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(PRODUCTS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ProductsModule {}

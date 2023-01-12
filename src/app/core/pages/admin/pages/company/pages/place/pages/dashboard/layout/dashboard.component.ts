@@ -5,6 +5,7 @@ import { map, shareReplay } from "rxjs";
 
 import { PLACE_ID } from "../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
+import { DASHBOARD_PAGE_I18N } from "../constants";
 import { DashboardPageGQL } from "../graphql/dashboard-page";
 
 @UntilDestroy()
@@ -15,6 +16,7 @@ import { DashboardPageGQL } from "../graphql/dashboard-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
+	readonly dashboardPageI18n = DASHBOARD_PAGE_I18N;
 	readonly cards = [
 		{
 			label: "Сотрудников",

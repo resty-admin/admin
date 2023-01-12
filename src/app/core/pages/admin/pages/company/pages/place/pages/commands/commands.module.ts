@@ -17,6 +17,7 @@ import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { TextareaModule } from "../../../../../../../../../shared/ui/textarea";
 import { CommandsRoutingModule } from "./commands-routing.module";
 import { COMMANDS_COMPONENTS } from "./components";
+import { COMMANDS_PAGE_I18N } from "./constants";
 import { CommandsComponent } from "./layout/commands.component";
 
 @NgModule({
@@ -38,6 +39,6 @@ import { CommandsComponent } from "./layout/commands.component";
 		ReactiveFormsModule,
 		CommandDialogModule
 	],
-	providers: [getI18nProvider("commands", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(COMMANDS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class CommandsModule {}

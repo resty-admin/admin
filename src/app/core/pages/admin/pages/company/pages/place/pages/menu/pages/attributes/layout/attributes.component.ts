@@ -6,6 +6,7 @@ import { AttributeGroupsService, AttributesService } from "src/app/features/attr
 import { PLACE_ID } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
+import { ATTRIBUTES_PAGE_I18N } from "../constants";
 import { AttributesPageGQL } from "../graphql/attributes-page";
 
 @UntilDestroy()
@@ -16,6 +17,7 @@ import { AttributesPageGQL } from "../graphql/attributes-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributesComponent implements OnInit {
+	readonly attributesPageI18n = ATTRIBUTES_PAGE_I18N;
 	private readonly _attributesPageQuery = this._attributesPageGQL.watch();
 	readonly attributeGroups$ = this._attributesPageQuery.valueChanges.pipe(
 		map((result) => result.data.attributeGroups.data)

@@ -5,6 +5,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { CryptoService } from "src/app/shared/modules/crypto";
 
 import { OrderTypeEnum } from "../../../../../../graphql";
+import { FORM_I18N } from "../../../../../core/constants";
 
 @Component({
 	selector: "app-order-dialog",
@@ -13,8 +14,8 @@ import { OrderTypeEnum } from "../../../../../../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderDialogComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<Partial<any>>({
-		name: "",
 		code: 0,
 		type: OrderTypeEnum.InPlace
 	});

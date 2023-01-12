@@ -5,6 +5,7 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { map, take } from "rxjs";
 
 import type { CompanyEntity } from "../../../../../../graphql";
+import { FORM_I18N } from "../../../../../core/constants";
 import { FilesService } from "../../../../../shared/modules/files";
 
 @Component({
@@ -14,6 +15,7 @@ import { FilesService } from "../../../../../shared/modules/files";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyDialogComponent implements OnInit {
+	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group({
 		name: "",
 		logo: null
@@ -38,7 +40,7 @@ export class CompanyDialogComponent implements OnInit {
 			.getFile(company.logo)
 			.pipe(
 				take(1),
-				map((logo) => logo.id)
+				map((logo) => logo?.id)
 			)
 			.subscribe((logo) => {
 				this._dialogRef.close({ ...this.data, ...company, logo });

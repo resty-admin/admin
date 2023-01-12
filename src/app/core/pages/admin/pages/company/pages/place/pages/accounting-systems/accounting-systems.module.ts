@@ -11,6 +11,7 @@ import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { AccountingSystemsRoutingModule } from "./accounting-systems-routing.module";
 import { ACCOUNTING_SYSTEMS_COMPONENTS, AccountingSystemComponent } from "./components";
+import { ACCOUNTING_SYSTEMS_PAGE_I18N } from "./constants";
 import { AccountingSystemsComponent } from "./layout/accounting-systems.component";
 
 @NgModule({
@@ -27,6 +28,6 @@ import { AccountingSystemsComponent } from "./layout/accounting-systems.componen
 		ListModule
 	],
 	exports: [AccountingSystemComponent],
-	providers: [getI18nProvider("accountingSystems", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(ACCOUNTING_SYSTEMS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class AccountingSystemsModule {}

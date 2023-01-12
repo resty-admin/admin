@@ -4,6 +4,7 @@ import { map, take } from "rxjs";
 import { CompaniesService } from "../../../../../../features/companies";
 import { ADMIN_ROUTES, COMPANY_ID } from "../../../../../../shared/constants";
 import { RouterService } from "../../../../../../shared/modules/router";
+import { COMPANIES_PAGE_I18N } from "../constants/companies-page-i18n.constant";
 
 @Component({
 	selector: "app-companies",
@@ -12,6 +13,7 @@ import { RouterService } from "../../../../../../shared/modules/router";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompaniesComponent {
+	readonly companiesPageI18n = COMPANIES_PAGE_I18N;
 	readonly companies$ = this._companiesService.companiesQuery.valueChanges.pipe(
 		map((result) => result.data.companies.data)
 	);

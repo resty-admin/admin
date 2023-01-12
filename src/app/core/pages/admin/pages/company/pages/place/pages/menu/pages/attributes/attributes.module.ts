@@ -19,6 +19,7 @@ import { TranslocoModule } from "../../../../../../../../../../../shared/modules
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { ToggleModule } from "../../../../../../../../../../../shared/ui/toggle";
 import { AttributesRoutingModule } from "./attributes-routing.module";
+import { ATTRIBUTES_PAGE_I18N } from "./constants";
 import { AttributesComponent } from "./layout/attributes.component";
 
 @NgModule({
@@ -43,6 +44,6 @@ import { AttributesComponent } from "./layout/attributes.component";
 		AttributeDialogModule,
 		AttributeGroupDialogModule
 	],
-	providers: [getI18nProvider("attributes", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(ATTRIBUTES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class AttributesModule {}

@@ -11,6 +11,7 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { SHIFT_COMPONENTS } from "./components";
+import { SHIFT_PAGE_I18N } from "./constants";
 import { ShiftComponent } from "./layout/shift.component";
 import { ShiftRoutingModule } from "./shift-routing.module";
 
@@ -28,6 +29,6 @@ import { ShiftRoutingModule } from "./shift-routing.module";
 		IconModule,
 		I18nModule
 	],
-	providers: [getI18nProvider("shift", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(SHIFT_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ShiftModule {}

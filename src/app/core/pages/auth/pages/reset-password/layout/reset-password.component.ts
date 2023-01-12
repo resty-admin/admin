@@ -6,6 +6,7 @@ import { ADMIN_ROUTES } from "src/app/shared/constants";
 import type { IAuthType } from "../../../../../../features/auth/interfaces";
 import { AuthService } from "../../../../../../features/auth/services";
 import { RouterService } from "../../../../../../shared/modules/router";
+import { RESET_PASSWORD_PAGE_I18N } from "../constants";
 
 @Component({
 	selector: "app-reset-password",
@@ -14,6 +15,7 @@ import { RouterService } from "../../../../../../shared/modules/router";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResetPasswordComponent {
+	readonly resetPasswordPageI18n = RESET_PASSWORD_PAGE_I18N;
 	readonly adminRoutes = ADMIN_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
