@@ -9,7 +9,6 @@ import { TooltipModule } from "src/app/shared/ui/tooltip";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { CommandDialogModule } from "../../../../../../../../../features/commands/ui/command-dialog/command-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
 import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
@@ -17,8 +16,8 @@ import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { TextareaModule } from "../../../../../../../../../shared/ui/textarea";
 import { CommandsRoutingModule } from "./commands-routing.module";
 import { COMMANDS_COMPONENTS } from "./components";
-import { COMMANDS_PAGE_I18N } from "./constants";
 import { CommandsComponent } from "./layout/commands.component";
+import { COMMANDS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CommandsComponent, ...COMMANDS_COMPONENTS],
@@ -39,6 +38,6 @@ import { CommandsComponent } from "./layout/commands.component";
 		ReactiveFormsModule,
 		CommandDialogModule
 	],
-	providers: [getI18nProvider(COMMANDS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: COMMANDS_PROVIDERS
 })
 export class CommandsModule {}

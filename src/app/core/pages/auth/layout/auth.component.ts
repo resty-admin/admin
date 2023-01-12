@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
-import { AUHT_PAGE_I18N } from "../constants";
+import { AUTH_PAGE_I18N } from "../constants";
 
 @Component({
 	selector: "app-auth",
@@ -9,5 +9,5 @@ import { AUHT_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthComponent {
-	readonly authPageI18n = AUHT_PAGE_I18N;
+	readonly authPageI18n = AUTH_PAGE_I18N;
 }

@@ -12,14 +12,13 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 import { AttributeGroupDialogModule } from "../../../../../../../../../../../features/attributes/ui/attribute-group-dialog/attribute-group-dialog.module";
 import { CategoryDialogModule } from "../../../../../../../../../../../features/categories/ui/category-dialog/category-dialog.module";
 import { ProductDialogModule } from "../../../../../../../../../../../features/products/ui/product-dialog/product-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
-import { PRODUCTS_PAGE_I18N } from "./constants";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
+import { PRODUCTS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProductsComponent],
@@ -42,6 +41,6 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		CategoryDialogModule,
 		AttributeGroupDialogModule
 	],
-	providers: [getI18nProvider(PRODUCTS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: PRODUCTS_PROVIDERS
 })
 export class ProductsModule {}

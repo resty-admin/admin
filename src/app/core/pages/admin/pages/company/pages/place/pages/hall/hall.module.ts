@@ -11,6 +11,6 @@ import { HallComponent } from "./layout/hall.component";
 	declarations: [HallComponent],
 	imports: [CommonModule, HallRoutingModule, TranslocoModule],
 	exports: [HallComponent],
-	providers: [getI18nProvider(HALL_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider(HALL_PAGE_I18N, (lang) => import(`../i18n/${lang}.json`))]
 })
 export class HallModule {}

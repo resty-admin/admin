@@ -9,14 +9,13 @@ import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { UserDialogModule } from "../../../../../../../../../features/users/ui/user-dialog/user-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
 import { TabsModule } from "../../../../../../../../../shared/ui/tabs";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
-import { USERS_PAGE_I18N } from "./constants";
 import { UsersComponent } from "./layout/users.component";
+import { USERS_PROVIDERS } from "./providers";
 import { UserRoutingModule } from "./users-routing.module";
 
 @NgModule({
@@ -38,6 +37,6 @@ import { UserRoutingModule } from "./users-routing.module";
 		TabsModule,
 		UserDialogModule
 	],
-	providers: [getI18nProvider(USERS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: USERS_PROVIDERS
 })
 export class UsersModule {}

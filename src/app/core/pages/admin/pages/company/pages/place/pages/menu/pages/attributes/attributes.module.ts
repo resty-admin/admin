@@ -14,13 +14,12 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { AttributeDialogModule } from "../../../../../../../../../../../features/attributes/ui/attribute-dialog/attribute-dialog.module";
 import { AttributeGroupDialogModule } from "../../../../../../../../../../../features/attributes/ui/attribute-group-dialog/attribute-group-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { ToggleModule } from "../../../../../../../../../../../shared/ui/toggle";
 import { AttributesRoutingModule } from "./attributes-routing.module";
-import { ATTRIBUTES_PAGE_I18N } from "./constants";
 import { AttributesComponent } from "./layout/attributes.component";
+import { ATTRIBUTES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AttributesComponent],
@@ -44,6 +43,6 @@ import { AttributesComponent } from "./layout/attributes.component";
 		AttributeDialogModule,
 		AttributeGroupDialogModule
 	],
-	providers: [getI18nProvider(ATTRIBUTES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: ATTRIBUTES_PROVIDERS
 })
 export class AttributesModule {}

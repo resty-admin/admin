@@ -8,7 +8,6 @@ import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { TableDialogModule } from "../../../../../../../../../features/tables/ui/table-dialog/table-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
@@ -16,8 +15,8 @@ import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { TABLES_COMPONENTS } from "./components";
-import { TABLES_PAGE_I18N } from "./constants";
 import { TablesComponent } from "./layout/tables.component";
+import { TABLES_PROVIDERS } from "./providers";
 import { TablesRoutingModule } from "./tables-routing.module";
 
 @NgModule({
@@ -39,6 +38,6 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		ListModule,
 		TableDialogModule
 	],
-	providers: [getI18nProvider(TABLES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: TABLES_PROVIDERS
 })
 export class TablesModule {}

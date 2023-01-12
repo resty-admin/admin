@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
-import { TRANSLOCO_SCOPE } from "@ngneat/transloco";
 
 import { ApiModule } from "../shared/modules/api";
 import { ApolloModule } from "../shared/modules/apollo";
@@ -39,9 +38,9 @@ import {
 	TOASTR_CONFIG
 } from "./configs";
 import { CODE_INPUT_CONFIG } from "./configs/code-input.config";
-import { FORM_I18N } from "./constants";
 import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
+import { CORE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CoreComponent],
@@ -69,12 +68,7 @@ import { CoreComponent } from "./layout/core.component";
 		I18nModule.forRoot(I18N_CONFIG),
 		CookiesModule
 	],
-	providers: [
-		{
-			provide: TRANSLOCO_SCOPE,
-			useValue: FORM_I18N
-		}
-	],
+	providers: CORE_PROVIDERS,
 	exports: [CoreComponent]
 })
 export class CoreModule {}

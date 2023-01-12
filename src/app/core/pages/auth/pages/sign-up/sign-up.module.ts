@@ -12,9 +12,8 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { SelectModule } from "src/app/shared/ui/select";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getI18nProvider } from "../../../../../shared/i18n";
-import { SIGN_UP_PAGE_I18N } from "./constants";
 import { SignUpComponent } from "./layout/sign-up.component";
+import { SIGN_UP_PROVIDERS } from "./providers";
 import { SignUpRoutingModule } from "./sign-up-routing.module";
 
 @NgModule({
@@ -34,6 +33,6 @@ import { SignUpRoutingModule } from "./sign-up-routing.module";
 		IconModule,
 		SelectModule
 	],
-	providers: [getI18nProvider(SIGN_UP_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
+	providers: SIGN_UP_PROVIDERS
 })
 export class SignUpModule {}

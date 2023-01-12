@@ -6,14 +6,13 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { LinkModule } from "src/app/shared/ui/link";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getI18nProvider } from "../../../../../shared/i18n";
-import { ROLE_PAGE_I18N } from "./constants";
 import { RoleComponent } from "./layout/role.component";
+import { ROLE_PROVIDERS } from "./providers";
 import { RoleRoutingModule } from "./role-routing.module";
 
 @NgModule({
 	declarations: [RoleComponent],
 	imports: [CommonModule, RoleRoutingModule, I18nModule, LinkModule, TypographyModule, IconModule, ImageModule],
-	providers: [getI18nProvider(ROLE_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: ROLE_PROVIDERS
 })
 export class RoleModule {}

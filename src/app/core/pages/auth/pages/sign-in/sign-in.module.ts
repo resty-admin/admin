@@ -11,9 +11,8 @@ import { LinkModule } from "src/app/shared/ui/link";
 import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getI18nProvider } from "../../../../../shared/i18n";
-import { SIGN_IN_PAGE_I18N } from "./constants";
 import { SignInComponent } from "./layout/sign-in.component";
+import { SIGN_IN_PROVIDERS } from "./providers";
 import { SignInRoutingModule } from "./sign-in-routing.module";
 
 @NgModule({
@@ -32,6 +31,6 @@ import { SignInRoutingModule } from "./sign-in-routing.module";
 		ImageModule,
 		CardModule
 	],
-	providers: [getI18nProvider(SIGN_IN_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`)), getI18nProvider("form")]
+	providers: SIGN_IN_PROVIDERS
 })
 export class SignInModule {}

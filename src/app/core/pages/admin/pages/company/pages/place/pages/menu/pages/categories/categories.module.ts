@@ -11,14 +11,13 @@ import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { CategoryDialogModule } from "../../../../../../../../../../../features/categories/ui/category-dialog/category-dialog.module";
 import { ProductDialogModule } from "../../../../../../../../../../../features/products/ui/product-dialog/product-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { CategoriesRoutingModule } from "./categories-routing.module";
-import { CATEGORIES_PAGE_I18N } from "./constants";
 import { CategoriesComponent } from "./layout/categories.component";
+import { CATEGORIES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CategoriesComponent],
@@ -40,6 +39,6 @@ import { CategoriesComponent } from "./layout/categories.component";
 		CategoryDialogModule,
 		ProductDialogModule
 	],
-	providers: [getI18nProvider(CATEGORIES_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: CATEGORIES_PROVIDERS
 })
 export class CategoriesModule {}

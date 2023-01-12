@@ -8,12 +8,11 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { DASHBOARD_COMPONENTS } from "./components";
-import { DASHBOARD_PAGE_I18N } from "./constants";
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from "./layout/dashboard.component";
+import { DASHBOARD_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [DashboardComponent, ...DASHBOARD_COMPONENTS],
@@ -29,6 +28,6 @@ import { DashboardComponent } from "./layout/dashboard.component";
 		ImageModule,
 		I18nModule
 	],
-	providers: [getI18nProvider(DASHBOARD_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: DASHBOARD_PROVIDERS
 })
 export class DashboardModule {}

@@ -1,1 +1,1 @@
-export const AUHT_PAGE_I18N = "authPage";
+export const AUTH_PAGE_I18N = "authPage";

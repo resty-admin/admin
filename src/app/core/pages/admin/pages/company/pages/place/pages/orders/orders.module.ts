@@ -9,14 +9,13 @@ import { RadioButtonModule } from "src/app/shared/ui/radio-button";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { OrderDialogModule } from "../../../../../../../../../features/orders/ui/order-dialog/order-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
 import { DatepickerModule } from "../../../../../../../../../shared/ui/datepicker";
 import { TabsModule } from "../../../../../../../../../shared/ui/tabs";
-import { ORDERS_PAGE_I18N } from "./constants/orders-page-i18n.constant";
 import { OrdersComponent } from "./layout/orders.component";
 import { OrderRoutingModule } from "./orders-routing.module";
+import { ORDERS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [OrdersComponent],
@@ -36,6 +35,6 @@ import { OrderRoutingModule } from "./orders-routing.module";
 		AddHeaderModule,
 		OrderDialogModule
 	],
-	providers: [getI18nProvider(ORDERS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: ORDERS_PROVIDERS
 })
 export class OrdersModule {}

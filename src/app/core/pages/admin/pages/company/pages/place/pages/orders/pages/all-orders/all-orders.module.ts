@@ -5,15 +5,14 @@ import { IconModule } from "src/app/shared/ui/icon";
 import { InputModule } from "src/app/shared/ui/input";
 
 import { OrderDialogModule } from "../../../../../../../../../../../features/orders/ui/order-dialog/order-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { ButtonModule } from "../../../../../../../../../../../shared/ui/button";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
 import { AllOrdersRoutingModule } from "./all-orders-routing.module";
-import { ALL_ORDERS_PAGE_I18N } from "./constants";
 import { AllOrdersComponent } from "./layout/all-orders.component";
+import { ALL_ORDERS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AllOrdersComponent],
@@ -30,6 +29,6 @@ import { AllOrdersComponent } from "./layout/all-orders.component";
 		FiltersModule,
 		OrderDialogModule
 	],
-	providers: [getI18nProvider(ALL_ORDERS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: ALL_ORDERS_PROVIDERS
 })
 export class AllOrdersModule {}

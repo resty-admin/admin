@@ -9,7 +9,6 @@ import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
 import { HallDialogModule } from "../../../../../../../../../features/halls/ui/hall-dialog/hall-dialog.module";
-import { getI18nProvider } from "../../../../../../../../../shared/i18n";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
@@ -17,9 +16,9 @@ import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { HALLS_COMPONENTS } from "./components";
-import { HALLS_PAGE_I18N } from "./constants";
 import { HallsRoutingModule } from "./halls-routing.module";
 import { HallsComponent } from "./layout/halls.component";
+import { HALLS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [HallsComponent, ...HALLS_COMPONENTS],
@@ -41,6 +40,6 @@ import { HallsComponent } from "./layout/halls.component";
 		ListModule,
 		HallDialogModule
 	],
-	providers: [getI18nProvider(HALLS_PAGE_I18N, (lang) => import(`./i18n/${lang}.json`))]
+	providers: HALLS_PROVIDERS
 })
 export class HallsModule {}
