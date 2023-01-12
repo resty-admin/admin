@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UsersService } from "src/app/features/users";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
+import { RouterService } from "../../../../../../../../../../shared/modules/router";
+
 @Component({
 	selector: "app-users",
 	templateUrl: "./users.component.html",
@@ -20,9 +22,5 @@ export class UsersComponent {
 		}
 	];
 
-	constructor(private readonly _usersService: UsersService) {}
-
-	openCreateUserDialog() {
-		return this._usersService.openCreateUserDialog().subscribe();
-	}
+	constructor(private readonly _routerService: RouterService, private readonly _usersService: UsersService) {}
 }

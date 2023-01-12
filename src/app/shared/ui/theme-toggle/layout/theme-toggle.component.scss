@@ -28,8 +28,6 @@
 		.icon {
 			width: rem(16);
 			height: rem(16);
-
-			@include icon(var(--dark));
 		}
 	}
 }
@@ -37,7 +35,6 @@
 	.app-theme-toggle.theme-1 {
 		background-color: var(--dark);
 		.icon {
-			@include icon(var(--light), var(--light));
 		}
 	}
 }

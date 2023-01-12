@@ -1,4 +1,9 @@
-<div class="users-page" *transloco="let t; read: 'users'">
+<div class="users-page" *transloco="let t; read: 'workers'">
+	<button appButton class="add" (click)="openCreateUserDialog()">
+		<app-icon class="icon" name="add"></app-icon>
+		<span class="text">{{ t("add") }}</span>
+	</button>
+
 	<app-filters class="filters"></app-filters>
 	<!--desktop-->
 	<app-datatable class="datatable-desktop" [rows]="users$ | async" [columns]="columns"></app-datatable>

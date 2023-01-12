@@ -7,6 +7,7 @@
 		border: rem(1) solid var(--dark-b);
 		border-radius: rem(16);
 		position: relative;
+		background-color: var(--light);
 		.value {
 			font-weight: 500;
 			font-size: rem(24);
@@ -33,8 +34,6 @@
 			.icon {
 				width: rem(10);
 				height: rem(10);
-
-				@include icon(var(--light));
 			}
 		}
 	}
@@ -42,6 +41,7 @@
 @include dark() {
 	.dashboard-card {
 		border-color: var(--light-b);
+		background-color: var(--dark);
 		.value {
 			color: var(--light);
 		}

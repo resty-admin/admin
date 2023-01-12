@@ -3,9 +3,27 @@
 @include page() {
 	.active-orders-page {
 		display: grid;
+		align-items: end;
+		grid-template-areas:
+			"add add"
+			"filters filters"
+			"orders orders";
 		row-gap: rem(16);
+		column-gap: rem(8);
+		grid-template-columns: 1fr auto;
+
+		@include desktop() {
+			grid-template-areas:
+				"filters filters add"
+				"orders orders orders";
+		}
+
+		.filters {
+			grid-area: filters;
+		}
 
 		.orders {
+			grid-area: orders;
 			display: grid;
 			gap: rem(8);
 

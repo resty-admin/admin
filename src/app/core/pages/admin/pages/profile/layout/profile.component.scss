@@ -41,7 +41,7 @@
 
 		.form {
 			display: grid;
-			padding: rem(20) rem(16) rem(0);
+			padding: rem(20) rem(20) rem(0) rem(20);
 			background-color: var(--light-grey);
 			border-radius: rem(16);
 			row-gap: rem(12);
@@ -55,12 +55,12 @@
 
 			@include desktop() {
 				grid-template-areas:
-					"name email image"
-					"tel role image"
-					"submit . image";
-				grid-template-columns: 1fr 1fr auto;
-				padding-right: 0;
+					"image name tel"
+					"image email email"
+					"image . submit";
+				grid-template-columns: auto 1fr 1fr;
 				column-gap: rem(24);
+				padding: rem(20) rem(20) rem(0) rem(0);
 			}
 
 			.name {
@@ -78,19 +78,33 @@
 			.submit {
 				grid-area: submit;
 				align-self: start;
-				justify-self: start;
+				justify-self: end;
 				width: 100%;
 
-				@include desktop () {
+				@include desktop() {
 					width: auto;
 				}
 			}
 			.image {
 				grid-area: image;
 				align-self: end;
+				justify-self: start;
+				margin-top: rem(12);
+				height: rem(150);
+				margin-left: rem(-20);
 
+				@include image() {
+					object-fit: contain;
+				}
 				@include desktop() {
-					height: rem(240);
+					width: rem(229);
+					height: auto;
+					grid-area: image;
+					margin-left: 0;
+
+					@include image () {
+						object-fit: cover;
+					}
 				}
 			}
 			.submit {

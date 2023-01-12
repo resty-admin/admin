@@ -16,14 +16,12 @@
 			height: rem(48);
 			border: rem(1) solid var(--primary);
 			border-radius: rem(12);
-			display: flex;
+			display: none;
 			align-items: center;
 			justify-content: center;
 			.icon {
 				width: rem(20);
 				height: rem(20);
-
-				@include icon(var(--primary), var(--primary));
 			}
 		}
 	}

@@ -45,6 +45,10 @@ export class AllOrdersComponent implements AfterViewInit, OnInit {
 					filtersArgs: [{ key: "place", operator: "=", value: placeId }]
 				});
 			});
+
+		this._ordersService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._allOrdersPageQuery.refetch();
+		});
 	}
 
 	ngAfterViewInit() {

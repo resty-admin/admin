@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
+import type { Observable } from "rxjs";
+import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { ChangesEnum } from "src/app/shared/enums";
 
-import type { CreateCompanyInput, UpdateCompanyInput } from "../../../../../graphql";
-import { FilesService } from "../../../../shared/modules/files";
+import type { CompanyEntity, CreateCommandInput, CreateCompanyInput, UpdateCompanyInput } from "../../../../../graphql";
+import type { AtLeast } from "../../../../shared/interfaces";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
@@ -12,23 +14,19 @@ import { CompanyDialogComponent } from "../../ui/company-dialog/layout/company-d
 @Injectable({ providedIn: "root" })
 export class CompaniesService {
 	readonly companiesQuery = this._companiesGQL.watch();
+	private readonly _changesSubject = new Subject();
+	readonly changes$ = this._changesSubject.asObservable();
 
-	readonly actions: IAction<any>[] = [
+	readonly actions: IAction<CompanyEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (company?: any) => this.openUpdateCompanyDialog(company).pipe(take(1)).subscribe()
+			func: (company) => this.openUpdateCompanyDialog(company).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (company?: any) => {
-				if (!company) {
-					return;
-				}
-
-				this.openDeleteCompanyDialog(company).pipe(take(1)).subscribe();
-			}
+			func: (company) => this.openDeleteCompanyDialog(company).pipe(take(1)).subscribe()
 		}
 	];
 
@@ -37,28 +35,33 @@ export class CompaniesService {
 		private readonly _createCompanyGQL: CreateCompanyGQL,
 		private readonly _updateCompanyGQL: UpdateCompanyGQL,
 		private readonly _deleteCompanyGQL: DeleteCompanyGQL,
-		private readonly _filesService: FilesService,
 		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateCompanyDialog(data?: any) {
+	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
+		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
+	}
+
+	openCreateCompanyDialog(data?: Partial<CreateCommandInput>) {
 		return this._dialogService.open(CompanyDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((company) => Boolean(company)),
-			switchMap((company) => this.createCompany(company))
+			switchMap((company: CompanyEntity) => this.createCompany({ name: company.name, logo: company.logo?.id }))
 		);
 	}
 
-	openUpdateCompanyDialog(data: any) {
+	openUpdateCompanyDialog(data: AtLeast<CompanyEntity, "id">) {
 		return this._dialogService.open(CompanyDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((company) => Boolean(company)),
-			switchMap((company) => this.updateCompany(company))
+			switchMap((company: CompanyEntity) =>
+				this.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id })
+			)
 		);
 	}
 
-	openDeleteCompanyDialog(value: any) {
-		const config = { data: { title: "Вы уверены, что хотите удалить компанию?", value } };
+	openDeleteCompanyDialog(data: AtLeast<CompanyEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить компанию?", value: data } };
 
 		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
 			take(1),
@@ -68,20 +71,14 @@ export class CompaniesService {
 	}
 
 	createCompany(company: CreateCompanyInput) {
-		return this._filesService.getFile(company.logo).pipe(
-			take(1),
-			switchMap((logo) => this._createCompanyGQL.mutate({ company: { ...company, logo: logo?.id } }))
-		);
+		return this._createCompanyGQL.mutate({ company }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 
 	updateCompany(company: UpdateCompanyInput) {
-		return this._filesService.getFile(company.logo).pipe(
-			take(1),
-			switchMap((logo) => this._updateCompanyGQL.mutate({ company: { ...company, logo: logo?.id } }))
-		);
+		return this._updateCompanyGQL.mutate({ company }).pipe(this._emitChanges(ChangesEnum.UPDATE));
 	}
 
 	deleteCompany(companyId: string) {
-		return this._deleteCompanyGQL.mutate({ companyId });
+		return this._deleteCompanyGQL.mutate({ companyId }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 }

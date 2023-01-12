@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
-import { map } from "rxjs";
+import { map, take } from "rxjs";
 import { HallsService } from "src/app/features/halls";
 import { PLACE_ID } from "src/app/shared/constants";
 
@@ -17,11 +17,13 @@ import { HallsPageGQL } from "../graphql/halls-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallsComponent implements OnInit {
-	private readonly _hallPageQuery = this._hallsPageGQL.watch();
-	readonly halls$: Observable<any> = this._hallPageQuery.valueChanges.pipe(
+	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
+	readonly halls$: Observable<any> = this._hallsPageQuery.valueChanges.pipe(
 		map((result) => result.data.halls.data),
 		map((halls) => halls?.map((hall) => ({ ...hall, routerLink: hall.id })))
 	);
+
+	readonly actions = this._hallsService.actions;
 
 	constructor(
 		private readonly _hallsPageGQL: HallsPageGQL,
@@ -32,7 +34,11 @@ export class HallsComponent implements OnInit {
 	openCreateHallDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		return this._hallsService.createHall(place).subscribe();
+		if (!place) {
+			return;
+		}
+
+		return this._hallsService.openCreateHallDialog({ place }).pipe(take(1)).subscribe();
 	}
 
 	ngOnInit() {
@@ -40,7 +46,11 @@ export class HallsComponent implements OnInit {
 			.selectParams(PLACE_ID.slice(1))
 			.pipe(untilDestroyed(this))
 			.subscribe(async (placeId) => {
-				await this._hallPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
+				await this._hallsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
 			});
+
+		this._hallsService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._hallsPageQuery.refetch();
+		});
 	}
 }

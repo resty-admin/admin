@@ -39,28 +39,14 @@ export class AsideComponent implements OnInit {
 			ASIDE_PAGES.map((asidePage) => ({
 				...asidePage,
 				disabled: !(company && place),
-				routerLink: asidePage.routerLink.replace(PLACE_ID, place?.id).replace(COMPANY_ID, company?.id)
+				routerLink: asidePage.routerLink
+					.replace(PLACE_ID, place?.id || place)
+					.replace(COMPANY_ID, company?.id || company)
 			}))
 		)
 	);
 
 	constructor(private readonly _routerService: RouterService) {}
-
-	emitSignOutClick() {
-		this.signOutClicked.emit();
-	}
-
-	emitCloseClick() {
-		this.closeClicked.emit();
-	}
-
-	emitAddCompanyClick() {
-		this.addCompanyClicked.emit();
-	}
-
-	emitAddPlaceClick() {
-		this.addPlaceClicked.emit();
-	}
 
 	ngOnInit() {
 		let isCompanyProgramatic = false;
@@ -71,7 +57,7 @@ export class AsideComponent implements OnInit {
 				// when you referesh page with active company and acitve place first time - you don't have to update place - it takes from router
 				isPlaceProgramatic = true;
 
-				this.placeControl.setValue(undefined, { emitEvent: false });
+				this.placeControl.setValue(undefined);
 			}
 
 			if (isCompanyProgramatic) {
@@ -79,8 +65,14 @@ export class AsideComponent implements OnInit {
 				return;
 			}
 
+			if (!company) {
+				return;
+			}
+
 			isCompanyProgramatic = true;
-			await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, company.id));
+			await this._routerService.navigateByUrl(
+				ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, company?.id || company)
+			);
 		});
 
 		this.placeControl.valueChanges.pipe(untilDestroyed(this), skip(1)).subscribe(async (place) => {
@@ -96,10 +88,12 @@ export class AsideComponent implements OnInit {
 			isPlaceProgramatic = true;
 
 			// if you refresh page with active company and select place - value will be a string, not an object
-			const companyId = this.companyControl.value?.id || this.companyControl.value;
+			const company = this.companyControl.value;
 
 			await this._routerService.navigateByUrl(
-				ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, place.id)
+				ADMIN_ROUTES.PLACE.absolutePath
+					.replace(COMPANY_ID, company?.id || company)
+					.replace(PLACE_ID, place?.id || place)
 			);
 		});
 
@@ -124,5 +118,21 @@ export class AsideComponent implements OnInit {
 				this.placeControl.setValue(placeId);
 			}
 		});
+	}
+
+	emitSignOutClick() {
+		this.signOutClicked.emit();
+	}
+
+	emitCloseClick() {
+		this.closeClicked.emit();
+	}
+
+	emitAddCompanyClick() {
+		this.addCompanyClicked.emit();
+	}
+
+	emitAddPlaceClick() {
+		this.addPlaceClicked.emit();
 	}
 }

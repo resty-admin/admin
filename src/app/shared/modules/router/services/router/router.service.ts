@@ -27,8 +27,8 @@ export class RouterService {
 		return this._router.navigateByUrl(url, extras);
 	}
 
-	getParams<T = any>(name?: string) {
-		return this._routerRepository.getParams<T>(name);
+	getParams(name?: string) {
+		return this._routerRepository.getParams<string>(name);
 	}
 
 	selectParams<T extends string>(names: string[]): Observable<T[]>;

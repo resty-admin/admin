@@ -23,6 +23,7 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
 	readonly users$: Observable<any> = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 	readonly actions = this._usersService.actions;
+
 	columns: IDatatableColumn[] = [];
 
 	constructor(
@@ -38,6 +39,10 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 			.subscribe(async (placeId) => {
 				await this._guestsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
 			});
+
+		this._usersService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._guestsPageQuery.refetch();
+		});
 	}
 
 	ngAfterViewInit() {

@@ -1,6 +1,6 @@
 @import "/src/assets/scss/abstractions";
 
-@include component () {
+@include component() {
 	.selected-tables {
 		display: flex;
 		overflow: auto;
@@ -23,11 +23,9 @@
 			.button .icon {
 				width: rem(8);
 				height: rem(8);
-
-				@include icon(var(--dark), var(--dark));
 			}
 
-			@include desktop () {
+			@include desktop() {
 				padding: rem(7.5) rem(15);
 				.label {
 					font-size: rem(16);
@@ -41,7 +39,7 @@
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.selected-tables {
 		.selected-table {
 			background-color: var(--dark);
@@ -50,7 +48,6 @@
 			}
 			.button {
 				.icon {
-					@include icon(var(--light), var(--light));
 				}
 			}
 		}

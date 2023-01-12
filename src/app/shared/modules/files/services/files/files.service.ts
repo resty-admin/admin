@@ -3,6 +3,7 @@ import type { Observable } from "rxjs";
 import { of } from "rxjs";
 import type { IFile } from "src/app/shared/interfaces";
 
+import type { FileEntity } from "../../../../../../graphql";
 import { ApiService } from "../../../api";
 import { FILE_FIELD, FILES_ENDPOINTS, FILES_FIELD } from "../../constants";
 
@@ -20,7 +21,7 @@ export class FilesService {
 		return formData;
 	}
 
-	getFile(file?: any): Observable<any> {
+	getFile(file?: any): Observable<FileEntity> {
 		if (file instanceof File) {
 			return this.uploadOne(file);
 		}

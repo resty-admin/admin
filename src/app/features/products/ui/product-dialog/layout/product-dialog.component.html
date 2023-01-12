@@ -17,6 +17,7 @@
 		<app-input
 			class="input"
 			formControlName="price"
+			returnType="float"
 			[label]="t('price_label')"
 			[placeholder]="t('price_placeholder')"
 		></app-input>
@@ -50,6 +51,6 @@
 			[addTag]="addAttributeGroupTag"
 		></app-select>
 
-		<button class="submit" appButton type="submit">{{ t("BUTTON." + data?.id ? "edit" : "create") }}</button>
+		<button class="submit" appButton type="submit">{{ t("BUTTON." + (data?.id ? "edit" : "create")) }}</button>
 	</form>
 </div>

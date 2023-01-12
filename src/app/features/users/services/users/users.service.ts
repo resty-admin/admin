@@ -1,8 +1,11 @@
 import { Injectable } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
+import type { Observable } from "rxjs";
+import { filter, Subject, switchMap, take, tap } from "rxjs";
 
 import type { CreateUserInput, UpdateUserInput } from "../../../../../graphql";
 import type { UserEntity } from "../../../../../graphql";
+import { ChangesEnum } from "../../../../shared/enums";
+import type { AtLeast } from "../../../../shared/interfaces";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
@@ -16,20 +19,19 @@ export class UsersService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (user?: UserEntity) => this.openUpdateUserDialog(user).subscribe()
+			func: (user) => this.openUpdateUserDialog(user).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (user?: UserEntity) => {
-				if (!user) {
-					return;
-				}
-
+			func: (user) => {
 				this.openDeleteUserDialog(user).subscribe();
 			}
 		}
 	];
+
+	private readonly _changesSubject = new Subject();
+	readonly changes$ = this._changesSubject.asObservable();
 
 	constructor(
 		private readonly _createUserGQL: CreateUserGQL,
@@ -39,46 +41,47 @@ export class UsersService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	openCreateUserDialog() {
-		return this._dialogService.open(UserDialogComponent).afterClosed$.pipe(
+	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
+		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
+	}
+
+	openCreateUserDialog(data?: UserEntity) {
+		return this._dialogService.open(UserDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((user) => Boolean(user)),
-			switchMap((user: any) => this.createUser(user))
+			switchMap((user: UserEntity) => this.createUser({ name: user.name, email: user.name, role: user.role }))
 		);
 	}
 
-	openUpdateUserDialog(user: any) {
-		return this._dialogService.open(UserDialogComponent, { data: user }).afterClosed$.pipe(
+	openUpdateUserDialog(data: AtLeast<UserEntity, "id">) {
+		return this._dialogService.open(UserDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((user) => Boolean(user)),
-			switchMap((user: any) => this.updateUser(user))
+			switchMap((user: UserEntity) =>
+				this.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
+			)
 		);
 	}
 
-	openDeleteUserDialog(user: any) {
-		const config = {
-			data: {
-				title: "Вы уверены, что хотите удалить пользователя?",
-				value: user
-			}
-		};
+	openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить пользователя?", value } };
 
 		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
 			take(1),
 			filter((user) => Boolean(user)),
-			switchMap((table) => this.deleteUser(table.id))
+			switchMap((user) => this.deleteUser(user.id))
 		);
 	}
 
 	createUser(user: CreateUserInput) {
-		return this._createUserGQL.mutate({ user });
+		return this._createUserGQL.mutate({ user }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 
 	updateUser(user: UpdateUserInput) {
-		return this._updateUserGQL.mutate({ user });
+		return this._updateUserGQL.mutate({ user }).pipe(this._emitChanges(ChangesEnum.UPDATE));
 	}
 
 	deleteUser(userId: string) {
-		return this._deleteUserGQL.mutate({ userId });
+		return this._deleteUserGQL.mutate({ userId }).pipe(this._emitChanges(ChangesEnum.DELETE));
 	}
 }

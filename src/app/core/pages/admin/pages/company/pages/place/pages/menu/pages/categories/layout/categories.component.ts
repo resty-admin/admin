@@ -32,7 +32,11 @@ export class CategoriesComponent implements OnInit {
 	openCreateCategoryDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		this._categoriesService.openCreateCategoryDialog(place).pipe(take(1)).subscribe();
+		if (!place) {
+			return;
+		}
+
+		this._categoriesService.openCreateCategoryDialog({ place }).pipe(take(1)).subscribe();
 	}
 
 	ngOnInit() {
@@ -44,5 +48,9 @@ export class CategoriesComponent implements OnInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
+
+		this._categoriesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._categoriesPageQuery.refetch();
+		});
 	}
 }

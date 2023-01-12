@@ -3,13 +3,31 @@
 @include page() {
 	.users-page {
 		display: grid;
+		align-items: end;
+		grid-template-areas:
+			"add add"
+			"filters filters"
+			"datatable datatable";
 		row-gap: rem(16);
+		column-gap: rem(8);
+		grid-template-columns: 1fr auto;
 
 		@include desktop() {
-			row-gap: rem(32);
+			grid-template-areas:
+				"filters filters add"
+				"datatable datatable datatable";
+		}
+
+		.add {
+			grid-area: add;
+		}
+
+		.filters {
+			grid-area: filters;
 		}
 
 		.datatable-desktop {
+			grid-area: datatable;
 			display: none;
 
 			&::ng-deep .datatable-row-odd .more {
@@ -21,6 +39,7 @@
 			}
 		}
 		.datatable-mobile {
+			grid-area: datatable;
 			display: grid;
 			row-gap: rem(8);
 			.user {

@@ -10,6 +10,6 @@ import type { IAction } from "../interfaces";
 })
 export class ActionsComponent<T> {
 	@Input() actions: IAction<T>[] = [];
-	@Input() data?: T;
+	@Input() data!: T;
 	@Input() additionalFunc: any = () => undefined;
 }

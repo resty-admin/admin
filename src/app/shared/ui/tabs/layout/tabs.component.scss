@@ -6,7 +6,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		border-bottom: rem(1) solid var(--dark);
 
 		@include desktop() {
 			width: auto;
@@ -24,7 +23,7 @@
 				text-align: center;
 				color: var(--dark);
 				padding-bottom: rem(11);
-				border-bottom: rem(2) solid transparent;
+				border-bottom: rem(1) solid var(--dark-b);
 				margin-bottom: rem(-1);
 				&.active {
 					color: var(--primary);
@@ -39,11 +38,18 @@
 		}
 	}
 }
-@include dark () {
+@include dark() {
 	.app-tabs {
-		border-color: var(--light-t);
-		.tab .link:not(.active) {
-			color: var(--light);
+		.tab .link {
+			border-color: var(--light-b);
+
+			&.active {
+				border-color: var(--primary);
+			}
+
+			&:not(.active) {
+				color: var(--light);
+			}
 		}
 	}
 }

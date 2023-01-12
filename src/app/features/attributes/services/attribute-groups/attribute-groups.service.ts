@@ -1,7 +1,14 @@
 import { Injectable } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
+import type { Observable } from "rxjs";
+import { filter, Subject, switchMap, take, tap } from "rxjs";
 
-import type { CreateAttributeGroupInput, UpdateAttributeGroupInput } from "../../../../../graphql";
+import type {
+	AttributesGroupEntity,
+	CreateAttributeGroupInput,
+	UpdateAttributeGroupInput
+} from "../../../../../graphql";
+import { ChangesEnum } from "../../../../shared/enums";
+import type { AtLeast } from "../../../../shared/interfaces";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
@@ -10,24 +17,21 @@ import { AttributeGroupDialogComponent } from "../../ui/attribute-group-dialog/l
 
 @Injectable({ providedIn: "root" })
 export class AttributeGroupsService {
-	readonly actions: IAction<any>[] = [
+	readonly actions: IAction<AttributesGroupEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (attributesGroup?: any) => this.openUpdateAttributeGroupDialog(attributesGroup).pipe(take(1)).subscribe()
+			func: (attributesGroup) => this.openUpdateAttributeGroupDialog(attributesGroup).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (attributesGroup?: any) => {
-				if (!attributesGroup) {
-					return;
-				}
-
-				this.openDeleteAttributeGroupDialog(attributesGroup).pipe(take(1)).subscribe();
-			}
+			func: (attributesGroup) => this.openDeleteAttributeGroupDialog(attributesGroup).pipe(take(1)).subscribe()
 		}
 	];
+
+	private readonly _changesSubject = new Subject();
+	readonly changes$ = this._changesSubject.asObservable();
 
 	constructor(
 		private readonly _createAttributeGroupGQL: CreateAttrGroupGQL,
@@ -36,29 +40,43 @@ export class AttributeGroupsService {
 		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateAttributeGroupDialog(data?: any) {
+	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
+		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
+	}
+
+	openCreateAttributeGroupDialog(data: AtLeast<CreateAttributeGroupInput, "place">) {
 		return this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((attributeGroup) => Boolean(attributeGroup)),
-			switchMap((attributeGroup: any) => this.createAttributeGroup(attributeGroup))
+			switchMap((attributeGroup: AttributesGroupEntity) =>
+				this.createAttributeGroup({
+					name: attributeGroup.name,
+					place: data.place,
+					maxItemsForPick: attributeGroup.maxItemsForPick,
+					type: attributeGroup.type,
+					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
+				})
+			)
 		);
 	}
 
-	openUpdateAttributeGroupDialog(data: any) {
+	openUpdateAttributeGroupDialog(data: AtLeast<AttributesGroupEntity, "id">) {
 		return this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((attributeGroup) => Boolean(attributeGroup)),
-			switchMap((attributeGroup: any) => this.updateAttributeGroup(attributeGroup))
+			switchMap((attributeGroup: AttributesGroupEntity) =>
+				this.updateAttributeGroup({
+					id: attributeGroup.id,
+					name: attributeGroup.name,
+					maxItemsForPick: attributeGroup.maxItemsForPick,
+					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
+				})
+			)
 		);
 	}
 
-	openDeleteAttributeGroupDialog(attributeGroup: any) {
-		const config = {
-			data: {
-				title: "Вы уверены, что хотите удалить группу модификаций?",
-				value: attributeGroup
-			}
-		};
+	openDeleteAttributeGroupDialog(value: AtLeast<AttributesGroupEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить группу модификаций?", value } };
 
 		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
 			take(1),
@@ -68,14 +86,14 @@ export class AttributeGroupsService {
 	}
 
 	createAttributeGroup(attrGroup: CreateAttributeGroupInput) {
-		return this._createAttributeGroupGQL.mutate({ attrGroup });
+		return this._createAttributeGroupGQL.mutate({ attrGroup }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 
 	updateAttributeGroup(attrGroup: UpdateAttributeGroupInput) {
-		return this._updateAttributeGroupGQL.mutate({ attrGroup });
+		return this._updateAttributeGroupGQL.mutate({ attrGroup }).pipe(this._emitChanges(ChangesEnum.UPDATE));
 	}
 
 	deleteAttributeGroup(attrGroupId: string) {
-		return this._deleteAttributeGroupGQL.mutate({ attrGroupId });
+		return this._deleteAttributeGroupGQL.mutate({ attrGroupId }).pipe(this._emitChanges(ChangesEnum.DELETE));
 	}
 }

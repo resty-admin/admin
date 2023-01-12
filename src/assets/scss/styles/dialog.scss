@@ -32,14 +32,6 @@ body {
 						right: rem(-50);
 						background-color: var(--light);
 					}
-
-					svg path {
-						fill: var(--dark);
-					}
-
-					&:hover svg path {
-						fill: var(--primary);
-					}
 				}
 			}
 		}
@@ -49,13 +41,6 @@ body {
 		background-color: var(--dark);
 		.ngneat-close-dialog {
 			background-color: var(--dark-grey);
-			&:hover svg path {
-				fill: var(--primary);
-			}
-
-			svg path {
-				fill: var(--light);
-			}
 		}
 	}
 }

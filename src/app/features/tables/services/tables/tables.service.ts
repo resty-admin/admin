@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
+import type { Observable } from "rxjs";
+import { filter, Subject, switchMap, take, tap } from "rxjs";
 
 import type { CreateTableInput, UpdateTableInput } from "../../../../../graphql";
 import type { TableEntity } from "../../../../../graphql";
-import { FilesService } from "../../../../shared/modules/files";
+import { ChangesEnum } from "../../../../shared/enums";
+import type { AtLeast } from "../../../../shared/interfaces";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
@@ -16,52 +18,52 @@ export class TablesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (table?: TableEntity) => this.openUpdateTableDialog(table).subscribe()
+			func: (table) => this.openUpdateTableDialog(table).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (table?: TableEntity) => {
-				if (!table) {
-					return;
-				}
-
-				this.openDeleteTableDialog(table).subscribe();
-			}
+			func: (table) => this.openDeleteTableDialog(table).pipe(take(1)).subscribe()
 		}
 	];
+
+	private readonly _changesSubject = new Subject();
+	readonly changes$ = this._changesSubject.asObservable();
 
 	constructor(
 		private readonly _createTableGQL: CreateTableGQL,
 		private readonly _updateTableGQL: UpdateTableGQL,
 		private readonly _deleteTableGQL: DeleteTableGQL,
-		private readonly _filesService: FilesService,
 		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateTableDialog(hall: string) {
-		return this._dialogService.open(TableDialogComponent, { data: { hall } }).afterClosed$.pipe(
+	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
+		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
+	}
+
+	openCreateTableDialog(data: AtLeast<CreateTableInput, "hall">) {
+		return this._dialogService.open(TableDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((table) => Boolean(table)),
-			switchMap((table: any) => this.createTable(table))
+			switchMap((table: TableEntity) =>
+				this.createTable({ name: table.name, hall: data.hall, file: table.file?.id, code: table.code })
+			)
 		);
 	}
 
-	openUpdateTableDialog(table?: any) {
-		return this._dialogService.open(TableDialogComponent, { data: table }).afterClosed$.pipe(
+	openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {
+		return this._dialogService.open(TableDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((table) => Boolean(table)),
-			switchMap((table: any) => this.updateTable(table))
+			switchMap((table: TableEntity) =>
+				this.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
+			)
 		);
 	}
 
-	openDeleteTableDialog(table: TableEntity) {
-		const config = {
-			data: {
-				title: "Вы уверены, что хотите удалить стол?",
-				value: table
-			}
-		};
+	openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить стол?", value } };
+
 		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
 			take(1),
 			filter((table) => Boolean(table)),
@@ -70,20 +72,14 @@ export class TablesService {
 	}
 
 	createTable(table: CreateTableInput) {
-		return this._filesService.getFile(table.file).pipe(
-			take(1),
-			switchMap((file) => this._createTableGQL.mutate({ table: { ...table, file: file?.id } }))
-		);
+		return this._createTableGQL.mutate({ table }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 
 	updateTable(table: UpdateTableInput) {
-		return this._filesService.getFile(table.file).pipe(
-			take(1),
-			switchMap((file) => this._updateTableGQL.mutate({ table: { ...table, file: file?.id } }))
-		);
+		return this._updateTableGQL.mutate({ table }).pipe(this._emitChanges(ChangesEnum.UPDATE));
 	}
 
 	deleteTable(tableId: string) {
-		return this._deleteTableGQL.mutate({ tableId }).pipe();
+		return this._deleteTableGQL.mutate({ tableId }).pipe(this._emitChanges(ChangesEnum.DELETE));
 	}
 }

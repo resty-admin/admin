@@ -2,6 +2,10 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { map, take } from "rxjs";
+
+import type { CompanyEntity } from "../../../../../../graphql";
+import { FilesService } from "../../../../../shared/modules/files";
 
 @Component({
 	selector: "app-company-dialog",
@@ -15,7 +19,11 @@ export class CompanyDialogComponent implements OnInit {
 		logo: null
 	});
 
-	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
+	constructor(
+		private readonly _dialogRef: DialogRef,
+		private readonly _formBuilder: FormBuilder,
+		private readonly _filesService: FilesService
+	) {}
 
 	get data() {
 		return this._dialogRef.data;
@@ -25,7 +33,15 @@ export class CompanyDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(company: Partial<any>) {
-		this._dialogRef.close({ ...this.data, ...company });
+	closeDialog(company: Partial<CompanyEntity>) {
+		this._filesService
+			.getFile(company.logo)
+			.pipe(
+				take(1),
+				map((logo) => logo.id)
+			)
+			.subscribe((logo) => {
+				this._dialogRef.close({ ...this.data, ...company, logo });
+			});
 	}
 }

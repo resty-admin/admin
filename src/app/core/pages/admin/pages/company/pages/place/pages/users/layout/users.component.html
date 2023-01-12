@@ -1,10 +1,5 @@
 <div class="users-page" *transloco="let t; read: 'users'">
-	<app-add-header
-		class="add-header"
-		[title]="t('title')"
-		[add]="t('add')"
-		(clicked)="openCreateUserDialog()"
-	></app-add-header>
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<app-tabs class="tabs" [tabs]="pages"></app-tabs>
 

@@ -1,5 +1,5 @@
 <div class="sign-up" *transloco="let t; read: 'signUp'">
-	<app-image class="image" name="sign-in"></app-image>
+	<app-image class="image" name="auth"></app-image>
 
 	<app-card theme="1" class="card">
 		<app-image class="logo" name="logo"></app-image>
@@ -52,7 +52,7 @@
 		</form>
 
 		<div class="links">
-			<a appLink [routerLink]="adminRoutes.SIGN_UP.absolutePath" class="link">{{ t("sign-in") }}</a>
+			<a appLink [routerLink]="adminRoutes.SIGN_IN.absolutePath" class="link">{{ t("sign-in") }}</a>
 			<a appLink [routerLink]="adminRoutes.FORGOT_PASSWORD.absolutePath" class="link">{{ t("forgot-password") }}</a>
 		</div>
 

@@ -1,9 +1,12 @@
 import { Injectable } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
-import type { IAction } from "src/app/shared/ui/actions";
+import type { Observable } from "rxjs";
+import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { ChangesEnum } from "src/app/shared/enums";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
-import type { CreateCommandInput, UpdateCommandInput } from "../../../../../graphql";
+import type { CommandEntity, CreateCommandInput, UpdateCommandInput } from "../../../../../graphql";
+import type { AtLeast } from "../../../../shared/interfaces";
+import type { IAction } from "../../../../shared/ui/actions";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import { CreateCommandGQL, DeleteCommandGQL, UpdateCommandGQL } from "../../graphql/commands";
@@ -11,21 +14,20 @@ import { CommandDialogComponent } from "../../ui/command-dialog/layout/command-d
 
 @Injectable({ providedIn: "root" })
 export class CommandsService {
-	readonly actions: IAction<any>[] = [
+	private readonly _changesSubject = new Subject();
+	readonly changes$ = this._changesSubject.asObservable();
+
+	readonly actions: IAction<CommandEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (command?: any) => this.openUpdateDialog(command).subscribe()
+			func: (command) => this.openUpdateCommandDialog(command).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (command?: any) => {
-				if (!command) {
-					return;
-				}
-
-				this.openDeleteCommandDialog(command).subscribe();
+			func: (command) => {
+				this.openDeleteCommandDialog(command).pipe(take(1)).subscribe();
 			}
 		}
 	];
@@ -38,46 +40,49 @@ export class CommandsService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	openCreateDialog(data?: any) {
+	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
+		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
+	}
+
+	openCreateCommandDialog(data: AtLeast<CreateCommandInput, "place">) {
 		return this._dialogService.open(CommandDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((command) => Boolean(command)),
-			switchMap((command: any) => this.createCommand(command))
+			switchMap((command: CommandEntity) =>
+				this.createCommand({ name: command.name, description: command.description, place: data.place })
+			)
 		);
 	}
 
-	openUpdateDialog(data?: any) {
+	openUpdateCommandDialog(data: AtLeast<CommandEntity, "place">) {
 		return this._dialogService.open(CommandDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((command) => Boolean(command)),
-			switchMap((command: any) => this.updateCommand(command))
+			switchMap((command: CommandEntity) =>
+				this.updateCommand({ id: command.id, name: command.name, description: command.description })
+			)
 		);
 	}
 
-	openDeleteCommandDialog(command: any) {
-		const config = {
-			data: {
-				title: "Вы уверены, что хотите удалить команду?",
-				value: command
-			}
-		};
+	openDeleteCommandDialog(value: AtLeast<CommandEntity, "place">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить команду?", value } };
 
 		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
 			take(1),
 			filter((command) => Boolean(command)),
-			switchMap((command) => this.deleteCommand(command.id))
+			switchMap((command: CommandEntity) => this.deleteCommand(command.id))
 		);
 	}
 
 	createCommand(command: CreateCommandInput) {
-		return this._createCommandGQL.mutate({ command });
+		return this._createCommandGQL.mutate({ command }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 
 	updateCommand(command: UpdateCommandInput) {
-		return this._updateCommandGQL.mutate({ command });
+		return this._updateCommandGQL.mutate({ command }).pipe(this._emitChanges(ChangesEnum.UPDATE));
 	}
 
 	deleteCommand(commandId: string) {
-		return this._deleteCommandGQL.mutate({ commandId });
+		return this._deleteCommandGQL.mutate({ commandId }).pipe(this._emitChanges(ChangesEnum.DELETE));
 	}
 }

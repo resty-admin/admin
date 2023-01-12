@@ -2,6 +2,10 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { take } from "rxjs";
+
+import type { HallEntity } from "../../../../../../graphql";
+import { FilesService } from "../../../../../shared/modules/files";
 
 @Component({
 	selector: "app-hall-dialog",
@@ -15,7 +19,11 @@ export class HallDialogComponent implements OnInit {
 		file: null
 	});
 
-	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
+	constructor(
+		private readonly _dialogRef: DialogRef,
+		private readonly _formBuilder: FormBuilder,
+		private readonly _filesService: FilesService
+	) {}
 
 	get data() {
 		return this._dialogRef.data;
@@ -29,7 +37,12 @@ export class HallDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(hall: Partial<any>) {
-		this._dialogRef.close({ ...this.data, ...hall });
+	closeDialog(hall: Partial<HallEntity>) {
+		this._filesService
+			.getFile(hall.file)
+			.pipe(take(1))
+			.subscribe((file) => {
+				this._dialogRef.close({ ...this.data, ...hall, file });
+			});
 	}
 }

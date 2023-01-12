@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map } from "rxjs";
+import { map, take } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
@@ -27,6 +27,16 @@ export class ActiveOrdersComponent implements OnInit {
 		private readonly _routerService: RouterService
 	) {}
 
+	openCreateOrderDialog() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!place) {
+			return;
+		}
+
+		return this._ordersService.openCreateOrderDialog({ place }).pipe(take(1)).subscribe();
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(PLACE_ID.slice(1))
@@ -36,5 +46,9 @@ export class ActiveOrdersComponent implements OnInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
+
+		this._ordersService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._activeOrdersPageQuery.refetch();
+		});
 	}
 }

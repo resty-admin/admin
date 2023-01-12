@@ -2,6 +2,10 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { take } from "rxjs";
+
+import type { CreatePlaceInput } from "../../../../../../graphql";
+import { FilesService } from "../../../../../shared/modules/files";
 
 @Component({
 	selector: "app-place-dialog",
@@ -17,7 +21,11 @@ export class PlaceDialogComponent implements OnInit {
 		company: ""
 	});
 
-	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
+	constructor(
+		private readonly _dialogRef: DialogRef,
+		private readonly _formBuilder: FormBuilder,
+		private readonly _filesService: FilesService
+	) {}
 
 	get data() {
 		return this._dialogRef.data;
@@ -27,7 +35,12 @@ export class PlaceDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(place: Partial<any>) {
-		this._dialogRef.close({ ...this.data, ...place });
+	closeDialog(place: Partial<CreatePlaceInput>) {
+		this._filesService
+			.getFile(place.file)
+			.pipe(take(1))
+			.subscribe((file) => {
+				this._dialogRef.close({ ...this.data, ...place, file });
+			});
 	}
 }

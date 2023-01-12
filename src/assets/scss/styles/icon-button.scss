@@ -14,17 +14,9 @@ body {
 			.icon {
 				width: rem(16);
 				height: rem(16);
-				svg {
-					fill: var(--dark);
-					stroke: var(--dark);
-				}
 			}
 			&:hover {
 				border-color: var(--primary);
-				.icon svg {
-					fill: var(--primary);
-					stroke: var(--primary);
-				}
 			}
 		}
 		&.theme-2 {
@@ -34,17 +26,9 @@ body {
 	&.dark .app-icon-button.theme-1 {
 		background-color: var(--dark);
 		.icon {
-			svg {
-				fill: var(--light);
-				stroke: var(--light);
-			}
 		}
 		&:hover {
 			border-color: var(--primary);
-			.icon svg {
-				fill: var(--primary);
-				stroke: var(--primary);
-			}
 		}
 	}
 }

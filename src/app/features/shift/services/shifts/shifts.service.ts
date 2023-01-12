@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
-import { take } from "rxjs";
+import { Subject, take } from "rxjs";
 
 import type { CreateShiftInput, UpdateShiftInput } from "../../../../../graphql";
 import { CloseShiftGQL, CreateShiftGQL, UpdateShiftGQL } from "../../graphql/shift";
 
 @Injectable({ providedIn: "root" })
 export class ShiftsService {
+	private readonly _changesSubject = new Subject();
+	readonly changes$ = this._changesSubject.asObservable();
 	constructor(
 		private readonly _createShiftGQL: CreateShiftGQL,
 		private readonly _updateShiftGQL: UpdateShiftGQL,

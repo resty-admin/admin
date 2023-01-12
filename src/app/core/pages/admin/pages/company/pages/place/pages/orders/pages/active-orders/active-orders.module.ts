@@ -29,6 +29,6 @@ import { ActiveOrdersComponent } from "./layout/active-orders.component";
 		FiltersModule,
 		OrderDialogModule
 	],
-	providers: [getI18nProvider("active-orders", (lang) => import(`./i18n/${lang}.json`))]
+	providers: [getI18nProvider("activeOrders", (lang) => import(`./i18n/${lang}.json`))]
 })
 export class ActiveOrdersModule {}

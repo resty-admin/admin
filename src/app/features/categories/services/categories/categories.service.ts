@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
+import type { Observable } from "rxjs";
+import { filter, Subject, switchMap, take, tap } from "rxjs";
 
-import type { CreateCategoryInput, UpdateCategoryInput } from "../../../../../graphql";
-import { FilesService } from "../../../../shared/modules/files";
+import type { CategoryEntity, CreateCategoryInput, PlaceEntity, UpdateCategoryInput } from "../../../../../graphql";
+import { ChangesEnum } from "../../../../shared/enums";
+import type { AtLeast } from "../../../../shared/interfaces";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
@@ -11,56 +13,56 @@ import { CategoryDialogComponent } from "../../ui/category-dialog/layout/categor
 
 @Injectable({ providedIn: "root" })
 export class CategoriesService {
-	readonly actions: IAction<any>[] = [
+	readonly actions: IAction<CategoryEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (category?: any) => this.openUpdateCategoryDialog(category).subscribe()
+			func: (category) => this.openUpdateCategoryDialog(category).pipe(take(1)).subscribe()
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (category?: any) => {
-				if (!category) {
-					return;
-				}
-
-				this.openDeleteCategoryDialog(category).subscribe();
-			}
+			func: (category) => this.openDeleteCategoryDialog(category).pipe(take(1)).subscribe()
 		}
 	];
+
+	private readonly _changesSubject = new Subject();
+	readonly changes$ = this._changesSubject.asObservable();
 
 	constructor(
 		private readonly _createCategoryGQL: CreateCategoryGQL,
 		private readonly _updateCategoryGQL: UpdateCategoryGQL,
 		private readonly _deleteCategoryGQL: DeleteCategoryGQL,
-		private readonly _filesService: FilesService,
 		private readonly _dialogService: DialogService
 	) {}
 
-	openCreateCategoryDialog(data?: any) {
+	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
+		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
+	}
+
+	openCreateCategoryDialog(data: AtLeast<CreateCategoryInput, "place">) {
 		return this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((category) => Boolean(category)),
-			switchMap((category: any) => this.createCategory(category))
+			switchMap((category: CategoryEntity) =>
+				this.createCategory({ name: category.name, place: data.place, file: category.file?.id })
+			)
 		);
 	}
 
-	openUpdateCategoryDialog(data: any) {
+	openUpdateCategoryDialog(data: AtLeast<CategoryEntity, "id">) {
 		return this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((category) => Boolean(category)),
-			switchMap((category: any) => this.updateCategory(category))
+			switchMap((category: PlaceEntity) =>
+				this.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
+			)
 		);
 	}
 
-	openDeleteCategoryDialog(category: any) {
-		const config = {
-			data: {
-				title: "Вы уверены, что хотите удалить категорию?",
-				value: category
-			}
-		};
+	openDeleteCategoryDialog(value: AtLeast<CategoryEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить категорию?", value } };
+
 		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
 			take(1),
 			filter((category) => Boolean(category)),
@@ -69,20 +71,14 @@ export class CategoriesService {
 	}
 
 	createCategory(category: CreateCategoryInput) {
-		return this._filesService.getFile(category.file).pipe(
-			take(1),
-			switchMap((file) => this._createCategoryGQL.mutate({ category: { ...category, file: file?.id } }))
-		);
+		return this._createCategoryGQL.mutate({ category }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 
 	updateCategory(category: UpdateCategoryInput) {
-		return this._filesService.getFile(category.file).pipe(
-			take(1),
-			switchMap((file) => this._updateCategoryGQL.mutate({ category: { ...category, file: file?.id } }))
-		);
+		return this._updateCategoryGQL.mutate({ category }).pipe(this._emitChanges(ChangesEnum.UPDATE));
 	}
 
 	deleteCategory(categoryId: string) {
-		return this._deleteCategoryGQL.mutate({ categoryId });
+		return this._deleteCategoryGQL.mutate({ categoryId }).pipe(this._emitChanges(ChangesEnum.DELETE));
 	}
 }

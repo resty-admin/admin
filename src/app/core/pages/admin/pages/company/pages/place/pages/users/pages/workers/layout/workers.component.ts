@@ -41,6 +41,18 @@ export class WorkersComponent implements OnInit, AfterViewInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
+
+		this._usersService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._workersPageQuery.refetch();
+		});
+	}
+
+	openCreateUserDialog() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		console.log(place);
+
+		return this._usersService.openCreateUserDialog().subscribe();
 	}
 
 	ngAfterViewInit() {

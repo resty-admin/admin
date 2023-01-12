@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { OrdersService } from "src/app/features/orders";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
-
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
 
 @Component({
 	selector: "app-orders",
@@ -21,10 +18,4 @@ export class OrdersComponent {
 			routerLink: ADMIN_ROUTES.ALL_ORDERS.path
 		}
 	];
-
-	constructor(private readonly _ordersService: OrdersService, private readonly _dialogService: DialogService) {}
-
-	openCreateOrderDialog() {
-		return this._ordersService.openCreateOrderDialog();
-	}
 }

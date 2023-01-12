@@ -40,9 +40,19 @@ export class AttributesComponent implements OnInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
+
+		this._attributeGroupsService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._attributesPageQuery.refetch();
+		});
 	}
 
 	openCreateAttributeDialog() {
-		this._attributeGroupsService.openCreateAttributeGroupDialog().pipe(take(1)).subscribe();
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!place) {
+			return;
+		}
+
+		this._attributeGroupsService.openCreateAttributeGroupDialog({ place }).pipe(take(1)).subscribe();
 	}
 }

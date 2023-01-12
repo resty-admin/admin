@@ -15,7 +15,7 @@ export interface CommandsPageQuery {
 		__typename?: "PaginatedCommand";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "CommandEntity"; id: string; name: string }[] | null;
+		data?: { __typename?: "CommandEntity"; id: string; name: string; description: string }[] | null;
 	};
 }
 
@@ -27,6 +27,7 @@ export const CommandsPageDocument = gql`
 			data {
 				id
 				name
+				description
 			}
 		}
 	}

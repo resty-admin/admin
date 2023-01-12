@@ -57,7 +57,7 @@
 					overflow: hidden;
 					background-color: var(--light-grey);
 					height: rem(312);
-					padding: rem(29) rem(16) 0;
+					padding: rem(29) rem(16) 0 rem(0);
 
 					@include desktop() {
 						display: grid;
@@ -70,27 +70,32 @@
 						row-gap: rem(13);
 					}
 					.label {
+						width: 80%;
+						margin: 0 auto;
 						font-weight: 600;
 						font-size: rem(20);
 						line-height: rem(24);
 						color: var(--primary);
 
 						@include desktop() {
+							width: 100%;
 							grid-area: label;
 							font-size: rem(32);
 							line-height: rem(40);
 						}
 					}
 					.description {
+						width: 80%;
+						margin: rem(6) auto;
 						font-weight: 400;
 						font-size: rem(13);
 						height: rem(100);
 						overflow: hidden;
 						line-height: rem(16);
 						color: var(--dark);
-						margin-top: rem(6);
 
 						@include desktop() {
+							width: 100%;
 							grid-area: description;
 							font-size: rem(16);
 							line-height: rem(24);
@@ -98,19 +103,22 @@
 						}
 					}
 					.image {
-						width: rem(212);
 						align-self: end;
-						justify-self: center;
+						justify-self: start;
 						margin-top: rem(12);
+						height: rem(150);
 
-						@include image () {
-							object-fit: cover;
+						@include image() {
+							object-fit: contain;
 						}
 						@include desktop() {
-							width: auto;
-							margin-left: rem(-50);
-							margin-bottom: rem(-100);
+							width: rem(229);
+							height: auto;
 							grid-area: image;
+
+							@include image () {
+								object-fit: cover;
+							}
 						}
 					}
 				}

@@ -5,6 +5,7 @@ query TablesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		data {
 			id
 			name
+			code
 		}
 	}
 }

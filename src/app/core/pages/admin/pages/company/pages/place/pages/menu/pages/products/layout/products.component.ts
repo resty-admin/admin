@@ -46,6 +46,10 @@ export class ProductsComponent implements AfterViewInit, OnInit {
 					filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
 				});
 			});
+
+		this._productsService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._productsPageQuery.refetch();
+		});
 	}
 
 	openCreateProductDialog() {

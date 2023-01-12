@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map } from "rxjs";
+import { map, take } from "rxjs";
 
 import { CommandsService } from "../../../../../../../../../../features/commands/services/commands/commands.service";
 import { PLACE_ID } from "../../../../../../../../../../shared/constants";
@@ -18,8 +18,8 @@ import { CommandsPageGQL } from "../graphql/commands-page";
 export class CommandsComponent implements OnInit {
 	private readonly _commandsPageQuery = this._commandsPageGQL.watch();
 	readonly commands$ = this._commandsPageQuery.valueChanges.pipe(map((result) => result.data.commands.data));
-	readonly actions = this._commandsService.actions;
 
+	readonly actions = this._commandsService.actions;
 	constructor(
 		private readonly _routerService: RouterService,
 		private readonly _commandsPageGQL: CommandsPageGQL,
@@ -35,11 +35,19 @@ export class CommandsComponent implements OnInit {
 					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
+
+		this._commandsService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._commandsPageQuery.refetch();
+		});
 	}
 
 	openCreateDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		this._commandsService.openCreateDialog({ place }).subscribe();
+		if (!place) {
+			return;
+		}
+
+		this._commandsService.openCreateCommandDialog({ place }).pipe(take(1)).subscribe();
 	}
 }

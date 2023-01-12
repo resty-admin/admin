@@ -46,7 +46,7 @@
 		<div class="place">
 			<p class="title">
 				<span class="text">{{ t("places") }}</span>
-				<button appIconButton class="button" (click)="emitAddPlaceClick()" [disabled]="!companyControl.value?.id">
+				<button appIconButton class="button" (click)="emitAddPlaceClick()" [disabled]="!companyControl.value">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>
 			</p>

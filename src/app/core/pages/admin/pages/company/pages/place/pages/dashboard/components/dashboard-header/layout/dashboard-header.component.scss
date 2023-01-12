@@ -4,7 +4,7 @@
 	.dashboard-header {
 		position: relative;
 		border-radius: rem(16);
-		padding: rem(20) rem(16) 0;
+		padding: rem(21) rem(16) 0;
 		background-color: #f8f8f8;
 		display: grid;
 		align-items: center;
@@ -18,10 +18,11 @@
 		row-gap: rem(6);
 
 		@include desktop() {
-			padding-top: 0;
 			grid-template-areas:
 				"money-value divider comission-value image"
 				"money-label divider comission-label image";
+			padding-top: 0;
+			padding-right: 0;
 			row-gap: 0;
 			column-gap: rem(6);
 		}
@@ -66,8 +67,7 @@
 		.image {
 			justify-self: end;
 			grid-area: image;
-			height: rem(170);
-			width: rem(200);
+			height: rem(160);
 		}
 	}
 }
