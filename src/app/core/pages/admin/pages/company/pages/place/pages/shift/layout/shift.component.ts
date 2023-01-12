@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, of, switchMap, take } from "rxjs";
+import { filter, map, shareReplay, switchMap, take } from "rxjs";
 import { ShiftsService } from "src/app/features/shift";
 
 import { HallsService } from "../../../../../../../../../../features/halls";
@@ -12,6 +12,7 @@ import { RouterService } from "../../../../../../../../../../shared/modules/rout
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
 import { SHIFT_PAGE_I18N } from "../constants";
+import { ShiftPageGQL } from "../graphql/shift-page";
 
 @UntilDestroy()
 @Component({
@@ -22,8 +23,13 @@ import { SHIFT_PAGE_I18N } from "../constants";
 })
 export class ShiftComponent implements OnInit {
 	readonly shiftPageI18n = SHIFT_PAGE_I18N;
-	readonly halls$ = of([]);
-	readonly tables$ = of([]);
+	private readonly _shiftPageQuery = this._shiftPageGQL.watch();
+	readonly shiftPage$ = this._shiftPageQuery.valueChanges.pipe(shareReplay({ refCount: true }));
+
+	readonly tables$ = this.shiftPage$.pipe(map((result) => result.data.tables.data));
+
+	readonly halls$ = this.shiftPage$.pipe(map((result) => result.data.halls.data));
+
 	readonly activeShiftGroup = this._formBuilder.group<any>({
 		id: "",
 		tables: []
@@ -32,6 +38,7 @@ export class ShiftComponent implements OnInit {
 	readonly hallsControl = new FormControl();
 
 	constructor(
+		private readonly _shiftPageGQL: ShiftPageGQL,
 		private readonly _shiftsService: ShiftsService,
 		private readonly _hallsService: HallsService,
 		private readonly _tablesService: TablesService,

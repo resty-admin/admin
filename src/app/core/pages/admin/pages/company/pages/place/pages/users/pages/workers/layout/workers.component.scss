@@ -16,6 +16,7 @@
 			grid-template-areas:
 				"filters filters add"
 				"datatable datatable datatable";
+			row-gap: rem(32);
 		}
 
 		.add {

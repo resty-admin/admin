@@ -1,1 +1,1 @@
-export const PRODUCTS_PAGE_I18N = "menuPage";
+export const PRODUCTS_PAGE_I18N = "productsPage";

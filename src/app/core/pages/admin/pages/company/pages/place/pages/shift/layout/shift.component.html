@@ -28,7 +28,7 @@
 			theme="1"
 			(click)="formValue.id ? updateShift(formValue.id, formValue.tables) : createShift(formValue.tables)"
 		>
-			{{ t("BUTTON." + (formValue.id ? "EDIT" : "CREATE")) }}
+			{{ t(formValue.id ? "edit" : "create") }}
 		</button>
 	</footer>
 </form>

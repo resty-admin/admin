@@ -9,7 +9,7 @@ export type CreateAttrMutationVariables = Types.Exact<{
 
 export interface CreateAttrMutation {
 	__typename?: "Mutation";
-	createAttr: { __typename?: "AttributesEntity"; id: string; name: string; price?: number | null };
+	createAttr: { __typename?: "AttributesEntity"; id: string; name: string; price: number };
 }
 
 export type UpdateAttrMutationVariables = Types.Exact<{
@@ -18,7 +18,7 @@ export type UpdateAttrMutationVariables = Types.Exact<{
 
 export interface UpdateAttrMutation {
 	__typename?: "Mutation";
-	updateAttr: { __typename?: "AttributesEntity"; id: string; name: string; price?: number | null };
+	updateAttr: { __typename?: "AttributesEntity"; id: string; name: string; price: number };
 }
 
 export type DeleteAttrMutationVariables = Types.Exact<{

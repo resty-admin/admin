@@ -44,7 +44,7 @@ export class AllOrdersComponent implements AfterViewInit, OnInit {
 			.pipe(untilDestroyed(this))
 			.subscribe(async (placeId) => {
 				await this._allOrdersPageQuery.setVariables({
-					filtersArgs: [{ key: "place", operator: "=", value: placeId }]
+					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 				});
 			});
 

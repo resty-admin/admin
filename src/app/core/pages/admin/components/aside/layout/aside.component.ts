@@ -5,11 +5,11 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { combineLatest, map, skip } from "rxjs";
 
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "../../../../../../shared/constants";
-import { getI18nProvider } from "../../../../../../shared/i18n";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { FORM_I18N } from "../../../../../constants";
 import { ASIDE_I18N } from "../constants";
 import { ASIDE_PAGES } from "../data";
+import { ASIDE_PROVIDERS } from "../providers";
 
 @UntilDestroy()
 @Component({
@@ -17,7 +17,7 @@ import { ASIDE_PAGES } from "../data";
 	templateUrl: "./aside.component.html",
 	styleUrls: ["./aside.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [getI18nProvider(ASIDE_I18N, (lang) => import(`../i18n/${lang}.json`)), getI18nProvider("form")]
+	providers: ASIDE_PROVIDERS
 })
 export class AsideComponent implements OnInit {
 	readonly formI18n = FORM_I18N;

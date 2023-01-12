@@ -11,7 +11,7 @@ import { FORM_I18N } from "../../../../../core/constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemDialogComponent {
-	readonly formi18n = FORM_I18N;
+	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group({
 		publicKey: "",
 		privateKey: ""

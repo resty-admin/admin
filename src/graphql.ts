@@ -86,16 +86,16 @@ export enum AttributeGroupTypeEnum {
 
 export interface AttributesEntity {
 	__typename?: "AttributesEntity";
-	attributesGroup?: Maybe<AttributesGroupEntity[]>;
+	attributesGroup: AttributesGroupEntity[];
 	id: Scalars["String"];
 	name: Scalars["String"];
-	price?: Maybe<Scalars["Int"]>;
+	price: Scalars["Int"];
 }
 
 export interface AttributesEntityInput {
-	attributesGroup?: InputMaybe<AttributesGroupEntityInput[]>;
+	attributesGroup: AttributesGroupEntityInput[];
 	name: Scalars["String"];
-	price?: InputMaybe<Scalars["Int"]>;
+	price: Scalars["Int"];
 }
 
 export interface AttributesGroupEntity {
@@ -193,6 +193,7 @@ export interface CreateAttributeGroupInput {
 }
 
 export interface CreateAttributeInput {
+	attributesGroup: Scalars["String"][];
 	name: Scalars["String"];
 	price: Scalars["Int"];
 }
@@ -1116,6 +1117,7 @@ export interface UpdateAttributeGroupInput {
 }
 
 export interface UpdateAttributeInput {
+	attributesGroup: Scalars["String"][];
 	id: Scalars["String"];
 	name: Scalars["String"];
 	price?: InputMaybe<Scalars["Int"]>;

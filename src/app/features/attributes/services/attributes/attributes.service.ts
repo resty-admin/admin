@@ -45,7 +45,11 @@ export class AttributesService {
 			take(1),
 			filter((attribute) => Boolean(attribute)),
 			switchMap((attribute: AttributesEntity) =>
-				this.createAttribute({ name: attribute.name, price: attribute.price! })
+				this.createAttribute({
+					name: attribute.name,
+					price: attribute.price,
+					attributesGroup: attribute.attributesGroup.map((attributeGroup) => attributeGroup.id)
+				})
 			)
 		);
 	}
@@ -55,7 +59,12 @@ export class AttributesService {
 			take(1),
 			filter((attribute) => Boolean(attribute)),
 			switchMap((attribute: AttributesEntity) =>
-				this.updateAttribute({ id: attribute.id, name: attribute.name, price: attribute.price })
+				this.updateAttribute({
+					id: attribute.id,
+					name: attribute.name,
+					price: attribute.price,
+					attributesGroup: attribute.attributesGroup.map((attributeGroup) => attributeGroup.id)
+				})
 			)
 		);
 	}
