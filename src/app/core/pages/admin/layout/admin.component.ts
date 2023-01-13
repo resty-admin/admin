@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit {
 
 	readonly isAsideOpen$ = this._asideService.isOpen$.pipe(shareReplay({ refCount: true }));
 
-	readonly user$ = this._authService.getMe().pipe(shareReplay({ refCount: true }));
+	readonly user$ = this._authService.me$.pipe(shareReplay({ refCount: true }));
 
 	readonly places$ = this._placesService.placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
 

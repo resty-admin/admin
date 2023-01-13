@@ -1,12 +1,20 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { catchError, map, of, shareReplay, tap } from "rxjs";
+import { map, tap } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { CryptoService } from "src/app/shared/modules/crypto";
 import { JwtService } from "src/app/shared/modules/jwt";
 import { RouterService } from "src/app/shared/modules/router";
 
-import type { UserEntity } from "../../../../../graphql";
+import type {
+	ForgotPasswordInput,
+	ResetPasswordInput,
+	SignInInput,
+	SignUpInput,
+	TelegramUserInput,
+	UpdateMeInput,
+	UserEntity
+} from "../../../../../graphql";
 import { ToastrService } from "../../../../shared/ui/toastr";
 import {
 	DeleteMeGQL,
@@ -26,7 +34,10 @@ import { AuthRepository } from "../../repositories";
 	providedIn: "root"
 })
 export class AuthService {
-	readonly me$ = this.getMe().pipe(shareReplay({ refCount: true }));
+	readonly getMeQuery = this._getMeGQL.watch();
+	readonly me$ = this.getMeQuery.valueChanges.pipe(
+		map((result) => this._jwtService.decodeToken<UserEntity>(result.data.getMe.accessToken))
+	);
 
 	constructor(
 		private readonly _getMeGQL: GetMeGQL,
@@ -58,28 +69,28 @@ export class AuthService {
 		return this._authRepository.updateAccessToken(accessToken);
 	}
 
-	signIn(body: any) {
+	signIn(body: SignInInput) {
 		return this._signInGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.signIn.accessToken),
 			this._updateAccessToken()
 		);
 	}
 
-	signUp(body: any) {
+	signUp(body: SignUpInput) {
 		return this._signUpGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.signUp.accessToken),
 			this._updateAccessToken()
 		);
 	}
 
-	resetPassword(body: any) {
+	resetPassword(body: ResetPasswordInput) {
 		return this._resetPasswordGQL.mutate({ body }).pipe(
 			map((result) => result.data?.resetPassword.accessToken),
 			this._updateAccessToken()
 		);
 	}
 
-	forgotPassword(body: any) {
+	forgotPassword(body: ForgotPasswordInput) {
 		return this._forgotPasswordGQL.mutate({ body });
 	}
 
@@ -90,28 +101,21 @@ export class AuthService {
 		);
 	}
 
-	telegram(telegramUser: any) {
+	telegram(telegramUser: TelegramUserInput) {
 		return this._telegramGQL.mutate({ telegramUser }).pipe(
 			map((result) => result.data?.telegram.accessToken),
 			this._updateAccessToken()
 		);
 	}
 
-	google(telegramUser: any) {
+	google(telegramUser: TelegramUserInput) {
 		return this._googleGQL.mutate({ telegramUser }).pipe(
 			map((result) => result.data?.telegram.accessToken),
 			this._updateAccessToken()
 		);
 	}
 
-	getMe() {
-		return this._getMeGQL.watch().valueChanges.pipe(
-			map((result) => this._jwtService.decodeToken<UserEntity>(result.data.getMe.accessToken)),
-			catchError(() => of(undefined))
-		);
-	}
-
-	updateMe(user: any) {
+	updateMe(user: UpdateMeInput) {
 		return this._updateMeGQL.mutate({ user });
 	}
 

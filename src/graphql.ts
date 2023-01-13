@@ -225,7 +225,6 @@ export interface CreateOrderInput {
 	place: Scalars["String"];
 	table?: InputMaybe<Scalars["String"]>;
 	type: OrderTypeEnum;
-	users?: InputMaybe<Scalars["String"][]>;
 }
 
 export interface CreatePaymentSystemInput {
@@ -383,7 +382,7 @@ export interface Mutation {
 	deleteUser: Scalars["String"];
 	forgotPassword: Scalars["String"];
 	removeEmployeeFromPlace: PlaceEntity;
-	removeProductFromOrder: Scalars["String"];
+	removeProductFromOrder: ActiveOrderEntity;
 	removeTableFromOrder: ActiveOrderEntity;
 	resetPassword: AccessToken;
 	signIn: AccessToken;
@@ -817,7 +816,7 @@ export enum PlaceStatusEnum {
 export interface ProductEntity {
 	__typename?: "ProductEntity";
 	attrsGroups?: Maybe<AttributesGroupEntity[]>;
-	category?: Maybe<CategoryEntity>;
+	category: CategoryEntity;
 	description?: Maybe<Scalars["String"]>;
 	file?: Maybe<FileEntity>;
 	id: Scalars["String"];
@@ -828,7 +827,7 @@ export interface ProductEntity {
 
 export interface ProductEntityInput {
 	attrsGroups?: InputMaybe<AttributesGroupEntityInput[]>;
-	category?: InputMaybe<CategoryEntityInput>;
+	category: CategoryEntityInput;
 	description?: InputMaybe<Scalars["String"]>;
 	file?: InputMaybe<FileEntityInput>;
 	isHide: Scalars["Boolean"];
@@ -1117,7 +1116,7 @@ export interface UpdateAttributeGroupInput {
 }
 
 export interface UpdateAttributeInput {
-	attributesGroup: Scalars["String"][];
+	attributesGroup?: InputMaybe<Scalars["String"][]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
 	price?: InputMaybe<Scalars["Int"]>;

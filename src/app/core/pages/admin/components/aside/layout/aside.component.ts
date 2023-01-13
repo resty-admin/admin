@@ -21,6 +21,7 @@ import { ASIDE_PROVIDERS } from "../providers";
 })
 export class AsideComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
+	readonly asideI18n = ASIDE_I18N;
 	@Output() closeClicked = new EventEmitter();
 	@Output() signOutClicked = new EventEmitter();
 	@Output() addCompanyClicked = new EventEmitter();
@@ -31,8 +32,6 @@ export class AsideComponent implements OnInit {
 	@Input() placeActions: any;
 	@Input() companies: any;
 	@Input() places: any;
-
-	readonly asideI18n = ASIDE_I18N;
 
 	readonly adminRoutes = ADMIN_ROUTES;
 

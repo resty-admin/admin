@@ -47,7 +47,7 @@ export class ProductsService {
 			switchMap((product: ProductEntity) =>
 				this.createProduct({
 					name: product.name,
-					category: product.category!.id,
+					category: product.category.id,
 					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
 					file: product.file?.id,
 					price: product.price
@@ -63,7 +63,7 @@ export class ProductsService {
 			switchMap((product: ProductEntity) =>
 				this.updateProduct({
 					id: product.id,
-					category: product.category?.id,
+					category: product.category.id,
 					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
 					file: product.file?.id,
 					price: product.price

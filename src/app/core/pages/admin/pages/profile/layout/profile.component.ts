@@ -18,7 +18,7 @@ import { PROFILE_PAGE_I18N } from "../constants";
 export class ProfileComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
 	readonly profilePageI18n = PROFILE_PAGE_I18N;
-	readonly user$ = this._authService.getMe().pipe(shareReplay({ refCount: true }));
+	readonly user$ = this._authService.me$.pipe(shareReplay({ refCount: true }));
 
 	readonly formGroup = this._formBuilder.group<any>({
 		name: "",

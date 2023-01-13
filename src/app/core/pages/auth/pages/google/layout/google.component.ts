@@ -22,7 +22,7 @@ export class GoogleComponent implements OnInit {
 			.selectParams()
 			.pipe(
 				untilDestroyed(this),
-				switchMap((googleUser) => this._authService.google(googleUser).pipe(take(1)))
+				switchMap((googleUser: any) => this._authService.google(googleUser).pipe(take(1)))
 			)
 			.subscribe(async () => {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
