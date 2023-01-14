@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
+import { catchError, of } from "rxjs";
 import { map, tap } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { CryptoService } from "src/app/shared/modules/crypto";
@@ -36,7 +37,8 @@ import { AuthRepository } from "../../repositories";
 export class AuthService {
 	readonly getMeQuery = this._getMeGQL.watch();
 	readonly me$ = this.getMeQuery.valueChanges.pipe(
-		map((result) => this._jwtService.decodeToken<UserEntity>(result.data.getMe.accessToken))
+		map((result) => this._jwtService.decodeToken<UserEntity>(result.data.getMe.accessToken)),
+		catchError(() => of(null))
 	);
 
 	constructor(
@@ -62,11 +64,12 @@ export class AuthService {
 	}
 
 	private _updateAccessToken(): (source$: Observable<string | undefined>) => Observable<string | undefined> {
-		return (source$) => source$.pipe(tap((accessToken) => this._authRepository.updateAccessToken(accessToken)));
+		return (source$) => source$.pipe(tap((accessToken) => this.updateAccessToken(accessToken)));
 	}
 
-	updateAccessToken(accessToken?: string) {
-		return this._authRepository.updateAccessToken(accessToken);
+	async updateAccessToken(accessToken?: string) {
+		this._authRepository.updateAccessToken(accessToken);
+		await this.getMeQuery.resetLastResults();
 	}
 
 	signIn(body: SignInInput) {

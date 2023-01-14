@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { createStore, select, setProp, withProps } from "@ngneat/elf";
 import { persistState } from "@ngneat/elf-persist-state";
 import { includeKeys } from "elf-sync-state";
-import { shareReplay } from "rxjs";
 import { ACCESS_TOKEN } from "src/app/shared/constants";
 import { LocalforageService } from "src/app/shared/modules/localforage";
 
@@ -23,10 +22,7 @@ export class AuthRepository {
 		source: () => this._store.pipe(includeKeys([ACCESS_TOKEN]))
 	});
 
-	readonly store$ = this._store.pipe(
-		select((store) => store),
-		shareReplay({ refCount: true })
-	);
+	readonly store$ = this._store.pipe(select((store) => store));
 
 	updateAccessToken(accessToken?: string) {
 		return this._store.update(setProp(ACCESS_TOKEN, accessToken));

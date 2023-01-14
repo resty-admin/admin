@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, shareReplay, take } from "rxjs";
+import { map, take } from "rxjs";
 
 import { AsideService } from "../../../../features/app";
 import { AuthService } from "../../../../features/auth/services";
@@ -39,9 +39,9 @@ export class AdminComponent implements OnInit {
 	readonly placeActions = this._placesService.actions;
 	readonly companyActions = this._companiesService.actions;
 
-	readonly isAsideOpen$ = this._asideService.isOpen$.pipe(shareReplay({ refCount: true }));
+	readonly isAsideOpen$ = this._asideService.isOpen$;
 
-	readonly user$ = this._authService.me$.pipe(shareReplay({ refCount: true }));
+	readonly user$ = this._authService.me$;
 
 	readonly places$ = this._placesService.placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
