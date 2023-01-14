@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { firstValueFrom, map, shareReplay, take } from "rxjs";
+import { firstValueFrom, map, take } from "rxjs";
 
 import type { ProductEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
@@ -31,7 +31,7 @@ export class ProductDialogComponent implements OnInit {
 	});
 
 	private readonly _productDialogQuery = this._productDialogGQL.watch({ skip: 0, take: 5 });
-	readonly productDialog$ = this._productDialogQuery.valueChanges.pipe(shareReplay({ refCount: true }));
+	readonly productDialog$ = this._productDialogQuery.valueChanges;
 
 	readonly categories$ = this.productDialog$.pipe(map((result) => result.data.categories.data));
 

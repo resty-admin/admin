@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, shareReplay } from "rxjs";
+import { map } from "rxjs";
 
 import { PLACE_ID } from "../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
@@ -46,10 +46,7 @@ export class DashboardComponent implements OnInit {
 
 	private readonly _dashboardPageQuery = this._dashboardPageGQL.watch();
 
-	readonly dashboard$ = this._dashboardPageQuery.valueChanges.pipe(
-		map((result) => result.data),
-		shareReplay({ refCount: true })
-	);
+	readonly dashboard$ = this._dashboardPageQuery.valueChanges.pipe(map((result) => result.data));
 
 	readonly usersCount$ = this.dashboard$.pipe(map((data) => data.users.totalCount));
 	readonly hallsCount$ = this.dashboard$.pipe(map((data) => data.halls.totalCount));

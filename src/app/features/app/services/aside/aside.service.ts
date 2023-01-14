@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, shareReplay } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AsideService {
 	private readonly _isOpenSubject = new BehaviorSubject(false);
-	readonly isOpen$ = this._isOpenSubject.asObservable().pipe(shareReplay({ refCount: true }));
+	readonly isOpen$ = this._isOpenSubject.asObservable();
 
 	toggleAside() {
 		this._isOpenSubject.next(!this._isOpenSubject.value);

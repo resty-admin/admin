@@ -2,7 +2,6 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { shareReplay } from "rxjs";
 
 import { AuthService } from "../../../../../../features/auth/services";
 import { FORM_I18N } from "../../../../../constants";
@@ -18,7 +17,7 @@ import { PROFILE_PAGE_I18N } from "../constants";
 export class ProfileComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
 	readonly profilePageI18n = PROFILE_PAGE_I18N;
-	readonly user$ = this._authService.me$.pipe(shareReplay({ refCount: true }));
+	readonly user$ = this._authService.me$;
 
 	readonly formGroup = this._formBuilder.group<any>({
 		name: "",

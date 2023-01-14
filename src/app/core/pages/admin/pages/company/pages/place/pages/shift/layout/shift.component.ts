@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map, shareReplay, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 import { ShiftsService } from "src/app/features/shift";
 
 import { HallsService } from "../../../../../../../../../../features/halls";
@@ -24,7 +24,7 @@ import { ShiftPageGQL } from "../graphql/shift-page";
 export class ShiftComponent implements OnInit {
 	readonly shiftPageI18n = SHIFT_PAGE_I18N;
 	private readonly _shiftPageQuery = this._shiftPageGQL.watch();
-	readonly shiftPage$ = this._shiftPageQuery.valueChanges.pipe(shareReplay({ refCount: true }));
+	readonly shiftPage$ = this._shiftPageQuery.valueChanges;
 
 	readonly tables$ = this.shiftPage$.pipe(map((result) => result.data.tables.data));
 
