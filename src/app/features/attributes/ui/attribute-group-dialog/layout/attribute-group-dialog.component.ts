@@ -37,6 +37,8 @@ export class AttributeGroupDialogComponent implements OnInit {
 
 	readonly addTag = (name: string) => firstValueFrom(this._attributesService.openCreateAttributeDialog({ name }));
 
+	data!: any;
+
 	constructor(
 		private readonly _attributeGroupDialogGQL: AttributeGroupDialogGQL,
 		private readonly _dialogRef: DialogRef,
@@ -44,16 +46,11 @@ export class AttributeGroupDialogComponent implements OnInit {
 		private readonly _attributesService: AttributesService
 	) {}
 
-	get data() {
-		return this._dialogRef.data;
-	}
-
 	ngOnInit() {
-		if (!this.data) {
-			return;
+		if (this._dialogRef.data) {
+			this.data = this._dialogRef.data;
+			this.formGroup.patchValue(this._dialogRef.data);
 		}
-
-		this.formGroup.patchValue(this.data);
 	}
 
 	closeDialog(attributeGroup: Partial<any>) {

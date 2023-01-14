@@ -21,18 +21,19 @@ export class CompanyDialogComponent implements OnInit {
 		logo: null
 	});
 
+	data: any;
+
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
 		private readonly _filesService: FilesService
 	) {}
 
-	get data() {
-		return this._dialogRef.data;
-	}
-
 	ngOnInit() {
-		this.formGroup.patchValue(this.data);
+		if (this._dialogRef.data) {
+			this.data = this._dialogRef.data;
+			this.formGroup.patchValue(this._dialogRef.data);
+		}
 	}
 
 	closeDialog(company: Partial<CompanyEntity>) {

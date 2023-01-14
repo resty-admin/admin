@@ -18,18 +18,15 @@ export class CommandDialogComponent implements OnInit {
 		description: ""
 	});
 
+	data!: any;
+
 	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
 
-	get data() {
-		return this._dialogRef.data;
-	}
-
 	ngOnInit() {
-		if (!this.data) {
-			return;
+		if (this._dialogRef.data) {
+			this.data = this._dialogRef.data;
+			this.formGroup.patchValue(this._dialogRef.data);
 		}
-
-		this.formGroup.patchValue(this.data);
 	}
 
 	closeDialog(command: Partial<any>) {

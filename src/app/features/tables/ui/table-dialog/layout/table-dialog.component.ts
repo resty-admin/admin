@@ -22,22 +22,19 @@ export class TableDialogComponent implements OnInit {
 		file: ""
 	});
 
+	data!: any;
+
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
 		private readonly _filesService: FilesService
 	) {}
 
-	get data() {
-		return this._dialogRef.data;
-	}
-
 	ngOnInit() {
-		if (!this.data) {
-			return;
+		if (this._dialogRef.data) {
+			this.data = this._dialogRef.data;
+			this.formGroup.patchValue(this._dialogRef.data);
 		}
-
-		this.formGroup.patchValue(this.data);
 	}
 
 	closeDialog(table: Partial<TableEntity>) {

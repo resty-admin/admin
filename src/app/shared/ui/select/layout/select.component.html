@@ -6,9 +6,9 @@
 
 	<ng-select
 		class="ng-select"
-		[class.has-value]="hasValue"
+		[class.has-value]="hasValue$ | async"
 		[formControl]="formControl"
-		[items]="items"
+		[items]="options || []"
 		[clearable]="clearable"
 		(click)="$event.stopImmediatePropagation()"
 		[searchable]="searchable"

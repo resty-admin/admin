@@ -48,7 +48,7 @@ export class AttributesService {
 				this.createAttribute({
 					name: attribute.name,
 					price: attribute.price,
-					attributesGroup: attribute.attributesGroup.map((attributeGroup) => attributeGroup.id)
+					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
 				})
 			)
 		);
@@ -63,7 +63,7 @@ export class AttributesService {
 					id: attribute.id,
 					name: attribute.name,
 					price: attribute.price,
-					attributesGroup: attribute.attributesGroup.map((attributeGroup) => attributeGroup.id)
+					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
 				})
 			)
 		);

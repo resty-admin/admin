@@ -23,18 +23,19 @@ export class PlaceDialogComponent implements OnInit {
 		company: ""
 	});
 
+	data!: any;
+
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
 		private readonly _filesService: FilesService
 	) {}
 
-	get data() {
-		return this._dialogRef.data;
-	}
-
-	ngOnInit(): void {
-		this.formGroup.patchValue(this.data);
+	ngOnInit() {
+		if (this._dialogRef.data) {
+			this.data = this._dialogRef.data;
+			this.formGroup.patchValue(this._dialogRef.data);
+		}
 	}
 
 	closeDialog(place: Partial<CreatePlaceInput>) {

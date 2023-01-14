@@ -83,6 +83,7 @@ export class ProductsService {
 	}
 
 	createProduct(product: CreateProductInput) {
+		console.log(product);
 		return this._createProductGQL.mutate({ product }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 

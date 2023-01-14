@@ -1,9 +1,11 @@
+import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from "@angular/core";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 
+import type { ISimpleChanges } from "../../../interfaces";
 import { DATATABLE_CONFIG } from "../injection-tokens";
-import type { IDatatableColumn, IDatatableMessages, IDatatableRow } from "../interfaces";
+import type { IDatatableColumn, IDatatableRow } from "../interfaces";
 import { IDatatableConfig, IDatatableTheme } from "../interfaces";
 
 @Component({
@@ -12,7 +14,7 @@ import { IDatatableConfig, IDatatableTheme } from "../interfaces";
 	styleUrls: ["./datatable.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DatatableComponent {
+export class DatatableComponent implements OnChanges {
 	@Output() clicked = new EventEmitter();
 	@Output() mouseEntered = new EventEmitter();
 	@Output() doubleClicked = new EventEmitter();
@@ -23,14 +25,16 @@ export class DatatableComponent {
 
 	readonly columnMode = ColumnMode;
 
+	className = `app-datatable ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+
+	readonly messages = this._datatableConfig.messages;
+
 	constructor(@Inject(DATATABLE_CONFIG) private readonly _datatableConfig: IDatatableConfig) {}
 
-	get className() {
-		return `app-datatable ${THEME.replace(ANY_SYMBOL, this.theme)}`;
-	}
-
-	get messages(): IDatatableMessages {
-		return this._datatableConfig.messages;
+	ngOnChanges(changes: ISimpleChanges<DatatableComponent>) {
+		if (changes.theme) {
+			this.className = `app-datatable ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
+		}
 	}
 
 	emitActivate(event: { type: "click" | "dblclick" | "mouseenter"; row: unknown }) {

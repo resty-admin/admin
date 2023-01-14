@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { BehaviorSubject, filter } from "rxjs";
@@ -6,6 +6,7 @@ import { ControlValueAccessor } from "src/app/shared/classes";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 import { getControlValueAccessorProviders } from "src/app/shared/functions";
 
+import type { ISimpleChanges } from "../../../interfaces";
 import { FILE_CONFIG } from "../injection-tokens";
 import { IFileConfig, IFileTheme } from "../interfaces";
 
@@ -17,7 +18,7 @@ import { IFileConfig, IFileTheme } from "../interfaces";
 	providers: getControlValueAccessorProviders(FileComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileComponent extends ControlValueAccessor<string> implements OnInit {
+export class FileComponent extends ControlValueAccessor<string> implements OnInit, OnChanges {
 	@Input() label = "";
 	@Input() theme: IFileTheme = "1";
 	@Input() multiple = false;
@@ -27,12 +28,18 @@ export class FileComponent extends ControlValueAccessor<string> implements OnIni
 	readonly srcSubject = new BehaviorSubject<ArrayBuffer | string | null>("");
 	readonly src$ = this.srcSubject.asObservable();
 
+	className = `app-file ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+
 	constructor(@Inject(FILE_CONFIG) private readonly _fileConfig: IFileConfig) {
 		super("");
 	}
 
-	get className() {
-		return `app-file ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+	override ngOnChanges(changes: ISimpleChanges<FileComponent>) {
+		if (changes.theme) {
+			this.className = `app-file ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
+		}
+
+		super.ngOnChanges(changes);
 	}
 
 	upload(event: Event) {

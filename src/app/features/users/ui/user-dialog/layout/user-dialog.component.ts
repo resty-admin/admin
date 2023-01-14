@@ -29,22 +29,19 @@ export class UserDialogComponent implements OnInit {
 		role: UserRoleEnum.Client
 	});
 
+	data!: any;
+
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
 		private readonly _cryptoService: CryptoService
 	) {}
 
-	get data() {
-		return this._dialogRef.data;
-	}
-
 	ngOnInit() {
-		if (!this.data) {
-			return;
+		if (this._dialogRef.data) {
+			this.data = this._dialogRef.data;
+			this.formGroup.patchValue(this._dialogRef.data);
 		}
-
-		this.formGroup.patchValue(this.data);
 	}
 
 	closeDialog(user: Partial<UserEntity>) {

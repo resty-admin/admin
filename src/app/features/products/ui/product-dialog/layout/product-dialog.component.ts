@@ -38,19 +38,26 @@ export class ProductDialogComponent implements OnInit {
 	readonly attributeGroups$ = this.productDialog$.pipe(map((result) => result.data.attributeGroups.data));
 
 	readonly addCategoryTag = (name: string) => {
-		if (!this.placeId) {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!place) {
 			return;
 		}
-		return firstValueFrom(this._categoriesService.openCreateCategoryDialog({ name, place: this.placeId }));
+
+		return firstValueFrom(this._categoriesService.openCreateCategoryDialog({ name, place }));
 	};
 
 	readonly addAttributeGroupTag = (name: string) => {
-		if (!this.placeId) {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!place) {
 			return;
 		}
 
-		return firstValueFrom(this._attributeGroupsService.openCreateAttributeGroupDialog({ name, place: this.placeId }));
+		return firstValueFrom(this._attributeGroupsService.openCreateAttributeGroupDialog({ name, place }));
 	};
+
+	data!: any;
 
 	constructor(
 		private readonly _productDialogGQL: ProductDialogGQL,
@@ -62,20 +69,11 @@ export class ProductDialogComponent implements OnInit {
 		private readonly _filesService: FilesService
 	) {}
 
-	get data() {
-		return this._dialogRef.data;
-	}
-
-	get placeId() {
-		return this._routerService.getParams(PLACE_ID.slice(1));
-	}
-
 	ngOnInit() {
-		if (!this.data) {
-			return;
+		if (this._dialogRef.data) {
+			this.data = this._dialogRef.data;
+			this.formGroup.patchValue(this._dialogRef.data);
 		}
-
-		this.formGroup.patchValue(this.data);
 	}
 
 	closeDialog(product: Partial<ProductEntity>) {
