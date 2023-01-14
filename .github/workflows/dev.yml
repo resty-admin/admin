@@ -41,7 +41,7 @@ jobs:
             if doctl registry garbage-collection get-active; then
               echo "already running"
             else
-              docker push $(echo $REGISTRY)/$(echo $NGX_CLIENT):latest
+              docker push $(echo $REGISTRY)/$(echo $NGX_ADMIN):latest
               doctl registry garbage-collection start --include-untagged-manifests --force
               isDisabled=false
             fi
