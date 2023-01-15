@@ -5,7 +5,7 @@
 
 	<p class="title">{{ data.title }}</p>
 	<ul class="messages">
-		<li class="message" *ngFor="let error of data.messages">{{ error }}</li>
+		<li class="message" *ngFor="let error of data.messages; trackBy: trackByFn">{{ error }}</li>
 	</ul>
 
 	<button class="close" (click)="close()">

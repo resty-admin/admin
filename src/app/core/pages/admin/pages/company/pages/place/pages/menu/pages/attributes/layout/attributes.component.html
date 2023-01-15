@@ -7,7 +7,7 @@
 	<app-filters class="filters"></app-filters>
 
 	<ul class="attributes-groups">
-		<li class="attributes-group" *ngFor="let attributesGroup of attributeGroups$ | async">
+		<li class="attributes-group" *ngFor="let attributesGroup of attributeGroups$ | async; trackBy: trackByFn">
 			<div class="header">
 				<h1 class="label">{{ attributesGroup.name }}</h1>
 
@@ -25,7 +25,7 @@
 			</div>
 
 			<ul class="attributes">
-				<li class="attribute" *ngFor="let attribute of attributesGroup.attributes">
+				<li class="attribute" *ngFor="let attribute of attributesGroup.attributes; trackBy: trackByFn">
 					<p class="name-label">Название</p>
 					<p class="name-value">{{ attribute.name }}</p>
 					<p class="description-label">Цена</p>

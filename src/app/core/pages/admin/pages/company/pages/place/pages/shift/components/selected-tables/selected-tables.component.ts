@@ -23,6 +23,10 @@ export class SelectedTablesComponent implements OnInit, OnChanges, ControlValueA
 	readonly selectedTablesControl = new FormControl<any>([]);
 	readonly selectedTables$ = this.selectedTablesControl.value$;
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	removeSelectedTable(selectedTableToRemove: any) {
 		const newValue = this.selectedTablesControl.value.filter(
 			(selectedTable: any) => selectedTable.id !== selectedTableToRemove.id

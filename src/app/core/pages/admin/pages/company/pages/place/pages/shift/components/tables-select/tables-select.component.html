@@ -1,6 +1,6 @@
 <form class="tables-select" [formGroup]="tablesGroup">
 	<ul class="tables">
-		<li class="table" *ngFor="let table of tables; let i = index">
+		<li class="table" *ngFor="let table of tables; let i = index; trackBy: trackByFn">
 			<input class="checkbox" type="checkbox" [id]="'tables-select_' + i" [formControlName]="table.id" />
 			<div class="content">
 				<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>

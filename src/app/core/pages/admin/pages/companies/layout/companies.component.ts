@@ -20,6 +20,10 @@ export class CompaniesComponent {
 
 	constructor(private readonly _companiesService: CompaniesService, private readonly _routerService: RouterService) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	openCreateCompanyDialog() {
 		this._companiesService
 			.openCreateCompanyDialog()

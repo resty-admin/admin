@@ -1,0 +1,15 @@
+query StatisticPage(
+	$guestsFiltersArgs: [FiltersArgsDto!]
+	$hallsFiltersArgs: [FiltersArgsDto!]
+	$tablesFiltersArgs: [FiltersArgsDto!]
+) {
+	users(filtersArgs: $guestsFiltersArgs) {
+		totalCount
+	}
+	halls(filtersArgs: $hallsFiltersArgs) {
+		totalCount
+	}
+	tables(filtersArgs: $tablesFiltersArgs) {
+		totalCount
+	}
+}

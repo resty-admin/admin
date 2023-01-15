@@ -5,7 +5,7 @@
 		<h1 class="title" appTypography theme="2">{{ t("title") }}</h1>
 
 		<ul class="places">
-			<li class="place" *ngFor="let place of places$ | async">
+			<li class="place" *ngFor="let place of places$ | async; trackBy: trackByFn">
 				<a class="link" [routerLink]="place.id">
 					{{ place.name | initials }}
 				</a>

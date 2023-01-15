@@ -52,6 +52,10 @@ export class AsideComponent implements OnInit {
 
 	constructor(private readonly _routerService: RouterService) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		let isCompanyProgramatic = false;
 		let isPlaceProgramatic = false;

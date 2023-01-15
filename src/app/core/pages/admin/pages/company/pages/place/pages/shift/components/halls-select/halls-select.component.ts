@@ -27,6 +27,10 @@ export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAcce
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		let isProgrammatic = false;
 

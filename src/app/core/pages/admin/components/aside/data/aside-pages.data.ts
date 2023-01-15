@@ -2,9 +2,9 @@ import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 export const ASIDE_PAGES = [
 	{
-		label: "dashboard",
+		label: "statistic",
 		icon: "dashboard",
-		routerLink: ADMIN_ROUTES.DASHBOARD.absolutePath
+		routerLink: ADMIN_ROUTES.STATISTIC.absolutePath
 	},
 	{
 		label: "shift",

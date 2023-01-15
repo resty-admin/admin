@@ -38,6 +38,10 @@ export class AllOrdersComponent implements AfterViewInit, OnInit {
 		private readonly _dialogService: DialogService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(PLACE_ID.slice(1))

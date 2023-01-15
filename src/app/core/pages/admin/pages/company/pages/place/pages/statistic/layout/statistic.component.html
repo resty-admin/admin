@@ -1,0 +1,38 @@
+<div class="statistic" *transloco="let t; read: statisticPageI18n">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+
+	<app-statistic-header class="header"></app-statistic-header>
+
+	<ul class="cards">
+		<app-statistic-card
+			class="card"
+			link="../users/guests"
+			[value]="usersCount$ | async"
+			[label]="t('guests')"
+			icon="group"
+		></app-statistic-card>
+		<app-statistic-card
+			class="card"
+			link="../users/workers"
+			[value]="usersCount$ | async"
+			[label]="t('workers')"
+			icon="user"
+		></app-statistic-card>
+		<app-statistic-card
+			class="card"
+			link="../halls"
+			[value]="hallsCount$ | async"
+			[label]="t('halls')"
+			icon="halls"
+		></app-statistic-card>
+		<app-statistic-card
+			class="card"
+			link="../halls"
+			[value]="tablesCount$ | async"
+			[label]="t('tables')"
+			icon="table"
+		></app-statistic-card>
+	</ul>
+
+	<app-statistic-footer class="footer"></app-statistic-footer>
+</div>

@@ -33,6 +33,10 @@ export class AttributesComponent implements OnInit {
 		private readonly _routerService: RouterService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(PLACE_ID.slice(1))

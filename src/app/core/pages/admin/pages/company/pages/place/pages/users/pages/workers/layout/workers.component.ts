@@ -35,6 +35,10 @@ export class WorkersComponent implements OnInit, AfterViewInit {
 		private readonly _routerService: RouterService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(PLACE_ID.slice(1))

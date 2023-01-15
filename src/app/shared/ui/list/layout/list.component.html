@@ -1,5 +1,5 @@
 <ul class="list">
-	<li class="list-item" *ngFor="let item of items">
+	<li class="list-item" *ngFor="let item of items; trackBy: trackByFn">
 		<a *ngIf="type === 'link'" class="link" [routerLink]="item.routerLink" routerLinkActive="active">
 			<ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
 		</a>

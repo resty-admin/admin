@@ -7,7 +7,7 @@
 	<app-filters class="filters"></app-filters>
 
 	<ul class="orders">
-		<li class="order" *ngFor="let order of activeOrders$ | async">
+		<li class="order" *ngFor="let order of activeOrders$ | async; trackBy: trackByFn">
 			<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.name"></app-image>
 
 			<div class="info">

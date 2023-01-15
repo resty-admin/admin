@@ -9,7 +9,7 @@
 	<app-datatable class="datatable-desktop" [rows]="products$ | async" [columns]="columns"></app-datatable>
 
 	<ul class="datatable-mobile">
-		<li class="product" *ngFor="let product of products$ | async">
+		<li class="product" *ngFor="let product of products$ | async; trackBy: trackByFn">
 			<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: product }"></ng-container>

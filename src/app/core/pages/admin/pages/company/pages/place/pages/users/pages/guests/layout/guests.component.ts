@@ -35,6 +35,10 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 		private readonly _guestsPageGQL: GuestsPageGQL
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(PLACE_ID.slice(1))

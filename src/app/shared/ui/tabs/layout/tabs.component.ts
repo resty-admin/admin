@@ -8,4 +8,8 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 })
 export class TabsComponent {
 	@Input() tabs: any[] = [];
+
+	trackByFn(index: number) {
+		return index;
+	}
 }

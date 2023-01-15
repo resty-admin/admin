@@ -12,4 +12,8 @@ export class ActionsComponent<T> {
 	@Input() actions: IAction<T>[] = [];
 	@Input() data!: T;
 	@Input() additionalFunc: any = () => undefined;
+
+	trackByFn(index: number) {
+		return index;
+	}
 }

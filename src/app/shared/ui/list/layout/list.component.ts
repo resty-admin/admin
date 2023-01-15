@@ -13,6 +13,10 @@ export class ListComponent {
 
 	@Input() type: "button" | "link" = "button";
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	emitClick(item: any) {
 		this.clicked.emit(item);
 	}

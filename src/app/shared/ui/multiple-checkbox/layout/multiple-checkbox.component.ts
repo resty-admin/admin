@@ -22,6 +22,10 @@ export class MultipleCheckboxComponent extends ControlValueAccessor<string> impl
 
 	className = `app-multiple-checkbox ${THEME.replace(ANY_SYMBOL, this.theme)}`;
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	override ngOnChanges(changes: ISimpleChanges<MultipleCheckboxComponent>) {
 		if (changes.theme) {
 			this.className = `app-multiple-checkbox ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;

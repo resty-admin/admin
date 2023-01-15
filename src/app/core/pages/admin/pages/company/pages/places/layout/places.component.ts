@@ -26,6 +26,10 @@ export class PlacesComponent implements OnInit {
 		private readonly _dialogService: DialogService
 	) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this._routerService
 			.selectParams(COMPANY_ID.slice(1))

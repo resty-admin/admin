@@ -18,6 +18,10 @@ export class ToastrErrorComponent implements OnInit {
 
 	constructor(@Optional() @Inject(HotToastRef) private readonly toastRef: HotToastRef<IErrorData>) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this.data = this.toastRef.data;
 	}

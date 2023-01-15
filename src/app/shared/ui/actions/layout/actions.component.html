@@ -1,5 +1,5 @@
 <ul class="app-actions">
-	<li class="action" *ngFor="let action of actions">
+	<li class="action" *ngFor="let action of actions; trackBy: trackByFn">
 		<button class="button" (click)="action.func(data); additionalFunc()">
 			<app-icon class="icon" [name]="action.icon"></app-icon>
 			<span class="text">{{ action.label }}</span>

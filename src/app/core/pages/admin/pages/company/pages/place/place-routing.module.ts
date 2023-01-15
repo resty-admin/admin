@@ -11,8 +11,8 @@ export const PLACE_ROUTES: Route[] = [
 		component: PlaceComponent,
 		children: [
 			{
-				...SHARED_ADMIN_ROUTES.DASHBOARD,
-				loadChildren: () => import("./pages/dashboard/dashboard.module").then((m) => m.DashboardModule)
+				...SHARED_ADMIN_ROUTES.STATISTIC,
+				loadChildren: () => import("./pages/statistic/statistic.module").then((m) => m.StatisticModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.SHIFT,
@@ -70,7 +70,7 @@ export const PLACE_ROUTES: Route[] = [
 			},
 			{
 				path: "**",
-				redirectTo: SHARED_ADMIN_ROUTES.DASHBOARD.path
+				redirectTo: SHARED_ADMIN_ROUTES.STATISTIC.path
 			}
 		]
 	}

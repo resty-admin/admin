@@ -61,9 +61,9 @@ export const ADMIN_ROUTES = {
 		path: `places/${PLACE_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}`
 	},
-	DASHBOARD: {
-		path: `dashboard`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/dashboard`
+	STATISTIC: {
+		path: `statistic`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/statistic`
 	},
 	USERS: {
 		path: `users`,

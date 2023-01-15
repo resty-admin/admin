@@ -27,6 +27,10 @@ export class TablesSelectComponent implements OnInit, OnChanges, ControlValueAcc
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
 
+	trackByFn(index: number) {
+		return index;
+	}
+
 	ngOnInit() {
 		this.tablesGroup.valueChanges.pipe(untilDestroyed(this)).subscribe((tables) => {
 			if (!this.onChange) {

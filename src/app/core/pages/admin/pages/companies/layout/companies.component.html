@@ -5,7 +5,7 @@
 		<h1 appTypography theme="2" class="title">{{ t("title") }}</h1>
 
 		<ul class="companies">
-			<li class="company" *ngFor="let company of companies$ | async">
+			<li class="company" *ngFor="let company of companies$ | async; trackBy: trackByFn">
 				<a class="link" [routerLink]="company.id">
 					{{ company.name | initials }}
 				</a>
