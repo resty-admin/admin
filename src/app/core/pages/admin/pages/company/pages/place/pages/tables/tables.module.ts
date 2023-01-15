@@ -13,6 +13,7 @@ import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
 import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
 import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
+import { QrCodeModule } from "../../../../../../../../../shared/ui/qr-code";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { TABLES_COMPONENTS } from "./components";
 import { TablesComponent } from "./layout/tables.component";
@@ -36,7 +37,8 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		AddHeaderModule,
 		FiltersModule,
 		ListModule,
-		TableDialogModule
+		TableDialogModule,
+		QrCodeModule
 	],
 	providers: TABLES_PROVIDERS
 })

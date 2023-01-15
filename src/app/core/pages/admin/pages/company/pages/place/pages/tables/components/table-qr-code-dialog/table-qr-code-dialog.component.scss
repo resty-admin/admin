@@ -1,0 +1,10 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	.table-qr-code-dialog {
+	}
+}
+@include dark() {
+	.table-qr-code-dialog {
+	}
+}

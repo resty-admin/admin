@@ -6,7 +6,10 @@ import { map, take } from "rxjs";
 import { TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
 
+import type { TableEntity } from "../../../../../../../../../../../graphql";
 import { DYNAMIC_ID } from "../../../../../../../../../../shared/constants";
+import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+import { TableQrCodeDialogComponent } from "../components";
 import { TABLES_PAGE_I18N } from "../constants";
 import { TablesPageGQL } from "../graphql/tables-page";
 
@@ -26,7 +29,8 @@ export class TablesComponent implements OnInit {
 	constructor(
 		private readonly _tablesPageGQL: TablesPageGQL,
 		private readonly _tablesService: TablesService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	ngOnInit() {
@@ -40,6 +44,13 @@ export class TablesComponent implements OnInit {
 		this._tablesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
 			await this._tablesPageQuery.refetch();
 		});
+	}
+
+	openTableQrCodeDialog(data: TableEntity) {
+		return this._dialogService
+			.open(TableQrCodeDialogComponent, { data })
+			.afterClosed$.pipe(take(1))
+			.subscribe(() => {});
 	}
 
 	openCreateTableDialog() {

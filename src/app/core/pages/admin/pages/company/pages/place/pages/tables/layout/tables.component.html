@@ -12,5 +12,7 @@
 </div>
 
 <ng-template let-item #tableTemplate>
-	<app-table [table]="item" [actions]="actions"></app-table>
+	<button (click)="openTableQrCodeDialog(item)">
+		<app-table [table]="item" [actions]="actions"></app-table>
+	</button>
 </ng-template>

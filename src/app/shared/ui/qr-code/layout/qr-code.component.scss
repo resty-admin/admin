@@ -1,0 +1,39 @@
+@import "/src/assets/scss/abstractions";
+
+@include component() {
+	.qr-code {
+		position: relative;
+		margin: 0 auto;
+
+		.icon-wrapper {
+			position: absolute;
+			left: 7.5%;
+			top: 7.5%;
+			width: 85%;
+			height: 85%;
+			display: grid;
+			align-items: center;
+			justify-content: center;
+			background-color: transparent;
+			border: rem(1) solid transparent;
+
+			.icon {
+				display: none;
+				transform: scale(4);
+				color: white;
+			}
+
+			&:hover {
+				border-color: var(--primary);
+
+				.icon {
+					display: block;
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.qr-code {
+	}
+}

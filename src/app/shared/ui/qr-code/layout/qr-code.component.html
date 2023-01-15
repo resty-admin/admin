@@ -1,0 +1,6 @@
+<div class="qr-code">
+	<qrcode class="code" [width]="500" [qrdata]="qrdata" [scale]="8" [errorCorrectionLevel]="'M'"></qrcode>
+	<button class="icon-wrapper" (click)="downloadQr(imageName)">
+		<app-icon class="icon" name="download"></app-icon>
+	</button>
+</div>
