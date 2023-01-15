@@ -3,7 +3,7 @@ import { ADMIN_ROUTES } from "src/app/shared/constants";
 export const ASIDE_PAGES = [
 	{
 		label: "statistic",
-		icon: "dashboard",
+		icon: "statistic",
 		routerLink: ADMIN_ROUTES.STATISTIC.absolutePath
 	},
 	{
