@@ -1,7 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { firstValueFrom } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
@@ -9,7 +8,6 @@ import { AuthService } from "../../../../../../features/auth/services";
 import { FORM_I18N } from "../../../../../constants";
 import { PROFILE_PAGE_I18N } from "../constants";
 
-@UntilDestroy()
 @Component({
 	selector: "app-profile",
 	templateUrl: "./profile.component.html",

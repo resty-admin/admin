@@ -1,15 +1,17 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, take } from "rxjs";
+import { catchError, filter, map, of, switchMap, take } from "rxjs";
 
 import { AsideService } from "../../../../features/app";
 import { AuthService } from "../../../../features/auth/services";
 import { CompaniesService } from "../../../../features/companies";
+import { OrdersService } from "../../../../features/orders";
 import { PlacesService } from "../../../../features/places";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "../../../../shared/constants";
 import { RouterService } from "../../../../shared/modules/router";
 import type { IAction } from "../../../../shared/ui/actions";
+import { AdminPageGQL } from "../graphql/admin-page";
 
 @UntilDestroy()
 @Component({
@@ -43,6 +45,13 @@ export class AdminComponent implements OnInit {
 
 	readonly user$ = this._authService.me$;
 
+	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
+		filter((orderId) => Boolean(orderId)),
+		switchMap((orderId) => this._adminPageGQL.watch({ orderId: orderId! }).valueChanges),
+		map((result) => result.data.order),
+		catchError(() => of(null))
+	);
+
 	readonly places$ = this._placesService.placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
 	readonly companies$ = this._companiesService.companiesQuery.valueChanges.pipe(
@@ -50,11 +59,13 @@ export class AdminComponent implements OnInit {
 	);
 
 	constructor(
+		private readonly _adminPageGQL: AdminPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _authService: AuthService,
 		private readonly _asideService: AsideService,
 		private readonly _companiesService: CompaniesService,
-		private readonly _placesService: PlacesService
+		private readonly _placesService: PlacesService,
+		private readonly _ordersService: OrdersService
 	) {}
 
 	ngOnInit() {

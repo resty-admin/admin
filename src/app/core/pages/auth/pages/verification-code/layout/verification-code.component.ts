@@ -1,7 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { take } from "rxjs";
 import { DYNAMIC_TOKEN } from "src/app/shared/constants";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
@@ -10,7 +9,6 @@ import { RouterService } from "src/app/shared/modules/router";
 import { AuthService } from "../../../../../../features/auth/services";
 import { VERIFICATION_CODE_PAGE_I18N } from "../constants";
 
-@UntilDestroy()
 @Component({
 	selector: "app-verification-code",
 	templateUrl: "./verification-code.component.html",

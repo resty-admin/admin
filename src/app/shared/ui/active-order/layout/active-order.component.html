@@ -1,0 +1,5 @@
+<a *ngIf="activeOrder" [class]="'active-order' + ' ' + activeOrder.type" [routerLink]="activeOrderLink">
+	<p class="code">{{ "Order" }} №{{ activeOrder.code }}</p>
+	<hr class="divider" />
+	<p class="type">{{ activeOrder.type }}</p>
+</a>

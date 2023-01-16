@@ -1,0 +1,7 @@
+query AdminPage($orderId: String!) {
+	order(id: $orderId) {
+		type
+		id
+		code
+	}
+}

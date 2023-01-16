@@ -1,6 +1,5 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map } from "rxjs";
 
 import { PLACE_ID } from "../../../../../../../../../../shared/constants";
@@ -8,7 +7,6 @@ import { RouterService } from "../../../../../../../../../../shared/modules/rout
 import { STATISTIC_PAGE_I18N } from "../constants";
 import { StatisticPageGQL } from "../graphql/statistic-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-statistic",
 	templateUrl: "./statistic.component.html",

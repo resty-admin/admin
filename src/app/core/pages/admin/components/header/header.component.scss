@@ -16,6 +16,14 @@
 			padding: rem(16) rem(40);
 		}
 
+		.space {
+			flex: 1;
+		}
+
+		.active-order {
+			@include hideOnDesktop ();
+		}
+
 		.logo .image {
 			width: rem(40);
 			height: rem(40);

@@ -15,6 +15,7 @@ import { CompanyDialogModule } from "../../../features/companies/ui/company-dial
 import { PlaceDialogModule } from "../../../features/places/ui/place-dialog/place-dialog.module";
 import { I18nModule } from "../../../shared/modules/i18n";
 import { ActionsModule } from "../../../shared/ui/actions";
+import { ActiveOrderModule } from "../../../shared/ui/active-order";
 import { LinkModule } from "../../../shared/ui/link";
 import { TooltipModule } from "../../../shared/ui/tooltip";
 import { AdminRoutingModule } from "./admin-routing.module";
@@ -41,7 +42,8 @@ import { AdminComponent } from "./layout/admin.component";
 		LinkModule,
 		I18nModule,
 		CompanyDialogModule,
-		PlaceDialogModule
+		PlaceDialogModule,
+		ActiveOrderModule
 	]
 })
 export class AdminModule {}

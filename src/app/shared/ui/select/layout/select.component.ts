@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, ContentChild, Input } from "@angula
 import { isArray } from "@apollo/client/cache/inmemory/helpers";
 import type { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
 import { CompareWithFn } from "@ng-select/ng-select/lib/ng-select.component";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map } from "rxjs";
 import { ControlValueAccessor } from "src/app/shared/classes";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
@@ -13,7 +12,6 @@ import { getControlValueAccessorProviders } from "src/app/shared/functions";
 import type { ISimpleChanges } from "../../../interfaces";
 import { ISelectTheme } from "../interfaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-select",
 	templateUrl: "./select.component.html",

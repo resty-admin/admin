@@ -1,0 +1,6 @@
+<ul class="status-select">
+	<li class="status" *ngFor="let status of statuses; trackBy: trackByFn; let i = index">
+		<input class="input" type="radio" [id]="'status_' + i" [value]="status" [formControl]="formControl" />
+		<label class="label" [for]="'status_' + i">{{ status }}</label>
+	</li>
+</ul>

@@ -1,7 +1,15 @@
-<header class="header">
+<header class="header" *transloco="let t">
 	<a class="logo" routerLink="/">
 		<app-image class="image" name="logo" placeholder="logo"></app-image>
 	</a>
+
+	<div class="space"></div>
+
+	<app-active-order
+		class="active-order"
+		[activeOrder]="activeOrder"
+		[activeOrderLink]="activeOrderLink"
+	></app-active-order>
 
 	<button class="profile" *ngIf="user" [tippy]="dropdown" placement="bottom-end" variation="popper">
 		<p class="name">{{ user.name }}</p>

@@ -1,6 +1,5 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, take } from "rxjs";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
@@ -9,7 +8,6 @@ import { PlacesService } from "../../../../../../../../features/places";
 import { DialogService } from "../../../../../../../../shared/ui/dialog";
 import { PLACES_PAGE_I18N } from "../constants";
 
-@UntilDestroy()
 @Component({
 	selector: "app-places",
 	templateUrl: "./places.component.html",

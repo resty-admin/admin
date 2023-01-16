@@ -9,6 +9,7 @@ import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
 import { CreateOrderGQL, DeleteOrderGQL, UpdateOrderGQL } from "../../graphql/orders";
+import { OrdersRepository } from "../../repositories";
 import { OrderDialogComponent } from "../../ui/order-dialog/layout/order-dialog.component";
 
 @Injectable({ providedIn: "root" })
@@ -29,12 +30,19 @@ export class OrdersService {
 	private readonly _changesSubject = new Subject();
 	readonly changes$ = this._changesSubject.asObservable();
 
+	readonly activeOrderId$ = this._ordersRepository.activeOrderId$;
+
 	constructor(
+		private readonly _ordersRepository: OrdersRepository,
 		private readonly _createOrderGQL: CreateOrderGQL,
 		private readonly _updateOrderGQL: UpdateOrderGQL,
 		private readonly _deleteOrderGQL: DeleteOrderGQL,
 		private readonly _dialogService: DialogService
 	) {}
+
+	setActiveOrderId(orderId?: string) {
+		return this._ordersRepository.setActiveOrderId(orderId);
+	}
 
 	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
