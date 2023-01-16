@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import type { DeepPartial } from "@ngneat/reactive-forms/lib/types";
 import type { Observable } from "rxjs";
 import { filter, Subject, switchMap, take, tap } from "rxjs";
 
@@ -45,7 +46,7 @@ export class UsersService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateUserDialog(data?: UserEntity) {
+	openCreateUserDialog(data?: DeepPartial<UserEntity>) {
 		return this._dialogService.open(UserDialogComponent, { data }).afterClosed$.pipe(
 			take(1),
 			filter((user) => Boolean(user)),

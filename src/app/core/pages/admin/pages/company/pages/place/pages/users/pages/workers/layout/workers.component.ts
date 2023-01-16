@@ -1,9 +1,10 @@
-import type { AfterViewInit, OnInit } from "@angular/core";
+import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
 import { map } from "rxjs";
 
+import { ActionsService } from "../../../../../../../../../../../../features/app";
 import { UsersService } from "../../../../../../../../../../../../features/users";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
@@ -18,7 +19,7 @@ import { WorkersPageGQL } from "../graphql/workers-page";
 	styleUrls: ["./workers.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkersComponent implements OnInit, AfterViewInit {
+export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
 	readonly workersPageI18n = WORKERS_PAGE_I18N;
@@ -32,34 +33,39 @@ export class WorkersComponent implements OnInit, AfterViewInit {
 	constructor(
 		private readonly _workersPageGQL: WorkersPageGQL,
 		private readonly _usersService: UsersService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _actionsService: ActionsService
 	) {}
 
 	trackByFn(index: number) {
 		return index;
 	}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (placeId) => {
-				await this._workersPageQuery.setVariables({
-					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-				});
-			});
+	async ngOnInit() {
+		const { placeId } = this._routerService.getParams();
+
+		if (!placeId) {
+			return;
+		}
 
 		this._usersService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
 			await this._workersPageQuery.refetch();
+		});
+
+		this._actionsService.setAction({
+			label: "Добавить работника",
+			func: () => this.openCreateUserDialog()
+		});
+
+		await this._workersPageQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
 	}
 
 	openCreateUserDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		console.log(place);
-
-		return this._usersService.openCreateUserDialog().subscribe();
+		return this._usersService.openCreateUserDialog({ place }).subscribe();
 	}
 
 	ngAfterViewInit() {
@@ -84,5 +90,9 @@ export class WorkersComponent implements OnInit, AfterViewInit {
 				cellTemplate: this.moreTemplate
 			}
 		];
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

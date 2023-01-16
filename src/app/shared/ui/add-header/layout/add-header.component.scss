@@ -8,5 +8,9 @@
 		.title {
 			flex: 1;
 		}
+
+		.add {
+			@include hideOnMobile(flex);
+		}
 	}
 }

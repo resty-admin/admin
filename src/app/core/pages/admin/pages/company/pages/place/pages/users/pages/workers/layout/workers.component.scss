@@ -5,7 +5,6 @@
 		display: grid;
 		align-items: end;
 		grid-template-areas:
-			"add add"
 			"filters filters"
 			"datatable datatable";
 		row-gap: rem(16);
@@ -21,6 +20,8 @@
 
 		.add {
 			grid-area: add;
+
+			@include hideOnMobile(flex);
 		}
 
 		.filters {

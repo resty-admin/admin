@@ -1,4 +1,4 @@
-import type { AfterViewInit, OnInit } from "@angular/core";
+import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
@@ -6,6 +6,7 @@ import { map } from "rxjs";
 import { ProductsService } from "src/app/features/products";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
+import { ActionsService } from "../../../../../../../../../../../../features/app";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
@@ -19,7 +20,7 @@ import { ProductsPageGQL } from "../graphql/products-page";
 	styleUrls: ["./products.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductsComponent implements AfterViewInit, OnInit {
+export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
 	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
@@ -37,25 +38,32 @@ export class ProductsComponent implements AfterViewInit, OnInit {
 		private readonly _productsPageGQL: ProductsPageGQL,
 		private readonly _productsService: ProductsService,
 		private readonly _routerService: RouterService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _actionsService: ActionsService
 	) {}
 
 	trackByFn(index: number) {
 		return index;
 	}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (placeId) => {
-				await this._productsPageQuery.setVariables({
-					filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
-				});
-			});
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
 
 		this._productsService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
 			await this._productsPageQuery.refetch();
+		});
+
+		this._actionsService.setAction({
+			label: "Добавить блюдо",
+			func: () => this.openCreateProductDialog()
+		});
+
+		await this._productsPageQuery.setVariables({
+			filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
 		});
 	}
 
@@ -85,5 +93,9 @@ export class ProductsComponent implements AfterViewInit, OnInit {
 				cellTemplate: this.moreTemplate
 			}
 		];
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

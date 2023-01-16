@@ -8,24 +8,26 @@
 
 	<ul class="orders">
 		<li class="order" *ngFor="let order of activeOrders$ | async; trackBy: trackByFn">
-			<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.name"></app-image>
+			<a class="link" [routerLink]="'../' + order.id">
+				<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.name"></app-image>
 
-			<div class="info">
-				<p class="code">{{ order.code }}</p>
-				<p class="status">{{ order.status }}</p>
-			</div>
+				<div class="info">
+					<p class="code">{{ order.code }}</p>
+					<p class="status">{{ order.status }}</p>
+				</div>
 
-			<button
-				class="more"
-				appIconButton
-				[tippy]="actionsTemplate"
-				[data]="order"
-				placement="left"
-				variation="popper"
-				theme="1"
-			>
-				<app-icon class="icon" name="more"></app-icon>
-			</button>
+				<button
+					class="more"
+					appIconButton
+					[tippy]="actionsTemplate"
+					[data]="order"
+					placement="left"
+					variation="popper"
+					theme="1"
+				>
+					<app-icon class="icon" name="more"></app-icon>
+				</button>
+			</a>
 		</li>
 	</ul>
 </div>

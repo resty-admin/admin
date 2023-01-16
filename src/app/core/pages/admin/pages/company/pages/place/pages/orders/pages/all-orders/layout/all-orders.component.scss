@@ -6,7 +6,7 @@
 		row-gap: rem(16);
 
 		.datatable-desktop {
-			@include hideOnMobile();
+			@include hideOnMobile(flex);
 			&::ng-deep .datatable-row-odd .more {
 				background-color: var(--light-grey);
 			}

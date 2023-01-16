@@ -26,7 +26,7 @@
 		}
 
 		.profile {
-			justify-self: end;
+			justify-self: flex-end;
 			padding-left: rem(16);
 
 			@include hideOnMobile();
@@ -50,7 +50,7 @@
 					font-weight: 600;
 					font-size: rem(16);
 					line-height: rem(24);
-					align-self: end;
+					align-self: flex-end;
 				}
 				&.role {
 					grid-area: role;
@@ -59,7 +59,7 @@
 					font-size: rem(13);
 					line-height: rem(16);
 					color: var(--primary);
-					align-self: start;
+					align-self: flex-start;
 				}
 			}
 

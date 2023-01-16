@@ -71,7 +71,7 @@ body {
 			}
 			.datatable-pager .pager {
 				display: flex;
-				justify-content: end;
+				justify-content: flex-end;
 				column-gap: rem(5);
 				.pages {
 					&:hover:not(.active) a {

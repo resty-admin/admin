@@ -7,14 +7,14 @@ body {
 			padding: 0;
 			.ngneat-dialog-content {
 				width: 100% !important;
-				height: 100%;
+				height: 100vh !important;
 				overflow: visible;
 				background-color: var(--light);
 
 				@include desktop() {
 					border-radius: rem(24);
 					width: auto !important;
-					height: auto;
+					height: auto !important;
 				}
 				.ngneat-close-dialog {
 					top: rem(16);

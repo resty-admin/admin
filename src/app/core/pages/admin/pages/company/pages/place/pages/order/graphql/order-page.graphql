@@ -1,0 +1,41 @@
+query OrderPage($orderId: String!) {
+	order(id: $orderId) {
+		id
+		type
+		orderNumber
+		code
+		status
+		totalPrice
+		table {
+			id
+			name
+		}
+		usersToOrders {
+			id
+			count
+			status
+			product {
+				id
+				name
+				description
+				price
+				file {
+					id
+					url
+				}
+				attrsGroups {
+					id
+					name
+					attributes {
+						id
+						name
+					}
+				}
+			}
+			user {
+				id
+				name
+			}
+		}
+	}
+}

@@ -28,7 +28,7 @@ export class RouterService {
 	}
 
 	getParams(name?: string) {
-		return this._routerRepository.getParams<string>(name);
+		return this._routerRepository.getParams(name);
 	}
 
 	selectParams<T extends string>(names: string[]): Observable<T[]>;

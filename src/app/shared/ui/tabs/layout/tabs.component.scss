@@ -6,10 +6,11 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		//column-gap: rem(32);
+		//background-color: var(--light);
 
 		@include desktop() {
 			width: auto;
-			column-gap: rem(32);
 			border-bottom: transparent;
 		}
 		.tab {

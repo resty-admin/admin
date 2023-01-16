@@ -42,18 +42,19 @@ export class AllOrdersComponent implements AfterViewInit, OnInit {
 		return index;
 	}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (placeId) => {
-				await this._allOrdersPageQuery.setVariables({
-					filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-				});
-			});
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
 
 		this._ordersService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
 			await this._allOrdersPageQuery.refetch();
+		});
+
+		await this._allOrdersPageQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
 	}
 

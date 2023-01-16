@@ -1,6 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { map, take } from "rxjs";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
@@ -30,15 +30,12 @@ export class PlacesComponent implements OnInit {
 		return index;
 	}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(COMPANY_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (value) => {
-				await this._placesService.placesQuery.setVariables({
-					filtersArgs: [{ key: "company.id", operator: "=", value }]
-				});
-			});
+	async ngOnInit() {
+		const companyId = this._routerService.getParams(COMPANY_ID.slice(1));
+
+		await this._placesService.placesQuery.setVariables({
+			filtersArgs: [{ key: "company.id", operator: "=", value: companyId }]
+		});
 	}
 
 	openCreatePlaceDialog() {

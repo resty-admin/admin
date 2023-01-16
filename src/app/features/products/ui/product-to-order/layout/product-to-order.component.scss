@@ -1,0 +1,99 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.product-to-order {
+		display: grid;
+		grid-template-areas:
+			"image title icon"
+			"image description description"
+			"divider divider divider"
+			"user count price";
+		align-items: center;
+		border: rem(1) solid transparent;
+		border-radius: rem(16);
+		padding: rem(8);
+		gap: rem(8);
+		grid-template-columns: auto 1fr auto;
+		background-color: var(--light-grey);
+
+		&.active {
+			border-color: var(--primary);
+		}
+
+		.image {
+			grid-area: image;
+			width: rem(56);
+			height: rem(56);
+
+			@include image() {
+				border-radius: rem(12);
+			}
+		}
+		.title {
+			grid-area: title;
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.description {
+			grid-area: description;
+			font-size: rem(12);
+			line-height: rem(16);
+			color: var(--dark-grey);
+		}
+		.icon {
+			grid-area: icon;
+			width: rem(20);
+			height: rem(20);
+			justify-self: end;
+		}
+		.divider {
+			grid-area: divider;
+			width: 100%;
+			height: rem(1);
+			background-color: var(--dark-b);
+		}
+		.user {
+			grid-area: user;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--primary);
+		}
+		.count {
+			grid-area: count;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--dark);
+			justify-self: end;
+		}
+		.price {
+			grid-area: price;
+			font-weight: 600;
+			font-size: rem(14);
+			line-height: rem(24);
+			color: var(--primary);
+		}
+	}
+}
+@include dark() {
+	.product-to-order {
+		border-color: var(--light-b);
+
+		.title {
+			color: var(--light);
+		}
+
+		.description {
+			color: var(--light-grey);
+		}
+
+		.divider {
+			background-color: var(--light-b);
+		}
+
+		.count {
+			color: var(--light);
+		}
+	}
+}

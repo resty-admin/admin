@@ -1,4 +1,17 @@
-import { COMPANY_ID, DYNAMIC_ID, DYNAMIC_TOKEN, PLACE_ID } from "../constants";
+import {
+	ACCOUNTING_SYSTEM_ID,
+	ATTRIBUTE_ID,
+	CATEGORY_ID,
+	COMMAND_ID,
+	COMPANY_ID,
+	DYNAMIC_TOKEN,
+	HALL_ID,
+	ORDER_ID,
+	PAYMENT_SYSTEM_ID,
+	PLACE_ID,
+	PRODUCT_ID,
+	USER_ID
+} from "../constants";
 
 export const ADMIN_ROUTES = {
 	AUTH: {
@@ -70,8 +83,8 @@ export const ADMIN_ROUTES = {
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users`
 	},
 	USER: {
-		path: `users/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/${DYNAMIC_ID}`
+		path: `users/${USER_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/${USER_ID}`
 	},
 	WORKERS: {
 		path: `workers`,
@@ -86,12 +99,12 @@ export const ADMIN_ROUTES = {
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/halls`
 	},
 	HALL: {
-		path: `halls/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/halls/${DYNAMIC_ID}`
+		path: `halls/${HALL_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/halls/${HALL_ID}`
 	},
 	TABLES: {
-		path: `halls/${DYNAMIC_ID}/tables`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/halls/${DYNAMIC_ID}/tables`
+		path: `halls/${HALL_ID}/tables`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/halls/${HALL_ID}/tables`
 	},
 	SHIFT: {
 		path: `shift`,
@@ -110,8 +123,8 @@ export const ADMIN_ROUTES = {
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/all-orders`
 	},
 	ORDER: {
-		path: `orders/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/${DYNAMIC_ID}`
+		path: `orders/${ORDER_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/${ORDER_ID}`
 	},
 	MENU: {
 		path: `menu`,
@@ -122,32 +135,32 @@ export const ADMIN_ROUTES = {
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/categories`
 	},
 	CATEGORY: {
-		path: `categories/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/categories/${DYNAMIC_ID}`
+		path: `categories/${CATEGORY_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/categories/${CATEGORY_ID}`
 	},
 	PRODUCTS: {
 		path: `products`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/products`
 	},
 	PRODUCT: {
-		path: `products/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/products/${DYNAMIC_ID}`
+		path: `products/${PRODUCT_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/products/${PRODUCT_ID}`
 	},
 	ATTRIBUTES: {
 		path: `attributes`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/attributes`
 	},
 	ATTRIBUTE: {
-		path: `attributes/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/attributes/${DYNAMIC_ID}`
+		path: `attributes/${ATTRIBUTE_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/menu/attributes/${ATTRIBUTE_ID}`
 	},
 	COMMANDS: {
 		path: `commands`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/commands`
 	},
 	COMMAND: {
-		path: `commands/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/commands/${DYNAMIC_ID}`
+		path: `commands/${COMMAND_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/commands/${COMMAND_ID}`
 	},
 	WALLET: {
 		path: `wallet`,
@@ -162,15 +175,15 @@ export const ADMIN_ROUTES = {
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/payment-systems`
 	},
 	PAYMENT_SYSTEM: {
-		path: `payment-systems/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/payment-systems/${DYNAMIC_ID}`
+		path: `payment-systems/${PAYMENT_SYSTEM_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/payment-systems/${PAYMENT_SYSTEM_ID}`
 	},
 	ACCOUNTING_SYSTEMS: {
 		path: `accounting-systems`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/accounting-systems`
 	},
 	ACCOUNTING_SYSTEM: {
-		path: `accounting-systems/${DYNAMIC_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/accounting-systems/${DYNAMIC_ID}`
+		path: `accounting-systems/${ACCOUNTING_SYSTEM_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/accounting-systems/${ACCOUNTING_SYSTEM_ID}`
 	}
 };

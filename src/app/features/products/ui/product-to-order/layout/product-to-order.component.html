@@ -1,0 +1,13 @@
+<div class="product-to-order" [class.active]="isActive" *ngIf="userToOrder">
+	<app-image class="image" placeholder="product" [remote]="true" [name]="userToOrder.product.file?.url"></app-image>
+	<p class="title">{{ userToOrder.product.name }}</p>
+	<p class="description">{{ userToOrder.product.description }}</p>
+
+	<app-icon class="icon" [name]="userToOrder.status === productToOrderStatus.Paid ? 'paid' : 'not-paid'"></app-icon>
+
+	<hr class="divider" />
+
+	<p class="user">{{ userToOrder.user?.name }}</p>
+	<p class="count">{{ userToOrder.count }}x</p>
+	<p class="price">{{ userToOrder.product.price }} грн</p>
+</div>

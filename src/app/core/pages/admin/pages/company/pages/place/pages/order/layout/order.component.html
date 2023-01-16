@@ -1,0 +1,11 @@
+<ng-container *transloco="let t; read: orderPageI18n">
+	<div class="order-page" *ngIf="order$ | async as order">
+		<h1 appTypography theme="1">{{ t("title") }} {{ order.code }}</h1>
+
+		<ul class="products-to-order">
+			<li class="product-to-order" *ngFor="let productToOrder of order.usersToOrders">
+				<app-product-to-order></app-product-to-order>
+			</li>
+		</ul>
+	</div>
+</ng-container>

@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
@@ -6,6 +6,7 @@ import { map, take } from "rxjs";
 import { HallsService } from "src/app/features/halls";
 import { PLACE_ID } from "src/app/shared/constants";
 
+import { ActionsService } from "../../../../../../../../../../features/app";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { HALLS_PAGE_I18N } from "../constants";
 import { HallsPageGQL } from "../graphql/halls-page";
@@ -17,7 +18,7 @@ import { HallsPageGQL } from "../graphql/halls-page";
 	styleUrls: ["./halls.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HallsComponent implements OnInit {
+export class HallsComponent implements OnInit, OnDestroy {
 	readonly hallsPageI18n = HALLS_PAGE_I18N;
 	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
 	readonly halls$: Observable<any> = this._hallsPageQuery.valueChanges.pipe(
@@ -30,7 +31,8 @@ export class HallsComponent implements OnInit {
 	constructor(
 		private readonly _hallsPageGQL: HallsPageGQL,
 		private readonly _hallsService: HallsService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _actionsService: ActionsService
 	) {}
 
 	openCreateHallDialog() {
@@ -43,16 +45,26 @@ export class HallsComponent implements OnInit {
 		return this._hallsService.openCreateHallDialog({ place }).pipe(take(1)).subscribe();
 	}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(PLACE_ID.slice(1))
-			.pipe(untilDestroyed(this))
-			.subscribe(async (placeId) => {
-				await this._hallsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
-			});
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
 
 		this._hallsService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
 			await this._hallsPageQuery.refetch();
 		});
+
+		this._actionsService.setAction({
+			label: "Добавить зал",
+			func: () => this.openCreateHallDialog()
+		});
+
+		await this._hallsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

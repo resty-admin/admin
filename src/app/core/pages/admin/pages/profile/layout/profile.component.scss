@@ -81,6 +81,7 @@
 				justify-self: end;
 				width: 100%;
 
+				@include hideOnMobile ();
 				@include desktop() {
 					width: auto;
 				}
@@ -94,6 +95,7 @@
 				margin-left: rem(-20);
 
 				@include image() {
+					border-bottom-left-radius: rem(16);
 					object-fit: contain;
 				}
 				@include desktop() {
@@ -102,7 +104,7 @@
 					grid-area: image;
 					margin-left: 0;
 
-					@include image () {
+					@include image() {
 						object-fit: cover;
 					}
 				}

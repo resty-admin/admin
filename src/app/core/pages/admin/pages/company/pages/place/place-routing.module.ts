@@ -53,7 +53,7 @@ export const PLACE_ROUTES: Route[] = [
 			},
 			{
 				...SHARED_ADMIN_ROUTES.ORDER,
-				loadChildren: () => import("./pages/orders/orders.module").then((m) => m.OrdersModule)
+				loadChildren: () => import("./pages/order/order.module").then((m) => m.OrderModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.ACCOUNTING_SYSTEMS,

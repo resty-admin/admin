@@ -17,6 +17,8 @@
 		}
 		.sign {
 			grid-area: sign;
+
+			@include hideOnMobile(flex);
 		}
 		.pdf {
 			grid-area: pdf;
