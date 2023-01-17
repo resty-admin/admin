@@ -43,3 +43,9 @@ mutation SetPaidStatusForProductsInOrder($productToOrderIds: [String!]!) {
 		id
 	}
 }
+
+mutation ConnectPaymentSystemToPlace($body: ConnectPaymentSystemToPlaceInput!) {
+	connectPaymentSystemToPlace(body: $body) {
+		id
+	}
+}

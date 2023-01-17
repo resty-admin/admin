@@ -17,18 +17,36 @@ import type { ISimpleChanges } from "../../../../../shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsToOrderSelectComponent implements OnChanges, OnInit, ControlValueAccessor {
-	@Input() productsToOrder?: any[] | null;
+	@Input() productsToOrders?: any[] | null;
 
 	onChange: ((value: any) => void) | undefined;
 	onTouched: (() => void) | undefined;
+
+	productsToOrdersByStatus: any[] = [];
 
 	readonly formGroup = this._formBuilder.group({});
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
 
 	ngOnChanges(changes: ISimpleChanges<ProductsToOrderSelectComponent>) {
-		for (const productToOrder of changes.productsToOrder?.currentValue || []) {
+		if (!changes.productsToOrders || !changes.productsToOrders.currentValue) {
+			return;
+		}
+
+		this.productsToOrdersByStatus = [];
+
+		for (const productToOrder of changes.productsToOrders.currentValue) {
 			this.formGroup.addControl(productToOrder.id, new FormControl(false));
+
+			const alreadyExist = this.productsToOrdersByStatus.find(
+				(productToOrderByStatus) => productToOrderByStatus.status === productToOrder.status
+			);
+
+			if (alreadyExist) {
+				alreadyExist.productsToOrders.push(productToOrder);
+			} else {
+				this.productsToOrdersByStatus.push({ status: productToOrder.status, productsToOrders: [productToOrder] });
+			}
 		}
 	}
 

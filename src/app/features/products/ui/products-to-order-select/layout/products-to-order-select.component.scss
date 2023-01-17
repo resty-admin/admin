@@ -4,18 +4,32 @@
 	.products-to-order-select {
 		display: grid;
 		row-gap: rem(12);
-		.product-to-order {
-			position: relative;
+		.products-to-order-by-status {
+			display: grid;
+			row-gap: rem(12);
+			.status {
+				font-weight: 500;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+			.products-to-order {
+				display: grid;
+				row-gap: rem(12);
+				.product-to-order {
+					position: relative;
 
-			.checkbox {
-				position: absolute;
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-				opacity: 0%;
-				&:checked ~ .product::ng-deep .product-to-order {
-					border-color: var(--primary);
+					.checkbox {
+						position: absolute;
+						left: 0;
+						top: 0;
+						width: 100%;
+						height: 100%;
+						opacity: 0%;
+						&:checked ~ .product::ng-deep .product-to-order {
+							border-color: var(--primary);
+						}
+					}
 				}
 			}
 		}

@@ -1,20 +1,15 @@
-<div class="accounting-system-dialog" *transloco="let t; read: formI18n">
+<div class="payment-system-dialog" *transloco="let t; read: formI18n">
 	<p appTypography theme="2" class="title">{{ t("add") }}</p>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
+			*ngFor="let field of fields"
 			class="input"
-			formControlName="publicKey"
-			[label]="t('public_key_label')"
-			[placeholder]="t('public_key_description')"
-		></app-input>
-		<app-input
-			class="input"
-			formControlName="privateKey"
-			[label]="t('private_key_label')"
-			[placeholder]="t('private_key_placeholder')"
+			[formControlName]="field"
+			[label]="field"
+			[placeholder]="field"
 		></app-input>
 
-		<button class="submit">{{ t("connect") }}</button>
+		<button appButton theme="1" class="submit">{{ t("connect") }}</button>
 	</form>
 </div>

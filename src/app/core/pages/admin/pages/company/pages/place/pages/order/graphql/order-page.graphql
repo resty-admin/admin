@@ -7,6 +7,11 @@ query OrderPage($orderId: String!) {
 		status
 		totalPrice
 		tableStatus
+		startDate
+		users {
+			id
+			name
+		}
 		table {
 			id
 			name

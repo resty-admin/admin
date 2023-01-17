@@ -18,6 +18,8 @@ export interface OrderPageQuery {
 		status: Types.OrderStatusEnum;
 		totalPrice?: number | null;
 		tableStatus: Types.TableStatusEnum;
+		startDate: any;
+		users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
 		table?: {
 			__typename?: "TableEntity";
 			id: string;
@@ -63,6 +65,11 @@ export const OrderPageDocument = gql`
 			status
 			totalPrice
 			tableStatus
+			startDate
+			users {
+				id
+				name
+			}
 			table {
 				id
 				name

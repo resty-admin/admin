@@ -1,7 +1,18 @@
 <ul class="products-to-order-select" [formGroup]="formGroup">
-	<li class="product-to-order" *ngFor="let productToOrder of productsToOrder; let i = index; trackBy: trackByFn">
-		<input class="checkbox" type="checkbox" [id]="'produtToOrder_' + i" [formControlName]="productToOrder.id" />
+	<li
+		class="products-to-order-by-status"
+		*ngFor="let productToOrderByStatus of productsToOrdersByStatus; trackBy: trackByFn"
+	>
+		<p class="status">{{ productToOrderByStatus.status }}</p>
+		<ul class="products-to-order">
+			<li
+				class="product-to-order"
+				*ngFor="let productToOrder of productToOrderByStatus.productsToOrders; let i = index; trackBy: trackByFn"
+			>
+				<input class="checkbox" type="checkbox" [id]="'produtToOrder_' + i" [formControlName]="productToOrder.id" />
 
-		<app-product-to-order class="product" [productToOrder]="productToOrder"></app-product-to-order>
+				<app-product-to-order class="product" [productToOrder]="productToOrder"></app-product-to-order>
+			</li>
+		</ul>
 	</li>
 </ul>

@@ -1,0 +1,5 @@
+mutation ConnectPaymentSystemToPlace($body: ConnectPaymentSystemToPlaceInput!) {
+	connectPaymentSystemToPlace(body: $body) {
+		id
+	}
+}

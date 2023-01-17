@@ -3,10 +3,11 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { StatusSelectModule } from "../../../../../../../../../features/orders/ui";
+import { OrderInfoModule, StatusSelectModule } from "../../../../../../../../../features/orders/ui";
 import { ProductToOrderSelectModule } from "../../../../../../../../../features/products/ui";
 import { ProductToOrderModule } from "../../../../../../../../../features/products/ui/product-to-order";
 import { PreviewTableModule } from "../../../../../../../../../features/tables/ui";
+import { UsersSelectModule } from "../../../../../../../../../features/users/ui/users-select/users-select.module";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ButtonModule } from "../../../../../../../../../shared/ui/button";
 import { IconModule } from "../../../../../../../../../shared/ui/icon";
@@ -29,7 +30,9 @@ import { ORDER_PROVIDERS } from "./providers";
 		ProductToOrderSelectModule,
 		StatusSelectModule,
 		PreviewTableModule,
-		ButtonModule
+		ButtonModule,
+		OrderInfoModule,
+		UsersSelectModule
 	],
 	providers: ORDER_PROVIDERS
 })

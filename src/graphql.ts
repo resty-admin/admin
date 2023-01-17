@@ -28,6 +28,7 @@ export interface AccountingSystemEntity {
 export interface ActiveOrderEntity {
 	__typename?: "ActiveOrderEntity";
 	code: Scalars["Int"];
+	comments?: Maybe<Scalars["String"]>;
 	createdAt: Scalars["DateTime"];
 	id: Scalars["String"];
 	orderNumber: Scalars["Int"];
@@ -44,6 +45,7 @@ export interface ActiveOrderEntity {
 
 export interface ActiveOrderEntityInput {
 	code: Scalars["Int"];
+	comments?: InputMaybe<Scalars["String"]>;
 	createdAt: Scalars["DateTime"];
 	orderNumber: Scalars["Int"];
 	place: PlaceEntityInput;
@@ -232,6 +234,7 @@ export interface CreateHallInput {
 }
 
 export interface CreateOrderInput {
+	comments?: InputMaybe<Scalars["String"]>;
 	place: Scalars["String"];
 	table?: InputMaybe<Scalars["String"]>;
 	type: OrderTypeEnum;
@@ -296,6 +299,11 @@ export interface FiltersArgsDto {
 	value: Scalars["String"];
 }
 
+export interface FondyLink {
+	__typename?: "FondyLink";
+	link: Scalars["String"];
+}
+
 export interface ForgotPasswordInput {
 	email: Scalars["String"];
 	tel: Scalars["String"];
@@ -332,6 +340,11 @@ export interface HistoryOrderEntity {
 	users: Scalars["JSONObject"][];
 }
 
+export interface IsTableAvailableInput {
+	date: Scalars["DateTime"];
+	tableId: Scalars["String"];
+}
+
 export interface LanguageEntity {
 	__typename?: "LanguageEntity";
 	file: FileEntity;
@@ -360,6 +373,7 @@ export interface Mutation {
 	createCompany: CompanyEntity;
 	createHall: HallEntity;
 	createOrder: ActiveOrderEntity;
+	createPaymentOrderLink: FondyLink;
 	createPaymentSystem: PaymentSystemEntity;
 	createPlace: PlaceEntity;
 	createProduct: ProductEntity;
@@ -405,6 +419,7 @@ export interface Mutation {
 	updateOrder: ActiveOrderEntity;
 	updatePaymentSystem: PaymentSystemEntity;
 	updatePlace: PlaceEntity;
+	updatePlaceVerification: Scalars["Boolean"];
 	updateProduct: ProductEntity;
 	updateShift: ActiveShiftEntity;
 	updateTable: TableEntity;
@@ -487,6 +502,10 @@ export interface MutationCreateHallArgs {
 
 export interface MutationCreateOrderArgs {
 	order: CreateOrderInput;
+}
+
+export interface MutationCreatePaymentOrderLinkArgs {
+	productsToOrders: Scalars["String"][];
 }
 
 export interface MutationCreatePaymentSystemArgs {
@@ -666,6 +685,11 @@ export interface MutationUpdatePlaceArgs {
 	place: UpdatePlaceInput;
 }
 
+export interface MutationUpdatePlaceVerificationArgs {
+	placeId: Scalars["String"];
+	status: PlaceVerificationStatusEnum;
+}
+
 export interface MutationUpdateProductArgs {
 	product: UpdateProductInput;
 }
@@ -834,6 +858,7 @@ export interface PlaceEntity {
 	orders?: Maybe<ActiveOrderEntity[]>;
 	paymentSystems?: Maybe<PlaceToPaymentSystemEntity[]>;
 	status: PlaceStatusEnum;
+	verificationStatus: PlaceVerificationStatusEnum;
 	weekDays: Scalars["String"];
 	weekendDays: Scalars["String"];
 }
@@ -854,6 +879,7 @@ export interface PlaceEntityInput {
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 	paymentSystems?: InputMaybe<PlaceToPaymentSystemEntityInput[]>;
 	status: PlaceStatusEnum;
+	verificationStatus: PlaceVerificationStatusEnum;
 	weekDays: Scalars["String"];
 	weekendDays: Scalars["String"];
 }
@@ -875,6 +901,11 @@ export interface PlaceToPaymentSystemEntityInput {
 	paymentSystem: PaymentSystemEntityInput;
 	place: PlaceEntityInput;
 	placeConfigFields?: InputMaybe<Scalars["JSONObject"]>;
+}
+
+export enum PlaceVerificationStatusEnum {
+	NotVerified = "NOT_VERIFIED",
+	Verified = "VERIFIED"
 }
 
 export interface ProductEntity {
@@ -954,6 +985,7 @@ export interface Query {
 	hall: HallEntity;
 	halls: PaginatedHall;
 	historyOrders: PaginatedHistoryOrder;
+	isTableAvailableForReserve: TableEntity;
 	language: LanguageEntity;
 	languages: LanguageEntity;
 	order: ActiveOrderEntity;
@@ -1051,6 +1083,10 @@ export interface QueryHistoryOrdersArgs {
 	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
 	skip?: InputMaybe<Scalars["Int"]>;
 	take?: InputMaybe<Scalars["Int"]>;
+}
+
+export interface QueryIsTableAvailableForReserveArgs {
+	body: IsTableAvailableInput;
 }
 
 export interface QueryLanguageArgs {
@@ -1346,7 +1382,7 @@ export enum UserRoleEnum {
 	Client = "CLIENT",
 	Hookah = "HOOKAH",
 	Hostess = "HOSTESS",
-	Root = "ROOT",
+	Manager = "MANAGER",
 	Waiter = "WAITER"
 }
 

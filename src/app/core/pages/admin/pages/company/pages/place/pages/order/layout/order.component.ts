@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { firstValueFrom, lastValueFrom, map, startWith, switchMap } from "rxjs";
+import { lastValueFrom, map, take, tap } from "rxjs";
 
 import { ProductToOrderStatusEnum } from "../../../../../../../../../../../graphql";
 import { ActionsService } from "../../../../../../../../../../features/app";
@@ -26,20 +26,9 @@ export class OrderComponent implements OnInit, OnDestroy {
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
 	readonly productsControl = new FormControl();
-	readonly statusControl = new FormControl<any>(ProductToOrderStatusEnum.Approved);
+	readonly usersControl = new FormControl<any>();
 	private readonly _orderPageQuery = this._orderPageGQL.watch();
 	readonly order$ = this._orderPageQuery.valueChanges.pipe(map((result) => result.data.order));
-
-	readonly table$ = this.order$.pipe(map((order) => ({ ...order.table, tableStatus: order.tableStatus } as any)));
-
-	readonly productsToOrders$ = this.order$.pipe(
-		switchMap((order) =>
-			this.statusControl.valueChanges.pipe(
-				startWith(this.statusControl.value),
-				map((status) => (order.productsToOrders || []).filter((usersToOrder) => usersToOrder.status === status))
-			)
-		)
-	);
 
 	constructor(
 		private readonly _orderPageGQL: OrderPageGQL,
@@ -61,6 +50,26 @@ export class OrderComponent implements OnInit, OnDestroy {
 		await lastValueFrom(this._ordersService.rejectTableInOrder(orderId));
 	}
 
+	async approveProductsInOrder() {
+		const productsToOrdersIds = Object.entries(this.productsControl.value || {})
+			.filter(([_, value]) => value)
+			.map(([key]) => key);
+
+		await lastValueFrom(this._ordersService.approveProductsInOrder(productsToOrdersIds));
+
+		await this._orderPageQuery.refetch();
+	}
+
+	async rejectProductsInOrder() {
+		const productsToOrdersIds = Object.entries(this.productsControl.value || {})
+			.filter(([_, value]) => value)
+			.map(([key]) => key);
+
+		await lastValueFrom(this._ordersService.rejectProductsInOrder(productsToOrdersIds));
+
+		await this._orderPageQuery.refetch();
+	}
+
 	trackByFn(index: number) {
 		return index;
 	}
@@ -74,46 +83,41 @@ export class OrderComponent implements OnInit, OnDestroy {
 
 		this._ordersService.setActiveOrderId(orderId);
 
-		this.statusControl.valueChanges.pipe(untilDestroyed(this)).subscribe((status) => {
-			if (status === ProductToOrderStatusEnum.Approved) {
-				this._actionsService.setAction({
-					label: "Подтвердить оплату",
-					func: async () => {
-						const productsToApprove = Object.entries(this.productsControl.value as any)
-							.filter(([_, value]) => value)
-							.map(([key]) => key);
+		this.usersControl.valueChanges
+			.pipe(
+				untilDestroyed(this),
+				tap(async (users) => {
+					const order = await lastValueFrom(this.order$.pipe(take(1)));
+					const productsByUser = Object.keys(this.productsControl.value || {}).reduce(
+						(productsMap, id) => ({
+							...productsMap,
+							[id]: (users || []).includes(
+								(order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id
+							)
+						}),
+						{}
+					);
 
-						try {
-							await firstValueFrom(this._ordersService.setPaidStatusForProductsInOrder(productsToApprove));
-
-							await this._orderPageQuery.refetch();
-						} catch (error) {
-							console.error(error);
-						}
-					}
-				});
-			} else {
-				this._actionsService.setAction({
-					label: "Подтвердить блюда",
-					func: async () => {
-						const productsToApprove = Object.entries(this.productsControl.value as any)
-							.filter(([_, value]) => value)
-							.map(([key]) => key);
-
-						try {
-							await firstValueFrom(this._ordersService.approveProductsInOrder(productsToApprove));
-
-							await this._orderPageQuery.refetch();
-						} catch (error) {
-							console.error(error);
-						}
-					}
-				});
-			}
-		});
+					this.productsControl.patchValue(productsByUser);
+				})
+			)
+			.subscribe();
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: ADMIN_ROUTES.ORDERS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+		});
+
+		this._actionsService.setAction({
+			label: "Подтвердить оплату",
+			func: async () => {
+				const productsToOrdersIds = Object.entries(this.productsControl.value || {})
+					.filter(([_, value]) => value)
+					.map(([key]) => key);
+
+				await lastValueFrom(this._ordersService.setPaidStatusForProductsInOrder(productsToOrdersIds));
+
+				await this._orderPageQuery.refetch();
+			}
 		});
 
 		await this._orderPageQuery.setVariables({ orderId });

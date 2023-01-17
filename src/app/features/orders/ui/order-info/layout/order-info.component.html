@@ -1,0 +1,14 @@
+<div class="order-info">
+	<p class="table-status" *ngIf="tableStatus">{{ tableStatus }}</p>
+
+	<ul class="links">
+		<li class="table" *ngIf="tableInfo">
+			<span class="name">Стол: </span>
+			<span class="link">{{ tableInfo }}</span>
+		</li>
+		<li class="date" *ngIf="dateInfo">
+			<span class="name">Дата: </span>
+			<span class="link" href="">{{ dateInfo }}</span>
+		</li>
+	</ul>
+</div>

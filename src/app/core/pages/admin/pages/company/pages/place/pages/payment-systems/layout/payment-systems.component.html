@@ -7,5 +7,7 @@
 </div>
 
 <ng-template let-item #paymentSystemTempalte>
-	<app-payment-system [paymentSystem]="item"></app-payment-system>
+	<button class="button" (click)="openPaymentSystemDialog(item)">
+		<app-payment-system [paymentSystem]="item"></app-payment-system>
+	</button>
 </ng-template>

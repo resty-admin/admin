@@ -1,14 +1,13 @@
 <div class="product-to-order" [class.active]="isActive" *ngIf="productToOrder">
-	<app-image class="image" placeholder="product" [remote]="true" [name]="productToOrder.product.file?.url"></app-image>
 	<p class="title">{{ productToOrder.product.name }}</p>
-	<p class="description">{{ productToOrder.product.description }}</p>
 
-	<app-icon
-		class="icon"
-		[name]="productToOrder.paidStatus === productToOrderPaidStatus.Paid ? 'paid' : 'not-paid'"
-	></app-icon>
-
-	<hr class="divider" />
+	<div class="paid-status">
+		<p class="waiting" *ngIf="productToOrder.paidStatus === productToOrderPaidStatus.Waiting">Ожидает оплаты</p>
+		<app-icon
+			class="icon"
+			[name]="productToOrder.paidStatus === productToOrderPaidStatus.Paid ? 'paid' : 'not-paid'"
+		></app-icon>
+	</div>
 
 	<p class="user">{{ productToOrder.user?.name }}</p>
 	<p class="count">{{ productToOrder.count }}x</p>

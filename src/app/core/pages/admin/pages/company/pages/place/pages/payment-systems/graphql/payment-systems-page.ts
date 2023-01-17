@@ -15,7 +15,7 @@ export interface PaymentSystemsPageQuery {
 		__typename?: "PaginatedPaymentSystem";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "PaymentSystemEntity"; id: string; name: string }[] | null;
+		data?: { __typename?: "PaymentSystemEntity"; id: string; name: string; configFields?: any | null }[] | null;
 	};
 }
 
@@ -27,6 +27,7 @@ export const PaymentSystemsPageDocument = gql`
 			data {
 				id
 				name
+				configFields
 			}
 		}
 	}
