@@ -7,6 +7,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { TableModule } from "../../../../../../../../../features/tables";
 import { TableDialogModule } from "../../../../../../../../../features/tables/ui/table-dialog/table-dialog.module";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
@@ -15,13 +16,12 @@ import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
 import { QrCodeModule } from "../../../../../../../../../shared/ui/qr-code";
 import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
-import { TABLES_COMPONENTS } from "./components";
 import { TablesComponent } from "./layout/tables.component";
 import { TABLES_PROVIDERS } from "./providers";
 import { TablesRoutingModule } from "./tables-routing.module";
 
 @NgModule({
-	declarations: [TablesComponent, ...TABLES_COMPONENTS],
+	declarations: [TablesComponent],
 	imports: [
 		CommonModule,
 		TablesRoutingModule,
@@ -38,7 +38,8 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		FiltersModule,
 		ListModule,
 		TableDialogModule,
-		QrCodeModule
+		QrCodeModule,
+		TableModule
 	],
 	providers: TABLES_PROVIDERS
 })

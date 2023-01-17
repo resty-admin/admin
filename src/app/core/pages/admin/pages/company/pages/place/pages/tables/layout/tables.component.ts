@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
 import { map, take } from "rxjs";
-import { TablesService } from "src/app/features/tables";
+import { TableQrCodeDialogComponent, TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
 
 import type { TableEntity } from "../../../../../../../../../../../graphql";
@@ -11,7 +11,6 @@ import { ActionsService } from "../../../../../../../../../../features/app";
 import { ADMIN_ROUTES, COMPANY_ID, HALL_ID, PLACE_ID } from "../../../../../../../../../../shared/constants";
 import { BreadcrumbsService } from "../../../../../../../../../../shared/modules/breadcrumbs";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { TableQrCodeDialogComponent } from "../components";
 import { TABLES_PAGE_I18N } from "../constants";
 import { TablesPageGQL } from "../graphql/tables-page";
 

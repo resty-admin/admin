@@ -8,17 +8,17 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { PaymentSystemModule } from "../../../../../../../../../features/payment-systems";
 import { PaymentSystemDialogModule } from "../../../../../../../../../features/payment-systems/ui/payment-system-dialog/payment-system-dialog.module";
 import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
 import { ListModule } from "../../../../../../../../../shared/ui/list";
-import { PAYMENT_SYSTEMS_COMPONENTS } from "./components";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 import { PAYMENT_SYSTEMS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [PaymentSystemsComponent, ...PAYMENT_SYSTEMS_COMPONENTS],
+	declarations: [PaymentSystemsComponent],
 	imports: [
 		CommonModule,
 		PaymentSystemsRoutingModule,
@@ -32,7 +32,8 @@ import { PAYMENT_SYSTEMS_PROVIDERS } from "./providers";
 		TranslocoModule,
 		ListModule,
 		FiltersModule,
-		PaymentSystemDialogModule
+		PaymentSystemDialogModule,
+		PaymentSystemModule
 	],
 	providers: PAYMENT_SYSTEMS_PROVIDERS
 })

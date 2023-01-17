@@ -8,14 +8,15 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
+import { HallsSelectModule } from "../../../../../../../../../features/halls";
+import { SelectedTablesModule, TablesSelectModule } from "../../../../../../../../../features/tables";
 import { I18nModule } from "../../../../../../../../../shared/modules/i18n";
-import { SHIFT_COMPONENTS } from "./components";
 import { ShiftComponent } from "./layout/shift.component";
 import { SHIFT_PROVIDERS } from "./providers";
 import { ShiftRoutingModule } from "./shift-routing.module";
 
 @NgModule({
-	declarations: [ShiftComponent, ...SHIFT_COMPONENTS],
+	declarations: [ShiftComponent],
 	imports: [
 		CommonModule,
 		ShiftRoutingModule,
@@ -26,7 +27,10 @@ import { ShiftRoutingModule } from "./shift-routing.module";
 		ButtonModule,
 		ImageModule,
 		IconModule,
-		I18nModule
+		I18nModule,
+		SelectedTablesModule,
+		TablesSelectModule,
+		HallsSelectModule
 	],
 	providers: SHIFT_PROVIDERS
 })
