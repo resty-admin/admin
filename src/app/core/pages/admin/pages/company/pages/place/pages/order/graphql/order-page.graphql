@@ -6,14 +6,20 @@ query OrderPage($orderId: String!) {
 		code
 		status
 		totalPrice
+		tableStatus
 		table {
 			id
 			name
+			hall {
+				id
+				name
+			}
 		}
-		usersToOrders {
+		productsToOrders {
 			id
 			count
 			status
+			paidStatus
 			product {
 				id
 				name

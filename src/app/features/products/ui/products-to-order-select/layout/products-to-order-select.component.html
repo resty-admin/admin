@@ -1,7 +1,7 @@
-<ul class="products-select" [formGroup]="formGroup">
+<ul class="products-to-order-select" [formGroup]="formGroup">
 	<li class="product-to-order" *ngFor="let productToOrder of productsToOrder; let i = index; trackBy: trackByFn">
 		<input class="checkbox" type="checkbox" [id]="'produtToOrder_' + i" [formControlName]="productToOrder.id" />
 
-		<app-product-to-order class="product" [userToOrder]="productToOrder"></app-product-to-order>
+		<app-product-to-order class="product" [productToOrder]="productToOrder"></app-product-to-order>
 	</li>
 </ul>

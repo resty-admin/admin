@@ -8,7 +8,16 @@ import type { AtLeast } from "../../../../shared/interfaces";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
-import { CreateOrderGQL, DeleteOrderGQL, UpdateOrderGQL } from "../../graphql/orders";
+import {
+	ApproveProductsInOrderGQL,
+	ApproveTableInOrderGQL,
+	CreateOrderGQL,
+	DeleteOrderGQL,
+	RejectProductsInOrderGQL,
+	RejectTableInOrderGQL,
+	SetPaidStatusForProductsInOrderGQL,
+	UpdateOrderGQL
+} from "../../graphql/orders";
 import { OrdersRepository } from "../../repositories";
 import { OrderDialogComponent } from "../../ui/order-dialog/layout/order-dialog.component";
 
@@ -37,7 +46,12 @@ export class OrdersService {
 		private readonly _createOrderGQL: CreateOrderGQL,
 		private readonly _updateOrderGQL: UpdateOrderGQL,
 		private readonly _deleteOrderGQL: DeleteOrderGQL,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _approveProductsInOrderGQL: ApproveProductsInOrderGQL,
+		private readonly _rejectProductsInOrderGQL: RejectProductsInOrderGQL,
+		private readonly _approveTableInOrderGQL: ApproveTableInOrderGQL,
+		private readonly _rejectTableInOrderGQL: RejectTableInOrderGQL,
+		private readonly _setPaidStatusForProductsInOrderGQL: SetPaidStatusForProductsInOrderGQL
 	) {}
 
 	setActiveOrderId(orderId?: string) {
@@ -84,5 +98,25 @@ export class OrdersService {
 
 	deleteOrder(orderId: string) {
 		return this._deleteOrderGQL.mutate({ orderId }).pipe(this._emitChanges(ChangesEnum.DELETE));
+	}
+
+	approveProductsInOrder(productToOrderIds: string[]) {
+		return this._approveProductsInOrderGQL.mutate({ productToOrderIds });
+	}
+
+	rejectProductsInOrder(productToOrderIds: string[]) {
+		return this._rejectProductsInOrderGQL.mutate({ productToOrderIds });
+	}
+
+	approveTableInOrder(orderId: string) {
+		return this._approveTableInOrderGQL.mutate({ orderId });
+	}
+
+	rejectTableInOrder(orderId: string) {
+		return this._rejectTableInOrderGQL.mutate({ orderId });
+	}
+
+	setPaidStatusForProductsInOrder(productToOrderIds: string[]) {
+		return this._setPaidStatusForProductsInOrderGQL.mutate({ productToOrderIds });
 	}
 }

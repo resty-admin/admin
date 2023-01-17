@@ -13,3 +13,33 @@ mutation UpdateOrder($order: UpdateOrderInput!) {
 mutation DeleteOrder($orderId: String!) {
 	deleteOrder(orderId: $orderId)
 }
+
+mutation ApproveProductsInOrder($productToOrderIds: [String!]!) {
+	approveProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}
+
+mutation RejectProductsInOrder($productToOrderIds: [String!]!) {
+	rejectProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}
+
+mutation ApproveTableInOrder($orderId: String!) {
+	approveTableInOrder(orderId: $orderId) {
+		id
+	}
+}
+
+mutation RejectTableInOrder($orderId: String!) {
+	rejectTableInOrder(orderId: $orderId) {
+		id
+	}
+}
+
+mutation SetPaidStatusForProductsInOrder($productToOrderIds: [String!]!) {
+	setPaidStatusForProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}

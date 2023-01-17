@@ -17,13 +17,20 @@ export interface OrderPageQuery {
 		code: number;
 		status: Types.OrderStatusEnum;
 		totalPrice?: number | null;
-		table?: { __typename?: "TableEntity"; id: string; name: string } | null;
-		usersToOrders?:
+		tableStatus: Types.TableStatusEnum;
+		table?: {
+			__typename?: "TableEntity";
+			id: string;
+			name: string;
+			hall: { __typename?: "HallEntity"; id: string; name: string };
+		} | null;
+		productsToOrders?:
 			| {
-					__typename?: "UserToOrderEntity";
+					__typename?: "ProductToOrderEntity";
 					id: string;
 					count: number;
 					status: Types.ProductToOrderStatusEnum;
+					paidStatus: Types.ProductToOrderPaidStatusEnum;
 					product: {
 						__typename?: "ProductEntity";
 						id: string;
@@ -55,14 +62,20 @@ export const OrderPageDocument = gql`
 			code
 			status
 			totalPrice
+			tableStatus
 			table {
 				id
 				name
+				hall {
+					id
+					name
+				}
 			}
-			usersToOrders {
+			productsToOrders {
 				id
 				count
 				status
+				paidStatus
 				product {
 					id
 					name

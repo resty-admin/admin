@@ -5,7 +5,7 @@ import type { ControlValueAccessor } from "@ngneat/reactive-forms";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
-import { getControlValueAccessorProviders } from "../../../../../../../../../../../shared/functions";
+import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 
 @UntilDestroy()
 @Component({

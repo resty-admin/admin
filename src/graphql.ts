@@ -28,27 +28,33 @@ export interface AccountingSystemEntity {
 export interface ActiveOrderEntity {
 	__typename?: "ActiveOrderEntity";
 	code: Scalars["Int"];
+	createdAt: Scalars["DateTime"];
 	id: Scalars["String"];
 	orderNumber: Scalars["Int"];
 	place: PlaceEntity;
+	productsToOrders?: Maybe<ProductToOrderEntity[]>;
+	startDate: Scalars["DateTime"];
 	status: OrderStatusEnum;
 	table?: Maybe<TableEntity>;
+	tableStatus: TableStatusEnum;
 	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users?: Maybe<UserEntity[]>;
-	usersToOrders?: Maybe<UserToOrderEntity[]>;
 }
 
 export interface ActiveOrderEntityInput {
 	code: Scalars["Int"];
+	createdAt: Scalars["DateTime"];
 	orderNumber: Scalars["Int"];
 	place: PlaceEntityInput;
+	productsToOrders?: InputMaybe<ProductToOrderEntityInput[]>;
+	startDate: Scalars["DateTime"];
 	status: OrderStatusEnum;
 	table?: InputMaybe<TableEntityInput>;
+	tableStatus: TableStatusEnum;
 	totalPrice?: InputMaybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users?: InputMaybe<UserEntityInput[]>;
-	usersToOrders?: InputMaybe<UserToOrderEntityInput[]>;
 }
 
 export interface ActiveShiftEntity {
@@ -318,12 +324,12 @@ export interface HistoryOrderEntity {
 	id: Scalars["String"];
 	orderNumber: Scalars["Int"];
 	place: PlaceEntity;
+	productsToOrders: Scalars["JSONObject"][];
 	status: OrderStatusEnum;
 	table?: Maybe<Scalars["JSONObject"]>;
 	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users: Scalars["JSONObject"][];
-	usersToOrders: Scalars["JSONObject"][];
 }
 
 export interface LanguageEntity {
@@ -339,8 +345,12 @@ export interface Mutation {
 	addProductToOrder: ActiveOrderEntity;
 	addTableToOrder: ActiveOrderEntity;
 	addUserToOrder: ActiveOrderEntity;
+	approveProductsInOrder: ProductToOrderEntity[];
+	approveTableInOrder: ActiveOrderEntity;
+	cancelOrder: Scalars["String"];
 	closeOrder: Scalars["String"];
 	closeShift: Scalars["String"];
+	confirmOrder: ActiveOrderEntity;
 	connectPaymentSystemToPlace: PlaceToPaymentSystemEntity;
 	createAccountingSystem: AccountingSystemEntity;
 	createAttr: AttributesEntity;
@@ -373,10 +383,14 @@ export interface Mutation {
 	deleteUser: Scalars["String"];
 	forgotPassword: Scalars["String"];
 	getTableByCode: TableEntity;
+	rejectProductsInOrder: ProductToOrderEntity[];
+	rejectTableInOrder: ActiveOrderEntity;
 	removeEmployeeFromPlace: PlaceEntity;
 	removeProductFromOrder: ActiveOrderEntity;
 	removeTableFromOrder: ActiveOrderEntity;
 	resetPassword: AccessToken;
+	setManualPayForProductsInOrder: ProductToOrderEntity[];
+	setPaidStatusForProductsInOrder: ProductToOrderEntity[];
 	signIn: AccessToken;
 	signUp: AccessToken;
 	telegram: AccessToken;
@@ -389,14 +403,12 @@ export interface Mutation {
 	updateHall: HallEntity;
 	updateMe: UserEntity;
 	updateOrder: ActiveOrderEntity;
-	updateOrderStatus: ActiveOrderEntity;
 	updatePaymentSystem: PaymentSystemEntity;
 	updatePlace: PlaceEntity;
 	updateProduct: ProductEntity;
 	updateShift: ActiveShiftEntity;
 	updateTable: TableEntity;
 	updateUser: UserEntity;
-	updateUserProductToOrderStatus: UserToOrderEntity;
 	verifyCode: AccessToken;
 }
 
@@ -417,12 +429,28 @@ export interface MutationAddUserToOrderArgs {
 	code: Scalars["Int"];
 }
 
+export interface MutationApproveProductsInOrderArgs {
+	productToOrderIds: Scalars["String"][];
+}
+
+export interface MutationApproveTableInOrderArgs {
+	orderId: Scalars["String"];
+}
+
+export interface MutationCancelOrderArgs {
+	orderId: Scalars["String"];
+}
+
 export interface MutationCloseOrderArgs {
 	orderId: Scalars["String"];
 }
 
 export interface MutationCloseShiftArgs {
 	shiftId: Scalars["String"];
+}
+
+export interface MutationConfirmOrderArgs {
+	orderId: Scalars["String"];
 }
 
 export interface MutationConnectPaymentSystemToPlaceArgs {
@@ -550,6 +578,14 @@ export interface MutationGetTableByCodeArgs {
 	placeId: Scalars["String"];
 }
 
+export interface MutationRejectProductsInOrderArgs {
+	productToOrderIds: Scalars["String"][];
+}
+
+export interface MutationRejectTableInOrderArgs {
+	orderId: Scalars["String"];
+}
+
 export interface MutationRemoveEmployeeFromPlaceArgs {
 	employeeData: AddEmployeeInput;
 }
@@ -564,6 +600,14 @@ export interface MutationRemoveTableFromOrderArgs {
 
 export interface MutationResetPasswordArgs {
 	body: ResetPasswordInput;
+}
+
+export interface MutationSetManualPayForProductsInOrderArgs {
+	productToOrderIds: Scalars["String"][];
+}
+
+export interface MutationSetPaidStatusForProductsInOrderArgs {
+	productToOrderIds: Scalars["String"][];
 }
 
 export interface MutationSignInArgs {
@@ -614,11 +658,6 @@ export interface MutationUpdateOrderArgs {
 	order: UpdateOrderInput;
 }
 
-export interface MutationUpdateOrderStatusArgs {
-	orderId: Scalars["String"];
-	status: OrderStatusEnum;
-}
-
 export interface MutationUpdatePaymentSystemArgs {
 	paymentSystem: UpdatePaymentSystemInput;
 }
@@ -643,20 +682,14 @@ export interface MutationUpdateUserArgs {
 	user: UpdateUserInput;
 }
 
-export interface MutationUpdateUserProductToOrderStatusArgs {
-	productStatus: ProductToOrderStatusEnum;
-	userToOrderId: Scalars["String"];
-}
-
 export interface MutationVerifyCodeArgs {
 	code: Scalars["Int"];
 }
 
 export enum OrderStatusEnum {
+	Cancel = "CANCEL",
 	Closed = "CLOSED",
-	Opened = "OPENED",
-	Paid = "PAID",
-	Unpaid = "UNPAID"
+	Created = "CREATED"
 }
 
 export enum OrderTypeEnum {
@@ -866,12 +899,39 @@ export interface ProductEntityInput {
 	price: Scalars["Int"];
 }
 
+export interface ProductToOrderEntity {
+	__typename?: "ProductToOrderEntity";
+	attributes?: Maybe<AttributesEntity[]>;
+	count: Scalars["Int"];
+	id: Scalars["String"];
+	order: ActiveOrderEntity;
+	paidStatus: ProductToOrderPaidStatusEnum;
+	product: ProductEntity;
+	status: ProductToOrderStatusEnum;
+	user: UserEntity;
+}
+
+export interface ProductToOrderEntityInput {
+	attributes?: InputMaybe<AttributesEntityInput[]>;
+	count: Scalars["Int"];
+	order: ActiveOrderEntityInput;
+	paidStatus: ProductToOrderPaidStatusEnum;
+	product: ProductEntityInput;
+	status: ProductToOrderStatusEnum;
+	user: UserEntityInput;
+}
+
+export enum ProductToOrderPaidStatusEnum {
+	NotPaid = "NOT_PAID",
+	Paid = "PAID",
+	Waiting = "WAITING"
+}
+
 export enum ProductToOrderStatusEnum {
 	Added = "ADDED",
-	Confirmed = "CONFIRMED",
-	Paid = "PAID",
-	RequestedToConfirm = "REQUESTED_TO_CONFIRM",
-	RequestedToPay = "REQUESTED_TO_PAY"
+	Approved = "APPROVED",
+	Rejected = "REJECTED",
+	WaitingForApprove = "WAITING_FOR_APPROVE"
 }
 
 export interface Query {
@@ -1116,6 +1176,13 @@ export interface TableEntityInput {
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 }
 
+export enum TableStatusEnum {
+	Approved = "APPROVED",
+	Empty = "EMPTY",
+	Rejected = "REJECTED",
+	WaitingForApprove = "WAITING_FOR_APPROVE"
+}
+
 export interface TelegramUserInput {
 	added_to_attachment_menu?: InputMaybe<Scalars["Boolean"]>;
 	first_name: Scalars["String"];
@@ -1286,28 +1353,6 @@ export enum UserRoleEnum {
 export enum UserStatusEnum {
 	NotVerified = "NOT_VERIFIED",
 	Verified = "VERIFIED"
-}
-
-export interface UserToOrderEntity {
-	__typename?: "UserToOrderEntity";
-	attributes?: Maybe<AttributesEntity[]>;
-	count: Scalars["Int"];
-	id: Scalars["String"];
-	order: ActiveOrderEntity;
-	paymentLink?: Maybe<Scalars["String"]>;
-	product: ProductEntity;
-	status: ProductToOrderStatusEnum;
-	user: UserEntity;
-}
-
-export interface UserToOrderEntityInput {
-	attributes?: InputMaybe<AttributesEntityInput[]>;
-	count: Scalars["Int"];
-	order: ActiveOrderEntityInput;
-	paymentLink?: InputMaybe<Scalars["String"]>;
-	product: ProductEntityInput;
-	status: ProductToOrderStatusEnum;
-	user: UserEntityInput;
 }
 
 export interface WorkingHoursInput {

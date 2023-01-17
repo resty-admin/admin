@@ -1,9 +1,13 @@
 <div class="order-page" *transloco="let t; read: orderPageI18n">
+	<app-preview-table *ngIf="table$ | async as table" [table]="table"></app-preview-table>
+
+	<button appButton theme="1" (click)="approveTableInOrder()">Подтвердить стол</button>
+
 	<app-status-select class="status-select" [statuses]="statuses" [formControl]="statusControl"></app-status-select>
 
-	<app-products-select
+	<app-products-to-order-select
 		class="products-select"
 		[productsToOrder]="productsToOrders$ | async"
 		[formControl]="productsControl"
-	></app-products-select>
+	></app-products-to-order-select>
 </div>

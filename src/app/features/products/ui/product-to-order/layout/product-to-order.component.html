@@ -1,13 +1,16 @@
-<div class="product-to-order" [class.active]="isActive" *ngIf="userToOrder">
-	<app-image class="image" placeholder="product" [remote]="true" [name]="userToOrder.product.file?.url"></app-image>
-	<p class="title">{{ userToOrder.product.name }}</p>
-	<p class="description">{{ userToOrder.product.description }}</p>
+<div class="product-to-order" [class.active]="isActive" *ngIf="productToOrder">
+	<app-image class="image" placeholder="product" [remote]="true" [name]="productToOrder.product.file?.url"></app-image>
+	<p class="title">{{ productToOrder.product.name }}</p>
+	<p class="description">{{ productToOrder.product.description }}</p>
 
-	<app-icon class="icon" [name]="userToOrder.status === productToOrderStatus.Paid ? 'paid' : 'not-paid'"></app-icon>
+	<app-icon
+		class="icon"
+		[name]="productToOrder.paidStatus === productToOrderPaidStatus.Paid ? 'paid' : 'not-paid'"
+	></app-icon>
 
 	<hr class="divider" />
 
-	<p class="user">{{ userToOrder.user?.name }}</p>
-	<p class="count">{{ userToOrder.count }}x</p>
-	<p class="price">{{ userToOrder.product.price }} грн</p>
+	<p class="user">{{ productToOrder.user?.name }}</p>
+	<p class="count">{{ productToOrder.count }}x</p>
+	<p class="price">{{ productToOrder.product.price }} грн</p>
 </div>
