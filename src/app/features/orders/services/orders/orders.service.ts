@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 import { ChangesEnum } from "src/app/shared/enums";
 
 import type { ActiveOrderEntity, CreateOrderInput, UpdateOrderInput } from "../../../../../graphql";
@@ -27,12 +27,12 @@ export class OrdersService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (order) => this.openUpdateOrderDialog(order).pipe(take(1)).subscribe()
+			func: (order) => this.openUpdateOrderDialog(order)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (order) => this.openDeleteOrderDialog(order).pipe(take(1)).subscribe()
+			func: (order) => this.openDeleteOrderDialog(order)
 		}
 	];
 
@@ -62,30 +62,40 @@ export class OrdersService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateOrderDialog(data: AtLeast<CreateOrderInput, "place">) {
-		return this._dialogService.open(OrderDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((order) => Boolean(order)),
-			switchMap((order: ActiveOrderEntity) => this.createOrder({ place: data.place, type: order.type }))
+	async openCreateOrderDialog(data: AtLeast<CreateOrderInput, "place">) {
+		const order: ActiveOrderEntity = await lastValueFrom(
+			this._dialogService.open(OrderDialogComponent, { data }).afterClosed$
 		);
+
+		if (!order) {
+			return;
+		}
+
+		await lastValueFrom(this.createOrder({ place: data.place, type: order.type }));
 	}
 
-	openUpdateOrderDialog(data: AtLeast<ActiveOrderEntity, "id">) {
-		return this._dialogService.open(OrderDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((activeOrder) => Boolean(activeOrder)),
-			switchMap((order: ActiveOrderEntity) => this.updateOrder({ id: order.id, type: order.type }))
+	async openUpdateOrderDialog(data: AtLeast<ActiveOrderEntity, "id">) {
+		const order: ActiveOrderEntity = await lastValueFrom(
+			this._dialogService.open(OrderDialogComponent, { data }).afterClosed$
 		);
+
+		if (!order) {
+			return;
+		}
+
+		await lastValueFrom(this.updateOrder({ id: order.id, type: order.type }));
 	}
 
-	openDeleteOrderDialog(value: AtLeast<ActiveOrderEntity, "id">) {
+	async openDeleteOrderDialog(value: AtLeast<ActiveOrderEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить заказ?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((order) => Boolean(order)),
-			switchMap((order) => this.deleteOrder(order.id))
-		);
+		const order = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!order) {
+			return;
+		}
+
+		await lastValueFrom(this.deleteOrder(order.id));
 	}
 
 	createOrder(order: CreateOrderInput) {

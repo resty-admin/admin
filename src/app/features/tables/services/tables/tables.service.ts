@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 
 import type { CreateTableInput, UpdateTableInput } from "../../../../../graphql";
 import type { TableEntity } from "../../../../../graphql";
@@ -18,12 +18,12 @@ export class TablesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (table) => this.openUpdateTableDialog(table).pipe(take(1)).subscribe()
+			func: (table) => this.openUpdateTableDialog(table)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (table) => this.openDeleteTableDialog(table).pipe(take(1)).subscribe()
+			func: (table) => this.openDeleteTableDialog(table)
 		}
 	];
 
@@ -41,34 +41,42 @@ export class TablesService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateTableDialog(data: AtLeast<CreateTableInput, "hall">) {
-		return this._dialogService.open(TableDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((table) => Boolean(table)),
-			switchMap((table: TableEntity) =>
-				this.createTable({ name: table.name, hall: data.hall, file: table.file?.id, code: table.code })
-			)
+	async openCreateTableDialog(data: AtLeast<CreateTableInput, "hall">) {
+		const table: TableEntity = await lastValueFrom(
+			this._dialogService.open(TableDialogComponent, { data }).afterClosed$
+		);
+
+		if (!table) {
+			return;
+		}
+
+		await lastValueFrom(
+			this.createTable({ name: table.name, hall: data.hall, file: table.file?.id, code: table.code })
 		);
 	}
 
-	openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {
-		return this._dialogService.open(TableDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((table) => Boolean(table)),
-			switchMap((table: TableEntity) =>
-				this.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
-			)
+	async openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {
+		const table: TableEntity = await lastValueFrom(
+			this._dialogService.open(TableDialogComponent, { data }).afterClosed$
 		);
+
+		if (!table) {
+			return;
+		}
+
+		await this.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id });
 	}
 
-	openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
+	async openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить стол?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((table) => Boolean(table)),
-			switchMap((table) => this.deleteTable(table.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(this.deleteTable(value.id));
 	}
 
 	createTable(table: CreateTableInput) {

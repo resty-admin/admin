@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 
 import type { CategoryEntity, CreateCategoryInput, PlaceEntity, UpdateCategoryInput } from "../../../../../graphql";
 import { ChangesEnum } from "../../../../shared/enums";
@@ -17,12 +17,12 @@ export class CategoriesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (category) => this.openUpdateCategoryDialog(category).pipe(take(1)).subscribe()
+			func: (category) => this.openUpdateCategoryDialog(category)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (category) => this.openDeleteCategoryDialog(category).pipe(take(1)).subscribe()
+			func: (category) => this.openDeleteCategoryDialog(category)
 		}
 	];
 
@@ -40,34 +40,40 @@ export class CategoriesService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateCategoryDialog(data: AtLeast<CreateCategoryInput, "place">) {
-		return this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((category) => Boolean(category)),
-			switchMap((category: CategoryEntity) =>
-				this.createCategory({ name: category.name, place: data.place, file: category.file?.id })
-			)
+	async openCreateCategoryDialog(data: AtLeast<CreateCategoryInput, "place">) {
+		const category: CategoryEntity = await lastValueFrom(
+			this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$
 		);
+
+		if (!category) {
+			return;
+		}
+
+		return this.createCategory({ name: category.name, place: data.place, file: category.file?.id });
 	}
 
-	openUpdateCategoryDialog(data: AtLeast<CategoryEntity, "id">) {
-		return this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((category) => Boolean(category)),
-			switchMap((category: PlaceEntity) =>
-				this.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
-			)
+	async openUpdateCategoryDialog(data: AtLeast<CategoryEntity, "id">) {
+		const category: PlaceEntity = await lastValueFrom(
+			this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$
 		);
+
+		if (!category) {
+			return;
+		}
+
+		return this.updateCategory({ id: category.id, name: category.name, file: category.file?.id });
 	}
 
-	openDeleteCategoryDialog(value: AtLeast<CategoryEntity, "id">) {
+	async openDeleteCategoryDialog(value: AtLeast<CategoryEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить категорию?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((category) => Boolean(category)),
-			switchMap((category) => this.deleteCategory(category.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		return this.deleteCategory(value.id);
 	}
 
 	createCategory(category: CreateCategoryInput) {

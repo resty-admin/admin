@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, lastValueFrom } from "rxjs";
 
 import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
@@ -46,12 +46,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	updateMe(formValue: any) {
-		this._authService.updateMe(formValue).subscribe();
+	async updateMe(formValue: any) {
+		await lastValueFrom(this._authService.updateMe(formValue));
 	}
 
-	deleteMe() {
-		this._authService.deleteMe().subscribe();
+	async deleteMe() {
+		await lastValueFrom(this._authService.deleteMe());
 	}
 
 	ngOnDestroy() {

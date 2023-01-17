@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, map, switchMap, take } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 import { ShiftsService } from "src/app/features/shift";
 
 import { HallsService } from "../../../../../../../../../../features/halls";
@@ -29,6 +29,7 @@ export class ShiftComponent implements OnInit {
 	readonly tables$ = this.shiftPage$.pipe(map((result) => result.data.tables.data));
 
 	readonly halls$ = this.shiftPage$.pipe(map((result) => result.data.halls.data));
+	readonly activeShift$ = this.shiftPage$.pipe(map((result) => result.data.activeShift));
 
 	readonly activeShiftGroup = this._formBuilder.group<any>({
 		id: "",
@@ -52,39 +53,33 @@ export class ShiftComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.tables$
-			.pipe(
-				// switchMap(() => this._shiftsService.activeShift$),
-				untilDestroyed(this)
-			)
-			.subscribe((activeShift: any) => {
-				this.activeShiftGroup.setValue({
-					id: activeShift?.id || "",
-					tables: activeShift?.tables || []
-				});
+		this.activeShift$.pipe(untilDestroyed(this)).subscribe((activeShift) => {
+			this.activeShiftGroup.setValue({
+				id: activeShift?.id || "",
+				tables: activeShift?.tables || []
 			});
+		});
 	}
 
-	createShift(tables: any[]) {
+	async createShift(tables: any[]) {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		this._shiftsService.createShift({ tables: tables.map(({ id }) => id), place }).subscribe();
+		await lastValueFrom(this._shiftsService.createShift({ tables: tables.map(({ id }) => id), place }));
 	}
 
-	updateShift(id: string, tables: any[]) {
-		this._shiftsService.updateShift({ id, tables: tables.map(({ id }) => id) }).subscribe();
+	async updateShift(id: string, tables: any[]) {
+		await lastValueFrom(this._shiftsService.updateShift({ id, tables: tables.map(({ id }) => id) }));
 	}
 
-	closeShift(shiftId: string) {
+	async closeShift(shiftId: string) {
 		const config = { data: { title: "Вы уверены, что хотите закрыть смену?", value: { label: "" } } };
 
-		this._dialogService
-			.open(ConfirmationDialogComponent, config)
-			.afterClosed$.pipe(
-				take(1),
-				filter((isConfirmed) => Boolean(isConfirmed)),
-				switchMap(() => this._shiftsService.closeShift(shiftId))
-			)
-			.subscribe();
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(this._shiftsService.closeShift(shiftId));
 	}
 }

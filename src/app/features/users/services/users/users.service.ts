@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import type { DeepPartial } from "@ngneat/reactive-forms/lib/types";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 
 import type { CreateUserInput, UpdateUserInput } from "../../../../../graphql";
 import type { UserEntity } from "../../../../../graphql";
@@ -20,14 +20,12 @@ export class UsersService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (user) => this.openUpdateUserDialog(user).subscribe()
+			func: (user) => this.openUpdateUserDialog(user)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (user) => {
-				this.openDeleteUserDialog(user).subscribe();
-			}
+			func: (user) => this.openDeleteUserDialog(user)
 		}
 	];
 
@@ -46,32 +44,36 @@ export class UsersService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateUserDialog(data?: DeepPartial<UserEntity>) {
-		return this._dialogService.open(UserDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((user) => Boolean(user)),
-			switchMap((user: UserEntity) => this.createUser({ name: user.name, email: user.name, role: user.role }))
-		);
+	async openCreateUserDialog(data?: DeepPartial<UserEntity>) {
+		const user: UserEntity = await lastValueFrom(this._dialogService.open(UserDialogComponent, { data }).afterClosed$);
+
+		if (!user) {
+			return;
+		}
+
+		return lastValueFrom(this.createUser({ name: user.name, email: user.name, role: user.role }));
 	}
 
-	openUpdateUserDialog(data: AtLeast<UserEntity, "id">) {
-		return this._dialogService.open(UserDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((user) => Boolean(user)),
-			switchMap((user: UserEntity) =>
-				this.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
-			)
-		);
+	async openUpdateUserDialog(data: AtLeast<UserEntity, "id">) {
+		const user: UserEntity = await lastValueFrom(this._dialogService.open(UserDialogComponent, { data }).afterClosed$);
+
+		if (!user) {
+			return null;
+		}
+
+		return lastValueFrom(this.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel }));
 	}
 
-	openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
+	async openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить пользователя?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((user) => Boolean(user)),
-			switchMap((user) => this.deleteUser(user.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(this.deleteUser(value.id));
 	}
 
 	createUser(user: CreateUserInput) {

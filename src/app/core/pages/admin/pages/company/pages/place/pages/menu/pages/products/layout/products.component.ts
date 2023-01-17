@@ -67,8 +67,8 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 		});
 	}
 
-	openCreateProductDialog() {
-		this._productsService.openCreateProductDialog().subscribe();
+	async openCreateProductDialog() {
+		await this._productsService.openCreateProductDialog();
 	}
 
 	ngAfterViewInit() {

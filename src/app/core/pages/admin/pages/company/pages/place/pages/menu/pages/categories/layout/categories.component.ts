@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, take } from "rxjs";
+import { map } from "rxjs";
 import { CategoriesService } from "src/app/features/categories";
 import { ProductsService } from "src/app/features/products";
 
@@ -44,7 +44,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this._categoriesService.openCreateCategoryDialog({ place }).pipe(take(1)).subscribe();
+		this._categoriesService.openCreateCategoryDialog({ place });
 	}
 
 	async ngOnInit() {

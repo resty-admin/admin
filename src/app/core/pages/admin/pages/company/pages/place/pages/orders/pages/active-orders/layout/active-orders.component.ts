@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, take } from "rxjs";
+import { map } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 
 import { ActionsService } from "../../../../../../../../../../../../features/app";
@@ -43,7 +43,7 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		return this._ordersService.openCreateOrderDialog({ place }).pipe(take(1)).subscribe();
+		return this._ordersService.openCreateOrderDialog({ place });
 	}
 
 	async ngOnInit() {

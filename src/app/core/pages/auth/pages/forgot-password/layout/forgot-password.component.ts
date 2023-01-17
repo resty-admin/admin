@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import type { IRadioButtonOption } from "src/app/shared/ui/radio-button";
 
@@ -31,7 +31,7 @@ export class ForgotPasswordComponent {
 
 	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
 
-	forgotPassword(body: any) {
-		this._authService.forgotPassword(body).pipe(take(1)).subscribe();
+	async forgotPassword(body: any) {
+		await lastValueFrom(this._authService.forgotPassword(body));
 	}
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 
 import type {
 	AttributesGroupEntity,
@@ -21,12 +21,12 @@ export class AttributeGroupsService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (attributesGroup) => this.openUpdateAttributeGroupDialog(attributesGroup).pipe(take(1)).subscribe()
+			func: (attributesGroup) => this.openUpdateAttributeGroupDialog(attributesGroup)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (attributesGroup) => this.openDeleteAttributeGroupDialog(attributesGroup).pipe(take(1)).subscribe()
+			func: (attributesGroup) => this.openDeleteAttributeGroupDialog(attributesGroup)
 		}
 	];
 
@@ -44,45 +44,55 @@ export class AttributeGroupsService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateAttributeGroupDialog(data: AtLeast<CreateAttributeGroupInput, "place">) {
-		return this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((attributeGroup) => Boolean(attributeGroup)),
-			switchMap((attributeGroup: AttributesGroupEntity) =>
-				this.createAttributeGroup({
-					name: attributeGroup.name,
-					place: data.place,
-					maxItemsForPick: attributeGroup.maxItemsForPick,
-					type: attributeGroup.type,
-					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-				})
-			)
+	async openCreateAttributeGroupDialog(data: AtLeast<CreateAttributeGroupInput, "place">) {
+		const attributeGroup: AttributesGroupEntity = await lastValueFrom(
+			this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$
+		);
+
+		if (!attributeGroup) {
+			return;
+		}
+
+		await lastValueFrom(
+			this.createAttributeGroup({
+				name: attributeGroup.name,
+				place: data.place,
+				maxItemsForPick: attributeGroup.maxItemsForPick,
+				type: attributeGroup.type,
+				attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
+			})
 		);
 	}
 
-	openUpdateAttributeGroupDialog(data: AtLeast<AttributesGroupEntity, "id">) {
-		return this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((attributeGroup) => Boolean(attributeGroup)),
-			switchMap((attributeGroup: AttributesGroupEntity) =>
-				this.updateAttributeGroup({
-					id: attributeGroup.id,
-					name: attributeGroup.name,
-					maxItemsForPick: attributeGroup.maxItemsForPick,
-					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-				})
-			)
+	async openUpdateAttributeGroupDialog(data: AtLeast<AttributesGroupEntity, "id">) {
+		const attributeGroup: AttributesGroupEntity = await lastValueFrom(
+			this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$
+		);
+
+		if (!attributeGroup) {
+			return;
+		}
+
+		return lastValueFrom(
+			this.updateAttributeGroup({
+				id: attributeGroup.id,
+				name: attributeGroup.name,
+				maxItemsForPick: attributeGroup.maxItemsForPick,
+				attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
+			})
 		);
 	}
 
-	openDeleteAttributeGroupDialog(value: AtLeast<AttributesGroupEntity, "id">) {
+	async openDeleteAttributeGroupDialog(value: AtLeast<AttributesGroupEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить группу модификаций?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((attributeGroup) => Boolean(attributeGroup)),
-			switchMap((attributeGroup) => this.deleteAttributeGroup(attributeGroup.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		return lastValueFrom(this.deleteAttributeGroup(value.id));
 	}
 
 	createAttributeGroup(attrGroup: CreateAttributeGroupInput) {

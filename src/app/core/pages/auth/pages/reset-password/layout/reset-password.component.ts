@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 
 import type { IAuthType } from "../../../../../../features/auth/interfaces";
@@ -29,12 +29,9 @@ export class ResetPasswordComponent {
 		private readonly _routerService: RouterService
 	) {}
 
-	resetPassword(body: any) {
-		this._authService
-			.resetPassword(body)
-			.pipe(take(1))
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
-			});
+	async resetPassword(body: any) {
+		await lastValueFrom(this._authService.resetPassword(body));
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
 	}
 }

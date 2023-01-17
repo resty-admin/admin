@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { firstValueFrom, map, take } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 
 import type { ProductEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
@@ -44,7 +44,7 @@ export class ProductDialogComponent implements OnInit {
 			return;
 		}
 
-		return firstValueFrom(this._categoriesService.openCreateCategoryDialog({ name, place }));
+		return this._categoriesService.openCreateCategoryDialog({ name, place });
 	};
 
 	readonly addAttributeGroupTag = (name: string) => {
@@ -54,7 +54,7 @@ export class ProductDialogComponent implements OnInit {
 			return;
 		}
 
-		return firstValueFrom(this._attributeGroupsService.openCreateAttributeGroupDialog({ name, place }));
+		return this._attributeGroupsService.openCreateAttributeGroupDialog({ name, place });
 	};
 
 	data!: any;
@@ -76,12 +76,9 @@ export class ProductDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(product: Partial<ProductEntity>) {
-		this._filesService
-			.getFile(product.file)
-			.pipe(take(1))
-			.subscribe((file) => {
-				this._dialogRef.close({ ...this.data, ...product, file });
-			});
+	async closeDialog(product: Partial<ProductEntity>) {
+		const file = await lastValueFrom(this._filesService.getFile(product.file));
+
+		return this._dialogRef.close({ ...this.data, ...product, file });
 	}
 }

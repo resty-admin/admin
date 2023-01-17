@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 
 import type { HallEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
@@ -36,12 +36,9 @@ export class HallDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(hall: Partial<HallEntity>) {
-		this._filesService
-			.getFile(hall.file)
-			.pipe(take(1))
-			.subscribe((file) => {
-				this._dialogRef.close({ ...this.data, ...hall, file });
-			});
+	async closeDialog(hall: Partial<HallEntity>) {
+		const file = await lastValueFrom(this._filesService.getFile(hall.file));
+
+		this._dialogRef.close({ ...this.data, ...hall, file });
 	}
 }

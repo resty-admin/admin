@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, take } from "rxjs";
+import { map } from "rxjs";
 import { AttributeGroupsService, AttributesService } from "src/app/features/attributes";
 import { PLACE_ID } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
@@ -67,7 +67,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this._attributeGroupsService.openCreateAttributeGroupDialog({ place }).pipe(take(1)).subscribe();
+		this._attributeGroupsService.openCreateAttributeGroupDialog({ place });
 	}
 
 	ngOnDestroy() {

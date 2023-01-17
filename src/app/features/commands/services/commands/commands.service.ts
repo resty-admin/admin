@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 import { ChangesEnum } from "src/app/shared/enums";
 import { ConfirmationDialogComponent } from "src/app/shared/ui/confirmation-dialog";
 
@@ -21,14 +21,12 @@ export class CommandsService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (command) => this.openUpdateCommandDialog(command).pipe(take(1)).subscribe()
+			func: (command) => this.openUpdateCommandDialog(command)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (command) => {
-				this.openDeleteCommandDialog(command).pipe(take(1)).subscribe();
-			}
+			func: (command) => this.openDeleteCommandDialog(command)
 		}
 	];
 
@@ -44,34 +42,40 @@ export class CommandsService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateCommandDialog(data: AtLeast<CreateCommandInput, "place">) {
-		return this._dialogService.open(CommandDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((command) => Boolean(command)),
-			switchMap((command: CommandEntity) =>
-				this.createCommand({ name: command.name, description: command.description, place: data.place })
-			)
+	async openCreateCommandDialog(data: AtLeast<CreateCommandInput, "place">) {
+		const command: CommandEntity = await lastValueFrom(
+			this._dialogService.open(CommandDialogComponent, { data }).afterClosed$
 		);
+
+		if (!command) {
+			return;
+		}
+
+		return this.createCommand({ name: command.name, description: command.description, place: data.place });
 	}
 
-	openUpdateCommandDialog(data: AtLeast<CommandEntity, "place">) {
-		return this._dialogService.open(CommandDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((command) => Boolean(command)),
-			switchMap((command: CommandEntity) =>
-				this.updateCommand({ id: command.id, name: command.name, description: command.description })
-			)
+	async openUpdateCommandDialog(data: AtLeast<CommandEntity, "place">) {
+		const command: CommandEntity = await lastValueFrom(
+			this._dialogService.open(CommandDialogComponent, { data }).afterClosed$
 		);
+
+		if (!command) {
+			return;
+		}
+
+		return this.updateCommand({ id: command.id, name: command.name, description: command.description });
 	}
 
-	openDeleteCommandDialog(value: AtLeast<CommandEntity, "place">) {
+	async openDeleteCommandDialog(value: AtLeast<CommandEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить команду?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((command) => Boolean(command)),
-			switchMap((command: CommandEntity) => this.deleteCommand(command.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		return this.deleteCommand(value.id);
 	}
 
 	createCommand(command: CreateCommandInput) {

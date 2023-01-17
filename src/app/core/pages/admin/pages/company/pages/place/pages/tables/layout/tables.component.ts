@@ -2,7 +2,7 @@ import type { AfterViewInit, OnDestroy } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
-import { map, take } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 import { TableQrCodeDialogComponent, TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
 
@@ -56,21 +56,18 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
 		await this._tablesPageQuery.setVariables({ filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }] });
 	}
 
-	openTableQrCodeDialog(data: TableEntity) {
-		return this._dialogService
-			.open(TableQrCodeDialogComponent, { data })
-			.afterClosed$.pipe(take(1))
-			.subscribe(() => {});
+	async openTableQrCodeDialog(data: TableEntity) {
+		await lastValueFrom(this._dialogService.open(TableQrCodeDialogComponent, { data }).afterClosed$);
 	}
 
-	openCreateTableDialog() {
+	async openCreateTableDialog() {
 		const hall = this._routerService.getParams(HALL_ID.slice(1));
 
 		if (!hall) {
 			return;
 		}
 
-		return this._tablesService.openCreateTableDialog({ hall }).pipe(take(1)).subscribe();
+		await this._tablesService.openCreateTableDialog({ hall });
 	}
 
 	ngOnDestroy() {

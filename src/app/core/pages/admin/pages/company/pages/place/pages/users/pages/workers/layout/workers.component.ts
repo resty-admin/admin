@@ -65,7 +65,7 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 	openCreateUserDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		return this._usersService.openCreateUserDialog({ place }).subscribe();
+		return this._usersService.openCreateUserDialog({ place });
 	}
 
 	ngAfterViewInit() {

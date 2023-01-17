@@ -1,6 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { map, take } from "rxjs";
+import { map } from "rxjs";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
@@ -36,27 +36,21 @@ export class PlacesComponent implements OnInit {
 		});
 	}
 
-	openCreatePlaceDialog() {
+	async openCreatePlaceDialog() {
 		const company = this._routerService.getParams(COMPANY_ID.slice(1));
 
 		if (!company) {
 			return;
 		}
 
-		this._placesService
-			.openCreatePlaceDialog({ company })
-			.pipe(
-				take(1),
-				map((result) => result.data?.createPlace)
-			)
-			.subscribe(async (place) => {
-				if (!place) {
-					return;
-				}
+		const result = await this._placesService.openCreatePlaceDialog({ company });
 
-				await this._routerService.navigateByUrl(
-					ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, company).replace(PLACE_ID, place.id)
-				);
-			});
+		if (!result.data?.createPlace) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, company).replace(PLACE_ID, result.data.createPlace.id)
+		);
 	}
 }

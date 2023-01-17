@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 import { ChangesEnum } from "src/app/shared/enums";
 
 import type { CompanyEntity, CreateCommandInput, CreateCompanyInput, UpdateCompanyInput } from "../../../../../graphql";
@@ -21,12 +21,12 @@ export class CompaniesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (company) => this.openUpdateCompanyDialog(company).pipe(take(1)).subscribe()
+			func: (company) => this.openUpdateCompanyDialog(company)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (company) => this.openDeleteCompanyDialog(company).pipe(take(1)).subscribe()
+			func: (company) => this.openDeleteCompanyDialog(company)
 		}
 	];
 
@@ -42,32 +42,40 @@ export class CompaniesService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateCompanyDialog(data?: Partial<CreateCommandInput>) {
-		return this._dialogService.open(CompanyDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((company) => Boolean(company)),
-			switchMap((company: CompanyEntity) => this.createCompany({ name: company.name, logo: company.logo?.id }))
+	async openCreateCompanyDialog(data?: Partial<CreateCommandInput>) {
+		const company: CompanyEntity = await lastValueFrom(
+			this._dialogService.open(CompanyDialogComponent, { data }).afterClosed$
 		);
+
+		if (!company) {
+			return;
+		}
+
+		return lastValueFrom(this.createCompany({ name: company.name, logo: company.logo?.id }));
 	}
 
-	openUpdateCompanyDialog(data: AtLeast<CompanyEntity, "id">) {
-		return this._dialogService.open(CompanyDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((company) => Boolean(company)),
-			switchMap((company: CompanyEntity) =>
-				this.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id })
-			)
+	async openUpdateCompanyDialog(data: AtLeast<CompanyEntity, "id">) {
+		const company: CompanyEntity = await lastValueFrom(
+			this._dialogService.open(CompanyDialogComponent, { data }).afterClosed$
 		);
+
+		if (!company) {
+			return;
+		}
+
+		return this.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id });
 	}
 
-	openDeleteCompanyDialog(data: AtLeast<CompanyEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить компанию?", value: data } };
+	async openDeleteCompanyDialog(value: AtLeast<CompanyEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить компанию?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((company) => Boolean(company)),
-			switchMap((company) => this.deleteCompany(company.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		return this.deleteCompany(value.id);
 	}
 
 	createCompany(company: CreateCompanyInput) {

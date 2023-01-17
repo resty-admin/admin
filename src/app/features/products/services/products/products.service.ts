@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 
 import type { CreateProductInput, ProductEntity, UpdateProductInput } from "../../../../../graphql";
 import { ChangesEnum } from "../../../../shared/enums";
@@ -17,12 +17,12 @@ export class ProductsService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (product) => this.openUpdateProductDialog(product).pipe(take(1)).subscribe()
+			func: (product) => this.openUpdateProductDialog(product)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (product) => this.openDeleteProductDialog(product).pipe(take(1)).subscribe()
+			func: (product) => this.openDeleteProductDialog(product)
 		}
 	];
 
@@ -40,50 +40,59 @@ export class ProductsService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateProductDialog(data?: CreateProductInput) {
-		return this._dialogService.open(ProductDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((product) => Boolean(product)),
-			switchMap((product: ProductEntity) =>
-				this.createProduct({
-					name: product.name,
-					category: product.category.id,
-					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
-					file: product.file?.id,
-					price: product.price
-				})
-			)
+	async openCreateProductDialog(data?: CreateProductInput) {
+		const product: ProductEntity = await lastValueFrom(
+			this._dialogService.open(ProductDialogComponent, { data }).afterClosed$
+		);
+
+		if (!product) {
+			return;
+		}
+
+		await lastValueFrom(
+			this.createProduct({
+				name: product.name,
+				category: product.category.id,
+				attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+				file: product.file?.id,
+				price: product.price
+			})
 		);
 	}
 
-	openUpdateProductDialog(data: AtLeast<ProductEntity, "id">) {
-		return this._dialogService.open(ProductDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((product) => Boolean(product)),
-			switchMap((product: ProductEntity) =>
-				this.updateProduct({
-					id: product.id,
-					category: product.category.id,
-					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
-					file: product.file?.id,
-					price: product.price
-				})
-			)
+	async openUpdateProductDialog(data: AtLeast<ProductEntity, "id">) {
+		const product: ProductEntity = await lastValueFrom(
+			this._dialogService.open(ProductDialogComponent, { data }).afterClosed$
+		);
+
+		if (!product) {
+			return;
+		}
+
+		await lastValueFrom(
+			this.updateProduct({
+				id: product.id,
+				category: product.category.id,
+				attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+				file: product.file?.id,
+				price: product.price
+			})
 		);
 	}
 
-	openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
+	async openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить продукт?", value: product } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((product) => Boolean(product)),
-			switchMap((product) => this.deleteProduct(product.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(this.deleteProduct(product.id));
 	}
 
 	createProduct(product: CreateProductInput) {
-		console.log(product);
 		return this._createProductGQL.mutate({ product }).pipe(this._emitChanges(ChangesEnum.CREATE));
 	}
 

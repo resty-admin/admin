@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 import { DYNAMIC_TOKEN } from "src/app/shared/constants";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
@@ -37,12 +37,9 @@ export class VerificationCodeComponent implements OnInit {
 		await this._authService.updateAccessToken(dynamicToken);
 	}
 
-	verifyCode({ verificationCode }: any) {
-		this._authService
-			.verifyCode(verificationCode)
-			.pipe(take(1))
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
-			});
+	async verifyCode({ verificationCode }: any) {
+		await lastValueFrom(this._authService.verifyCode(verificationCode));
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 	}
 }

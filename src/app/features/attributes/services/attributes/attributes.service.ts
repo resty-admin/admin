@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 
 import type { AttributesEntity, CreateAttributeInput, UpdateAttributeInput } from "../../../../../graphql";
 import { ChangesEnum } from "../../../../shared/enums";
@@ -17,12 +17,12 @@ export class AttributesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (attribute?) => this.openUpdateAttributeDialog(attribute).pipe(take(1)).subscribe()
+			func: (attribute?) => this.openUpdateAttributeDialog(attribute)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (attribute?) => this.openDeleteAttributeDialog(attribute).pipe(take(1)).subscribe()
+			func: (attribute?) => this.openDeleteAttributeDialog(attribute)
 		}
 	];
 
@@ -40,43 +40,53 @@ export class AttributesService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateAttributeDialog(data?: Partial<CreateAttributeInput>) {
-		return this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((attribute) => Boolean(attribute)),
-			switchMap((attribute: AttributesEntity) =>
-				this.createAttribute({
-					name: attribute.name,
-					price: attribute.price,
-					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-				})
-			)
+	async openCreateAttributeDialog(data?: Partial<CreateAttributeInput>) {
+		const attribute: AttributesEntity = await lastValueFrom(
+			this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$
+		);
+
+		if (!attribute) {
+			return;
+		}
+
+		return lastValueFrom(
+			this.createAttribute({
+				name: attribute.name,
+				price: attribute.price,
+				attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
+			})
 		);
 	}
 
-	openUpdateAttributeDialog(data: AtLeast<AttributesEntity, "id">) {
-		return this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((attribute) => Boolean(attribute)),
-			switchMap((attribute: AttributesEntity) =>
-				this.updateAttribute({
-					id: attribute.id,
-					name: attribute.name,
-					price: attribute.price,
-					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-				})
-			)
+	async openUpdateAttributeDialog(data: AtLeast<AttributesEntity, "id">) {
+		const attribute: AttributesEntity = await lastValueFrom(
+			this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$
+		);
+
+		if (!attribute) {
+			return;
+		}
+
+		return lastValueFrom(
+			this.updateAttribute({
+				id: attribute.id,
+				name: attribute.name,
+				price: attribute.price,
+				attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
+			})
 		);
 	}
 
-	openDeleteAttributeDialog(value: AtLeast<AttributesEntity, "id">) {
+	async openDeleteAttributeDialog(value: AtLeast<AttributesEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить модификацию?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((attribute) => Boolean(attribute)),
-			switchMap((attribute) => this.deleteAttribute(attribute.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		return this.deleteAttribute(value.id);
 	}
 
 	createAttribute(attr: CreateAttributeInput) {

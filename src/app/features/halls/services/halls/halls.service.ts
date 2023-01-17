@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 import { ChangesEnum } from "src/app/shared/enums";
 
 import type { CreateHallInput, HallEntity, UpdateHallInput } from "../../../../../graphql";
@@ -17,12 +17,12 @@ export class HallsService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (hall) => this.openUpdateHallDialog(hall).pipe(take(1)).subscribe()
+			func: (hall) => this.openUpdateHallDialog(hall)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (hall) => this.openDeleteHallDialog(hall).pipe(take(1)).subscribe()
+			func: (hall) => this.openDeleteHallDialog(hall)
 		}
 	];
 
@@ -40,30 +40,36 @@ export class HallsService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreateHallDialog(data: AtLeast<CreateHallInput, "place">) {
-		return this._dialogService.open(HallDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((hall) => Boolean(hall)),
-			switchMap((hall: HallEntity) => this.createHall({ name: hall.name, place: data.place, file: hall.file?.id }))
-		);
+	async openCreateHallDialog(data: AtLeast<CreateHallInput, "place">) {
+		const hall: HallEntity = await lastValueFrom(this._dialogService.open(HallDialogComponent, { data }).afterClosed$);
+
+		if (!hall) {
+			return;
+		}
+
+		return lastValueFrom(this.createHall({ name: hall.name, place: data.place, file: hall.file?.id }));
 	}
 
-	openUpdateHallDialog(data: AtLeast<HallEntity, "id">) {
-		return this._dialogService.open(HallDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((hall) => Boolean(hall)),
-			switchMap((hall: HallEntity) => this.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id }))
-		);
+	async openUpdateHallDialog(data: AtLeast<HallEntity, "id">) {
+		const hall: HallEntity = await lastValueFrom(this._dialogService.open(HallDialogComponent, { data }).afterClosed$);
+
+		if (!hall) {
+			return;
+		}
+
+		return lastValueFrom(this.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id }));
 	}
 
-	openDeleteHallDialog(value: AtLeast<HallEntity, "id">) {
+	async openDeleteHallDialog(value: AtLeast<HallEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить зал?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((hall) => Boolean(hall)),
-			switchMap((hall) => this.deleteHall(hall.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		return lastValueFrom(this.deleteHall(value.id));
 	}
 
 	createHall(hall: CreateHallInput) {

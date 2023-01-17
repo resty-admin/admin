@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import type { Observable } from "rxjs";
-import { map, take } from "rxjs";
+import { map } from "rxjs";
 import { HallsService } from "src/app/features/halls";
 import { PLACE_ID } from "src/app/shared/constants";
 
@@ -42,7 +42,7 @@ export class HallsComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		return this._hallsService.openCreateHallDialog({ place }).pipe(take(1)).subscribe();
+		return this._hallsService.openCreateHallDialog({ place });
 	}
 
 	async ngOnInit() {

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject, take } from "rxjs";
+import { Subject } from "rxjs";
 
 import type { CreateShiftInput, UpdateShiftInput } from "../../../../../graphql";
 import { CloseShiftGQL, CreateShiftGQL, UpdateShiftGQL } from "../../graphql/shift";
@@ -19,7 +19,7 @@ export class ShiftsService {
 	}
 
 	updateShift(shift: UpdateShiftInput) {
-		return this._updateShiftGQL.mutate({ shift }).pipe(take(1));
+		return this._updateShiftGQL.mutate({ shift });
 	}
 
 	closeShift(shiftId: string) {

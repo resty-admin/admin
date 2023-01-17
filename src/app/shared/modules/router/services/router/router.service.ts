@@ -38,8 +38,16 @@ export class RouterService {
 		return this._routerRepository.selectParams(names as any);
 	}
 
+	getFragment() {
+		return this._routerRepository.getFragment();
+	}
+
 	selectFragment(): Observable<string> {
 		return this._routerRepository.selectFragment();
+	}
+
+	getQueryParams(name?: string) {
+		return this._routerRepository.getQueryParams(name);
 	}
 
 	selectQueryParams<T extends string>(names: string[]): Observable<T[]>;

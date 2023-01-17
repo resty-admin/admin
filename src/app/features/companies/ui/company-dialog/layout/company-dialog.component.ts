@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { map, take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 
 import type { CompanyEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
@@ -36,15 +36,13 @@ export class CompanyDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(company: Partial<CompanyEntity>) {
-		this._filesService
-			.getFile(company.logo)
-			.pipe(
-				take(1),
-				map((logo) => logo?.id)
-			)
-			.subscribe((logo) => {
-				this._dialogRef.close({ ...this.data, ...company, logo });
-			});
+	async closeDialog(company: Partial<CompanyEntity>) {
+		const logo = await lastValueFrom(this._filesService.getFile(company.logo));
+
+		if (!logo) {
+			return;
+		}
+
+		this._dialogRef.close({ ...this.data, ...company, logo: logo.id });
 	}
 }

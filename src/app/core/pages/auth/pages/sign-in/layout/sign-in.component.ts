@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
@@ -47,12 +47,9 @@ export class SignInComponent implements OnInit {
 		});
 	}
 
-	signIn(body: any) {
-		this._authService
-			.signIn(body)
-			.pipe(take(1))
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
-			});
+	async signIn(body: any) {
+		await lastValueFrom(this._authService.signIn(body));
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 	}
 }

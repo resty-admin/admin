@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
-import { filter, Subject, switchMap, take, tap } from "rxjs";
+import { lastValueFrom, Subject, tap } from "rxjs";
 
 import type { CreatePlaceInput, PlaceEntity, UpdatePlaceInput } from "../../../../../graphql";
 import { ChangesEnum } from "../../../../shared/enums";
@@ -21,12 +21,12 @@ export class PlacesService {
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (place) => this.openUpdatePlaceDialog(place).pipe(take(1)).subscribe()
+			func: (place) => this.openUpdatePlaceDialog(place)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (place) => this.openDeletePlaceDialog(place).pipe(take(1)).subscribe()
+			func: (place) => this.openDeletePlaceDialog(place)
 		}
 	];
 
@@ -42,32 +42,32 @@ export class PlacesService {
 		return (source$) => source$.pipe(tap(() => this._changesSubject.next(changes)));
 	}
 
-	openCreatePlaceDialog(data: AtLeast<CreatePlaceInput, "company">) {
-		return this._dialogService.open(PlaceDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((place) => Boolean(place)),
-			switchMap((place: PlaceEntity) =>
-				this.createPlace({ name: place.name, company: data.company, file: place.file?.id })
-			)
+	async openCreatePlaceDialog(data: AtLeast<CreatePlaceInput, "company">) {
+		const place: PlaceEntity = await lastValueFrom(
+			this._dialogService.open(PlaceDialogComponent, { data }).afterClosed$
 		);
+
+		return lastValueFrom(this.createPlace({ name: place.name, company: data.company, file: place.file?.id }));
 	}
 
-	openUpdatePlaceDialog(data: AtLeast<PlaceEntity, "id">) {
-		return this._dialogService.open(PlaceDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((place) => Boolean(place)),
-			switchMap((place: PlaceEntity) => this.updatePlace({ id: place.id, name: place.name, file: place.file?.id }))
+	async openUpdatePlaceDialog(data: AtLeast<PlaceEntity, "id">) {
+		const place: PlaceEntity = await lastValueFrom(
+			this._dialogService.open(PlaceDialogComponent, { data }).afterClosed$
 		);
+
+		await lastValueFrom(this.updatePlace({ id: place.id, name: place.name, file: place.file?.id }));
 	}
 
-	openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
+	async openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
 		const config = { data: { title: "Вы уверены, что хотите удалить заведение?", value } };
 
-		return this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$.pipe(
-			take(1),
-			filter((place) => Boolean(place)),
-			switchMap((place) => this.deletePlace(place.id))
-		);
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(this.deletePlace(value.id));
 	}
 
 	createPlace(place: CreatePlaceInput) {

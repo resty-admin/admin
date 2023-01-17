@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { map, take } from "rxjs";
+import { map } from "rxjs";
 
 import { CompaniesService } from "../../../../../../features/companies";
 import { ADMIN_ROUTES, COMPANY_ID } from "../../../../../../shared/constants";
@@ -24,19 +24,15 @@ export class CompaniesComponent {
 		return index;
 	}
 
-	openCreateCompanyDialog() {
-		this._companiesService
-			.openCreateCompanyDialog()
-			.pipe(
-				take(1),
-				map((result) => result.data?.createCompany)
-			)
-			.subscribe(async (company) => {
-				if (!company) {
-					return;
-				}
+	async openCreateCompanyDialog() {
+		const result = await this._companiesService.openCreateCompanyDialog();
 
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, company.id));
-			});
+		if (!result?.data?.createCompany) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, result.data.createCompany.id)
+		);
 	}
 }

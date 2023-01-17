@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { firstValueFrom, map } from "rxjs";
+import { map } from "rxjs";
 import { AttributesService } from "src/app/features/attributes/index";
 
 import { AttributeGroupTypeEnum } from "../../../../../../graphql";
@@ -35,7 +35,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 		map((result) => result.data.attributes.data)
 	);
 
-	readonly addTag = (name: string) => firstValueFrom(this._attributesService.openCreateAttributeDialog({ name }));
+	readonly addTag = (name: string) => this._attributesService.openCreateAttributeDialog({ name });
 
 	data!: any;
 

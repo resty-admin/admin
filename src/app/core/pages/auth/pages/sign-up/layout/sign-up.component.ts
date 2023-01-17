@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
@@ -45,15 +45,11 @@ export class SignUpComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		this._routerService
-			.selectQueryParams<UserRoleEnum>("role")
-			.pipe(
-				untilDestroyed(this),
-				filter((role) => role && role in UserRoleEnum)
-			)
-			.subscribe((role) => {
-				this.form.patchValue({ role });
-			});
+		const role = this._routerService.getQueryParams("role");
+
+		if (role && role in UserRoleEnum) {
+			this.form.patchValue({ role });
+		}
 
 		this.typeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((type) => {
 			this.form.get("email").disable();
@@ -63,18 +59,15 @@ export class SignUpComponent implements OnInit {
 		});
 	}
 
-	signUp(body: any) {
-		this._authService
-			.signUp(body)
-			.pipe(take(1))
-			.subscribe(async (accessToken) => {
-				if (!accessToken) {
-					return;
-				}
+	async signUp(body: any) {
+		const accessToken = await lastValueFrom(this._authService.signUp(body));
 
-				await this._routerService.navigateByUrl(
-					ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
-				);
-			});
+		if (!accessToken) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+		);
 	}
 }

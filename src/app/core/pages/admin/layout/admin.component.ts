@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { catchError, filter, map, of, switchMap, take } from "rxjs";
+import { catchError, filter, map, of, switchMap } from "rxjs";
 
 import { AsideService } from "../../../../features/app";
 import { AuthService } from "../../../../features/auth/services";
@@ -82,44 +82,34 @@ export class AdminComponent implements OnInit {
 		this._asideService.toggleAside();
 	}
 
-	openCreateCompanyDialog() {
-		this._companiesService
-			.openCreateCompanyDialog()
-			.pipe(
-				take(1),
-				map((result) => result.data?.createCompany)
-			)
-			.subscribe(async (company) => {
-				if (!company) {
-					return;
-				}
+	async openCreateCompanyDialog() {
+		const result = await this._companiesService.openCreateCompanyDialog();
 
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, company.id));
-			});
+		if (!result?.data?.createCompany) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, result.data.createCompany.id)
+		);
 	}
 
-	openCreatePlaceDialog() {
+	async openCreatePlaceDialog() {
 		const company = this._routerService.getParams(COMPANY_ID.slice(1));
 
 		if (!company) {
 			return;
 		}
 
-		this._placesService
-			.openCreatePlaceDialog({ company })
-			.pipe(
-				take(1),
-				map((result) => result.data?.createPlace)
-			)
-			.subscribe(async (place) => {
-				if (!place) {
-					return;
-				}
+		const result = await this._placesService.openCreatePlaceDialog({ company });
 
-				await this._routerService.navigateByUrl(
-					ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, company).replace(PLACE_ID, place.id)
-				);
-			});
+		if (!result.data?.createPlace) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, company).replace(PLACE_ID, result.data.createPlace.id)
+		);
 	}
 
 	async signOut() {

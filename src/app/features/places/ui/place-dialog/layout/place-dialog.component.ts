@@ -2,7 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 
 import type { CreatePlaceInput } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
@@ -38,12 +38,9 @@ export class PlaceDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(place: Partial<CreatePlaceInput>) {
-		this._filesService
-			.getFile(place.file)
-			.pipe(take(1))
-			.subscribe((file) => {
-				this._dialogRef.close({ ...this.data, ...place, file });
-			});
+	async closeDialog(place: Partial<CreatePlaceInput>) {
+		const file = await lastValueFrom(this._filesService.getFile(place.file));
+
+		this._dialogRef.close({ ...this.data, ...place, file: file?.id });
 	}
 }

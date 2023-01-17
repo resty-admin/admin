@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map, take } from "rxjs";
+import { map } from "rxjs";
 
 import { ActionsService } from "../../../../../../../../../../features/app";
 import { CommandsService } from "../../../../../../../../../../features/commands/services/commands/commands.service";
@@ -58,7 +58,7 @@ export class CommandsComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this._commandsService.openCreateCommandDialog({ place }).pipe(take(1)).subscribe();
+		this._commandsService.openCreateCommandDialog({ place });
 	}
 
 	ngOnDestroy() {

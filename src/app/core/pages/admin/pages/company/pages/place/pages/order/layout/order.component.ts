@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { firstValueFrom, map, startWith, switchMap, take } from "rxjs";
+import { firstValueFrom, lastValueFrom, map, startWith, switchMap } from "rxjs";
 
 import { ProductToOrderStatusEnum } from "../../../../../../../../../../../graphql";
 import { ActionsService } from "../../../../../../../../../../features/app";
@@ -49,16 +49,16 @@ export class OrderComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService
 	) {}
 
-	approveTableInOrder() {
+	async approveTableInOrder() {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
-		this._ordersService.approveTableInOrder(orderId).pipe(take(1)).subscribe();
+		await lastValueFrom(this._ordersService.approveTableInOrder(orderId));
 	}
 
-	rejectTableInOrder() {
+	async rejectTableInOrder() {
 		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
 
-		this._ordersService.rejectTableInOrder(orderId).pipe(take(1)).subscribe();
+		await lastValueFrom(this._ordersService.rejectTableInOrder(orderId));
 	}
 
 	trackByFn(index: number) {

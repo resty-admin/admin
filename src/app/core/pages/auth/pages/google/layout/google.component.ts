@@ -1,6 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { take } from "rxjs";
+import { lastValueFrom } from "rxjs";
 
 import { AuthService } from "../../../../../../features/auth/services";
 import { ADMIN_ROUTES } from "../../../../../../shared/constants";
@@ -18,11 +18,8 @@ export class GoogleComponent implements OnInit {
 	async ngOnInit() {
 		const googleUser = this._routerService.getParams();
 
-		this._authService
-			.google(googleUser)
-			.pipe(take(1))
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
-			});
+		await lastValueFrom(this._authService.google(googleUser));
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 	}
 }
