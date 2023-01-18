@@ -77,8 +77,10 @@ export class ProductDialogComponent implements OnInit {
 	}
 
 	async closeDialog(product: Partial<ProductEntity>) {
-		const file = await lastValueFrom(this._filesService.getFile(product.file));
-
-		return this._dialogRef.close({ ...this.data, ...product, file });
+		return this._dialogRef.close({
+			...this.data,
+			...product,
+			file: await lastValueFrom(this._filesService.getFile(product.file))
+		});
 	}
 }

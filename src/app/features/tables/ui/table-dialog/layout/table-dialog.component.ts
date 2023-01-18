@@ -38,8 +38,10 @@ export class TableDialogComponent implements OnInit {
 	}
 
 	async closeDialog(table: Partial<TableEntity>) {
-		const file = await lastValueFrom(this._filesService.getFile(table.file));
-
-		this._dialogRef.close({ ...this.data, ...table, file: file?.id });
+		this._dialogRef.close({
+			...this.data,
+			...table,
+			file: await lastValueFrom(this._filesService.getFile(table.file))
+		});
 	}
 }

@@ -37,12 +37,10 @@ export class CompanyDialogComponent implements OnInit {
 	}
 
 	async closeDialog(company: Partial<CompanyEntity>) {
-		const logo = await lastValueFrom(this._filesService.getFile(company.logo));
-
-		if (!logo) {
-			return;
-		}
-
-		this._dialogRef.close({ ...this.data, ...company, logo: logo.id });
+		this._dialogRef.close({
+			...this.data,
+			...company,
+			logo: await lastValueFrom(this._filesService.getFile(company.logo))
+		});
 	}
 }

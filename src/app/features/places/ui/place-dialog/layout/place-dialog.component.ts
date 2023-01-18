@@ -39,8 +39,10 @@ export class PlaceDialogComponent implements OnInit {
 	}
 
 	async closeDialog(place: Partial<CreatePlaceInput>) {
-		const file = await lastValueFrom(this._filesService.getFile(place.file));
-
-		this._dialogRef.close({ ...this.data, ...place, file: file?.id });
+		this._dialogRef.close({
+			...this.data,
+			...place,
+			file: await lastValueFrom(this._filesService.getFile(place.file))
+		});
 	}
 }

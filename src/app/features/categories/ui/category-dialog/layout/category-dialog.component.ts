@@ -36,9 +36,11 @@ export class CategoryDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(category: Partial<CategoryEntity>) {
-		const file = lastValueFrom(this._filesService.getFile(category.file));
-
-		this._dialogRef.close({ ...this.data, ...category, file });
+	async closeDialog(category: Partial<CategoryEntity>) {
+		this._dialogRef.close({
+			...this.data,
+			...category,
+			file: await lastValueFrom(this._filesService.getFile(category.file))
+		});
 	}
 }

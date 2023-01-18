@@ -37,8 +37,10 @@ export class HallDialogComponent implements OnInit {
 	}
 
 	async closeDialog(hall: Partial<HallEntity>) {
-		const file = await lastValueFrom(this._filesService.getFile(hall.file));
-
-		this._dialogRef.close({ ...this.data, ...hall, file });
+		this._dialogRef.close({
+			...this.data,
+			...hall,
+			file: await lastValueFrom(this._filesService.getFile(hall.file))
+		});
 	}
 }
