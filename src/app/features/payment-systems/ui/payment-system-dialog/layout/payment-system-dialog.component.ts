@@ -3,7 +3,10 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 
+import type { PaymentSystemEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
+import type { DeepPartial } from "../../../../../shared/interfaces";
+import type { IPaymentSystemForm } from "../interfaces";
 
 @Component({
 	selector: "app-payment-system-dialog",
@@ -13,20 +16,20 @@ import { FORM_I18N } from "../../../../../core/constants";
 })
 export class PaymentSystemDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
-	readonly formGroup = this._formBuilder.group<Partial<any>>({});
+	readonly formGroup = this._formBuilder.group<IPaymentSystemForm>({});
 
-	data!: any;
+	data?: DeepPartial<PaymentSystemEntity>;
 
 	fields: string[] = [];
 
 	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
-
-		this.data = this._dialogRef.data;
 
 		this.fields = Object.keys(this.data.configFields);
 
@@ -35,7 +38,12 @@ export class PaymentSystemDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(paymentSystem: Partial<any>) {
+	closeDialog(paymentSystem?: IPaymentSystemForm) {
+		if (!paymentSystem) {
+			this._dialogRef.close();
+			return;
+		}
+
 		this._dialogRef.close({ ...this.data, ...paymentSystem });
 	}
 }

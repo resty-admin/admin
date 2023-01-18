@@ -11,7 +11,7 @@ import type { IAction } from "../interfaces";
 export class ActionsComponent<T> {
 	@Input() actions: IAction<T>[] = [];
 	@Input() data!: T;
-	@Input() additionalFunc: any = () => undefined;
+	@Input() additionalFunc = () => undefined;
 
 	trackByFn(index: number) {
 		return index;

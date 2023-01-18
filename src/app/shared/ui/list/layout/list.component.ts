@@ -1,4 +1,7 @@
+import type { TemplateRef } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+
+import type { IListItem } from "../interfaces";
 
 @Component({
 	selector: "app-list",
@@ -7,9 +10,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent {
-	@Output() clicked = new EventEmitter<any>();
-	@Input() items?: any[] | null = [];
-	@Input() itemTemplate: any;
+	@Output() clicked = new EventEmitter<unknown>();
+	@Input() items?: IListItem[] | null = [];
+	@Input() itemTemplate: TemplateRef<unknown> | null = null;
 
 	@Input() type: "button" | "link" = "button";
 
@@ -17,7 +20,7 @@ export class ListComponent {
 		return index;
 	}
 
-	emitClick(item: any) {
+	emitClick(item: unknown) {
 		this.clicked.emit(item);
 	}
 }

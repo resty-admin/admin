@@ -5,7 +5,7 @@
 
 	<ul class="datatable-mobile">
 		<li class="order" *ngFor="let order of allOrders$ | async; trackBy: trackByFn">
-			<p class="code">{{ t("code") }} {{ order.code }}</p>
+			<p class="code">{{ t("code") }} {{ order.orderNumber }}</p>
 
 			<p class="date-label">{{ t("date") }}</p>
 			<!--			<p class="date-value">{{ order.date }}</p>-->

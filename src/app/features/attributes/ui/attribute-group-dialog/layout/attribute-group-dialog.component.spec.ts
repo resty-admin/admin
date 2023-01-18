@@ -1,17 +1,17 @@
 import { TestBed } from "@angular/core/testing";
 
-import { AttributesGroupDialogComponent } from "./attribute-group-dialog.component";
+import { AttributeGroupDialogComponent } from "./attribute-group-dialog.component";
 
-describe("AttributesGroupDialogComponent", () => {
+describe("AttributeGroupDialogComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [],
-			declarations: [AttributesGroupDialogComponent]
+			declarations: [AttributeGroupDialogComponent]
 		}).compileComponents();
 	});
 
 	it("should create the app", () => {
-		const fixture = TestBed.createComponent(AttributesGroupDialogComponent);
+		const fixture = TestBed.createComponent(AttributeGroupDialogComponent);
 		const app = fixture.componentInstance;
 		expect(app).toBeTruthy();
 	});

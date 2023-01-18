@@ -12,6 +12,7 @@ import { AuthService } from "../../../../../../features/auth/services";
 import { FORM_I18N } from "../../../../../constants";
 import { AUTH_TYPES } from "../../../data";
 import { SIGN_UP_PAGE_I18N } from "../constants";
+import type { ISignUp } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -31,7 +32,7 @@ export class SignUpComponent implements OnInit {
 	}));
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group({
+	readonly form = this._formBuilder.group<ISignUp>({
 		email: "",
 		tel: "",
 		password: "",
@@ -59,7 +60,7 @@ export class SignUpComponent implements OnInit {
 		});
 	}
 
-	async signUp(body: any) {
+	async signUp(body: ISignUp) {
 		const accessToken = await lastValueFrom(this._authService.signUp(body));
 
 		if (!accessToken) {

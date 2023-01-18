@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TypographyModule } from "src/app/shared/ui/typography";
 
-import { OrderInfoModule, StatusSelectModule } from "../../../../../../../../../features/orders/ui";
+import { OrderInfoModule } from "../../../../../../../../../features/orders/ui";
 import { ProductToOrderSelectModule } from "../../../../../../../../../features/products/ui";
 import { ProductToOrderModule } from "../../../../../../../../../features/products/ui/product-to-order";
 import { PreviewTableModule } from "../../../../../../../../../features/tables/ui";
@@ -28,7 +28,6 @@ import { ORDER_PROVIDERS } from "./providers";
 		ImageModule,
 		IconModule,
 		ProductToOrderSelectModule,
-		StatusSelectModule,
 		PreviewTableModule,
 		ButtonModule,
 		OrderInfoModule,

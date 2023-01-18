@@ -7,6 +7,7 @@ import { CryptoService } from "src/app/shared/modules/crypto";
 import type { UserEntity } from "../../../../../../graphql";
 import { UserRoleEnum } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
+import type { IUserForm } from "../interfaces";
 
 @Component({
 	selector: "app-user-dialog",
@@ -21,7 +22,7 @@ export class UserDialogComponent implements OnInit {
 		value: role
 	}));
 
-	readonly formGroup = this._formBuilder.group<Partial<any>>({
+	readonly formGroup = this._formBuilder.group<IUserForm>({
 		name: "",
 		email: "",
 		password: "",
@@ -29,7 +30,7 @@ export class UserDialogComponent implements OnInit {
 		role: UserRoleEnum.Client
 	});
 
-	data!: any;
+	data?: UserEntity;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -38,13 +39,20 @@ export class UserDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (this._dialogRef.data) {
-			this.data = this._dialogRef.data;
-			this.formGroup.patchValue(this._dialogRef.data);
+		if (!this._dialogRef.data) {
+			return;
 		}
+
+		this.data = this._dialogRef.data;
+		this.formGroup.patchValue(this._dialogRef.data);
 	}
 
-	closeDialog(user: Partial<UserEntity>) {
+	closeDialog(user?: IUserForm) {
+		if (!user) {
+			this._dialogRef.close();
+			return;
+		}
+
 		this._dialogRef.close({ ...this.data, ...user, password: this._cryptoService.encrypt(user.password || "") });
 	}
 }

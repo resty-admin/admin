@@ -1,7 +1,6 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
 import { map } from "rxjs";
 
 import { UsersService } from "../../../../../../../../../../../../features/users";
@@ -24,7 +23,7 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 	readonly guestsPageI18n = GUESTS_PAGE_I18N;
 
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
-	readonly users$: Observable<any> = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
+	readonly users$ = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 	readonly actions = this._usersService.actions;
 
 	columns: IDatatableColumn[] = [];

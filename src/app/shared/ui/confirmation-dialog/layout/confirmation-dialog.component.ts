@@ -22,10 +22,19 @@ export class ConfirmationDialogComponent<T extends IConfirmationData> implements
 	constructor(private readonly _dialogRef: DialogRef<T>, private readonly _formBuilder: FormBuilder) {}
 
 	ngOnInit() {
+		if (!this._dialogRef.data) {
+			return;
+		}
+
 		this.data = this._dialogRef.data;
 	}
 
-	closeDialog(data: T["value"] | undefined) {
+	closeDialog(data?: T["value"]) {
+		if (!data) {
+			this._dialogRef.close();
+			return;
+		}
+
 		this._dialogRef.close(data);
 	}
 }

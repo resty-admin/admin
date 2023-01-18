@@ -8,6 +8,7 @@ import { RouterService } from "src/app/shared/modules/router";
 
 import { AuthService } from "../../../../../../features/auth/services";
 import { VERIFICATION_CODE_PAGE_I18N } from "../constants";
+import type { IVerificationCode } from "../interfaces";
 
 @Component({
 	selector: "app-verification-code",
@@ -17,7 +18,7 @@ import { VERIFICATION_CODE_PAGE_I18N } from "../constants";
 })
 export class VerificationCodeComponent implements OnInit {
 	readonly verificationCodePageI18n = VERIFICATION_CODE_PAGE_I18N;
-	readonly form = this._formBuilder.group<any>({
+	readonly form = this._formBuilder.group<IVerificationCode>({
 		verificationCode: 0
 	});
 
@@ -37,7 +38,7 @@ export class VerificationCodeComponent implements OnInit {
 		await this._authService.updateAccessToken(dynamicToken);
 	}
 
-	async verifyCode({ verificationCode }: any) {
+	async verifyCode({ verificationCode }: IVerificationCode) {
 		await lastValueFrom(this._authService.verifyCode(verificationCode));
 
 		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);

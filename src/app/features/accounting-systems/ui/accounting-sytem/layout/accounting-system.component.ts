@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import { IAccountingSystem } from "../interfaces";
+
 @Component({
 	selector: "app-accounting-system",
 	templateUrl: "./accounting-system.component.html",
@@ -7,5 +9,5 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemComponent {
-	@Input() accountingSystem: any;
+	@Input() accountingSystem?: IAccountingSystem;
 }

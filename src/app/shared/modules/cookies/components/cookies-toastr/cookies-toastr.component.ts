@@ -11,7 +11,7 @@ import { CookiesService } from "../../services";
 })
 export class CookiesToastrComponent {
 	constructor(
-		@Optional() @Inject(HotToastRef) public toastRef: HotToastRef<any>,
+		@Optional() @Inject(HotToastRef) public toastRef: HotToastRef,
 		private readonly _cookiesService: CookiesService
 	) {}
 

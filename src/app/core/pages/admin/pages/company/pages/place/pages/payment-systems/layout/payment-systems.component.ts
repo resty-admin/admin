@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { lastValueFrom, map } from "rxjs";
 
+import type { PaymentSystemEntity } from "../../../../../../../../../../../graphql";
 import {
 	PaymentSystemDialogComponent,
 	PaymentSystemsService
 } from "../../../../../../../../../../features/payment-systems";
 import { PLACE_ID } from "../../../../../../../../../../shared/constants";
+import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
 import { PAYMENT_SYSTEMS_PAGE_I18N } from "../constants";
@@ -31,7 +33,7 @@ export class PaymentSystemsComponent {
 		private readonly _routerService: RouterService
 	) {}
 
-	async openPaymentSystemDialog(data: any) {
+	async openPaymentSystemDialog(data: AtLeast<PaymentSystemEntity, "id">) {
 		const paymentSystem = await lastValueFrom(
 			this._dialogService.open(PaymentSystemDialogComponent, { data }).afterClosed$
 		);

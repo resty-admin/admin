@@ -7,6 +7,7 @@ import { ActionsService } from "../../../../../../features/app";
 import { AuthService } from "../../../../../../features/auth/services";
 import { FORM_I18N } from "../../../../../constants";
 import { PROFILE_PAGE_I18N } from "../constants";
+import type { IProfileForm } from "../interfaces";
 
 @Component({
 	selector: "app-profile",
@@ -19,7 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	readonly profilePageI18n = PROFILE_PAGE_I18N;
 	readonly user$ = this._authService.me$;
 
-	readonly formGroup = this._formBuilder.group<any>({
+	readonly formGroup = this._formBuilder.group<IProfileForm>({
 		name: "",
 		tel: "",
 		email: ""
@@ -42,11 +43,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 		this._actionsService.setAction({
 			label: "Обновить пользователя",
-			func: () => this.updateMe(this.formGroup.value)
+			func: () => {
+				if (!this.formGroup.value) {
+					return;
+				}
+
+				this.updateMe(this.formGroup.value);
+			}
 		});
 	}
 
-	async updateMe(formValue: any) {
+	async updateMe(formValue: IProfileForm) {
 		await lastValueFrom(this._authService.updateMe(formValue));
 	}
 

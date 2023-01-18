@@ -10,7 +10,7 @@ import { catchError, firstValueFrom, of, tap } from "rxjs";
 export class I18nService {
 	constructor(private readonly _translocoService: TranslocoService) {}
 
-	selectTranslate<T = any>(
+	selectTranslate<T = unknown>(
 		key: TranslateParams,
 		parameters?: HashMap,
 		lang?: TranslocoScope | string,

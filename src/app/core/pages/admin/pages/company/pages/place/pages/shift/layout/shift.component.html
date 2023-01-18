@@ -14,14 +14,14 @@
 		class="tables-select"
 		[tables]="tables$ | async"
 		formControlName="tables"
-		[value]="formValue.tables"
+		[selectedTables]="formValue.tables"
 	></app-tables-select>
 
 	<footer class="footer">
 		<app-selected-tables
 			class="selected-tables"
 			formControlName="tables"
-			[value]="formValue.tables"
+			[selectedTables]="formValue.tables"
 		></app-selected-tables>
 		<button
 			appButton

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import { IHall } from "../interfaces/hall.interface";
+
 @Component({
 	selector: "app-hall",
 	templateUrl: "./hall.component.html",
@@ -7,6 +9,6 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallComponent {
-	@Input() hall: any;
+	@Input() hall?: IHall;
 	@Input() actions: any;
 }

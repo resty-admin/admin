@@ -7,11 +7,13 @@ import { lastValueFrom, map } from "rxjs";
 import type { ProductEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
 import { PLACE_ID } from "../../../../../shared/constants";
+import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
 import { RouterService } from "../../../../../shared/modules/router";
 import { AttributeGroupsService } from "../../../../attributes";
 import { CategoriesService } from "../../../../categories";
 import { ProductDialogGQL } from "../graphql/product-dialog";
+import type { IProductForm } from "../interfaces";
 
 @Component({
 	selector: "app-product-dialog",
@@ -21,12 +23,12 @@ import { ProductDialogGQL } from "../graphql/product-dialog";
 })
 export class ProductDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
-	readonly formGroup = this._formBuilder.group<Partial<any>>({
-		name: null,
+	readonly formGroup = this._formBuilder.group<IProductForm>({
+		name: "",
 		description: "",
-		price: null,
+		price: 0,
 		file: null,
-		category: null,
+		category: "",
 		attrsGroups: []
 	});
 
@@ -57,7 +59,7 @@ export class ProductDialogComponent implements OnInit {
 		return this._attributeGroupsService.openCreateAttributeGroupDialog({ name, place });
 	};
 
-	data!: any;
+	data?: DeepPartial<ProductEntity>;
 
 	constructor(
 		private readonly _productDialogGQL: ProductDialogGQL,
@@ -70,13 +72,20 @@ export class ProductDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (this._dialogRef.data) {
-			this.data = this._dialogRef.data;
-			this.formGroup.patchValue(this._dialogRef.data);
+		if (!this._dialogRef.data) {
+			return;
 		}
+
+		this.data = this._dialogRef.data;
+		this.formGroup.patchValue(this._dialogRef.data);
 	}
 
-	async closeDialog(product: Partial<ProductEntity>) {
+	async closeDialog(product?: Partial<IProductForm>) {
+		if (!product) {
+			this._dialogRef.close();
+			return;
+		}
+
 		return this._dialogRef.close({
 			...this.data,
 			...product,

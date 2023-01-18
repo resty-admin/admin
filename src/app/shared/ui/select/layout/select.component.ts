@@ -19,7 +19,7 @@ import { ISelectTheme } from "../interfaces";
 	providers: getControlValueAccessorProviders(SelectComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SelectComponent extends ControlValueAccessor<any> implements OnChanges, OnInit {
+export class SelectComponent extends ControlValueAccessor<string> implements OnChanges, OnInit {
 	@ContentChild("selectLabelTemplate", { static: true }) selectLabelTemplate?: TemplateRef<unknown>;
 	@ContentChild("selectOptionTemplate", { static: true }) selectOptionTemplate?: TemplateRef<unknown>;
 
@@ -31,7 +31,7 @@ export class SelectComponent extends ControlValueAccessor<any> implements OnChan
 	@Input() addTag: AddTagFn | boolean = false;
 	@Input() bindLabel = "label";
 	@Input() bindValue = "value";
-	@Input() options?: any[] | null = [];
+	@Input() options?: unknown[] | null = [];
 	@Input() compareWith: CompareWithFn = (a, b) => (this.bindValue ? a[this.bindValue] === b : a === b);
 
 	readonly messages = {
@@ -44,7 +44,7 @@ export class SelectComponent extends ControlValueAccessor<any> implements OnChan
 	readonly hasValue$ = this.formControl.valueChanges.pipe(map((value) => (isArray(value) ? value.length : value)));
 
 	constructor() {
-		super(null);
+		super("");
 	}
 
 	override ngOnChanges(changes: ISimpleChanges<SelectComponent>) {

@@ -26,7 +26,7 @@ export class OrderComponent implements OnInit, OnDestroy {
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
 	readonly productsControl = new FormControl();
-	readonly usersControl = new FormControl<any>();
+	readonly usersControl = new FormControl<string[]>();
 	private readonly _orderPageQuery = this._orderPageGQL.watch();
 	readonly order$ = this._orderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
@@ -88,15 +88,14 @@ export class OrderComponent implements OnInit, OnDestroy {
 				untilDestroyed(this),
 				tap(async (users) => {
 					const order = await lastValueFrom(this.order$.pipe(take(1)));
-					const productsByUser = Object.keys(this.productsControl.value || {}).reduce(
-						(productsMap, id) => ({
+					const productsByUser = Object.keys(this.productsControl.value || {}).reduce((productsMap, id) => {
+						const userId = (order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id;
+
+						return {
 							...productsMap,
-							[id]: (users || []).includes(
-								(order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id
-							)
-						}),
-						{}
-					);
+							[id]: userId && (users || []).includes(userId)
+						};
+					}, {});
 
 					this.productsControl.patchValue(productsByUser);
 				})

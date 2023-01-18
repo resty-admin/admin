@@ -5,9 +5,13 @@ import { FormBuilder } from "@ngneat/reactive-forms";
 import { map } from "rxjs";
 import { AttributesService } from "src/app/features/attributes/index";
 
+import type { AttributesGroupEntity } from "../../../../../../graphql";
 import { AttributeGroupTypeEnum } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
+import { buildForm } from "../../../../../shared/functions";
+import type { DeepPartial } from "../../../../../shared/interfaces";
 import { AttributeGroupDialogGQL } from "../graphql/attribute-group-dialog";
+import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.interface";
 
 @Component({
 	selector: "app-attribute-group-dialog",
@@ -17,11 +21,11 @@ import { AttributeGroupDialogGQL } from "../graphql/attribute-group-dialog";
 })
 export class AttributeGroupDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
-	readonly formGroup = this._formBuilder.group<Partial<any>>({
-		name: "",
+	readonly formGroup = buildForm({
+		name: [""],
 		attributes: [[]],
-		maxItemsForPick: 0,
-		type: AttributeGroupTypeEnum.Add
+		maxItemsForPick: [0],
+		type: [AttributeGroupTypeEnum.Add]
 	});
 
 	readonly attributeGroupTypes = Object.entries(AttributeGroupTypeEnum).map(([key, value]) => ({
@@ -37,7 +41,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 
 	readonly addTag = (name: string) => this._attributesService.openCreateAttributeDialog({ name });
 
-	data!: any;
+	data?: DeepPartial<AttributesGroupEntity>;
 
 	constructor(
 		private readonly _attributeGroupDialogGQL: AttributeGroupDialogGQL,
@@ -47,13 +51,20 @@ export class AttributeGroupDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (this._dialogRef.data) {
-			this.data = this._dialogRef.data;
-			this.formGroup.patchValue(this._dialogRef.data);
+		if (!this._dialogRef.data) {
+			return;
 		}
+
+		this.data = this._dialogRef.data;
+		this.formGroup.patchValue(this._dialogRef.data);
 	}
 
-	closeDialog(attributeGroup: Partial<any>) {
+	closeDialog(attributeGroup: Partial<IAttributeGroupForm> | undefined) {
+		if (!attributeGroup) {
+			this._dialogRef.close();
+			return;
+		}
+
 		this._dialogRef.close({ ...this.data, ...attributeGroup });
 	}
 }

@@ -7,7 +7,6 @@ import { ApolloModule } from "../shared/modules/apollo";
 import { CookiesModule } from "../shared/modules/cookies";
 import { CryptoModule } from "../shared/modules/crypto";
 import { ErrorsModule } from "../shared/modules/errors";
-import { FilesModule } from "../shared/modules/files";
 import { I18nModule } from "../shared/modules/i18n";
 import { StoreModule } from "../shared/modules/store";
 import { ThemeModule } from "../shared/modules/theme";
@@ -50,7 +49,6 @@ import { CORE_PROVIDERS } from "./providers";
 		StoreModule,
 		DialogModule,
 		ProgressBarModule.forRoot(),
-		FilesModule.forRoot(),
 		FileModule.forRoot(FILE_CONFIG),
 		ApolloModule.forRoot(APOLLO_CONFIG),
 		ApiModule.forRoot(API_CONFIG),

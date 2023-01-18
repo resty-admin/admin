@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import type { ITab } from "../interfaces";
+
 @Component({
 	selector: "app-tabs",
 	templateUrl: "./tabs.component.html",
@@ -7,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabsComponent {
-	@Input() tabs: any[] = [];
+	@Input() tabs: ITab[] = [];
 
 	trackByFn(index: number) {
 		return index;

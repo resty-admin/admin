@@ -11,6 +11,7 @@ import { AuthService } from "../../../../../../features/auth/services";
 import { FORM_I18N } from "../../../../../constants";
 import { AUTH_TYPES } from "../../../data";
 import { SIGN_IN_PAGE_I18N } from "../constants";
+import type { ISignIn } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -26,7 +27,7 @@ export class SignInComponent implements OnInit {
 	readonly types = AUTH_TYPES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group({
+	readonly form = this._formBuilder.group<ISignIn>({
 		email: "",
 		tel: "",
 		password: ""
@@ -47,7 +48,7 @@ export class SignInComponent implements OnInit {
 		});
 	}
 
-	async signIn(body: any) {
+	async signIn(body: ISignIn) {
 		await lastValueFrom(this._authService.signIn(body));
 
 		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);

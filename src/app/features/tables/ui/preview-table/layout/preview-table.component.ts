@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import type { DeepPartial } from "@ngneat/reactive-forms/lib/types";
 
-import type { TableEntity } from "../../../../../../graphql";
+import { IPreviewTable } from "../interfaces";
 
 @Component({
 	selector: "app-preview-table",
@@ -10,6 +9,6 @@ import type { TableEntity } from "../../../../../../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewTableComponent {
-	@Input() table?: DeepPartial<TableEntity> | null;
+	@Input() table?: IPreviewTable;
 	@Input() active = false;
 }

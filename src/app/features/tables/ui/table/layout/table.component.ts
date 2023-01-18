@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import { ITable } from "../interfaces";
+
 @Component({
 	selector: "app-table",
 	templateUrl: "./table.component.html",
@@ -7,6 +9,6 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent {
-	@Input() table: any;
+	@Input() table?: ITable;
 	@Input() actions: any;
 }

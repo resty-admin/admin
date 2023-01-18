@@ -21,7 +21,7 @@ import { AdminPageGQL } from "../graphql/admin-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminComponent implements OnInit {
-	readonly profileActions: IAction<any>[] = [
+	readonly profileActions: IAction[] = [
 		{
 			label: "Профиль",
 			icon: "profile",

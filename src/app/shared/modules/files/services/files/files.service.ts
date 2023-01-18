@@ -11,7 +11,7 @@ import { FILE_FIELD, FILES_ENDPOINTS, FILES_FIELD } from "../../constants";
 export class FilesService {
 	constructor(private readonly _apiService: ApiService) {}
 
-	private _getFormData(fields: Record<string, any>) {
+	private _getFormData(fields: Record<string, Blob | string>) {
 		const formData = new FormData();
 
 		for (const field in fields) {
@@ -29,11 +29,11 @@ export class FilesService {
 		return of(file?.url ? file : null);
 	}
 
-	uploadOne(file: File): Observable<IFile> {
+	uploadOne(file: Blob): Observable<IFile> {
 		return this._apiService.post<IFile>(FILES_ENDPOINTS.UPLOAD_ONE, this._getFormData({ [FILE_FIELD]: file }));
 	}
 
-	uploadMany(files: File[]): Observable<IFile[]> {
+	uploadMany(files: Blob): Observable<IFile[]> {
 		return this._apiService.post<IFile[]>(FILES_ENDPOINTS.UPLOAD_MANY, this._getFormData({ [FILES_FIELD]: files }));
 	}
 }

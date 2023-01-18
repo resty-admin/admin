@@ -5,6 +5,8 @@ import { includeKeys } from "elf-sync-state";
 import { ACCESS_TOKEN } from "src/app/shared/constants";
 import { LocalforageService } from "src/app/shared/modules/localforage";
 
+import type { UserEntity } from "../../../../../graphql";
+import type { DeepPartial } from "../../../../shared/interfaces";
 import type { IAuthState } from "../../interfaces";
 
 @Injectable({ providedIn: "root" })
@@ -28,7 +30,7 @@ export class AuthRepository {
 		return this._store.update(setProp(ACCESS_TOKEN, accessToken));
 	}
 
-	updateUser(user?: any) {
+	updateUser(user?: DeepPartial<UserEntity>) {
 		return this._store.update(setProp("user", user));
 	}
 }

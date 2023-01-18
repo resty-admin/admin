@@ -9,6 +9,7 @@ import { RouterService } from "../../../../../../shared/modules/router";
 import { FORM_I18N } from "../../../../../constants";
 import { ASIDE_I18N } from "../constants";
 import { ASIDE_PAGES } from "../data";
+import type { IAsideCompany, IAsidePlace, IAsideUser } from "../interfaces";
 import { ASIDE_PROVIDERS } from "../providers";
 
 @UntilDestroy()
@@ -26,26 +27,24 @@ export class AsideComponent implements OnInit {
 	@Output() signOutClicked = new EventEmitter();
 	@Output() addCompanyClicked = new EventEmitter();
 	@Output() addPlaceClicked = new EventEmitter();
-	@Input() user: any;
-	@Input() isAsideOpen: any;
+	@Input() isAsideOpen?: boolean;
+	@Input() user?: IAsideUser | null = null;
+	@Input() companies?: IAsideCompany[] | null = null;
+	@Input() places?: IAsidePlace[] | null = null;
 	@Input() companyActions: any;
 	@Input() placeActions: any;
-	@Input() companies: any;
-	@Input() places: any;
 
 	readonly adminRoutes = ADMIN_ROUTES;
 
-	readonly companyControl = new FormControl<any>();
-	readonly placeControl = new FormControl<any>();
+	readonly companyControl = new FormControl<string | undefined>();
+	readonly placeControl = new FormControl<string | undefined>();
 
 	readonly pages$ = combineLatest([this.companyControl.valueChanges, this.placeControl.valueChanges]).pipe(
-		map(([company, place]: any) =>
+		map(([company, place]) =>
 			ASIDE_PAGES.map((asidePage) => ({
 				...asidePage,
 				disabled: !(company && place),
-				routerLink: asidePage.routerLink
-					.replace(PLACE_ID, place?.id || place)
-					.replace(COMPANY_ID, company?.id || company)
+				routerLink: asidePage.routerLink.replace(PLACE_ID, place!).replace(COMPANY_ID, company!)
 			}))
 		)
 	);
@@ -78,9 +77,7 @@ export class AsideComponent implements OnInit {
 			}
 
 			isCompanyProgramatic = true;
-			await this._routerService.navigateByUrl(
-				ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, company?.id || company)
-			);
+			await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, company));
 		});
 
 		this.placeControl.valueChanges.pipe(untilDestroyed(this), skip(1)).subscribe(async (place) => {
@@ -98,10 +95,12 @@ export class AsideComponent implements OnInit {
 			// if you refresh page with active company and select place - value will be a string, not an object
 			const company = this.companyControl.value;
 
+			if (!company) {
+				return;
+			}
+
 			await this._routerService.navigateByUrl(
-				ADMIN_ROUTES.PLACE.absolutePath
-					.replace(COMPANY_ID, company?.id || company)
-					.replace(PLACE_ID, place?.id || place)
+				ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, company).replace(PLACE_ID, place)
 			);
 		});
 

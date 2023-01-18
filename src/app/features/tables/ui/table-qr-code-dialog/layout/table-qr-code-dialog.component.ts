@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 
 import type { TableEntity } from "../../../../../../graphql";
+import type { DeepPartial } from "../../../../../shared/interfaces";
 
 @Component({
 	selector: "app-table-qr-code-dialog",
@@ -11,12 +12,16 @@ import type { TableEntity } from "../../../../../../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableQrCodeDialogComponent implements OnInit {
-	data!: TableEntity;
+	data?: DeepPartial<TableEntity>;
 	qrData = "";
 	constructor(private readonly _dialogRef: DialogRef) {}
 
 	ngOnInit() {
 		this.data = this._dialogRef.data;
+
+		if (!this.data) {
+			return;
+		}
 
 		this.qrData = `http://localhost:4201/places/f657841f-b153-4775-a060-17648ab51b88/connect-to-table?code=${this.data.code}`;
 	}

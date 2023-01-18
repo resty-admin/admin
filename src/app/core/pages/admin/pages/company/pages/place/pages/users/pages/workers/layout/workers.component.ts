@@ -1,7 +1,6 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
 import { map } from "rxjs";
 
 import { ActionsService } from "../../../../../../../../../../../../features/app";
@@ -25,7 +24,7 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 	readonly workersPageI18n = WORKERS_PAGE_I18N;
 
 	private readonly _workersPageQuery = this._workersPageGQL.watch();
-	readonly users$: Observable<any> = this._workersPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
+	readonly users$ = this._workersPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 
 	readonly actions = this._usersService.actions;
 	columns: IDatatableColumn[] = [];

@@ -1,7 +1,6 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
 import { map } from "rxjs";
 import { ProductsService } from "src/app/features/products";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
@@ -26,9 +25,7 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 
-	readonly products$: Observable<any> = this._productsPageQuery.valueChanges.pipe(
-		map((result) => result.data.products.data)
-	);
+	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
 
 	readonly actions = this._productsService.actions;
 

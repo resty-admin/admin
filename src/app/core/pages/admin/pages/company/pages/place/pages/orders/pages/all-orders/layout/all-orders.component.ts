@@ -1,7 +1,6 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
 import { map } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
@@ -20,12 +19,10 @@ import { AllOrdersPageGQL } from "../graphql/all-orders-page";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AllOrdersComponent implements AfterViewInit, OnInit {
-	@ViewChild("moreTemplate", { static: true }) moreTemplate!: any;
+	@ViewChild("moreTemplate", { static: true }) moreTemplate?: TemplateRef<unknown>;
 	readonly allOrdersPageI18n = ALL_ORDERS_PAGE_I18N;
 	private readonly _allOrdersPageQuery = this._allOrdersPageGQL.watch();
-	readonly allOrders$: Observable<any> = this._allOrdersPageQuery.valueChanges.pipe(
-		map((result) => result.data.historyOrders.data)
-	);
+	readonly allOrders$ = this._allOrdersPageQuery.valueChanges.pipe(map((result) => result.data.historyOrders.data));
 
 	readonly actions = this._ordersService.actions;
 

@@ -1,6 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 import { ShiftsService } from "src/app/features/shift";
@@ -8,11 +8,13 @@ import { ShiftsService } from "src/app/features/shift";
 import { HallsService } from "../../../../../../../../../../features/halls";
 import { TablesService } from "../../../../../../../../../../features/tables";
 import { PLACE_ID } from "../../../../../../../../../../shared/constants";
+import { buildForm } from "../../../../../../../../../../shared/functions";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
 import { SHIFT_PAGE_I18N } from "../constants";
 import { ShiftPageGQL } from "../graphql/shift-page";
+import type { IShiftForm } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -31,9 +33,9 @@ export class ShiftComponent implements OnInit {
 	readonly halls$ = this.shiftPage$.pipe(map((result) => result.data.halls.data));
 	readonly activeShift$ = this.shiftPage$.pipe(map((result) => result.data.activeShift));
 
-	readonly activeShiftGroup = this._formBuilder.group<any>({
-		id: "",
-		tables: []
+	readonly activeShiftGroup = buildForm<IShiftForm>({
+		id: [""],
+		tables: [[], [Validators.minLength(1)]]
 	});
 
 	readonly hallsControl = new FormControl();
@@ -49,7 +51,7 @@ export class ShiftComponent implements OnInit {
 	) {}
 
 	get formValue() {
-		return this.activeShiftGroup.value as any;
+		return this.activeShiftGroup.value;
 	}
 
 	ngOnInit() {
@@ -61,14 +63,22 @@ export class ShiftComponent implements OnInit {
 		});
 	}
 
-	async createShift(tables: any[]) {
+	async createShift(tables: IShiftForm["tables"] | undefined) {
+		if (!tables) {
+			return;
+		}
+
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		await lastValueFrom(this._shiftsService.createShift({ tables: tables.map(({ id }) => id), place }));
+		await lastValueFrom(this._shiftsService.createShift({ tables: tables.map((table) => table.id), place }));
 	}
 
-	async updateShift(id: string, tables: any[]) {
-		await lastValueFrom(this._shiftsService.updateShift({ id, tables: tables.map(({ id }) => id) }));
+	async updateShift(id: string, tables: IShiftForm["tables"] | undefined) {
+		if (!tables) {
+			return;
+		}
+
+		await lastValueFrom(this._shiftsService.updateShift({ id, tables: tables.map((table) => table.id) }));
 	}
 
 	async closeShift(shiftId: string) {

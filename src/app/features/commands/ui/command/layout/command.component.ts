@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import { ICommand } from "../interfaces/command.interface";
+
 @Component({
 	selector: "app-command",
 	templateUrl: "./command.component.html",
@@ -7,6 +9,6 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandComponent {
-	@Input() command: any;
+	@Input() command?: ICommand;
 	@Input() actions: any;
 }

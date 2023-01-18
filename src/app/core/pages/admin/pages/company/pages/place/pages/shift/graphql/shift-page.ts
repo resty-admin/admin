@@ -28,7 +28,14 @@ export interface ShiftPageQuery {
 		__typename?: "PaginatedTable";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "TableEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "TableEntity";
+					id: string;
+					name: string;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			  }[]
+			| null;
 	};
 	halls: {
 		__typename?: "PaginatedHall";
@@ -58,6 +65,10 @@ export const ShiftPageDocument = gql`
 			data {
 				id
 				name
+				file {
+					id
+					url
+				}
 			}
 		}
 		halls(filtersArgs: $filtersArgs, take: $take, skip: $skip) {

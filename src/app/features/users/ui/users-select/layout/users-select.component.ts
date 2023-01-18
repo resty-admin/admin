@@ -9,6 +9,8 @@ import { pairwise } from "rxjs";
 import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
 import { USERS_SELECT_I18N } from "../constants";
+import type { IUserToSelect } from "../interfaces";
+import type { IUsersSelectForm } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -20,11 +22,11 @@ import { USERS_SELECT_I18N } from "../constants";
 })
 export class UsersSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
 	readonly usersSelectI18n = USERS_SELECT_I18N;
-	@Input() users?: any[] | null = [];
+	@Input() users?: IUserToSelect[] | null = [];
 
-	readonly usersGroup = this._formBuilder.group({ all: false });
+	readonly usersGroup = this._formBuilder.group<IUsersSelectForm>({ all: false });
 
-	onChange: ((value: any) => void) | undefined;
+	onChange: ((value: Omit<IUsersSelectForm, "all">) => void) | undefined;
 	onTouched: (() => void) | undefined;
 
 	trackByFn(index: number) {
@@ -56,15 +58,11 @@ export class UsersSelectComponent implements OnInit, OnChanges, ControlValueAcce
 				return;
 			}
 
-			const usersToReturn = Object.entries(usersMap)
-				.filter(([_, value]) => value)
-				.map(([key]) => key);
-
 			if (!this.onChange) {
 				return;
 			}
 
-			this.onChange(usersToReturn);
+			this.onChange(usersMap);
 		});
 	}
 
@@ -78,7 +76,7 @@ export class UsersSelectComponent implements OnInit, OnChanges, ControlValueAcce
 		}
 	}
 
-	registerOnChange(onChange: (value: any) => void): void {
+	registerOnChange(onChange: (value: Omit<IUsersSelectForm, "all">) => void): void {
 		this.onChange = onChange;
 	}
 
@@ -90,7 +88,7 @@ export class UsersSelectComponent implements OnInit, OnChanges, ControlValueAcce
 		return this.usersGroup.errors;
 	}
 
-	writeValue(value: any): void {
+	writeValue(value: Omit<IUsersSelectForm, "all">): void {
 		this.usersGroup.patchValue(value, { emitValue: false });
 	}
 }

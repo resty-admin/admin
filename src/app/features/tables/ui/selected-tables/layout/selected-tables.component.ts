@@ -7,6 +7,8 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
 import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
+import type { ISelectTable } from "../../tables-select/interfaces";
+import type { ISelectedTable } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -17,19 +19,19 @@ import type { ISimpleChanges } from "../../../../../shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectedTablesComponent implements OnInit, OnChanges, ControlValueAccessor {
-	@Input() value: any;
-	onChange: ((value: any) => void) | undefined;
+	@Input() selectedTables?: ISelectTable[];
+	onChange: ((value: ISelectedTable[]) => void) | undefined;
 	onTouched: (() => void) | undefined;
-	readonly selectedTablesControl = new FormControl<any>([]);
+	readonly selectedTablesControl = new FormControl<ISelectedTable[]>([]);
 	readonly selectedTables$ = this.selectedTablesControl.value$;
 
 	trackByFn(index: number) {
 		return index;
 	}
 
-	removeSelectedTable(selectedTableToRemove: any) {
+	removeSelectedTable(selectedTableToRemove: ISelectedTable) {
 		const newValue = this.selectedTablesControl.value.filter(
-			(selectedTable: any) => selectedTable.id !== selectedTableToRemove.id
+			(selectedTable) => selectedTable.id !== selectedTableToRemove.id
 		);
 
 		this.selectedTablesControl.setValue(newValue);
@@ -46,14 +48,14 @@ export class SelectedTablesComponent implements OnInit, OnChanges, ControlValueA
 	}
 
 	ngOnChanges(changes: ISimpleChanges<SelectedTablesComponent>) {
-		if (!changes.value || !changes.value.currentValue) {
+		if (!changes.selectedTables || !changes.selectedTables.currentValue) {
 			return;
 		}
 
-		this.writeValue(changes.value.currentValue);
+		this.writeValue(changes.selectedTables.currentValue);
 	}
 
-	registerOnChange(onChange: (value: any) => void): void {
+	registerOnChange(onChange: (value: ISelectedTable[]) => void): void {
 		this.onChange = onChange;
 	}
 
@@ -65,7 +67,7 @@ export class SelectedTablesComponent implements OnInit, OnChanges, ControlValueA
 		return this.selectedTablesControl.errors;
 	}
 
-	writeValue(selectedTables: any[]): void {
+	writeValue(selectedTables: ISelectTable[]): void {
 		this.selectedTablesControl.setValue(selectedTables, { emitValue: false });
 	}
 }

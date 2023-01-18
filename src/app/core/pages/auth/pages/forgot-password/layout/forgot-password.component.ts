@@ -9,6 +9,7 @@ import { AuthService } from "../../../../../../features/auth/services";
 import { FORM_I18N } from "../../../../../constants";
 import { AUTH_TYPES } from "../../../data";
 import { FORGOT_PASSWORD_PAGE_I18N } from "../constants";
+import type { IForgotPassword } from "../interfaces";
 
 @Component({
 	selector: "app-forgot-password",
@@ -22,7 +23,7 @@ export class ForgotPasswordComponent {
 	readonly adminRoutes = ADMIN_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group<any>({
+	readonly form = this._formBuilder.group<IForgotPassword>({
 		email: "",
 		tel: ""
 	});
@@ -31,7 +32,7 @@ export class ForgotPasswordComponent {
 
 	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
 
-	async forgotPassword(body: any) {
+	async forgotPassword(body: IForgotPassword) {
 		await lastValueFrom(this._authService.forgotPassword(body));
 	}
 }

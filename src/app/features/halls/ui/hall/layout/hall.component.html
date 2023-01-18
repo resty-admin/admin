@@ -1,9 +1,8 @@
 <div class="hall">
-	<app-image class="image" [remote]="true" [name]="hall.file?.url" placeholder="hall"></app-image>
+	<app-image class="image" [remote]="true" [name]="hall?.file?.url" placeholder="hall"></app-image>
 
 	<div class="content">
-		<p class="label">{{ hall.name }}</p>
-		<p class="description">{{ hall.description }}</p>
+		<p class="label">{{ hall?.name }}</p>
 	</div>
 
 	<button

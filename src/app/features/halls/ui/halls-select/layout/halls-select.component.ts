@@ -8,6 +8,7 @@ import { pairwise } from "rxjs";
 
 import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
+import type { IHallsSelectForm, ISelectHall } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -18,11 +19,11 @@ import type { ISimpleChanges } from "../../../../../shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
-	@Input() halls?: any[] | null = [];
+	@Input() halls?: ISelectHall[] | null = [];
 
-	readonly hallsGroup = this._formBuilder.group({ all: false });
+	readonly hallsGroup = this._formBuilder.group<IHallsSelectForm>({ all: false });
 
-	onChange: ((value: any) => void) | undefined;
+	onChange: ((value: Omit<IHallsSelectForm, "all">) => void) | undefined;
 	onTouched: (() => void) | undefined;
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
@@ -54,15 +55,11 @@ export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAcce
 				return;
 			}
 
-			const hallsToReturn = Object.entries(hallsMap)
-				.filter(([_, value]) => value)
-				.map(([key]) => key);
-
 			if (!this.onChange) {
 				return;
 			}
 
-			this.onChange(hallsToReturn);
+			this.onChange(hallsMap);
 		});
 	}
 
@@ -76,7 +73,7 @@ export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAcce
 		}
 	}
 
-	registerOnChange(onChange: (value: any) => void): void {
+	registerOnChange(onChange: (value: Omit<IHallsSelectForm, "all">) => void): void {
 		this.onChange = onChange;
 	}
 
@@ -88,7 +85,8 @@ export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAcce
 		return this.hallsGroup.errors;
 	}
 
-	writeValue(value: any): void {
-		this.hallsGroup.patchValue(value, { emitValue: false });
+	writeValue(value: string[]): void {
+		console.log(value);
+		// this.hallsGroup.patchValue(value, { emitValue: false });
 	}
 }

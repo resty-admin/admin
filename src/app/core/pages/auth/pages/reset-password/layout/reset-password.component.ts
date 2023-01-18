@@ -7,6 +7,7 @@ import type { IAuthType } from "../../../../../../features/auth/interfaces";
 import { AuthService } from "../../../../../../features/auth/services";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { RESET_PASSWORD_PAGE_I18N } from "../constants";
+import type { IResetPassword } from "../interfaces";
 
 @Component({
 	selector: "app-reset-password",
@@ -19,7 +20,7 @@ export class ResetPasswordComponent {
 	readonly adminRoutes = ADMIN_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group<any>({
+	readonly form = this._formBuilder.group<IResetPassword>({
 		password: ""
 	});
 
@@ -29,7 +30,7 @@ export class ResetPasswordComponent {
 		private readonly _routerService: RouterService
 	) {}
 
-	async resetPassword(body: any) {
+	async resetPassword(body: IResetPassword) {
 		await lastValueFrom(this._authService.resetPassword(body));
 
 		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);

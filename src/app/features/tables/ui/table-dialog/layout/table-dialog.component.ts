@@ -6,7 +6,9 @@ import { lastValueFrom } from "rxjs";
 
 import type { TableEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
+import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
+import type { ITableForm } from "../interfaces";
 
 @Component({
 	selector: "app-table-dialog",
@@ -16,13 +18,13 @@ import { FilesService } from "../../../../../shared/modules/files";
 })
 export class TableDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
-	readonly formGroup = this._formBuilder.group<Partial<any>>({
+	readonly formGroup = this._formBuilder.group<ITableForm>({
 		code: 0,
 		name: "",
 		file: ""
 	});
 
-	data!: any;
+	data?: DeepPartial<TableEntity>;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -31,13 +33,20 @@ export class TableDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (this._dialogRef.data) {
-			this.data = this._dialogRef.data;
-			this.formGroup.patchValue(this._dialogRef.data);
+		if (!this._dialogRef.data) {
+			return;
 		}
+
+		this.data = this._dialogRef.data;
+		this.formGroup.patchValue(this._dialogRef.data);
 	}
 
-	async closeDialog(table: Partial<TableEntity>) {
+	async closeDialog(table: ITableForm) {
+		if (!table) {
+			this._dialogRef.close();
+			return;
+		}
+
 		this._dialogRef.close({
 			...this.data,
 			...table,

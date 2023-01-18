@@ -8,8 +8,8 @@ import { filter, map, startWith } from "rxjs";
 @Injectable({ providedIn: "root" })
 export class RouterService {
 	readonly url$ = this._router.events.pipe(
-		filter((event: any) => event instanceof NavigationEnd),
-		startWith(this._router),
+		filter((event) => event instanceof NavigationEnd),
+		startWith(this._router as any),
 		map((event: NavigationEnd) => {
 			const { url } = event;
 

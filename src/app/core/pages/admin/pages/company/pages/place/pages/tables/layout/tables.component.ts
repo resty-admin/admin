@@ -1,7 +1,6 @@
 import type { AfterViewInit, OnDestroy } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
 import { lastValueFrom, map } from "rxjs";
 import { TableQrCodeDialogComponent, TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
@@ -24,7 +23,7 @@ import { TablesPageGQL } from "../graphql/tables-page";
 export class TablesComponent implements AfterViewInit, OnDestroy {
 	readonly tablesPageI18n = TABLES_PAGE_I18N;
 	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
-	readonly tables$: Observable<any> = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
+	readonly tables$ = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
 	readonly actions = this._tablesService.actions;
 
 	constructor(

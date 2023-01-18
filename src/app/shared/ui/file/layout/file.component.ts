@@ -1,12 +1,13 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { BehaviorSubject, filter } from "rxjs";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { BehaviorSubject } from "rxjs";
 import { ControlValueAccessor } from "src/app/shared/classes";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 import { getControlValueAccessorProviders } from "src/app/shared/functions";
 
-import type { ISimpleChanges } from "../../../interfaces";
+import { FileEntity } from "../../../../../graphql";
+import type { IHTMLInputEvent, ISimpleChanges } from "../../../interfaces";
 import { FILE_CONFIG } from "../injection-tokens";
 import { IFileConfig, IFileTheme } from "../interfaces";
 
@@ -18,10 +19,10 @@ import { IFileConfig, IFileTheme } from "../interfaces";
 	providers: getControlValueAccessorProviders(FileComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileComponent extends ControlValueAccessor<string> implements OnInit, OnChanges {
+export class FileComponent extends ControlValueAccessor<File | null> implements OnInit, OnChanges {
 	@Input() label = "";
 	@Input() theme: IFileTheme = "1";
-	@Input() multiple = false;
+	@Input() previewImage?: FileEntity;
 
 	fileName = "";
 
@@ -31,7 +32,7 @@ export class FileComponent extends ControlValueAccessor<string> implements OnIni
 	className = `app-file ${THEME.replace(ANY_SYMBOL, this.theme)}`;
 
 	constructor(@Inject(FILE_CONFIG) private readonly _fileConfig: IFileConfig) {
-		super("");
+		super(null);
 	}
 
 	override ngOnChanges(changes: ISimpleChanges<FileComponent>) {
@@ -39,15 +40,28 @@ export class FileComponent extends ControlValueAccessor<string> implements OnIni
 			this.className = `app-file ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
 		}
 
+		if (changes.previewImage && changes.previewImage.currentValue) {
+			const { id, url } = changes.previewImage.currentValue;
+
+			this.fileName = id;
+			this.srcSubject.next(`${this._fileConfig.assetsUrl}/${url}`);
+		}
+
 		super.ngOnChanges(changes);
 	}
 
 	upload(event: Event) {
-		const files = [...(event.target as any).files];
+		const { target } = event as IHTMLInputEvent;
+
+		if (!target || !target.files) {
+			return;
+		}
+
+		const files = [...target.files];
 
 		this.fileName = files.reduce((pre, current) => `${pre} ${current.name},`, "");
 
-		const emitValue = this.multiple ? files : files[0];
+		const [emitValue] = files;
 
 		this.srcSubject.next("");
 
@@ -66,19 +80,5 @@ export class FileComponent extends ControlValueAccessor<string> implements OnIni
 		}
 
 		this.valueChange.emit(emitValue);
-	}
-
-	override ngOnInit() {
-		super.ngOnInit();
-
-		this.formControl.valueChanges
-			.pipe(
-				untilDestroyed(this),
-				filter((value) => Boolean(value))
-			)
-			.subscribe((value: any) => {
-				this.fileName = value.id;
-				this.srcSubject.next(`${this._fileConfig.assetsUrl}/${value.url}`);
-			});
 	}
 }

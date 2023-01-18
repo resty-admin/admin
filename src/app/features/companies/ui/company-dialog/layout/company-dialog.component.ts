@@ -6,7 +6,9 @@ import { lastValueFrom } from "rxjs";
 
 import type { CompanyEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
+import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
+import type { ICompanyForm } from "../interfaces";
 
 @Component({
 	selector: "app-company-dialog",
@@ -16,12 +18,12 @@ import { FilesService } from "../../../../../shared/modules/files";
 })
 export class CompanyDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
-	readonly formGroup = this._formBuilder.group({
+	readonly formGroup = this._formBuilder.group<ICompanyForm>({
 		name: "",
 		logo: null
 	});
 
-	data: any;
+	data?: DeepPartial<CompanyEntity>;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -30,13 +32,20 @@ export class CompanyDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (this._dialogRef.data) {
-			this.data = this._dialogRef.data;
-			this.formGroup.patchValue(this._dialogRef.data);
+		if (!this._dialogRef.data) {
+			return;
 		}
+
+		this.data = this._dialogRef.data;
+		this.formGroup.patchValue(this._dialogRef.data);
 	}
 
-	async closeDialog(company: Partial<CompanyEntity>) {
+	async closeDialog(company?: ICompanyForm) {
+		if (!company) {
+			this._dialogRef.close();
+			return;
+		}
+
 		this._dialogRef.close({
 			...this.data,
 			...company,

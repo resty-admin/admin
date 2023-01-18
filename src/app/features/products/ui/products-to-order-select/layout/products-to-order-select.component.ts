@@ -7,6 +7,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
 import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
+import type { IProductsSelectForm, ISelectProductToOrder, ISelectProductToOrderByStatus } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -17,14 +18,12 @@ import type { ISimpleChanges } from "../../../../../shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsToOrderSelectComponent implements OnChanges, OnInit, ControlValueAccessor {
-	@Input() productsToOrders?: any[] | null;
-
-	onChange: ((value: any) => void) | undefined;
+	@Input() productsToOrders?: ISelectProductToOrder[] | null;
+	productsToOrdersByStatus?: ISelectProductToOrderByStatus[];
+	onChange: ((value: IProductsSelectForm) => void) | undefined;
 	onTouched: (() => void) | undefined;
 
-	productsToOrdersByStatus: any[] = [];
-
-	readonly formGroup = this._formBuilder.group({});
+	readonly formGroup = this._formBuilder.group<IProductsSelectForm>({});
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
 
@@ -64,7 +63,7 @@ export class ProductsToOrderSelectComponent implements OnChanges, OnInit, Contro
 		return index;
 	}
 
-	registerOnChange(onChange: (value: any) => void): void {
+	registerOnChange(onChange: (value: IProductsSelectForm) => void): void {
 		this.onChange = onChange;
 	}
 
@@ -76,7 +75,7 @@ export class ProductsToOrderSelectComponent implements OnChanges, OnInit, Contro
 		return this.formGroup.errors;
 	}
 
-	writeValue(value: any): void {
+	writeValue(value: IProductsSelectForm): void {
 		this.formGroup.patchValue(value, { emitValue: false });
 	}
 }

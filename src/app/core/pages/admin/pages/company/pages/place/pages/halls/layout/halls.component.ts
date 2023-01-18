@@ -1,7 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import type { Observable } from "rxjs";
 import { map } from "rxjs";
 import { HallsService } from "src/app/features/halls";
 import { PLACE_ID } from "src/app/shared/constants";
@@ -21,7 +20,7 @@ import { HallsPageGQL } from "../graphql/halls-page";
 export class HallsComponent implements OnInit, OnDestroy {
 	readonly hallsPageI18n = HALLS_PAGE_I18N;
 	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
-	readonly halls$: Observable<any> = this._hallsPageQuery.valueChanges.pipe(
+	readonly halls$ = this._hallsPageQuery.valueChanges.pipe(
 		map((result) => result.data.halls.data),
 		map((halls) => halls?.map((hall) => ({ ...hall, routerLink: hall.id })))
 	);

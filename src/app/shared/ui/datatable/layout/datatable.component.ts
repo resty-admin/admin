@@ -21,7 +21,7 @@ export class DatatableComponent implements OnChanges {
 	@Output() activated = new EventEmitter();
 	@Input() theme: IDatatableTheme = "1";
 	@Input() columns: IDatatableColumn[] = [];
-	@Input() rows: IDatatableRow<unknown>[] = [];
+	@Input() rows?: IDatatableRow<unknown>[] | null;
 
 	readonly columnMode = ColumnMode;
 

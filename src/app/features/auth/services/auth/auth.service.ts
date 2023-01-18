@@ -59,7 +59,7 @@ export class AuthService {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	private _getBodyWithEncryptedPassword(body: any) {
+	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
 		return { body: { ...body, password: this._cryptoService.encrypt(body.password) } };
 	}
 
@@ -128,7 +128,7 @@ export class AuthService {
 
 	async signOut() {
 		this._authRepository.updateUser(undefined);
-		this.updateAccessToken(undefined);
+		await this.updateAccessToken(undefined);
 		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
 	}
 }

@@ -7,6 +7,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
 import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
+import type { ISelectTable, ISelectTablesForm } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -17,12 +18,12 @@ import type { ISimpleChanges } from "../../../../../shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TablesSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
-	@Input() tables?: any = [];
-	@Input() value: any;
+	@Input() tables?: ISelectTable[] | null;
+	@Input() selectedTables?: ISelectTable[] | null;
 
-	readonly tablesGroup = this._formBuilder.group({});
+	readonly tablesGroup = this._formBuilder.group<ISelectTablesForm>({});
 
-	onChange: ((value: any) => void) | undefined;
+	onChange: ((value: ISelectTable[]) => void) | undefined;
 	onTouched: (() => void) | undefined;
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
@@ -39,9 +40,10 @@ export class TablesSelectComponent implements OnInit, OnChanges, ControlValueAcc
 
 			const tablesToReturn = Object.entries(tables)
 				.filter(([_, value]) => value)
-				.map(([key]) => this.tables.find((table: any) => table.id === key));
+				.map(([key]) => (this.tables || []).find((table) => table.id === key))
+				.filter((tableToReturn) => tableToReturn);
 
-			this.onChange(tablesToReturn);
+			this.onChange(tablesToReturn as unknown as ISelectTable[]);
 		});
 	}
 
@@ -52,12 +54,12 @@ export class TablesSelectComponent implements OnInit, OnChanges, ControlValueAcc
 			}
 		}
 
-		if (changes.value && changes.value.currentValue) {
-			this.writeValue(changes.value.currentValue);
+		if (changes.selectedTables && changes.selectedTables.currentValue) {
+			this.writeValue(changes.selectedTables.currentValue);
 		}
 	}
 
-	registerOnChange(onChange: (value: any) => void): void {
+	registerOnChange(onChange: (value: ISelectTable[]) => void): void {
 		this.onChange = onChange;
 	}
 
@@ -69,7 +71,7 @@ export class TablesSelectComponent implements OnInit, OnChanges, ControlValueAcc
 		return this.tablesGroup.errors;
 	}
 
-	writeValue(selectedTables: any[]): void {
+	writeValue(selectedTables: ISelectTable[]): void {
 		if (!selectedTables) {
 			return;
 		}

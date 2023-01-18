@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import { IPaymentSystem } from "../interfaces";
+
 @Component({
 	selector: "app-payment-system",
 	templateUrl: "./payment-system.component.html",
@@ -7,5 +9,5 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemComponent {
-	@Input() paymentSystem: any;
+	@Input() paymentSystem?: IPaymentSystem;
 }
