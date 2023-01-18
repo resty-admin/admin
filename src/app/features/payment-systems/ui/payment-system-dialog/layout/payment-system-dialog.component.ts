@@ -6,7 +6,6 @@ import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import type { PaymentSystemEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
 import type { DeepPartial } from "../../../../../shared/interfaces";
-import type { IPaymentSystemForm } from "../interfaces";
 
 @Component({
 	selector: "app-payment-system-dialog",
@@ -16,7 +15,7 @@ import type { IPaymentSystemForm } from "../interfaces";
 })
 export class PaymentSystemDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
-	readonly formGroup = this._formBuilder.group<IPaymentSystemForm>({});
+	readonly formGroup = this._formBuilder.group({});
 
 	data?: DeepPartial<PaymentSystemEntity>;
 
@@ -38,7 +37,7 @@ export class PaymentSystemDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(paymentSystem?: IPaymentSystemForm) {
+	closeDialog(paymentSystem?: unknown) {
 		if (!paymentSystem) {
 			this._dialogRef.close();
 			return;
