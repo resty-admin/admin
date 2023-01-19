@@ -8,6 +8,7 @@ import { CookiesModule } from "../shared/modules/cookies";
 import { CryptoModule } from "../shared/modules/crypto";
 import { ErrorsModule } from "../shared/modules/errors";
 import { I18nModule } from "../shared/modules/i18n";
+import { SocketIoModule } from "../shared/modules/socket-io";
 import { StoreModule } from "../shared/modules/store";
 import { ThemeModule } from "../shared/modules/theme";
 import { CodeInputModule } from "../shared/ui/code-input";
@@ -33,6 +34,7 @@ import {
 	IMAGE_CONFIG,
 	JWT_CONFIG,
 	SELECT_CONFIG,
+	SOCKET_IO_CONFIG,
 	THEME_CONFIG,
 	TOASTR_CONFIG
 } from "./configs";
@@ -49,6 +51,7 @@ import { CORE_PROVIDERS } from "./providers";
 		StoreModule,
 		DialogModule,
 		ProgressBarModule.forRoot(),
+		SocketIoModule.forRoot(SOCKET_IO_CONFIG),
 		FileModule.forRoot(FILE_CONFIG),
 		ApolloModule.forRoot(APOLLO_CONFIG),
 		ApiModule.forRoot(API_CONFIG),

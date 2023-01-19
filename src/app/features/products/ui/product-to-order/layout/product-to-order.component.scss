@@ -28,6 +28,9 @@
 		.paid-status {
 			justify-self: end;
 			grid-area: paid-status;
+			display: flex;
+			align-items: center;
+			column-gap: rem(5);
 			.waiting {
 				grid-area: title;
 				font-weight: 500;
