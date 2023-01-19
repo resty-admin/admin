@@ -21,5 +21,7 @@
 		</div>
 
 		<button class="cancel" (click)="cancelOrder(order.id)">{{ t("cancel") }}</button>
+
+		<app-textarea class="textarea" [value]="order.comments" label="Комментарий" [disabled]="true"></app-textarea>
 	</ng-container>
 </div>

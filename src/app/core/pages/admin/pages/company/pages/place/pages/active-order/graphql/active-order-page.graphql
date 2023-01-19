@@ -8,6 +8,7 @@ query ActiveOrderPage($orderId: String!) {
 		totalPrice
 		tableStatus
 		startDate
+		comments
 		users {
 			id
 			name

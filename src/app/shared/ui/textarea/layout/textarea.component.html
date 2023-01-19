@@ -1,1 +1,8 @@
-<textarea [className]="className" [formControl]="formControl" [placeholder]="placeholder"></textarea>
+<div class="textrea" [className]="className">
+	<label class="label" [for]="id">
+		<ng-content></ng-content>
+		{{ label }}
+	</label>
+	<textarea class="input" [id]="id" [formControl]="formControl" [placeholder]="placeholder"></textarea>
+	<span class="error" *ngIf="errors">{{ errors | json }}</span>
+</div>

@@ -12,6 +12,7 @@ import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n"
 import { ButtonModule } from "../../../../../../../../../shared/ui/button";
 import { IconModule } from "../../../../../../../../../shared/ui/icon";
 import { ImageModule } from "../../../../../../../../../shared/ui/image";
+import { TextareaModule } from "../../../../../../../../../shared/ui/textarea";
 import { ActiveOrderRoutingModule } from "./active-order-routing.module";
 import { ActiveOrderComponent } from "./layout/active-order.component";
 import { ACTIVE_ORDER_PROVIDERS } from "./providers";
@@ -31,7 +32,8 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		PreviewTableModule,
 		ButtonModule,
 		OrderInfoModule,
-		UsersSelectModule
+		UsersSelectModule,
+		TextareaModule
 	],
 	providers: ACTIVE_ORDER_PROVIDERS
 })

@@ -14,7 +14,7 @@ import type { ISimpleChanges } from "../interfaces";
 export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, OnInit, OnChanges {
 	@Output() valueChange = new EventEmitter<T>();
 
-	@Input() value: T | null = null;
+	@Input() value?: T | null = null;
 	@Input() errors: ValidationErrors | null = null;
 	@Input() disabled = false;
 	@Input() placeholder = "";

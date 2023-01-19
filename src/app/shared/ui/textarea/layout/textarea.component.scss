@@ -3,22 +3,43 @@
 @include component() {
 	.app-textarea {
 		&.theme-1 {
-			background-color: var(--light-grey);
-			border: rem(1) solid transparent;
-			border-radius: rem(12);
-			height: rem(120);
-			width: 100%;
-			padding: rem(11) rem(16);
-			font-weight: 400;
-			font-size: rem(16);
-			line-height: rem(24);
-			color: var(--dark);
-			&::placeholder {
-				color: var(--dark-t);
+			.input {
+				width: 100%;
+				border-radius: rem(12);
+				padding: rem(12) rem(16);
+				color: var(--dark);
+				font-weight: 400;
+				font-size: rem(13);
+				line-height: rem(24);
+				background-color: var(--light-grey);
+				border: rem(1) solid transparent;
+				&::placeholder {
+					color: var(--dark-t);
+				}
+				&:focus:not(:disabled),
+				&:hover:not(:disabled) {
+					border-color: var(--primary);
+				}
 			}
-			&:hover:not(:disabled),
-			&:focus:not(:disabled) {
-				border-color: var(--primary);
+
+			.label {
+				display: block;
+				font-weight: 400;
+				font-size: 11px;
+				line-height: 16px;
+				color: var(--dark-t);
+				margin-bottom: rem(5);
+				margin-left: rem(15);
+
+				@include desktop() {
+					font-size: 13px;
+				}
+			}
+
+			@include desktop() {
+				.input {
+					font-size: rem(16);
+				}
 			}
 		}
 	}
@@ -26,9 +47,21 @@
 @include dark() {
 	.app-textarea {
 		&.theme-1 {
-			background-color: var(--dark-grey);
-			color: var(--light);
-			&::placeholder {
+			.input {
+				background-color: var(--dark-grey);
+				color: var(--light);
+
+				&::placeholder {
+					color: var(--light-t);
+				}
+
+				&:hover:not(:disabled),
+				&:focus:not(:disabled) {
+					border-color: var(--primary);
+				}
+			}
+
+			.label {
 				color: var(--light-t);
 			}
 		}
