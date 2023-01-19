@@ -16,13 +16,17 @@
 			[class.open]="isAsideOpen$ | async"
 			[companyActions]="companyActions"
 			[placeActions]="placeActions"
+			[companies]="companies$ | async"
+			[places]="places$ | async"
 			[user]="user$ | async"
-			(closeClicked)="toggleAside()"
+			[activeCompanyId]="activeCompanyId$ | async"
+			[activePlaceId]="activePlaceId$ | async"
+			(companyChanged)="changeUrlWithCompany($event)"
+			(placeChanged)="changeUrlWithPlace($event)"
 			(addCompanyClicked)="openCreateCompanyDialog()"
 			(addPlaceClicked)="openCreatePlaceDialog()"
 			(signOutClicked)="signOut()"
-			[companies]="companies$ | async"
-			[places]="places$ | async"
+			(closeClicked)="toggleAside()"
 		></app-aside>
 
 		<div class="pages">

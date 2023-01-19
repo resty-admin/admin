@@ -66,6 +66,10 @@ export const ADMIN_ROUTES = {
 		path: `companies/${COMPANY_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}`
 	},
+	WELCOME: {
+		path: `welcome`,
+		absolutePath: `/welcome`
+	},
 	PLACES: {
 		path: `places`,
 		absolutePath: `/companies/${COMPANY_ID}/places`
@@ -86,9 +90,9 @@ export const ADMIN_ROUTES = {
 		path: `users/${USER_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/${USER_ID}`
 	},
-	WORKERS: {
-		path: `workers`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/workers`
+	EMPLOYEES: {
+		path: `employees`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/users/employees`
 	},
 	GUESTS: {
 		path: `guests`,

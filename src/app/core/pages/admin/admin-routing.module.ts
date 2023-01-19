@@ -23,6 +23,10 @@ export const ADMIN_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/company/company.module").then((m) => m.CompanyModule)
 			},
 			{
+				...SHARED_ADMIN_ROUTES.WELCOME,
+				loadChildren: () => import("./pages/welcome/welcome.module").then((m) => m.WelcomeModule)
+			},
+			{
 				path: "**",
 				redirectTo: SHARED_ADMIN_ROUTES.COMPANIES.path
 			}

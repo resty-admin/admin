@@ -11,8 +11,8 @@ export const USERS_ROUTES: Route[] = [
 		component: UsersComponent,
 		children: [
 			{
-				...ADMIN_ROUTES.WORKERS,
-				loadChildren: () => import("./pages/workers/workers.module").then((m) => m.WorkersModule)
+				...ADMIN_ROUTES.EMPLOYEES,
+				loadChildren: () => import("./pages/employees/employees.module").then((m) => m.EmployeesModule)
 			},
 			{
 				...ADMIN_ROUTES.GUESTS,
@@ -21,7 +21,7 @@ export const USERS_ROUTES: Route[] = [
 			{
 				path: "",
 				pathMatch: "full",
-				redirectTo: ADMIN_ROUTES.WORKERS.path
+				redirectTo: ADMIN_ROUTES.EMPLOYEES.path
 			}
 		]
 	}

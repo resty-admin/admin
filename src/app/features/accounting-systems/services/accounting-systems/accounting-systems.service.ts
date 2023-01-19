@@ -8,8 +8,6 @@ export class AccountingSystemsService {
 	constructor(private readonly _connectPaymentSystemToPlaceGQL: ConnectPaymentSystemToPlaceGQL) {}
 
 	connectPaymentSystemToPlace(body: unknown) {
-		console.log("hey", body);
-
 		return of(body);
 	}
 }

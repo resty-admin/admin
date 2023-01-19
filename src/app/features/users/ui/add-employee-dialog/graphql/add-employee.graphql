@@ -1,0 +1,5 @@
+query AddEmployeeFindUser($userId: String!) {
+	user(id: $userId) {
+		id
+	}
+}

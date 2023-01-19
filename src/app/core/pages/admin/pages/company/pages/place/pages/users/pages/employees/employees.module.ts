@@ -13,15 +13,15 @@ import { TranslocoModule } from "../../../../../../../../../../../shared/modules
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { FiltersModule } from "../../../../../../../../../../../shared/ui/filters";
 import { TooltipModule } from "../../../../../../../../../../../shared/ui/tooltip";
-import { WorkersComponent } from "./layout/workers.component";
-import { WORKERS_PROVIDERS } from "./providers";
-import { WorkersRoutingModule } from "./workers-routing.module";
+import { EmployeesRoutingModule } from "./employees-routing.module";
+import { EmployeesComponent } from "./layout/employees.component";
+import { EMPLOYEES_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [WorkersComponent],
+	declarations: [EmployeesComponent],
 	imports: [
 		CommonModule,
-		WorkersRoutingModule,
+		EmployeesRoutingModule,
 		InputModule,
 		TypographyModule,
 		DatatableModule,
@@ -35,6 +35,6 @@ import { WorkersRoutingModule } from "./workers-routing.module";
 		FiltersModule,
 		UserDialogModule
 	],
-	providers: WORKERS_PROVIDERS
+	providers: EMPLOYEES_PROVIDERS
 })
-export class WorkersModule {}
+export class EmployeesModule {}

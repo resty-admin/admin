@@ -1,0 +1,32 @@
+<div class="welcome-page" *transloco="let t; read: welcomePageI18n">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+
+	<h2 appTypography theme="3" class="subtitle">{{ t("subtitle") }}</h2>
+
+	<ng-container *transloco="let f; read: formI18n">
+		<form class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
+			<app-input
+				class="input"
+				[label]="f('name_label')"
+				[placeholder]="f('name_placeholder')"
+				formControlName="name"
+			></app-input>
+
+			<app-input
+				class="input"
+				[label]="f('tel_label')"
+				[placeholder]="f('tel_placeholder')"
+				formControlName="tel"
+			></app-input>
+
+			<app-input
+				class="input"
+				[label]="f('email_label')"
+				[placeholder]="f('email_placeholder')"
+				formControlName="email"
+			></app-input>
+
+			<button class="submit" appButton theme="1">Подтвердить</button>
+		</form>
+	</ng-container>
+</div>

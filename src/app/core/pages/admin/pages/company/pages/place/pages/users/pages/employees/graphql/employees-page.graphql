@@ -1,4 +1,4 @@
-query WorkersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+query EmployeesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 	users(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
 		page
 		totalCount

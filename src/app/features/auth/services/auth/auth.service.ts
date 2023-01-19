@@ -2,10 +2,8 @@ import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
 import { catchError, of } from "rxjs";
 import { map, tap } from "rxjs";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { CryptoService } from "src/app/shared/modules/crypto";
 import { JwtService } from "src/app/shared/modules/jwt";
-import { RouterService } from "src/app/shared/modules/router";
 
 import type {
 	ForgotPasswordInput,
@@ -16,7 +14,6 @@ import type {
 	UpdateMeInput,
 	UserEntity
 } from "../../../../../graphql";
-import { ToastrService } from "../../../../shared/ui/toastr";
 import {
 	DeleteMeGQL,
 	ForgotPasswordGQL,
@@ -54,9 +51,7 @@ export class AuthService {
 		private readonly _googleGQL: GoogleGQL,
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
-		private readonly _jwtService: JwtService,
-		private readonly _routerService: RouterService,
-		private readonly _toastrService: ToastrService
+		private readonly _jwtService: JwtService
 	) {}
 
 	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
@@ -129,6 +124,5 @@ export class AuthService {
 	async signOut() {
 		this._authRepository.updateUser(undefined);
 		await this.updateAccessToken(undefined);
-		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
 	}
 }

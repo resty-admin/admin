@@ -1,7 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { catchError, filter, lastValueFrom, map, of, switchMap } from "rxjs";
+import { catchError, filter, lastValueFrom, map, of, switchMap, take } from "rxjs";
 
 import type { CompanyEntity, PlaceEntity } from "../../../../../graphql";
 import { AsideService } from "../../../../features/app";
@@ -32,16 +32,12 @@ export class AdminComponent implements OnInit {
 		{
 			label: "Профиль",
 			icon: "profile",
-			func: async () => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
-			}
+			func: () => this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath)
 		},
 		{
 			label: "Выйти",
 			icon: "exit",
-			func: async () => {
-				await this._authService.signOut();
-			}
+			func: () => this.signOut()
 		}
 	];
 
@@ -88,6 +84,8 @@ export class AdminComponent implements OnInit {
 
 	private readonly _adminCompaniesQuery = this._adminCompaniesGQL.watch();
 	readonly companies$ = this._adminCompaniesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
+	readonly activeCompanyId$ = this._routerService.selectParams().pipe(map((params) => params["companyId"]));
+	readonly activePlaceId$ = this._routerService.selectParams().pipe(map((params) => params["placeId"]));
 
 	constructor(
 		private readonly _adminCompaniesGQL: AdminCompaniesGQL,
@@ -103,7 +101,7 @@ export class AdminComponent implements OnInit {
 		private readonly _toastrService: ToastrService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this._placesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
 			await this._adminPlacesQuery.refetch();
 		});
@@ -111,10 +109,38 @@ export class AdminComponent implements OnInit {
 		this._companiesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
 			await this._adminCompaniesQuery.refetch();
 		});
+
+		const user = await lastValueFrom(this.user$.pipe(take(1)));
+
+		if (user?.email || user?.tel) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.WELCOME.absolutePath);
 	}
 
 	toggleAside() {
 		this._asideService.toggleAside();
+	}
+
+	async changeUrlWithCompany(companyId: string) {
+		if (!companyId) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, companyId));
+	}
+
+	async changeUrlWithPlace(placeId: string) {
+		const companyId = this._routerService.getParams(COMPANY_ID.slice(1));
+
+		if (!companyId || !placeId) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+		);
 	}
 
 	async openCreateCompanyDialog() {
@@ -229,5 +255,6 @@ export class AdminComponent implements OnInit {
 
 	async signOut() {
 		await this._authService.signOut();
+		window.location.href = ADMIN_ROUTES.SIGN_IN.absolutePath;
 	}
 }

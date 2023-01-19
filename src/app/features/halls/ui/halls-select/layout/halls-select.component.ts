@@ -85,8 +85,7 @@ export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAcce
 		return this.hallsGroup.errors;
 	}
 
-	writeValue(value: string[]): void {
-		console.log(value);
-		// this.hallsGroup.patchValue(value, { emitValue: false });
+	writeValue(value: IHallsSelectForm): void {
+		this.hallsGroup.patchValue(value, { emitValue: false });
 	}
 }

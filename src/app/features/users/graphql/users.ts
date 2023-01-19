@@ -30,6 +30,15 @@ export interface DeleteUserMutation {
 	deleteUser: string;
 }
 
+export type AddEmployeeToPlaceMutationVariables = Types.Exact<{
+	employeeData: Types.AddEmployeeInput;
+}>;
+
+export interface AddEmployeeToPlaceMutation {
+	__typename?: "Mutation";
+	addEmployeeToPlace: { __typename?: "PlaceEntity"; id: string };
+}
+
 export const CreateUserDocument = gql`
 	mutation CreateUser($user: CreateUserInput!) {
 		createUser(user: $user) {
@@ -77,6 +86,27 @@ export const DeleteUserDocument = gql`
 })
 export class DeleteUserGQL extends Apollo.Mutation<DeleteUserMutation, DeleteUserMutationVariables> {
 	override document = DeleteUserDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const AddEmployeeToPlaceDocument = gql`
+	mutation AddEmployeeToPlace($employeeData: AddEmployeeInput!) {
+		addEmployeeToPlace(employeeData: $employeeData) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class AddEmployeeToPlaceGQL extends Apollo.Mutation<
+	AddEmployeeToPlaceMutation,
+	AddEmployeeToPlaceMutationVariables
+> {
+	override document = AddEmployeeToPlaceDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

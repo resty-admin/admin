@@ -7,7 +7,8 @@ import { lastValueFrom, map } from "rxjs";
 import type { UserEntity } from "../../../../../../../../../../../../../graphql";
 import { ActionsService } from "../../../../../../../../../../../../features/app";
 import { UsersService } from "../../../../../../../../../../../../features/users";
-import { UserDialogComponent } from "../../../../../../../../../../../../features/users/ui";
+import { AddEmployeeDialogComponent, UserDialogComponent } from "../../../../../../../../../../../../features/users/ui";
+import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
 import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
 import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
@@ -15,23 +16,23 @@ import { ConfirmationDialogComponent } from "../../../../../../../../../../../..
 import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
 import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
-import { WORKERS_PAGE_I18N } from "../constants";
-import { WorkersPageGQL } from "../graphql/workers-page";
+import { EMPLOYEES_PAGE_I18N } from "../constants";
+import { EmployeesPageGQL } from "../graphql/employees-page";
 
 @UntilDestroy()
 @Component({
-	selector: "app-workers",
-	templateUrl: "./workers.component.html",
-	styleUrls: ["./workers.component.scss"],
+	selector: "app-employees",
+	templateUrl: "./employees.component.html",
+	styleUrls: ["./employees.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
-	readonly workersPageI18n = WORKERS_PAGE_I18N;
+	readonly employeesPageI18n = EMPLOYEES_PAGE_I18N;
 
-	private readonly _workersPageQuery = this._workersPageGQL.watch();
-	readonly users$ = this._workersPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
+	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
+	readonly users$ = this._employeesPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 
 	readonly actions: IAction<UserEntity>[] = [
 		{
@@ -49,7 +50,7 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 	columns: IDatatableColumn[] = [];
 
 	constructor(
-		private readonly _workersPageGQL: WorkersPageGQL,
+		private readonly _employeesPageGQL: EmployeesPageGQL,
 		private readonly _usersService: UsersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
@@ -73,9 +74,33 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 			func: () => this.openCreateUserDialog()
 		});
 
-		await this._workersPageQuery.setVariables({
+		await this._employeesPageQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
+	}
+
+	async openAddEmployeeDialog() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
+
+		const user: UserEntity | undefined = await lastValueFrom(
+			this._dialogService.open(AddEmployeeDialogComponent).afterClosed$
+		);
+
+		if (!user) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._usersService
+				.addEmployeeToPlace({ userId: user.id, placeId })
+				.pipe(this._toastrService.observe("Сотрудники"))
+		);
+
+		await this._employeesPageQuery.refetch();
 	}
 
 	async openCreateUserDialog(data?: DeepPartial<UserEntity>) {
@@ -90,10 +115,10 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 		await lastValueFrom(
 			this._usersService
 				.createUser({ name: user.name, email: user.name, role: user.role })
-				.pipe(this._toastrService.observe("Работники"))
+				.pipe(this._toastrService.observe("Сотрудники"))
 		);
 
-		await this._workersPageQuery.refetch();
+		await this._employeesPageQuery.refetch();
 	}
 
 	async openUpdateUserDialog(data: AtLeast<UserEntity, "id">) {
@@ -108,10 +133,10 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 		await lastValueFrom(
 			this._usersService
 				.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
-				.pipe(this._toastrService.observe("Работники"))
+				.pipe(this._toastrService.observe("Сотрудники"))
 		);
 
-		await this._workersPageQuery.refetch();
+		await this._employeesPageQuery.refetch();
 	}
 
 	async openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
@@ -123,9 +148,9 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._usersService.deleteUser(value.id).pipe(this._toastrService.observe("Работники")));
+		await lastValueFrom(this._usersService.deleteUser(value.id).pipe(this._toastrService.observe("Сотрудники")));
 
-		await this._workersPageQuery.refetch();
+		await this._employeesPageQuery.refetch();
 	}
 
 	ngAfterViewInit() {

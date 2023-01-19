@@ -48,7 +48,7 @@ export class SignUpComponent implements OnInit {
 	ngOnInit() {
 		const role = this._routerService.getQueryParams("role");
 
-		if (role && role in UserRoleEnum) {
+		if (role && Object.values(UserRoleEnum).includes(role)) {
 			this.form.patchValue({ role });
 		}
 

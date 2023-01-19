@@ -77,7 +77,7 @@
 
 	<nav class="nav">
 		<ul class="pages">
-			<li class="page" *ngFor="let page of pages$ | async; trackBy: trackByFn">
+			<li class="page" *ngFor="let page of pages; trackBy: trackByFn">
 				<a
 					appLink
 					class="link"

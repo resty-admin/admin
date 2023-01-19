@@ -13,3 +13,9 @@ mutation UpdateUser($user: UpdateUserInput!) {
 mutation DeleteUser($userId: String!) {
 	deleteUser(userId: $userId)
 }
+
+mutation AddEmployeeToPlace($employeeData: AddEmployeeInput!) {
+	addEmployeeToPlace(employeeData: $employeeData) {
+		id
+	}
+}

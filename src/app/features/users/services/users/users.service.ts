@@ -1,15 +1,20 @@
 import { Injectable } from "@angular/core";
 
-import type { CreateUserInput, UpdateUserInput } from "../../../../../graphql";
-import { CreateUserGQL, DeleteUserGQL, UpdateUserGQL } from "../../graphql/users";
+import type { AddEmployeeInput, CreateUserInput, UpdateUserInput } from "../../../../../graphql";
+import { AddEmployeeToPlaceGQL, CreateUserGQL, DeleteUserGQL, UpdateUserGQL } from "../../graphql/users";
 
 @Injectable({ providedIn: "root" })
 export class UsersService {
 	constructor(
 		private readonly _createUserGQL: CreateUserGQL,
 		private readonly _updateUserGQL: UpdateUserGQL,
-		private readonly _deleteUserGQL: DeleteUserGQL
+		private readonly _deleteUserGQL: DeleteUserGQL,
+		private readonly _addEmployeeToPlaceGQL: AddEmployeeToPlaceGQL
 	) {}
+
+	addEmployeeToPlace(employeeData: AddEmployeeInput) {
+		return this._addEmployeeToPlaceGQL.mutate({ employeeData });
+	}
 
 	createUser(user: CreateUserInput) {
 		return this._createUserGQL.mutate({ user });

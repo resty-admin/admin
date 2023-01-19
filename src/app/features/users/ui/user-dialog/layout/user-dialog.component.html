@@ -29,6 +29,8 @@
 		<app-select
 			class="input"
 			formControlName="role"
+			bindValue="value"
+			bindLabel="label"
 			[options]="roles"
 			[label]="t('role_label')"
 			[placeholder]="t('role_placeholder')"

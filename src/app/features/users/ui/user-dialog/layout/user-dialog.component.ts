@@ -17,7 +17,7 @@ import type { IUserForm } from "../interfaces";
 })
 export class UserDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
-	readonly roles = Object.keys(UserRoleEnum).map((role) => ({
+	readonly roles = Object.values(UserRoleEnum).map((role) => ({
 		label: role,
 		value: role
 	}));

@@ -15,8 +15,8 @@ export class UsersComponent {
 	readonly usersPageI18n = USERS_PAGE_I18N;
 	readonly pages = [
 		{
-			label: "Работники",
-			routerLink: ADMIN_ROUTES.WORKERS.path
+			label: "Сотрудники",
+			routerLink: ADMIN_ROUTES.EMPLOYEES.path
 		},
 		{
 			label: "Гости",

@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.users-page {
+	.employees-page {
 		display: grid;
 		align-items: end;
 		grid-template-areas:
