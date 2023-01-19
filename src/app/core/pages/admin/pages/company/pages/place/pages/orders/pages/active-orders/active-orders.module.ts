@@ -5,6 +5,7 @@ import { ImageModule } from "src/app/shared/ui/image";
 import { InputModule } from "src/app/shared/ui/input";
 
 import { OrderDialogModule } from "../../../../../../../../../../../features/orders/ui/order-dialog/order-dialog.module";
+import { DirectivesModule } from "../../../../../../../../../../../shared/modules/directives";
 import { TranslocoModule } from "../../../../../../../../../../../shared/modules/i18n";
 import { ActionsModule } from "../../../../../../../../../../../shared/ui/actions";
 import { ButtonModule } from "../../../../../../../../../../../shared/ui/button";
@@ -27,7 +28,8 @@ import { ACTIVE_ORDERS_PROVIDERS } from "./providers";
 		TooltipModule,
 		TranslocoModule,
 		FiltersModule,
-		OrderDialogModule
+		OrderDialogModule,
+		DirectivesModule
 	],
 	providers: ACTIVE_ORDERS_PROVIDERS
 })

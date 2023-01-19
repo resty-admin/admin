@@ -102,9 +102,9 @@
 </aside>
 
 <ng-template #companiesActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="companyActions" [data]="data" [additionalFunc]="hide"></app-actions>
+	<app-actions [actions]="companyActions" [data]="getCompany(data)" [additionalFunc]="hide"></app-actions>
 </ng-template>
 
 <ng-template #placesActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="placeActions" [data]="data" [additionalFunc]="hide"></app-actions>
+	<app-actions [actions]="placeActions" [data]="getPlace(data)" [additionalFunc]="hide"></app-actions>
 </ng-template>

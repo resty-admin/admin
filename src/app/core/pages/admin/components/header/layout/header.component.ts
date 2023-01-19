@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "../../../../../../shared/constants";
 import type { ISimpleChanges } from "../../../../../../shared/interfaces";
 import { RouterService } from "../../../../../../shared/modules/router";
+import type { IAction } from "../../../../../../shared/ui/actions";
 import type { IHeaderActiveOrder, IHeaderUser } from "../interfaces";
 
 @Component({
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnChanges {
 	@Input() isAsideOpen?: boolean | null;
 	@Input() activeOrder?: IHeaderActiveOrder | null;
 
-	@Input() profileActions: any;
+	@Input() profileActions?: IAction[] | null;
 
 	activeOrderLink = "";
 
@@ -30,7 +31,7 @@ export class HeaderComponent implements OnChanges {
 		if (changes.activeOrder && changes.activeOrder.currentValue) {
 			const { companyId, placeId, orderId } = this._routerService.getParams();
 
-			this.activeOrderLink = ADMIN_ROUTES.ORDER.absolutePath
+			this.activeOrderLink = ADMIN_ROUTES.ACTIVE_ORDER.absolutePath
 				.replace(COMPANY_ID, companyId)
 				.replace(PLACE_ID, placeId)
 				.replace(ORDER_ID, orderId);

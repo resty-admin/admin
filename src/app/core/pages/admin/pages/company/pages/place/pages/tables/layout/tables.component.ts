@@ -1,14 +1,17 @@
-import type { AfterViewInit, OnDestroy } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
-import { TableQrCodeDialogComponent, TablesService } from "src/app/features/tables";
+import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
 
 import type { TableEntity } from "../../../../../../../../../../../graphql";
 import { ActionsService } from "../../../../../../../../../../features/app";
 import { ADMIN_ROUTES, COMPANY_ID, HALL_ID, PLACE_ID } from "../../../../../../../../../../shared/constants";
+import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
 import { BreadcrumbsService } from "../../../../../../../../../../shared/modules/breadcrumbs";
+import type { IAction } from "../../../../../../../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
 import { TABLES_PAGE_I18N } from "../constants";
 import { TablesPageGQL } from "../graphql/tables-page";
@@ -20,11 +23,22 @@ import { TablesPageGQL } from "../graphql/tables-page";
 	styleUrls: ["./tables.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TablesComponent implements AfterViewInit, OnDestroy {
+export class TablesComponent implements OnInit, OnDestroy {
 	readonly tablesPageI18n = TABLES_PAGE_I18N;
 	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
 	readonly tables$ = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
-	readonly actions = this._tablesService.actions;
+	readonly actions: IAction<TableEntity>[] = [
+		{
+			label: "Редактировать",
+			icon: "edit",
+			func: (table) => this.openUpdateTableDialog(table)
+		},
+		{
+			label: "Удалить",
+			icon: "delete",
+			func: (table) => this.openDeleteTableDialog(table)
+		}
+	];
 
 	constructor(
 		private readonly _tablesPageGQL: TablesPageGQL,
@@ -35,16 +49,12 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
 		private readonly _breadcrumbsService: BreadcrumbsService
 	) {}
 
-	async ngAfterViewInit() {
+	async ngOnInit() {
 		const { companyId, placeId, hallId } = this._routerService.getParams();
 
 		if (!companyId || !placeId || !hallId) {
 			return;
 		}
-
-		this._tablesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
-			await this._tablesPageQuery.refetch();
-		});
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: ADMIN_ROUTES.HALLS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
@@ -66,7 +76,49 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
 			return;
 		}
 
-		await this._tablesService.openCreateTableDialog({ hall });
+		const table: TableEntity | undefined = await lastValueFrom(
+			this._dialogService.open(TableDialogComponent).afterClosed$
+		);
+
+		if (!table) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._tablesService.createTable({ name: table.name, hall, file: table.file?.id, code: table.code })
+		);
+
+		await this._tablesPageQuery.refetch();
+	}
+
+	async openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {
+		const table: TableEntity | undefined = await lastValueFrom(
+			this._dialogService.open(TableDialogComponent, { data }).afterClosed$
+		);
+
+		if (!table) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._tablesService.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
+		);
+
+		await this._tablesPageQuery.refetch();
+	}
+
+	async openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить стол?", value } };
+
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(this._tablesService.deleteTable(value.id));
+
+		await this._tablesPageQuery.refetch();
 	}
 
 	ngOnDestroy() {

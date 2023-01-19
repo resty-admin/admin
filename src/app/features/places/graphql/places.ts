@@ -3,20 +3,6 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type PlacesQueryVariables = Types.Exact<{
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-}>;
-
-export interface PlacesQuery {
-	__typename?: "Query";
-	places: {
-		__typename?: "PaginatedPlace";
-		page: number;
-		totalCount: number;
-		data?: { __typename?: "PlaceEntity"; id: string; name: string }[] | null;
-	};
-}
-
 export type UpdatePlaceMutationVariables = Types.Exact<{
 	place: Types.UpdatePlaceInput;
 }>;
@@ -44,29 +30,6 @@ export interface DeletePlaceMutation {
 	deletePlace: string;
 }
 
-export const PlacesDocument = gql`
-	query Places($filtersArgs: [FiltersArgsDto!]) {
-		places(filtersArgs: $filtersArgs) {
-			page
-			totalCount
-			data {
-				id
-				name
-			}
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class PlacesGQL extends Apollo.Query<PlacesQuery, PlacesQueryVariables> {
-	override document = PlacesDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
 export const UpdatePlaceDocument = gql`
 	mutation UpdatePlace($place: UpdatePlaceInput!) {
 		updatePlace(place: $place) {

@@ -39,12 +39,13 @@ export class UserDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
-		this.formGroup.patchValue(this._dialogRef.data);
+		this.formGroup.patchValue(this.data);
 	}
 
 	closeDialog(user?: IUserForm) {

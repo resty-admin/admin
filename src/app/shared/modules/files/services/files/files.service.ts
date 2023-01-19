@@ -21,7 +21,7 @@ export class FilesService {
 		return formData;
 	}
 
-	getFile(file?: any): Observable<FileEntity> {
+	getFile(file?: File | FileEntity | null): Observable<FileEntity | null> {
 		if (file instanceof File) {
 			return this.uploadOne(file);
 		}

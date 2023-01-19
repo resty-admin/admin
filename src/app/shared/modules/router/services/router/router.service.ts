@@ -9,9 +9,9 @@ import { filter, map, startWith } from "rxjs";
 export class RouterService {
 	readonly url$ = this._router.events.pipe(
 		filter((event) => event instanceof NavigationEnd),
-		startWith(this._router as any),
-		map((event: NavigationEnd) => {
-			const { url } = event;
+		startWith(this._router as unknown as NavigationEnd),
+		map((event) => {
+			const { url } = event as NavigationEnd;
 
 			return url;
 		})
@@ -19,7 +19,7 @@ export class RouterService {
 
 	constructor(private readonly _routerRepository: RouterRepository, private readonly _router: Router) {}
 
-	navigate(commands: any[], extras?: NavigationExtras) {
+	navigate(commands: string[], extras?: NavigationExtras) {
 		return this._router.navigate(commands, extras);
 	}
 
@@ -31,11 +31,8 @@ export class RouterService {
 		return this._routerRepository.getParams(name);
 	}
 
-	selectParams<T extends string>(names: string[]): Observable<T[]>;
-	selectParams<T extends string>(names: string): Observable<T>;
-	selectParams<T extends Record<string, string>>(): Observable<T>;
 	selectParams(names?: string[] | string) {
-		return this._routerRepository.selectParams(names as any);
+		return this._routerRepository.selectParams(names as string);
 	}
 
 	getFragment() {
@@ -50,10 +47,7 @@ export class RouterService {
 		return this._routerRepository.getQueryParams(name);
 	}
 
-	selectQueryParams<T extends string>(names: string[]): Observable<T[]>;
-	selectQueryParams<T extends string>(names: string): Observable<T>;
-	selectQueryParams<T extends Record<string, string>>(): Observable<T>;
 	selectQueryParams(names?: string[] | string) {
-		return this._routerRepository.selectQueryParams(names as any);
+		return this._routerRepository.selectQueryParams(names as string);
 	}
 }

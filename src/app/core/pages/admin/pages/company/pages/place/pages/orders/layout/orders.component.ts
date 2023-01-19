@@ -17,8 +17,8 @@ export class OrdersComponent {
 			routerLink: ADMIN_ROUTES.ACTIVE_ORDERS.path
 		},
 		{
-			label: "Все заказы",
-			routerLink: ADMIN_ROUTES.ALL_ORDERS.path
+			label: "История заказов",
+			routerLink: ADMIN_ROUTES.HISTORY_ORDERS.path
 		}
 	];
 }

@@ -1,4 +1,4 @@
-query ProductDialog($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+query ProductCategories($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 	categories(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		data {
 			id
@@ -7,7 +7,10 @@ query ProductDialog($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 		page
 		totalCount
 	}
-	attributeGroups {
+}
+
+query ProductAttributeGroups($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	attributeGroups(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		data {
 			id
 			name

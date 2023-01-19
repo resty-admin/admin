@@ -6,7 +6,6 @@ import { lastValueFrom } from "rxjs";
 
 import type { CategoryEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
 import type { ICategoryForm } from "../interfaces";
 
@@ -20,10 +19,10 @@ export class CategoryDialogComponent implements OnInit {
 	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<ICategoryForm>({
 		name: "",
-		file: ""
+		file: null
 	});
 
-	data?: DeepPartial<CategoryEntity>;
+	data?: CategoryEntity;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -32,12 +31,13 @@ export class CategoryDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
-		this.formGroup.patchValue(this._dialogRef.data);
+		this.formGroup.patchValue({ ...this.data, file: null });
 	}
 
 	async closeDialog(category?: ICategoryForm) {

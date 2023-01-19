@@ -20,8 +20,8 @@ import type { ISelectedTable } from "../interfaces";
 })
 export class SelectedTablesComponent implements OnInit, OnChanges, ControlValueAccessor {
 	@Input() selectedTables?: ISelectTable[];
-	onChange: ((value: ISelectedTable[]) => void) | undefined;
-	onTouched: (() => void) | undefined;
+	onChange?: (value: ISelectedTable[]) => void;
+	onTouched?: () => void;
 	readonly selectedTablesControl = new FormControl<ISelectedTable[]>([]);
 	readonly selectedTables$ = this.selectedTablesControl.value$;
 

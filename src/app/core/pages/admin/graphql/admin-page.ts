@@ -12,6 +12,38 @@ export interface AdminPageQuery {
 	order: { __typename?: "ActiveOrderEntity"; type: Types.OrderTypeEnum; id: string; code: number };
 }
 
+export type AdminCompaniesQueryVariables = Types.Exact<{
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
+	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
+}>;
+
+export interface AdminCompaniesQuery {
+	__typename?: "Query";
+	companies: {
+		__typename?: "PaginatedCompany";
+		page: number;
+		totalCount: number;
+		data?: { __typename?: "CompanyEntity"; id: string; name: string }[] | null;
+	};
+}
+
+export type AdminPlacesQueryVariables = Types.Exact<{
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
+	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
+}>;
+
+export interface AdminPlacesQuery {
+	__typename?: "Query";
+	places: {
+		__typename?: "PaginatedPlace";
+		page: number;
+		totalCount: number;
+		data?: { __typename?: "PlaceEntity"; id: string; name: string }[] | null;
+	};
+}
+
 export const AdminPageDocument = gql`
 	query AdminPage($orderId: String!) {
 		order(id: $orderId) {
@@ -27,6 +59,52 @@ export const AdminPageDocument = gql`
 })
 export class AdminPageGQL extends Apollo.Query<AdminPageQuery, AdminPageQueryVariables> {
 	override document = AdminPageDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const AdminCompaniesDocument = gql`
+	query AdminCompanies($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+		companies(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+			page
+			totalCount
+			data {
+				id
+				name
+			}
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class AdminCompaniesGQL extends Apollo.Query<AdminCompaniesQuery, AdminCompaniesQueryVariables> {
+	override document = AdminCompaniesDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const AdminPlacesDocument = gql`
+	query AdminPlaces($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+		places(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+			page
+			totalCount
+			data {
+				id
+				name
+			}
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class AdminPlacesGQL extends Apollo.Query<AdminPlacesQuery, AdminPlacesQueryVariables> {
+	override document = AdminPlacesDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

@@ -118,13 +118,17 @@ export const ADMIN_ROUTES = {
 		path: `active-orders`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/active-orders`
 	},
-	ALL_ORDERS: {
-		path: `all-orders`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/all-orders`
+	ACTIVE_ORDER: {
+		path: `orders/active-orders/${ORDER_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/active-orders/${ORDER_ID}`
 	},
-	ORDER: {
-		path: `orders/${ORDER_ID}`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/${ORDER_ID}`
+	HISTORY_ORDERS: {
+		path: `history-orders`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/history-orders`
+	},
+	HISTORY_ORDER: {
+		path: `orders/history-orders/${ORDER_ID}`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/orders/history-orders/${ORDER_ID}`
 	},
 	MENU: {
 		path: `menu`,

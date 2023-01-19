@@ -7,7 +7,6 @@ import { CryptoService } from "src/app/shared/modules/crypto";
 import type { ActiveOrderEntity } from "../../../../../../graphql";
 import { OrderTypeEnum } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import type { IOrderForm } from "../interfaces";
 
 @Component({
@@ -23,7 +22,7 @@ export class OrderDialogComponent implements OnInit {
 		type: OrderTypeEnum.InPlace
 	});
 
-	data?: DeepPartial<ActiveOrderEntity>;
+	data?: ActiveOrderEntity;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -32,11 +31,12 @@ export class OrderDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
 		this.formGroup.patchValue(this._dialogRef.data);
 	}
 

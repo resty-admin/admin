@@ -23,8 +23,8 @@ export class TablesSelectComponent implements OnInit, OnChanges, ControlValueAcc
 
 	readonly tablesGroup = this._formBuilder.group<ISelectTablesForm>({});
 
-	onChange: ((value: ISelectTable[]) => void) | undefined;
-	onTouched: (() => void) | undefined;
+	onChange?: (value: ISelectTable[]) => void;
+	onTouched?: () => void;
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
 

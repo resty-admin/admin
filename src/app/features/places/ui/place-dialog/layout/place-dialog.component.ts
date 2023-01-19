@@ -6,7 +6,6 @@ import { lastValueFrom } from "rxjs";
 
 import type { PlaceEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
 import type { IPlaceForm } from "../interfaces";
 
@@ -25,7 +24,7 @@ export class PlaceDialogComponent implements OnInit {
 		company: ""
 	});
 
-	data?: DeepPartial<PlaceEntity>;
+	data?: PlaceEntity;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -34,12 +33,16 @@ export class PlaceDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
-		this.formGroup.patchValue(this._dialogRef.data);
+		this.formGroup.patchValue({
+			...this.data,
+			company: this.data.company?.id
+		});
 	}
 
 	async closeDialog(place?: IPlaceForm) {

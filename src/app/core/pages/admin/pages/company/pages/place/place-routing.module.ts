@@ -52,8 +52,12 @@ export const PLACE_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/orders/orders.module").then((m) => m.OrdersModule)
 			},
 			{
-				...SHARED_ADMIN_ROUTES.ORDER,
-				loadChildren: () => import("./pages/order/order.module").then((m) => m.OrderModule)
+				...SHARED_ADMIN_ROUTES.ACTIVE_ORDER,
+				loadChildren: () => import("./pages/active-order/active-order.module").then((m) => m.ActiveOrderModule)
+			},
+			{
+				...SHARED_ADMIN_ROUTES.HISTORY_ORDER,
+				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.ACCOUNTING_SYSTEMS,

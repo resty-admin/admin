@@ -6,7 +6,6 @@ import { lastValueFrom } from "rxjs";
 
 import type { TableEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
 import type { ITableForm } from "../interfaces";
 
@@ -21,10 +20,10 @@ export class TableDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<ITableForm>({
 		code: 0,
 		name: "",
-		file: ""
+		file: null
 	});
 
-	data?: DeepPartial<TableEntity>;
+	data?: TableEntity;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -33,11 +32,12 @@ export class TableDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
 		this.formGroup.patchValue(this._dialogRef.data);
 	}
 

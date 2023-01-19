@@ -20,7 +20,16 @@ export interface AttributesPageQuery {
 					__typename?: "AttributesGroupEntity";
 					id: string;
 					name: string;
-					attributes?: { __typename?: "AttributesEntity"; id: string; name: string; price: number }[] | null;
+					maxItemsForPick: number;
+					attributes?:
+						| {
+								__typename?: "AttributesEntity";
+								id: string;
+								name: string;
+								price: number;
+								attributesGroup: { __typename?: "AttributesGroupEntity"; id: string }[];
+						  }[]
+						| null;
 			  }[]
 			| null;
 	};
@@ -34,10 +43,14 @@ export const AttributesPageDocument = gql`
 			data {
 				id
 				name
+				maxItemsForPick
 				attributes {
 					id
 					name
 					price
+					attributesGroup {
+						id
+					}
 				}
 			}
 		}

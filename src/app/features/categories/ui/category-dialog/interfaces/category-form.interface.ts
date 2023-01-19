@@ -1,4 +1,4 @@
 export interface ICategoryForm {
 	name: string;
-	file: unknown;
+	file: File | null;
 }

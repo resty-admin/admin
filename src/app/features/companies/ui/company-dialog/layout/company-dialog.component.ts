@@ -6,7 +6,6 @@ import { lastValueFrom } from "rxjs";
 
 import type { CompanyEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
 import type { ICompanyForm } from "../interfaces";
 
@@ -23,7 +22,7 @@ export class CompanyDialogComponent implements OnInit {
 		logo: null
 	});
 
-	data?: DeepPartial<CompanyEntity>;
+	data?: CompanyEntity;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -32,11 +31,12 @@ export class CompanyDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
 		this.formGroup.patchValue(this._dialogRef.data);
 	}
 

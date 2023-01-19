@@ -5,10 +5,14 @@ query AttributesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		data {
 			id
 			name
+			maxItemsForPick
 			attributes {
 				id
 				name
 				price
+				attributesGroup {
+					id
+				}
 			}
 		}
 	}

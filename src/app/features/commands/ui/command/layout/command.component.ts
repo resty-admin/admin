@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import type { CommandEntity } from "../../../../../../graphql";
+import type { IAction } from "../../../../../shared/ui/actions";
 import { ICommand } from "../interfaces/command.interface";
 
 @Component({
@@ -10,5 +12,5 @@ import { ICommand } from "../interfaces/command.interface";
 })
 export class CommandComponent {
 	@Input() command?: ICommand;
-	@Input() actions: any;
+	@Input() actions?: IAction<CommandEntity>[] | null;
 }

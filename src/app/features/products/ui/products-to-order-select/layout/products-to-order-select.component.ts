@@ -20,8 +20,8 @@ import type { IProductsSelectForm, ISelectProductToOrder, ISelectProductToOrderB
 export class ProductsToOrderSelectComponent implements OnChanges, OnInit, ControlValueAccessor {
 	@Input() productsToOrders?: ISelectProductToOrder[] | null;
 	productsToOrdersByStatus?: ISelectProductToOrderByStatus[];
-	onChange: ((value: IProductsSelectForm) => void) | undefined;
-	onTouched: (() => void) | undefined;
+	onChange?: (value: IProductsSelectForm) => void;
+	onTouched?: () => void;
 
 	readonly formGroup = this._formBuilder.group<IProductsSelectForm>({});
 

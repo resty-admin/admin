@@ -1,13 +1,18 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { map } from "rxjs";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { lastValueFrom, map } from "rxjs";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
+import type { PlaceEntity } from "../../../../../../../../../graphql";
 import { PlacesService } from "../../../../../../../../features/places";
+import { PlaceDialogComponent } from "../../../../../../../../features/places/ui/place-dialog/layout/place-dialog.component";
 import { DialogService } from "../../../../../../../../shared/ui/dialog";
 import { PLACES_PAGE_I18N } from "../constants";
+import { PlacesPageGQL } from "../graphql/places-page";
 
+@UntilDestroy()
 @Component({
 	selector: "app-places",
 	templateUrl: "./places.component.html",
@@ -16,9 +21,11 @@ import { PLACES_PAGE_I18N } from "../constants";
 })
 export class PlacesComponent implements OnInit {
 	readonly placesPageI18n = PLACES_PAGE_I18N;
-	readonly places$ = this._placesService.placesQuery.valueChanges.pipe(map((result) => result.data.places.data));
+	private readonly _placesPageQuery = this._placesPageGQL.watch();
+	readonly places$ = this._placesPageQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
 	constructor(
+		private readonly _placesPageGQL: PlacesPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _placesService: PlacesService,
 		private readonly _dialogService: DialogService
@@ -29,9 +36,13 @@ export class PlacesComponent implements OnInit {
 	}
 
 	async ngOnInit() {
+		this._placesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
+			await this._placesPageQuery.refetch();
+		});
+
 		const companyId = this._routerService.getParams(COMPANY_ID.slice(1));
 
-		await this._placesService.placesQuery.setVariables({
+		await this._placesPageQuery.setVariables({
 			filtersArgs: [{ key: "company.id", operator: "=", value: companyId }]
 		});
 	}
@@ -43,7 +54,17 @@ export class PlacesComponent implements OnInit {
 			return;
 		}
 
-		const result = await this._placesService.openCreatePlaceDialog({ company });
+		const place: PlaceEntity | undefined = await lastValueFrom(
+			this._dialogService.open(PlaceDialogComponent).afterClosed$
+		);
+
+		if (!place) {
+			return;
+		}
+
+		const result = await lastValueFrom(
+			this._placesService.createPlace({ name: place.name, company, file: place.file?.id })
+		);
 
 		if (!result.data?.createPlace) {
 			return;

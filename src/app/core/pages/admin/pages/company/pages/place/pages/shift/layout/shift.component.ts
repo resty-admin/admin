@@ -63,7 +63,7 @@ export class ShiftComponent implements OnInit {
 		});
 	}
 
-	async createShift(tables: IShiftForm["tables"] | undefined) {
+	async createShift(tables?: IShiftForm["tables"]) {
 		if (!tables) {
 			return;
 		}
@@ -73,7 +73,7 @@ export class ShiftComponent implements OnInit {
 		await lastValueFrom(this._shiftsService.createShift({ tables: tables.map((table) => table.id), place }));
 	}
 
-	async updateShift(id: string, tables: IShiftForm["tables"] | undefined) {
+	async updateShift(id: string, tables?: IShiftForm["tables"]) {
 		if (!tables) {
 			return;
 		}

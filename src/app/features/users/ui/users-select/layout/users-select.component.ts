@@ -26,8 +26,8 @@ export class UsersSelectComponent implements OnInit, OnChanges, ControlValueAcce
 
 	readonly usersGroup = this._formBuilder.group<IUsersSelectForm>({ all: false });
 
-	onChange: ((value: Omit<IUsersSelectForm, "all">) => void) | undefined;
-	onTouched: (() => void) | undefined;
+	onChange?: (value: Omit<IUsersSelectForm, "all">) => void;
+	onTouched?: () => void;
 
 	trackByFn(index: number) {
 		return index;

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
+import type { HallEntity } from "../../../../../../graphql";
+import type { IAction } from "../../../../../shared/ui/actions";
 import { IHall } from "../interfaces/hall.interface";
 
 @Component({
@@ -10,5 +12,5 @@ import { IHall } from "../interfaces/hall.interface";
 })
 export class HallComponent {
 	@Input() hall?: IHall;
-	@Input() actions: any;
+	@Input() actions?: IAction<HallEntity>[] | null;
 }

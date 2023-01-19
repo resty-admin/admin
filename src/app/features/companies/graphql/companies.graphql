@@ -1,14 +1,3 @@
-query Companies($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-	companies(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
-		data {
-			id
-			name
-		}
-		totalCount
-		page
-	}
-}
-
 mutation UpdateCompany($company: UpdateCompanyInput!) {
 	updateCompany(company: $company) {
 		id

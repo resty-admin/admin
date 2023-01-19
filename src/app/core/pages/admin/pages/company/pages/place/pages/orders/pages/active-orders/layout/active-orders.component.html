@@ -8,7 +8,7 @@
 
 	<ul class="orders">
 		<li class="order" *ngFor="let order of activeOrders$ | async; trackBy: trackByFn">
-			<a class="link" [routerLink]="'../' + order.id">
+			<a class="link" [routerLink]="order.id">
 				<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.name"></app-image>
 
 				<div class="info">
@@ -17,8 +17,9 @@
 				</div>
 
 				<button
-					class="more"
+					appStopPropagation
 					appIconButton
+					class="more"
 					[tippy]="actionsTemplate"
 					[data]="order"
 					placement="left"

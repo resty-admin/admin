@@ -34,7 +34,7 @@ export class PaymentSystemsComponent {
 	) {}
 
 	async openPaymentSystemDialog(data: AtLeast<PaymentSystemEntity, "id">) {
-		const paymentSystem = await lastValueFrom(
+		const paymentSystem: PaymentSystemEntity | undefined = await lastValueFrom(
 			this._dialogService.open(PaymentSystemDialogComponent, { data }).afterClosed$
 		);
 

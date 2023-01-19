@@ -30,6 +30,24 @@ export interface DeleteOrderMutation {
 	deleteOrder: string;
 }
 
+export type CloseOrderMutationVariables = Types.Exact<{
+	orderId: Types.Scalars["String"];
+}>;
+
+export interface CloseOrderMutation {
+	__typename?: "Mutation";
+	closeOrder: string;
+}
+
+export type CancelOrderMutationVariables = Types.Exact<{
+	orderId: Types.Scalars["String"];
+}>;
+
+export interface CancelOrderMutation {
+	__typename?: "Mutation";
+	cancelOrder: string;
+}
+
 export type ApproveProductsInOrderMutationVariables = Types.Exact<{
 	productToOrderIds: Types.Scalars["String"] | Types.Scalars["String"][];
 }>;
@@ -131,6 +149,38 @@ export const DeleteOrderDocument = gql`
 })
 export class DeleteOrderGQL extends Apollo.Mutation<DeleteOrderMutation, DeleteOrderMutationVariables> {
 	override document = DeleteOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const CloseOrderDocument = gql`
+	mutation CloseOrder($orderId: String!) {
+		closeOrder(orderId: $orderId)
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class CloseOrderGQL extends Apollo.Mutation<CloseOrderMutation, CloseOrderMutationVariables> {
+	override document = CloseOrderDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const CancelOrderDocument = gql`
+	mutation CancelOrder($orderId: String!) {
+		cancelOrder(orderId: $orderId)
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class CancelOrderGQL extends Apollo.Mutation<CancelOrderMutation, CancelOrderMutationVariables> {
+	override document = CancelOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

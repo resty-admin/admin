@@ -4,8 +4,10 @@ import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { combineLatest, map, skip } from "rxjs";
 
+import type { CompanyEntity, PlaceEntity } from "../../../../../../../graphql";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "../../../../../../shared/constants";
 import { RouterService } from "../../../../../../shared/modules/router";
+import type { IAction } from "../../../../../../shared/ui/actions";
 import { FORM_I18N } from "../../../../../constants";
 import { ASIDE_I18N } from "../constants";
 import { ASIDE_PAGES } from "../data";
@@ -31,8 +33,8 @@ export class AsideComponent implements OnInit {
 	@Input() user?: IAsideUser | null = null;
 	@Input() companies?: IAsideCompany[] | null = null;
 	@Input() places?: IAsidePlace[] | null = null;
-	@Input() companyActions: any;
-	@Input() placeActions: any;
+	@Input() companyActions?: IAction<CompanyEntity>[] | null;
+	@Input() placeActions?: IAction<PlaceEntity>[] | null;
 
 	readonly adminRoutes = ADMIN_ROUTES;
 
@@ -50,6 +52,14 @@ export class AsideComponent implements OnInit {
 	);
 
 	constructor(private readonly _routerService: RouterService) {}
+
+	getCompany(id: string) {
+		return this.companies?.find((company) => company.id === id) as CompanyEntity;
+	}
+
+	getPlace(id: string) {
+		return this.places?.find((place) => place.id === id) as PlaceEntity;
+	}
 
 	trackByFn(index: number) {
 		return index;

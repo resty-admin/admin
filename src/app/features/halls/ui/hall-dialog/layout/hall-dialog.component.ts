@@ -6,7 +6,6 @@ import { lastValueFrom } from "rxjs";
 
 import type { HallEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
 import type { IHallForm } from "../interfaces";
 
@@ -23,7 +22,7 @@ export class HallDialogComponent implements OnInit {
 		file: null
 	});
 
-	data?: DeepPartial<HallEntity>;
+	data?: HallEntity;
 
 	constructor(
 		private readonly _dialogRef: DialogRef,
@@ -32,12 +31,13 @@ export class HallDialogComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
-		this.formGroup.patchValue(this._dialogRef.data);
+		this.formGroup.patchValue(this.data);
 	}
 
 	async closeDialog(hall?: IHallForm) {

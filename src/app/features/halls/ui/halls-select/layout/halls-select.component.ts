@@ -23,8 +23,8 @@ export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAcce
 
 	readonly hallsGroup = this._formBuilder.group<IHallsSelectForm>({ all: false });
 
-	onChange: ((value: Omit<IHallsSelectForm, "all">) => void) | undefined;
-	onTouched: (() => void) | undefined;
+	onChange?: (value: Omit<IHallsSelectForm, "all">) => void;
+	onTouched?: () => void;
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
 

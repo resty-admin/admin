@@ -4,7 +4,6 @@ import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 
 import type { AttributesEntity } from "../../../../../../graphql";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import type { IAttributeForm } from "../interfaces";
 
 @Component({
@@ -19,17 +18,18 @@ export class AttributeDialogComponent implements OnInit {
 		price: 0
 	});
 
-	data?: DeepPartial<AttributesEntity>;
+	data?: AttributesEntity;
 
 	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
 			return;
 		}
 
-		this.data = this._dialogRef.data;
-		this.formGroup.patchValue(this._dialogRef.data);
+		this.formGroup.patchValue(this.data);
 	}
 
 	closeDialog(attribute?: IAttributeForm) {

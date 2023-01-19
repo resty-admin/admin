@@ -58,16 +58,20 @@ export class IosDatepickerComponent extends ControlValueAccessor<Dayjs> implemen
 		super(dayjs());
 	}
 
-	private _handleScroll({ nativeElement }: ElementRef, formControl: FormControl<any>) {
-		fromEvent(nativeElement, "scroll")
+	private _handleScroll({ nativeElement }: ElementRef, formControl: FormControl<number>) {
+		fromEvent<Event>(nativeElement, "scroll")
 			.pipe(untilDestroyed(this), debounceTime(50), distinctUntilChanged())
-			.subscribe((event: any) => {
-				const index = event.target.scrollTop / this.height;
+			.subscribe((event) => {
+				if (!event || !event.target) {
+					return;
+				}
+
+				const index = (<HTMLElement>event.target).scrollTop / this.height;
 				const top = Math.round(index) * this.height;
 
 				if (Number.isInteger(index)) {
 					formControl.setValue(index);
-				} else if (event.target.scrollHeight - top === this.height * 7) {
+				} else if ((<HTMLElement>event.target).scrollHeight - top === this.height * 7) {
 					formControl.setValue(Math.round(index));
 				} else {
 					nativeElement.scrollTo({ top, behavior: "smooth" });

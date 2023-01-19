@@ -5,3 +5,25 @@ query AdminPage($orderId: String!) {
 		code
 	}
 }
+
+query AdminCompanies($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	companies(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+}
+
+query AdminPlaces($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	places(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+		}
+	}
+}

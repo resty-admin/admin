@@ -11,8 +11,8 @@ export const ORDERS_ROUTES: Route[] = [
 		component: OrdersComponent,
 		children: [
 			{
-				...ADMIN_ROUTES.ALL_ORDERS,
-				loadChildren: () => import("./pages/all-orders/all-orders.module").then((m) => m.AllOrdersModule)
+				...ADMIN_ROUTES.HISTORY_ORDERS,
+				loadChildren: () => import("./pages/history-orders/history-orders.module").then((m) => m.HistoryOrdersModule)
 			},
 			{
 				...ADMIN_ROUTES.ACTIVE_ORDERS,

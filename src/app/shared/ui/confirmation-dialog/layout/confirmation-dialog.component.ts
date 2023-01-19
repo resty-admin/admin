@@ -22,10 +22,6 @@ export class ConfirmationDialogComponent<T extends IConfirmationData> implements
 	constructor(private readonly _dialogRef: DialogRef<T>, private readonly _formBuilder: FormBuilder) {}
 
 	ngOnInit() {
-		if (!this._dialogRef.data) {
-			return;
-		}
-
 		this.data = this._dialogRef.data;
 	}
 

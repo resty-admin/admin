@@ -1,0 +1,23 @@
+<div class="order-page" *transloco="let t; read: historyOrderPageI18n">
+	<ng-container *ngIf="order$ | async as order">
+		<app-order-info [order]="order"></app-order-info>
+
+		<div class="actions">
+			<button class="approve" (click)="approveTableInOrder()">Подтвердить</button>
+			<button class="reject" (click)="rejectTableInOrder()">Отклонить</button>
+		</div>
+
+		<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
+
+		<app-products-to-order-select
+			class="products-select"
+			[productsToOrders]="order.productsToOrders"
+			[formControl]="productsControl"
+		></app-products-to-order-select>
+
+		<div class="actions">
+			<button class="approve" (click)="approveProductsInOrder()">Подтвердить</button>
+			<button class="reject" (click)="rejectProductsInOrder()">Отклонить</button>
+		</div>
+	</ng-container>
+</div>

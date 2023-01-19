@@ -3,22 +3,6 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type CompaniesQueryVariables = Types.Exact<{
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-	take?: Types.InputMaybe<Types.Scalars["Int"]>;
-	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
-}>;
-
-export interface CompaniesQuery {
-	__typename?: "Query";
-	companies: {
-		__typename?: "PaginatedCompany";
-		totalCount: number;
-		page: number;
-		data?: { __typename?: "CompanyEntity"; id: string; name: string }[] | null;
-	};
-}
-
 export type UpdateCompanyMutationVariables = Types.Exact<{
 	company: Types.UpdateCompanyInput;
 }>;
@@ -46,29 +30,6 @@ export interface DeleteCompanyMutation {
 	deleteCompany: string;
 }
 
-export const CompaniesDocument = gql`
-	query Companies($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-		companies(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
-			data {
-				id
-				name
-			}
-			totalCount
-			page
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class CompaniesGQL extends Apollo.Query<CompaniesQuery, CompaniesQueryVariables> {
-	override document = CompaniesDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
 export const UpdateCompanyDocument = gql`
 	mutation UpdateCompany($company: UpdateCompanyInput!) {
 		updateCompany(company: $company) {

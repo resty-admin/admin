@@ -1,13 +1,18 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { map } from "rxjs";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { lastValueFrom, map } from "rxjs";
 import { ProductsService } from "src/app/features/products";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
+import type { ProductEntity } from "../../../../../../../../../../../../../graphql";
 import { ActionsService } from "../../../../../../../../../../../../features/app";
+import { ProductDialogComponent } from "../../../../../../../../../../../../features/products/ui";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
+import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
 import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
+import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
+import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
 import { PRODUCTS_PAGE_I18N } from "../constants";
 import { ProductsPageGQL } from "../graphql/products-page";
@@ -27,7 +32,18 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
 
-	readonly actions = this._productsService.actions;
+	readonly actions: IAction<ProductEntity>[] = [
+		{
+			label: "Редактировать",
+			icon: "edit",
+			func: (product) => this.openUpdateProductDialog(product)
+		},
+		{
+			label: "Удалить",
+			icon: "delete",
+			func: (product) => this.openDeleteProductDialog(product)
+		}
+	];
 
 	columns: IDatatableColumn[] = [];
 
@@ -50,10 +66,6 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 			return;
 		}
 
-		this._productsService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
-			await this._productsPageQuery.refetch();
-		});
-
 		this._actionsService.setAction({
 			label: "Добавить блюдо",
 			func: () => this.openCreateProductDialog()
@@ -65,7 +77,62 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 	}
 
 	async openCreateProductDialog() {
-		await this._productsService.openCreateProductDialog();
+		const product: ProductEntity | undefined = await lastValueFrom(
+			this._dialogService.open(ProductDialogComponent).afterClosed$
+		);
+
+		if (!product) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._productsService.createProduct({
+				name: product.name,
+				category: product.category.id,
+				attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+				file: product.file?.id,
+				price: product.price
+			})
+		);
+
+		await this._productsPageQuery.refetch();
+	}
+
+	async openUpdateProductDialog(data: AtLeast<ProductEntity, "id">) {
+		const product: ProductEntity | undefined = await lastValueFrom(
+			this._dialogService.open(ProductDialogComponent, { data }).afterClosed$
+		);
+
+		if (!product) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._productsService.updateProduct({
+				id: product.id,
+				name: product.name,
+				category: product.category.id,
+				attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+				file: product.file?.id,
+				price: product.price
+			})
+		);
+
+		await this._productsPageQuery.refetch();
+	}
+
+	async openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить продукт?", value: product } };
+
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(this._productsService.deleteProduct(product.id));
+
+		await this._productsPageQuery.refetch();
 	}
 
 	ngAfterViewInit() {

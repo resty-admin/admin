@@ -9,7 +9,7 @@ import type { IAction } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionsComponent<T> {
-	@Input() actions: IAction<T>[] = [];
+	@Input() actions?: IAction<T>[] | null = [];
 	@Input() data!: T;
 	@Input() additionalFunc = () => undefined;
 
