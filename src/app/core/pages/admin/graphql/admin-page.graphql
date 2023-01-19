@@ -24,6 +24,7 @@ query AdminPlaces($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		data {
 			id
 			name
+			verificationStatus
 		}
 	}
 }

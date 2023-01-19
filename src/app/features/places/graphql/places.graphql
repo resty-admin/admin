@@ -13,3 +13,7 @@ mutation CreatePlaces($place: CreatePlaceInput!) {
 mutation DeletePlace($placeId: String!) {
 	deletePlace(placeId: $placeId)
 }
+
+mutation UpdatePlaceVerification($placeId: String!, $status: PlaceVerificationStatusEnum!) {
+	updatePlaceVerification(placeId: $placeId, status: $status)
+}

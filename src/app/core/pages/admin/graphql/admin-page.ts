@@ -40,7 +40,14 @@ export interface AdminPlacesQuery {
 		__typename?: "PaginatedPlace";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "PlaceEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "PlaceEntity";
+					id: string;
+					name: string;
+					verificationStatus: Types.PlaceVerificationStatusEnum;
+			  }[]
+			| null;
 	};
 }
 
@@ -95,6 +102,7 @@ export const AdminPlacesDocument = gql`
 			data {
 				id
 				name
+				verificationStatus
 			}
 		}
 	}

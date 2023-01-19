@@ -16,6 +16,15 @@ export interface StatisticPageQuery {
 	tables: { __typename?: "PaginatedTable"; totalCount: number };
 }
 
+export type StatisticPlaceQueryVariables = Types.Exact<{
+	placeId: Types.Scalars["String"];
+}>;
+
+export interface StatisticPlaceQuery {
+	__typename?: "Query";
+	place: { __typename?: "PlaceEntity"; verificationStatus: Types.PlaceVerificationStatusEnum };
+}
+
 export const StatisticPageDocument = gql`
 	query StatisticPage(
 		$guestsFiltersArgs: [FiltersArgsDto!]
@@ -39,6 +48,24 @@ export const StatisticPageDocument = gql`
 })
 export class StatisticPageGQL extends Apollo.Query<StatisticPageQuery, StatisticPageQueryVariables> {
 	override document = StatisticPageDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const StatisticPlaceDocument = gql`
+	query StatisticPlace($placeId: String!) {
+		place(id: $placeId) {
+			verificationStatus
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class StatisticPlaceGQL extends Apollo.Query<StatisticPlaceQuery, StatisticPlaceQueryVariables> {
+	override document = StatisticPlaceDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

@@ -3,8 +3,9 @@ import type { Observable } from "rxjs";
 import { Subject, tap } from "rxjs";
 
 import type { CreatePlaceInput, UpdatePlaceInput } from "../../../../../graphql";
+import type { PlaceVerificationStatusEnum } from "../../../../../graphql";
 import { ChangesEnum } from "../../../../shared/enums";
-import { CreatePlacesGQL, DeletePlaceGQL, UpdatePlaceGQL } from "../../graphql/places";
+import { CreatePlacesGQL, DeletePlaceGQL, UpdatePlaceGQL, UpdatePlaceVerificationGQL } from "../../graphql/places";
 
 @Injectable({ providedIn: "root" })
 export class PlacesService {
@@ -14,7 +15,8 @@ export class PlacesService {
 	constructor(
 		private readonly _createPlaceGQL: CreatePlacesGQL,
 		private readonly _updatePlaceGQL: UpdatePlaceGQL,
-		private readonly _deletePlaceGQL: DeletePlaceGQL
+		private readonly _deletePlaceGQL: DeletePlaceGQL,
+		private readonly _updatePlaceVerification: UpdatePlaceVerificationGQL
 	) {}
 
 	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
@@ -31,5 +33,9 @@ export class PlacesService {
 
 	deletePlace(placeId: string) {
 		return this._deletePlaceGQL.mutate({ placeId }).pipe(this._emitChanges(ChangesEnum.DELETE));
+	}
+
+	updatePlaceVerification(placeId: string, status: PlaceVerificationStatusEnum) {
+		return this._updatePlaceVerification.mutate({ placeId, status });
 	}
 }

@@ -30,6 +30,16 @@ export interface DeletePlaceMutation {
 	deletePlace: string;
 }
 
+export type UpdatePlaceVerificationMutationVariables = Types.Exact<{
+	placeId: Types.Scalars["String"];
+	status: Types.PlaceVerificationStatusEnum;
+}>;
+
+export interface UpdatePlaceVerificationMutation {
+	__typename?: "Mutation";
+	updatePlaceVerification: boolean;
+}
+
 export const UpdatePlaceDocument = gql`
 	mutation UpdatePlace($place: UpdatePlaceInput!) {
 		updatePlace(place: $place) {
@@ -77,6 +87,25 @@ export const DeletePlaceDocument = gql`
 })
 export class DeletePlaceGQL extends Apollo.Mutation<DeletePlaceMutation, DeletePlaceMutationVariables> {
 	override document = DeletePlaceDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const UpdatePlaceVerificationDocument = gql`
+	mutation UpdatePlaceVerification($placeId: String!, $status: PlaceVerificationStatusEnum!) {
+		updatePlaceVerification(placeId: $placeId, status: $status)
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class UpdatePlaceVerificationGQL extends Apollo.Mutation<
+	UpdatePlaceVerificationMutation,
+	UpdatePlaceVerificationMutationVariables
+> {
+	override document = UpdatePlaceVerificationDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

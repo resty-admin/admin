@@ -34,5 +34,9 @@
 		></app-statistic-card>
 	</ul>
 
-	<app-statistic-footer class="footer"></app-statistic-footer>
+	<app-statistic-footer
+		class="footer"
+		[verificationStatus]="verificationStatus$ | async"
+		(buttonClicked)="changeStatus($event)"
+	></app-statistic-footer>
 </div>

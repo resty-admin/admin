@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
+import { PlaceVerificationStatusEnum } from "../../../../../../../../../../../../../graphql";
 import { getI18nProvider } from "../../../../../../../../../../../../shared/i18n";
 import { STATISTIC_FOOTER_I18N } from "../constants";
 
@@ -11,5 +12,16 @@ import { STATISTIC_FOOTER_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatisticFooterComponent {
+	@Output() buttonClicked = new EventEmitter<PlaceVerificationStatusEnum>();
+
+	@Input() verificationStatus?: PlaceVerificationStatusEnum | null;
 	readonly statisticFooterI18n = STATISTIC_FOOTER_I18N;
+
+	emitButotnClick() {
+		this.buttonClicked.emit(
+			this.verificationStatus === PlaceVerificationStatusEnum.Verified
+				? PlaceVerificationStatusEnum.NotVerified
+				: PlaceVerificationStatusEnum.NotVerified
+		);
+	}
 }

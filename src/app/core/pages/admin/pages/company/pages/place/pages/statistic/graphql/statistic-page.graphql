@@ -13,3 +13,9 @@ query StatisticPage(
 		totalCount
 	}
 }
+
+query StatisticPlace($placeId: String!) {
+	place(id: $placeId) {
+		verificationStatus
+	}
+}
