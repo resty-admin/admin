@@ -13,6 +13,7 @@ import type { IAction } from "../../../../../../../../../../../../shared/ui/acti
 import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
 import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { GUESTS_PAGE_I18N } from "../constants";
 import { GuestsPageGQL } from "../graphql/guests-page";
 
@@ -49,7 +50,8 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 		private readonly _usersService: UsersService,
 		private readonly _routerService: RouterService,
 		private readonly _guestsPageGQL: GuestsPageGQL,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	trackByFn(index: number) {
@@ -100,7 +102,9 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 		}
 
 		await lastValueFrom(
-			this._usersService.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
+			this._usersService
+				.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
+				.pipe(this._toastrService.observe("Гости"))
 		);
 
 		await this._guestsPageQuery.refetch();
@@ -115,7 +119,7 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 			return;
 		}
 
-		await lastValueFrom(this._usersService.deleteUser(value.id));
+		await lastValueFrom(this._usersService.deleteUser(value.id).pipe(this._toastrService.observe("Гости")));
 
 		await this._guestsPageQuery.refetch();
 	}

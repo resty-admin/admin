@@ -13,6 +13,7 @@ import { RouterService } from "../../../../../../../../../../../../shared/module
 import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { ACTIVE_ORDERS_PAGE_I18N } from "../constants";
 import { ActiveOrdersPageGQL } from "../graphql/active-orders-page";
 
@@ -52,7 +53,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	trackByFn(index: number) {
@@ -74,7 +76,9 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._ordersService.createOrder({ place, type: order.type }));
+		await lastValueFrom(
+			this._ordersService.createOrder({ place, type: order.type }).pipe(this._toastrService.observe("Заказы"))
+		);
 
 		await this._activeOrdersPageQuery.refetch();
 	}
@@ -88,7 +92,9 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._ordersService.updateOrder({ id: order.id, type: order.type }));
+		await lastValueFrom(
+			this._ordersService.updateOrder({ id: order.id, type: order.type }).pipe(this._toastrService.observe("Заказы"))
+		);
 
 		await this._activeOrdersPageQuery.refetch();
 	}
@@ -104,13 +110,13 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._ordersService.deleteOrder(order.id));
+		await lastValueFrom(this._ordersService.deleteOrder(order.id).pipe(this._toastrService.observe("Заказы")));
 
 		await this._activeOrdersPageQuery.refetch();
 	}
 
 	async closeOrder(order: AtLeast<ActiveOrderEntity, "id">) {
-		await lastValueFrom(this._ordersService.closeOrder(order.id));
+		await lastValueFrom(this._ordersService.closeOrder(order.id).pipe(this._toastrService.observe("Заказы")));
 
 		await this._activeOrdersPageQuery.refetch();
 	}

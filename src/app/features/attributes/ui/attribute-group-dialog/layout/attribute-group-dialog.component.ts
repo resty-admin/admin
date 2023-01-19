@@ -8,9 +8,12 @@ import { AttributesService } from "src/app/features/attributes/index";
 import type { AttributesEntity, AttributesGroupEntity } from "../../../../../../graphql";
 import { AttributeGroupTypeEnum } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
+import { PLACE_ID } from "../../../../../shared/constants";
 import { buildForm } from "../../../../../shared/functions";
 import type { DeepPartial } from "../../../../../shared/interfaces";
+import { RouterService } from "../../../../../shared/modules/router";
 import { DialogService } from "../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../shared/ui/toastr";
 import { AttributeDialogComponent } from "../../attribute-dialog/layout/attribute-dialog.component";
 import { AttributeGroupDialogGQL } from "../graphql/attribute-group-dialog";
 import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.interface";
@@ -50,8 +53,33 @@ export class AttributeGroupDialogComponent implements OnInit {
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
 		private readonly _attributesService: AttributesService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService,
+		private readonly _routerService: RouterService
 	) {}
+
+	async ngOnInit() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!place) {
+			return;
+		}
+
+		await this._attributeGroupDialogQuery.setVariables({
+			filtersArgs: [{ key: "attributesGroup.place.id", operator: "=", value: place }]
+		});
+
+		this.data = this._dialogRef.data;
+
+		if (!this.data) {
+			return;
+		}
+
+		this.formGroup.patchValue({
+			...this.data,
+			attributes: this.data.attributes?.map((attribute) => attribute.id)
+		});
+	}
 
 	async openCreateAttributeDialog(data?: DeepPartial<AttributesEntity>) {
 		const attribute: AttributesEntity | undefined = await lastValueFrom(
@@ -63,27 +91,16 @@ export class AttributeGroupDialogComponent implements OnInit {
 		}
 
 		const result = await lastValueFrom(
-			this._attributesService.createAttribute({
-				name: attribute.name,
-				price: attribute.price,
-				attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-			})
+			this._attributesService
+				.createAttribute({
+					name: attribute.name,
+					price: attribute.price,
+					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
+				})
+				.pipe(this._toastrService.observe("Модификации"))
 		);
 
 		return result.data?.createAttr;
-	}
-
-	ngOnInit() {
-		this.data = this._dialogRef.data;
-
-		if (!this.data) {
-			return;
-		}
-
-		this.formGroup.patchValue({
-			...this.data,
-			attributes: this.data.attributes?.map((attribute) => attribute.id)
-		});
 	}
 
 	closeDialog(attributeGroup?: DeepPartial<IAttributeGroupForm>) {

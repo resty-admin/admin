@@ -9,6 +9,7 @@ import { CompanyDialogComponent } from "../../../../../../features/companies/ui/
 import { ADMIN_ROUTES, COMPANY_ID } from "../../../../../../shared/constants";
 import { RouterService } from "../../../../../../shared/modules/router";
 import { DialogService } from "../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../shared/ui/toastr";
 import { COMPANIES_PAGE_I18N } from "../constants/companies-page-i18n.constant";
 import { CompaniesPageGQL } from "../graphql/companies-page";
 
@@ -28,7 +29,8 @@ export class CompaniesComponent implements OnInit {
 		private readonly _companiesPageGQL: CompaniesPageGQL,
 		private readonly _companiesService: CompaniesService,
 		private readonly _routerService: RouterService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	ngOnInit() {
@@ -51,7 +53,9 @@ export class CompaniesComponent implements OnInit {
 		}
 
 		const result = await lastValueFrom(
-			this._companiesService.createCompany({ name: company.name, logo: company.logo?.id })
+			this._companiesService
+				.createCompany({ name: company.name, logo: company.logo?.id })
+				.pipe(this._toastrService.observe("Компании"))
 		);
 
 		if (!result?.data?.createCompany) {

@@ -13,6 +13,7 @@ import { RouterService } from "../../../../../../../../../../shared/modules/rout
 import type { IAction } from "../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { COMMANDS_PAGE_I18N } from "../constants";
 import { CommandsPageGQL } from "../graphql/commands-page";
 
@@ -46,7 +47,8 @@ export class CommandsComponent implements OnInit, OnDestroy {
 		private readonly _commandsPageGQL: CommandsPageGQL,
 		private readonly _commandsService: CommandsService,
 		private readonly _actionsService: ActionsService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	async ngOnInit() {
@@ -78,11 +80,13 @@ export class CommandsComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._commandsService.createCommand({
-				name: command.name,
-				description: command.description,
-				place
-			})
+			this._commandsService
+				.createCommand({
+					name: command.name,
+					description: command.description,
+					place
+				})
+				.pipe(this._toastrService.observe("Команды"))
 		);
 
 		await this._commandsPageQuery.refetch();
@@ -98,11 +102,13 @@ export class CommandsComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._commandsService.updateCommand({
-				id: command.id,
-				name: command.name,
-				description: command.description
-			})
+			this._commandsService
+				.updateCommand({
+					id: command.id,
+					name: command.name,
+					description: command.description
+				})
+				.pipe(this._toastrService.observe("Команды"))
 		);
 
 		await this._commandsPageQuery.refetch();
@@ -117,7 +123,7 @@ export class CommandsComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._commandsService.deleteCommand(value.id));
+		await lastValueFrom(this._commandsService.deleteCommand(value.id).pipe(this._toastrService.observe("Команды")));
 
 		await this._commandsPageQuery.refetch();
 	}

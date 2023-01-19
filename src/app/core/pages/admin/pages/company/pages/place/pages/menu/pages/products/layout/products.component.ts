@@ -14,6 +14,7 @@ import { RouterService } from "../../../../../../../../../../../../shared/module
 import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { PRODUCTS_PAGE_I18N } from "../constants";
 import { ProductsPageGQL } from "../graphql/products-page";
 
@@ -52,7 +53,8 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 		private readonly _productsService: ProductsService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	trackByFn(index: number) {
@@ -86,13 +88,16 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._productsService.createProduct({
-				name: product.name,
-				category: product.category.id,
-				attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
-				file: product.file?.id,
-				price: product.price
-			})
+			this._productsService
+				.createProduct({
+					name: product.name,
+					description: product.description,
+					category: product.category.id,
+					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+					file: product.file?.id,
+					price: product.price
+				})
+				.pipe(this._toastrService.observe("Продукты"))
 		);
 
 		await this._productsPageQuery.refetch();
@@ -108,14 +113,17 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._productsService.updateProduct({
-				id: product.id,
-				name: product.name,
-				category: product.category.id,
-				attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
-				file: product.file?.id,
-				price: product.price
-			})
+			this._productsService
+				.updateProduct({
+					id: product.id,
+					name: product.name,
+					description: product.description,
+					category: product.category.id,
+					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+					file: product.file?.id,
+					price: product.price
+				})
+				.pipe(this._toastrService.observe("Продукты"))
 		);
 
 		await this._productsPageQuery.refetch();
@@ -130,7 +138,7 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._productsService.deleteProduct(product.id));
+		await lastValueFrom(this._productsService.deleteProduct(product.id).pipe(this._toastrService.observe("Продукты")));
 
 		await this._productsPageQuery.refetch();
 	}

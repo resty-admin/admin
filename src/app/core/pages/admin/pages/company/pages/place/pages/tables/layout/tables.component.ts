@@ -13,6 +13,7 @@ import { BreadcrumbsService } from "../../../../../../../../../../shared/modules
 import type { IAction } from "../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { TABLES_PAGE_I18N } from "../constants";
 import { TablesPageGQL } from "../graphql/tables-page";
 
@@ -46,7 +47,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
 		private readonly _actionsService: ActionsService,
-		private readonly _breadcrumbsService: BreadcrumbsService
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	async ngOnInit() {
@@ -85,7 +87,9 @@ export class TablesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._tablesService.createTable({ name: table.name, hall, file: table.file?.id, code: table.code })
+			this._tablesService
+				.createTable({ name: table.name, hall, file: table.file?.id, code: table.code })
+				.pipe(this._toastrService.observe("Столы"))
 		);
 
 		await this._tablesPageQuery.refetch();
@@ -101,7 +105,9 @@ export class TablesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._tablesService.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
+			this._tablesService
+				.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
+				.pipe(this._toastrService.observe("Столы"))
 		);
 
 		await this._tablesPageQuery.refetch();
@@ -116,7 +122,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._tablesService.deleteTable(value.id));
+		await lastValueFrom(this._tablesService.deleteTable(value.id).pipe(this._toastrService.observe("Столы")));
 
 		await this._tablesPageQuery.refetch();
 	}

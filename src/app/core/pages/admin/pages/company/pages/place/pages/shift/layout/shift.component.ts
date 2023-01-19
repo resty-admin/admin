@@ -12,6 +12,7 @@ import { buildForm } from "../../../../../../../../../../shared/functions";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { SHIFT_PAGE_I18N } from "../constants";
 import { ShiftPageGQL } from "../graphql/shift-page";
 import type { IShiftForm } from "../interfaces";
@@ -47,7 +48,8 @@ export class ShiftComponent implements OnInit {
 		private readonly _tablesService: TablesService,
 		private readonly _routerService: RouterService,
 		private readonly _formBuilder: FormBuilder,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	get formValue() {
@@ -70,7 +72,13 @@ export class ShiftComponent implements OnInit {
 
 		const place = this._routerService.getParams(PLACE_ID.slice(1));
 
-		await lastValueFrom(this._shiftsService.createShift({ tables: tables.map((table) => table.id), place }));
+		await lastValueFrom(
+			this._shiftsService
+				.createShift({ tables: tables.map((table) => table.id), place })
+				.pipe(this._toastrService.observe("Смена"))
+		);
+
+		await this._shiftPageQuery.refetch();
 	}
 
 	async updateShift(id: string, tables?: IShiftForm["tables"]) {
@@ -78,7 +86,13 @@ export class ShiftComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._shiftsService.updateShift({ id, tables: tables.map((table) => table.id) }));
+		await lastValueFrom(
+			this._shiftsService
+				.updateShift({ id, tables: tables.map((table) => table.id) })
+				.pipe(this._toastrService.observe("Смена"))
+		);
+
+		await this._shiftPageQuery.refetch();
 	}
 
 	async closeShift(shiftId: string) {
@@ -90,6 +104,8 @@ export class ShiftComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._shiftsService.closeShift(shiftId));
+		await lastValueFrom(this._shiftsService.closeShift(shiftId).pipe(this._toastrService.observe("Смена")));
+
+		await this._shiftPageQuery.refetch();
 	}
 }

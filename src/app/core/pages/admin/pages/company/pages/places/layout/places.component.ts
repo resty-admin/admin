@@ -9,6 +9,7 @@ import type { PlaceEntity } from "../../../../../../../../../graphql";
 import { PlacesService } from "../../../../../../../../features/places";
 import { PlaceDialogComponent } from "../../../../../../../../features/places/ui/place-dialog/layout/place-dialog.component";
 import { DialogService } from "../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../shared/ui/toastr";
 import { PLACES_PAGE_I18N } from "../constants";
 import { PlacesPageGQL } from "../graphql/places-page";
 
@@ -28,7 +29,8 @@ export class PlacesComponent implements OnInit {
 		private readonly _placesPageGQL: PlacesPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _placesService: PlacesService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	trackByFn(index: number) {
@@ -63,7 +65,9 @@ export class PlacesComponent implements OnInit {
 		}
 
 		const result = await lastValueFrom(
-			this._placesService.createPlace({ name: place.name, company, file: place.file?.id })
+			this._placesService
+				.createPlace({ name: place.name, company, file: place.file?.id })
+				.pipe(this._toastrService.observe("Заведения"))
 		);
 
 		if (!result.data?.createPlace) {

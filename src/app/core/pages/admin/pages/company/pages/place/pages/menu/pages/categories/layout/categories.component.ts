@@ -16,6 +16,7 @@ import { RouterService } from "../../../../../../../../../../../../shared/module
 import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { CATEGORIES_PAGE_I18N } from "../constants";
 import { CategoriesPageGQL } from "../graphql/categories-page";
 
@@ -62,7 +63,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		private readonly _productsService: ProductsService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	trackByFn(index: number) {
@@ -85,7 +87,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._categoriesService.createCategory({ name: category.name, place, file: category.file?.id })
+			this._categoriesService
+				.createCategory({ name: category.name, place, file: category.file?.id })
+				.pipe(this._toastrService.observe("Категории"))
 		);
 
 		await this._categoriesPageQuery.refetch();
@@ -101,7 +105,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._categoriesService.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
+			this._categoriesService
+				.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
+				.pipe(this._toastrService.observe("Категории"))
 		);
 
 		await this._categoriesPageQuery.refetch();
@@ -116,7 +122,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._categoriesService.deleteCategory(value.id));
+		await lastValueFrom(
+			this._categoriesService.deleteCategory(value.id).pipe(this._toastrService.observe("Категории"))
+		);
 
 		await this._categoriesPageQuery.refetch();
 	}
@@ -131,13 +139,15 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._productsService.updateProduct({
-				id: product.id,
-				category: product.category.id,
-				attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
-				file: product.file?.id,
-				price: product.price
-			})
+			this._productsService
+				.updateProduct({
+					id: product.id,
+					category: product.category.id,
+					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+					file: product.file?.id,
+					price: product.price
+				})
+				.pipe(this._toastrService.observe("Продукты"))
 		);
 
 		await this._categoriesPageQuery.refetch();
@@ -152,7 +162,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._productsService.deleteProduct(product.id));
+		await lastValueFrom(this._productsService.deleteProduct(product.id).pipe(this._toastrService.observe("Продукты")));
 
 		await this._categoriesPageQuery.refetch();
 	}

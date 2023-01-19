@@ -93,15 +93,6 @@ export interface SetPaidStatusForProductsInOrderMutation {
 	setPaidStatusForProductsInOrder: { __typename?: "ProductToOrderEntity"; id: string }[];
 }
 
-export type ConnectPaymentSystemToPlaceMutationVariables = Types.Exact<{
-	body: Types.ConnectPaymentSystemToPlaceInput;
-}>;
-
-export interface ConnectPaymentSystemToPlaceMutation {
-	__typename?: "Mutation";
-	connectPaymentSystemToPlace: { __typename?: "PlaceToPaymentSystemEntity"; id: string };
-}
-
 export const CreateOrderDocument = gql`
 	mutation CreateOrder($order: CreateOrderInput!) {
 		createOrder(order: $order) {
@@ -286,27 +277,6 @@ export class SetPaidStatusForProductsInOrderGQL extends Apollo.Mutation<
 	SetPaidStatusForProductsInOrderMutationVariables
 > {
 	override document = SetPaidStatusForProductsInOrderDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
-export const ConnectPaymentSystemToPlaceDocument = gql`
-	mutation ConnectPaymentSystemToPlace($body: ConnectPaymentSystemToPlaceInput!) {
-		connectPaymentSystemToPlace(body: $body) {
-			id
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class ConnectPaymentSystemToPlaceGQL extends Apollo.Mutation<
-	ConnectPaymentSystemToPlaceMutation,
-	ConnectPaymentSystemToPlaceMutationVariables
-> {
-	override document = ConnectPaymentSystemToPlaceDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

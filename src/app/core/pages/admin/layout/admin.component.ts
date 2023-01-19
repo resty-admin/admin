@@ -17,6 +17,7 @@ import { RouterService } from "../../../../shared/modules/router";
 import type { IAction } from "../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../shared/ui/toastr";
 import { AdminCompaniesGQL, AdminPageGQL, AdminPlacesGQL } from "../graphql/admin-page";
 
 @UntilDestroy()
@@ -98,7 +99,8 @@ export class AdminComponent implements OnInit {
 		private readonly _companiesService: CompaniesService,
 		private readonly _placesService: PlacesService,
 		private readonly _ordersService: OrdersService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	ngOnInit() {
@@ -125,7 +127,9 @@ export class AdminComponent implements OnInit {
 		}
 
 		const result = await lastValueFrom(
-			this._companiesService.createCompany({ name: company.name, logo: company.logo?.id })
+			this._companiesService
+				.createCompany({ name: company.name, logo: company.logo?.id })
+				.pipe(this._toastrService.observe("Компании"))
 		);
 
 		if (!result?.data?.createCompany) {
@@ -147,7 +151,9 @@ export class AdminComponent implements OnInit {
 		}
 
 		await lastValueFrom(
-			this._companiesService.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id })
+			this._companiesService
+				.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id })
+				.pipe(this._toastrService.observe("Компании"))
 		);
 	}
 
@@ -160,7 +166,7 @@ export class AdminComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._companiesService.deleteCompany(value.id));
+		await lastValueFrom(this._companiesService.deleteCompany(value.id).pipe(this._toastrService.observe("Компании")));
 	}
 
 	async openCreatePlaceDialog() {
@@ -179,7 +185,9 @@ export class AdminComponent implements OnInit {
 		}
 
 		const result = await lastValueFrom(
-			this._placesService.createPlace({ name: place.name, company, file: place.file?.id })
+			this._placesService
+				.createPlace({ name: place.name, company, file: place.file?.id })
+				.pipe(this._toastrService.observe("Заведения"))
 		);
 
 		if (!result.data?.createPlace) {
@@ -200,7 +208,11 @@ export class AdminComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._placesService.updatePlace({ id: place.id, name: place.name, file: place.file?.id }));
+		await lastValueFrom(
+			this._placesService
+				.updatePlace({ id: place.id, name: place.name, file: place.file?.id })
+				.pipe(this._toastrService.observe("Заведения"))
+		);
 	}
 
 	async openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
@@ -212,7 +224,7 @@ export class AdminComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._placesService.deletePlace(value.id));
+		await lastValueFrom(this._placesService.deletePlace(value.id).pipe(this._toastrService.observe("Заведения")));
 	}
 
 	async signOut() {

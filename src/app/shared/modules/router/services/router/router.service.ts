@@ -47,7 +47,7 @@ export class RouterService {
 		return this._routerRepository.getQueryParams(name);
 	}
 
-	selectQueryParams(names?: string[] | string) {
-		return this._routerRepository.selectQueryParams(names as string);
+	selectQueryParams<T extends string>(names?: string[] | string) {
+		return this._routerRepository.selectQueryParams<T>(names as string);
 	}
 }

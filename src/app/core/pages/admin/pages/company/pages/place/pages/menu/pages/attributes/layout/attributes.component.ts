@@ -14,6 +14,7 @@ import type { AtLeast } from "../../../../../../../../../../../../shared/interfa
 import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { ATTRIBUTES_PAGE_I18N } from "../constants";
 import { AttributesPageGQL } from "../graphql/attributes-page";
 @UntilDestroy()
@@ -62,7 +63,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		private readonly _attributesService: AttributesService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	trackByFn(index: number) {
@@ -102,13 +104,15 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._attributeGroupsService.createAttributeGroup({
-				name: attributeGroup.name,
-				place,
-				maxItemsForPick: attributeGroup.maxItemsForPick,
-				type: attributeGroup.type,
-				attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-			})
+			this._attributeGroupsService
+				.createAttributeGroup({
+					name: attributeGroup.name,
+					place,
+					maxItemsForPick: attributeGroup.maxItemsForPick,
+					type: attributeGroup.type,
+					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
+				})
+				.pipe(this._toastrService.observe("Группа модификаций"))
 		);
 
 		await this._attributesPageQuery.refetch();
@@ -124,12 +128,14 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._attributeGroupsService.updateAttributeGroup({
-				id: attributeGroup.id,
-				name: attributeGroup.name,
-				maxItemsForPick: attributeGroup.maxItemsForPick,
-				attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-			})
+			this._attributeGroupsService
+				.updateAttributeGroup({
+					id: attributeGroup.id,
+					name: attributeGroup.name,
+					maxItemsForPick: attributeGroup.maxItemsForPick,
+					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
+				})
+				.pipe(this._toastrService.observe("Группа модификаций"))
 		);
 
 		await this._attributesPageQuery.refetch();
@@ -144,7 +150,11 @@ export class AttributesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._attributeGroupsService.deleteAttributeGroup(value.id));
+		await lastValueFrom(
+			this._attributeGroupsService
+				.deleteAttributeGroup(value.id)
+				.pipe(this._toastrService.observe("Группа модификаций"))
+		);
 
 		await this._attributesPageQuery.refetch();
 	}
@@ -159,11 +169,13 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._attributesService.createAttribute({
-				name: attribute.name,
-				price: attribute.price,
-				attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-			})
+			this._attributesService
+				.createAttribute({
+					name: attribute.name,
+					price: attribute.price,
+					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
+				})
+				.pipe(this._toastrService.observe("Модификации"))
 		);
 
 		await this._attributesPageQuery.refetch();
@@ -179,12 +191,14 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._attributesService.updateAttribute({
-				id: attribute.id,
-				name: attribute.name,
-				price: attribute.price,
-				attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-			})
+			this._attributesService
+				.updateAttribute({
+					id: attribute.id,
+					name: attribute.name,
+					price: attribute.price,
+					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
+				})
+				.pipe(this._toastrService.observe("Модификации"))
 		);
 
 		await this._attributesPageQuery.refetch();
@@ -199,7 +213,9 @@ export class AttributesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._attributesService.deleteAttribute(value.id));
+		await lastValueFrom(
+			this._attributesService.deleteAttribute(value.id).pipe(this._toastrService.observe("Модификации"))
+		);
 
 		await this._attributesPageQuery.refetch();
 	}

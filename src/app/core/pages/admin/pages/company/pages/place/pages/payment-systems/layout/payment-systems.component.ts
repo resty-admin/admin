@@ -10,6 +10,7 @@ import { PLACE_ID } from "../../../../../../../../../../shared/constants";
 import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
 import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { PAYMENT_SYSTEMS_PAGE_I18N } from "../constants";
 import { PaymentSystemsPageGQL } from "../graphql/payment-systems-page";
 
@@ -30,7 +31,8 @@ export class PaymentSystemsComponent {
 		private readonly _paymentSystemsPage: PaymentSystemsPageGQL,
 		private readonly _dialogService: DialogService,
 		private readonly _paymentsSystemsService: PaymentSystemsService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	async openPaymentSystemDialog(data: AtLeast<PaymentSystemEntity, "id">) {
@@ -44,11 +46,13 @@ export class PaymentSystemsComponent {
 
 		try {
 			await lastValueFrom(
-				this._paymentsSystemsService.connectPaymentSystemToPlace({
-					place: this._routerService.getParams(PLACE_ID.slice(1)),
-					paymentSystem: paymentSystem.id,
-					placeConfigFields: paymentSystem.configFields
-				})
+				this._paymentsSystemsService
+					.connectPaymentSystemToPlace({
+						place: this._routerService.getParams(PLACE_ID.slice(1)),
+						paymentSystem: paymentSystem.id,
+						placeConfigFields: paymentSystem.configFields
+					})
+					.pipe(this._toastrService.observe("Платежные системы"))
 			);
 		} catch (error) {
 			console.error(error);

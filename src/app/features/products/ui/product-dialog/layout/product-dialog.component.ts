@@ -13,6 +13,7 @@ import type { DeepPartial } from "../../../../../shared/interfaces";
 import { FilesService } from "../../../../../shared/modules/files";
 import { RouterService } from "../../../../../shared/modules/router";
 import { DialogService } from "../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../shared/ui/toastr";
 import { AttributeGroupsService } from "../../../../attributes";
 import { AttributeGroupDialogComponent } from "../../../../attributes/ui/attribute-group-dialog/layout/attribute-group-dialog.component";
 import { CategoriesService } from "../../../../categories";
@@ -61,10 +62,25 @@ export class ProductDialogComponent implements OnInit {
 		private readonly _categoriesService: CategoriesService,
 		private readonly _attributeGroupsService: AttributeGroupsService,
 		private readonly _filesService: FilesService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!place) {
+			return;
+		}
+
+		await this._productCategoriesQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: place }]
+		});
+
+		await this._productAttributeGroupsQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: place }]
+		});
+
 		this.data = this._dialogRef.data;
 
 		if (!this.data) {
@@ -93,13 +109,15 @@ export class ProductDialogComponent implements OnInit {
 		}
 
 		const result = await lastValueFrom(
-			this._attributeGroupsService.createAttributeGroup({
-				name: attributeGroup.name,
-				place,
-				maxItemsForPick: attributeGroup.maxItemsForPick,
-				type: attributeGroup.type,
-				attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-			})
+			this._attributeGroupsService
+				.createAttributeGroup({
+					name: attributeGroup.name,
+					place,
+					maxItemsForPick: attributeGroup.maxItemsForPick,
+					type: attributeGroup.type,
+					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
+				})
+				.pipe(this._toastrService.observe("Группа модификаций"))
 		);
 
 		return result.data?.createAttrGroup;
@@ -121,7 +139,9 @@ export class ProductDialogComponent implements OnInit {
 		}
 
 		const result = await lastValueFrom(
-			this._categoriesService.createCategory({ name: category.name, place, file: category.file?.id })
+			this._categoriesService
+				.createCategory({ name: category.name, place, file: category.file?.id })
+				.pipe(this._toastrService.observe("Категория"))
 		);
 
 		return result.data?.createCategory;

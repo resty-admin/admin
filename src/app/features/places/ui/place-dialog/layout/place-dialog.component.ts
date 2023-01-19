@@ -20,8 +20,7 @@ export class PlaceDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<IPlaceForm>({
 		name: "",
 		address: "",
-		file: null,
-		company: ""
+		file: null
 	});
 
 	data?: PlaceEntity;
@@ -39,10 +38,7 @@ export class PlaceDialogComponent implements OnInit {
 			return;
 		}
 
-		this.formGroup.patchValue({
-			...this.data,
-			company: this.data.company?.id
-		});
+		this.formGroup.patchValue(this.data);
 	}
 
 	async closeDialog(place?: IPlaceForm) {

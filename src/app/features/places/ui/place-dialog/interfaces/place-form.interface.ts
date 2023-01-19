@@ -4,5 +4,4 @@ export interface IPlaceForm {
 	name: PlaceEntity["name"];
 	address: PlaceEntity["address"];
 	file: PlaceEntity["file"];
-	company: string;
 }

@@ -12,6 +12,7 @@ import { RouterService } from "../../../../../../../../../../shared/modules/rout
 import type { IAction } from "../../../../../../../../../../shared/ui/actions";
 import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
 import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { HALLS_PAGE_I18N } from "../constants";
 import { HallsPageGQL } from "../graphql/halls-page";
 
@@ -48,7 +49,8 @@ export class HallsComponent implements OnInit, OnDestroy {
 		private readonly _hallsService: HallsService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	async openCreateHallDialog() {
@@ -66,7 +68,11 @@ export class HallsComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._hallsService.createHall({ name: hall.name, place, file: hall.file?.id }));
+		await lastValueFrom(
+			this._hallsService
+				.createHall({ name: hall.name, place, file: hall.file?.id })
+				.pipe(this._toastrService.observe("Столы"))
+		);
 
 		await this._hallsPageQuery.refetch();
 	}
@@ -80,7 +86,11 @@ export class HallsComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._hallsService.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id }));
+		await lastValueFrom(
+			this._hallsService
+				.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id })
+				.pipe(this._toastrService.observe("Столы"))
+		);
 
 		await this._hallsPageQuery.refetch();
 	}
@@ -94,7 +104,7 @@ export class HallsComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._hallsService.deleteHall(value.id));
+		await lastValueFrom(this._hallsService.deleteHall(value.id).pipe(this._toastrService.observe("Столы")));
 
 		await this._hallsPageQuery.refetch();
 	}

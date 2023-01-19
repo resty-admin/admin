@@ -47,7 +47,7 @@ export class AsideComponent implements OnInit {
 				...asidePage,
 				disabled: !(company && place),
 				routerLink: asidePage.routerLink.replace(PLACE_ID, place!).replace(COMPANY_ID, company!)
-			}))
+			})).filter((asidePage) => this.user && asidePage.roles.includes(this.user.role))
 		)
 	);
 

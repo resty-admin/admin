@@ -14,6 +14,7 @@ import type { IAction } from "../../../../../../../../../../../../shared/ui/acti
 import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
 import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
 import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
+import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { WORKERS_PAGE_I18N } from "../constants";
 import { WorkersPageGQL } from "../graphql/workers-page";
 
@@ -52,7 +53,8 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 		private readonly _usersService: UsersService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	trackByFn(index: number) {
@@ -85,7 +87,11 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._usersService.createUser({ name: user.name, email: user.name, role: user.role }));
+		await lastValueFrom(
+			this._usersService
+				.createUser({ name: user.name, email: user.name, role: user.role })
+				.pipe(this._toastrService.observe("Работники"))
+		);
 
 		await this._workersPageQuery.refetch();
 	}
@@ -100,7 +106,9 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._usersService.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
+			this._usersService
+				.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
+				.pipe(this._toastrService.observe("Работники"))
 		);
 
 		await this._workersPageQuery.refetch();
@@ -115,7 +123,7 @@ export class WorkersComponent implements OnInit, AfterViewInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._usersService.deleteUser(value.id));
+		await lastValueFrom(this._usersService.deleteUser(value.id).pipe(this._toastrService.observe("Работники")));
 
 		await this._workersPageQuery.refetch();
 	}
