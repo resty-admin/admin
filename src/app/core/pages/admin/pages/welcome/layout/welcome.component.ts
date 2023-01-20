@@ -35,8 +35,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 	async ngOnInit() {
 		const user = await lastValueFrom(this._authService.me$.pipe(take(1)));
 
-		console.log(user);
-
 		if (user) {
 			this.formGroup.patchValue(user);
 		}

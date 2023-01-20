@@ -1,12 +1,19 @@
-<form class="users-select" [formGroup]="usersGroup" *transloco="let t; read: usersSelectI18n">
+<div class="users-select">
 	<ul class="users">
-		<li class="user" *ngIf="(users?.length || 0) > 1">
-			<input class="checkbox" type="checkbox" id="users_all" formControlName="all" />
-			<label class="label" for="users_all">{{ t("all") }}</label>
+		<li class="user">
+			<button class="label" [class.active]="isAll" (click)="toggleAll()">All</button>
 		</li>
-		<li class="user" *ngFor="let user of users; trackBy: trackByFn; let i = index">
-			<input class="checkbox" type="checkbox" [id]="'users_' + i" [formControlName]="user.id" />
-			<label class="label" [for]="'users_' + i">{{ user.name }}</label>
+		<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: trackByFn">
+			<input
+				class="checkbox"
+				type="checkbox"
+				[id]="'user_' + user.id"
+				[name]="'user_' + user.id"
+				[value]="user.id"
+				[(ngModel)]="user.selected"
+				(change)="emitChange()"
+			/>
+			<label class="label" [for]="i">{{ user.name }}</label>
 		</li>
 	</ul>
-</form>
+</div>

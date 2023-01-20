@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 
 import type { CommandEntity } from "../../../../../../../../../../../graphql";
@@ -17,7 +16,6 @@ import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { COMMANDS_PAGE_I18N } from "../constants";
 import { CommandsPageGQL } from "../graphql/commands-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-commands",
 	templateUrl: "./commands.component.html",

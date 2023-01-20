@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 
@@ -17,7 +16,6 @@ import { ToastrService } from "../../../../../../../../../../../../shared/ui/toa
 import { ACTIVE_ORDERS_PAGE_I18N } from "../constants";
 import { ActiveOrdersPageGQL } from "../graphql/active-orders-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-active-orders",
 	templateUrl: "./active-orders.component.html",

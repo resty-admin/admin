@@ -1,9 +1,9 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 
 import type { UserEntity } from "../../../../../../../../../../../../../graphql";
+import { UserRoleEnum } from "../../../../../../../../../../../../../graphql";
 import { UsersService } from "../../../../../../../../../../../../features/users";
 import { UserDialogComponent } from "../../../../../../../../../../../../features/users/ui";
 import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
@@ -17,7 +17,6 @@ import { ToastrService } from "../../../../../../../../../../../../shared/ui/toa
 import { GUESTS_PAGE_I18N } from "../constants";
 import { GuestsPageGQL } from "../graphql/guests-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-guests",
 	templateUrl: "./guests.component.html",
@@ -65,7 +64,12 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 			return;
 		}
 
-		await this._guestsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
+		await this._guestsPageQuery.setVariables({
+			filtersArgs: [
+				{ key: "place.id", operator: "=", value: placeId },
+				{ key: "role", operator: "=", value: UserRoleEnum.Client }
+			]
+		});
 	}
 
 	ngAfterViewInit() {

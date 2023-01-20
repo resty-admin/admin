@@ -1,2 +1,1 @@
-export * from "./select-table.interface";
-export * from "./select-tables-form.interface";
+export * from "./table-to-select.interface";

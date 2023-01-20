@@ -1,6 +1,5 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { BehaviorSubject } from "rxjs";
 import { ControlValueAccessor } from "src/app/shared/classes";
 import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
@@ -11,7 +10,6 @@ import type { IHTMLInputEvent, ISimpleChanges } from "../../../interfaces";
 import { FILE_CONFIG } from "../injection-tokens";
 import { IFileConfig, IFileTheme } from "../interfaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-file",
 	templateUrl: "./file.component.html",

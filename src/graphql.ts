@@ -419,7 +419,7 @@ export interface Mutation {
 	updateOrder: ActiveOrderEntity;
 	updatePaymentSystem: PaymentSystemEntity;
 	updatePlace: PlaceEntity;
-	updatePlaceVerification: Scalars["Boolean"];
+	updatePlaceVerification: PlaceEntity;
 	updateProduct: ProductEntity;
 	updateShift: ActiveShiftEntity;
 	updateTable: TableEntity;
@@ -1160,7 +1160,8 @@ export interface QueryTablesArgs {
 }
 
 export interface QueryUserArgs {
-	id: Scalars["String"];
+	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
+	id?: InputMaybe<Scalars["String"]>;
 }
 
 export interface QueryUsersArgs {

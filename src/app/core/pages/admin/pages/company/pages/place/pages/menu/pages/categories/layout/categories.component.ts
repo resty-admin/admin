@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 import { CategoriesService } from "src/app/features/categories";
 import { ProductsService } from "src/app/features/products";
@@ -20,7 +19,6 @@ import { ToastrService } from "../../../../../../../../../../../../shared/ui/toa
 import { CATEGORIES_PAGE_I18N } from "../constants";
 import { CategoriesPageGQL } from "../graphql/categories-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-categories",
 	templateUrl: "./categories.component.html",

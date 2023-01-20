@@ -15,5 +15,7 @@ mutation DeletePlace($placeId: String!) {
 }
 
 mutation UpdatePlaceVerification($placeId: String!, $status: PlaceVerificationStatusEnum!) {
-	updatePlaceVerification(placeId: $placeId, status: $status)
+	updatePlaceVerification(placeId: $placeId, status: $status) {
+		id
+	}
 }

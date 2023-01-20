@@ -1,5 +1,5 @@
-query AddEmployeeFindUser($userId: String!) {
-	user(id: $userId) {
+query FindUser($filtersArgs: [FiltersArgsDto!], $userId: String) {
+	user(filtersArgs: $filtersArgs, id: $userId) {
 		id
 	}
 }

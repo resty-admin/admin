@@ -1,15 +1,17 @@
 import type { OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { lastValueFrom, take } from "rxjs";
 
 import type { UserEntity } from "../../../../../../graphql";
 import { FORM_I18N } from "../../../../../core/constants";
 import type { DeepAtLeast } from "../../../../../shared/interfaces";
-import { AddEmployeeFindUserGQL } from "../graphql/add-employee";
+import { FindUserGQL } from "../graphql/add-employee";
 import type { IAddEmployeeForm } from "../interfaces";
 
+@UntilDestroy()
 @Component({
 	selector: "app-add-employee-dialog",
 	templateUrl: "./add-employee-dialog.component.html",
@@ -31,22 +33,35 @@ export class AddEmployeeDialogComponent implements OnInit {
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
-		private readonly _addEmployeeFindUserGQL: AddEmployeeFindUserGQL
+		private readonly _findUserGQL: FindUserGQL,
+		private readonly _changeDetectorRef: ChangeDetectorRef
 	) {}
 
 	async findEmployee(user: IAddEmployeeForm) {
-		console.log(user);
+		const filtersArgs = user.tel
+			? [{ key: "tel", operator: "=", value: user.tel }]
+			: user.email
+			? [{ key: "email", operator: "=", value: user.email }]
+			: [];
 
-		const result = await lastValueFrom(this._addEmployeeFindUserGQL.watch().valueChanges.pipe(take(1)));
+		try {
+			const result = await lastValueFrom(this._findUserGQL.watch({ filtersArgs }).valueChanges.pipe(take(1)));
 
-		if (!result.data.user) {
-			return;
-		}
+			if (!result.data.user) {
+				return;
+			}
 
-		this.isEmployee = result.data.user;
+			this.isEmployee = result.data.user;
+
+			this._changeDetectorRef.detectChanges();
+		} catch {}
 	}
 
 	ngOnInit() {
+		this.formGroup.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
+			this.isEmployee = null;
+		});
+
 		this.data = this._dialogRef.data;
 
 		if (!this.data) {
@@ -62,6 +77,6 @@ export class AddEmployeeDialogComponent implements OnInit {
 			return;
 		}
 
-		this._dialogRef.close({ ...this.data, ...user });
+		this._dialogRef.close(this.isEmployee);
 	}
 }

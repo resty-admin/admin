@@ -1,91 +1,62 @@
-import type { OnChanges, OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import type { ValidationErrors } from "@angular/forms";
-import type { ControlValueAccessor } from "@ngneat/reactive-forms";
-import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { pairwise } from "rxjs";
+import type { OnChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormBuilder } from "@angular/forms";
 
-import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
-import type { IHallsSelectForm, ISelectHall } from "../interfaces";
+import type { IHallToSelect } from "../interfaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-halls-select",
 	templateUrl: "./halls-select.component.html",
 	styleUrls: ["./halls-select.component.scss"],
-	providers: getControlValueAccessorProviders(HallsSelectComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HallsSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
-	@Input() halls?: ISelectHall[] | null = [];
+export class HallsSelectComponent implements OnChanges {
+	@Output() selectedHallsChange = new EventEmitter<string[]>();
+	@Input() selectedHalls?: string[] | null;
+	@Input() halls?: IHallToSelect[] | null;
 
-	readonly hallsGroup = this._formBuilder.group<IHallsSelectForm>({ all: false });
+	hallsWithSelected: (IHallToSelect & { selected: boolean })[] = [];
 
-	onChange?: (value: Omit<IHallsSelectForm, "all">) => void;
-	onTouched?: () => void;
+	isAll: boolean = false;
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
+
+	toggleAll() {
+		this.isAll = !this.isAll;
+
+		this.hallsWithSelected = this.hallsWithSelected.map((hallWithSelected) => ({
+			...hallWithSelected,
+			selected: this.isAll
+		}));
+
+		this.emitChange();
+	}
+
+	ngOnChanges(changes: ISimpleChanges<HallsSelectComponent>) {
+		if (!(changes.halls?.currentValue || changes.selectedHalls?.currentValue)) {
+			return;
+		}
+
+		this.hallsWithSelected = (this.halls || []).map((hall) => ({
+			...hall,
+			selected: (this.selectedHalls || []).includes(hall.id)
+		}));
+
+		const selectedHalls = this.hallsWithSelected.filter((hall) => hall.selected).map((hall) => hall.id);
+
+		this.isAll = selectedHalls.length === (this.halls || []).length;
+	}
 
 	trackByFn(index: number) {
 		return index;
 	}
 
-	ngOnInit() {
-		let isProgrammatic = false;
+	emitChange() {
+		const selectedHalls = this.hallsWithSelected.filter((hall) => hall.selected).map((hall) => hall.id);
 
-		this.hallsGroup.value$.pipe(untilDestroyed(this), pairwise()).subscribe(([oldHalls, currHalls]) => {
-			if (isProgrammatic) {
-				isProgrammatic = false;
-				return;
-			}
+		this.isAll = selectedHalls.length === (this.halls || []).length;
 
-			const { all, ...hallsMap } = currHalls;
-			const isAllChecked = Object.values(hallsMap).every((isChecked) => isChecked);
-
-			if (all !== isAllChecked) {
-				isProgrammatic = true;
-				this.hallsGroup.patchValue({ all: isAllChecked });
-			}
-
-			if (all !== oldHalls.all) {
-				const allCheckedHalls = Object.keys(hallsMap).reduce((prev, id) => ({ ...prev, [id]: all }), { all });
-				this.hallsGroup.patchValue(allCheckedHalls);
-				return;
-			}
-
-			if (!this.onChange) {
-				return;
-			}
-
-			this.onChange(hallsMap);
-		});
-	}
-
-	ngOnChanges(changes: ISimpleChanges<HallsSelectComponent>) {
-		if (!changes.halls || !changes.halls.currentValue) {
-			return;
-		}
-
-		for (const hall of changes.halls.currentValue) {
-			this.hallsGroup.addControl(hall.id, new FormControl(false));
-		}
-	}
-
-	registerOnChange(onChange: (value: Omit<IHallsSelectForm, "all">) => void): void {
-		this.onChange = onChange;
-	}
-
-	registerOnTouched(onTouched: () => void): void {
-		this.onTouched = onTouched;
-	}
-
-	validate(): ValidationErrors | null {
-		return this.hallsGroup.errors;
-	}
-
-	writeValue(value: IHallsSelectForm): void {
-		this.hallsGroup.patchValue(value, { emitValue: false });
+		this.selectedHallsChange.emit(selectedHalls);
 	}
 }

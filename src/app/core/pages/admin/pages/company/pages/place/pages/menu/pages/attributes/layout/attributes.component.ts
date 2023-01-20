@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 import { AttributeGroupsService, AttributesService } from "src/app/features/attributes";
 import { PLACE_ID } from "src/app/shared/constants";
@@ -17,7 +16,7 @@ import { DialogService } from "../../../../../../../../../../../../shared/ui/dia
 import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { ATTRIBUTES_PAGE_I18N } from "../constants";
 import { AttributesPageGQL } from "../graphql/attributes-page";
-@UntilDestroy()
+
 @Component({
 	selector: "app-attributes",
 	templateUrl: "./attributes.component.html",

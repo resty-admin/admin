@@ -1,6 +1,5 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 import { ProductsService } from "src/app/features/products";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
@@ -18,7 +17,6 @@ import { ToastrService } from "../../../../../../../../../../../../shared/ui/toa
 import { PRODUCTS_PAGE_I18N } from "../constants";
 import { ProductsPageGQL } from "../graphql/products-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-products",
 	templateUrl: "./products.component.html",

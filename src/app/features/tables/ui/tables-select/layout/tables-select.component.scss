@@ -10,19 +10,9 @@
 		}
 		.table {
 			position: relative;
-			width: 100%;
-			.checkbox {
-				position: absolute;
-				left: 0;
-				top: 0;
+			.label {
+				display: block;
 				width: 100%;
-				height: 100%;
-				opacity: 0%;
-				&:checked ~ .content {
-					border-color: var(--primary);
-				}
-			}
-			.content {
 				background-color: var(--light-grey);
 				border-radius: rem(20);
 				border: rem(1) solid transparent;
@@ -44,6 +34,17 @@
 						line-height: rem(24);
 						color: var(--dark);
 					}
+				}
+			}
+			.input {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0%;
+				&:checked ~ .label {
+					border-color: var(--primary);
 				}
 			}
 		}

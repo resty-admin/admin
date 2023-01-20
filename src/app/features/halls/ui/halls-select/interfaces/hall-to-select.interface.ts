@@ -1,6 +1,6 @@
 import type { HallEntity } from "../../../../../../graphql";
 
-export interface ISelectHall {
+export interface IHallToSelect {
 	id: HallEntity["id"];
 	name: HallEntity["name"];
 }

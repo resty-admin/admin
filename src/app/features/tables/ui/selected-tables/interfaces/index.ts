@@ -1,1 +1,1 @@
-export * from "./selected-table.interface";
+export * from "./table-to-select.interface";

@@ -1,7 +1,7 @@
 <ul class="selected-tables">
-	<li class="selected-table" *ngFor="let selectedTable of selectedTables$ | async; trackBy: trackByFn">
-		<span class="label">{{ selectedTable.name }}</span>
-		<button class="button" (click)="removeSelectedTable(selectedTable)">
+	<li class="selected-table" *ngFor="let selectedTable of selectedTables; trackBy: trackByFn">
+		<span class="label">{{ selectedTable.hall.name }}. {{ selectedTable.name }}</span>
+		<button type="button" class="button" (click)="emitRemoveClick(selectedTable)">
 			<app-icon class="icon" name="close"></app-icon>
 		</button>
 	</li>

@@ -1,7 +1,7 @@
 import type { ProductToOrderEntity } from "../../../../../../graphql";
 import type { ProductEntity, UserEntity } from "../../../../../../graphql";
 
-export interface ISelectProductToOrder {
+export interface IProductToOrderToSelect {
 	id: ProductToOrderEntity["id"];
 	status: ProductToOrderEntity["status"];
 	paidStatus: ProductToOrderEntity["paidStatus"];

@@ -1,13 +1,11 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom } from "rxjs";
 import { ADMIN_ROUTES } from "src/app/shared/constants";
 import { RouterService } from "src/app/shared/modules/router";
 
 import { AuthService } from "../../../../../../features/auth/services";
 
-@UntilDestroy()
 @Component({
 	selector: "app-telegram",
 	templateUrl: "./telegram.component.html",

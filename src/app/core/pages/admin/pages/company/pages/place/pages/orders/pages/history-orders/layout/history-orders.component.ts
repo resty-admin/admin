@@ -1,6 +1,5 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { map } from "rxjs";
 import { OrdersService } from "src/app/features/orders";
 import type { IDatatableColumn } from "src/app/shared/ui/datatable";
@@ -13,7 +12,6 @@ import { DialogService } from "../../../../../../../../../../../../shared/ui/dia
 import { HISTORY_ORDERS_PAGE_I18N } from "../constants/history-orders-page-i18n.constant";
 import { HistoryOrdersPageGQL } from "../graphql/history-orders-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-history-orders",
 	templateUrl: "./history-orders.component.html",

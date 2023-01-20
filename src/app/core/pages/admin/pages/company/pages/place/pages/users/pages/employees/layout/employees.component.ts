@@ -1,10 +1,10 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
 import type { DeepPartial } from "@ngneat/reactive-forms/lib/types";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 
 import type { UserEntity } from "../../../../../../../../../../../../../graphql";
+import { UserRoleEnum } from "../../../../../../../../../../../../../graphql";
 import { ActionsService } from "../../../../../../../../../../../../features/app";
 import { UsersService } from "../../../../../../../../../../../../features/users";
 import { AddEmployeeDialogComponent, UserDialogComponent } from "../../../../../../../../../../../../features/users/ui";
@@ -19,7 +19,6 @@ import { ToastrService } from "../../../../../../../../../../../../shared/ui/toa
 import { EMPLOYEES_PAGE_I18N } from "../constants";
 import { EmployeesPageGQL } from "../graphql/employees-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-employees",
 	templateUrl: "./employees.component.html",
@@ -32,6 +31,7 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 	readonly employeesPageI18n = EMPLOYEES_PAGE_I18N;
 
 	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
+
 	readonly users$ = this._employeesPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 
 	readonly actions: IAction<UserEntity>[] = [
@@ -75,7 +75,10 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 		});
 
 		await this._employeesPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			filtersArgs: [
+				{ key: "place.id", operator: "=", value: placeId },
+				{ key: "role", operator: "=", value: UserRoleEnum.Waiter }
+			]
 		});
 	}
 

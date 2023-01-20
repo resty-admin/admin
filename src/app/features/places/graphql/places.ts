@@ -37,7 +37,7 @@ export type UpdatePlaceVerificationMutationVariables = Types.Exact<{
 
 export interface UpdatePlaceVerificationMutation {
 	__typename?: "Mutation";
-	updatePlaceVerification: boolean;
+	updatePlaceVerification: { __typename?: "PlaceEntity"; id: string };
 }
 
 export const UpdatePlaceDocument = gql`
@@ -94,7 +94,9 @@ export class DeletePlaceGQL extends Apollo.Mutation<DeletePlaceMutation, DeleteP
 }
 export const UpdatePlaceVerificationDocument = gql`
 	mutation UpdatePlaceVerification($placeId: String!, $status: PlaceVerificationStatusEnum!) {
-		updatePlaceVerification(placeId: $placeId, status: $status)
+		updatePlaceVerification(placeId: $placeId, status: $status) {
+			id
+		}
 	}
 `;
 

@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 import { HallDialogComponent, HallsService } from "src/app/features/halls";
 import { PLACE_ID } from "src/app/shared/constants";
@@ -16,7 +15,6 @@ import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { HALLS_PAGE_I18N } from "../constants";
 import { HallsPageGQL } from "../graphql/halls-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-halls",
 	templateUrl: "./halls.component.html",

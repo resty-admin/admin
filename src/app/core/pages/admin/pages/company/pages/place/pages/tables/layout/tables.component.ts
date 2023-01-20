@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { lastValueFrom, map } from "rxjs";
 import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "src/app/features/tables";
 import { RouterService } from "src/app/shared/modules/router";
@@ -17,7 +16,6 @@ import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { TABLES_PAGE_I18N } from "../constants";
 import { TablesPageGQL } from "../graphql/tables-page";
 
-@UntilDestroy()
 @Component({
 	selector: "app-tables",
 	templateUrl: "./tables.component.html",

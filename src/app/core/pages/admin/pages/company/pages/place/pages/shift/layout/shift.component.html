@@ -1,34 +1,31 @@
-<form class="shift-page" *transloco="let t; read: shiftPageI18n" [formGroup]="activeShiftGroup">
+<div class="shift-page" *transloco="let t; read: shiftPageI18n">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<button *ngIf="formValue.id" appButton theme="2" class="close" (click)="closeShift(formValue.id)">
+	<button *ngIf="shiftId" appButton theme="2" class="close" (click)="closeShift(shiftId)">
 		<app-icon class="icon" name="close"></app-icon>
 		<span class="text">{{ t("close") }}</span>
 	</button>
 
 	<h2 appTypography theme="4" class="subtitle">{{ t("subtitle") }}</h2>
 
-	<app-halls-select class="halls" [halls]="halls$ | async" [formControl]="hallsControl"></app-halls-select>
+	<app-halls-select
+		class="halls"
+		[halls]="halls$ | async"
+		[(selectedHalls)]="selectedHalls"
+		(selectedHallsChange)="setSelectedHalls($event)"
+	></app-halls-select>
 
 	<app-tables-select
 		class="tables-select"
 		[tables]="tables$ | async"
-		formControlName="tables"
-		[selectedTables]="formValue.tables"
+		[(selectedTables)]="selectedTables"
 	></app-tables-select>
 
 	<footer class="footer">
-		<app-selected-tables
-			class="selected-tables"
-			formControlName="tables"
-			[selectedTables]="formValue.tables"
-		></app-selected-tables>
-		<button
-			appButton
-			theme="1"
-			(click)="formValue.id ? updateShift(formValue.id, formValue.tables) : createShift(formValue.tables)"
-		>
-			{{ t(formValue.id ? "edit" : "create") }}
+		<app-selected-tables class="selected-tables" [(selectedTables)]="selectedTables"></app-selected-tables>
+
+		<button appButton theme="1" (click)="shiftId ? updateShift(shiftId, selectedTables) : createShift(selectedTables)">
+			{{ t(shiftId ? "edit" : "create") }}
 		</button>
 	</footer>
-</form>
+</div>

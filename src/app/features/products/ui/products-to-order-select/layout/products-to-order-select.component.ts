@@ -1,81 +1,68 @@
-import type { OnChanges, OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import type { ValidationErrors } from "@angular/forms";
-import type { ControlValueAccessor } from "@ngneat/reactive-forms";
-import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import type { OnChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormBuilder } from "@angular/forms";
 
-import { getControlValueAccessorProviders } from "../../../../../shared/functions";
 import type { ISimpleChanges } from "../../../../../shared/interfaces";
-import type { IProductsSelectForm, ISelectProductToOrder, ISelectProductToOrderByStatus } from "../interfaces";
+import type {
+	IProductToOrderToSelect,
+	IProductToOrderWithSelected,
+	IProductToOrderWithSelectedByStatus
+} from "../interfaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-products-to-order-select",
 	templateUrl: "./products-to-order-select.component.html",
 	styleUrls: ["./products-to-order-select.component.scss"],
-	providers: [getControlValueAccessorProviders(ProductsToOrderSelectComponent)],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductsToOrderSelectComponent implements OnChanges, OnInit, ControlValueAccessor {
-	@Input() productsToOrders?: ISelectProductToOrder[] | null;
-	productsToOrdersByStatus?: ISelectProductToOrderByStatus[];
-	onChange?: (value: IProductsSelectForm) => void;
-	onTouched?: () => void;
+export class ProductsToOrderSelectComponent implements OnChanges {
+	@Output() selectedProductsToOrdersChange = new EventEmitter<string[]>();
+	@Input() selectedProductsToOrders?: string[] | null;
+	@Input() productsToOrders?: IProductToOrderToSelect[] | null;
 
-	readonly formGroup = this._formBuilder.group<IProductsSelectForm>({});
+	productsToOrdersWithSelected: IProductToOrderWithSelected[] = [];
+
+	productsToOrdersWithSelectedByStatus: IProductToOrderWithSelectedByStatus[] = [];
 
 	constructor(private readonly _formBuilder: FormBuilder) {}
 
 	ngOnChanges(changes: ISimpleChanges<ProductsToOrderSelectComponent>) {
-		if (!changes.productsToOrders || !changes.productsToOrders.currentValue) {
+		if (!(changes.productsToOrders?.currentValue || changes.selectedProductsToOrders?.currentValue)) {
 			return;
 		}
 
-		this.productsToOrdersByStatus = [];
+		this.productsToOrdersWithSelected = (this.productsToOrders || []).map((productToOrder) => ({
+			...productToOrder,
+			selected: (this.selectedProductsToOrders || []).includes(productToOrder.id)
+		}));
 
-		for (const productToOrder of changes.productsToOrders.currentValue) {
-			this.formGroup.addControl(productToOrder.id, new FormControl(false));
+		this.productsToOrdersWithSelectedByStatus = [];
 
-			const alreadyExist = this.productsToOrdersByStatus.find(
+		for (const productToOrder of this.productsToOrdersWithSelected) {
+			const alreadyExist = this.productsToOrdersWithSelectedByStatus.find(
 				(productToOrderByStatus) => productToOrderByStatus.status === productToOrder.status
 			);
 
 			if (alreadyExist) {
 				alreadyExist.productsToOrders.push(productToOrder);
 			} else {
-				this.productsToOrdersByStatus.push({ status: productToOrder.status, productsToOrders: [productToOrder] });
+				this.productsToOrdersWithSelectedByStatus.push({
+					status: productToOrder.status,
+					productsToOrders: [productToOrder]
+				});
 			}
 		}
-	}
-
-	ngOnInit() {
-		this.formGroup.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
-			if (!this.onChange) {
-				return;
-			}
-
-			this.onChange(value);
-		});
 	}
 
 	trackByFn(index: number) {
 		return index;
 	}
 
-	registerOnChange(onChange: (value: IProductsSelectForm) => void): void {
-		this.onChange = onChange;
-	}
-
-	registerOnTouched(onTouched: () => void): void {
-		this.onTouched = onTouched;
-	}
-
-	validate(): ValidationErrors | null {
-		return this.formGroup.errors;
-	}
-
-	writeValue(value: IProductsSelectForm): void {
-		this.formGroup.patchValue(value, { emitValue: false });
+	emitChange() {
+		this.selectedProductsToOrdersChange.emit(
+			this.productsToOrdersWithSelected
+				.filter((productToOrder) => productToOrder.selected)
+				.map((productToOrder) => productToOrder.id)
+		);
 	}
 }

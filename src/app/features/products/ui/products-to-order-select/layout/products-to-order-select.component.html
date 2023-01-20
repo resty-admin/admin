@@ -1,16 +1,27 @@
-<ul class="products-to-order-select" [formGroup]="formGroup">
+<ul class="products-to-orders-select">
 	<li
-		class="products-to-order-by-status"
-		*ngFor="let productToOrderByStatus of productsToOrdersByStatus; trackBy: trackByFn"
+		class="products-to-orders-by-status"
+		*ngFor="let productToOrderWithSelectedByStatus of productsToOrdersWithSelectedByStatus; trackBy: trackByFn"
 	>
-		<p class="status">{{ productToOrderByStatus.status }}</p>
-		<ul class="products-to-order">
+		<p class="status">{{ productToOrderWithSelectedByStatus.status }}</p>
+		<ul class="products-to-orders">
 			<li
 				class="product-to-order"
-				*ngFor="let productToOrder of productToOrderByStatus.productsToOrders; let i = index; trackBy: trackByFn"
+				*ngFor="
+					let productToOrder of productToOrderWithSelectedByStatus.productsToOrders;
+					let i = index;
+					trackBy: trackByFn
+				"
 			>
-				<input class="checkbox" type="checkbox" [id]="'produtToOrder_' + i" [formControlName]="productToOrder.id" />
-
+				<input
+					class="checkbox"
+					type="checkbox"
+					[id]="'productToOrder_' + productToOrder.id"
+					[name]="'productToOrder_' + productToOrder.id"
+					[value]="productToOrder.id"
+					[(ngModel)]="productToOrder.selected"
+					(change)="emitChange()"
+				/>
 				<app-product-to-order class="product" [productToOrder]="productToOrder"></app-product-to-order>
 			</li>
 		</ul>

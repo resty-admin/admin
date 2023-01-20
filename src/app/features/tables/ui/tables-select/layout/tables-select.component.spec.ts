@@ -3,7 +3,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 
 import { TablesSelectComponent } from "./tables-select.component";
 
-describe("ShiftComponent", () => {
+describe("TablesSelectComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [RouterTestingModule],

@@ -3,7 +3,7 @@ import { UserRoleEnum } from "../../../../../../../graphql";
 export const ROLES_DATA = [
 	{
 		label: "Менеджер",
-		value: UserRoleEnum.Admin,
+		value: UserRoleEnum.Manager,
 		image: "manager",
 		description:
 			"Ме́неджер — специалист, занятый управлением процессами и персоналом на определённом участке предприятия, организации. Может быть её владельцем, но часто является наёмным работником."

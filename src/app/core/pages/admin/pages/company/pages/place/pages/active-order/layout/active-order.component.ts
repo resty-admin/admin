@@ -1,9 +1,9 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { lastValueFrom, map, take, tap } from "rxjs";
+import { lastValueFrom, map, take } from "rxjs";
 
+import type { ActiveOrderEntity } from "../../../../../../../../../../../graphql";
 import { ProductToOrderStatusEnum } from "../../../../../../../../../../../graphql";
 import { ActionsService } from "../../../../../../../../../../features/app";
 import { OrdersService } from "../../../../../../../../../../features/orders";
@@ -38,14 +38,13 @@ export enum ORDERS_EVENTS {
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
-
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
-	readonly productsControl = new FormControl();
-	readonly usersControl = new FormControl<Record<string, boolean>>();
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
 	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
+	selectedUsers: string[] = [];
+	selectedProductsToOrders: string[] = [];
 	constructor(
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
 		private readonly _routerService: RouterService,
@@ -54,44 +53,6 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _socketIoService: SocketIoService
 	) {}
-
-	async approveTableInOrder() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-		await lastValueFrom(this._ordersService.approveTableInOrder(orderId));
-	}
-
-	async rejectTableInOrder() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-		await lastValueFrom(this._ordersService.rejectTableInOrder(orderId));
-	}
-
-	async approveProductsInOrder() {
-		const productsToOrdersIds = Object.entries(this.productsControl.value || {})
-			.filter(([_, value]) => value)
-			.map(([key]) => key);
-
-		await lastValueFrom(this._ordersService.approveProductsInOrder(productsToOrdersIds));
-
-		await this._activeOrderPageQuery.refetch();
-	}
-
-	async rejectProductsInOrder() {
-		const productsToOrdersIds = Object.entries(this.productsControl.value || {})
-			.filter(([_, value]) => value)
-			.map(([key]) => key);
-
-		await lastValueFrom(this._ordersService.rejectProductsInOrder(productsToOrdersIds));
-
-		await this._activeOrderPageQuery.refetch();
-	}
-
-	async cancelOrder(orderId: string) {
-		await lastValueFrom(this._ordersService.cancelOrder(orderId));
-
-		await this._activeOrderPageQuery.refetch();
-	}
 
 	trackByFn(index: number) {
 		return index;
@@ -107,32 +68,15 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this._ordersService.setActiveOrderId(orderId);
 
 		this._socketIoService
-			.fromEvents(Object.values(ORDERS_EVENTS))
+			.fromEvents<{ order: ActiveOrderEntity }>(Object.values(ORDERS_EVENTS))
 			.pipe(untilDestroyed(this))
-			.subscribe(async () => {
+			.subscribe(async (data) => {
+				if (!data || !data.order || !orderId || orderId !== data.order.id) {
+					return;
+				}
+
 				await this._activeOrderPageQuery.refetch();
 			});
-
-		this.usersControl.valueChanges
-			.pipe(
-				untilDestroyed(this),
-				tap(async (usersMap) => {
-					const order = await lastValueFrom(this.order$.pipe(take(1)));
-					const productsByUser = Object.keys(this.productsControl.value || {}).reduce((productsMap, id) => {
-						const userId = (order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id;
-
-						const users = Object.keys(usersMap);
-
-						return {
-							...productsMap,
-							[id]: userId && (users || []).includes(userId)
-						};
-					}, {});
-
-					this.productsControl.patchValue(productsByUser);
-				})
-			)
-			.subscribe();
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: ADMIN_ROUTES.ORDERS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
@@ -141,17 +85,61 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Подтвердить оплату",
 			func: async () => {
-				const productsToOrdersIds = Object.entries(this.productsControl.value || {})
-					.filter(([_, value]) => value)
-					.map(([key]) => key);
-
-				await lastValueFrom(this._ordersService.setPaidStatusForProductsInOrder(productsToOrdersIds));
-
-				await this._activeOrderPageQuery.refetch();
+				await lastValueFrom(this._ordersService.setPaidStatusForProductsInOrder(this.selectedProductsToOrders));
 			}
 		});
 
 		await this._activeOrderPageQuery.setVariables({ orderId });
+	}
+
+	async setSelectedUsers(usersIds: string[]) {
+		const { productsToOrders } = await lastValueFrom(this.order$.pipe(take(1)));
+
+		this.selectedProductsToOrders = (productsToOrders || [])
+			.filter((productToOrder) => usersIds.includes(productToOrder.user.id))
+			.map((productToOrder) => productToOrder.id);
+	}
+
+	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
+		const { productsToOrders, users } = await lastValueFrom(this.order$.pipe(take(1)));
+
+		const productsByUser = (users || []).reduce(
+			(usersMap, user) => ({
+				...usersMap,
+				[user.id]: (productsToOrders || [])
+					.filter((productToOrder) => productToOrder.user.id === user.id)
+					.every((productToOrder) => productsToOrdersIds.includes(productToOrder.id))
+			}),
+			{}
+		);
+
+		this.selectedUsers = Object.entries(productsByUser)
+			.filter(([_, value]) => value)
+			.map(([key]) => key);
+	}
+
+	async approveTableInOrder() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		await lastValueFrom(this._ordersService.approveTableInOrder(orderId));
+	}
+
+	async rejectTableInOrder() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		await lastValueFrom(this._ordersService.rejectTableInOrder(orderId));
+	}
+
+	async approveProductsInOrder() {
+		await lastValueFrom(this._ordersService.approveProductsInOrder(this.selectedProductsToOrders));
+	}
+
+	async rejectProductsInOrder() {
+		await lastValueFrom(this._ordersService.rejectProductsInOrder(this.selectedProductsToOrders));
+	}
+
+	async cancelOrder(orderId: string) {
+		await lastValueFrom(this._ordersService.cancelOrder(orderId));
 	}
 
 	ngOnDestroy() {

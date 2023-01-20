@@ -1,2 +1,1 @@
-export * from "./halls-select-form.interface";
-export * from "./select-hall.interface";
+export * from "./hall-to-select.interface";

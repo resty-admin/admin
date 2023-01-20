@@ -1,12 +1,19 @@
-<form class="halls-select" [formGroup]="hallsGroup">
+<div class="halls-select">
 	<ul class="halls">
 		<li class="hall">
-			<input class="checkbox" type="checkbox" id="all" formControlName="all" />
-			<label class="label" for="all">Все</label>
+			<button class="label" [class.active]="isAll" (click)="toggleAll()">All</button>
 		</li>
-		<li class="hall" *ngFor="let hall of halls; let i = index; trackBy: trackByFn">
-			<input class="checkbox" type="checkbox" [id]="i" [formControlName]="hall.id" />
+		<li class="hall" *ngFor="let hall of hallsWithSelected; let i = index; trackBy: trackByFn">
+			<input
+				class="checkbox"
+				type="checkbox"
+				[id]="'hall_' + hall.id"
+				[name]="'hall_' + hall.id"
+				[value]="hall.id"
+				[(ngModel)]="hall.selected"
+				(change)="emitChange()"
+			/>
 			<label class="label" [for]="i">{{ hall.name }}</label>
 		</li>
 	</ul>
-</form>
+</div>

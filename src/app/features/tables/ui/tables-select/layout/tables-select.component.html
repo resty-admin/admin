@@ -1,13 +1,21 @@
-<form class="tables-select" [formGroup]="tablesGroup">
+<div class="tables-select">
 	<ul class="tables">
-		<li class="table" *ngFor="let table of tables; let i = index; trackBy: trackByFn">
-			<input class="checkbox" type="checkbox" [id]="'tables-select_' + i" [formControlName]="table.id" />
-			<div class="content">
+		<li class="table" *ngFor="let table of tablesWithSelected; let i = index; trackBy: trackByFn">
+			<input
+				class="input"
+				type="checkbox"
+				[id]="'table_' + table.id"
+				[name]="'table_' + table.id"
+				[value]="table.id"
+				[(ngModel)]="table.selected"
+				(change)="emitChange()"
+			/>
+			<label class="label" [for]="'table_' + table.id">
 				<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
 				<div class="container">
 					<span class="text">{{ table.name }}</span>
 				</div>
-			</div>
+			</label>
 		</li>
 	</ul>
-</form>
+</div>

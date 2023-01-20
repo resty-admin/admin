@@ -1,10 +1,10 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.products-to-order-select {
+	.products-to-orders-select {
 		display: grid;
 		row-gap: rem(12);
-		.products-to-order-by-status {
+		.products-to-orders-by-status {
 			display: grid;
 			row-gap: rem(12);
 			.status {
@@ -13,7 +13,7 @@
 				line-height: rem(24);
 				color: var(--dark);
 			}
-			.products-to-order {
+			.products-to-orders {
 				display: grid;
 				row-gap: rem(12);
 				.product-to-order {

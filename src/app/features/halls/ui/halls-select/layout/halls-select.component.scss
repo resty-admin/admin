@@ -16,6 +16,10 @@
 				font-size: rem(14);
 				line-height: rem(24);
 				cursor: pointer;
+				&.active {
+					border-color: var(--primary);
+					color: var(--primary);
+				}
 			}
 			.checkbox {
 				position: absolute;
