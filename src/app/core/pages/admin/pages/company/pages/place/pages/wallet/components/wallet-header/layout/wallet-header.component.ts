@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { getI18nProvider } from "@shared/i18n";
 
-import { getI18nProvider } from "../../../../../../../../../../../../shared/i18n";
 import { WALLET_HEADER_I18N } from "../constants";
 @Component({
 	selector: "app-wallet-header",

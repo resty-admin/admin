@@ -1,13 +1,13 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { PlacesService } from "@features/places";
+import type { PlaceVerificationStatusEnum } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map } from "rxjs";
 
-import type { PlaceVerificationStatusEnum } from "../../../../../../../../../../../graphql";
-import { PlacesService } from "../../../../../../../../../../features/places";
-import { PLACE_ID } from "../../../../../../../../../../shared/constants";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { STATISTIC_PAGE_I18N } from "../constants";
-import { StatisticPageGQL, StatisticPlaceGQL } from "../graphql/statistic-page";
+import { StatisticPageGQL, StatisticPlaceGQL } from "../graphql";
 
 @Component({
 	selector: "app-statistic",

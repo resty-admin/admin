@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
+import type { UserEntity } from "@graphql";
 import { createStore, select, setProp, withProps } from "@ngneat/elf";
 import { persistState } from "@ngneat/elf-persist-state";
+import { ACCESS_TOKEN } from "@shared/constants";
+import type { DeepPartial } from "@shared/interfaces";
+import { LocalforageService } from "@shared/modules/localforage";
 import { includeKeys } from "elf-sync-state";
-import { ACCESS_TOKEN } from "src/app/shared/constants";
-import { LocalforageService } from "src/app/shared/modules/localforage";
 
-import type { UserEntity } from "../../../../../graphql";
-import type { DeepPartial } from "../../../../shared/interfaces";
 import type { IAuthState } from "../../interfaces";
 
 @Injectable({ providedIn: "root" })

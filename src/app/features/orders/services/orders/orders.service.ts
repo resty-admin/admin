@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
+import type { CreateOrderInput, UpdateOrderInput } from "@graphql";
 
-import type { CreateOrderInput, UpdateOrderInput } from "../../../../../graphql";
 import {
 	ApproveProductsInOrderGQL,
 	ApproveTableInOrderGQL,
@@ -12,7 +12,7 @@ import {
 	RejectTableInOrderGQL,
 	SetPaidStatusForProductsInOrderGQL,
 	UpdateOrderGQL
-} from "../../graphql/orders";
+} from "../../graphql";
 import { OrdersRepository } from "../../repositories";
 
 @Injectable({ providedIn: "root" })

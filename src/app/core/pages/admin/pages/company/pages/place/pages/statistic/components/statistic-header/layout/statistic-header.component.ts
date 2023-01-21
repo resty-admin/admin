@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { getI18nProvider } from "@shared/i18n";
 
-import { getI18nProvider } from "../../../../../../../../../../../../shared/i18n";
 import { STATISTIC_HEADER_I18N } from "../constants";
 
 @Component({

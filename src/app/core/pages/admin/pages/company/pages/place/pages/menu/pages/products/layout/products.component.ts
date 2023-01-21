@@ -1,21 +1,21 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { ProductsService } from "@features/products";
+import { ProductDialogComponent } from "@features/products/ui";
+import type { ProductEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import type { IDatatableColumn } from "@shared/ui/datatable";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { ProductsService } from "src/app/features/products";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
-import type { ProductEntity } from "../../../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../../../features/app";
-import { ProductDialogComponent } from "../../../../../../../../../../../../features/products/ui";
-import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { PRODUCTS_PAGE_I18N } from "../constants";
-import { ProductsPageGQL } from "../graphql/products-page";
+import { ProductsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-products",

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { createStore, select, setProp, withProps } from "@ngneat/elf";
 import { persistState } from "@ngneat/elf-persist-state";
+import { LocalforageService } from "@shared/modules/localforage";
 import { includeKeys } from "elf-sync-state";
-import { LocalforageService } from "src/app/shared/modules/localforage";
 
 export interface IOrdersState {
 	activeOrderId?: string;

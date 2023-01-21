@@ -1,15 +1,15 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { IAuthType } from "@features/auth/interfaces";
+import { AuthService } from "@features/auth/services";
+import { UserRoleEnum } from "@graphql";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
-import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "src/app/shared/constants";
-import { RouterService } from "src/app/shared/modules/router";
 
-import { UserRoleEnum } from "../../../../../../../graphql";
-import type { IAuthType } from "../../../../../../features/auth/interfaces";
-import { AuthService } from "../../../../../../features/auth/services";
-import { FORM_I18N } from "../../../../../constants";
 import { AUTH_TYPES } from "../../../data";
 import { SIGN_UP_PAGE_I18N } from "../constants";
 import type { ISignUp } from "../interfaces";

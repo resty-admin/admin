@@ -1,23 +1,23 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { CategoriesService } from "@features/categories";
+import { CategoryDialogComponent } from "@features/categories/ui/category-dialog/layout/category-dialog.component";
+import { ProductsService } from "@features/products";
+import { ProductDialogComponent } from "@features/products/ui";
+import type { PlaceEntity, ProductEntity } from "@graphql";
+import type { CategoryEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { CategoriesService } from "src/app/features/categories";
-import { ProductsService } from "src/app/features/products";
 
-import type { PlaceEntity, ProductEntity } from "../../../../../../../../../../../../../graphql";
-import type { CategoryEntity } from "../../../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../../../features/app";
-import { CategoryDialogComponent } from "../../../../../../../../../../../../features/categories/ui/category-dialog/layout/category-dialog.component";
-import { ProductDialogComponent } from "../../../../../../../../../../../../features/products/ui";
-import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { CATEGORIES_PAGE_I18N } from "../constants";
-import { CategoriesPageGQL } from "../graphql/categories-page";
+import { CategoriesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-categories",

@@ -1,24 +1,23 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import { AttributeGroupsService } from "@features/attributes";
+import { AttributeGroupDialogComponent } from "@features/attributes";
+import { CategoriesService, CategoryDialogComponent } from "@features/categories";
+import type { ProductEntity } from "@graphql";
+import type { CategoryEntity } from "@graphql";
+import type { AttributesGroupEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { PLACE_ID } from "@shared/constants";
+import type { DeepPartial } from "@shared/interfaces";
+import { FilesService } from "@shared/modules/files";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import type { ProductEntity } from "../../../../../../graphql";
-import type { CategoryEntity } from "../../../../../../graphql";
-import type { AttributesGroupEntity } from "../../../../../../graphql";
-import { FORM_I18N } from "../../../../../core/constants";
-import { PLACE_ID } from "../../../../../shared/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
-import { FilesService } from "../../../../../shared/modules/files";
-import { RouterService } from "../../../../../shared/modules/router";
-import { DialogService } from "../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../shared/ui/toastr";
-import { AttributeGroupsService } from "../../../../attributes";
-import { AttributeGroupDialogComponent } from "../../../../attributes/ui/attribute-group-dialog/layout/attribute-group-dialog.component";
-import { CategoriesService } from "../../../../categories";
-import { CategoryDialogComponent } from "../../../../categories/ui/category-dialog/layout/category-dialog.component";
-import { ProductAttributeGroupsGQL, ProductCategoriesGQL } from "../graphql/product-dialog";
+import { ProductAttributeGroupsGQL, ProductCategoriesGQL } from "../graphql";
 import type { IProductForm } from "../interfaces";
 
 @Component({

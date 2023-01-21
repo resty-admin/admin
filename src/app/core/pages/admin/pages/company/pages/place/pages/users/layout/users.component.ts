@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UsersService } from "src/app/features/users";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
+import { UsersService } from "@features/users";
+import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { USERS_PAGE_I18N } from "../constants";
 
 @Component({

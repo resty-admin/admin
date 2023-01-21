@@ -1,10 +1,9 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional } from "@angular/core";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 import { BehaviorSubject, map, of, switchMap, tap } from "rxjs";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import type { ISimpleChanges } from "src/app/shared/interfaces";
 
-import { DialogService } from "../../dialog";
 import { IMAGE_CONFIG } from "../injection-tokens";
 import { IImageConfig, IImageTheme } from "../interfaces";
 
@@ -49,10 +48,7 @@ export class ImageComponent implements OnChanges {
 
 	className = `app-image ${THEME.replace(ANY_SYMBOL, this.theme)}`;
 
-	constructor(
-		@Optional() @Inject(IMAGE_CONFIG) private readonly _imageConfig: IImageConfig,
-		private readonly _dialogService: DialogService
-	) {}
+	constructor(@Optional() @Inject(IMAGE_CONFIG) private readonly _imageConfig: IImageConfig) {}
 
 	ngOnChanges(changes: ISimpleChanges<ImageComponent>) {
 		if (changes.theme) {

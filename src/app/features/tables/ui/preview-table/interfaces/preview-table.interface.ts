@@ -1,4 +1,4 @@
-import type { HallEntity, TableEntity } from "../../../../../../graphql";
+import type { HallEntity, TableEntity } from "@graphql";
 
 export interface IPreviewTable {
 	file?: TableEntity["file"];

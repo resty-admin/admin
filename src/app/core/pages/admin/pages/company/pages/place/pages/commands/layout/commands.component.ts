@@ -1,20 +1,20 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { CommandDialogComponent } from "@features/commands";
+import { CommandsService } from "@features/commands/services/commands/commands.service";
+import type { CommandEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import type { CommandEntity } from "../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../features/app";
-import { CommandDialogComponent } from "../../../../../../../../../../features/commands";
-import { CommandsService } from "../../../../../../../../../../features/commands/services/commands/commands.service";
-import { PLACE_ID } from "../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { COMMANDS_PAGE_I18N } from "../constants";
-import { CommandsPageGQL } from "../graphql/commands-page";
+import { CommandsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-commands",

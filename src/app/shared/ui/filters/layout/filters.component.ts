@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-
-import { FORM_I18N } from "../../../../core/constants";
+import { FORM_I18N } from "@core/constants";
 
 @Component({
 	selector: "app-filters",

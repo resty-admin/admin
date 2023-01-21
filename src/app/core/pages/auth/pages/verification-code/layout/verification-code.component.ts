@@ -1,12 +1,12 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { DYNAMIC_TOKEN } from "@shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
-import { DYNAMIC_TOKEN } from "src/app/shared/constants";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
-import { RouterService } from "src/app/shared/modules/router";
 
-import { AuthService } from "../../../../../../features/auth/services";
 import { VERIFICATION_CODE_PAGE_I18N } from "../constants";
 import type { IVerificationCode } from "../interfaces";
 

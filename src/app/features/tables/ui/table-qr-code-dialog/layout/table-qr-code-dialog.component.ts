@@ -1,9 +1,8 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import type { TableEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
-
-import type { TableEntity } from "../../../../../../graphql";
-import type { DeepPartial } from "../../../../../shared/interfaces";
+import type { DeepPartial } from "@shared/interfaces";
 
 @Component({
 	selector: "app-table-qr-code-dialog",

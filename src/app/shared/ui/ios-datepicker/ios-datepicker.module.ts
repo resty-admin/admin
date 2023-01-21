@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { PipesModule } from "@shared/modules/pipes";
 
-import { PipesModule } from "../../modules/pipes";
 import { IosDatepickerComponent } from "./layout/ios-datepicker.component";
 
 @NgModule({

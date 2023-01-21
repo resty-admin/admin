@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { IAuthType } from "@features/auth/interfaces";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
+import { ADMIN_ROUTES } from "@shared/constants";
+import type { IRadioButtonOption } from "@shared/ui/radio-button";
 import { lastValueFrom } from "rxjs";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
-import type { IRadioButtonOption } from "src/app/shared/ui/radio-button";
 
-import type { IAuthType } from "../../../../../../features/auth/interfaces";
-import { AuthService } from "../../../../../../features/auth/services";
-import { FORM_I18N } from "../../../../../constants";
 import { AUTH_TYPES } from "../../../data";
 import { FORGOT_PASSWORD_PAGE_I18N } from "../constants";
 import type { IForgotPassword } from "../interfaces";

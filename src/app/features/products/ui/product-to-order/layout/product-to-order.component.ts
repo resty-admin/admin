@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ProductToOrderPaidStatusEnum } from "@graphql";
 
-import { ProductToOrderPaidStatusEnum } from "../../../../../../graphql";
 import { IProductToOrder } from "../interfaces";
 
 @Component({

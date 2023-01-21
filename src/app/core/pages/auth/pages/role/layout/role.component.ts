@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
 
 import { ROLE_PAGE_I18N } from "../constants";
 import { ROLES_DATA } from "../data";

@@ -1,24 +1,22 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AsideService } from "@features/app";
+import { AuthService } from "@features/auth/services";
+import { CompaniesService, CompanyDialogComponent } from "@features/companies";
+import { OrdersService } from "@features/orders";
+import { PlaceDialogComponent, PlacesService } from "@features/places";
+import type { CompanyEntity, PlaceEntity } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { catchError, filter, lastValueFrom, map, of, switchMap, take } from "rxjs";
 
-import type { CompanyEntity, PlaceEntity } from "../../../../../graphql";
-import { AsideService } from "../../../../features/app";
-import { AuthService } from "../../../../features/auth/services";
-import { CompaniesService } from "../../../../features/companies";
-import { CompanyDialogComponent } from "../../../../features/companies/ui/company-dialog/layout/company-dialog.component";
-import { OrdersService } from "../../../../features/orders";
-import { PlacesService } from "../../../../features/places";
-import { PlaceDialogComponent } from "../../../../features/places/ui/place-dialog/layout/place-dialog.component";
-import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "../../../../shared/constants";
-import type { AtLeast } from "../../../../shared/interfaces";
-import { RouterService } from "../../../../shared/modules/router";
-import type { IAction } from "../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../shared/ui/toastr";
-import { AdminCompaniesGQL, AdminPageGQL, AdminPlacesGQL } from "../graphql/admin-page";
+import { AdminCompaniesGQL, AdminPageGQL, AdminPlacesGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({

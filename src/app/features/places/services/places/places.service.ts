@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
+import type { CreatePlaceInput, UpdatePlaceInput } from "@graphql";
+import type { PlaceVerificationStatusEnum } from "@graphql";
+import { ChangesEnum } from "@shared/enums";
 import type { Observable } from "rxjs";
 import { Subject, tap } from "rxjs";
 
-import type { CreatePlaceInput, UpdatePlaceInput } from "../../../../../graphql";
-import type { PlaceVerificationStatusEnum } from "../../../../../graphql";
-import { ChangesEnum } from "../../../../shared/enums";
-import { CreatePlacesGQL, DeletePlaceGQL, UpdatePlaceGQL, UpdatePlaceVerificationGQL } from "../../graphql/places";
+import { CreatePlacesGQL, DeletePlaceGQL, UpdatePlaceGQL, UpdatePlaceVerificationGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class PlacesService {

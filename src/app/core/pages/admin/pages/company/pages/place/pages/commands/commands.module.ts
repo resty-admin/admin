@@ -1,20 +1,20 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ActionsModule } from "src/app/shared/ui/actions";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { IconModule } from "src/app/shared/ui/icon";
-import { InputModule } from "src/app/shared/ui/input";
-import { TooltipModule } from "src/app/shared/ui/tooltip";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { CommandModule } from "@features/commands";
+import { CommandDialogModule } from "@features/commands/ui/command-dialog/command-dialog.module";
+import { TranslocoModule } from "@shared/modules/i18n";
+import { ActionsModule } from "@shared/ui/actions";
+import { AddHeaderModule } from "@shared/ui/add-header";
+import { ButtonModule } from "@shared/ui/button";
+import { FiltersModule } from "@shared/ui/filters";
+import { IconModule } from "@shared/ui/icon";
+import { InputModule } from "@shared/ui/input";
+import { ListModule } from "@shared/ui/list";
+import { TextareaModule } from "@shared/ui/textarea";
+import { TooltipModule } from "@shared/ui/tooltip";
+import { TypographyModule } from "@shared/ui/typography";
 
-import { CommandModule } from "../../../../../../../../../features/commands";
-import { CommandDialogModule } from "../../../../../../../../../features/commands/ui/command-dialog/command-dialog.module";
-import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
-import { AddHeaderModule } from "../../../../../../../../../shared/ui/add-header";
-import { FiltersModule } from "../../../../../../../../../shared/ui/filters";
-import { ListModule } from "../../../../../../../../../shared/ui/list";
-import { TextareaModule } from "../../../../../../../../../shared/ui/textarea";
 import { CommandsRoutingModule } from "./commands-routing.module";
 import { CommandsComponent } from "./layout/commands.component";
 

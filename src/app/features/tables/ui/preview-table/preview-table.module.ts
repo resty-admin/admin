@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { ImageModule } from "@shared/ui/image";
 
-import { ImageModule } from "../../../../shared/ui/image";
 import { PreviewTableComponent } from "./layout/preview-table.component";
 
 @NgModule({

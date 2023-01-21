@@ -1,20 +1,20 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
+import { HallsService } from "@features/halls";
+import { ShiftsService } from "@features/shift";
+import { TablesService } from "@features/tables";
+import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { PLACE_ID } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map, ReplaySubject, switchMap, tap } from "rxjs";
-import { ShiftsService } from "src/app/features/shift";
 
-import { HallsService } from "../../../../../../../../../../features/halls";
-import { TablesService } from "../../../../../../../../../../features/tables";
-import type { ITableToSelect } from "../../../../../../../../../../features/tables/ui/tables-select/interfaces";
-import { PLACE_ID } from "../../../../../../../../../../shared/constants";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { SHIFT_PAGE_I18N } from "../constants";
-import { ActiveShiftGQL, ShiftHallsGQL, ShiftTablesGQL } from "../graphql/shift-page";
+import { ActiveShiftGQL, ShiftHallsGQL, ShiftTablesGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({

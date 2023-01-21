@@ -1,26 +1,26 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
+import { ApiModule } from "@shared/modules/api";
+import { ApolloModule } from "@shared/modules/apollo";
+import { CookiesModule } from "@shared/modules/cookies";
+import { CryptoModule } from "@shared/modules/crypto";
+import { ErrorsModule } from "@shared/modules/errors";
+import { I18nModule } from "@shared/modules/i18n";
+import { SocketIoModule } from "@shared/modules/socket-io";
+import { StoreModule } from "@shared/modules/store";
+import { ThemeModule } from "@shared/modules/theme";
+import { CodeInputModule } from "@shared/ui/code-input";
+import { DatatableModule } from "@shared/ui/datatable";
+import { DialogModule } from "@shared/ui/dialog";
+import { FileModule } from "@shared/ui/file";
+import { IconModule } from "@shared/ui/icon";
+import { ImageModule } from "@shared/ui/image";
+import { ProgressBarModule } from "@shared/ui/progress-bar";
+import { SelectModule } from "@shared/ui/select";
+import { ToastrModule } from "@shared/ui/toastr";
+import { TooltipModule } from "@shared/ui/tooltip";
 
-import { ApiModule } from "../shared/modules/api";
-import { ApolloModule } from "../shared/modules/apollo";
-import { CookiesModule } from "../shared/modules/cookies";
-import { CryptoModule } from "../shared/modules/crypto";
-import { ErrorsModule } from "../shared/modules/errors";
-import { I18nModule } from "../shared/modules/i18n";
-import { SocketIoModule } from "../shared/modules/socket-io";
-import { StoreModule } from "../shared/modules/store";
-import { ThemeModule } from "../shared/modules/theme";
-import { CodeInputModule } from "../shared/ui/code-input";
-import { DatatableModule } from "../shared/ui/datatable";
-import { DialogModule } from "../shared/ui/dialog";
-import { FileModule } from "../shared/ui/file";
-import { IconModule } from "../shared/ui/icon";
-import { ImageModule } from "../shared/ui/image";
-import { ProgressBarModule } from "../shared/ui/progress-bar";
-import { SelectModule } from "../shared/ui/select";
-import { ToastrModule } from "../shared/ui/toastr";
-import { TooltipModule } from "../shared/ui/tooltip";
 import {
 	API_CONFIG,
 	APOLLO_CONFIG,

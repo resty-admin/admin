@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { PaymentSystemDialogComponent, PaymentSystemsService } from "@features/payment-systems";
+import type { PaymentSystemEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import type { PaymentSystemEntity } from "../../../../../../../../../../../graphql";
-import {
-	PaymentSystemDialogComponent,
-	PaymentSystemsService
-} from "../../../../../../../../../../features/payment-systems";
-import { PLACE_ID } from "../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { PAYMENT_SYSTEMS_PAGE_I18N } from "../constants";
-import { PaymentSystemsPageGQL } from "../graphql/payment-systems-page";
+import { PaymentSystemsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-payment-systems",

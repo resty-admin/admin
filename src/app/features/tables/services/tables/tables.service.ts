@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateTableInput, UpdateTableInput } from "@graphql";
 
-import type { CreateTableInput, UpdateTableInput } from "../../../../../graphql";
-import { CreateTableGQL, DeleteTableGQL, UpdateTableGQL } from "../../graphql/tables";
+import { CreateTableGQL, DeleteTableGQL, UpdateTableGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class TablesService {

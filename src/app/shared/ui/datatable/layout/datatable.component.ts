@@ -1,9 +1,9 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from "@angular/core";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 import { ColumnMode } from "@swimlane/ngx-datatable";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 
-import type { ISimpleChanges } from "../../../interfaces";
 import { DATATABLE_CONFIG } from "../injection-tokens";
 import type { IDatatableColumn, IDatatableRow } from "../interfaces";
 import { IDatatableConfig, IDatatableTheme } from "../interfaces";

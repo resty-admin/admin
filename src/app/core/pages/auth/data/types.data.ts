@@ -1,4 +1,4 @@
-import type { IRadioButtonOption } from "src/app/shared/ui/radio-button";
+import type { IRadioButtonOption } from "@shared/ui/radio-button";
 
 export const AUTH_TYPES: IRadioButtonOption[] = [
 	{

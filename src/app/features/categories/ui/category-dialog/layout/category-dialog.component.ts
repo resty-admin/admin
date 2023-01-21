@@ -1,12 +1,12 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { CategoryEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { FilesService } from "@shared/modules/files";
 import { lastValueFrom } from "rxjs";
 
-import type { CategoryEntity } from "../../../../../../graphql";
-import { FORM_I18N } from "../../../../../core/constants";
-import { FilesService } from "../../../../../shared/modules/files";
 import type { ICategoryForm } from "../interfaces";
 
 @Component({

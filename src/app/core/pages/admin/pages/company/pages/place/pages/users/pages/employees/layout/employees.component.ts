@@ -1,23 +1,23 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { UsersService } from "@features/users";
+import { AddEmployeeDialogComponent, UserDialogComponent } from "@features/users/ui";
+import type { UserEntity } from "@graphql";
+import { UserRoleEnum } from "@graphql";
 import type { DeepPartial } from "@ngneat/reactive-forms/lib/types";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import type { IDatatableColumn } from "@shared/ui/datatable";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import type { UserEntity } from "../../../../../../../../../../../../../graphql";
-import { UserRoleEnum } from "../../../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../../../features/app";
-import { UsersService } from "../../../../../../../../../../../../features/users";
-import { AddEmployeeDialogComponent, UserDialogComponent } from "../../../../../../../../../../../../features/users/ui";
-import { PLACE_ID } from "../../../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
-import type { IDatatableColumn } from "../../../../../../../../../../../../shared/ui/datatable";
-import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { EMPLOYEES_PAGE_I18N } from "../constants";
-import { EmployeesPageGQL } from "../graphql/employees-page";
+import { EmployeesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-employees",

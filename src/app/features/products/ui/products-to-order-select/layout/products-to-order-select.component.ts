@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
+import type { ISimpleChanges } from "@shared/interfaces";
 
-import type { ISimpleChanges } from "../../../../../shared/interfaces";
 import type {
 	IProductToOrderToSelect,
 	IProductToOrderWithSelected,

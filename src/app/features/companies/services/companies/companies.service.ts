@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
+import type { CreateCompanyInput, UpdateCompanyInput } from "@graphql";
+import { ChangesEnum } from "@shared/enums";
 import type { Observable } from "rxjs";
 import { Subject, tap } from "rxjs";
-import { ChangesEnum } from "src/app/shared/enums";
 
-import type { CreateCompanyInput, UpdateCompanyInput } from "../../../../../graphql";
-import { CreateCompanyGQL, DeleteCompanyGQL, UpdateCompanyGQL } from "../../graphql/companies";
+import { CreateCompanyGQL, DeleteCompanyGQL, UpdateCompanyGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class CompaniesService {

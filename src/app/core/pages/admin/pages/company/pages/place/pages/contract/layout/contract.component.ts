@@ -1,7 +1,7 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
 
-import { ActionsService } from "../../../../../../../../../../features/app";
 import { CONTRACT_PAGE_I18N } from "../constants";
 
 @Component({

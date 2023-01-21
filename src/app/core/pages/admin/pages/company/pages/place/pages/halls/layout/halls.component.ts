@@ -1,19 +1,19 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { HallDialogComponent, HallsService } from "@features/halls";
+import type { HallEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { HallDialogComponent, HallsService } from "src/app/features/halls";
-import { PLACE_ID } from "src/app/shared/constants";
 
-import type { HallEntity } from "../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../features/app";
-import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { HALLS_PAGE_I18N } from "../constants";
-import { HallsPageGQL } from "../graphql/halls-page";
+import { HallsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-halls",

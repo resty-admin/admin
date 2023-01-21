@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
+import type * as Types from "@graphql";
 import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
-
-import type * as Types from "../../../../../../../../../../../graphql";
 export type StatisticPageQueryVariables = Types.Exact<{
 	guestsFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 	hallsFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;

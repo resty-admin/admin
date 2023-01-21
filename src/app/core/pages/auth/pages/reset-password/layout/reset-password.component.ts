@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import type { IAuthType } from "@features/auth/interfaces";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
+import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
 
-import type { IAuthType } from "../../../../../../features/auth/interfaces";
-import { AuthService } from "../../../../../../features/auth/services";
-import { RouterService } from "../../../../../../shared/modules/router";
 import { RESET_PASSWORD_PAGE_I18N } from "../constants";
 import type { IResetPassword } from "../interfaces";
 

@@ -1,4 +1,4 @@
-import { getI18nProvider } from "src/app/shared/i18n";
+import { getI18nProvider } from "@shared/i18n";
 
 import { ROLE_PAGE_I18N } from "../constants";
 

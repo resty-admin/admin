@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { TypographyModule } from "@shared/ui/typography";
 
-import { TypographyModule } from "../../../../shared/ui/typography";
 import { AccountingSystemComponent } from "./layout/accounting-system.component";
 
 @NgModule({

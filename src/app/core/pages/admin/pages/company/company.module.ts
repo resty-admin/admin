@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { LinkModule } from "src/app/shared/ui/link";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { LinkModule } from "@shared/ui/link";
+import { TypographyModule } from "@shared/ui/typography";
 
 import { CompanyRoutingModule } from "./company-routing.module";
 import { CompanyComponent } from "./layout/company.component";

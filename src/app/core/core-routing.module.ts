@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
+import { AuthGuard } from "@features/auth";
+import { UserRoleEnum } from "@graphql";
+import { ADMIN_ROUTES } from "@shared/constants";
 
-import { UserRoleEnum } from "../../graphql";
-import { AuthGuard } from "../features/auth/guards";
 import { ROUTER_CONFIG } from "./configs/router.config";
 
 export const CORE_ROUTES: Route[] = [

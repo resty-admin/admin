@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateCategoryInput, UpdateCategoryInput } from "@graphql";
 
-import type { CreateCategoryInput, UpdateCategoryInput } from "../../../../../graphql";
-import { CreateCategoryGQL, DeleteCategoryGQL, UpdateCategoryGQL } from "../../graphql/categories";
+import { CreateCategoryGQL, DeleteCategoryGQL, UpdateCategoryGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class CategoriesService {

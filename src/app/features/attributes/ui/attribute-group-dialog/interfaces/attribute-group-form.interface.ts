@@ -1,4 +1,4 @@
-import type { AttributesGroupEntity } from "../../../../../../graphql";
+import type { AttributesGroupEntity } from "@graphql";
 
 export interface IAttributeGroupForm {
 	name: AttributesGroupEntity["name"];

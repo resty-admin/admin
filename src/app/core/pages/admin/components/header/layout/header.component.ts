@@ -1,10 +1,10 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
 
-import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "../../../../../../shared/constants";
-import type { ISimpleChanges } from "../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../shared/ui/actions";
 import type { IHeaderActiveOrder, IHeaderUser } from "../interfaces";
 
 @Component({

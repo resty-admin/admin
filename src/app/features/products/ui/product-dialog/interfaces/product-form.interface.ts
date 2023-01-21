@@ -1,4 +1,4 @@
-import type { ProductEntity } from "../../../../../../graphql";
+import type { ProductEntity } from "@graphql";
 
 export interface IProductForm {
 	name: ProductEntity["name"];

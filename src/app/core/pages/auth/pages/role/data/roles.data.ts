@@ -1,4 +1,4 @@
-import { UserRoleEnum } from "../../../../../../../graphql";
+import { UserRoleEnum } from "@graphql";
 
 export const ROLES_DATA = [
 	{

@@ -1,16 +1,16 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { OrdersService } from "@features/orders";
+import type { HistoryOrderEntity } from "@graphql";
+import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IDatatableColumn } from "@shared/ui/datatable";
+import { DialogService } from "@shared/ui/dialog";
 import { map } from "rxjs";
-import { OrdersService } from "src/app/features/orders";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
 
-import type { HistoryOrderEntity } from "../../../../../../../../../../../../../graphql";
-import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "../../../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
-import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
 import { HISTORY_ORDERS_PAGE_I18N } from "../constants/history-orders-page-i18n.constant";
-import { HistoryOrdersPageGQL } from "../graphql/history-orders-page";
+import { HistoryOrdersPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-history-orders",

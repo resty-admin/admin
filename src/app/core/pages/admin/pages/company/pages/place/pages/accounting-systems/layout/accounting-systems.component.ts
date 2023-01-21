@@ -1,17 +1,14 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AccountingSystemDialogComponent, AccountingSystemsService } from "@features/accounting-systems";
+import type { AccountingSystemEntity } from "@graphql";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import type { AccountingSystemEntity } from "../../../../../../../../../../../graphql";
-import {
-	AccountingSystemDialogComponent,
-	AccountingSystemsService
-} from "../../../../../../../../../../features/accounting-systems";
-import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { ACCOUNTING_SYSTEMS_PAGE_I18N } from "../constants";
-import { AccountingSystemsPageGQL } from "../graphql/accounting-systems-page";
+import { AccountingSystemsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-accounting-systems",

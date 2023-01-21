@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateHallInput, UpdateHallInput } from "@graphql";
 
-import type { CreateHallInput, UpdateHallInput } from "../../../../../graphql";
-import { CreateHallGQL, DeleteHallGQL, UpdateHallGQL } from "../../graphql/halls";
+import { CreateHallGQL, DeleteHallGQL, UpdateHallGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class HallsService {

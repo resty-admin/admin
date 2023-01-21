@@ -1,12 +1,12 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input } from "@angular/core";
+import { FileEntity } from "@graphql";
+import { ControlValueAccessor } from "@shared/classes";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import { getControlValueAccessorProviders } from "@shared/functions";
+import type { IHTMLInputEvent, ISimpleChanges } from "@shared/interfaces";
 import { BehaviorSubject } from "rxjs";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
 
-import { FileEntity } from "../../../../../graphql";
-import type { IHTMLInputEvent, ISimpleChanges } from "../../../interfaces";
 import { FILE_CONFIG } from "../injection-tokens";
 import { IFileConfig, IFileTheme } from "../interfaces";
 

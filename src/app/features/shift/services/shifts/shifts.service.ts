@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateShiftInput, UpdateShiftInput } from "@graphql";
 
-import type { CreateShiftInput, UpdateShiftInput } from "../../../../../graphql";
-import { CloseShiftGQL, CreateShiftGQL, UpdateShiftGQL } from "../../graphql/shift";
+import { CloseShiftGQL, CreateShiftGQL, UpdateShiftGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class ShiftsService {

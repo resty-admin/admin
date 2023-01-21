@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 
-import type { ISimpleChanges } from "../../../interfaces";
 import { IChipTheme } from "../interfaces";
 
 @Component({

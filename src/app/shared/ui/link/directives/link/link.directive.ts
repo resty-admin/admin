@@ -1,5 +1,5 @@
 import { Directive, HostBinding, Input } from "@angular/core";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
 
 import { ILinkTheme } from "../../interfaces";
 

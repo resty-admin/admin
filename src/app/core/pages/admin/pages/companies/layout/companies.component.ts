@@ -1,17 +1,17 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { CompaniesService } from "@features/companies";
+import { CompanyDialogComponent } from "@features/companies/ui/company-dialog/layout/company-dialog.component";
+import type { CompanyEntity, CreateCommandInput } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ADMIN_ROUTES, COMPANY_ID } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import type { CompanyEntity, CreateCommandInput } from "../../../../../../../graphql";
-import { CompaniesService } from "../../../../../../features/companies";
-import { CompanyDialogComponent } from "../../../../../../features/companies/ui/company-dialog/layout/company-dialog.component";
-import { ADMIN_ROUTES, COMPANY_ID } from "../../../../../../shared/constants";
-import { RouterService } from "../../../../../../shared/modules/router";
-import { DialogService } from "../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../shared/ui/toastr";
 import { COMPANIES_PAGE_I18N } from "../constants/companies-page-i18n.constant";
-import { CompaniesPageGQL } from "../graphql/companies-page";
+import { CompaniesPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({

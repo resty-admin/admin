@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import type { HotToastRef } from "@ngneat/hot-toast";
+import { ToastrService } from "@shared/ui/toastr";
 
-import { ToastrService } from "../../../../ui/toastr";
 import { CookiesToastrComponent } from "../../components";
 import { COOKIES_KEY } from "../../constants";
 

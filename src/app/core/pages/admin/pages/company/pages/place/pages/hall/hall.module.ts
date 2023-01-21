@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { getI18nProvider } from "@shared/i18n";
+import { TranslocoModule } from "@shared/modules/i18n";
 
-import { getI18nProvider } from "../../../../../../../../../shared/i18n";
-import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
 import { HALL_PAGE_I18N } from "./constants";
 import { HallRoutingModule } from "./hall-routing.module";
 import { HallComponent } from "./layout/hall.component";

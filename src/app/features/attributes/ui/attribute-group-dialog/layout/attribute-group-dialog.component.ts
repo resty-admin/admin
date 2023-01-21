@@ -1,21 +1,21 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
+import { FORM_I18N } from "@core/constants";
+import { AttributesService } from "@features/attributes/index";
+import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
+import { AttributeGroupTypeEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
+import { PLACE_ID } from "@shared/constants";
+import { buildForm } from "@shared/functions";
+import type { DeepPartial } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { AttributesService } from "src/app/features/attributes/index";
 
-import type { AttributesEntity, AttributesGroupEntity } from "../../../../../../graphql";
-import { AttributeGroupTypeEnum } from "../../../../../../graphql";
-import { FORM_I18N } from "../../../../../core/constants";
-import { PLACE_ID } from "../../../../../shared/constants";
-import { buildForm } from "../../../../../shared/functions";
-import type { DeepPartial } from "../../../../../shared/interfaces";
-import { RouterService } from "../../../../../shared/modules/router";
-import { DialogService } from "../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../shared/ui/toastr";
 import { AttributeDialogComponent } from "../../attribute-dialog/layout/attribute-dialog.component";
-import { AttributeGroupDialogGQL } from "../graphql/attribute-group-dialog";
+import { AttributeGroupDialogGQL } from "../graphql";
 import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.interface";
 
 @Component({

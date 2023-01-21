@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateProductInput, UpdateProductInput } from "@graphql";
 
-import type { CreateProductInput, UpdateProductInput } from "../../../../../graphql";
-import { CreateProductGQL, DeleteProductGQL, UpdateProductGQL } from "../../graphql/products";
+import { CreateProductGQL, DeleteProductGQL, UpdateProductGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class ProductsService {

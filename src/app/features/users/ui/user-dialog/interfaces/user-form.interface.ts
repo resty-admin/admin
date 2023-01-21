@@ -1,4 +1,4 @@
-import type { UserEntity } from "../../../../../../graphql";
+import type { UserEntity } from "@graphql";
 
 export interface IUserForm {
 	name: UserEntity["name"];

@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
 
 import { MenuComponent } from "./layout/menu.component";
 

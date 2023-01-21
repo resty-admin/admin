@@ -1,8 +1,8 @@
 import type { AfterViewInit, OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from "@angular/core";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 import { NgProgressComponent } from "ngx-progressbar";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import type { ISimpleChanges } from "src/app/shared/interfaces";
 
 import { IProgressBarTheme } from "../interfaces";
 

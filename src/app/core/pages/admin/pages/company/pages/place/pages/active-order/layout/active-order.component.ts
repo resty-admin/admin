@@ -1,18 +1,18 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import type { ActiveOrderEntity } from "@graphql";
+import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
+import { SocketIoService } from "@shared/modules/socket-io";
 import { lastValueFrom, map, take } from "rxjs";
 
-import type { ActiveOrderEntity } from "../../../../../../../../../../../graphql";
-import { ProductToOrderStatusEnum } from "../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../features/app";
-import { OrdersService } from "../../../../../../../../../../features/orders";
-import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "../../../../../../../../../../shared/constants";
-import { BreadcrumbsService } from "../../../../../../../../../../shared/modules/breadcrumbs";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import { SocketIoService } from "../../../../../../../../../../shared/modules/socket-io";
 import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
-import { ActiveOrderPageGQL } from "../graphql/active-order-page";
+import { ActiveOrderPageGQL } from "../graphql";
 
 export enum ORDERS_EVENTS {
 	CREATED = "ORDER_CREATED",

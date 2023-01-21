@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { ConnectPaymentSystemToPlaceInput } from "@graphql";
 
-import type { ConnectPaymentSystemToPlaceInput } from "../../../../../graphql";
-import { ConnectPaymentSystemToPlaceGQL } from "../../graphql/payments-service";
+import { ConnectPaymentSystemToPlaceGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class PaymentSystemsService {

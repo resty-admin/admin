@@ -1,10 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AuthService } from "@features/auth/services";
+import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
-
-import { AuthService } from "../../../../../../features/auth/services";
-import { ADMIN_ROUTES } from "../../../../../../shared/constants";
-import { RouterService } from "../../../../../../shared/modules/router";
 
 @Component({
 	selector: "app-google",

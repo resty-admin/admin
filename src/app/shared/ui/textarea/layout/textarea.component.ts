@@ -1,10 +1,10 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
+import { ControlValueAccessor } from "@shared/classes";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import { getControlValueAccessorProviders } from "@shared/functions";
+import type { ISimpleChanges } from "@shared/interfaces";
 
-import type { ISimpleChanges } from "../../../interfaces";
 import { ITextareaTheme } from "../interfaces";
 
 @Component({

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { PlaceVerificationStatusEnum } from "@graphql";
+import { getI18nProvider } from "@shared/i18n";
 
-import { PlaceVerificationStatusEnum } from "../../../../../../../../../../../../../graphql";
-import { getI18nProvider } from "../../../../../../../../../../../../shared/i18n";
 import { STATISTIC_FOOTER_I18N } from "../constants";
 
 @Component({

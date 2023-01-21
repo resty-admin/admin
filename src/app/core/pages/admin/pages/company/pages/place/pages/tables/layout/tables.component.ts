@@ -1,20 +1,20 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "@features/tables";
+import type { TableEntity } from "@graphql";
+import { ADMIN_ROUTES, COMPANY_ID, HALL_ID, PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "src/app/features/tables";
-import { RouterService } from "src/app/shared/modules/router";
 
-import type { TableEntity } from "../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../features/app";
-import { ADMIN_ROUTES, COMPANY_ID, HALL_ID, PLACE_ID } from "../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../shared/interfaces";
-import { BreadcrumbsService } from "../../../../../../../../../../shared/modules/breadcrumbs";
-import type { IAction } from "../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../shared/ui/toastr";
 import { TABLES_PAGE_I18N } from "../constants";
-import { TablesPageGQL } from "../graphql/tables-page";
+import { TablesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-tables",

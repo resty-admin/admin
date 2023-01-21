@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateAttributeInput, UpdateAttributeInput } from "@graphql";
 
-import type { CreateAttributeInput, UpdateAttributeInput } from "../../../../../graphql";
-import { CreateAttrGQL, DeleteAttrGQL, UpdateAttrGQL } from "../../graphql/attributes";
+import { CreateAttrGQL, DeleteAttrGQL, UpdateAttrGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class AttributesService {

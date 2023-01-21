@@ -1,11 +1,11 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { CommandEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import type { DeepPartial } from "@shared/interfaces";
 
-import type { CommandEntity } from "../../../../../../graphql";
-import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepPartial } from "../../../../../shared/interfaces";
 import type { ICommandForm } from "../interfaces/command-form.interface";
 
 @Component({

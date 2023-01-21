@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional } from "@angular/core";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 
-import type { ISimpleChanges } from "../../../interfaces";
 import { ICON_CONFIG } from "../injection-tokens";
 import { IIconConfig, IIconTheme } from "../interfaces";
 

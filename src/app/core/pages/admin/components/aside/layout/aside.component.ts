@@ -1,15 +1,15 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { CompanyEntity, PlaceEntity } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
 import { skip } from "rxjs";
 
-import type { CompanyEntity, PlaceEntity } from "../../../../../../../graphql";
-import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "../../../../../../shared/constants";
-import type { ISimpleChanges } from "../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../shared/ui/actions";
-import { FORM_I18N } from "../../../../../constants";
 import { ASIDE_I18N } from "../constants";
 import { ASIDE_PAGES } from "../data";
 import type { IAsideCompany, IAsidePage, IAsidePlace, IAsideUser } from "../interfaces";

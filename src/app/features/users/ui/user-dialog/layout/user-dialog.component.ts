@@ -1,12 +1,12 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { UserEntity } from "@graphql";
+import { UserRoleEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { CryptoService } from "src/app/shared/modules/crypto";
+import { CryptoService } from "@shared/modules/crypto";
 
-import type { UserEntity } from "../../../../../../graphql";
-import { UserRoleEnum } from "../../../../../../graphql";
-import { FORM_I18N } from "../../../../../core/constants";
 import type { IUserForm } from "../interfaces";
 
 @Component({

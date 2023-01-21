@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateCommandInput, UpdateCommandInput } from "@graphql";
 
-import type { CreateCommandInput, UpdateCommandInput } from "../../../../../graphql";
-import { CreateCommandGQL, DeleteCommandGQL, UpdateCommandGQL } from "../../graphql/commands";
+import { CreateCommandGQL, DeleteCommandGQL, UpdateCommandGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class CommandsService {

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { AddEmployeeInput, CreateUserInput, UpdateUserInput } from "@graphql";
 
-import type { AddEmployeeInput, CreateUserInput, UpdateUserInput } from "../../../../../graphql";
-import { AddEmployeeToPlaceGQL, CreateUserGQL, DeleteUserGQL, UpdateUserGQL } from "../../graphql/users";
+import { AddEmployeeToPlaceGQL, CreateUserGQL, DeleteUserGQL, UpdateUserGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class UsersService {

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import type { CreateAttributeGroupInput, UpdateAttributeGroupInput } from "@graphql";
 
-import type { CreateAttributeGroupInput, UpdateAttributeGroupInput } from "../../../../../graphql";
-import { CreateAttrGroupGQL, DeleteAttrGroupGQL, UpdateAttrGroupGQL } from "../../graphql/attribute-groups";
+import { CreateAttrGroupGQL, DeleteAttrGroupGQL, UpdateAttrGroupGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class AttributeGroupsService {

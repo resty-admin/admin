@@ -1,4 +1,4 @@
-import type { TableEntity } from "../../../../../../graphql";
+import type { TableEntity } from "@graphql";
 
 export interface ITableForm {
 	code: TableEntity["code"];

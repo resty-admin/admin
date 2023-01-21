@@ -2,8 +2,8 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Renderer2 } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UniversalService } from "@shared/modules/universal";
 
-import { UniversalService } from "../../universal/services";
 import { ThemeService } from "../services";
 
 @UntilDestroy()

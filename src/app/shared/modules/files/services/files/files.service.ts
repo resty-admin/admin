@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
+import type { FileEntity } from "@graphql";
+import type { IFile } from "@shared/interfaces";
+import { ApiService } from "@shared/modules/api";
 import type { Observable } from "rxjs";
 import { of } from "rxjs";
-import type { IFile } from "src/app/shared/interfaces";
 
-import type { FileEntity } from "../../../../../../graphql";
-import { ApiService } from "../../../api";
 import { FILE_FIELD, FILES_ENDPOINTS, FILES_FIELD } from "../../constants";
 
 @Injectable({ providedIn: "root" })

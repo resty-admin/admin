@@ -1,14 +1,14 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
+import type { UserEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import type { DeepAtLeast } from "@shared/interfaces";
 import { lastValueFrom, take } from "rxjs";
 
-import type { UserEntity } from "../../../../../../graphql";
-import { FORM_I18N } from "../../../../../core/constants";
-import type { DeepAtLeast } from "../../../../../shared/interfaces";
-import { FindUserGQL } from "../graphql/add-employee";
+import { FindUserGQL } from "../graphql";
 import type { IAddEmployeeForm } from "../interfaces";
 
 @UntilDestroy()

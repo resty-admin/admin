@@ -1,4 +1,4 @@
-import type { CompanyEntity } from "../../../../../../../graphql";
+import type { CompanyEntity } from "@graphql";
 
 export interface IAsideCompany {
 	id: CompanyEntity["id"];

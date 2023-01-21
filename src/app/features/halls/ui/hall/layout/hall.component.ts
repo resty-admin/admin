@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import type { HallEntity } from "@graphql";
+import type { IAction } from "@shared/ui/actions";
 
-import type { HallEntity } from "../../../../../../graphql";
-import type { IAction } from "../../../../../shared/ui/actions";
 import { IHall } from "../interfaces/hall.interface";
 
 @Component({

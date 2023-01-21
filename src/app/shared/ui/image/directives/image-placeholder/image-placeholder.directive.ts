@@ -1,6 +1,6 @@
 import type { OnChanges } from "@angular/core";
 import { Directive, ElementRef, Input, Renderer2 } from "@angular/core";
-import type { ISimpleChanges } from "src/app/shared/interfaces";
+import type { ISimpleChanges } from "@shared/interfaces";
 
 @Directive({
 	selector: "[appImagePlaceholder]"

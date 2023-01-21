@@ -1,6 +1,5 @@
+import { environment } from "@env/environment";
 import type { SocketIoConfig } from "ngx-socket-io";
-
-import { environment } from "../../../environments/environment";
 
 const { hostname, port } = new URL(environment.apiUrl);
 const url = environment.production ? hostname : `${hostname}:${port}`;

@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
-import type { ISimpleChanges } from "../../../../../shared/interfaces";
 import { IOrderInfo } from "../interfaces/order-info.interface";
 
 @Component({

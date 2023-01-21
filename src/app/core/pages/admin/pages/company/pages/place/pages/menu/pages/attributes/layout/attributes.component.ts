@@ -1,21 +1,21 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { AttributeGroupsService, AttributesService } from "@features/attributes";
+import { AttributeDialogComponent } from "@features/attributes/ui/attribute-dialog/layout/attribute-dialog.component";
+import { AttributeGroupDialogComponent } from "@features/attributes/ui/attribute-group-dialog/layout/attribute-group-dialog.component";
+import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { AttributeGroupsService, AttributesService } from "src/app/features/attributes";
-import { PLACE_ID } from "src/app/shared/constants";
-import { RouterService } from "src/app/shared/modules/router";
 
-import type { AttributesEntity, AttributesGroupEntity } from "../../../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../../../features/app";
-import { AttributeDialogComponent } from "../../../../../../../../../../../../features/attributes/ui/attribute-dialog/layout/attribute-dialog.component";
-import { AttributeGroupDialogComponent } from "../../../../../../../../../../../../features/attributes/ui/attribute-group-dialog/layout/attribute-group-dialog.component";
-import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { ATTRIBUTES_PAGE_I18N } from "../constants";
-import { AttributesPageGQL } from "../graphql/attributes-page";
+import { AttributesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-attributes",

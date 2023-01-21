@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { of } from "rxjs";
 
-import { ConnectPaymentSystemToPlaceGQL } from "../../graphql/accountng-systems-service";
+import { ConnectPaymentSystemToPlaceGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class AccountingSystemsService {

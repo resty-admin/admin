@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import type { CommandEntity } from "@graphql";
+import type { IAction } from "@shared/ui/actions";
 
-import type { CommandEntity } from "../../../../../../graphql";
-import type { IAction } from "../../../../../shared/ui/actions";
 import { ICommand } from "../interfaces/command.interface";
 
 @Component({

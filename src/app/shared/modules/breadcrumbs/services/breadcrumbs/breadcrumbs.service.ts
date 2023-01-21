@@ -1,10 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
-export interface IBreadcrumb {
-	label?: string;
-	routerLink: string;
-}
+import type { IBreadcrumb } from "../../interfaces";
 
 @Injectable({ providedIn: "root" })
 export class BreadcrumbsService {

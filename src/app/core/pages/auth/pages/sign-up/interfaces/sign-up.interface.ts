@@ -1,4 +1,4 @@
-import type { UserRoleEnum } from "../../../../../../../graphql";
+import type { UserRoleEnum } from "@graphql";
 
 export interface ISignUp {
 	email: string;

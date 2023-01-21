@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { ACCESS_TOKEN } from "src/app/shared/constants";
-import { ADMIN_ROUTES } from "src/app/shared/constants";
+import { ACCESS_TOKEN } from "@shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
 
 import { GoogleComponent } from "./layout/google.component";
 

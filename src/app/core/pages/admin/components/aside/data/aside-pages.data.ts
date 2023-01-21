@@ -1,6 +1,5 @@
-import { ADMIN_ROUTES } from "src/app/shared/constants";
-
-import { UserRoleEnum } from "../../../../../../../graphql";
+import { UserRoleEnum } from "@graphql";
+import { ADMIN_ROUTES } from "@shared/constants";
 
 export const ASIDE_PAGES = [
 	{

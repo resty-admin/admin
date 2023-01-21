@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FORM_I18N } from "@core/constants";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 
-import { FORM_I18N } from "../../../../../core/constants";
 import type { IAccountingSystemForm } from "../interfaces";
 
 @Component({

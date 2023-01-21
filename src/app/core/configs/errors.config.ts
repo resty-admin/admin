@@ -1,4 +1,4 @@
-import type { IErrorsConfig } from "src/app/shared/modules/errors";
+import type { IErrorsConfig } from "@shared/modules/errors";
 
 export const ERRORS_CONFIG: IErrorsConfig = {
 	errors: {

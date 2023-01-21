@@ -1,9 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import type { AttributesEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 
-import type { AttributesEntity } from "../../../../../../graphql";
 import type { IAttributeForm } from "../interfaces";
 
 @Component({

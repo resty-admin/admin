@@ -1,20 +1,20 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import { OrderDialogComponent } from "@features/orders/ui";
+import type { ActiveOrderEntity } from "@graphql";
+import { ADMIN_ROUTES, PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { OrdersService } from "src/app/features/orders";
 
-import type { ActiveOrderEntity } from "../../../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../../../features/app";
-import { OrderDialogComponent } from "../../../../../../../../../../../../features/orders/ui";
-import { ADMIN_ROUTES, PLACE_ID } from "../../../../../../../../../../../../shared/constants";
-import type { AtLeast } from "../../../../../../../../../../../../shared/interfaces";
-import { RouterService } from "../../../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
-import { DialogService } from "../../../../../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../../../../../shared/ui/toastr";
 import { ACTIVE_ORDERS_PAGE_I18N } from "../constants";
-import { ActiveOrdersPageGQL } from "../graphql/active-orders-page";
+import { ActiveOrdersPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-active-orders",

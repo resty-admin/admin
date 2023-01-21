@@ -1,12 +1,12 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ControlValueAccessor } from "@shared/classes";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import { getControlValueAccessorProviders } from "@shared/functions";
+import type { ISimpleChanges } from "@shared/interfaces";
 import { map } from "rxjs";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
 
-import { getControlValueAccessorProviders } from "../../../functions";
-import type { ISimpleChanges } from "../../../interfaces";
 import { IInputTheme, IInputType, IReturnType } from "../interfaces";
 
 @UntilDestroy()

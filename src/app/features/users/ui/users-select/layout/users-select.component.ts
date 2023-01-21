@@ -1,7 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import type { ISimpleChanges } from "@shared/interfaces";
 
-import type { ISimpleChanges } from "../../../../../shared/interfaces";
 import type { IUserToSelect } from "../interfaces";
 
 @Component({

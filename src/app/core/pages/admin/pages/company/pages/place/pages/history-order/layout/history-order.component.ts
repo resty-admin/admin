@@ -1,17 +1,17 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
+import { OrdersService } from "@features/orders";
+import { ProductToOrderStatusEnum } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map, take, tap } from "rxjs";
 
-import { ProductToOrderStatusEnum } from "../../../../../../../../../../../graphql";
-import { ActionsService } from "../../../../../../../../../../features/app";
-import { OrdersService } from "../../../../../../../../../../features/orders";
-import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "../../../../../../../../../../shared/constants";
-import { BreadcrumbsService } from "../../../../../../../../../../shared/modules/breadcrumbs";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
 import { HISTORY_ORDER_PAGE_I18N } from "../constants";
-import { HistoryOrderPageGQL } from "../graphql/history-order-page";
+import { HistoryOrderPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({

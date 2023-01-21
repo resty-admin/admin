@@ -1,5 +1,5 @@
-import type { TableEntity } from "../../../../../../graphql";
-import type { HallEntity } from "../../../../../../graphql";
+import type { TableEntity } from "@graphql";
+import type { HallEntity } from "@graphql";
 
 export interface ITableToSelect {
 	id: TableEntity["id"];

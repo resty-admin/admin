@@ -1,4 +1,4 @@
-import type { CommandEntity } from "../../../../../../graphql";
+import type { CommandEntity } from "@graphql";
 
 export interface ICommand {
 	name: CommandEntity["name"];

@@ -1,17 +1,17 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { PlacesService } from "@features/places";
+import { PlaceDialogComponent } from "@features/places/ui/place-dialog/layout/place-dialog.component";
+import type { PlaceEntity } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
-import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "src/app/shared/constants";
-import { RouterService } from "src/app/shared/modules/router";
 
-import type { PlaceEntity } from "../../../../../../../../../graphql";
-import { PlacesService } from "../../../../../../../../features/places";
-import { PlaceDialogComponent } from "../../../../../../../../features/places/ui/place-dialog/layout/place-dialog.component";
-import { DialogService } from "../../../../../../../../shared/ui/dialog";
-import { ToastrService } from "../../../../../../../../shared/ui/toastr";
 import { PLACES_PAGE_I18N } from "../constants";
-import { PlacesPageGQL } from "../graphql/places-page";
+import { PlacesPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({

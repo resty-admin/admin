@@ -1,5 +1,5 @@
-import type { ProductToOrderEntity } from "../../../../../../graphql";
-import type { ProductEntity, UserEntity } from "../../../../../../graphql";
+import type { ProductToOrderEntity } from "@graphql";
+import type { ProductEntity, UserEntity } from "@graphql";
 
 export interface IProductToOrderToSelect {
 	id: ProductToOrderEntity["id"];

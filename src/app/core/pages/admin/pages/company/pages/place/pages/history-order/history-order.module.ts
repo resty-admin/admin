@@ -1,17 +1,17 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { OrderInfoModule } from "@features/orders/ui";
+import { ProductToOrderSelectModule } from "@features/products/ui";
+import { ProductToOrderModule } from "@features/products/ui/product-to-order";
+import { PreviewTableModule } from "@features/tables/ui";
+import { UsersSelectModule } from "@features/users/ui/users-select/users-select.module";
+import { TranslocoModule } from "@shared/modules/i18n";
+import { ButtonModule } from "@shared/ui/button";
+import { IconModule } from "@shared/ui/icon";
+import { ImageModule } from "@shared/ui/image";
+import { TypographyModule } from "@shared/ui/typography";
 
-import { OrderInfoModule } from "../../../../../../../../../features/orders/ui";
-import { ProductToOrderSelectModule } from "../../../../../../../../../features/products/ui";
-import { ProductToOrderModule } from "../../../../../../../../../features/products/ui/product-to-order";
-import { PreviewTableModule } from "../../../../../../../../../features/tables/ui";
-import { UsersSelectModule } from "../../../../../../../../../features/users/ui/users-select/users-select.module";
-import { TranslocoModule } from "../../../../../../../../../shared/modules/i18n";
-import { ButtonModule } from "../../../../../../../../../shared/ui/button";
-import { IconModule } from "../../../../../../../../../shared/ui/icon";
-import { ImageModule } from "../../../../../../../../../shared/ui/image";
 import { HistoryOrderRoutingModule } from "./history-order-routing.module";
 import { HistoryOrderComponent } from "./layout/history-order.component";
 import { HISTORY_ORDER_PROVIDERS } from "./providers";
