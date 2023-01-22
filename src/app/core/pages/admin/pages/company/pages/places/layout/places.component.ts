@@ -68,7 +68,7 @@ export class PlacesComponent implements OnInit {
 
 		const result = await lastValueFrom(
 			this._placesService
-				.createPlace({ name: place.name, company, file: place.file?.id })
+				.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
 				.pipe(
 					this._toastrService.observe(
 						this._i18nService.translate("title", {}, this.placesPageI18n),

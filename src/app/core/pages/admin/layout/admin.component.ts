@@ -233,7 +233,7 @@ export class AdminComponent implements OnInit {
 
 		const result = await lastValueFrom(
 			this._placesService
-				.createPlace({ name: place.name, company, file: place.file?.id })
+				.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
 				.pipe(
 					this._toastrService.observe(
 						this._i18nService.translate("title", {}, this.adminPageI18n),
@@ -262,7 +262,7 @@ export class AdminComponent implements OnInit {
 
 		await lastValueFrom(
 			this._placesService
-				.updatePlace({ id: place.id, name: place.name, file: place.file?.id })
+				.updatePlace({ id: place.id, name: place.name, address: place.address, file: place.file?.id })
 				.pipe(
 					this._toastrService.observe(
 						this._i18nService.translate("title", {}, this.adminPageI18n),
