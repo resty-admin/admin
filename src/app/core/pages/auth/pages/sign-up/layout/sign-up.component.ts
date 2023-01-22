@@ -1,11 +1,11 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { FORM_I18N } from "@shared/constants";
 import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";

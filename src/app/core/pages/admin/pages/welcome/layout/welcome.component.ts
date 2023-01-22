@@ -1,9 +1,9 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { FORM_I18N } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, take } from "rxjs";

@@ -9,6 +9,7 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { AttributeDialogComponent } from "./layout/attribute-dialog.component";
+import { ATTRIBUTE_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AttributeDialogComponent],
@@ -22,6 +23,7 @@ import { AttributeDialogComponent } from "./layout/attribute-dialog.component";
 		SelectModule,
 		I18nModule
 	],
+	providers: ATTRIBUTE_DIALOG_PROVIDERS,
 	exports: [AttributeDialogComponent]
 })
 export class AttributeDialogModule {}

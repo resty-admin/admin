@@ -7,6 +7,7 @@ import { TablesService } from "@features/tables";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { PLACE_ID } from "@shared/constants";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
@@ -61,6 +62,7 @@ export class ShiftComponent implements OnInit {
 		private readonly _formBuilder: FormBuilder,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService,
 		private readonly _changeDetectorRef: ChangeDetectorRef
 	) {}
 
@@ -98,7 +100,12 @@ export class ShiftComponent implements OnInit {
 		await lastValueFrom(
 			this._shiftsService
 				.createShift({ place, tables: tables.map((table) => table.id) })
-				.pipe(this._toastrService.observe("Смена"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.shiftPageI18n),
+						this._i18nService.translate("title", {}, this.shiftPageI18n)
+					)
+				)
 		);
 
 		await this._activeShiftQuery.refetch();
@@ -112,14 +119,21 @@ export class ShiftComponent implements OnInit {
 		await lastValueFrom(
 			this._shiftsService
 				.updateShift({ id, tables: tables.map((table) => table.id) })
-				.pipe(this._toastrService.observe("Смена"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.shiftPageI18n),
+						this._i18nService.translate("title", {}, this.shiftPageI18n)
+					)
+				)
 		);
 
 		await this._activeShiftQuery.refetch();
 	}
 
 	async closeShift(shiftId: string) {
-		const config = { data: { title: "Вы уверены, что хотите закрыть смену?", value: { label: "" } } };
+		const config = {
+			data: { title: this._i18nService.translate("title", {}, this.shiftPageI18n), value: { label: "" } }
+		};
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -127,7 +141,16 @@ export class ShiftComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._shiftsService.closeShift(shiftId).pipe(this._toastrService.observe("Смена")));
+		await lastValueFrom(
+			this._shiftsService
+				.closeShift(shiftId)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.shiftPageI18n),
+						this._i18nService.translate("title", {}, this.shiftPageI18n)
+					)
+				)
+		);
 
 		await this._activeShiftQuery.refetch();
 	}

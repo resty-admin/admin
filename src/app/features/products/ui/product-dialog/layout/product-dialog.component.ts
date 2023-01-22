@@ -1,17 +1,19 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
 import { AttributeGroupsService } from "@features/attributes";
 import { AttributeGroupDialogComponent } from "@features/attributes";
 import { CategoriesService, CategoryDialogComponent } from "@features/categories";
+import { PRODUCT_DIALOG_I18N } from "@features/products/ui/product-dialog/constants";
 import type { ProductEntity } from "@graphql";
 import type { CategoryEntity } from "@graphql";
 import type { AttributesGroupEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { FORM_I18N } from "@shared/constants";
 import { PLACE_ID } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
 import { FilesService } from "@shared/modules/files";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
@@ -27,6 +29,7 @@ import type { IProductForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDialogComponent implements OnInit {
+	readonly productDialogI18n = PRODUCT_DIALOG_I18N;
 	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<IProductForm>({
 		name: "",
@@ -62,7 +65,8 @@ export class ProductDialogComponent implements OnInit {
 		private readonly _attributeGroupsService: AttributeGroupsService,
 		private readonly _filesService: FilesService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	async ngOnInit() {
@@ -116,7 +120,12 @@ export class ProductDialogComponent implements OnInit {
 					type: attributeGroup.type,
 					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
 				})
-				.pipe(this._toastrService.observe("Группа модификаций"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productDialogI18n),
+						this._i18nService.translate("title", {}, this.productDialogI18n)
+					)
+				)
 		);
 
 		return result.data?.createAttrGroup;
@@ -140,7 +149,12 @@ export class ProductDialogComponent implements OnInit {
 		const result = await lastValueFrom(
 			this._categoriesService
 				.createCategory({ name: category.name, place, file: category.file?.id })
-				.pipe(this._toastrService.observe("Категория"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productDialogI18n),
+						this._i18nService.translate("title", {}, this.productDialogI18n)
+					)
+				)
 		);
 
 		return result.data?.createCategory;

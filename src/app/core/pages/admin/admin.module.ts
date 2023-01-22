@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CompanyDialogModule } from "@features/companies";
-import { PlaceDialogModule } from "@features/places/ui/place-dialog/place-dialog.module";
+import { PlaceDialogModule } from "@features/places";
 import { DirectivesModule } from "@shared/modules/directives";
 import { I18nModule } from "@shared/modules/i18n";
 import { PipesModule } from "@shared/modules/pipes";
@@ -21,6 +21,7 @@ import { TypographyModule } from "@shared/ui/typography";
 import { AdminRoutingModule } from "./admin-routing.module";
 import { ADMIN_COMPONENTS } from "./components";
 import { AdminComponent } from "./layout/admin.component";
+import { ADMIN_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AdminComponent, ...ADMIN_COMPONENTS],
@@ -44,6 +45,7 @@ import { AdminComponent } from "./layout/admin.component";
 		CompanyDialogModule,
 		PlaceDialogModule,
 		ActiveOrderModule
-	]
+	],
+	providers: ADMIN_PROVIDERS
 })
 export class AdminModule {}

@@ -1,19 +1,24 @@
-<div class="attribute-dialog" *transloco="let t">
+<div class="attribute-dialog" *transloco="let t; read: attributeDialogI18n">
 	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
-	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+	<form
+		*transloco="let f; read: formI18n"
+		class="form"
+		[formGroup]="formGroup"
+		(ngSubmit)="closeDialog(formGroup.value)"
+	>
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="t('name_label')"
-			[placeholder]="t('name_placeholder')"
+			[label]="f('name_label')"
+			[placeholder]="f('name_placeholder')"
 		></app-input>
 		<app-input
 			class="input"
 			formControlName="price"
 			returnType="float"
-			[label]="t('price_label')"
-			[placeholder]="t('price_placeholder')"
+			[label]="f('price_label')"
+			[placeholder]="f('price_placeholder')"
 		></app-input>
 
 		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>

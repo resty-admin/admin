@@ -1,6 +1,7 @@
 {
 	"status_label": "Статус",
-	"status_description": "Описание статуса",
-	"status_info": "Информация о статусе",
-	"change_status": "Изменить статус"
+	"status_description": "Статус заведения",
+	"status_info": "Чтобы открыться - подпишите договор и добавьте карту",
+	"change_status": "Изменить статус",
+	"NOT_VERIFIED": "Тестовый"
 }

@@ -1,4 +1,4 @@
-import { FORM_I18N_PROVIDER } from "@core/providers/form-i18n.provider";
+import { FORM_I18N_PROVIDER } from "@shared/providers";
 
 import { SIGN_IN_I18N_PROVIDER } from "./sign-in-i18n.provider";
 

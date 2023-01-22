@@ -5,6 +5,7 @@ import { PlaceDialogComponent } from "@features/places/ui/place-dialog/layout/pl
 import type { PlaceEntity } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
@@ -30,7 +31,8 @@ export class PlacesComponent implements OnInit {
 		private readonly _routerService: RouterService,
 		private readonly _placesService: PlacesService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	trackByFn(index: number) {
@@ -67,7 +69,12 @@ export class PlacesComponent implements OnInit {
 		const result = await lastValueFrom(
 			this._placesService
 				.createPlace({ name: place.name, company, file: place.file?.id })
-				.pipe(this._toastrService.observe("Заведения"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.placesPageI18n),
+						this._i18nService.translate("title", {}, this.placesPageI18n)
+					)
+				)
 		);
 
 		if (!result.data?.createPlace) {

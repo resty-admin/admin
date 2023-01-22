@@ -8,10 +8,12 @@ import { InputModule } from "@shared/ui/input";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { CompanyDialogComponent } from "./layout/company-dialog.component";
+import { COMPANY_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CompanyDialogComponent],
 	imports: [CommonModule, TypographyModule, ReactiveFormsModule, FileModule, InputModule, ButtonModule, I18nModule],
+	providers: COMPANY_DIALOG_PROVIDERS,
 	exports: [CompanyDialogComponent]
 })
 export class CompanyDialogModule {}

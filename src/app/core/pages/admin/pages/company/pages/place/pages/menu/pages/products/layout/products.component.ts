@@ -6,6 +6,7 @@ import { ProductDialogComponent } from "@features/products/ui";
 import type { ProductEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -52,7 +53,8 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
 		private readonly _actionsService: ActionsService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	trackByFn(index: number) {
@@ -95,7 +97,12 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 					file: product.file?.id,
 					price: product.price
 				})
-				.pipe(this._toastrService.observe("Продукты"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productsPageI18n),
+						this._i18nService.translate("created", {}, this.productsPageI18n)
+					)
+				)
 		);
 
 		await this._productsPageQuery.refetch();
@@ -121,7 +128,12 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 					file: product.file?.id,
 					price: product.price
 				})
-				.pipe(this._toastrService.observe("Продукты"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productsPageI18n),
+						this._i18nService.translate("updated", {}, this.productsPageI18n)
+					)
+				)
 		);
 
 		await this._productsPageQuery.refetch();
@@ -136,7 +148,16 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._productsService.deleteProduct(product.id).pipe(this._toastrService.observe("Продукты")));
+		await lastValueFrom(
+			this._productsService
+				.deleteProduct(product.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productsPageI18n),
+						this._i18nService.translate("deleted", {}, this.productsPageI18n)
+					)
+				)
+		);
 
 		await this._productsPageQuery.refetch();
 	}

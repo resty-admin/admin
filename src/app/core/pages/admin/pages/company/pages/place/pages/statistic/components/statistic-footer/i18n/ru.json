@@ -2,5 +2,6 @@
 	"status_label": "Статус",
 	"status_description": "Описание статуса",
 	"status_info": "Информация о статусе",
-	"change_status": "Изменить статус"
+	"change_status": "Изменить статус",
+	"NOT_VERIFIED": "Тестовый"
 }

@@ -1,39 +1,44 @@
-<div class="product-dialog" *transloco="let t; read: formI18n">
+<div class="product-dialog" *transloco="let t; read: productDialogI18n">
 	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
-	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+	<form
+		*transloco="let f; read: formI18n"
+		class="form"
+		[formGroup]="formGroup"
+		(ngSubmit)="closeDialog(formGroup.value)"
+	>
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="t('name_label')"
-			[placeholder]="t('name_placeholder')"
+			[label]="f('name_label')"
+			[placeholder]="f('name_placeholder')"
 		></app-input>
 		<app-textarea
 			class="input"
 			formControlName="description"
-			[label]="t('description_label')"
-			[placeholder]="t('description_placeholder')"
+			[label]="f('description_label')"
+			[placeholder]="f('description_placeholder')"
 		></app-textarea>
 		<app-input
 			class="input"
 			formControlName="price"
 			returnType="float"
-			[label]="t('price_label')"
-			[placeholder]="t('price_placeholder')"
+			[label]="f('price_label')"
+			[placeholder]="f('price_placeholder')"
 		></app-input>
 		<app-file
 			class="input"
 			formControlName="file"
-			[label]="t('file_label')"
-			[placeholder]="t('file_placeholder')"
+			[label]="f('file_label')"
+			[placeholder]="f('file_placeholder')"
 		></app-file>
 		<app-select
 			class="input"
 			bindLabel="name"
 			bindValue="id"
 			formControlName="category"
-			[label]="t('category_label')"
-			[placeholder]="t('category_placeholder')"
+			[label]="f('category_label')"
+			[placeholder]="f('category_placeholder')"
 			[options]="categories$ | async"
 			[searchable]="true"
 			[addTag]="addCategoryTag"
@@ -43,14 +48,14 @@
 			bindLabel="name"
 			bindValue="id"
 			formControlName="attrsGroups"
-			[label]="t('attribute_groups_label')"
-			[placeholder]="t('attribute_groups_placeholder')"
+			[label]="f('attribute_groups_label')"
+			[placeholder]="f('attribute_groups_placeholder')"
 			[options]="attributeGroups$ | async"
 			[multiple]="true"
 			[searchable]="true"
 			[addTag]="addAttributeGroupTag"
 		></app-select>
 
-		<button class="submit" appButton type="submit">{{ t("BUTTON." + (data?.id ? "edit" : "create")) }}</button>
+		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
 	</form>
 </div>

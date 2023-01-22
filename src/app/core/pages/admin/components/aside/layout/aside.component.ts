@@ -1,9 +1,9 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
 import type { CompanyEntity, PlaceEntity } from "@graphql";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { FORM_I18N } from "@shared/constants";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import { RouterService } from "@shared/modules/router";

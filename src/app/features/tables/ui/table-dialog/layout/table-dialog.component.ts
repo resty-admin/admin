@@ -1,9 +1,10 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
+import { TABLE_DIALOG_I18N } from "@features/tables/ui/table-dialog/constants";
 import type { TableEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { FORM_I18N } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { lastValueFrom } from "rxjs";
 
@@ -16,6 +17,7 @@ import type { ITableForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableDialogComponent implements OnInit {
+	readonly tableDialogI18n = TABLE_DIALOG_I18N;
 	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<ITableForm>({
 		code: 0,

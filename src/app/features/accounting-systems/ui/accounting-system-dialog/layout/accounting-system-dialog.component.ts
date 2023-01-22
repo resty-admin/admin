@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
+import { ACCOUNTING_SYSTEM_DIALOG_I18N } from "@features/accounting-systems/ui/accounting-system-dialog/constants";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
+import { FORM_I18N } from "@shared/constants";
 
 import type { IAccountingSystemForm } from "../interfaces";
 
@@ -12,6 +13,7 @@ import type { IAccountingSystemForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemDialogComponent {
+	readonly accountingSystemDialogI18n = ACCOUNTING_SYSTEM_DIALOG_I18N;
 	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group<IAccountingSystemForm>({
 		publicKey: "",

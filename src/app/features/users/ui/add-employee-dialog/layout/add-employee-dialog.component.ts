@@ -1,10 +1,11 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
+import { ADD_EMPLOYEE_DIALOG_I18N } from "@features/users/ui/add-employee-dialog/constants";
 import type { UserEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { FORM_I18N } from "@shared/constants";
 import type { DeepAtLeast } from "@shared/interfaces";
 import { lastValueFrom, take } from "rxjs";
 
@@ -19,6 +20,7 @@ import type { IAddEmployeeForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddEmployeeDialogComponent implements OnInit {
+	readonly addEmployeeDiaalogI18n = ADD_EMPLOYEE_DIALOG_I18N;
 	readonly formI18n = FORM_I18N;
 
 	readonly formGroup = this._formBuilder.group<IAddEmployeeForm>({

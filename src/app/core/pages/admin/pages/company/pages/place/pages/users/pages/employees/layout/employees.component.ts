@@ -8,6 +8,7 @@ import { UserRoleEnum } from "@graphql";
 import type { DeepPartial } from "@ngneat/reactive-forms/lib/types";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -55,7 +56,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	trackByFn(index: number) {
@@ -100,7 +102,12 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 		await lastValueFrom(
 			this._usersService
 				.addEmployeeToPlace({ userId: user.id, placeId })
-				.pipe(this._toastrService.observe("Сотрудники"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.employeesPageI18n),
+						this._i18nService.translate("added", {}, this.employeesPageI18n)
+					)
+				)
 		);
 
 		await this._employeesPageQuery.refetch();
@@ -118,7 +125,12 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 		await lastValueFrom(
 			this._usersService
 				.createUser({ name: user.name, email: user.name, role: user.role })
-				.pipe(this._toastrService.observe("Сотрудники"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.employeesPageI18n),
+						this._i18nService.translate("created", {}, this.employeesPageI18n)
+					)
+				)
 		);
 
 		await this._employeesPageQuery.refetch();
@@ -136,14 +148,19 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 		await lastValueFrom(
 			this._usersService
 				.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
-				.pipe(this._toastrService.observe("Сотрудники"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.employeesPageI18n),
+						this._i18nService.translate("updated", {}, this.employeesPageI18n)
+					)
+				)
 		);
 
 		await this._employeesPageQuery.refetch();
 	}
 
 	async openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить пользователя?", value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.employeesPageI18n), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -151,7 +168,16 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._usersService.deleteUser(value.id).pipe(this._toastrService.observe("Сотрудники")));
+		await lastValueFrom(
+			this._usersService
+				.deleteUser(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.employeesPageI18n),
+						this._i18nService.translate("deleted", {}, this.employeesPageI18n)
+					)
+				)
+		);
 
 		await this._employeesPageQuery.refetch();
 	}

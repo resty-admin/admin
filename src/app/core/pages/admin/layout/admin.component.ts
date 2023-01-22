@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ADMIN_PAGE_I18N } from "@core/pages/admin/constants";
 import { AsideService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { CompaniesService, CompanyDialogComponent } from "@features/companies";
@@ -9,6 +10,7 @@ import type { CompanyEntity, PlaceEntity } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -26,6 +28,7 @@ import { AdminCompaniesGQL, AdminPageGQL, AdminPlacesGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminComponent implements OnInit {
+	readonly adminPageI18n = ADMIN_PAGE_I18N;
 	readonly profileActions: IAction[] = [
 		{
 			label: "Профиль",
@@ -96,7 +99,8 @@ export class AdminComponent implements OnInit {
 		private readonly _placesService: PlacesService,
 		private readonly _ordersService: OrdersService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	async ngOnInit() {
@@ -153,7 +157,12 @@ export class AdminComponent implements OnInit {
 		const result = await lastValueFrom(
 			this._companiesService
 				.createCompany({ name: company.name, logo: company.logo?.id })
-				.pipe(this._toastrService.observe("Компании"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.adminPageI18n),
+						this._i18nService.translate("title", {}, this.adminPageI18n)
+					)
+				)
 		);
 
 		if (!result?.data?.createCompany) {
@@ -177,12 +186,17 @@ export class AdminComponent implements OnInit {
 		await lastValueFrom(
 			this._companiesService
 				.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id })
-				.pipe(this._toastrService.observe("Компании"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.adminPageI18n),
+						this._i18nService.translate("title", {}, this.adminPageI18n)
+					)
+				)
 		);
 	}
 
 	async openDeleteCompanyDialog(value: AtLeast<CompanyEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить компанию?", value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.adminPageI18n), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -190,7 +204,16 @@ export class AdminComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._companiesService.deleteCompany(value.id).pipe(this._toastrService.observe("Компании")));
+		await lastValueFrom(
+			this._companiesService
+				.deleteCompany(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.adminPageI18n),
+						this._i18nService.translate("title", {}, this.adminPageI18n)
+					)
+				)
+		);
 	}
 
 	async openCreatePlaceDialog() {
@@ -211,7 +234,12 @@ export class AdminComponent implements OnInit {
 		const result = await lastValueFrom(
 			this._placesService
 				.createPlace({ name: place.name, company, file: place.file?.id })
-				.pipe(this._toastrService.observe("Заведения"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.adminPageI18n),
+						this._i18nService.translate("title", {}, this.adminPageI18n)
+					)
+				)
 		);
 
 		if (!result.data?.createPlace) {
@@ -235,12 +263,17 @@ export class AdminComponent implements OnInit {
 		await lastValueFrom(
 			this._placesService
 				.updatePlace({ id: place.id, name: place.name, file: place.file?.id })
-				.pipe(this._toastrService.observe("Заведения"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.adminPageI18n),
+						this._i18nService.translate("title", {}, this.adminPageI18n)
+					)
+				)
 		);
 	}
 
 	async openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить заведение?", value } };
+		const config = { data: { title: this._i18nService.translate("title", {}, this.adminPageI18n), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -248,7 +281,16 @@ export class AdminComponent implements OnInit {
 			return;
 		}
 
-		await lastValueFrom(this._placesService.deletePlace(value.id).pipe(this._toastrService.observe("Заведения")));
+		await lastValueFrom(
+			this._placesService
+				.deletePlace(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.adminPageI18n),
+						this._i18nService.translate("title", {}, this.adminPageI18n)
+					)
+				)
+		);
 	}
 
 	async signOut() {

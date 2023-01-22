@@ -10,6 +10,7 @@ import { TextareaModule } from "@shared/ui/textarea";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { ProductDialogComponent } from "./layout/product-dialog.component";
+import { PRODUCT_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProductDialogComponent],
@@ -24,6 +25,7 @@ import { ProductDialogComponent } from "./layout/product-dialog.component";
 		SelectModule,
 		I18nModule
 	],
+	providers: PRODUCT_DIALOG_PROVIDERS,
 	exports: [ProductDialogComponent]
 })
 export class ProductDialogModule {}

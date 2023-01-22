@@ -1,14 +1,16 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
-import { FORM_I18N } from "@core/constants";
 import { AttributesService } from "@features/attributes/index";
+import { ATTRIBUTE_GROUP_DIALOG_I18N } from "@features/attributes/ui/attribute-group-dialog/constants";
 import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
 import { AttributeGroupTypeEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
+import { FORM_I18N } from "@shared/constants";
 import { PLACE_ID } from "@shared/constants";
 import { buildForm } from "@shared/functions";
 import type { DeepPartial } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
@@ -25,6 +27,7 @@ import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.int
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributeGroupDialogComponent implements OnInit {
+	readonly attributeGroupDialogI18n = ATTRIBUTE_GROUP_DIALOG_I18N;
 	readonly formI18n = FORM_I18N;
 	readonly formGroup = buildForm<IAttributeGroupForm>({
 		name: [""],
@@ -55,7 +58,8 @@ export class AttributeGroupDialogComponent implements OnInit {
 		private readonly _attributesService: AttributesService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	async ngOnInit() {
@@ -97,7 +101,12 @@ export class AttributeGroupDialogComponent implements OnInit {
 					price: attribute.price,
 					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
 				})
-				.pipe(this._toastrService.observe("Модификации"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.attributeGroupDialogI18n),
+						this._i18nService.translate("title", {}, this.attributeGroupDialogI18n)
+					)
+				)
 		);
 
 		return result.data?.createAttr;

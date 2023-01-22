@@ -1,6 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
+import { PRODUCTS_TO_ORDER_SELECT_I18N } from "@features/products/ui/products-to-order-select/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 
 import type {
@@ -16,6 +17,7 @@ import type {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsToOrderSelectComponent implements OnChanges {
+	readonly productsToOrderSelectI18n = PRODUCTS_TO_ORDER_SELECT_I18N;
 	@Output() selectedProductsToOrdersChange = new EventEmitter<string[]>();
 	@Input() selectedProductsToOrders?: string[] | null;
 	@Input() productsToOrders?: IProductToOrderToSelect[] | null;

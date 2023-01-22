@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { ADMIN_ROUTES } from "@shared/constants";
+import { ADMIN_ROUTES, FORM_I18N } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
 
@@ -17,6 +17,7 @@ import type { IResetPassword } from "../interfaces";
 })
 export class ResetPasswordComponent {
 	readonly resetPasswordPageI18n = RESET_PASSWORD_PAGE_I18N;
+	readonly formI18n = FORM_I18N;
 	readonly adminRoutes = ADMIN_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");

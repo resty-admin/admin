@@ -7,6 +7,7 @@ import { AttributeGroupDialogComponent } from "@features/attributes/ui/attribute
 import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -63,7 +64,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	trackByFn(index: number) {
@@ -111,7 +113,12 @@ export class AttributesComponent implements OnInit, OnDestroy {
 					type: attributeGroup.type,
 					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
 				})
-				.pipe(this._toastrService.observe("Группа модификаций"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.attributesPageI18n),
+						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+					)
+				)
 		);
 
 		await this._attributesPageQuery.refetch();
@@ -134,14 +141,19 @@ export class AttributesComponent implements OnInit, OnDestroy {
 					maxItemsForPick: attributeGroup.maxItemsForPick,
 					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
 				})
-				.pipe(this._toastrService.observe("Группа модификаций"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.attributesPageI18n),
+						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+					)
+				)
 		);
 
 		await this._attributesPageQuery.refetch();
 	}
 
 	async openDeleteAttributeGroupDialog(value: AtLeast<AttributesGroupEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить группу модификаций?", value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPageI18n), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -152,7 +164,12 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		await lastValueFrom(
 			this._attributeGroupsService
 				.deleteAttributeGroup(value.id)
-				.pipe(this._toastrService.observe("Группа модификаций"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.attributesPageI18n),
+						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+					)
+				)
 		);
 
 		await this._attributesPageQuery.refetch();
@@ -174,7 +191,12 @@ export class AttributesComponent implements OnInit, OnDestroy {
 					price: attribute.price,
 					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
 				})
-				.pipe(this._toastrService.observe("Модификации"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.attributesPageI18n),
+						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+					)
+				)
 		);
 
 		await this._attributesPageQuery.refetch();
@@ -197,14 +219,19 @@ export class AttributesComponent implements OnInit, OnDestroy {
 					price: attribute.price,
 					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
 				})
-				.pipe(this._toastrService.observe("Модификации"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.attributesPageI18n),
+						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+					)
+				)
 		);
 
 		await this._attributesPageQuery.refetch();
 	}
 
 	async openDeleteAttributeDialog(value: AtLeast<AttributesEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить модификацию?", value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPageI18n), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -213,7 +240,14 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._attributesService.deleteAttribute(value.id).pipe(this._toastrService.observe("Модификации"))
+			this._attributesService
+				.deleteAttribute(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.attributesPageI18n),
+						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+					)
+				)
 		);
 
 		await this._attributesPageQuery.refetch();

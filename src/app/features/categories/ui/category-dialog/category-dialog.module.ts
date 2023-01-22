@@ -9,6 +9,7 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { CategoryDialogComponent } from "./layout/category-dialog.component";
+import { CATEGORY_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CategoryDialogComponent],
@@ -22,6 +23,7 @@ import { CategoryDialogComponent } from "./layout/category-dialog.component";
 		SelectModule,
 		I18nModule
 	],
+	providers: CATEGORY_DIALOG_PROVIDERS,
 	exports: [CategoryDialogComponent]
 })
 export class CategoryDialogModule {}

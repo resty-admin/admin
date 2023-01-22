@@ -1,9 +1,10 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@core/constants";
+import { PAYMENT_SYSTEM_DIALOG_I18N } from "@features/payment-systems/ui/payment-system-dialog/constants";
 import type { PaymentSystemEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
+import { FORM_I18N } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
 
 @Component({
@@ -13,6 +14,7 @@ import type { DeepPartial } from "@shared/interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemDialogComponent implements OnInit {
+	readonly paymentSystemDialogI18n = PAYMENT_SYSTEM_DIALOG_I18N;
 	readonly formI18n = FORM_I18N;
 	readonly formGroup = this._formBuilder.group({});
 

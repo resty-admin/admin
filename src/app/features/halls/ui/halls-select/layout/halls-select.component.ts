@@ -1,6 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
+import { HALLS_SELECT_I18N } from "@features/halls/ui/halls-select/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 
 import type { IHallToSelect } from "../interfaces";
@@ -12,6 +13,7 @@ import type { IHallToSelect } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallsSelectComponent implements OnChanges {
+	readonly hallsSelectI18n = HALLS_SELECT_I18N;
 	@Output() selectedHallsChange = new EventEmitter<string[]>();
 	@Input() selectedHalls?: string[] | null;
 	@Input() halls?: IHallToSelect[] | null;

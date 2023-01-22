@@ -6,6 +6,7 @@ import type { TableEntity } from "@graphql";
 import { ADMIN_ROUTES, COMPANY_ID, HALL_ID, PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -46,7 +47,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 		private readonly _dialogService: DialogService,
 		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	async ngOnInit() {
@@ -87,7 +89,12 @@ export class TablesComponent implements OnInit, OnDestroy {
 		await lastValueFrom(
 			this._tablesService
 				.createTable({ name: table.name, hall, file: table.file?.id, code: table.code })
-				.pipe(this._toastrService.observe("Столы"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.tablesPageI18n),
+						this._i18nService.translate("created", {}, this.tablesPageI18n)
+					)
+				)
 		);
 
 		await this._tablesPageQuery.refetch();
@@ -105,14 +112,19 @@ export class TablesComponent implements OnInit, OnDestroy {
 		await lastValueFrom(
 			this._tablesService
 				.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
-				.pipe(this._toastrService.observe("Столы"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.tablesPageI18n),
+						this._i18nService.translate("updated", {}, this.tablesPageI18n)
+					)
+				)
 		);
 
 		await this._tablesPageQuery.refetch();
 	}
 
 	async openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить стол?", value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.tablesPageI18n), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -120,7 +132,16 @@ export class TablesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._tablesService.deleteTable(value.id).pipe(this._toastrService.observe("Столы")));
+		await lastValueFrom(
+			this._tablesService
+				.deleteTable(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.tablesPageI18n),
+						this._i18nService.translate("deleted", {}, this.tablesPageI18n)
+					)
+				)
+		);
 
 		await this._tablesPageQuery.refetch();
 	}

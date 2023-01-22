@@ -3,6 +3,7 @@ import { PaymentSystemDialogComponent, PaymentSystemsService } from "@features/p
 import type { PaymentSystemEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
@@ -29,7 +30,8 @@ export class PaymentSystemsComponent {
 		private readonly _dialogService: DialogService,
 		private readonly _paymentsSystemsService: PaymentSystemsService,
 		private readonly _routerService: RouterService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	async openPaymentSystemDialog(data: AtLeast<PaymentSystemEntity, "id">) {
@@ -49,7 +51,12 @@ export class PaymentSystemsComponent {
 						paymentSystem: paymentSystem.id,
 						placeConfigFields: paymentSystem.configFields
 					})
-					.pipe(this._toastrService.observe("Платежные системы"))
+					.pipe(
+						this._toastrService.observe(
+							this._i18nService.translate("title", {}, this.paymentSystemsPageI18n),
+							this._i18nService.translate("connected", {}, this.paymentSystemsPageI18n)
+						)
+					)
 			);
 		} catch (error) {
 			console.error(error);

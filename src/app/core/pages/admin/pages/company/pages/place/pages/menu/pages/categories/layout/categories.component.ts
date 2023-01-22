@@ -9,6 +9,7 @@ import type { PlaceEntity, ProductEntity } from "@graphql";
 import type { CategoryEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -62,7 +63,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	trackByFn(index: number) {
@@ -87,7 +89,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		await lastValueFrom(
 			this._categoriesService
 				.createCategory({ name: category.name, place, file: category.file?.id })
-				.pipe(this._toastrService.observe("Категории"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.categoriesPageI18n),
+						this._i18nService.translate("created", {}, this.categoriesPageI18n)
+					)
+				)
 		);
 
 		await this._categoriesPageQuery.refetch();
@@ -105,7 +112,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		await lastValueFrom(
 			this._categoriesService
 				.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
-				.pipe(this._toastrService.observe("Категории"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.categoriesPageI18n),
+						this._i18nService.translate("updated", {}, this.categoriesPageI18n)
+					)
+				)
 		);
 
 		await this._categoriesPageQuery.refetch();
@@ -121,7 +133,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._categoriesService.deleteCategory(value.id).pipe(this._toastrService.observe("Категории"))
+			this._categoriesService
+				.deleteCategory(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.categoriesPageI18n),
+						this._i18nService.translate("deleted", {}, this.categoriesPageI18n)
+					)
+				)
 		);
 
 		await this._categoriesPageQuery.refetch();
@@ -145,14 +164,21 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 					file: product.file?.id,
 					price: product.price
 				})
-				.pipe(this._toastrService.observe("Продукты"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.categoriesPageI18n),
+						this._i18nService.translate("updated", {}, this.categoriesPageI18n)
+					)
+				)
 		);
 
 		await this._categoriesPageQuery.refetch();
 	}
 
 	async openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить продукт?", value: product } };
+		const config = {
+			data: { title: this._i18nService.translate("confirm", {}, this.categoriesPageI18n), value: product }
+		};
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -160,7 +186,16 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._productsService.deleteProduct(product.id).pipe(this._toastrService.observe("Продукты")));
+		await lastValueFrom(
+			this._productsService
+				.deleteProduct(product.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.categoriesPageI18n),
+						this._i18nService.translate("deleted", {}, this.categoriesPageI18n)
+					)
+				)
+		);
 
 		await this._categoriesPageQuery.refetch();
 	}

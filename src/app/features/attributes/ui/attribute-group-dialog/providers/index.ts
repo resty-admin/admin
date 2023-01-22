@@ -1,0 +1,3 @@
+import { ATTRIBUTE_GROUP_DILAOG_I18N_PROVIDER } from "./attribute-group-dialog-i18n.provider";
+
+export const ATTRIBUTE_GROUP_DIALOG_PROVIDERS = [ATTRIBUTE_GROUP_DILAOG_I18N_PROVIDER];

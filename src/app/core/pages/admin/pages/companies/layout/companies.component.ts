@@ -5,6 +5,7 @@ import { CompanyDialogComponent } from "@features/companies/ui/company-dialog/la
 import type { CompanyEntity, CreateCommandInput } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID } from "@shared/constants";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
@@ -30,7 +31,8 @@ export class CompaniesComponent implements OnInit {
 		private readonly _companiesService: CompaniesService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	ngOnInit() {
@@ -55,7 +57,12 @@ export class CompaniesComponent implements OnInit {
 		const result = await lastValueFrom(
 			this._companiesService
 				.createCompany({ name: company.name, logo: company.logo?.id })
-				.pipe(this._toastrService.observe("Компании"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.companiesPageI18n),
+						this._i18nService.translate("title", {}, this.companiesPageI18n)
+					)
+				)
 		);
 
 		if (!result?.data?.createCompany) {

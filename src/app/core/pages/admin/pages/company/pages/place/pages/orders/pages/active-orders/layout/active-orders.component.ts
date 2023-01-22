@@ -6,6 +6,7 @@ import { OrderDialogComponent } from "@features/orders/ui";
 import type { ActiveOrderEntity } from "@graphql";
 import { ADMIN_ROUTES, PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -52,7 +53,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	trackByFn(index: number) {
@@ -75,7 +77,14 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._ordersService.createOrder({ place, type: order.type }).pipe(this._toastrService.observe("Заказы"))
+			this._ordersService
+				.createOrder({ place, type: order.type })
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+					)
+				)
 		);
 
 		await this._activeOrdersPageQuery.refetch();
@@ -91,14 +100,21 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 		}
 
 		await lastValueFrom(
-			this._ordersService.updateOrder({ id: order.id, type: order.type }).pipe(this._toastrService.observe("Заказы"))
+			this._ordersService
+				.updateOrder({ id: order.id, type: order.type })
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+					)
+				)
 		);
 
 		await this._activeOrdersPageQuery.refetch();
 	}
 
 	async openDeleteOrderDialog(value: AtLeast<ActiveOrderEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить заказ?", value } };
+		const config = { data: { title: this._i18nService.translate("title", {}, this.activeOrdersPageI18n), value } };
 
 		const order: ActiveOrderEntity | undefined = await lastValueFrom(
 			this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$
@@ -108,13 +124,31 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._ordersService.deleteOrder(order.id).pipe(this._toastrService.observe("Заказы")));
+		await lastValueFrom(
+			this._ordersService
+				.deleteOrder(order.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+					)
+				)
+		);
 
 		await this._activeOrdersPageQuery.refetch();
 	}
 
 	async closeOrder(order: AtLeast<ActiveOrderEntity, "id">) {
-		await lastValueFrom(this._ordersService.closeOrder(order.id).pipe(this._toastrService.observe("Заказы")));
+		await lastValueFrom(
+			this._ordersService
+				.closeOrder(order.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
+						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+					)
+				)
+		);
 
 		await this._activeOrdersPageQuery.refetch();
 	}

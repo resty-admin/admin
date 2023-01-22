@@ -1,7 +1,7 @@
-<div class="halls-select">
+<div class="halls-select" *transloco="let t; read: hallsSelectI18n">
 	<ul class="halls">
 		<li class="hall">
-			<button class="label" [class.active]="isAll" (click)="toggleAll()">All</button>
+			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
 		</li>
 		<li class="hall" *ngFor="let hall of hallsWithSelected; let i = index; trackBy: trackByFn">
 			<input

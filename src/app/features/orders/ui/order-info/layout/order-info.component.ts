@@ -1,5 +1,6 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ORDER_INFO_I18N } from "@features/orders/ui/order-info/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
@@ -12,6 +13,7 @@ import { IOrderInfo } from "../interfaces/order-info.interface";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderInfoComponent implements OnChanges {
+	readonly orderInfoI18n = ORDER_INFO_I18N;
 	@Input() order?: IOrderInfo;
 
 	tableStatus = "";

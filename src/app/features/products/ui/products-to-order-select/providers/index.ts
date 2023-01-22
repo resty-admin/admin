@@ -1,0 +1,3 @@
+import { PRODUCTS_TO_ORDER_SELECT_I18N_PROVIDER } from "./products-to-select-i18n.provider";
+
+export const PRODUCT_TO_ORDER_SELECT_PROVIDERS = [PRODUCTS_TO_ORDER_SELECT_I18N_PROVIDER];

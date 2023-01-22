@@ -6,6 +6,7 @@ import type { UserEntity } from "@graphql";
 import { UserRoleEnum } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -50,7 +51,8 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 		private readonly _routerService: RouterService,
 		private readonly _guestsPageGQL: GuestsPageGQL,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	trackByFn(index: number) {
@@ -108,14 +110,19 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 		await lastValueFrom(
 			this._usersService
 				.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
-				.pipe(this._toastrService.observe("Гости"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.guestsPageI18n),
+						this._i18nService.translate("updated", {}, this.guestsPageI18n)
+					)
+				)
 		);
 
 		await this._guestsPageQuery.refetch();
 	}
 
 	async openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить пользователя?", value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.guestsPageI18n), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -123,7 +130,16 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 			return;
 		}
 
-		await lastValueFrom(this._usersService.deleteUser(value.id).pipe(this._toastrService.observe("Гости")));
+		await lastValueFrom(
+			this._usersService
+				.deleteUser(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.guestsPageI18n),
+						this._i18nService.translate("deleted", {}, this.guestsPageI18n)
+					)
+				)
+		);
 
 		await this._guestsPageQuery.refetch();
 	}

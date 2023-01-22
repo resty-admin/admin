@@ -17,6 +17,7 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { CommandsRoutingModule } from "./commands-routing.module";
 import { CommandsComponent } from "./layout/commands.component";
+import { COMMANDS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CommandsComponent],
@@ -37,6 +38,7 @@ import { CommandsComponent } from "./layout/commands.component";
 		ReactiveFormsModule,
 		CommandDialogModule,
 		CommandModule
-	]
+	],
+	providers: COMMANDS_PROVIDERS
 })
 export class CommandsModule {}

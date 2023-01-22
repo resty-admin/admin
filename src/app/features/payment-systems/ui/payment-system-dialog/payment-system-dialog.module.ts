@@ -9,6 +9,7 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { PaymentSystemDialogComponent } from "./layout/payment-system-dialog.component";
+import { PAYMENT_SYSTEM_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PaymentSystemDialogComponent],
@@ -22,6 +23,7 @@ import { PaymentSystemDialogComponent } from "./layout/payment-system-dialog.com
 		SelectModule,
 		I18nModule
 	],
+	providers: PAYMENT_SYSTEM_DIALOG_PROVIDERS,
 	exports: [PaymentSystemDialogComponent]
 })
 export class PaymentSystemDialogModule {}

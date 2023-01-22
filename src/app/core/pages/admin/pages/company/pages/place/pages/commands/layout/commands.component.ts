@@ -6,6 +6,7 @@ import { CommandsService } from "@features/commands/services/commands/commands.s
 import type { CommandEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
@@ -46,7 +47,8 @@ export class CommandsComponent implements OnInit, OnDestroy {
 		private readonly _commandsService: CommandsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	async ngOnInit() {
@@ -84,7 +86,12 @@ export class CommandsComponent implements OnInit, OnDestroy {
 					description: command.description,
 					place
 				})
-				.pipe(this._toastrService.observe("Команды"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.commandsPageI18n),
+						this._i18nService.translate("added", {}, this.commandsPageI18n)
+					)
+				)
 		);
 
 		await this._commandsPageQuery.refetch();
@@ -106,7 +113,12 @@ export class CommandsComponent implements OnInit, OnDestroy {
 					name: command.name,
 					description: command.description
 				})
-				.pipe(this._toastrService.observe("Команды"))
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.commandsPageI18n),
+						this._i18nService.translate("edited", {}, this.commandsPageI18n)
+					)
+				)
 		);
 
 		await this._commandsPageQuery.refetch();
@@ -121,7 +133,16 @@ export class CommandsComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		await lastValueFrom(this._commandsService.deleteCommand(value.id).pipe(this._toastrService.observe("Команды")));
+		await lastValueFrom(
+			this._commandsService
+				.deleteCommand(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.commandsPageI18n),
+						this._i18nService.translate("deleted", {}, this.commandsPageI18n)
+					)
+				)
+		);
 
 		await this._commandsPageQuery.refetch();
 	}

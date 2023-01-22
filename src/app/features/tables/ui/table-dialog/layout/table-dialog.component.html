@@ -1,25 +1,30 @@
-<div class="table-dialog" *transloco="let t; read: formI18n">
+<div class="table-dialog" *transloco="let t; read: tableDialogI18n">
 	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
-	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+	<form
+		*transloco="let f; read: formI18n"
+		class="form"
+		[formGroup]="formGroup"
+		(ngSubmit)="closeDialog(formGroup.value)"
+	>
 		<app-file
 			class="input"
 			formControlName="file"
-			[label]="t('file_label')"
-			[placeholder]="t('file_placeholder')"
+			[label]="f('file_label')"
+			[placeholder]="f('file_placeholder')"
 		></app-file>
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="t('name_label')"
-			[placeholder]="t('name_placeholder')"
+			[label]="f('name_label')"
+			[placeholder]="f('name_placeholder')"
 		></app-input>
 		<app-input
 			class="input"
 			returnType="number"
 			formControlName="code"
-			[label]="t('code_label')"
-			[placeholder]="t('code_placeholder')"
+			[label]="f('code_label')"
+			[placeholder]="f('code_placeholder')"
 		></app-input>
 
 		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
