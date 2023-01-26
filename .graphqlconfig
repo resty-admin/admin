@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "http://192.168.68.52:8080/graphql",
+        "url": "http://192.168.68.101:8080/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

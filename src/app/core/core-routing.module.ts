@@ -16,7 +16,7 @@ export const CORE_ROUTES: Route[] = [
 		...ADMIN_ROUTES.ADMIN,
 		canActivate: [AuthGuard],
 		data: {
-			roles: [UserRoleEnum.Admin, UserRoleEnum.Waiter, UserRoleEnum.Hostess, UserRoleEnum.Hookah]
+			roles: [UserRoleEnum.Admin, UserRoleEnum.Manager, UserRoleEnum.Waiter, UserRoleEnum.Hostess, UserRoleEnum.Hookah]
 		},
 		loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule)
 	},
