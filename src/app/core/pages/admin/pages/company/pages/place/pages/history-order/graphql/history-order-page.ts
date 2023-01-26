@@ -1,14 +1,15 @@
 import { Injectable } from "@angular/core";
-import type * as Types from "@graphql";
 import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
+
+import type * as Types from "../../../../../../../../../../../graphql";
 export type HistoryOrderPageQueryVariables = Types.Exact<{
 	orderId: Types.Scalars["String"];
 }>;
 
 export interface HistoryOrderPageQuery {
 	__typename?: "Query";
-	order: {
+	order?: {
 		__typename?: "ActiveOrderEntity";
 		id: string;
 		type: Types.OrderTypeEnum;
@@ -51,7 +52,7 @@ export interface HistoryOrderPageQuery {
 					user: { __typename?: "UserEntity"; id: string; name: string };
 			  }[]
 			| null;
-	};
+	} | null;
 }
 
 export const HistoryOrderPageDocument = gql`

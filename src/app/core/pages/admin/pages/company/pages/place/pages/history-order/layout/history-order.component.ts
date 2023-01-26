@@ -87,9 +87,10 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 			.pipe(
 				untilDestroyed(this),
 				tap(async (users) => {
-					const order = await lastValueFrom(this.order$.pipe(take(1)));
+					const order: any = await lastValueFrom(this.order$.pipe(take(1)));
 					const productsByUser = Object.keys(this.productsControl.value || {}).reduce((productsMap, id) => {
-						const userId = (order.productsToOrders || []).find((productToOrder) => productToOrder.id === id)?.user.id;
+						const userId = (order.productsToOrders || []).find((productToOrder: any) => productToOrder.id === id)?.user
+							.id;
 
 						return {
 							...productsMap,

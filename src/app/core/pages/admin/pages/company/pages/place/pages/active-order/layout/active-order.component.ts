@@ -93,22 +93,22 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	}
 
 	async setSelectedUsers(usersIds: string[]) {
-		const { productsToOrders } = await lastValueFrom(this.order$.pipe(take(1)));
+		const { productsToOrders } = (await lastValueFrom(this.order$.pipe(take(1)))) as any;
 
 		this.selectedProductsToOrders = (productsToOrders || [])
-			.filter((productToOrder) => usersIds.includes(productToOrder.user.id))
-			.map((productToOrder) => productToOrder.id);
+			.filter((productToOrder: any) => usersIds.includes(productToOrder.user.id))
+			.map((productToOrder: any) => productToOrder.id);
 	}
 
 	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
-		const { productsToOrders, users } = await lastValueFrom(this.order$.pipe(take(1)));
+		const { productsToOrders, users } = (await lastValueFrom(this.order$.pipe(take(1)))) as any;
 
 		const productsByUser = (users || []).reduce(
-			(usersMap, user) => ({
+			(usersMap: any, user: any) => ({
 				...usersMap,
 				[user.id]: (productsToOrders || [])
-					.filter((productToOrder) => productToOrder.user.id === user.id)
-					.every((productToOrder) => productsToOrdersIds.includes(productToOrder.id))
+					.filter((productToOrder: any) => productToOrder.user.id === user.id)
+					.every((productToOrder: any) => productsToOrdersIds.includes(productToOrder.id))
 			}),
 			{}
 		);

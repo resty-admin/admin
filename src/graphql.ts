@@ -21,7 +21,13 @@ export interface AccessToken {
 
 export interface AccountingSystemEntity {
 	__typename?: "AccountingSystemEntity";
+	configFields?: Maybe<Scalars["JSONObject"]>;
 	id: Scalars["String"];
+	name: Scalars["String"];
+}
+
+export interface AccountingSystemEntityInput {
+	configFields?: InputMaybe<Scalars["JSONObject"]>;
 	name: Scalars["String"];
 }
 
@@ -80,12 +86,6 @@ export interface AddEmployeeInput {
 	userId: Scalars["String"];
 }
 
-export interface AddProductToOrderInput {
-	attrs?: InputMaybe<Scalars["String"][]>;
-	orderId: Scalars["String"];
-	productId: Scalars["String"];
-}
-
 export enum AttributeGroupTypeEnum {
 	Add = "ADD",
 	AddUniq = "ADD_UNIQ",
@@ -128,6 +128,7 @@ export interface AttributesGroupEntityInput {
 
 export interface CategoryEntity {
 	__typename?: "CategoryEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	file?: Maybe<FileEntity>;
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
@@ -137,6 +138,7 @@ export interface CategoryEntity {
 }
 
 export interface CategoryEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	file?: InputMaybe<FileEntityInput>;
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
@@ -186,6 +188,19 @@ export enum CompanyStatusEnum {
 	Rejected = "REJECTED"
 }
 
+export interface ConfirmProductToOrderInput {
+	attributesIds?: InputMaybe<Scalars["String"][]>;
+	count: Scalars["Float"];
+	orderId: Scalars["String"];
+	productId: Scalars["String"];
+}
+
+export interface ConnectAccountingSystemToPlaceInput {
+	accountingSystem: Scalars["String"];
+	place: Scalars["String"];
+	placeConfigFields: Scalars["JSONObject"];
+}
+
 export interface ConnectPaymentSystemToPlaceInput {
 	paymentSystem: Scalars["String"];
 	place: Scalars["String"];
@@ -193,6 +208,7 @@ export interface ConnectPaymentSystemToPlaceInput {
 }
 
 export interface CreateAccountingSystemInput {
+	configFields?: InputMaybe<Scalars["JSONObject"]>;
 	name: Scalars["String"];
 }
 
@@ -236,6 +252,7 @@ export interface CreateHallInput {
 export interface CreateOrderInput {
 	comments?: InputMaybe<Scalars["String"]>;
 	place: Scalars["String"];
+	productsToOrder?: InputMaybe<CreateProductToOrderInput[]>;
 	table?: InputMaybe<Scalars["String"]>;
 	type: OrderTypeEnum;
 }
@@ -261,6 +278,12 @@ export interface CreateProductInput {
 	file?: InputMaybe<Scalars["String"]>;
 	name: Scalars["String"];
 	price?: InputMaybe<Scalars["Float"]>;
+}
+
+export interface CreateProductToOrderInput {
+	attributesIds?: InputMaybe<Scalars["String"][]>;
+	count: Scalars["Int"];
+	productId: Scalars["String"];
 }
 
 export interface CreateShiftInput {
@@ -311,6 +334,7 @@ export interface ForgotPasswordInput {
 
 export interface HallEntity {
 	__typename?: "HallEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	file?: Maybe<FileEntity>;
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
@@ -320,6 +344,7 @@ export interface HallEntity {
 }
 
 export interface HallEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	file?: InputMaybe<FileEntityInput>;
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
@@ -352,10 +377,14 @@ export interface LanguageEntity {
 	name: Scalars["String"];
 }
 
+export interface Link {
+	__typename?: "Link";
+	link: Scalars["String"];
+}
+
 export interface Mutation {
 	__typename?: "Mutation";
 	addEmployeeToPlace: PlaceEntity;
-	addProductToOrder: ActiveOrderEntity;
 	addTableToOrder: ActiveOrderEntity;
 	addUserToOrder: ActiveOrderEntity;
 	approveProductsInOrder: ProductToOrderEntity[];
@@ -363,7 +392,8 @@ export interface Mutation {
 	cancelOrder: Scalars["String"];
 	closeOrder: Scalars["String"];
 	closeShift: Scalars["String"];
-	confirmOrder: ActiveOrderEntity;
+	confirmProductsToOrders: ActiveOrderEntity;
+	connectAccountingSystemToPlace: PlaceToAccountingSystemEntity;
 	connectPaymentSystemToPlace: PlaceToPaymentSystemEntity;
 	createAccountingSystem: AccountingSystemEntity;
 	createAttr: AttributesEntity;
@@ -395,18 +425,24 @@ export interface Mutation {
 	deleteShift: Scalars["String"];
 	deleteTable: Scalars["String"];
 	deleteUser: Scalars["String"];
+	emitCommand: Scalars["String"];
 	forgotPassword: Scalars["String"];
+	getAccessToken: PlaceToAccountingSystemEntity;
+	getMerchantLoginAndCodeLink: Link;
 	getTableByCode: TableEntity;
 	rejectProductsInOrder: ProductToOrderEntity[];
 	rejectTableInOrder: ActiveOrderEntity;
 	removeEmployeeFromPlace: PlaceEntity;
-	removeProductFromOrder: ActiveOrderEntity;
 	removeTableFromOrder: ActiveOrderEntity;
 	resetPassword: AccessToken;
 	setManualPayForProductsInOrder: ProductToOrderEntity[];
 	setPaidStatusForProductsInOrder: ProductToOrderEntity[];
 	signIn: AccessToken;
 	signUp: AccessToken;
+	syncCategories: Scalars["String"];
+	syncHalls: Scalars["String"];
+	syncProducts: Scalars["String"];
+	syncTables: Scalars["String"];
 	telegram: AccessToken;
 	updateAccountingSystem: AccountingSystemEntity;
 	updateAttr: AttributesEntity;
@@ -429,10 +465,6 @@ export interface Mutation {
 
 export interface MutationAddEmployeeToPlaceArgs {
 	employeeData: AddEmployeeInput;
-}
-
-export interface MutationAddProductToOrderArgs {
-	productToOrder: AddProductToOrderInput;
 }
 
 export interface MutationAddTableToOrderArgs {
@@ -464,8 +496,12 @@ export interface MutationCloseShiftArgs {
 	shiftId: Scalars["String"];
 }
 
-export interface MutationConfirmOrderArgs {
-	orderId: Scalars["String"];
+export interface MutationConfirmProductsToOrdersArgs {
+	productsToOrders: ConfirmProductToOrderInput[];
+}
+
+export interface MutationConnectAccountingSystemToPlaceArgs {
+	body: ConnectAccountingSystemToPlaceInput;
 }
 
 export interface MutationConnectPaymentSystemToPlaceArgs {
@@ -588,8 +624,21 @@ export interface MutationDeleteUserArgs {
 	userId: Scalars["String"];
 }
 
+export interface MutationEmitCommandArgs {
+	commandId: Scalars["String"];
+	tableId: Scalars["String"];
+}
+
 export interface MutationForgotPasswordArgs {
 	body: ForgotPasswordInput;
+}
+
+export interface MutationGetAccessTokenArgs {
+	body: PosterAccessCodeInput;
+}
+
+export interface MutationGetMerchantLoginAndCodeLinkArgs {
+	placeId: Scalars["String"];
 }
 
 export interface MutationGetTableByCodeArgs {
@@ -607,10 +656,6 @@ export interface MutationRejectTableInOrderArgs {
 
 export interface MutationRemoveEmployeeFromPlaceArgs {
 	employeeData: AddEmployeeInput;
-}
-
-export interface MutationRemoveProductFromOrderArgs {
-	productFromOrder: RemoveProductFromOrderInput;
 }
 
 export interface MutationRemoveTableFromOrderArgs {
@@ -635,6 +680,22 @@ export interface MutationSignInArgs {
 
 export interface MutationSignUpArgs {
 	body: SignUpInput;
+}
+
+export interface MutationSyncCategoriesArgs {
+	placeId: Scalars["String"];
+}
+
+export interface MutationSyncHallsArgs {
+	placeId: Scalars["String"];
+}
+
+export interface MutationSyncProductsArgs {
+	placeId: Scalars["String"];
+}
+
+export interface MutationSyncTablesArgs {
+	placeId: Scalars["String"];
 }
 
 export interface MutationTelegramArgs {
@@ -840,9 +901,16 @@ export interface PaymentSystemEntityInput {
 	name: Scalars["String"];
 }
 
+export interface PlaceAccountingSystemEntityInput {
+	accountingSystem: AccountingSystemEntityInput;
+	place: PlaceEntityInput;
+	placeConfigFields?: InputMaybe<Scalars["JSONObject"]>;
+}
+
 export interface PlaceEntity {
 	__typename?: "PlaceEntity";
 	a11y: Scalars["String"];
+	accountingSystems?: Maybe<PlaceToAccountingSystemEntity[]>;
 	address?: Maybe<Scalars["String"]>;
 	attrGroups: AttributesGroupEntity[];
 	categories?: Maybe<CategoryEntity[]>;
@@ -865,6 +933,7 @@ export interface PlaceEntity {
 
 export interface PlaceEntityInput {
 	a11y: Scalars["String"];
+	accountingSystems?: InputMaybe<PlaceAccountingSystemEntityInput[]>;
 	address?: InputMaybe<Scalars["String"]>;
 	attrGroups: AttributesGroupEntityInput[];
 	categories?: InputMaybe<CategoryEntityInput[]>;
@@ -889,6 +958,14 @@ export enum PlaceStatusEnum {
 	Opened = "OPENED"
 }
 
+export interface PlaceToAccountingSystemEntity {
+	__typename?: "PlaceToAccountingSystemEntity";
+	accountingSystem: AccountingSystemEntity;
+	id: Scalars["String"];
+	place: PlaceEntity;
+	placeConfigFields?: Maybe<Scalars["JSONObject"]>;
+}
+
 export interface PlaceToPaymentSystemEntity {
 	__typename?: "PlaceToPaymentSystemEntity";
 	id: Scalars["String"];
@@ -908,8 +985,15 @@ export enum PlaceVerificationStatusEnum {
 	Verified = "VERIFIED"
 }
 
+export interface PosterAccessCodeInput {
+	code: Scalars["String"];
+	login: Scalars["String"];
+	placeId: Scalars["String"];
+}
+
 export interface ProductEntity {
 	__typename?: "ProductEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	attrsGroups?: Maybe<AttributesGroupEntity[]>;
 	category: CategoryEntity;
 	description?: Maybe<Scalars["String"]>;
@@ -921,6 +1005,7 @@ export interface ProductEntity {
 }
 
 export interface ProductEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	attrsGroups?: InputMaybe<AttributesGroupEntityInput[]>;
 	category: CategoryEntityInput;
 	description?: InputMaybe<Scalars["String"]>;
@@ -959,7 +1044,6 @@ export enum ProductToOrderPaidStatusEnum {
 }
 
 export enum ProductToOrderStatusEnum {
-	Added = "ADDED",
 	Approved = "APPROVED",
 	Rejected = "REJECTED",
 	WaitingForApprove = "WAITING_FOR_APPROVE"
@@ -980,7 +1064,6 @@ export interface Query {
 	commands: PaginatedCommand;
 	companies: PaginatedCompany;
 	company: CompanyEntity;
-	emitCommand: Scalars["String"];
 	getMe: AccessToken;
 	hall: HallEntity;
 	halls: PaginatedHall;
@@ -988,7 +1071,7 @@ export interface Query {
 	isTableAvailableForReserve: TableEntity;
 	language: LanguageEntity;
 	languages: LanguageEntity;
-	order: ActiveOrderEntity;
+	order?: Maybe<ActiveOrderEntity>;
 	orders: PaginatedActiveOrder;
 	paymentSystem: PaymentSystemEntity;
 	paymentSystems: PaginatedPaymentSystem;
@@ -1064,11 +1147,6 @@ export interface QueryCompanyArgs {
 	id: Scalars["String"];
 }
 
-export interface QueryEmitCommandArgs {
-	commandId: Scalars["String"];
-	tableId: Scalars["String"];
-}
-
 export interface QueryHallArgs {
 	id: Scalars["String"];
 }
@@ -1100,7 +1178,8 @@ export interface QueryLanguagesArgs {
 }
 
 export interface QueryOrderArgs {
-	id: Scalars["String"];
+	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
+	id?: InputMaybe<Scalars["String"]>;
 }
 
 export interface QueryOrdersArgs {
@@ -1170,12 +1249,6 @@ export interface QueryUsersArgs {
 	take?: InputMaybe<Scalars["Int"]>;
 }
 
-export interface RemoveProductFromOrderInput {
-	attrs?: InputMaybe<Scalars["String"][]>;
-	orderId: Scalars["String"];
-	productId: Scalars["String"];
-}
-
 export interface ResetPasswordInput {
 	password: Scalars["String"];
 }
@@ -1195,6 +1268,7 @@ export interface SignUpInput {
 
 export interface TableEntity {
 	__typename?: "TableEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	code: Scalars["Int"];
 	file?: Maybe<FileEntity>;
 	hall: HallEntity;
@@ -1205,6 +1279,7 @@ export interface TableEntity {
 }
 
 export interface TableEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	code: Scalars["Int"];
 	file?: InputMaybe<FileEntityInput>;
 	hall: HallEntityInput;
@@ -1237,8 +1312,9 @@ export enum ThemeEnum {
 }
 
 export interface UpdateAccountingSystemInput {
+	configFields?: InputMaybe<Scalars["JSONObject"]>;
 	id: Scalars["String"];
-	name: Scalars["String"];
+	name?: InputMaybe<Scalars["String"]>;
 }
 
 export interface UpdateAttributeGroupInput {
