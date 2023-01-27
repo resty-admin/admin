@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { AccountingSystemDialogComponent, AccountingSystemsService } from "@features/accounting-systems";
 import type { AccountingSystemEntity } from "@graphql";
 import type { AtLeast } from "@shared/interfaces";
@@ -8,7 +9,6 @@ import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
 import { ACCOUNTING_SYSTEMS_PAGE } from "../constants";
-import { AccountingSystemsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-accounting-systems",
@@ -18,14 +18,10 @@ import { AccountingSystemsPageGQL } from "../graphql";
 })
 export class AccountingSystemsComponent {
 	readonly accountingSystemsPage = ACCOUNTING_SYSTEMS_PAGE;
-	private readonly _accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
-
-	readonly accountingSystems$ = this._accountingSystemsPageQuery.valueChanges.pipe(
-		map((result) => result.data.accountingSystems.data)
-	);
+	readonly accountingSystems$ = this._activatedRoute.data.pipe(map((data) => data["accountingSystems"]));
 
 	constructor(
-		private readonly _accountingSystemsPageGQL: AccountingSystemsPageGQL,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _accountingSystemsService: AccountingSystemsService,

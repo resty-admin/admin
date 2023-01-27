@@ -1,10 +1,13 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.places-skeleton {
+	.history-orders-skeleton {
 		display: grid;
-		grid-gap: rem(12);
+		row-gap: rem(16);
 
 		@include pagePadding();
+		@include desktop() {
+			row-gap: rem(24);
+		}
 	}
 }

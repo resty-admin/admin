@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ADMIN_ROUTES } from "@shared/constants";
+import { SharedService } from "@shared/services";
 
 import { ROLE_PAGE } from "../constants";
 import { ROLES_DATA } from "../data";
@@ -15,7 +16,5 @@ export class RoleComponent {
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly roles = ROLES_DATA;
 
-	trackByFn(index: number) {
-		return index;
-	}
+	constructor(readonly sharedService: SharedService) {}
 }

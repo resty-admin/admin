@@ -77,7 +77,7 @@
 
 	<nav class="nav">
 		<ul class="pages">
-			<li class="page" *ngFor="let page of pages; trackBy: trackByFn">
+			<li class="page" *ngFor="let page of pages; trackBy: sharedService.trackByFn">
 				<a
 					appLink
 					class="link"

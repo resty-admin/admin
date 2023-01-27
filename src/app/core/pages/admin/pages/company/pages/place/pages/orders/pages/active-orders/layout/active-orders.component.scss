@@ -6,7 +6,7 @@
 		align-items: end;
 		grid-template-areas:
 			"filters filters"
-			"orders orders";
+			"list list";
 		row-gap: rem(16);
 		column-gap: rem(8);
 		grid-template-columns: 1fr auto;
@@ -14,7 +14,7 @@
 		@include desktop() {
 			grid-template-areas:
 				"filters filters add"
-				"orders orders orders";
+				"list list list";
 		}
 
 		.add {
@@ -25,55 +25,8 @@
 			grid-area: filters;
 		}
 
-		.orders {
-			grid-area: orders;
-			display: grid;
-			gap: rem(8);
-
-			@include desktop() {
-				grid-template-columns: 1fr 1fr 1fr;
-			}
-			.order .link {
-				display: block;
-				position: relative;
-				border-radius: rem(12);
-				background-color: var(--light-grey);
-				.image {
-					border-radius: rem(20) rem(20) 0 0;
-					width: 100%;
-					height: rem(160);
-					background-color: var(--dark);
-
-					@include image() {
-						border-radius: rem(12) rem(12) 0 0;
-					}
-				}
-
-				.info {
-					display: grid;
-					grid-template-areas: "code status";
-					row-gap: rem(6);
-					padding: rem(14) rem(16);
-					.code {
-						grid-area: code;
-						font-weight: 500;
-						font-size: rem(16);
-						line-height: rem(24);
-						color: var(--dark);
-					}
-					.status {
-						grid-area: status;
-						justify-self: end;
-						color: var(--grey);
-					}
-				}
-
-				.more {
-					position: absolute;
-					right: rem(15);
-					top: rem(15);
-				}
-			}
+		.list {
+			grid-area: list;
 		}
 	}
 }

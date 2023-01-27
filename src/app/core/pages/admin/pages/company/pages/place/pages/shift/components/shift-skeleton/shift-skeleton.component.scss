@@ -1,10 +1,88 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.places-skeleton {
+	.shift-skeleton {
 		display: grid;
-		grid-gap: rem(12);
+		align-items: center;
+		grid-template-areas:
+			"title close"
+			"subtitle subtitle"
+			"halls halls"
+			"tables-select tables-select";
+		grid-template-columns: 1fr auto;
+		grid-template-rows: auto auto auto 1fr;
+		position: relative;
+		height: 100%;
+		row-gap: rem(12);
+
+		.title {
+			grid-area: title;
+		}
+		.close {
+			grid-area: close;
+		}
+		.description {
+			grid-area: description;
+		}
+		.subtitle {
+			grid-area: subtitle;
+		}
+		.halls {
+			grid-area: halls;
+		}
+		.tables-select {
+			align-self: start;
+			grid-area: tables-select;
+		}
 
 		@include pagePadding();
+
+		.footer {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			padding: rem(16);
+			row-gap: rem(16);
+			border: rem(1) solid transparent;
+			background-color: var(--light-grey);
+			border-radius: rem(8);
+			display: grid;
+
+			@include desktop() {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				column-gap: rem(10);
+			}
+			.selected-tables {
+				flex: 1;
+				overflow: hidden;
+			}
+			.submit {
+				width: rem(130);
+				height: rem(50);
+			}
+		}
+	}
+}
+@include dark() {
+	.shift-page {
+		.description {
+			color: var(--light-t);
+			.time {
+				color: var(--light);
+			}
+		}
+		.subtitle {
+			color: var(--light);
+		}
+		.footer {
+			background-color: var(--dark-grey);
+
+			@include desktop() {
+				border-color: var(--light-t);
+			}
+		}
 	}
 }

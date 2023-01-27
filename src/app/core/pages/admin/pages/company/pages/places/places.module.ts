@@ -6,6 +6,7 @@ import { PipesModule } from "@shared/modules/pipes";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { PLACES_COMPONENTS } from "./components";
@@ -24,7 +25,8 @@ import { PLACES_PROVIDERS } from "./providers";
 		PipesModule,
 		TypographyModule,
 		I18nModule,
-		PlaceDialogModule
+		PlaceDialogModule,
+		SkeletonModule
 	],
 	providers: PLACES_PROVIDERS
 })

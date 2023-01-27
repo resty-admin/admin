@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChildrenOutletContexts } from "@angular/router";
+import { routerAnimation } from "@shared/animations";
 import { ADMIN_ROUTES } from "@shared/constants";
 
 import { MENU_PAGE } from "../constants";
@@ -7,6 +9,7 @@ import { MENU_PAGE } from "../constants";
 	selector: "app-menu",
 	templateUrl: "./menu.component.html",
 	styleUrls: ["./menu.component.scss"],
+	animations: [routerAnimation],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent {
@@ -25,4 +28,10 @@ export class MenuComponent {
 			routerLink: ADMIN_ROUTES.ATTRIBUTES.path
 		}
 	];
+
+	constructor(private readonly _childrenOutletContexts: ChildrenOutletContexts) {}
+
+	getRouteAnimationData() {
+		return this._childrenOutletContexts.getContext("primary")?.route?.snapshot?.data?.["animation"];
+	}
 }

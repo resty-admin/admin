@@ -1,12 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { AccountingSystemModule } from "@features/accounting-systems";
+import { AccountingSystemModule, AccountingSytemSkeletonModule } from "@features/accounting-systems";
 import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { FiltersModule } from "@shared/ui/filters";
+import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
+import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { AccountingSystemsRoutingModule } from "./accounting-systems-routing.module";
@@ -26,7 +29,11 @@ import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 		I18nModule,
 		FiltersModule,
 		ListModule,
-		AccountingSystemModule
+		AccountingSystemModule,
+		AccountingSytemSkeletonModule,
+		SkeletonModule,
+		FiltersSkeletonModule,
+		ListSkeletonModule
 	],
 	providers: ACCOUNTING_SYSTEMS_PROVIDERS
 })

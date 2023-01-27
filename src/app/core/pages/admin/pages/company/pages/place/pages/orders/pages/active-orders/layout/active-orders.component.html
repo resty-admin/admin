@@ -6,33 +6,11 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<ul class="orders">
-		<li class="order" *ngFor="let order of activeOrders$ | async; trackBy: trackByFn">
-			<a class="link" [routerLink]="order.id">
-				<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.name"></app-image>
-
-				<div class="info">
-					<p class="code">{{ order.code }}</p>
-					<p class="status">{{ order.status }}</p>
-				</div>
-
-				<button
-					appStopPropagation
-					appIconButton
-					class="more"
-					[tippy]="actionsTemplate"
-					[data]="order"
-					placement="left"
-					variation="popper"
-					theme="1"
-				>
-					<app-icon class="icon" name="more"></app-icon>
-				</button>
-			</a>
-		</li>
-	</ul>
+	<app-list class="list" [items]="activeOrders$ | async" [itemTemplate]="order"></app-list>
 </div>
 
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+<ng-template let-item #order>
+	<a class="link" [routerLink]="item.id">
+		<app-order [order]="item" [actions]="actions"></app-order>
+	</a>
 </ng-template>

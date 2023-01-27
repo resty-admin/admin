@@ -1,5 +1,6 @@
 import type { TemplateRef } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { SharedService } from "@shared/services";
 
 import type { IListItem } from "../interfaces";
 
@@ -16,9 +17,7 @@ export class ListComponent {
 
 	@Input() type: "button" | "link" = "button";
 
-	trackByFn(index: number) {
-		return index;
-	}
+	constructor(readonly sharedService: SharedService) {}
 
 	emitClick(item: unknown) {
 		this.clicked.emit(item);

@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import type { ActiveOrderEntity } from "@graphql";
@@ -27,11 +28,12 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
-	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
+	readonly order$ = this._activatedRoute.data.pipe(map((result) => result["order"]));
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -39,10 +41,6 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _ordersService: OrdersService,
 		private readonly _socketIoService: SocketIoService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async ngOnInit() {
 		const { companyId, placeId, orderId } = this._routerService.getParams();
@@ -79,7 +77,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	}
 
 	async setSelectedUsers(usersIds: string[]) {
-		const { productsToOrders } = (await lastValueFrom(this.order$.pipe(take(1)))) as any;
+		const { productsToOrders } = await lastValueFrom(this.order$.pipe(take(1)));
 
 		this.selectedProductsToOrders = (productsToOrders || [])
 			.filter((productToOrder: any) => usersIds.includes(productToOrder.user.id))
@@ -87,7 +85,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	}
 
 	async setSelectedProductsToOrders(productsToOrdersIds: string[]) {
-		const { productsToOrders, users } = (await lastValueFrom(this.order$.pipe(take(1)))) as any;
+		const { productsToOrders, users } = await lastValueFrom(this.order$.pipe(take(1)));
 
 		const productsByUser = (users || []).reduce(
 			(usersMap: any, user: any) => ({
@@ -126,6 +124,17 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	async cancelOrder(orderId: string) {
 		await lastValueFrom(this._ordersService.cancelOrder(orderId));
+
+		const companyId = this._routerService.getParams(COMPANY_ID.slice(1));
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId || !companyId) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.ACTIVE_ORDERS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+		);
 	}
 
 	ngOnDestroy() {

@@ -1,0 +1,17 @@
+@import "src/assets/scss/abstractions";
+
+ngx-skeleton-loader {
+	.skeleton-loader.circle {
+		margin: 0;
+	}
+	.skeleton-loader.progress {
+		border-radius: rem(5);
+		height: rem(15);
+		margin: 0;
+		background: var(--light) no-repeat;
+		&:before {
+			background-image:
+ linear-gradient(90deg, rgb(146 146 158 / 20%), rgb(146 146 158 / 10%), rgb(146 146 158 / 20%)) !important;
+		}
+	}
+}

@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { CategoriesService } from "@features/categories";
 import { CategoryDialogComponent } from "@features/categories/ui/category-dialog/layout/category-dialog.component";
@@ -11,6 +12,7 @@ import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
@@ -29,7 +31,8 @@ import { CategoriesPageGQL } from "../graphql";
 export class CategoriesComponent implements OnInit, OnDestroy {
 	readonly categoriesPage = CATEGORIES_PAGE;
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
-	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
+	readonly categories$ = this._activatedRoute.data.pipe(map((data) => data["categories"]));
+
 	readonly categoryActions: IAction<CategoryEntity>[] = [
 		{
 			label: "Редактировать",
@@ -57,6 +60,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 	];
 
 	constructor(
+		readonly sharedService: SharedService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _categoriesPageGQL: CategoriesPageGQL,
 		private readonly _categoriesService: CategoriesService,
 		private readonly _productsService: ProductsService,
@@ -66,10 +71,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async openCreateCategoryDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));

@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { CommandDialogComponent } from "@features/commands";
 import { CommandsService } from "@features/commands/services/commands/commands.service";
@@ -26,7 +27,7 @@ import { CommandsPageGQL } from "../graphql";
 export class CommandsComponent implements OnInit, OnDestroy {
 	readonly commandsPage = COMMANDS_PAGE;
 	private readonly _commandsPageQuery = this._commandsPageGQL.watch();
-	readonly commands$ = this._commandsPageQuery.valueChanges.pipe(map((result) => result.data.commands.data));
+	readonly commands$ = this._activatedRoute.data.pipe(map((data) => data["commands"]));
 
 	readonly actions: IAction<CommandEntity>[] = [
 		{
@@ -42,6 +43,7 @@ export class CommandsComponent implements OnInit, OnDestroy {
 	];
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _routerService: RouterService,
 		private readonly _commandsPageGQL: CommandsPageGQL,
 		private readonly _commandsService: CommandsService,
@@ -61,10 +63,6 @@ export class CommandsComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({
 			label: "Добавить команлу",
 			func: () => this.openCreateCommandDialog()
-		});
-
-		await this._commandsPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 		});
 	}
 

@@ -1,5 +1,5 @@
 <ul class="app-tabs">
-	<li class="tab" *ngFor="let tab of tabs; trackBy: trackByFn">
+	<li class="tab" *ngFor="let tab of tabs; trackBy: sharedService.trackByFn">
 		<a class="link" [routerLink]="tab.routerLink" routerLinkActive="active">{{ tab.label }}</a>
 	</li>
 </ul>

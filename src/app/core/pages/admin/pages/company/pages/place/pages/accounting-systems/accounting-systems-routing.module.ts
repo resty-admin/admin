@@ -15,7 +15,7 @@ export const ACCOUNTING_SYSTEMS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: ACCOUNTING_SYSTEMS_PAGE
 		},
 		resolve: {
-			places: AccountingSystemsResolver
+			accountingSystems: AccountingSystemsResolver
 		},
 		skeleton: {
 			component: AccountingSystemsSkeletonComponent

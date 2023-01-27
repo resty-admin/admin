@@ -7,9 +7,9 @@ import { HistoryOrdersPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class HistoryOrdersResolver implements Resolve<any> {
-	constructor(private _placesPageGQL: HistoryOrdersPageGQL) {}
+	constructor(private _historyOrdersPageGQL: HistoryOrdersPageGQL) {}
 
 	resolve(): Observable<any> {
-		return this._placesPageGQL.watch().valueChanges.pipe(map((result) => result.data.historyOrders.data));
+		return this._historyOrdersPageGQL.watch().valueChanges.pipe(map((result) => result.data.historyOrders.data));
 	}
 }

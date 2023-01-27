@@ -1,0 +1,27 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-tabs-skeleton {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		@include desktop() {
+			width: auto;
+			border-bottom: transparent;
+		}
+		.tab {
+			flex: 1;
+			.link {
+				width: 100%;
+				height: rem(44);
+
+				@include desktop() {
+					font-size: rem(20);
+					line-height: rem(32);
+				}
+			}
+		}
+	}
+}

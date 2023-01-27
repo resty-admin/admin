@@ -4,6 +4,7 @@ import type { HistoryOrderEntity } from "@graphql";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import type { IDatatableColumn } from "@shared/ui/datatable";
 import { map } from "rxjs";
 
@@ -24,13 +25,10 @@ export class HistoryOrdersComponent implements AfterViewInit, OnInit {
 	columns: IDatatableColumn[] = [];
 
 	constructor(
+		readonly sharedService: SharedService,
 		private readonly _historyOrdersPageGQL: HistoryOrdersPageGQL,
 		private readonly _routerService: RouterService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async navigateToHitoryOrder(event: AtLeast<HistoryOrderEntity, "id">) {
 		const { companyId, placeId } = this._routerService.getParams();

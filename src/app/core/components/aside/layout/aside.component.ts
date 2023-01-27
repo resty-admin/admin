@@ -6,6 +6,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
 import { skip } from "rxjs";
 
@@ -45,6 +46,8 @@ export class AsideComponent implements OnInit, OnChanges {
 
 	pages: IAsidePage[] = [];
 
+	constructor(readonly sharedService: SharedService) {}
+
 	ngOnChanges(changes: ISimpleChanges<AsideComponent>) {
 		if (changes.activeCompanyId) {
 			this.companyControl.setValue(changes.activeCompanyId.currentValue || undefined, { emitValue: false });
@@ -67,10 +70,6 @@ export class AsideComponent implements OnInit, OnChanges {
 
 	getPlace(id: string) {
 		return this.places?.find((place) => place.id === id) as PlaceEntity;
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	ngOnInit() {

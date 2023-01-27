@@ -1,1 +1,1 @@
-export * from "./product-to-order.interface";
+export * from "./product-to-order-input.interface";

@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { OrderDialogComponent } from "@features/orders/ui";
@@ -27,7 +28,7 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly activeOrdersPage = ACTIVE_ORDERS_PAGE;
 	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
-	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders.data));
+	readonly activeOrders$ = this._activatedRoute.data.pipe(map((data) => data["orders"]));
 
 	readonly actions: IAction<ActiveOrderEntity>[] = [
 		{
@@ -48,6 +49,7 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	];
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _routerService: RouterService,
@@ -56,10 +58,6 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async openCreateOrderDialog() {
 		const place = this._routerService.getParams(PLACE_ID.slice(1));

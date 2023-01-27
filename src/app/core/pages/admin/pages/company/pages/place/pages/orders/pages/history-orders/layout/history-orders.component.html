@@ -9,7 +9,7 @@
 	></app-datatable>
 
 	<ul class="datatable-mobile">
-		<li class="order" *ngFor="let order of allOrders$ | async; trackBy: trackByFn">
+		<li class="order" *ngFor="let order of allOrders$ | async; trackBy: sharedService.trackByFn">
 			<p class="code">{{ t("code") }} {{ order.orderNumber }}</p>
 
 			<p class="date-label">{{ t("date") }}</p>

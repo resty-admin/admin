@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { AttributeGroupsService, AttributesService } from "@features/attributes";
 import { AttributeDialogComponent } from "@features/attributes/ui/attribute-dialog/layout/attribute-dialog.component";
@@ -9,6 +10,7 @@ import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
@@ -27,9 +29,7 @@ import { AttributesPageGQL } from "../graphql";
 export class AttributesComponent implements OnInit, OnDestroy {
 	readonly attributesPage = ATTRIBUTES_PAGE;
 	private readonly _attributesPageQuery = this._attributesPageGQL.watch();
-	readonly attributeGroups$ = this._attributesPageQuery.valueChanges.pipe(
-		map((result) => result.data.attributeGroups.data)
-	);
+	readonly attributeGroups$ = this._activatedRoute.data.pipe(map((data) => data["attributeGroups"]));
 
 	readonly attributesGroupActions: IAction<AttributesGroupEntity>[] = [
 		{
@@ -58,6 +58,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 	];
 
 	constructor(
+		readonly sharedService: SharedService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _attributesPageGQL: AttributesPageGQL,
 		private readonly _attributeGroupsService: AttributeGroupsService,
 		private readonly _attributesService: AttributesService,
@@ -67,10 +69,6 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));

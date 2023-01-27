@@ -15,7 +15,7 @@ export const TABLES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: TABLES_PAGE
 		},
 		resolve: {
-			places: TablesResolver
+			tables: TablesResolver
 		},
 		skeleton: {
 			component: TablesSkeletonComponent

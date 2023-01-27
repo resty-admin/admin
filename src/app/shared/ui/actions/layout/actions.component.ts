@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { SharedService } from "@shared/services";
 
 import type { IAction } from "../interfaces";
 
@@ -13,7 +14,5 @@ export class ActionsComponent<T> {
 	@Input() data!: T;
 	@Input() additionalFunc = () => undefined;
 
-	trackByFn(index: number) {
-		return index;
-	}
+	constructor(readonly sharedService: SharedService) {}
 }

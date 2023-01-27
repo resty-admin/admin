@@ -1,10 +1,59 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.companies-skeleton {
-		display: grid;
-		grid-gap: rem(12);
+	.companies-page-skeleton {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-		@include pagePadding();
+		.image {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 80%;
+		}
+
+		.card {
+			z-index: 1;
+			width: 90%;
+			border-radius: rem(16);
+			padding: rem(39);
+			text-align: center;
+			background-color: var(--light);
+			display: grid;
+			row-gap: rem(30);
+
+			@include desktop() {
+				width: rem(620);
+				padding: rem(82) rem(100);
+			}
+
+			.companies {
+				display: flex;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: rem(16);
+				.company .link {
+					width: rem(72);
+					height: rem(72);
+					border-radius: rem(16);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					border: rem(2) solid transparent;
+
+					@include desktop() {
+						width: rem(128);
+						height: rem(128);
+					}
+				}
+			}
+		}
 	}
+}
+@include dark() {
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { SharedService } from "@shared/services";
 
 import type { ITableToSelect } from "../interfaces";
 
@@ -12,9 +13,7 @@ export class SelectedTablesComponent {
 	@Output() selectedTablesChange = new EventEmitter<ITableToSelect[]>();
 	@Input() selectedTables?: ITableToSelect[] | null;
 
-	trackByFn(index: number) {
-		return index;
-	}
+	constructor(readonly sharedService: SharedService) {}
 
 	emitRemoveClick(selectedTable: ITableToSelect) {
 		this.selectedTablesChange.emit((this.selectedTables || []).filter((table) => table.id !== selectedTable.id));

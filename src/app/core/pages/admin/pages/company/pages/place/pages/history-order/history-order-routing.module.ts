@@ -15,7 +15,7 @@ export const HISTORY_ORDER_ROUTES: INavigationSkeletonRoute[] = [
 			animation: HISTORY_ORDER_PAGE
 		},
 		resolve: {
-			places: HistoryOrderResolver
+			order: HistoryOrderResolver
 		},
 		skeleton: {
 			component: HistoryOrderSkeletonComponent

@@ -87,6 +87,9 @@
 							&.description-value {
 								color: var(--dark-t);
 							}
+							&.price-value {
+								justify-self: end;
+							}
 						}
 
 						.more {
@@ -100,6 +103,8 @@
 							padding: rem(10) rem(8) rem(10) rem(24);
 							grid-auto-flow: column;
 							justify-content: space-between;
+							column-gap: rem(12);
+							grid-template-columns: auto 1fr auto auto;
 							.more {
 								position: static;
 							}

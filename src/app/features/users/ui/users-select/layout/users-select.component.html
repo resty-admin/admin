@@ -3,7 +3,7 @@
 		<li class="user">
 			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
 		</li>
-		<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: trackByFn">
+		<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: sharedService.trackByFn">
 			<input
 				class="checkbox"
 				type="checkbox"

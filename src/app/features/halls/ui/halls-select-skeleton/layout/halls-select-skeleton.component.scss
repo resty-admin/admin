@@ -1,0 +1,17 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.halls-select-skeleton .halls {
+		display: flex;
+		column-gap: rem(12);
+		.hall {
+			width: rem(80);
+			height: rem(36);
+		}
+	}
+}
+@include dark() {
+	.halls-select .halls .hall .label {
+		color: var(--light);
+	}
+}

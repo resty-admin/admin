@@ -2,6 +2,7 @@ import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { HALLS_SELECT } from "@features/halls/ui/halls-select/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { SharedService } from "@shared/services";
 
 import type { IHallToSelect } from "../interfaces";
 
@@ -20,6 +21,8 @@ export class HallsSelectComponent implements OnChanges {
 	hallsWithSelected: (IHallToSelect & { selected: boolean })[] = [];
 
 	isAll: boolean = false;
+
+	constructor(readonly sharedService: SharedService) {}
 
 	toggleAll() {
 		this.isAll = !this.isAll;
@@ -45,10 +48,6 @@ export class HallsSelectComponent implements OnChanges {
 		const selectedHalls = this.hallsWithSelected.filter((hall) => hall.selected).map((hall) => hall.id);
 
 		this.isAll = selectedHalls.length === (this.halls || []).length;
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	emitChange() {

@@ -6,11 +6,11 @@
 
 	<app-filters class="filters"></app-filters>
 	<!--desktop-->
-	<app-datatable class="datatable-desktop" [rows]="users$ | async" [columns]="columns"></app-datatable>
+	<app-datatable class="datatable-desktop" [rows]="employees$ | async" [columns]="columns"></app-datatable>
 
 	<!--mobile-->
 	<ul class="datatable-mobile">
-		<li class="user" *ngFor="let user of users$ | async; trackBy: trackByFn">
+		<li class="user" *ngFor="let user of employees$ | async; trackBy: sharedService.trackByFn">
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: user }"></ng-container>
 
 			<p class="name-label">{{ t("DATATABLE.NAME") }}</p>

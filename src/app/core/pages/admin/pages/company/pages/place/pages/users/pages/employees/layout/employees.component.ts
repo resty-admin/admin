@@ -1,15 +1,16 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { UsersService } from "@features/users";
 import { AddEmployeeDialogComponent, UserDialogComponent } from "@features/users/ui";
 import type { UserEntity } from "@graphql";
-import { UserRoleEnum } from "@graphql";
 import type { DeepPartial } from "@ngneat/reactive-forms/lib/types";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import type { IDatatableColumn } from "@shared/ui/datatable";
@@ -33,7 +34,7 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
 
-	readonly users$ = this._employeesPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
+	readonly employees$ = this._activatedRoute.data.pipe(map((data) => data["employees"]));
 
 	readonly actions: IAction<UserEntity>[] = [
 		{
@@ -51,6 +52,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 	columns: IDatatableColumn[] = [];
 
 	constructor(
+		readonly sharedService: SharedService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _employeesPageGQL: EmployeesPageGQL,
 		private readonly _usersService: UsersService,
 		private readonly _routerService: RouterService,
@@ -60,27 +63,10 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 		private readonly _i18nService: I18nService
 	) {}
 
-	trackByFn(index: number) {
-		return index;
-	}
-
-	async ngOnInit() {
-		const { placeId } = this._routerService.getParams();
-
-		if (!placeId) {
-			return;
-		}
-
+	ngOnInit() {
 		this._actionsService.setAction({
 			label: "Добавить работника",
 			func: () => this.openCreateUserDialog()
-		});
-
-		await this._employeesPageQuery.setVariables({
-			filtersArgs: [
-				{ key: "place.id", operator: "=", value: placeId },
-				{ key: "role", operator: "=", value: UserRoleEnum.Waiter }
-			]
 		});
 	}
 

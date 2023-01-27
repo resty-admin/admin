@@ -1,0 +1,22 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	width: 100%;
+	overflow: hidden;
+	.users-select-skeleton {
+		display: flex;
+		overflow: auto;
+		.users {
+			display: flex;
+			column-gap: rem(5);
+			.user {
+				position: relative;
+				padding: rem(3) 0;
+				width: rem(120);
+				height: rem(42);
+			}
+		}
+	}
+}
+@include dark() {
+}

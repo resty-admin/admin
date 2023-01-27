@@ -5,9 +5,14 @@ import { TranslocoModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
+import { DatatableSkeletonModule } from "@shared/ui/datatable-skeleton";
 import { FiltersModule } from "@shared/ui/filters";
+import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { InputModule } from "@shared/ui/input";
+import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
 
 import { HISTORY_ORDERS_COMPONENTS } from "./components";
@@ -28,7 +33,12 @@ import { HISTORY_ORDERS_PROVIDERS } from "./providers";
 		ActionsModule,
 		TranslocoModule,
 		FiltersModule,
-		OrderDialogModule
+		OrderDialogModule,
+		SkeletonModule,
+		TabsSkeletonModule,
+		FiltersSkeletonModule,
+		ListSkeletonModule,
+		DatatableSkeletonModule
 	],
 	providers: HISTORY_ORDERS_PROVIDERS
 })

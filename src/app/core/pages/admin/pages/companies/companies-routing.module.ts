@@ -15,7 +15,7 @@ export const COMPNAIES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: COMPANIES_PAGE
 		},
 		resolve: {
-			places: CompaniesResolver
+			companies: CompaniesResolver
 		},
 		skeleton: {
 			component: CompaniesSkeletonComponent

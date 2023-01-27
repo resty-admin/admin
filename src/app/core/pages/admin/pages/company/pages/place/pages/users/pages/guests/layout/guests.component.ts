@@ -1,13 +1,12 @@
-import type { AfterViewInit, OnInit } from "@angular/core";
+import type { AfterViewInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { UsersService } from "@features/users";
 import { UserDialogComponent } from "@features/users/ui";
 import type { UserEntity } from "@graphql";
-import { UserRoleEnum } from "@graphql";
-import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
-import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import type { IDatatableColumn } from "@shared/ui/datatable";
@@ -24,13 +23,14 @@ import { GuestsPageGQL } from "../graphql";
 	styleUrls: ["./guests.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GuestsComponent implements OnInit, AfterViewInit {
+export class GuestsComponent implements AfterViewInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
 	readonly guestsPage = GUESTS_PAGE;
 
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
-	readonly users$ = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
+	readonly guests$ = this._activatedRoute.data.pipe(map((data) => data["guests"]));
+
 	readonly actions: IAction<UserEntity>[] = [
 		{
 			label: "Редактировать",
@@ -47,32 +47,14 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 	columns: IDatatableColumn[] = [];
 
 	constructor(
+		readonly sharedService: SharedService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _usersService: UsersService,
-		private readonly _routerService: RouterService,
 		private readonly _guestsPageGQL: GuestsPageGQL,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
-
-	async ngOnInit() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
-			return;
-		}
-
-		await this._guestsPageQuery.setVariables({
-			filtersArgs: [
-				{ key: "place.id", operator: "=", value: placeId },
-				{ key: "role", operator: "=", value: UserRoleEnum.Client }
-			]
-		});
-	}
 
 	ngAfterViewInit() {
 		this.columns = [

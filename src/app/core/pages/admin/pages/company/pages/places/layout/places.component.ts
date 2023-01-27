@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { PlacesService } from "@features/places";
 import { PlaceDialogComponent } from "@features/places/ui/place-dialog/layout/place-dialog.component";
 import type { PlaceEntity } from "@graphql";
@@ -7,6 +8,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
@@ -24,9 +26,11 @@ import { PlacesPageGQL } from "../graphql";
 export class PlacesComponent implements OnInit {
 	readonly placesPage = PLACES_PAGE;
 	private readonly _placesPageQuery = this._placesPageGQL.watch();
-	readonly places$ = this._placesPageQuery.valueChanges.pipe(map((result) => result.data.places.data));
+	readonly places$ = this._activatedRoute.data.pipe(map((data) => data["places"]));
 
 	constructor(
+		readonly sharedService: SharedService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _placesPageGQL: PlacesPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _placesService: PlacesService,
@@ -34,10 +38,6 @@ export class PlacesComponent implements OnInit {
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async ngOnInit() {
 		this._placesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {

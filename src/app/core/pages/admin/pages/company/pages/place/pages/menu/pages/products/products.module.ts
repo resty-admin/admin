@@ -7,12 +7,16 @@ import { TranslocoModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
+import { DatatableSkeletonModule } from "@shared/ui/datatable-skeleton";
 import { FileModule } from "@shared/ui/file";
 import { FiltersModule } from "@shared/ui/filters";
+import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { SelectModule } from "@shared/ui/select";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -40,7 +44,11 @@ import { PRODUCTS_PROVIDERS } from "./providers";
 		FiltersModule,
 		ProductDialogModule,
 		CategoryDialogModule,
-		AttributeGroupDialogModule
+		AttributeGroupDialogModule,
+		SkeletonModule,
+		FiltersSkeletonModule,
+		DatatableSkeletonModule,
+		TabsSkeletonModule
 	],
 	providers: PRODUCTS_PROVIDERS
 })

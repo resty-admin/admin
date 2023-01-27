@@ -1,6 +1,6 @@
 <div class="tables-select">
 	<ul class="tables">
-		<li class="table" *ngFor="let table of tablesWithSelected; let i = index; trackBy: trackByFn">
+		<li class="table" *ngFor="let table of tablesWithSelected; let i = index; trackBy: sharedService.trackByFn">
 			<input
 				class="input"
 				type="checkbox"

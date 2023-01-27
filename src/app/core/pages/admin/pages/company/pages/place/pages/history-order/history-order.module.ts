@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { OrderInfoModule } from "@features/orders/ui";
-import { ProductToOrderSelectModule } from "@features/products/ui";
+import { ProductsToOrderSelectModule } from "@features/products/ui";
 import { ProductToOrderModule } from "@features/products/ui/product-to-order";
 import { PreviewTableModule } from "@features/tables/ui";
 import { UsersSelectModule } from "@features/users/ui/users-select/users-select.module";
@@ -28,7 +28,7 @@ import { HISTORY_ORDER_PROVIDERS } from "./providers";
 		ReactiveFormsModule,
 		ImageModule,
 		IconModule,
-		ProductToOrderSelectModule,
+		ProductsToOrderSelectModule,
 		PreviewTableModule,
 		ButtonModule,
 		OrderInfoModule,

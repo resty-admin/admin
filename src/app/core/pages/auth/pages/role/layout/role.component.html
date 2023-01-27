@@ -4,7 +4,7 @@
 	<h1 class="title">{{ t("title") }}</h1>
 
 	<ul class="roles">
-		<li class="role" *ngFor="let role of roles; trackBy: trackByFn">
+		<li class="role" *ngFor="let role of roles; trackBy: sharedService.trackByFn">
 			<a class="role-link" [routerLink]="adminRoutes.SIGN_UP.absolutePath" [queryParams]="{ role: role.value }">
 				<span class="label">{{ role.label }}</span>
 				<span class="description">{{ role.description }}</span>

@@ -1,4 +1,6 @@
 {
 	"add": "Connect accounting system",
-	"connect": "Connect"
+	"connect": "Connect",
+	"table": "Table",
+	"date": "Date"
 }

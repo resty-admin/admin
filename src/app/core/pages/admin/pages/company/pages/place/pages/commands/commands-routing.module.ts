@@ -15,7 +15,7 @@ export const COMMANDS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: COMMANDS_PAGE
 		},
 		resolve: {
-			places: CommandsResolver
+			commands: CommandsResolver
 		},
 		skeleton: {
 			component: CommandsSkeletonComponent

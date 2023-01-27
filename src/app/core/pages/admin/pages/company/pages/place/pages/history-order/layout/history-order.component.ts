@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { ProductToOrderStatusEnum } from "@graphql";
@@ -28,9 +29,10 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 	readonly productsControl = new FormControl();
 	readonly usersControl = new FormControl<string[]>();
 	private readonly _activeOrderPageQuery = this._historyOrderPageGQL.watch();
-	readonly order$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
+	readonly order$ = this._activatedRoute.data.pipe(map((result) => result["data"]));
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
@@ -68,10 +70,6 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 		await lastValueFrom(this._ordersService.rejectProductsInOrder(productsToOrdersIds));
 
 		await this._activeOrderPageQuery.refetch();
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	async ngOnInit() {

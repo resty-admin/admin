@@ -1,0 +1,15 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.datatable-skeleton {
+		display: grid;
+		row-gap: rem(12);
+		.header {
+			height: rem(28);
+		}
+
+		.row {
+			height: rem(56);
+		}
+	}
+}

@@ -7,9 +7,9 @@ import { PaymentSystemsPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class PaymentSystemsResolver implements Resolve<any> {
-	constructor(private _placesPageGQL: PaymentSystemsPageGQL) {}
+	constructor(private _paymentSystemsPageGQL: PaymentSystemsPageGQL) {}
 
 	resolve(): Observable<any> {
-		return this._placesPageGQL.watch().valueChanges.pipe(map((result) => result.data.paymentSystems.data));
+		return this._paymentSystemsPageGQL.watch().valueChanges.pipe(map((result) => result.data.paymentSystems.data));
 	}
 }

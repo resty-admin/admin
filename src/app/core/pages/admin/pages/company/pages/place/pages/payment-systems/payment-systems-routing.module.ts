@@ -15,7 +15,7 @@ export const PAYMENT_SYSTEMS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: PAYMENT_SYSTEMS_PAGE
 		},
 		resolve: {
-			places: PaymentSystemsResolver
+			paymentSystems: PaymentSystemsResolver
 		},
 		skeleton: {
 			component: PaymentSystemsSkeletonComponent

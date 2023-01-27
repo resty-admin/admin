@@ -7,6 +7,7 @@ import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -28,7 +29,8 @@ import { WalletRoutingModule } from "./wallet-routing.module";
 		ImageModule,
 		TooltipModule,
 		ActionsModule,
-		TranslocoModule
+		TranslocoModule,
+		SkeletonModule
 	],
 	providers: WALLET_PROVIDERS
 })

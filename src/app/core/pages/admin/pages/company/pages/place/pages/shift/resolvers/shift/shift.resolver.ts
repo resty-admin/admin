@@ -7,9 +7,9 @@ import { ShiftHallsGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class ShiftResolver implements Resolve<any> {
-	constructor(private _placesPageGQL: ShiftHallsGQL) {}
+	constructor(private _shiftHallsGQL: ShiftHallsGQL) {}
 
 	resolve(): Observable<any> {
-		return this._placesPageGQL.watch().valueChanges.pipe(map((result) => result.data.halls.data));
+		return this._shiftHallsGQL.watch().valueChanges.pipe(map((result) => result.data.halls.data));
 	}
 }

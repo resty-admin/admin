@@ -7,6 +7,7 @@ import { DatatableModule } from "@shared/ui/datatable";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { STATISTIC_COMPONENTS } from "./components";
@@ -26,7 +27,8 @@ import { StatisticRoutingModule } from "./statistic-routing.module";
 		ButtonModule,
 		IconModule,
 		ImageModule,
-		I18nModule
+		I18nModule,
+		SkeletonModule
 	],
 	providers: STATISTIC_PROVIDERS
 })

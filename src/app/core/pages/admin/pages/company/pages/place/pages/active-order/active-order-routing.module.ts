@@ -15,7 +15,7 @@ export const ACTIVE_ORDER_ROUTES: INavigationSkeletonRoute[] = [
 			animation: ACTIVE_ORDER_PAGE
 		},
 		resolve: {
-			places: ActiveOrderResolver
+			order: ActiveOrderResolver
 		},
 		skeleton: {
 			component: ActiveOrderSkeletonComponent

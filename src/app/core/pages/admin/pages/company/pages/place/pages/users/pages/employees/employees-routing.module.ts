@@ -15,7 +15,7 @@ export const EMPLOYEES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: EMPLOYEES_PAGE
 		},
 		resolve: {
-			places: EmployeesResolver
+			employees: EmployeesResolver
 		},
 		skeleton: {
 			component: EmployeesSkeletonComponent

@@ -4,6 +4,7 @@ import { ControlValueAccessor } from "@shared/classes";
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import { getControlValueAccessorProviders } from "@shared/functions";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { SharedService } from "@shared/services";
 
 import type { IMultipleCheckboxOption } from "../interfaces";
 import { IMultipleCheckboxTheme } from "../interfaces";
@@ -22,8 +23,8 @@ export class MultipleCheckboxComponent extends ControlValueAccessor<string> impl
 
 	className = `app-multiple-checkbox ${THEME.replace(ANY_SYMBOL, this.theme)}`;
 
-	trackByFn(index: number) {
-		return index;
+	constructor(readonly sharedService: SharedService) {
+		super("");
 	}
 
 	override ngOnChanges(changes: ISimpleChanges<MultipleCheckboxComponent>) {

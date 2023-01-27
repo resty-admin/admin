@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "@features/tables";
 import type { TableEntity } from "@graphql";
@@ -26,7 +27,8 @@ import { TablesPageGQL } from "../graphql";
 export class TablesComponent implements OnInit, OnDestroy {
 	readonly tablesPage = TABLES_PAGE;
 	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
-	readonly tables$ = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
+	readonly tables$ = this._activatedRoute.data.pipe(map((data) => data["tables"]));
+
 	readonly actions: IAction<TableEntity>[] = [
 		{
 			label: "Редактировать",
@@ -41,6 +43,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 	];
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _tablesPageGQL: TablesPageGQL,
 		private readonly _tablesService: TablesService,
 		private readonly _routerService: RouterService,

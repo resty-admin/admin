@@ -3,7 +3,7 @@
 
 	<app-tabs class="tabs" [tabs]="pages"></app-tabs>
 
-	<div class="pages">
+	<div class="pages" [@routeAnimations]="getRouteAnimationData()">
 		<router-outlet></router-outlet>
 	</div>
 </div>

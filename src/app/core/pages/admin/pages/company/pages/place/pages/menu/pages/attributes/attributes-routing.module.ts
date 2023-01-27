@@ -15,7 +15,7 @@ export const ATTRIBUTES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: ATTRIBUTES_PAGE
 		},
 		resolve: {
-			places: AttriburesResolver
+			attributeGroups: AttriburesResolver
 		},
 		skeleton: {
 			component: AttributesSkeletonComponent

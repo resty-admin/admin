@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.products-to-orders-select {
+	.products-to-order-select {
 		display: grid;
 		row-gap: rem(12);
 		.products-to-orders-by-status {

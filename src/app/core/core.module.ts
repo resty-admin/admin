@@ -15,12 +15,14 @@ import { StoreModule } from "@shared/modules/store";
 import { ThemeModule } from "@shared/modules/theme";
 import { ActionsModule } from "@shared/ui/actions";
 import { ActiveOrderModule } from "@shared/ui/active-order";
+import { ButtonModule } from "@shared/ui/button";
 import { CodeInputModule } from "@shared/ui/code-input";
 import { DatatableModule } from "@shared/ui/datatable";
 import { DialogModule } from "@shared/ui/dialog";
 import { FileModule } from "@shared/ui/file";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
+import { LinkModule } from "@shared/ui/link";
 import { NavigationSkeletonModule } from "@shared/ui/navigation-skeleton";
 import { ProgressBarModule } from "@shared/ui/progress-bar";
 import { SelectModule } from "@shared/ui/select";
@@ -80,7 +82,9 @@ import { CORE_PAGE_PROVIDERS } from "./providers";
 		ActionsModule,
 		PipesModule,
 		ActiveOrderModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		ButtonModule,
+		LinkModule
 	],
 	providers: CORE_PAGE_PROVIDERS,
 	exports: [CoreComponent]

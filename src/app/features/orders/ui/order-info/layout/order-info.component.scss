@@ -12,7 +12,7 @@
 		}
 
 		.links {
-			display: flex;
+			display: grid;
 			column-gap: rem(15);
 			.date,
 			.table {

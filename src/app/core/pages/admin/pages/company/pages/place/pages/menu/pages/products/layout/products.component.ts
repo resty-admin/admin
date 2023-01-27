@@ -1,5 +1,6 @@
 import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { ProductsService } from "@features/products";
 import { ProductDialogComponent } from "@features/products/ui";
@@ -8,6 +9,7 @@ import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import type { IDatatableColumn } from "@shared/ui/datatable";
@@ -30,7 +32,7 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 	readonly productsPage = PRODUCTS_PAGE;
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 
-	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
+	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
 
 	readonly actions: IAction<ProductEntity>[] = [
 		{
@@ -48,6 +50,8 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 	columns: IDatatableColumn[] = [];
 
 	constructor(
+		readonly sharedService: SharedService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _productsPageGQL: ProductsPageGQL,
 		private readonly _productsService: ProductsService,
 		private readonly _routerService: RouterService,
@@ -56,10 +60,6 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
-
-	trackByFn(index: number) {
-		return index;
-	}
 
 	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));

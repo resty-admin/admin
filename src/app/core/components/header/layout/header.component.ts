@@ -29,7 +29,7 @@ export class HeaderComponent implements OnChanges {
 
 	ngOnChanges(changes: ISimpleChanges<HeaderComponent>) {
 		if (changes.activeOrder && changes.activeOrder.currentValue) {
-			const { companyId, placeId, orderId } = this._routerService.getParams();
+			const { companyId, placeId, orderId } = this._routerService.getParams() || {};
 
 			this.activeOrderLink = ADMIN_ROUTES.ACTIVE_ORDER.absolutePath
 				.replace(COMPANY_ID, companyId)

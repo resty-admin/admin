@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { SharedService } from "@shared/services";
 
 import type { ITab } from "../interfaces";
 
@@ -11,7 +12,5 @@ import type { ITab } from "../interfaces";
 export class TabsComponent {
 	@Input() tabs: ITab[] = [];
 
-	trackByFn(index: number) {
-		return index;
-	}
+	constructor(readonly sharedService: SharedService) {}
 }

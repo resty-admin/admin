@@ -1,4 +1,5 @@
 {
-	"add": "Connect accounting system",
-	"connect": "Connect"
+	"WAITING_FOR_APPROVE": "Waiting for approve",
+	"APPROVED": "Approved",
+	"REJECTED": "Rejected"
 }

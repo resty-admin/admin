@@ -1,5 +1,6 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { HallDialogComponent, HallsService } from "@features/halls";
 import type { HallEntity } from "@graphql";
@@ -25,10 +26,7 @@ import { HallsPageGQL } from "../graphql";
 export class HallsComponent implements OnInit, OnDestroy {
 	readonly hallsPage = HALLS_PAGE;
 	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
-	readonly halls$ = this._hallsPageQuery.valueChanges.pipe(
-		map((result) => result.data.halls.data),
-		map((halls) => halls?.map((hall) => ({ ...hall, routerLink: hall.id })))
-	);
+	readonly halls$ = this._activatedRoute.data.pipe(map((data) => data["halls"]));
 
 	readonly actions: IAction<HallEntity>[] = [
 		{
@@ -44,6 +42,7 @@ export class HallsComponent implements OnInit, OnDestroy {
 	];
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _hallsPageGQL: HallsPageGQL,
 		private readonly _hallsService: HallsService,
 		private readonly _routerService: RouterService,

@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.shift-page {
+	.shift {
 		display: grid;
 		align-items: center;
 		grid-template-areas:

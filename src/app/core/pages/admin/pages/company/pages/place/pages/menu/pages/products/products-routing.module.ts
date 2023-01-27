@@ -15,7 +15,7 @@ export const PRODUCTS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: PRODUCTS_PAGE
 		},
 		resolve: {
-			places: ProductsResolver
+			products: ProductsResolver
 		},
 		skeleton: {
 			component: ProductsSkeletonComponent

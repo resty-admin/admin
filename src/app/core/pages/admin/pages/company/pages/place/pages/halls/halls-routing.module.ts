@@ -15,7 +15,7 @@ export const HALLS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: HALLS_PAGE
 		},
 		resolve: {
-			places: HallsResolver
+			halls: HallsResolver
 		},
 		skeleton: {
 			component: HallsSkeletonComponent

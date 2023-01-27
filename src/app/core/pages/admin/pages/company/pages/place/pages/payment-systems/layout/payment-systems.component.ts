@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { PaymentSystemDialogComponent, PaymentSystemsService } from "@features/payment-systems";
 import type { PaymentSystemEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
@@ -10,7 +11,6 @@ import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
 import { PAYMENT_SYSTEMS_PAGE } from "../constants";
-import { PaymentSystemsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-payment-systems",
@@ -20,13 +20,10 @@ import { PaymentSystemsPageGQL } from "../graphql";
 })
 export class PaymentSystemsComponent {
 	readonly paymentSystemsPage = PAYMENT_SYSTEMS_PAGE;
-
-	readonly paymentSystems$ = this._paymentSystemsPage
-		.watch()
-		.valueChanges.pipe(map((result) => result.data.paymentSystems.data));
+	readonly paymentSystems$ = this._activatedRoute.data.pipe(map((data) => data["paymentSystems"]));
 
 	constructor(
-		private readonly _paymentSystemsPage: PaymentSystemsPageGQL,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _dialogService: DialogService,
 		private readonly _paymentsSystemsService: PaymentSystemsService,
 		private readonly _routerService: RouterService,

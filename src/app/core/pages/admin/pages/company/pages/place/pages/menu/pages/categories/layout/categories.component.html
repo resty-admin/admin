@@ -7,7 +7,7 @@
 	<app-filters class="filters"></app-filters>
 
 	<ul class="categories">
-		<li class="category" *ngFor="let category of categories$ | async; trackBy: trackByFn">
+		<li class="category" *ngFor="let category of categories$ | async; trackBy: sharedService.trackByFn">
 			<div class="header">
 				<h1 class="label">{{ category.name }}</h1>
 
@@ -25,7 +25,7 @@
 			</div>
 
 			<ul class="products">
-				<li class="product" *ngFor="let product of category.products; trackBy: trackByFn">
+				<li class="product" *ngFor="let product of category.products; trackBy: sharedService.trackByFn">
 					<p class="name-label">{{ t("name") }}</p>
 					<p class="name-value">{{ product.name }}</p>
 					<p class="description-label">{{ t("description") }}</p>

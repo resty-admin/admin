@@ -1,6 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { SharedService } from "@shared/services";
 
 import type { ITableToSelect } from "../interfaces";
 
@@ -17,6 +18,8 @@ export class TablesSelectComponent implements OnChanges {
 
 	tablesWithSelected: (ITableToSelect & { selected: boolean })[] = [];
 
+	constructor(readonly sharedService: SharedService) {}
+
 	ngOnChanges(changes: ISimpleChanges<TablesSelectComponent>) {
 		if (!(changes.tables?.currentValue || changes.selectedTables?.currentValue)) {
 			return;
@@ -26,10 +29,6 @@ export class TablesSelectComponent implements OnChanges {
 			...table,
 			selected: (this.selectedTables || []).some((selectedTable) => selectedTable.id === table.id)
 		}));
-	}
-
-	trackByFn(index: number) {
-		return index;
 	}
 
 	emitChange() {

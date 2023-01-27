@@ -15,7 +15,7 @@ export const CATEGORIES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: CATEGORIES_PAGE
 		},
 		resolve: {
-			places: CategoriesResolver
+			categories: CategoriesResolver
 		},
 		skeleton: {
 			component: CategoriesSkeletonComponent

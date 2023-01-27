@@ -1,15 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { OrderInfoModule } from "@features/orders/ui";
-import { ProductToOrderSelectModule } from "@features/products/ui";
+import { OrderInfoModule, OrderInfoSkeletonModule } from "@features/orders/ui";
+import { ProductsToOrderSelectModule, ProductsToOrderSelectSkeletonModule } from "@features/products/ui";
 import { ProductToOrderModule } from "@features/products/ui";
 import { PreviewTableModule } from "@features/tables/ui";
-import { UsersSelectModule } from "@features/users/ui";
+import { UsersSelectModule, UsersSelectSkeletonModule } from "@features/users/ui";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TextareaModule } from "@shared/ui/textarea";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -29,12 +30,16 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		ReactiveFormsModule,
 		ImageModule,
 		IconModule,
-		ProductToOrderSelectModule,
 		PreviewTableModule,
 		ButtonModule,
 		OrderInfoModule,
 		UsersSelectModule,
-		TextareaModule
+		TextareaModule,
+		UsersSelectSkeletonModule,
+		SkeletonModule,
+		OrderInfoSkeletonModule,
+		ProductsToOrderSelectModule,
+		ProductsToOrderSelectSkeletonModule
 	],
 	providers: ACTIVE_ORDER_PROVIDERS
 })

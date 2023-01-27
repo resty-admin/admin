@@ -11,7 +11,7 @@
 		border-radius: rem(16);
 		padding: rem(8);
 		gap: rem(8);
-		grid-template-columns: auto 1fr auto;
+		grid-template-columns: 2fr 1fr auto;
 		background-color: var(--light-grey);
 
 		&.active {
@@ -24,19 +24,24 @@
 			font-size: rem(14);
 			line-height: rem(24);
 			color: var(--dark);
+
+			@include noWrap();
 		}
 		.paid-status {
-			justify-self: end;
-			grid-area: paid-status;
 			display: flex;
 			align-items: center;
 			column-gap: rem(5);
+			justify-self: end;
+			grid-area: paid-status;
 			.waiting {
+				flex: 1;
 				grid-area: title;
 				font-weight: 500;
 				font-size: rem(14);
 				line-height: rem(24);
 				color: var(--dark);
+
+				@include noWrap();
 			}
 			.icon {
 				width: rem(20);
@@ -64,6 +69,7 @@
 			font-size: rem(14);
 			line-height: rem(24);
 			color: var(--primary);
+			justify-self: end;
 		}
 	}
 }
