@@ -1,1 +1,1 @@
-export * from "./role-page-i18n.constant";
+export * from "./role-page.constant";

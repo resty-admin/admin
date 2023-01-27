@@ -1,13 +1,13 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { CATEGORY_DIALOG_I18N } from "@features/categories/ui/category-dialog/constants";
 import type { CategoryEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { lastValueFrom } from "rxjs";
 
+import { CATEGORY_DIALOG } from "../constants";
 import type { ICategoryForm } from "../interfaces";
 
 @Component({
@@ -17,8 +17,8 @@ import type { ICategoryForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryDialogComponent implements OnInit {
-	readonly categoryDialogI18n = CATEGORY_DIALOG_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly categoryDialog = CATEGORY_DIALOG;
+	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<ICategoryForm>({
 		name: "",
 		file: null

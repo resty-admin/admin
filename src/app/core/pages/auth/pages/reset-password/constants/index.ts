@@ -1,1 +1,1 @@
-export * from "./reset-password-page-i18n.constant";
+export * from "./reset-password-page.constant";

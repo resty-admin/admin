@@ -14,7 +14,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { ACTIVE_ORDERS_PAGE_I18N } from "../constants";
+import { ACTIVE_ORDERS_PAGE } from "../constants";
 import { ActiveOrdersPageGQL } from "../graphql";
 
 @Component({
@@ -25,7 +25,7 @@ import { ActiveOrdersPageGQL } from "../graphql";
 })
 export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	readonly adminRoutes = ADMIN_ROUTES;
-	readonly activeOrdersPageI18n = ACTIVE_ORDERS_PAGE_I18N;
+	readonly activeOrdersPage = ACTIVE_ORDERS_PAGE;
 	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
 	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders.data));
 
@@ -81,8 +81,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				.createOrder({ place, type: order.type })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+						this._i18nService.translate("title", {}, this.activeOrdersPage),
+						this._i18nService.translate("title", {}, this.activeOrdersPage)
 					)
 				)
 		);
@@ -104,8 +104,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				.updateOrder({ id: order.id, type: order.type })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+						this._i18nService.translate("title", {}, this.activeOrdersPage),
+						this._i18nService.translate("title", {}, this.activeOrdersPage)
 					)
 				)
 		);
@@ -114,7 +114,7 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	}
 
 	async openDeleteOrderDialog(value: AtLeast<ActiveOrderEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("title", {}, this.activeOrdersPageI18n), value } };
+		const config = { data: { title: this._i18nService.translate("title", {}, this.activeOrdersPage), value } };
 
 		const order: ActiveOrderEntity | undefined = await lastValueFrom(
 			this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$
@@ -129,8 +129,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				.deleteOrder(order.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+						this._i18nService.translate("title", {}, this.activeOrdersPage),
+						this._i18nService.translate("title", {}, this.activeOrdersPage)
 					)
 				)
 		);
@@ -144,8 +144,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				.closeOrder(order.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n),
-						this._i18nService.translate("title", {}, this.activeOrdersPageI18n)
+						this._i18nService.translate("title", {}, this.activeOrdersPage),
+						this._i18nService.translate("title", {}, this.activeOrdersPage)
 					)
 				)
 		);

@@ -1,8 +1,5 @@
 import { getI18nProvider } from "@shared/i18n";
 
-import { CATEGORY_DIALOG_I18N } from "../constants";
+import { CATEGORY_DIALOG } from "../constants";
 
-export const CATEGORY_DIALOG_I18N_PROVIDER = getI18nProvider(
-	CATEGORY_DIALOG_I18N,
-	(lang) => import(`../i18n/${lang}.json`)
-);
+export const CATEGORY_DIALOG_I18N_PROVIDER = getI18nProvider(CATEGORY_DIALOG, (lang) => import(`../i18n/${lang}.json`));

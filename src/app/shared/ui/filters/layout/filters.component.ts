@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 
 @Component({
 	selector: "app-filters",
@@ -8,5 +8,5 @@ import { FORM_I18N } from "@shared/constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiltersComponent {
-	readonly formI18n = FORM_I18N;
+	readonly form = FORM;
 }

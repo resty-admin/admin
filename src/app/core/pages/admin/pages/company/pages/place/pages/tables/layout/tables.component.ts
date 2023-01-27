@@ -14,7 +14,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { TABLES_PAGE_I18N } from "../constants";
+import { TABLES_PAGE } from "../constants";
 import { TablesPageGQL } from "../graphql";
 
 @Component({
@@ -24,7 +24,7 @@ import { TablesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TablesComponent implements OnInit, OnDestroy {
-	readonly tablesPageI18n = TABLES_PAGE_I18N;
+	readonly tablesPage = TABLES_PAGE;
 	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
 	readonly tables$ = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
 	readonly actions: IAction<TableEntity>[] = [
@@ -91,8 +91,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 				.createTable({ name: table.name, hall, file: table.file?.id, code: table.code })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.tablesPageI18n),
-						this._i18nService.translate("created", {}, this.tablesPageI18n)
+						this._i18nService.translate("title", {}, this.tablesPage),
+						this._i18nService.translate("created", {}, this.tablesPage)
 					)
 				)
 		);
@@ -114,8 +114,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 				.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.tablesPageI18n),
-						this._i18nService.translate("updated", {}, this.tablesPageI18n)
+						this._i18nService.translate("title", {}, this.tablesPage),
+						this._i18nService.translate("updated", {}, this.tablesPage)
 					)
 				)
 		);
@@ -124,7 +124,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 	}
 
 	async openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.tablesPageI18n), value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.tablesPage), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -137,8 +137,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 				.deleteTable(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.tablesPageI18n),
-						this._i18nService.translate("deleted", {}, this.tablesPageI18n)
+						this._i18nService.translate("title", {}, this.tablesPage),
+						this._i18nService.translate("deleted", {}, this.tablesPage)
 					)
 				)
 		);

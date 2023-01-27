@@ -81,7 +81,7 @@
 				justify-self: end;
 				width: 100%;
 
-				@include hideOnMobile ();
+				@include hideOnMobile();
 				@include desktop() {
 					width: auto;
 				}
@@ -93,6 +93,7 @@
 				margin-top: rem(12);
 				height: rem(150);
 				margin-left: rem(-20);
+				width: rem(155);
 
 				@include image() {
 					border-bottom-left-radius: rem(16);

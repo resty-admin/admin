@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: profilePageI18n">
+<ng-container *transloco="let t; read: profilePage">
 	<div class="profile-page" *ngIf="user$ | async as user">
 		<div class="header">
 			<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
@@ -13,12 +13,7 @@
 			<p class="role">{{ user.role }}</p>
 		</div>
 
-		<form
-			*transloco="let f; read: formI18n"
-			class="form"
-			[formGroup]="formGroup"
-			(ngSubmit)="updateMe(formGroup.value)"
-		>
+		<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
 			<app-input
 				class="input name"
 				theme="2"

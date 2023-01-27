@@ -8,12 +8,13 @@ import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { PLACES_COMPONENTS } from "./components";
 import { PlacesComponent } from "./layout/places.component";
 import { PlacesRoutingModule } from "./places-routing.module";
 import { PLACES_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [PlacesComponent],
+	declarations: [PlacesComponent, ...PLACES_COMPONENTS],
 	imports: [
 		CommonModule,
 		PlacesRoutingModule,

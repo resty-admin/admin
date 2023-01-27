@@ -15,7 +15,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { ATTRIBUTES_PAGE_I18N } from "../constants";
+import { ATTRIBUTES_PAGE } from "../constants";
 import { AttributesPageGQL } from "../graphql";
 
 @Component({
@@ -25,7 +25,7 @@ import { AttributesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributesComponent implements OnInit, OnDestroy {
-	readonly attributesPageI18n = ATTRIBUTES_PAGE_I18N;
+	readonly attributesPage = ATTRIBUTES_PAGE;
 	private readonly _attributesPageQuery = this._attributesPageGQL.watch();
 	readonly attributeGroups$ = this._attributesPageQuery.valueChanges.pipe(
 		map((result) => result.data.attributeGroups.data)
@@ -115,8 +115,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPageI18n),
-						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+						this._i18nService.translate("title", {}, this.attributesPage),
+						this._i18nService.translate("updated", {}, this.attributesPage)
 					)
 				)
 		);
@@ -143,8 +143,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPageI18n),
-						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+						this._i18nService.translate("title", {}, this.attributesPage),
+						this._i18nService.translate("updated", {}, this.attributesPage)
 					)
 				)
 		);
@@ -153,7 +153,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 	}
 
 	async openDeleteAttributeGroupDialog(value: AtLeast<AttributesGroupEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPageI18n), value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPage), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -166,8 +166,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 				.deleteAttributeGroup(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPageI18n),
-						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+						this._i18nService.translate("title", {}, this.attributesPage),
+						this._i18nService.translate("updated", {}, this.attributesPage)
 					)
 				)
 		);
@@ -193,8 +193,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPageI18n),
-						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+						this._i18nService.translate("title", {}, this.attributesPage),
+						this._i18nService.translate("updated", {}, this.attributesPage)
 					)
 				)
 		);
@@ -221,8 +221,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPageI18n),
-						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+						this._i18nService.translate("title", {}, this.attributesPage),
+						this._i18nService.translate("updated", {}, this.attributesPage)
 					)
 				)
 		);
@@ -231,7 +231,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 	}
 
 	async openDeleteAttributeDialog(value: AtLeast<AttributesEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPageI18n), value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPage), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -244,8 +244,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 				.deleteAttribute(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPageI18n),
-						this._i18nService.translate("updated", {}, this.attributesPageI18n)
+						this._i18nService.translate("title", {}, this.attributesPage),
+						this._i18nService.translate("updated", {}, this.attributesPage)
 					)
 				)
 		);

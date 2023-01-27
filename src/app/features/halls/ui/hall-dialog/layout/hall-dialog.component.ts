@@ -1,13 +1,13 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { HALL_DIALOG_I18N } from "@features/halls/ui/hall-dialog/constants";
 import type { HallEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { lastValueFrom } from "rxjs";
 
+import { HALL_DIALOG } from "../constants";
 import type { IHallForm } from "../interfaces";
 
 @Component({
@@ -17,8 +17,8 @@ import type { IHallForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallDialogComponent implements OnInit {
-	readonly hallDialogI18n = HALL_DIALOG_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly hallDialog = HALL_DIALOG;
+	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IHallForm>({
 		name: "",
 		file: null

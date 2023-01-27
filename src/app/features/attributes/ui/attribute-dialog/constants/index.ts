@@ -1,1 +1,1 @@
-export * from "./attribute-dialog-i18n.constant";
+export * from "./attribute-dialog.constant";

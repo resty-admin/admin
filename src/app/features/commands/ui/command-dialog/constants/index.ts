@@ -1,1 +1,1 @@
-export * from "./command-dialog-i18n.constant";
+export * from "./command-dialog.constant";

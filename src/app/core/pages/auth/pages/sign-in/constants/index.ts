@@ -1,1 +1,1 @@
-export * from "./sign-in-page-i18n.constant";
+export * from "./sign-in-page.constant";

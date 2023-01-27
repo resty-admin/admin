@@ -11,7 +11,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { PLACES_PAGE_I18N } from "../constants";
+import { PLACES_PAGE } from "../constants";
 import { PlacesPageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -22,7 +22,7 @@ import { PlacesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlacesComponent implements OnInit {
-	readonly placesPageI18n = PLACES_PAGE_I18N;
+	readonly placesPage = PLACES_PAGE;
 	private readonly _placesPageQuery = this._placesPageGQL.watch();
 	readonly places$ = this._placesPageQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
@@ -71,8 +71,8 @@ export class PlacesComponent implements OnInit {
 				.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.placesPageI18n),
-						this._i18nService.translate("title", {}, this.placesPageI18n)
+						this._i18nService.translate("title", {}, this.placesPage),
+						this._i18nService.translate("title", {}, this.placesPage)
 					)
 				)
 		);

@@ -1,6 +1,5 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
 import type { ISimpleChanges } from "@shared/interfaces";
 
 import type { ITableToSelect } from "../interfaces";
@@ -17,8 +16,6 @@ export class TablesSelectComponent implements OnChanges {
 	@Input() tables?: ITableToSelect[] | null;
 
 	tablesWithSelected: (ITableToSelect & { selected: boolean })[] = [];
-
-	constructor(private readonly _formBuilder: FormBuilder) {}
 
 	ngOnChanges(changes: ISimpleChanges<TablesSelectComponent>) {
 		if (!(changes.tables?.currentValue || changes.selectedTables?.currentValue)) {

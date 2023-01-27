@@ -12,11 +12,12 @@ import { InputModule } from "@shared/ui/input";
 import { TooltipModule } from "@shared/ui/tooltip";
 
 import { ActiveOrdersRoutingModule } from "./active-orders-routing.module";
+import { ACTIVE_ORDERS_COMPONENTS } from "./components";
 import { ActiveOrdersComponent } from "./layout/active-orders.component";
 import { ACTIVE_ORDERS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [ActiveOrdersComponent],
+	declarations: [ActiveOrdersComponent, ...ACTIVE_ORDERS_COMPONENTS],
 	imports: [
 		CommonModule,
 		ActiveOrdersRoutingModule,

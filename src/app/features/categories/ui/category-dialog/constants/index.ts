@@ -1,1 +1,1 @@
-export * from "./category-dialog-i18n.constant";
+export * from "./category-dialog.constant";

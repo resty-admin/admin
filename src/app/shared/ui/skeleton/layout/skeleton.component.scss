@@ -1,0 +1,17 @@
+@import "../../../../../assets/scss/abstractions/index";
+
+@include component() {
+	width: 100%;
+	height: 100%;
+	.ngx-skeleton-loader {
+		display: block;
+		width: 100%;
+		height: 100%;
+		&::ng-deep .skeleton-loader {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+@include dark() {
+}

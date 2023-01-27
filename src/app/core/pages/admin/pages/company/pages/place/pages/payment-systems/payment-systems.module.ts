@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PaymentSystemModule } from "@features/payment-systems";
-import { PaymentSystemDialogModule } from "@features/payment-systems/ui/payment-system-dialog/payment-system-dialog.module";
+import { PaymentSystemDialogModule } from "@features/payment-systems/ui";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
@@ -13,12 +13,13 @@ import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { PAYMENT_SYSTEMS_COMPONENTS } from "./components";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 import { PAYMENT_SYSTEMS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [PaymentSystemsComponent],
+	declarations: [PaymentSystemsComponent, ...PAYMENT_SYSTEMS_COMPONENTS],
 	imports: [
 		CommonModule,
 		PaymentSystemsRoutingModule,

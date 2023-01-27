@@ -1,1 +1,1 @@
-export * from "./shift-page-i18n.constant";
+export * from "./shift-page.constant";

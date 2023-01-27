@@ -1,1 +1,1 @@
-export * from "./hall-dialog-i18n.constant";
+export * from "./hall-dialog.constant";

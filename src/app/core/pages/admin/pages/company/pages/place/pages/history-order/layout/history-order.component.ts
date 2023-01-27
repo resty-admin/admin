@@ -10,7 +10,7 @@ import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map, take, tap } from "rxjs";
 
-import { HISTORY_ORDER_PAGE_I18N } from "../constants";
+import { HISTORY_ORDER_PAGE } from "../constants";
 import { HistoryOrderPageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -21,7 +21,7 @@ import { HistoryOrderPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrderComponent implements OnInit, OnDestroy {
-	readonly historyOrderPageI18n = HISTORY_ORDER_PAGE_I18N;
+	readonly historyOrderPage = HISTORY_ORDER_PAGE;
 
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 

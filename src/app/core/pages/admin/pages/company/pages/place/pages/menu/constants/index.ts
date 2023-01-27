@@ -1,1 +1,1 @@
-export * from "./menu-page-i18n.constant";
+export * from "./menu-page.constant";

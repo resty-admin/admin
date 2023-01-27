@@ -16,12 +16,13 @@ import { SelectModule } from "@shared/ui/select";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { PRODUCTS_COMPONENTS } from "./components";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
 import { PRODUCTS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [ProductsComponent],
+	declarations: [ProductsComponent, ...PRODUCTS_COMPONENTS],
 	imports: [
 		CommonModule,
 		ProductsRoutingModule,

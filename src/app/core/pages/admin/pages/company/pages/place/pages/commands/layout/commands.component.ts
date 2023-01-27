@@ -14,7 +14,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { COMMANDS_PAGE_I18N } from "../constants";
+import { COMMANDS_PAGE } from "../constants";
 import { CommandsPageGQL } from "../graphql";
 
 @Component({
@@ -24,7 +24,7 @@ import { CommandsPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandsComponent implements OnInit, OnDestroy {
-	readonly commandsPageI18n = COMMANDS_PAGE_I18N;
+	readonly commandsPage = COMMANDS_PAGE;
 	private readonly _commandsPageQuery = this._commandsPageGQL.watch();
 	readonly commands$ = this._commandsPageQuery.valueChanges.pipe(map((result) => result.data.commands.data));
 
@@ -88,8 +88,8 @@ export class CommandsComponent implements OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.commandsPageI18n),
-						this._i18nService.translate("added", {}, this.commandsPageI18n)
+						this._i18nService.translate("title", {}, this.commandsPage),
+						this._i18nService.translate("added", {}, this.commandsPage)
 					)
 				)
 		);
@@ -115,8 +115,8 @@ export class CommandsComponent implements OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.commandsPageI18n),
-						this._i18nService.translate("edited", {}, this.commandsPageI18n)
+						this._i18nService.translate("title", {}, this.commandsPage),
+						this._i18nService.translate("edited", {}, this.commandsPage)
 					)
 				)
 		);
@@ -138,8 +138,8 @@ export class CommandsComponent implements OnInit, OnDestroy {
 				.deleteCommand(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.commandsPageI18n),
-						this._i18nService.translate("deleted", {}, this.commandsPageI18n)
+						this._i18nService.translate("title", {}, this.commandsPage),
+						this._i18nService.translate("deleted", {}, this.commandsPage)
 					)
 				)
 		);

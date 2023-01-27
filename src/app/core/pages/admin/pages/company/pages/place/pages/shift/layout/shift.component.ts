@@ -1,9 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { HallsService } from "@features/halls";
 import { ShiftsService } from "@features/shift";
-import { TablesService } from "@features/tables";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { PLACE_ID } from "@shared/constants";
@@ -14,7 +11,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map, ReplaySubject, switchMap, tap } from "rxjs";
 
-import { SHIFT_PAGE_I18N } from "../constants";
+import { SHIFT_PAGE } from "../constants";
 import { ActiveShiftGQL, ShiftHallsGQL, ShiftTablesGQL } from "../graphql";
 
 @UntilDestroy()
@@ -25,7 +22,7 @@ import { ActiveShiftGQL, ShiftHallsGQL, ShiftTablesGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShiftComponent implements OnInit {
-	readonly shiftPageI18n = SHIFT_PAGE_I18N;
+	readonly shiftPage = SHIFT_PAGE;
 	private readonly _activeShiftQuery = this._activeShiftGQL.watch();
 	private readonly _shiftHallsQuery = this._shiftHallsGQL.watch();
 	private readonly _shiftTablesQuery = this._shiftTablesGQL.watch();
@@ -56,14 +53,11 @@ export class ShiftComponent implements OnInit {
 		private readonly _shiftHallsGQL: ShiftHallsGQL,
 		private readonly _shiftTablesGQL: ShiftTablesGQL,
 		private readonly _shiftsService: ShiftsService,
-		private readonly _hallsService: HallsService,
-		private readonly _tablesService: TablesService,
-		private readonly _routerService: RouterService,
-		private readonly _formBuilder: FormBuilder,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService,
-		private readonly _changeDetectorRef: ChangeDetectorRef
+		private readonly _changeDetectorRef: ChangeDetectorRef,
+		private readonly _routerService: RouterService
 	) {}
 
 	async ngOnInit() {
@@ -102,8 +96,8 @@ export class ShiftComponent implements OnInit {
 				.createShift({ place, tables: tables.map((table) => table.id) })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.shiftPageI18n),
-						this._i18nService.translate("title", {}, this.shiftPageI18n)
+						this._i18nService.translate("title", {}, this.shiftPage),
+						this._i18nService.translate("title", {}, this.shiftPage)
 					)
 				)
 		);
@@ -121,8 +115,8 @@ export class ShiftComponent implements OnInit {
 				.updateShift({ id, tables: tables.map((table) => table.id) })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.shiftPageI18n),
-						this._i18nService.translate("title", {}, this.shiftPageI18n)
+						this._i18nService.translate("title", {}, this.shiftPage),
+						this._i18nService.translate("title", {}, this.shiftPage)
 					)
 				)
 		);
@@ -132,7 +126,7 @@ export class ShiftComponent implements OnInit {
 
 	async closeShift(shiftId: string) {
 		const config = {
-			data: { title: this._i18nService.translate("title", {}, this.shiftPageI18n), value: { label: "" } }
+			data: { title: this._i18nService.translate("title", {}, this.shiftPage), value: { label: "" } }
 		};
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
@@ -146,8 +140,8 @@ export class ShiftComponent implements OnInit {
 				.closeShift(shiftId)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.shiftPageI18n),
-						this._i18nService.translate("title", {}, this.shiftPageI18n)
+						this._i18nService.translate("title", {}, this.shiftPage),
+						this._i18nService.translate("title", {}, this.shiftPage)
 					)
 				)
 		);

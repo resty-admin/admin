@@ -9,7 +9,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { PAYMENT_SYSTEMS_PAGE_I18N } from "../constants";
+import { PAYMENT_SYSTEMS_PAGE } from "../constants";
 import { PaymentSystemsPageGQL } from "../graphql";
 
 @Component({
@@ -19,7 +19,7 @@ import { PaymentSystemsPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemsComponent {
-	readonly paymentSystemsPageI18n = PAYMENT_SYSTEMS_PAGE_I18N;
+	readonly paymentSystemsPage = PAYMENT_SYSTEMS_PAGE;
 
 	readonly paymentSystems$ = this._paymentSystemsPage
 		.watch()
@@ -53,8 +53,8 @@ export class PaymentSystemsComponent {
 					})
 					.pipe(
 						this._toastrService.observe(
-							this._i18nService.translate("title", {}, this.paymentSystemsPageI18n),
-							this._i18nService.translate("connected", {}, this.paymentSystemsPageI18n)
+							this._i18nService.translate("title", {}, this.paymentSystemsPage),
+							this._i18nService.translate("connected", {}, this.paymentSystemsPage)
 						)
 					)
 			);

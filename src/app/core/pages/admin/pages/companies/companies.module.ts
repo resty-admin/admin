@@ -8,11 +8,12 @@ import { ImageModule } from "@shared/ui/image";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { CompaniesRoutingModule } from "./companies-routing.module";
+import { COMPANIES_COMPONENTS } from "./components";
 import { CompaniesComponent } from "./layout/companies.component";
 import { COMPANIES_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [CompaniesComponent],
+	declarations: [CompaniesComponent, ...COMPANIES_COMPONENTS],
 	imports: [
 		CommonModule,
 		CompaniesRoutingModule,

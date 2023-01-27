@@ -13,7 +13,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { HALLS_PAGE_I18N } from "../constants";
+import { HALLS_PAGE } from "../constants";
 import { HallsPageGQL } from "../graphql";
 
 @Component({
@@ -23,7 +23,7 @@ import { HallsPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallsComponent implements OnInit, OnDestroy {
-	readonly hallsPageI18n = HALLS_PAGE_I18N;
+	readonly hallsPage = HALLS_PAGE;
 	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
 	readonly halls$ = this._hallsPageQuery.valueChanges.pipe(
 		map((result) => result.data.halls.data),
@@ -73,8 +73,8 @@ export class HallsComponent implements OnInit, OnDestroy {
 				.createHall({ name: hall.name, place, file: hall.file?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.hallsPageI18n),
-						this._i18nService.translate("created", {}, this.hallsPageI18n)
+						this._i18nService.translate("title", {}, this.hallsPage),
+						this._i18nService.translate("created", {}, this.hallsPage)
 					)
 				)
 		);
@@ -96,8 +96,8 @@ export class HallsComponent implements OnInit, OnDestroy {
 				.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.hallsPageI18n),
-						this._i18nService.translate("updated", {}, this.hallsPageI18n)
+						this._i18nService.translate("title", {}, this.hallsPage),
+						this._i18nService.translate("updated", {}, this.hallsPage)
 					)
 				)
 		);
@@ -106,7 +106,7 @@ export class HallsComponent implements OnInit, OnDestroy {
 	}
 
 	async openDeleteHallDialog(value: AtLeast<HallEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.hallsPageI18n), value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.hallsPage), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -119,8 +119,8 @@ export class HallsComponent implements OnInit, OnDestroy {
 				.deleteHall(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.hallsPageI18n),
-						this._i18nService.translate("deleted", {}, this.hallsPageI18n)
+						this._i18nService.translate("title", {}, this.hallsPage),
+						this._i18nService.translate("deleted", {}, this.hallsPage)
 					)
 				)
 		);

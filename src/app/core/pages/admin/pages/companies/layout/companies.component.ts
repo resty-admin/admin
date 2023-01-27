@@ -11,7 +11,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { COMPANIES_PAGE_I18N } from "../constants/companies-page-i18n.constant";
+import { COMPANIES_PAGE } from "../constants";
 import { CompaniesPageGQL } from "../graphql";
 
 @UntilDestroy()
@@ -22,7 +22,7 @@ import { CompaniesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompaniesComponent implements OnInit {
-	readonly companiesPageI18n = COMPANIES_PAGE_I18N;
+	readonly companiesPage = COMPANIES_PAGE;
 	private readonly _companiesPageQuery = this._companiesPageGQL.watch();
 	readonly companies$ = this._companiesPageQuery.valueChanges.pipe(map((result) => result.data.companies.data));
 
@@ -59,8 +59,8 @@ export class CompaniesComponent implements OnInit {
 				.createCompany({ name: company.name, logo: company.logo?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.companiesPageI18n),
-						this._i18nService.translate("title", {}, this.companiesPageI18n)
+						this._i18nService.translate("title", {}, this.companiesPage),
+						this._i18nService.translate("title", {}, this.companiesPage)
 					)
 				)
 		);

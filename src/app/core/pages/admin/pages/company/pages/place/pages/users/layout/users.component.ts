@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UsersService } from "@features/users";
 import { ADMIN_ROUTES } from "@shared/constants";
-import { RouterService } from "@shared/modules/router";
 
-import { USERS_PAGE_I18N } from "../constants";
+import { USERS_PAGE } from "../constants";
 
 @Component({
 	selector: "app-users",
@@ -12,7 +10,7 @@ import { USERS_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersComponent {
-	readonly usersPageI18n = USERS_PAGE_I18N;
+	readonly usersPage = USERS_PAGE;
 	readonly pages = [
 		{
 			label: "Сотрудники",
@@ -23,6 +21,4 @@ export class UsersComponent {
 			routerLink: ADMIN_ROUTES.GUESTS.path
 		}
 	];
-
-	constructor(private readonly _routerService: RouterService, private readonly _usersService: UsersService) {}
 }

@@ -5,13 +5,13 @@ import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
 
 import { AUTH_TYPES } from "../../../data";
-import { SIGN_UP_PAGE_I18N } from "../constants";
+import { SIGN_UP_PAGE } from "../constants";
 import type { ISignUp } from "../interfaces";
 
 @UntilDestroy()
@@ -22,8 +22,8 @@ import type { ISignUp } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnInit {
-	readonly formI18n = FORM_I18N;
-	readonly signUpPageI18n = SIGN_UP_PAGE_I18N;
+	readonly form = FORM;
+	readonly signUpPage = SIGN_UP_PAGE;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 	readonly roles = [UserRoleEnum.Admin, UserRoleEnum.Hostess, UserRoleEnum.Waiter, UserRoleEnum.Hookah].map((role) => ({
@@ -32,7 +32,7 @@ export class SignUpComponent implements OnInit {
 	}));
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group<ISignUp>({
+	readonly formGroup = this._formBuilder.group<ISignUp>({
 		email: "",
 		tel: "",
 		password: "",
@@ -49,14 +49,14 @@ export class SignUpComponent implements OnInit {
 		const role = this._routerService.getQueryParams("role");
 
 		if (role && Object.values(UserRoleEnum).includes(role)) {
-			this.form.patchValue({ role });
+			this.formGroup.patchValue({ role });
 		}
 
 		this.typeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((type) => {
-			this.form.get("email").disable();
-			this.form.get("tel").disable();
+			this.formGroup.get("email").disable();
+			this.formGroup.get("tel").disable();
 
-			this.form.get(type).enable();
+			this.formGroup.get(type).enable();
 		});
 	}
 

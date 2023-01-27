@@ -15,7 +15,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { PRODUCTS_PAGE_I18N } from "../constants";
+import { PRODUCTS_PAGE } from "../constants";
 import { ProductsPageGQL } from "../graphql";
 
 @Component({
@@ -27,7 +27,7 @@ import { ProductsPageGQL } from "../graphql";
 export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
-	readonly productsPageI18n = PRODUCTS_PAGE_I18N;
+	readonly productsPage = PRODUCTS_PAGE;
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 
 	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
@@ -99,8 +99,8 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.productsPageI18n),
-						this._i18nService.translate("created", {}, this.productsPageI18n)
+						this._i18nService.translate("title", {}, this.productsPage),
+						this._i18nService.translate("created", {}, this.productsPage)
 					)
 				)
 		);
@@ -130,8 +130,8 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.productsPageI18n),
-						this._i18nService.translate("updated", {}, this.productsPageI18n)
+						this._i18nService.translate("title", {}, this.productsPage),
+						this._i18nService.translate("updated", {}, this.productsPage)
 					)
 				)
 		);
@@ -153,8 +153,8 @@ export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 				.deleteProduct(product.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.productsPageI18n),
-						this._i18nService.translate("deleted", {}, this.productsPageI18n)
+						this._i18nService.translate("title", {}, this.productsPage),
+						this._i18nService.translate("deleted", {}, this.productsPage)
 					)
 				)
 		);

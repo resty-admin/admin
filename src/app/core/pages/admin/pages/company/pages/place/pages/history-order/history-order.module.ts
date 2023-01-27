@@ -12,12 +12,13 @@ import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { HISTORY_ORDER_COMPONENTS } from "./components";
 import { HistoryOrderRoutingModule } from "./history-order-routing.module";
 import { HistoryOrderComponent } from "./layout/history-order.component";
 import { HISTORY_ORDER_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [HistoryOrderComponent],
+	declarations: [HistoryOrderComponent, ...HISTORY_ORDER_COMPONENTS],
 	imports: [
 		CommonModule,
 		HistoryOrderRoutingModule,

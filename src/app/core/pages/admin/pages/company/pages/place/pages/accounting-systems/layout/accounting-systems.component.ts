@@ -3,12 +3,11 @@ import { AccountingSystemDialogComponent, AccountingSystemsService } from "@feat
 import type { AccountingSystemEntity } from "@graphql";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
-import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { ACCOUNTING_SYSTEMS_PAGE_I18N } from "../constants";
+import { ACCOUNTING_SYSTEMS_PAGE } from "../constants";
 import { AccountingSystemsPageGQL } from "../graphql";
 
 @Component({
@@ -18,7 +17,7 @@ import { AccountingSystemsPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemsComponent {
-	readonly accountingSystemsPageI18n = ACCOUNTING_SYSTEMS_PAGE_I18N;
+	readonly accountingSystemsPage = ACCOUNTING_SYSTEMS_PAGE;
 	private readonly _accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
 
 	readonly accountingSystems$ = this._accountingSystemsPageQuery.valueChanges.pipe(
@@ -30,7 +29,6 @@ export class AccountingSystemsComponent {
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _accountingSystemsService: AccountingSystemsService,
-		private readonly _routerService: RouterService,
 		private readonly _i18nService: I18nService
 	) {}
 
@@ -49,8 +47,8 @@ export class AccountingSystemsComponent {
 					.connectPaymentSystemToPlace(accountingSystem)
 					.pipe(
 						this._toastrService.observe(
-							this._i18nService.translate("title", {}, this.accountingSystemsPageI18n),
-							this._i18nService.translate("title", {}, this.accountingSystemsPageI18n)
+							this._i18nService.translate("title", {}, this.accountingSystemsPage),
+							this._i18nService.translate("title", {}, this.accountingSystemsPage)
 						)
 					)
 			);

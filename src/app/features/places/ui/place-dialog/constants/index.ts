@@ -1,1 +1,1 @@
-export * from "./place-dialog-i18n.constant";
+export * from "./place-dialog.constant";

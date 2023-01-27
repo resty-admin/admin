@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { EmployeesComponent } from "@core/pages/admin/pages/company/pages/place/pages/users/pages/employees/layout/employees.component";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { GuestsComponent } from "./layout/guests.component";
+import { GuestsSkeletonComponent } from "./components";
+import { GUESTS_PAGE } from "./constants";
+import { GuestsResolver } from "./resolvers";
 
-export const GUESTS_ROUTES: Route[] = [
+export const GUESTS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: GuestsComponent
+		component: EmployeesComponent,
+		data: {
+			animation: GUESTS_PAGE
+		},
+		resolve: {
+			places: GuestsResolver
+		},
+		skeleton: {
+			component: GuestsSkeletonComponent
+		}
 	}
 ];
 

@@ -1,1 +1,1 @@
-export * from "./wallet-page-i18n.constant";
+export * from "./wallet-page.constant";

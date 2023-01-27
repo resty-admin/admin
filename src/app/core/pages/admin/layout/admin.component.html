@@ -1,36 +1,3 @@
-<div class="admin">
-	<app-header
-		class="header"
-		[profileActions]="profileActions"
-		[user]="user$ | async"
-		[isAsideOpen]="isAsideOpen$ | async"
-		[activeOrder]="activeOrder$ | async"
-		(burgerClicked)="toggleAside()"
-	></app-header>
-
-	<main class="main">
-		<app-aside
-			class="aside"
-			[class.open]="isAsideOpen$ | async"
-			[companyActions]="companyActions"
-			[placeActions]="placeActions"
-			[companies]="companies$ | async"
-			[places]="places$ | async"
-			[user]="user$ | async"
-			[activeCompanyId]="activeCompanyId$ | async"
-			[activePlaceId]="activePlaceId$ | async"
-			(companyChanged)="changeUrlWithCompany($event)"
-			(placeChanged)="changeUrlWithPlace($event)"
-			(addCompanyClicked)="openCreateCompanyDialog()"
-			(addPlaceClicked)="openCreatePlaceDialog()"
-			(signOutClicked)="signOut()"
-			(closeClicked)="toggleAside()"
-		></app-aside>
-
-		<div class="pages">
-			<router-outlet></router-outlet>
-
-			<app-footer class="footer"></app-footer>
-		</div>
-	</main>
+<div class="admin" [@routeAnimations]="getRouteAnimationData()">
+	<router-outlet></router-outlet>
 </div>

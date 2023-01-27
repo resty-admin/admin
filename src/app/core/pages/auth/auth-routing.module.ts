@@ -1,15 +1,19 @@
 import { NgModule } from "@angular/core";
-import type { Routes } from "@angular/router";
+import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { JwtGuard, RoleGuard } from "@features/auth";
 import { ADMIN_ROUTES } from "@shared/constants";
 
+import { AUTH_PAGE } from "./constants";
 import { AuthComponent } from "./layout/auth.component";
 
-export const AUTH_ROUTES: Routes = [
+export const AUTH_ROUTES: Route[] = [
 	{
 		path: "",
 		component: AuthComponent,
+		data: {
+			animation: AUTH_PAGE
+		},
 		children: [
 			{
 				...ADMIN_ROUTES.SIGN_IN,

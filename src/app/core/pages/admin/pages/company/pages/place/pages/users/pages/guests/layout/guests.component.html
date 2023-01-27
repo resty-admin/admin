@@ -1,4 +1,4 @@
-<div class="users-page" *transloco="let t; read: guestsPageI18n">
+<div class="users-page" *transloco="let t; read: guestsPage">
 	<app-filters class="filters"></app-filters>
 	<!--desktop-->
 	<app-datatable class="datatable-desktop" [rows]="users$ | async" [columns]="columns"></app-datatable>

@@ -1,12 +1,12 @@
 import type { OnChanges } from "@angular/core";
-import { Directive, ElementRef, Input, Renderer2 } from "@angular/core";
+import { Directive, ElementRef, Input } from "@angular/core";
 import type { ISimpleChanges } from "@shared/interfaces";
 
 @Directive({
 	selector: "[appImagePlaceholder]"
 })
 export class ImagePlaceholderDirective implements OnChanges {
-	constructor(private readonly _elementRef: ElementRef, private readonly _renderer: Renderer2) {}
+	constructor(private readonly _elementRef: ElementRef) {}
 
 	@Input() src: string | null = null;
 	@Input() placeholder: string | null = null;

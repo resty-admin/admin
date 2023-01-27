@@ -3,9 +3,9 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { OrderInfoModule } from "@features/orders/ui";
 import { ProductToOrderSelectModule } from "@features/products/ui";
-import { ProductToOrderModule } from "@features/products/ui/product-to-order";
+import { ProductToOrderModule } from "@features/products/ui";
 import { PreviewTableModule } from "@features/tables/ui";
-import { UsersSelectModule } from "@features/users/ui/users-select/users-select.module";
+import { UsersSelectModule } from "@features/users/ui";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
@@ -14,11 +14,12 @@ import { TextareaModule } from "@shared/ui/textarea";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { ActiveOrderRoutingModule } from "./active-order-routing.module";
+import { ACTIVE_ORDER_COMPONENTS } from "./components";
 import { ActiveOrderComponent } from "./layout/active-order.component";
 import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [ActiveOrderComponent],
+	declarations: [ActiveOrderComponent, ...ACTIVE_ORDER_COMPONENTS],
 	imports: [
 		CommonModule,
 		ActiveOrderRoutingModule,

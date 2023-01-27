@@ -2,7 +2,7 @@ import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional } from "@angular/core";
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
-import { BehaviorSubject, map, of, switchMap, tap } from "rxjs";
+import { BehaviorSubject, map, of, switchMap } from "rxjs";
 
 import { IMAGE_CONFIG } from "../injection-tokens";
 import { IImageConfig, IImageTheme } from "../interfaces";
@@ -20,9 +20,6 @@ export class ImageComponent implements OnChanges {
 	@Input() remote = false;
 	@Input() placeholder = "";
 
-	private _src = "";
-	private _placeholder = "";
-
 	private readonly remoteSubject = new BehaviorSubject(false);
 	private readonly remote$ = this.remoteSubject.asObservable();
 
@@ -33,17 +30,11 @@ export class ImageComponent implements OnChanges {
 				: this._imageConfig.theme$.pipe(
 						map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.name}.${this.format}`)
 				  )
-		),
-		tap((src) => {
-			this._src = src;
-		})
+		)
 	);
 
 	readonly placeholderSrc$ = this._imageConfig.theme$.pipe(
-		map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.placeholder}.${this.format}`),
-		tap((placeholder) => {
-			this._placeholder = placeholder;
-		})
+		map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.placeholder}.${this.format}`)
 	);
 
 	className = `app-image ${THEME.replace(ANY_SYMBOL, this.theme)}`;

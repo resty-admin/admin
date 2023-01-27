@@ -16,12 +16,13 @@ import { QrCodeModule } from "@shared/ui/qr-code";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { TABLES_COMPONENTS } from "./components";
 import { TablesComponent } from "./layout/tables.component";
 import { TABLES_PROVIDERS } from "./providers";
 import { TablesRoutingModule } from "./tables-routing.module";
 
 @NgModule({
-	declarations: [TablesComponent],
+	declarations: [TablesComponent, ...TABLES_COMPONENTS],
 	imports: [
 		CommonModule,
 		TablesRoutingModule,

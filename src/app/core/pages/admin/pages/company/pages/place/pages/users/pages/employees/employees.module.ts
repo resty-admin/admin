@@ -13,12 +13,13 @@ import { SelectModule } from "@shared/ui/select";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { EMPLOYEES_COMPONENTS } from "./components";
 import { EmployeesRoutingModule } from "./employees-routing.module";
 import { EmployeesComponent } from "./layout/employees.component";
 import { EMPLOYEES_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [EmployeesComponent],
+	declarations: [EmployeesComponent, ...EMPLOYEES_COMPONENTS],
 	imports: [
 		CommonModule,
 		EmployeesRoutingModule,

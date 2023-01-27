@@ -1,1 +1,1 @@
-export * from "./wallet-header-i18n.constant";
+export * from "./wallet-header.constant";

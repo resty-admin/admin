@@ -1,1 +1,1 @@
-export * from "./halls-select-i18n.constant";
+export * from "./halls-select.constant";

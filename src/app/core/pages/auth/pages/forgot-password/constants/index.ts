@@ -1,1 +1,1 @@
-export * from "./forgot-password-page-i18n.constant";
+export * from "./forgot-password-page.constant";

@@ -1,12 +1,7 @@
-<div class="user-dialog" *transloco="let t; read: userDialogI18n">
+<div class="user-dialog" *transloco="let t; read: userDialog">
 	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
-	<form
-		*transloco="let f; read: formI18n"
-		class="form"
-		[formGroup]="formGroup"
-		(ngSubmit)="closeDialog(formGroup.value)"
-	>
+	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="name"

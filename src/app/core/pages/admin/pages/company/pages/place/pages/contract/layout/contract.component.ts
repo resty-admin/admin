@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 
-import { CONTRACT_PAGE_I18N } from "../constants";
+import { CONTRACT_PAGE } from "../constants";
 
 @Component({
 	selector: "app-contract",
@@ -11,7 +11,7 @@ import { CONTRACT_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContractComponent implements OnInit, OnDestroy {
-	readonly contractPageI18n = CONTRACT_PAGE_I18N;
+	readonly contractPage = CONTRACT_PAGE;
 
 	constructor(private readonly _actionsService: ActionsService) {}
 

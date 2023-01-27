@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ADMIN_ROUTES } from "@shared/constants";
 
-import { ORDERS_PAGE_I18N } from "../constants/orders-page-i18n.constant";
+import { ORDERS_PAGE } from "../constants";
 
 @Component({
 	selector: "app-orders",
@@ -10,7 +10,7 @@ import { ORDERS_PAGE_I18N } from "../constants/orders-page-i18n.constant";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdersComponent {
-	readonly ordersPageI18n = ORDERS_PAGE_I18N;
+	readonly ordersPage = ORDERS_PAGE;
 	readonly pages = [
 		{
 			label: "Активные заказы",

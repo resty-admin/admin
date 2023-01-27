@@ -1,1 +1,1 @@
-export * from "./attributes-page-i18n.constant";
+export * from "./attributes-page.constant";

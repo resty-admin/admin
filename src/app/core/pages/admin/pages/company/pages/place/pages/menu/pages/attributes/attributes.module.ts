@@ -18,11 +18,12 @@ import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { AttributesRoutingModule } from "./attributes-routing.module";
+import { ATTRIUTES_COMPONENTS } from "./components";
 import { AttributesComponent } from "./layout/attributes.component";
 import { ATTRIBUTES_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [AttributesComponent],
+	declarations: [AttributesComponent, ATTRIUTES_COMPONENTS],
 	imports: [
 		CommonModule,
 		AttributesRoutingModule,

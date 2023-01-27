@@ -17,7 +17,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { EMPLOYEES_PAGE_I18N } from "../constants";
+import { EMPLOYEES_PAGE } from "../constants";
 import { EmployeesPageGQL } from "../graphql";
 
 @Component({
@@ -29,7 +29,7 @@ import { EmployeesPageGQL } from "../graphql";
 export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
-	readonly employeesPageI18n = EMPLOYEES_PAGE_I18N;
+	readonly employeesPage = EMPLOYEES_PAGE;
 
 	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
 
@@ -104,8 +104,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 				.addEmployeeToPlace({ userId: user.id, placeId })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.employeesPageI18n),
-						this._i18nService.translate("added", {}, this.employeesPageI18n)
+						this._i18nService.translate("title", {}, this.employeesPage),
+						this._i18nService.translate("added", {}, this.employeesPage)
 					)
 				)
 		);
@@ -127,8 +127,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 				.createUser({ name: user.name, email: user.name, role: user.role })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.employeesPageI18n),
-						this._i18nService.translate("created", {}, this.employeesPageI18n)
+						this._i18nService.translate("title", {}, this.employeesPage),
+						this._i18nService.translate("created", {}, this.employeesPage)
 					)
 				)
 		);
@@ -150,8 +150,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 				.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.employeesPageI18n),
-						this._i18nService.translate("updated", {}, this.employeesPageI18n)
+						this._i18nService.translate("title", {}, this.employeesPage),
+						this._i18nService.translate("updated", {}, this.employeesPage)
 					)
 				)
 		);
@@ -160,7 +160,7 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	async openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.employeesPageI18n), value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.employeesPage), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -173,8 +173,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit, OnDestroy {
 				.deleteUser(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.employeesPageI18n),
-						this._i18nService.translate("deleted", {}, this.employeesPageI18n)
+						this._i18nService.translate("title", {}, this.employeesPage),
+						this._i18nService.translate("deleted", {}, this.employeesPage)
 					)
 				)
 		);

@@ -1,7 +1,0 @@
-@import "/src/assets/scss/abstractions";
-
-@include page() {
-	.hall {
-		@include pagePadding ();
-	}
-}

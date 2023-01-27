@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { ActiveOrdersSkeletonComponent } from "./components";
+import { ACTIVE_ORDERS_PAGE } from "./constants";
 import { ActiveOrdersComponent } from "./layout/active-orders.component";
+import { ActiveOrdersResolver } from "./resolvers";
 
-export const ACTIVE_ORDERS_ROUTES: Route[] = [
+export const ACTIVE_ORDERS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: ActiveOrdersComponent
+		component: ActiveOrdersComponent,
+		data: {
+			animation: ACTIVE_ORDERS_PAGE
+		},
+		resolve: {
+			places: ActiveOrdersResolver
+		},
+		skeleton: {
+			component: ActiveOrdersSkeletonComponent
+		}
 	}
 ];
 

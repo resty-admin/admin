@@ -1,9 +1,9 @@
-<div class="welcome-page" *transloco="let t; read: welcomePageI18n">
+<div class="welcome-page" *transloco="let t; read: welcomePage">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
 	<h2 appTypography theme="3" class="subtitle">{{ t("subtitle") }}</h2>
 
-	<ng-container *transloco="let f; read: formI18n">
+	<ng-container *transloco="let f; read: form">
 		<form class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
 			<app-input
 				class="input"

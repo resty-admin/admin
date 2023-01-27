@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { HistoryOrderSkeletonComponent } from "./components";
+import { HISTORY_ORDER_PAGE } from "./constants";
 import { HistoryOrderComponent } from "./layout/history-order.component";
+import { HistoryOrderResolver } from "./resolvers";
 
-export const HISTORY_ORDER_ROUTES: Route[] = [
+export const HISTORY_ORDER_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: HistoryOrderComponent
+		component: HistoryOrderComponent,
+		data: {
+			animation: HISTORY_ORDER_PAGE
+		},
+		resolve: {
+			places: HistoryOrderResolver
+		},
+		skeleton: {
+			component: HistoryOrderSkeletonComponent
+		}
 	}
 ];
 

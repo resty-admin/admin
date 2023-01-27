@@ -1,13 +1,13 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { COMPANY_DIALOG_I18N } from "@features/companies/ui/company-dialog/constants";
 import type { CompanyEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { lastValueFrom } from "rxjs";
 
+import { COMPANY_DIALOG } from "../constants";
 import type { ICompanyForm } from "../interfaces";
 
 @Component({
@@ -17,8 +17,8 @@ import type { ICompanyForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyDialogComponent implements OnInit {
-	readonly companyDialogI18n = COMPANY_DIALOG_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly companyDialog = COMPANY_DIALOG;
+	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<ICompanyForm>({
 		name: "",
 		logo: null

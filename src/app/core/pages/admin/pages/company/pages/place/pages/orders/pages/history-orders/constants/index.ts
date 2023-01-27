@@ -1,1 +1,1 @@
-export * from "./history-orders-page-i18n.constant";
+export * from "./history-orders-page.constant";

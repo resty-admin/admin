@@ -1,1 +1,1 @@
-export * from "./company-dialog-i18n.constant";
+export * from "./company-dialog.constant";

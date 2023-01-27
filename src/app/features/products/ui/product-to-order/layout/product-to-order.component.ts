@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { PRODUCT_TO_ORDER_I18N } from "@features/products/ui/product-to-order/constants";
 import { ProductToOrderPaidStatusEnum } from "@graphql";
 
+import { PRODUCT_TO_ORDER } from "../constants";
 import { IProductToOrder } from "../interfaces";
 
 @Component({
@@ -11,7 +11,7 @@ import { IProductToOrder } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductToOrderComponent {
-	readonly productToOrderI18n = PRODUCT_TO_ORDER_I18N;
+	readonly productToOrderI18n = PRODUCT_TO_ORDER;
 	@Input() productToOrder?: IProductToOrder;
 	@Input() isActive = false;
 

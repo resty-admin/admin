@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CommandModule } from "@features/commands";
-import { CommandDialogModule } from "@features/commands/ui/command-dialog/command-dialog.module";
+import { CommandDialogModule } from "@features/commands/ui";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
 import { AddHeaderModule } from "@shared/ui/add-header";
@@ -16,11 +16,12 @@ import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { CommandsRoutingModule } from "./commands-routing.module";
+import { COMMANDS_COMPONENTS } from "./components";
 import { CommandsComponent } from "./layout/commands.component";
 import { COMMANDS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [CommandsComponent],
+	declarations: [CommandsComponent, ...COMMANDS_COMPONENTS],
 	imports: [
 		CommonModule,
 		CommandsRoutingModule,

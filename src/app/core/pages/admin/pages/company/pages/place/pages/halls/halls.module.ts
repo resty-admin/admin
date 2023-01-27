@@ -16,12 +16,13 @@ import { ListModule } from "@shared/ui/list";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { HALLS_COMPONENTS } from "./components";
 import { HallsRoutingModule } from "./halls-routing.module";
 import { HallsComponent } from "./layout/halls.component";
 import { HALLS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [HallsComponent],
+	declarations: [HallsComponent, ...HALLS_COMPONENTS],
 	imports: [
 		CommonModule,
 		HallsRoutingModule,

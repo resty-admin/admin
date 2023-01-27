@@ -2,12 +2,16 @@ import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 
+import { WALLET_PAGE } from "./constants";
 import { WalletComponent } from "./layout/wallet.component";
 
 export const WALLET_ROUTES: Route[] = [
 	{
 		path: "",
-		component: WalletComponent
+		component: WalletComponent,
+		data: {
+			animation: WALLET_PAGE
+		}
 	}
 ];
 

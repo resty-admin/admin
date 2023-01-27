@@ -4,13 +4,13 @@ import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
 
 import { AUTH_TYPES } from "../../../data";
-import { SIGN_IN_PAGE_I18N } from "../constants";
+import { SIGN_IN_PAGE } from "../constants";
 import type { ISignIn } from "../interfaces";
 
 @UntilDestroy()
@@ -21,13 +21,13 @@ import type { ISignIn } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignInComponent implements OnInit {
-	readonly signInPageI18n = SIGN_IN_PAGE_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly signInPage = SIGN_IN_PAGE;
+	readonly form = FORM;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group<ISignIn>({
+	readonly formGroup = this._formBuilder.group<ISignIn>({
 		email: "",
 		tel: "",
 		password: ""
@@ -41,10 +41,10 @@ export class SignInComponent implements OnInit {
 
 	ngOnInit() {
 		this.typeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((type) => {
-			this.form.get("email").disable();
-			this.form.get("tel").disable();
+			this.formGroup.get("email").disable();
+			this.formGroup.get("tel").disable();
 
-			this.form.get(type).enable();
+			this.formGroup.get(type).enable();
 		});
 	}
 

@@ -3,12 +3,16 @@ import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { ADMIN_ROUTES } from "@shared/constants";
 
+import { ORDERS_PAGE } from "./constants";
 import { OrdersComponent } from "./layout/orders.component";
 
 export const ORDERS_ROUTES: Route[] = [
 	{
 		path: "",
 		component: OrdersComponent,
+		data: {
+			animation: ORDERS_PAGE
+		},
 		children: [
 			{
 				...ADMIN_ROUTES.HISTORY_ORDERS,

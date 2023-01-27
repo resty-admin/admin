@@ -6,7 +6,7 @@ import { PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom, map } from "rxjs";
 
-import { STATISTIC_PAGE_I18N } from "../constants";
+import { STATISTIC_PAGE } from "../constants";
 import { StatisticPageGQL, StatisticPlaceGQL } from "../graphql";
 
 @Component({
@@ -16,7 +16,7 @@ import { StatisticPageGQL, StatisticPlaceGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatisticComponent implements OnInit {
-	readonly statisticPageI18n = STATISTIC_PAGE_I18N;
+	readonly statisticPage = STATISTIC_PAGE;
 
 	private readonly _statisticPlaceQuery = this._statisticPlaceGQL.watch();
 	private readonly _statisticPageQuery = this._statisticPageGQL.watch();

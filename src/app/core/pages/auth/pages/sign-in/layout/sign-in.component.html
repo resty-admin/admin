@@ -1,15 +1,15 @@
-<div class="sign-in" *transloco="let t; read: signInPageI18n">
+<div class="sign-in" *transloco="let t; read: signInPage">
 	<app-image class="image" name="auth"></app-image>
 
 	<app-card theme="1" class="card">
 		<app-image class="logo" name="logo"></app-image>
 
 		<form
-			*transloco="let f; read: formI18n"
+			*transloco="let f; read: form"
 			class="form"
-			[formGroup]="form"
+			[formGroup]="formGroup"
 			[ngSwitch]="typeControl.value"
-			(ngSubmit)="signIn(form.value)"
+			(ngSubmit)="signIn(formGroup.value)"
 		>
 			<app-radio-button class="radio-button" theme="1" [options]="types" [formControl]="typeControl"></app-radio-button>
 

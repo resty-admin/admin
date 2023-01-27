@@ -1,4 +1,4 @@
-<div class="verification-code" *transloco="let t; read: verificationCodePageI18n">
+<div class="verification-code" *transloco="let t; read: verificationCodePage">
 	<app-image class="image" name="auth"></app-image>
 
 	<app-card theme="1">
@@ -6,7 +6,7 @@
 			<h1 appTypography theme="2" class="title">{{ t("title") }}</h1>
 			<p appTypography theme="3" class="description">{{ t("description") }}</p>
 
-			<form class="form" [formGroup]="form" (ngSubmit)="verifyCode(form.value)">
+			<form class="form" [formGroup]="formGroup" (ngSubmit)="verifyCode(formGroup.value)">
 				<app-code-input class="code-input" formControlName="verificationCode"></app-code-input>
 
 				<p appTypography theme="3" class="help">

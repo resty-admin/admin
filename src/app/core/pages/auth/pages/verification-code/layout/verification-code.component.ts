@@ -7,7 +7,7 @@ import { ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { lastValueFrom } from "rxjs";
 
-import { VERIFICATION_CODE_PAGE_I18N } from "../constants";
+import { VERIFICATION_CODE_PAGE } from "../constants";
 import type { IVerificationCode } from "../interfaces";
 
 @Component({
@@ -17,8 +17,8 @@ import type { IVerificationCode } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VerificationCodeComponent implements OnInit {
-	readonly verificationCodePageI18n = VERIFICATION_CODE_PAGE_I18N;
-	readonly form = this._formBuilder.group<IVerificationCode>({
+	readonly verificationCodePage = VERIFICATION_CODE_PAGE;
+	readonly formGroup = this._formBuilder.group<IVerificationCode>({
 		verificationCode: 0
 	});
 

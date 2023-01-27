@@ -1,0 +1,9 @@
+@import "src/assets/scss/abstractions/index";
+
+@include component() {
+	.title-skeleton {
+		height: rem(40);
+	}
+}
+@include dark() {
+}

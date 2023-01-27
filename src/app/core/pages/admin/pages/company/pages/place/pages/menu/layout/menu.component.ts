@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ADMIN_ROUTES } from "@shared/constants";
 
-import { MENU_PAGE_I18N } from "../constants";
+import { MENU_PAGE } from "../constants";
 
 @Component({
 	selector: "app-menu",
@@ -10,7 +10,7 @@ import { MENU_PAGE_I18N } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent {
-	readonly menuPageI18n = MENU_PAGE_I18N;
+	readonly menuPage = MENU_PAGE;
 	readonly pages = [
 		{
 			label: "Блюда",

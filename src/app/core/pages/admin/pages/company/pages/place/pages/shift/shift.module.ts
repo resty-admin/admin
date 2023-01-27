@@ -11,12 +11,13 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { SHIFT_COMPONENTS } from "./components";
 import { ShiftComponent } from "./layout/shift.component";
 import { SHIFT_PROVIDERS } from "./providers";
 import { ShiftRoutingModule } from "./shift-routing.module";
 
 @NgModule({
-	declarations: [ShiftComponent],
+	declarations: [ShiftComponent, ...SHIFT_COMPONENTS],
 	imports: [
 		CommonModule,
 		ShiftRoutingModule,

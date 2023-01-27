@@ -1,12 +1,10 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { AttributesService } from "@features/attributes/index";
-import { ATTRIBUTE_GROUP_DIALOG_I18N } from "@features/attributes/ui/attribute-group-dialog/constants";
+import { AttributesService } from "@features/attributes";
 import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
 import { AttributeGroupTypeEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { PLACE_ID } from "@shared/constants";
 import { buildForm } from "@shared/functions";
 import type { DeepPartial } from "@shared/interfaces";
@@ -17,6 +15,7 @@ import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
 import { AttributeDialogComponent } from "../../attribute-dialog/layout/attribute-dialog.component";
+import { ATTRIBUTE_GROUP_DIALOG } from "../constants";
 import { AttributeGroupDialogGQL } from "../graphql";
 import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.interface";
 
@@ -27,8 +26,8 @@ import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.int
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributeGroupDialogComponent implements OnInit {
-	readonly attributeGroupDialogI18n = ATTRIBUTE_GROUP_DIALOG_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly attributeGroupDialog = ATTRIBUTE_GROUP_DIALOG;
+	readonly form = FORM;
 	readonly formGroup = buildForm<IAttributeGroupForm>({
 		name: [""],
 		attributes: [null],
@@ -54,7 +53,6 @@ export class AttributeGroupDialogComponent implements OnInit {
 	constructor(
 		private readonly _attributeGroupDialogGQL: AttributeGroupDialogGQL,
 		private readonly _dialogRef: DialogRef,
-		private readonly _formBuilder: FormBuilder,
 		private readonly _attributesService: AttributesService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
@@ -103,8 +101,8 @@ export class AttributeGroupDialogComponent implements OnInit {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributeGroupDialogI18n),
-						this._i18nService.translate("title", {}, this.attributeGroupDialogI18n)
+						this._i18nService.translate("title", {}, this.attributeGroupDialog),
+						this._i18nService.translate("title", {}, this.attributeGroupDialog)
 					)
 				)
 		);

@@ -17,7 +17,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { CATEGORIES_PAGE_I18N } from "../constants";
+import { CATEGORIES_PAGE } from "../constants";
 import { CategoriesPageGQL } from "../graphql";
 
 @Component({
@@ -27,7 +27,7 @@ import { CategoriesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
-	readonly categoriesPageI18n = CATEGORIES_PAGE_I18N;
+	readonly categoriesPage = CATEGORIES_PAGE;
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
 	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
 	readonly categoryActions: IAction<CategoryEntity>[] = [
@@ -91,8 +91,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 				.createCategory({ name: category.name, place, file: category.file?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPageI18n),
-						this._i18nService.translate("created", {}, this.categoriesPageI18n)
+						this._i18nService.translate("title", {}, this.categoriesPage),
+						this._i18nService.translate("created", {}, this.categoriesPage)
 					)
 				)
 		);
@@ -114,8 +114,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 				.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPageI18n),
-						this._i18nService.translate("updated", {}, this.categoriesPageI18n)
+						this._i18nService.translate("title", {}, this.categoriesPage),
+						this._i18nService.translate("updated", {}, this.categoriesPage)
 					)
 				)
 		);
@@ -137,8 +137,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 				.deleteCategory(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPageI18n),
-						this._i18nService.translate("deleted", {}, this.categoriesPageI18n)
+						this._i18nService.translate("title", {}, this.categoriesPage),
+						this._i18nService.translate("deleted", {}, this.categoriesPage)
 					)
 				)
 		);
@@ -166,8 +166,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPageI18n),
-						this._i18nService.translate("updated", {}, this.categoriesPageI18n)
+						this._i18nService.translate("title", {}, this.categoriesPage),
+						this._i18nService.translate("updated", {}, this.categoriesPage)
 					)
 				)
 		);
@@ -177,7 +177,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
 	async openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
 		const config = {
-			data: { title: this._i18nService.translate("confirm", {}, this.categoriesPageI18n), value: product }
+			data: { title: this._i18nService.translate("confirm", {}, this.categoriesPage), value: product }
 		};
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
@@ -191,8 +191,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 				.deleteProduct(product.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPageI18n),
-						this._i18nService.translate("deleted", {}, this.categoriesPageI18n)
+						this._i18nService.translate("title", {}, this.categoriesPage),
+						this._i18nService.translate("deleted", {}, this.categoriesPage)
 					)
 				)
 		);

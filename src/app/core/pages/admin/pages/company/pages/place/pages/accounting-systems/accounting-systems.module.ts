@@ -10,11 +10,12 @@ import { ListModule } from "@shared/ui/list";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { AccountingSystemsRoutingModule } from "./accounting-systems-routing.module";
+import { ACCOUNTING_SYSTEMS_COMPONENTS } from "./components";
 import { AccountingSystemsComponent } from "./layout/accounting-systems.component";
 import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [AccountingSystemsComponent],
+	declarations: [AccountingSystemsComponent, ...ACCOUNTING_SYSTEMS_COMPONENTS],
 	imports: [
 		CommonModule,
 		AccountingSystemsRoutingModule,

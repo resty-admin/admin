@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { EmployeesSkeletonComponent } from "./components";
+import { EMPLOYEES_PAGE } from "./constants";
 import { EmployeesComponent } from "./layout/employees.component";
+import { EmployeesResolver } from "./resolvers";
 
-export const EMPLOYEES_ROUTES: Route[] = [
+export const EMPLOYEES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: EmployeesComponent
+		component: EmployeesComponent,
+		data: {
+			animation: EMPLOYEES_PAGE
+		},
+		resolve: {
+			places: EmployeesResolver
+		},
+		skeleton: {
+			component: EmployeesSkeletonComponent
+		}
 	}
 ];
 

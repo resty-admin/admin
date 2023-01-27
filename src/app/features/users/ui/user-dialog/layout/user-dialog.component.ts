@@ -1,13 +1,13 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { USER_DIALOG_I18N } from "@features/users/ui/user-dialog/constants";
 import type { UserEntity } from "@graphql";
 import { UserRoleEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { CryptoService } from "@shared/modules/crypto";
 
+import { USER_DIALOG } from "../constants";
 import type { IUserForm } from "../interfaces";
 
 @Component({
@@ -17,8 +17,8 @@ import type { IUserForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDialogComponent implements OnInit {
-	readonly userDialogI18n = USER_DIALOG_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly userDialog = USER_DIALOG;
+	readonly form = FORM;
 	readonly roles = Object.values(UserRoleEnum).map((role) => ({
 		label: role,
 		value: role

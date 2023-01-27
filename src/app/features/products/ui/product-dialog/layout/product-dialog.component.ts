@@ -3,13 +3,12 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { AttributeGroupsService } from "@features/attributes";
 import { AttributeGroupDialogComponent } from "@features/attributes";
 import { CategoriesService, CategoryDialogComponent } from "@features/categories";
-import { PRODUCT_DIALOG_I18N } from "@features/products/ui/product-dialog/constants";
 import type { ProductEntity } from "@graphql";
 import type { CategoryEntity } from "@graphql";
 import type { AttributesGroupEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM_I18N } from "@shared/constants";
+import { FORM } from "@shared/constants";
 import { PLACE_ID } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
 import { FilesService } from "@shared/modules/files";
@@ -19,6 +18,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
+import { PRODUCT_DIALOG } from "../constants";
 import { ProductAttributeGroupsGQL, ProductCategoriesGQL } from "../graphql";
 import type { IProductForm } from "../interfaces";
 
@@ -29,8 +29,8 @@ import type { IProductForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDialogComponent implements OnInit {
-	readonly productDialogI18n = PRODUCT_DIALOG_I18N;
-	readonly formI18n = FORM_I18N;
+	readonly productDialog = PRODUCT_DIALOG;
+	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IProductForm>({
 		name: "",
 		description: "",
@@ -122,8 +122,8 @@ export class ProductDialogComponent implements OnInit {
 				})
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.productDialogI18n),
-						this._i18nService.translate("title", {}, this.productDialogI18n)
+						this._i18nService.translate("title", {}, this.productDialog),
+						this._i18nService.translate("title", {}, this.productDialog)
 					)
 				)
 		);
@@ -151,8 +151,8 @@ export class ProductDialogComponent implements OnInit {
 				.createCategory({ name: category.name, place, file: category.file?.id })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.productDialogI18n),
-						this._i18nService.translate("title", {}, this.productDialogI18n)
+						this._i18nService.translate("title", {}, this.productDialog),
+						this._i18nService.translate("title", {}, this.productDialog)
 					)
 				)
 		);

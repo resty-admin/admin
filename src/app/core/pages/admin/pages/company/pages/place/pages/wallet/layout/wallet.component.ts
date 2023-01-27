@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
-import { WALLET_PAGE_I18N } from "../constants/wallet-page-i18n.constant";
+import { WALLET_PAGE } from "../constants";
 
 @Component({
 	selector: "app-wallet",
@@ -9,5 +9,5 @@ import { WALLET_PAGE_I18N } from "../constants/wallet-page-i18n.constant";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WalletComponent {
-	readonly walletPageI18n = WALLET_PAGE_I18N;
+	readonly walletPage = WALLET_PAGE;
 }

@@ -6,28 +6,14 @@ import type { ActiveOrderEntity } from "@graphql";
 import { ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { ORDERS_EVENTS } from "@shared/enums";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
 import { SocketIoService } from "@shared/modules/socket-io";
 import { lastValueFrom, map, take } from "rxjs";
 
-import { ACTIVE_ORDER_PAGE_I18N } from "../constants";
+import { ACTIVE_ORDER_PAGE } from "../constants";
 import { ActiveOrderPageGQL } from "../graphql";
-
-export enum ORDERS_EVENTS {
-	CREATED = "ORDER_CREATED",
-	CLOSED = "ORDER_CLOSED",
-	CANCELED = "ORDER_CANCELED",
-	CONFIRM = "ORDER_CONFIRM",
-	REJECTED = "ORDER_REJECTED",
-	APPROVED = "ORDER_APPROVED",
-	WAITING_FOR_MANUAL_PAY = "ORDER_WAITING_FOR_MANUAL_PAY",
-	USER_ADDED = "ORDER_USER_ADDED",
-	TABLE_ADDED = "ORDER_TABLE_ADDED",
-	TABLE_APPROVED = "ORDER_TABLE_APPROVED",
-	TABLE_REJECTED = "ORDER_TABLE_REJECTED",
-	TABLE_REMOVED = "ORDER_TABLE_REMOVED"
-}
 
 @UntilDestroy()
 @Component({
@@ -37,7 +23,7 @@ export enum ORDERS_EVENTS {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
-	readonly activeOrderPageI18n = ACTIVE_ORDER_PAGE_I18N;
+	readonly activeOrderPage = ACTIVE_ORDER_PAGE;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();

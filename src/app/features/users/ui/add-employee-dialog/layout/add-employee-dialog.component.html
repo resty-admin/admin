@@ -1,12 +1,7 @@
-<div class="add-employee-dialog" *transloco="let t; read: addEmployeeDiaalogI18n">
+<div class="add-employee-dialog" *transloco="let t; read: addEmployeeDiaalog">
 	<h1 appTypography theme="2" class="title">Найти сотрудниа</h1>
 
-	<form
-		*transloco="let f; read: formI18n"
-		class="form"
-		[formGroup]="formGroup"
-		(ngSubmit)="closeDialog(formGroup.value)"
-	>
+	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="tel"

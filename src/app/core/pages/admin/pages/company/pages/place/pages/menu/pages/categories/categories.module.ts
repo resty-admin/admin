@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { CategoryDialogModule } from "@features/categories/ui/category-dialog/category-dialog.module";
-import { ProductDialogModule } from "@features/products/ui/product-dialog/product-dialog.module";
+import { CategoryDialogModule } from "@features/categories/ui";
+import { ProductDialogModule } from "@features/products/ui";
 import { TippyDirective } from "@ngneat/helipopper";
 import { TranslocoModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
@@ -16,11 +16,12 @@ import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { CategoriesRoutingModule } from "./categories-routing.module";
+import { CATEGORIES_COMPONENTS } from "./components";
 import { CategoriesComponent } from "./layout/categories.component";
 import { CATEGORIES_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [CategoriesComponent],
+	declarations: [CategoriesComponent, ...CATEGORIES_COMPONENTS],
 	imports: [
 		CommonModule,
 		CategoriesRoutingModule,

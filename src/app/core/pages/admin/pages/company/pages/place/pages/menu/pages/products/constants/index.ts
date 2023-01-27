@@ -1,1 +1,1 @@
-export * from "./products-page-i18n.constant";
+export * from "./products-page.constant";

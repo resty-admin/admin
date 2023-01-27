@@ -1,7 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { DialogRef } from "@ngneat/dialog";
-import { FormBuilder } from "@ngneat/reactive-forms";
 
 interface IConfirmationData {
 	title: string;
@@ -19,7 +18,7 @@ interface IConfirmationData {
 })
 export class ConfirmationDialogComponent<T extends IConfirmationData> implements OnInit {
 	data!: IConfirmationData;
-	constructor(private readonly _dialogRef: DialogRef<T>, private readonly _formBuilder: FormBuilder) {}
+	constructor(private readonly _dialogRef: DialogRef<T>) {}
 
 	ngOnInit() {
 		this.data = this._dialogRef.data;

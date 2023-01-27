@@ -1,15 +1,13 @@
 import type { AfterViewInit, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { OrdersService } from "@features/orders";
 import type { HistoryOrderEntity } from "@graphql";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { RouterService } from "@shared/modules/router";
 import type { IDatatableColumn } from "@shared/ui/datatable";
-import { DialogService } from "@shared/ui/dialog";
 import { map } from "rxjs";
 
-import { HISTORY_ORDERS_PAGE_I18N } from "../constants/history-orders-page-i18n.constant";
+import { HISTORY_ORDERS_PAGE } from "../constants";
 import { HistoryOrdersPageGQL } from "../graphql";
 
 @Component({
@@ -19,7 +17,7 @@ import { HistoryOrdersPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrdersComponent implements AfterViewInit, OnInit {
-	readonly historyOrdersPageI18n = HISTORY_ORDERS_PAGE_I18N;
+	readonly historyOrdersPage = HISTORY_ORDERS_PAGE;
 	private readonly _historyOrdersPageQuery = this._historyOrdersPageGQL.watch();
 	readonly allOrders$ = this._historyOrdersPageQuery.valueChanges.pipe(map((result) => result.data.historyOrders.data));
 
@@ -27,9 +25,7 @@ export class HistoryOrdersComponent implements AfterViewInit, OnInit {
 
 	constructor(
 		private readonly _historyOrdersPageGQL: HistoryOrdersPageGQL,
-		private readonly _ordersService: OrdersService,
-		private readonly _routerService: RouterService,
-		private readonly _dialogService: DialogService
+		private readonly _routerService: RouterService
 	) {}
 
 	trackByFn(index: number) {

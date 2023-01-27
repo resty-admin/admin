@@ -15,7 +15,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { lastValueFrom, map } from "rxjs";
 
-import { GUESTS_PAGE_I18N } from "../constants";
+import { GUESTS_PAGE } from "../constants";
 import { GuestsPageGQL } from "../graphql";
 
 @Component({
@@ -27,7 +27,7 @@ import { GuestsPageGQL } from "../graphql";
 export class GuestsComponent implements OnInit, AfterViewInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
-	readonly guestsPageI18n = GUESTS_PAGE_I18N;
+	readonly guestsPage = GUESTS_PAGE;
 
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
 	readonly users$ = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
@@ -112,8 +112,8 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 				.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel })
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.guestsPageI18n),
-						this._i18nService.translate("updated", {}, this.guestsPageI18n)
+						this._i18nService.translate("title", {}, this.guestsPage),
+						this._i18nService.translate("updated", {}, this.guestsPage)
 					)
 				)
 		);
@@ -122,7 +122,7 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 	}
 
 	async openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.guestsPageI18n), value } };
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.guestsPage), value } };
 
 		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
 
@@ -135,8 +135,8 @@ export class GuestsComponent implements OnInit, AfterViewInit {
 				.deleteUser(value.id)
 				.pipe(
 					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.guestsPageI18n),
-						this._i18nService.translate("deleted", {}, this.guestsPageI18n)
+						this._i18nService.translate("title", {}, this.guestsPage),
+						this._i18nService.translate("deleted", {}, this.guestsPage)
 					)
 				)
 		);
