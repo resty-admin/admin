@@ -18,10 +18,10 @@ export class PlacesResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [{ key: "company.id", operator: "=", value: companyId }]
-		};
-
-		return this._placesPageGQL.watch(variables).valueChanges.pipe(map((result) => result.data.places.data));
+		return this._placesPageGQL
+			.fetch({
+				filtersArgs: [{ key: "company.id", operator: "=", value: companyId }]
+			})
+			.pipe(map((result) => result.data.places.data));
 	}
 }

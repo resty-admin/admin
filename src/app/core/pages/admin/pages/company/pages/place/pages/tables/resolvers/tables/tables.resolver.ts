@@ -18,10 +18,10 @@ export class TablesResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
-		};
-
-		return this._tablesPageGQL.watch(variables).valueChanges.pipe(map((result) => result.data.tables.data));
+		return this._tablesPageGQL
+			.fetch({
+				filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
+			})
+			.pipe(map((result) => result.data.tables.data));
 	}
 }

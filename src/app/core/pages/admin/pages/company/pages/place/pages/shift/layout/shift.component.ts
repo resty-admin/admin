@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ShiftsService } from "@features/shift";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -9,10 +10,9 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map, ReplaySubject, switchMap, tap } from "rxjs";
+import { lastValueFrom, map, ReplaySubject, switchMap } from "rxjs";
 
 import { SHIFT_PAGE } from "../constants";
-import { ActiveShiftGQL, ShiftHallsGQL, ShiftTablesGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -23,35 +23,25 @@ import { ActiveShiftGQL, ShiftHallsGQL, ShiftTablesGQL } from "../graphql";
 })
 export class ShiftComponent implements OnInit {
 	readonly shiftPage = SHIFT_PAGE;
-	private readonly _activeShiftQuery = this._activeShiftGQL.watch();
-	private readonly _shiftHallsQuery = this._shiftHallsGQL.watch();
-	private readonly _shiftTablesQuery = this._shiftTablesGQL.watch();
 	private readonly _selectedHallsSubject = new ReplaySubject<string[]>();
 	readonly selectedHalls$ = this._selectedHallsSubject.asObservable();
-	readonly halls$ = this._shiftHallsQuery.valueChanges.pipe(
-		map((result) => result.data.halls.data),
-		tap((halls) => {
-			this._selectedHallsSubject.next((halls || []).map((hall) => hall.id));
-		})
-	);
+	readonly halls$ = this._activatedRoute.data.pipe(map((data) => data["shift"]["halls"]));
 
-	readonly tables$ = this._shiftTablesQuery.valueChanges.pipe(
-		map((result) => result.data.tables.data),
+	readonly tables$ = this._activatedRoute.data.pipe(
+		map((data) => data["shift"]["tables"]),
 		switchMap((tables) =>
-			this.selectedHalls$.pipe(map((halls) => (tables || []).filter((table) => halls.includes(table.hall.id))))
+			this.selectedHalls$.pipe(map((halls) => (tables || []).filter((table: any) => halls.includes(table.hall.id))))
 		)
 	);
 
-	readonly activeShift$ = this._activeShiftQuery.valueChanges.pipe(map((result) => result.data.activeShift));
+	readonly activeShift$ = this._activatedRoute.data.pipe(map((data) => data["activeShift"]));
 
 	selectedTables: ITableToSelect[] = [];
 	selectedHalls: string[] = [];
 	shiftId?: string;
 
 	constructor(
-		private readonly _activeShiftGQL: ActiveShiftGQL,
-		private readonly _shiftHallsGQL: ShiftHallsGQL,
-		private readonly _shiftTablesGQL: ShiftTablesGQL,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _shiftsService: ShiftsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
@@ -66,11 +56,6 @@ export class ShiftComponent implements OnInit {
 		if (!placeId) {
 			return;
 		}
-
-		await this._shiftHallsQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
-		await this._shiftTablesQuery.setVariables({
-			filtersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
-		});
 
 		this.activeShift$.pipe(untilDestroyed(this)).subscribe((activeShift) => {
 			this.shiftId = activeShift?.id;
@@ -102,7 +87,7 @@ export class ShiftComponent implements OnInit {
 				)
 		);
 
-		await this._activeShiftQuery.refetch();
+		// await this._activeShiftQuery.refetch();
 	}
 
 	async updateShift(id: string, tables?: ITableToSelect[]) {
@@ -121,7 +106,7 @@ export class ShiftComponent implements OnInit {
 				)
 		);
 
-		await this._activeShiftQuery.refetch();
+		// await this._activeShiftQuery.refetch();
 	}
 
 	async closeShift(shiftId: string) {
@@ -146,6 +131,6 @@ export class ShiftComponent implements OnInit {
 				)
 		);
 
-		await this._activeShiftQuery.refetch();
+		// await this._activeShiftQuery.refetch();
 	}
 }

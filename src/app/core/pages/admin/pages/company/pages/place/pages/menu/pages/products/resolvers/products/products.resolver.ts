@@ -18,10 +18,10 @@ export class ProductsResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
-		};
-
-		return this._productsPageGQL.watch(variables).valueChanges.pipe(map((result) => result.data.products.data));
+		return this._productsPageGQL
+			.fetch({
+				filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
+			})
+			.pipe(map((result) => result.data.products.data));
 	}
 }

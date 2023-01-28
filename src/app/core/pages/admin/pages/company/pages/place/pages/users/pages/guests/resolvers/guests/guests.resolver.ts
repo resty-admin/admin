@@ -18,13 +18,13 @@ export class GuestsResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [
-				// { key: "place.id", operator: "=", value: placeId },
-				{ key: "role", operator: "=", value: UserRoleEnum.Client }
-			]
-		};
-
-		return this._guestsPageGQL.watch(variables).valueChanges.pipe(map((result) => result.data.users.data));
+		return this._guestsPageGQL
+			.fetch({
+				filtersArgs: [
+					// { key: "place.id", operator: "=", value: placeId },
+					{ key: "role", operator: "=", value: UserRoleEnum.Client }
+				]
+			})
+			.pipe(map((result) => result.data.users.data));
 	}
 }

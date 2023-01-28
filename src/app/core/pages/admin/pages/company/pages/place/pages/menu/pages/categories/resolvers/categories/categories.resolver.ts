@@ -18,10 +18,10 @@ export class CategoriesResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-		};
-
-		return this._categoriesPageGQL.watch(variables).valueChanges.pipe(map((result) => result.data.categories.data));
+		return this._categoriesPageGQL
+			.fetch({
+				filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			})
+			.pipe(map((result) => result.data.categories.data));
 	}
 }

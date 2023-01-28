@@ -18,12 +18,10 @@ export class AttriburesResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-		};
-
 		return this._attributesPageGQL
-			.watch(variables)
-			.valueChanges.pipe(map((result) => result.data.attributeGroups.data));
+			.fetch({
+				filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			})
+			.pipe(map((result) => result.data.attributeGroups.data));
 	}
 }

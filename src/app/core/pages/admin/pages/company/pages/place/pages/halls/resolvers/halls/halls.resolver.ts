@@ -18,13 +18,13 @@ export class HallsResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-		};
-
-		return this._hallsPageGQL.watch(variables).valueChanges.pipe(
-			map((result) => result.data.halls.data),
-			map((halls) => halls?.map((hall) => ({ ...hall, routerLink: hall.id })))
-		);
+		return this._hallsPageGQL
+			.fetch({
+				filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			})
+			.pipe(
+				map((result) => result.data.halls.data),
+				map((halls) => halls?.map((hall) => ({ ...hall, routerLink: hall.id })))
+			);
 	}
 }

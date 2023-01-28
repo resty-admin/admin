@@ -15,7 +15,7 @@ export const SHIFT_ROUTES: INavigationSkeletonRoute[] = [
 			animation: SHIFT_PAGE
 		},
 		resolve: {
-			places: ShiftResolver
+			shift: ShiftResolver
 		},
 		skeleton: {
 			component: ShiftSkeletonComponent

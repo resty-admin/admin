@@ -18,10 +18,10 @@ export class CommandsResolver implements Resolve<any> {
 			return of(null);
 		}
 
-		const variables = {
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-		};
-
-		return this._commandsPageGQL.watch(variables).valueChanges.pipe(map((result) => result.data.commands.data));
+		return this._commandsPageGQL
+			.fetch({
+				filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			})
+			.pipe(map((result) => result.data.commands.data));
 	}
 }

@@ -1,4 +1,4 @@
-query ActiveShift {
+query ShiftPage($hallsFiltersArgs: [FiltersArgsDto!], $tablesFiltersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 	activeShift {
 		id
 		tables {
@@ -11,10 +11,7 @@ query ActiveShift {
 			}
 		}
 	}
-}
-
-query ShiftHalls($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-	halls(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+	halls(filtersArgs: $hallsFiltersArgs, take: $take, skip: $skip) {
 		page
 		totalCount
 		data {
@@ -22,10 +19,7 @@ query ShiftHalls($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 			name
 		}
 	}
-}
-
-query ShiftTables($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-	tables(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+	tables(filtersArgs: $tablesFiltersArgs, take: $take, skip: $skip) {
 		page
 		totalCount
 		data {
