@@ -9,7 +9,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { TableDialogComponent } from "./layout/table-dialog.component";
-import { TABLE_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [TableDialogComponent],
@@ -23,7 +22,6 @@ import { TABLE_DIALOG_PROVIDERS } from "./providers";
 		SelectModule,
 		I18nModule
 	],
-	providers: TABLE_DIALOG_PROVIDERS,
 	exports: [TableDialogComponent]
 })
 export class TableDialogModule {}

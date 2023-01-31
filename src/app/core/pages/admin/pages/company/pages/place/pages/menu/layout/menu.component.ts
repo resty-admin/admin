@@ -3,8 +3,6 @@ import { ChildrenOutletContexts } from "@angular/router";
 import { routerAnimation } from "@shared/animations";
 import { ADMIN_ROUTES } from "@shared/constants";
 
-import { MENU_PAGE } from "../constants";
-
 @Component({
 	selector: "app-menu",
 	templateUrl: "./menu.component.html",
@@ -13,18 +11,17 @@ import { MENU_PAGE } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent {
-	readonly menuPage = MENU_PAGE;
 	readonly pages = [
 		{
-			label: "Блюда",
+			label: "PRODUCTS",
 			routerLink: ADMIN_ROUTES.PRODUCTS.path
 		},
 		{
-			label: "Категории",
+			label: "CATEGORIES",
 			routerLink: ADMIN_ROUTES.CATEGORIES.path
 		},
 		{
-			label: "Модификации",
+			label: "ATTRIBUTES",
 			routerLink: ADMIN_ROUTES.ATTRIBUTES.path
 		}
 	];

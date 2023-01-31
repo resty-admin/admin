@@ -9,7 +9,6 @@ import { ImageModule } from "@shared/ui/image";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { VerificationCodeComponent } from "./layout/verification-code.component";
-import { VERIFICATION_CODE_PROVIDERS } from "./providers";
 import { VerificationCodeRoutingModule } from "./verification-code-routing.module";
 
 @NgModule({
@@ -25,7 +24,6 @@ import { VerificationCodeRoutingModule } from "./verification-code-routing.modul
 		ReactiveFormsModule,
 		CardModule,
 		ButtonModule
-	],
-	providers: VERIFICATION_CODE_PROVIDERS
+	]
 })
 export class VerificationCodeModule {}

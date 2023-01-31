@@ -10,10 +10,9 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, switchMap, take } from "rxjs";
+import { filter, from, map, switchMap, take } from "rxjs";
 
-import { COMMANDS_PAGE } from "../constants";
-import { CommandsPageService } from "../services";
+import { CommandsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-commands",
@@ -22,21 +21,24 @@ import { CommandsPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandsComponent implements OnInit, OnDestroy {
-	readonly commandsPage = COMMANDS_PAGE;
-
-	readonly commands$ = this._commandsPageService.commands$;
+	private readonly _commandsPageQuery = this._commandsPageGQL.watch();
+	readonly commands$ = this._commandsPageQuery.valueChanges.pipe(map((result) => result.data.commands.data));
 
 	constructor(
 		private readonly _actionsService: ActionsService,
 		private readonly _routerService: RouterService,
-		private readonly _commandsPageService: CommandsPageService,
+		private readonly _commandsPageGQL: CommandsPageGQL,
 		private readonly _commandsService: CommandsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		await this._commandsPageQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+		});
+
 		this._actionsService.setAction({ label: "Добавить команлу", func: () => this.openCreateCommandDialog() });
 	}
 
@@ -53,8 +55,8 @@ export class CommandsComponent implements OnInit, OnDestroy {
 							place: this._routerService.getParams(PLACE_ID.slice(1))
 						})
 						.pipe(
-							switchMap(() => from(this._commandsPageService.commandsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("createCommand"))
+							switchMap(() => from(this._commandsPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("CREATE_COMMAND"))
 						)
 				),
 				take(1)
@@ -71,8 +73,8 @@ export class CommandsComponent implements OnInit, OnDestroy {
 					this._commandsService
 						.updateCommand({ id: command.id, name: command.name, description: command.description })
 						.pipe(
-							switchMap(() => from(this._commandsPageService.commandsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("updateCommand"))
+							switchMap(() => from(this._commandsPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_COMMAND"))
 						)
 				),
 				take(1)
@@ -82,13 +84,13 @@ export class CommandsComponent implements OnInit, OnDestroy {
 
 	openDeleteCommandDialog(value: AtLeast<CommandEntity, "id">) {
 		this._dialogService
-			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("confirmCommand"), value } })
+			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("CONFIRM_COMMAND"), value } })
 			.afterClosed$.pipe(
 				filter((result) => Boolean(result)),
 				switchMap(() =>
 					this._commandsService.deleteCommand(value.id).pipe(
-						switchMap(() => from(this._commandsPageService.commandsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("deleteCommand"))
+						switchMap(() => from(this._commandsPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("DELETE_COMMAND"))
 					)
 				),
 				take(1)

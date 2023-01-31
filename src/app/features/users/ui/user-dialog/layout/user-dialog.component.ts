@@ -4,10 +4,8 @@ import type { UserEntity } from "@graphql";
 import { UserRoleEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { CryptoService } from "@shared/modules/crypto";
 
-import { USER_DIALOG } from "../constants";
 import type { IUserForm } from "../interfaces";
 
 @Component({
@@ -17,8 +15,6 @@ import type { IUserForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDialogComponent implements OnInit {
-	readonly userDialog = USER_DIALOG;
-	readonly form = FORM;
 	readonly roles = Object.values(UserRoleEnum).map((role) => ({
 		label: role,
 		value: role

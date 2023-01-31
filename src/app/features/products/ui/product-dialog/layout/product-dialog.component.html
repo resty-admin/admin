@@ -1,40 +1,40 @@
-<div class="product-dialog" *transloco="let t; read: productDialog">
+<div class="product-dialog" *transloco="let t">
 	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
-	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="f('name_label')"
-			[placeholder]="f('name_placeholder')"
+			[label]="t('NAME_LABEL')"
+			[placeholder]="t('NAME_PLACEHOLDER')"
 		></app-input>
 		<app-textarea
 			class="input"
 			formControlName="description"
-			[label]="f('description_label')"
-			[placeholder]="f('description_placeholder')"
+			[label]="t('DESCRIPTION_LABEL')"
+			[placeholder]="t('DESCRIPTION_PLACEHOLDER')"
 		></app-textarea>
 		<app-input
 			class="input"
 			formControlName="price"
 			returnType="float"
-			[label]="f('price_label')"
-			[placeholder]="f('price_placeholder')"
+			[label]="t('PRICE_LABEL')"
+			[placeholder]="t('PRICE_PLACEHOLDER')"
 		></app-input>
 		<app-file
 			class="input"
 			formControlName="file"
 			[previewImage]="data?.file"
-			[label]="f('file_label')"
-			[placeholder]="f('file_placeholder')"
+			[label]="t('FILE_LABEL')"
+			[placeholder]="t('FILE_PLACEHOLDER')"
 		></app-file>
 		<app-select
 			class="input"
 			bindLabel="name"
 			bindValue="id"
 			formControlName="category"
-			[label]="f('category_label')"
-			[placeholder]="f('category_placeholder')"
+			[label]="t('category_label')"
+			[placeholder]="t('category_placeholder')"
 			[options]="categories$ | async"
 			[searchable]="true"
 			[addTag]="addCategoryTag"
@@ -44,8 +44,8 @@
 			bindLabel="name"
 			bindValue="id"
 			formControlName="attrsGroups"
-			[label]="f('attribute_groups_label')"
-			[placeholder]="f('attribute_groups_placeholder')"
+			[label]="t('attribute_groups_label')"
+			[placeholder]="t('attribute_groups_placeholder')"
 			[options]="attributeGroups$ | async"
 			[multiple]="true"
 			[searchable]="true"

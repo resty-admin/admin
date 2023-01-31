@@ -7,12 +7,10 @@ import { LinkModule } from "@shared/ui/link";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { RoleComponent } from "./layout/role.component";
-import { ROLE_PROVIDERS } from "./providers";
 import { RoleRoutingModule } from "./role-routing.module";
 
 @NgModule({
 	declarations: [RoleComponent],
-	imports: [CommonModule, RoleRoutingModule, I18nModule, LinkModule, TypographyModule, IconModule, ImageModule],
-	providers: ROLE_PROVIDERS
+	imports: [CommonModule, RoleRoutingModule, I18nModule, LinkModule, TypographyModule, IconModule, ImageModule]
 })
 export class RoleModule {}

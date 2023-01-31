@@ -10,10 +10,9 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, switchMap, take } from "rxjs";
+import { filter, from, map, switchMap, take } from "rxjs";
 
-import { ACTIVE_ORDERS_PAGE } from "../constants";
-import { ActiveOrdersPageService } from "../services";
+import { ActiveOrdersPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-active-orders",
@@ -23,12 +22,12 @@ import { ActiveOrdersPageService } from "../services";
 })
 export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	readonly adminRoutes = ADMIN_ROUTES;
-	readonly activeOrdersPage = ACTIVE_ORDERS_PAGE;
 
-	readonly activeOrders$ = this._activeOrdersPageService.activeOrders$;
+	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
+	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders.data));
 
 	constructor(
-		private readonly _activeOrdersPageService: ActiveOrdersPageService,
+		private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL,
 		private readonly _ordersService: OrdersService,
 		private readonly _actionsService: ActionsService,
 		private readonly _routerService: RouterService,
@@ -37,7 +36,11 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 		private readonly _i18nService: I18nService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		await this._activeOrdersPageQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+		});
+
 		this._actionsService.setAction({ label: "Добавить заказ", func: () => this.openCreateOrderDialog() });
 	}
 
@@ -48,8 +51,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				this._ordersService
 					.createOrder({ place: this._routerService.getParams(PLACE_ID.slice(1)), type: order.type })
 					.pipe(
-						switchMap(() => from(this._activeOrdersPageService.activeOrdersPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("createOrder"))
+						switchMap(() => from(this._activeOrdersPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("CREATE_ORDER"))
 					)
 			)
 		);
@@ -62,8 +65,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				filter((order) => Boolean(order)),
 				switchMap((order) =>
 					this._ordersService.updateOrder({ id: order.id, type: order.type }).pipe(
-						switchMap(() => from(this._activeOrdersPageService.activeOrdersPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("updateOrder"))
+						switchMap(() => from(this._activeOrdersPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("UPDATE_ORDER"))
 					)
 				),
 				take(1)
@@ -74,14 +77,14 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	openDeleteOrderDialog(value: AtLeast<ActiveOrderEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("title"), value }
+				data: { title: this._i18nService.translate("CONFIRM_ORDER"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._ordersService.deleteOrder(value.id).pipe(
-						switchMap(() => from(this._activeOrdersPageService.activeOrdersPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("deleteOrder"))
+						switchMap(() => from(this._activeOrdersPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("DELETE_ORDER"))
 					)
 				),
 				take(1)
@@ -92,7 +95,7 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	closeOrder(order: AtLeast<ActiveOrderEntity, "id">) {
 		this._ordersService
 			.closeOrder(order.id)
-			.pipe(this._toastrService.observe(this._i18nService.translate("closeOrder")), take(1))
+			.pipe(this._toastrService.observe(this._i18nService.translate("CLOSE_ORDER")), take(1))
 			.subscribe();
 	}
 

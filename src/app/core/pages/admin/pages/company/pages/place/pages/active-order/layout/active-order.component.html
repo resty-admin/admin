@@ -1,4 +1,4 @@
-<div class="order-page" *transloco="let t; read: activeOrderPage">
+<div class="order-page" *transloco="let t">
 	<ng-container *ngIf="activeOrder$ | async as activeOrder">
 		<app-order-info [order]="activeOrder"></app-order-info>
 
@@ -31,7 +31,7 @@
 		<app-textarea
 			class="textarea"
 			[value]="activeOrder.comments"
-			[label]="t('comment')"
+			[label]="t('COMMNET')"
 			[disabled]="true"
 		></app-textarea>
 	</ng-container>

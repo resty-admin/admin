@@ -15,7 +15,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { OrdersComponent } from "./layout/orders.component";
 import { OrderRoutingModule } from "./orders-routing.module";
-import { ORDERS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [OrdersComponent],
@@ -34,7 +33,6 @@ import { ORDERS_PROVIDERS } from "./providers";
 		TabsModule,
 		AddHeaderModule,
 		OrderDialogModule
-	],
-	providers: ORDERS_PROVIDERS
+	]
 })
 export class OrdersModule {}

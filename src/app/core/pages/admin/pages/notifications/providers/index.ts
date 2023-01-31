@@ -1,3 +1,0 @@
-import { NOTIFICATIONS_I18N_PROVIDERS } from "./notifications-i18n.provider";
-
-export const NOTIFICATIONS_PROVIDERS = NOTIFICATIONS_I18N_PROVIDERS;

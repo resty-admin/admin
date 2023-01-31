@@ -7,10 +7,9 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
-import { PAYMENT_SYSTEMS_PAGE } from "../constants";
-import { PaymentSystemsPageService } from "../services";
+import { PaymentSystemsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-payment-systems",
@@ -19,11 +18,13 @@ import { PaymentSystemsPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemsComponent {
-	readonly paymentSystemsPage = PAYMENT_SYSTEMS_PAGE;
-	readonly paymentSystems$ = this._paymentsSystemsPageService.paymentSystems$;
+	private readonly _paymentSystemsPageQuery = this._paymentSystemsPageGQL.watch();
+	readonly paymentSystems$ = this._paymentSystemsPageQuery.valueChanges.pipe(
+		map((result) => result.data.paymentSystems.data)
+	);
 
 	constructor(
-		private readonly _paymentsSystemsPageService: PaymentSystemsPageService,
+		private readonly _paymentSystemsPageGQL: PaymentSystemsPageGQL,
 		private readonly _paymentSystemService: PaymentSystemsService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
@@ -43,7 +44,7 @@ export class PaymentSystemsComponent {
 							paymentSystem: paymentSystem.id,
 							placeConfigFields: paymentSystem.configFields
 						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("connected")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("CONNECTED")))
 				),
 				take(1)
 			)

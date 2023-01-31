@@ -16,20 +16,6 @@
 			justify-content: center;
 			background-color: transparent;
 			border: rem(1) solid transparent;
-
-			.icon {
-				display: none;
-				transform: scale(4);
-				color: white;
-			}
-
-			&:hover {
-				border-color: var(--primary);
-
-				.icon {
-					display: block;
-				}
-			}
 		}
 	}
 }

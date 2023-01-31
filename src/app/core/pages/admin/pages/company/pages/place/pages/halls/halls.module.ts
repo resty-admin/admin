@@ -22,7 +22,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { HALLS_COMPONENTS } from "./components";
 import { HallsRoutingModule } from "./halls-routing.module";
 import { HallsComponent } from "./layout/halls.component";
-import { HALLS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [HallsComponent, ...HALLS_COMPONENTS],
@@ -48,7 +47,6 @@ import { HALLS_PROVIDERS } from "./providers";
 		FiltersSkeletonModule,
 		ListSkeletonModule,
 		HallSkeletonModule
-	],
-	providers: HALLS_PROVIDERS
+	]
 })
 export class HallsModule {}

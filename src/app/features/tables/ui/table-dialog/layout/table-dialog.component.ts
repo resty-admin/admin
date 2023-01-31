@@ -3,11 +3,9 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { TableEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { take } from "rxjs";
 
-import { TABLE_DIALOG } from "../constants";
 import type { ITableForm } from "../interfaces";
 
 @Component({
@@ -17,8 +15,6 @@ import type { ITableForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableDialogComponent implements OnInit {
-	readonly tableDialog = TABLE_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<ITableForm>({
 		code: 0,
 		name: "",

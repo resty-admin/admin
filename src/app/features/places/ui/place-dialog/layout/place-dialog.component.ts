@@ -3,11 +3,9 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { PlaceEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { take } from "rxjs";
 
-import { PLACE_DIALOG } from "../constants";
 import type { IPlaceForm } from "../interfaces";
 
 @Component({
@@ -17,8 +15,6 @@ import type { IPlaceForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlaceDialogComponent implements OnInit {
-	readonly placeDialog = PLACE_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IPlaceForm>({
 		name: "",
 		address: "",

@@ -3,7 +3,6 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { AccessPageSkeletonComponent } from "./components";
-import { ACCESS_PAGE } from "./constants";
 import { AccessComponent } from "./layout/access.component";
 import { AccessPageResolver } from "./resolvers";
 
@@ -12,7 +11,7 @@ export const ACCESS_ROUTES: INavigationSkeletonRoute[] = [
 		path: "",
 		component: AccessComponent,
 		data: {
-			animation: ACCESS_PAGE
+			animation: "accessPage"
 		},
 		resolve: {
 			places: AccessPageResolver

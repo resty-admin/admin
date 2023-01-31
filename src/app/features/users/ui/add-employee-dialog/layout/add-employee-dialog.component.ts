@@ -4,11 +4,9 @@ import type { UserEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { FORM } from "@shared/constants";
 import type { DeepAtLeast } from "@shared/interfaces";
 import { take } from "rxjs";
 
-import { ADD_EMPLOYEE_DIALOG } from "../constants";
 import { FindUserGQL } from "../graphql";
 import type { IAddEmployeeForm } from "../interfaces";
 
@@ -20,9 +18,6 @@ import type { IAddEmployeeForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddEmployeeDialogComponent implements OnInit {
-	readonly addEmployeeDiaalog = ADD_EMPLOYEE_DIALOG;
-	readonly form = FORM;
-
 	readonly formGroup = this._formBuilder.group<IAddEmployeeForm>({
 		email: "",
 		tel: ""

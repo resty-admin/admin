@@ -21,7 +21,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { GUESTS_COMPONENTS } from "./components";
 import { GuestsRoutingModule } from "./guests-routing.module";
 import { GuestsComponent } from "./layout/guests.component";
-import { GUESTS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [GuestsComponent, ...GUESTS_COMPONENTS],
@@ -45,7 +44,6 @@ import { GUESTS_PROVIDERS } from "./providers";
 		FiltersSkeletonModule,
 		DatatableSkeletonModule,
 		MoreModule
-	],
-	providers: GUESTS_PROVIDERS
+	]
 })
 export class GuestsModule {}

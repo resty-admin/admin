@@ -1,29 +1,26 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
+import type { ApolloQueryResult } from "@apollo/client";
 import { PLACE_ID } from "@shared/constants";
-import { from, of, switchMap } from "rxjs";
+import { of } from "rxjs";
 
 import type { AttributesPageQuery } from "../../graphql";
-import { AttributesPageService } from "../../services";
+import { AttributesPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class AttriburesPageResolver implements Resolve<AttributesPageQuery["attributeGroups"]["data"]> {
-	constructor(private readonly _attributesPageService: AttributesPageService) {}
+export class AttriburesPageResolver implements Resolve<ApolloQueryResult<AttributesPageQuery> | null> {
+	constructor(private readonly _attributesPageGQL: AttributesPageGQL) {}
 
 	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {
 		const placeId = activatedRouteSnapshot.paramMap.get(PLACE_ID.slice(1));
 
 		if (!placeId) {
-			return of([]);
+			return of(null);
 		}
 
-		this._attributesPageService.attributesPageQuery.resetLastResults();
-
-		return from(
-			this._attributesPageService.attributesPageQuery.setVariables({
-				filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
-			})
-		).pipe(switchMap(() => this._attributesPageService.attributeGroups$));
+		return this._attributesPageGQL.fetch({
+			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+		});
 	}
 }

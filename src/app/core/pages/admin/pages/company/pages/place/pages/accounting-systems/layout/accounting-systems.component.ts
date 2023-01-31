@@ -5,10 +5,9 @@ import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
-import { ACCOUNTING_SYSTEMS_PAGE } from "../constants";
-import { AccountingSystemsPageService } from "../services";
+import { AccountingSystemsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-accounting-systems",
@@ -17,11 +16,13 @@ import { AccountingSystemsPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemsComponent {
-	readonly accountingSystemsPage = ACCOUNTING_SYSTEMS_PAGE;
-	readonly accountingSystems$ = this._accountingSystemsPageService.accountingSystems$;
+	private readonly __accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
+	readonly accountingSystems$ = this.__accountingSystemsPageQuery.valueChanges.pipe(
+		map((result) => result.data.accountingSystems.data)
+	);
 
 	constructor(
-		private readonly _accountingSystemsPageService: AccountingSystemsPageService,
+		private readonly _accountingSystemsPageGQL: AccountingSystemsPageGQL,
 		private readonly _accountingSystemsService: AccountingSystemsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
@@ -36,7 +37,7 @@ export class AccountingSystemsComponent {
 				switchMap((accountingSystem) =>
 					this._accountingSystemsService
 						.connectPaymentSystemToPlace(accountingSystem)
-						.pipe(this._toastrService.observe(this._i18nService.translate("connected")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("CONNECTED")))
 				),
 				take(1)
 			)

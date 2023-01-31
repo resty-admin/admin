@@ -1,3 +1,0 @@
-import { ATTRIBUTE_DILAOG_I18N_PROVIDERS } from "./attribute-dialog-i18n.provider";
-
-export const ATTRIBUTE_DIALOG_PROVIDERS = ATTRIBUTE_DILAOG_I18N_PROVIDERS;

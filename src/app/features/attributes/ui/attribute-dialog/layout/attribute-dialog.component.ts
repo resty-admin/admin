@@ -3,9 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { AttributesEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 
-import { ATTRIBUTE_DIALOG } from "../constants";
 import type { IAttributeForm } from "../interfaces";
 
 @Component({
@@ -15,8 +13,6 @@ import type { IAttributeForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributeDialogComponent implements OnInit {
-	readonly attributeDialog = ATTRIBUTE_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IAttributeForm>({
 		name: "",
 		price: 0

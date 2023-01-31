@@ -5,14 +5,17 @@ import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
+import { AUTH_TYPES } from "@shared/data";
 import { RouterService } from "@shared/modules/router";
 import { take } from "rxjs";
 
-import { AUTH_TYPES } from "../../../data";
-import { SIGN_UP_PAGE } from "../constants";
-import type { ISignUp } from "../interfaces";
+export interface ISignUp {
+	email: string;
+	tel: string;
+	password: string;
+	role: UserRoleEnum;
+}
 
 @UntilDestroy()
 @Component({
@@ -22,8 +25,6 @@ import type { ISignUp } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnInit {
-	readonly form = FORM;
-	readonly signUpPage = SIGN_UP_PAGE;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 	readonly roles = [UserRoleEnum.Admin, UserRoleEnum.Hostess, UserRoleEnum.Waiter, UserRoleEnum.Hookah].map((role) => ({

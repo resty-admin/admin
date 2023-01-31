@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import type { IAsidePage } from "@shared/interfaces";
 import { SharedService } from "@shared/services";
-
-import { CORE_PAGE } from "../../constants";
-import type { IAsidePage } from "../../interfaces";
 
 @Component({
 	selector: "app-nav",
@@ -11,7 +9,6 @@ import type { IAsidePage } from "../../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent {
-	readonly corePage = CORE_PAGE;
 	@Input() pages: IAsidePage[] | null = [];
 	@Output() closeClicked = new EventEmitter();
 

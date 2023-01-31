@@ -1,18 +1,18 @@
-<div class="place" *transloco="let t; read: corePage">
+<div class="place" *transloco="let t">
 	<p class="title">
-		<span class="text">{{ t("places") }}</span>
+		<span class="text">{{ t("PLACES") }}</span>
 		<button appIconButton class="button" (click)="emitAddPlaceClick()">
 			<app-icon class="icon" name="add"></app-icon>
 		</button>
 	</p>
-	<div class="container" *transloco="let f; read: form">
+	<div class="container">
 		<app-select
 			class="select"
 			bindLabel="name"
 			bindValue="id"
 			[value]="placeId"
-			[label]="f('place_label')"
-			[placeholder]="f('place_placeholder')"
+			[label]="t('PLACE_LABEL')"
+			[placeholder]="t('PLACE_PLACEHOLDER')"
 			[options]="places"
 			(valueChange)="emitPlaceChange($event)"
 		></app-select>

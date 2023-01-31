@@ -3,7 +3,6 @@ import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { ADMIN_ROUTES as SHARED_ADMIN_ROUTES } from "@shared/constants";
 
-import { PLACE_PAGE } from "./constants";
 import { PlaceComponent } from "./layout/place.component";
 
 export const PLACE_ROUTES: Route[] = [
@@ -11,7 +10,7 @@ export const PLACE_ROUTES: Route[] = [
 		path: "",
 		component: PlaceComponent,
 		data: {
-			animation: PLACE_PAGE
+			animation: "placePge"
 		},
 		children: [
 			{

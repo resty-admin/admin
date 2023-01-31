@@ -16,10 +16,9 @@ import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, switchMap, take } from "rxjs";
+import { filter, from, map, switchMap, take } from "rxjs";
 
-import { ATTRIBUTES_PAGE } from "../constants";
-import { AttributesPageService } from "../services";
+import { AttributesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-attributes",
@@ -28,26 +27,31 @@ import { AttributesPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributesComponent implements OnInit, OnDestroy {
-	readonly attributesPage = ATTRIBUTES_PAGE;
-
-	readonly attributeGroups$ = this._attributesPageService.attributeGroups$;
+	private readonly _attributesPageQuery = this._attributesPageGQL.watch();
+	readonly attributeGroups$ = this._attributesPageQuery.valueChanges.pipe(
+		map((result) => result.data.attributeGroups.data)
+	);
 
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _attributesPageService: AttributesPageService,
-		private readonly _attributeGroupsService: AttributeGroupsService,
+		private readonly _attributesPageGQL: AttributesPageGQL,
 		private readonly _attributesService: AttributesService,
+		private readonly _attributeGroupsService: AttributeGroupsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this._actionsService.setAction({
 			label: "Добавить модификации",
 			func: () => this.openCreateAttributeGroupDialog()
+		});
+
+		await this._attributesPageQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
 		});
 	}
 
@@ -66,8 +70,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("createAttributeGroup"))
+							switchMap(() => from(this._attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE_GROUP"))
 						)
 				),
 				take(1)
@@ -89,8 +93,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("updateAttributeGroup"))
+							switchMap(() => from(this._attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_ATTRIBUTE_GROUP"))
 						)
 				),
 				take(1)
@@ -101,14 +105,14 @@ export class AttributesComponent implements OnInit, OnDestroy {
 	openDeleteAttributeGroupDialog(value: DeepAtLeast<AttributesGroupEntity, "id">) {
 		return this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("confirmAttributeGroup"), value }
+				data: { title: this._i18nService.translate("CONFIRM_ATTRIBUTE_GROUP"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._attributeGroupsService.deleteAttributeGroup(value.id).pipe(
-						switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("deleteAttributeGroup"))
+						switchMap(() => from(this._attributesPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("DELETE_ATTRIBUTE_GROUP"))
 					)
 				),
 				take(1)
@@ -129,8 +133,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("createAttribute"))
+							switchMap(() => from(this._attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE"))
 						)
 				),
 				take(1)
@@ -152,8 +156,8 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("updateAttribute"))
+							switchMap(() => from(this._attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_ATTRIBUTE"))
 						)
 				),
 				take(1)
@@ -164,14 +168,14 @@ export class AttributesComponent implements OnInit, OnDestroy {
 	openDeleteAttributeDialog(value: DeepAtLeast<AttributesEntity, "id">) {
 		return this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("confirmAttribute"), value }
+				data: { title: this._i18nService.translate("CONFIRM_ATTRIBUTE"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._attributesService.deleteAttribute(value.id).pipe(
-						switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("deleteAttribute"))
+						switchMap(() => from(this._attributesPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("DELETE_ATTRIBUTE"))
 					)
 				),
 				take(1)

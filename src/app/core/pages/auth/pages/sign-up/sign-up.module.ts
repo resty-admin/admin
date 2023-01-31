@@ -13,7 +13,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { SignUpComponent } from "./layout/sign-up.component";
-import { SIGN_UP_PROVIDERS } from "./providers";
 import { SignUpRoutingModule } from "./sign-up-routing.module";
 
 @NgModule({
@@ -32,7 +31,6 @@ import { SignUpRoutingModule } from "./sign-up-routing.module";
 		ImageModule,
 		IconModule,
 		SelectModule
-	],
-	providers: SIGN_UP_PROVIDERS
+	]
 })
 export class SignUpModule {}

@@ -10,8 +10,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, from, map, switchMap, take } from "rxjs";
 
-import { PLACES_PAGE } from "../constants";
-import { PlacesPageService } from "../services";
+import { PlacesPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -21,12 +20,12 @@ import { PlacesPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlacesComponent implements OnInit {
-	readonly placesPage = PLACES_PAGE;
-	readonly places$ = this._placesPageService.places$;
+	private readonly _placesPageQuery = this._placesPageGQL.watch();
+	readonly places$ = this._placesPageQuery.valueChanges.pipe(map((result) => result.data.places.data));
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _placesPageService: PlacesPageService,
+		private readonly _placesPageGQL: PlacesPageGQL,
 		private readonly _placesService: PlacesService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
@@ -35,10 +34,19 @@ export class PlacesComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
+		this._routerService
+			.selectParams(COMPANY_ID.slice(1))
+			.pipe(untilDestroyed(this))
+			.subscribe(async () => {
+				await this._placesPageQuery.setVariables({
+					filtersArgs: [{ key: "company.id", operator: "=", value: this._routerService.getParams(COMPANY_ID.slice(1)) }]
+				});
+			});
+
 		this._placesService.changes$
 			.pipe(
 				untilDestroyed(this),
-				switchMap(() => from(this._placesPageService.placesPageQuery.refetch()))
+				switchMap(() => from(this._placesPageQuery.refetch()))
 			)
 			.subscribe();
 	}
@@ -57,10 +65,8 @@ export class PlacesComponent implements OnInit {
 							file: place.file?.id
 						})
 						.pipe(
-							switchMap((result) =>
-								from(this._placesPageService.placesPageQuery.refetch()).pipe(map(() => result.data?.createPlace))
-							),
-							this._toastrService.observe(this._i18nService.translate("createPlace"))
+							switchMap((result) => from(this._placesPageQuery.refetch()).pipe(map(() => result.data?.createPlace))),
+							this._toastrService.observe(this._i18nService.translate("CREATE_PLACE"))
 						)
 				),
 				take(1)

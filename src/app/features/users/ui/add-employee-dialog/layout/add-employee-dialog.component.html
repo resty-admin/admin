@@ -1,12 +1,12 @@
-<div class="add-employee-dialog" *transloco="let t; read: addEmployeeDiaalog">
+<div class="add-employee-dialog" *transloco="let t">
 	<h1 appTypography theme="2" class="title">Найти сотрудниа</h1>
 
-	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="tel"
-			[label]="f('tel_label')"
-			[placeholder]="f('tel_placeholder')"
+			[label]="t('TEL_LABEL')"
+			[placeholder]="t('TEL_PLACEHOLDER')"
 		></app-input>
 
 		<p class="or">Или</p>
@@ -14,8 +14,8 @@
 		<app-input
 			class="input"
 			formControlName="email"
-			[label]="f('email_label')"
-			[placeholder]="f('email_placeholder')"
+			[label]="t('EMAIL_LABEL')"
+			[placeholder]="t('EMAIL_PLACEHOLDER')"
 		></app-input>
 
 		<button *ngIf="!isEmployee" appButton class="search" type="button" (click)="findEmployee(formGroup.value)">

@@ -6,10 +6,9 @@ import { ProductToOrderStatusEnum } from "@graphql";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { take } from "rxjs";
+import { map, take } from "rxjs";
 
-import { HISTORY_ORDER_PAGE } from "../constants";
-import { HistoryOrderPageService } from "../services";
+import { HistoryOrderPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-history-order",
@@ -18,24 +17,28 @@ import { HistoryOrderPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrderComponent implements OnInit, OnDestroy {
-	readonly activeOrderPage = HISTORY_ORDER_PAGE;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
-	readonly historyOrder$ = this._historyOrderPageService.historyOrder$;
+	private readonly _historyOrderPageQuery = this._historyOrderPageGQL.watch();
+	readonly historyOrder$ = this._historyOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
 
 	constructor(
-		private readonly _historyOrderPageService: HistoryOrderPageService,
+		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService
 	) {}
 
-	ngOnInit() {
-		this._ordersService.setActiveOrderId(this._routerService.getParams(ORDER_ID.slice(1)));
+	async ngOnInit() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		await this._historyOrderPageQuery.setVariables({ orderId });
+
+		this._ordersService.setActiveOrderId(orderId);
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: ADMIN_ROUTES.ORDERS.absolutePath

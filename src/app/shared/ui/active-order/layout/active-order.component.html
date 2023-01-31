@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: activeOrderCmp">
+<ng-container *transloco="let t">
 	<a *ngIf="activeOrder" [class]="'active-order' + ' ' + activeOrder.type" [routerLink]="activeOrderLink">
 		<p class="code">{{ t("order") }} №{{ activeOrder.code }}</p>
 		<hr class="divider" />

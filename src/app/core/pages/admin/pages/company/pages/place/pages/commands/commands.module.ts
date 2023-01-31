@@ -22,7 +22,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { CommandsRoutingModule } from "./commands-routing.module";
 import { COMMANDS_COMPONENTS } from "./components";
 import { CommandsComponent } from "./layout/commands.component";
-import { COMMANDS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CommandsComponent, ...COMMANDS_COMPONENTS],
@@ -48,7 +47,6 @@ import { COMMANDS_PROVIDERS } from "./providers";
 		ListSkeletonModule,
 		AddHeaderSkeletonModule,
 		CommandSkeletonModule
-	],
-	providers: COMMANDS_PROVIDERS
+	]
 })
 export class CommandsModule {}

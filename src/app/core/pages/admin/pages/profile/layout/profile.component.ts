@@ -4,10 +4,8 @@ import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { take } from "rxjs";
 
-import { PROFILE_PAGE } from "../constants";
 import type { IProfileForm } from "../interfaces";
 
 @Component({
@@ -17,8 +15,6 @@ import type { IProfileForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-	readonly form = FORM;
-	readonly profilePage = PROFILE_PAGE;
 	readonly user$ = this._authService.me$;
 
 	readonly userRoleEnum = UserRoleEnum;

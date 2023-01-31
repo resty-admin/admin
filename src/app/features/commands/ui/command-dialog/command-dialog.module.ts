@@ -9,7 +9,6 @@ import { TextareaModule } from "@shared/ui/textarea";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { CommandDialogComponent } from "./layout/command-dialog.component";
-import { COMMAND_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CommandDialogComponent],
@@ -23,7 +22,6 @@ import { COMMAND_DIALOG_PROVIDERS } from "./providers";
 		ButtonModule,
 		I18nModule
 	],
-	providers: COMMAND_DIALOG_PROVIDERS,
 	exports: [CommandDialogComponent]
 })
 export class CommandDialogModule {}

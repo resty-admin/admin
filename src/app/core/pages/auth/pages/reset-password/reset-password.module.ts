@@ -11,7 +11,6 @@ import { RadioButtonModule } from "@shared/ui/radio-button";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { ResetPasswordComponent } from "./layout/reset-password.component";
-import { RESET_PASSWORD_PROVIDERS } from "./providers";
 import { ResetPasswordRoutingModule } from "./reset-password-routing.module";
 
 @NgModule({
@@ -28,7 +27,6 @@ import { ResetPasswordRoutingModule } from "./reset-password-routing.module";
 		LinkModule,
 		CardModule,
 		ImageModule
-	],
-	providers: RESET_PASSWORD_PROVIDERS
+	]
 })
 export class ResetPasswordModule {}

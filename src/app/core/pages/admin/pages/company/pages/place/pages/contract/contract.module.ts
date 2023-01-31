@@ -8,11 +8,9 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { ContractRoutingModule } from "./contract-routing.module";
 import { ContractComponent } from "./layout/contract.component";
-import { CONTRACT_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ContractComponent],
-	imports: [CommonModule, ContractRoutingModule, TypographyModule, PdfModule, ButtonModule, IconModule, I18nModule],
-	providers: CONTRACT_PROVIDERS
+	imports: [CommonModule, ContractRoutingModule, TypographyModule, PdfModule, ButtonModule, IconModule, I18nModule]
 })
 export class ContractModule {}

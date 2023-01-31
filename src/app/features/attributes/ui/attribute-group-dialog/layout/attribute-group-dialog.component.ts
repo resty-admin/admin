@@ -4,7 +4,6 @@ import { AttributesService } from "@features/attributes";
 import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
 import { AttributeGroupTypeEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
-import { FORM } from "@shared/constants";
 import { PLACE_ID } from "@shared/constants";
 import { buildForm } from "@shared/functions";
 import type { DeepPartial } from "@shared/interfaces";
@@ -15,7 +14,6 @@ import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
 import { AttributeDialogComponent } from "../../attribute-dialog/layout/attribute-dialog.component";
-import { ATTRIBUTE_GROUP_DIALOG } from "../constants";
 import { AttributeGroupDialogGQL } from "../graphql";
 import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.interface";
 
@@ -26,8 +24,6 @@ import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.int
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributeGroupDialogComponent implements OnInit {
-	readonly attributeGroupDialog = ATTRIBUTE_GROUP_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = buildForm<IAttributeGroupForm>({
 		name: [""],
 		attributes: [null],
@@ -94,7 +90,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 						price: attribute.price,
 						attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
 					})
-					.pipe(this._toastrService.observe(this._i18nService.translate("title")))
+					.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE")))
 			),
 			take(1)
 		);

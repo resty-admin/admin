@@ -3,10 +3,8 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { CommandEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
 
-import { COMMAND_DIALOG } from "../constants";
 import type { ICommandForm } from "../interfaces/command-form.interface";
 
 @Component({
@@ -16,8 +14,6 @@ import type { ICommandForm } from "../interfaces/command-form.interface";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandDialogComponent implements OnInit {
-	readonly commandDialog = COMMAND_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<ICommandForm>({
 		name: "",
 		description: ""

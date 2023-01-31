@@ -7,7 +7,6 @@ import { InputModule } from "@shared/ui/input";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { WelcomeComponent } from "./layout/welcome.component";
-import { WELCOME_PROVIDERS } from "./providers";
 import { WelcomeRoutingModule } from "./welcome-routing.module";
 
 @NgModule({
@@ -20,7 +19,6 @@ import { WelcomeRoutingModule } from "./welcome-routing.module";
 		ReactiveFormsModule,
 		I18nModule,
 		ButtonModule
-	],
-	providers: WELCOME_PROVIDERS
+	]
 })
 export class WelcomeModule {}

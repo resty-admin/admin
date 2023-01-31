@@ -11,8 +11,7 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, from, map, switchMap, take } from "rxjs";
 
-import { COMPANIES_PAGE } from "../constants";
-import { CompaniesPageService } from "../services";
+import { CompaniesPageGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -22,12 +21,12 @@ import { CompaniesPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompaniesComponent implements OnInit {
-	readonly companiesPage = COMPANIES_PAGE;
-	readonly companies$ = this._companiesPageService.companies$;
+	readonly _companiesPageQuery = this._companiesPageGQL.watch();
+	readonly companies$ = this._companiesPageQuery.valueChanges.pipe(map((result) => result.data.companies.data));
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _companiesPageService: CompaniesPageService,
+		private readonly _companiesPageGQL: CompaniesPageGQL,
 		private readonly _companiesService: CompaniesService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
@@ -39,7 +38,7 @@ export class CompaniesComponent implements OnInit {
 		this._companiesService.changes$
 			.pipe(
 				untilDestroyed(this),
-				switchMap(() => from(this._companiesPageService.companiesPageQuery.refetch()))
+				switchMap(() => from(this._companiesPageQuery.refetch()))
 			)
 			.subscribe(() => {});
 	}
@@ -51,10 +50,8 @@ export class CompaniesComponent implements OnInit {
 				filter((company) => Boolean(company)),
 				switchMap((company) =>
 					this._companiesService.createCompany({ name: company.name, logo: company.logo?.id }).pipe(
-						switchMap((result) =>
-							from(this._companiesPageService.companiesPageQuery.refetch()).pipe(map(() => result.data?.createCompany))
-						),
-						this._toastrService.observe(this._i18nService.translate("createCompany"))
+						switchMap((result) => from(this._companiesPageQuery.refetch()).pipe(map(() => result.data?.createCompany))),
+						this._toastrService.observe(this._i18nService.translate("CREATE_COMPANY"))
 					)
 				),
 				take(1)

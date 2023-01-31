@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ChildrenOutletContexts } from "@angular/router";
 import { routerAnimation } from "@shared/animations";
 
-import { AUTH_PAGE } from "../constants";
-
 @Component({
 	selector: "app-auth",
 	templateUrl: "./auth.component.html",
@@ -12,8 +10,6 @@ import { AUTH_PAGE } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthComponent {
-	readonly authPage = AUTH_PAGE;
-
 	constructor(private readonly _childrenOutletContexts: ChildrenOutletContexts) {}
 
 	getRouteAnimationData() {

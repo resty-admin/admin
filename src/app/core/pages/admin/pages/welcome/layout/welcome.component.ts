@@ -3,12 +3,10 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { take } from "rxjs";
 
-import { WELCOME_PAGE } from "../constants";
 import type { IWelcomeForm } from "../interfaces";
 
 @Component({
@@ -18,8 +16,6 @@ import type { IWelcomeForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-	readonly welcomePage = WELCOME_PAGE;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IWelcomeForm>({
 		name: "",
 		tel: ""

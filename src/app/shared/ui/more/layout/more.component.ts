@@ -17,12 +17,12 @@ export class MoreComponent<T> {
 	readonly defaultActions: IAction<T>[] = [
 		{
 			icon: "edit",
-			label: "Редактировать",
+			label: "EDIT",
 			func: (data) => this.editClicked.emit(data)
 		},
 		{
 			icon: "delete",
-			label: "Удалить",
+			label: "DELETE",
 			func: (data) => this.deleteClicked.emit(data)
 		}
 	];

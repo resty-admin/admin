@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { FORM } from "@shared/constants";
 
-import { CORE_PAGE } from "../../constants";
 import type { AdminCompaniesQuery } from "../../graphql";
 
 @Component({
@@ -17,9 +15,6 @@ export class CompanySelectComponent {
 	@Output() companyChanged = new EventEmitter<string>();
 	@Input() companies: AdminCompaniesQuery["companies"]["data"] = [];
 	@Input() companyId?: string | null;
-
-	readonly corePage = CORE_PAGE;
-	readonly form = FORM;
 
 	emitAddCompanyClick() {
 		this.addCompanyClicked.emit();

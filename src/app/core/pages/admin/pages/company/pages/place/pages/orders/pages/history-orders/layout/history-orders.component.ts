@@ -4,9 +4,9 @@ import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants"
 import type { AtLeast } from "@shared/interfaces";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
+import { map } from "rxjs";
 
-import { HISTORY_ORDERS_PAGE } from "../constants";
-import { HistoryOrdersPageService } from "../services";
+import { HistoryOrdersPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-history-orders",
@@ -15,12 +15,14 @@ import { HistoryOrdersPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrdersComponent {
-	readonly historyOrdersPage = HISTORY_ORDERS_PAGE;
-	readonly historyOrders$ = this._historyOrdersPageService.historyOrders$;
+	private readonly _historyOrdersPageQuery = this._historyOrdersPageGQL.watch();
+	readonly historyOrders$ = this._historyOrdersPageQuery.valueChanges.pipe(
+		map((result) => result.data.historyOrders.data)
+	);
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _historyOrdersPageService: HistoryOrdersPageService,
+		private readonly _historyOrdersPageGQL: HistoryOrdersPageGQL,
 		private readonly _routerService: RouterService
 	) {}
 

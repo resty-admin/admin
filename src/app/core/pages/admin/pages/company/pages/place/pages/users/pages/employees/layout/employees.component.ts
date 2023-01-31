@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@ang
 import { ActionsService } from "@features/app";
 import { AddEmployeeDialogComponent, UserDialogComponent, UsersService } from "@features/users";
 import type { UserEntity } from "@graphql";
+import { UserRoleEnum } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
@@ -11,10 +12,9 @@ import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, switchMap, take } from "rxjs";
+import { filter, from, map, switchMap, take } from "rxjs";
 
-import { EMPLOYEES_PAGE } from "../constants";
-import { EmployeesPageService } from "../services";
+import { EmployeesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-employees",
@@ -24,13 +24,13 @@ import { EmployeesPageService } from "../services";
 })
 export class EmployeesComponent implements OnDestroy, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
-	readonly employeesPage = EMPLOYEES_PAGE;
-	readonly employees$ = this._employeesPageService.employees$;
+	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
+	readonly employees$ = this._employeesPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _routerService: RouterService,
-		private readonly _employeesPageService: EmployeesPageService,
+		private readonly _employeesPageGQL: EmployeesPageGQL,
 		private readonly _usersService: UsersService,
 		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
@@ -38,7 +38,14 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 		private readonly _i18nService: I18nService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
+		await this._employeesPageQuery.setVariables({
+			filtersArgs: [
+				{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) },
+				{ key: "role", operator: "=", value: UserRoleEnum.Waiter }
+			]
+		});
+
 		this._actionsService.setAction({ label: "Добавить работника", func: () => this.openAddEmployeeDialog() });
 	}
 
@@ -51,8 +58,8 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 					this._usersService
 						.addEmployeeToPlace({ userId: employee.id, placeId: this._routerService.getParams(PLACE_ID.slice(1)) })
 						.pipe(
-							switchMap(() => from(this._employeesPageService.employeesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("title"))
+							switchMap(() => from(this._employeesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("ADD_EMPLOYEE_TO_PLACE"))
 						)
 				),
 				take(1)
@@ -67,8 +74,8 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 				filter((user) => Boolean(user)),
 				switchMap((user) =>
 					this._usersService.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel }).pipe(
-						switchMap(() => from(this._employeesPageService.employeesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("title"))
+						switchMap(() => from(this._employeesPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("CREATE_USER"))
 					)
 				),
 				take(1)
@@ -80,7 +87,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
 				data: {
-					title: this._i18nService.translate("confirm"),
+					title: this._i18nService.translate("CONFIRM_USER"),
 					value
 				}
 			})
@@ -88,8 +95,8 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._usersService.deleteUser(value.id).pipe(
-						switchMap(() => from(this._employeesPageService.employeesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("title"))
+						switchMap(() => from(this._employeesPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("DELETE_USER"))
 					)
 				),
 				take(1)

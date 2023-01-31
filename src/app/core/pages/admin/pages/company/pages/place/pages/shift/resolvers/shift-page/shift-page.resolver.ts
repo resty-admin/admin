@@ -2,14 +2,13 @@ import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
 import { PLACE_ID } from "@shared/constants";
-import { combineLatest, from, of, switchMap } from "rxjs";
+import { combineLatest, of } from "rxjs";
 
-import type { ActiveShiftQuery, ShiftPageQuery } from "../../graphql";
-import { ShiftPageService } from "../../services";
+import { ActiveShiftGQL, ShiftPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class ShiftPageResolver implements Resolve<[ShiftPageQuery, ActiveShiftQuery["activeShift"]] | null> {
-	constructor(private readonly _shiftPageService: ShiftPageService) {}
+export class ShiftPageResolver implements Resolve<unknown> {
+	constructor(private readonly _shiftPageGQL: ShiftPageGQL, private readonly _activeShiftGQL: ActiveShiftGQL) {}
 
 	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {
 		const placeId = activatedRouteSnapshot.paramMap.get(PLACE_ID.slice(1));
@@ -18,13 +17,12 @@ export class ShiftPageResolver implements Resolve<[ShiftPageQuery, ActiveShiftQu
 			return of(null);
 		}
 
-		this._shiftPageService.activeShiftQuery.resetLastResults();
-
-		return from(
-			this._shiftPageService.shiftPageQuery.setVariables({
+		return combineLatest([
+			this._shiftPageGQL.fetch({
 				hallsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
 				tablesFiltersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
-			})
-		).pipe(switchMap(() => combineLatest([this._shiftPageService.shiftPage$, this._shiftPageService.activeShift$])));
+			}),
+			this._activeShiftGQL.fetch()
+		]);
 	}
 }

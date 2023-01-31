@@ -25,7 +25,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { AttributesRoutingModule } from "./attributes-routing.module";
 import { ATTRIUTES_COMPONENTS } from "./components";
 import { AttributesComponent } from "./layout/attributes.component";
-import { ATTRIBUTES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AttributesComponent, ATTRIUTES_COMPONENTS],
@@ -53,7 +52,6 @@ import { ATTRIBUTES_PROVIDERS } from "./providers";
 		FiltersSkeletonModule,
 		DatatableSkeletonModule,
 		MoreModule
-	],
-	providers: ATTRIBUTES_PROVIDERS
+	]
 })
 export class AttributesModule {}

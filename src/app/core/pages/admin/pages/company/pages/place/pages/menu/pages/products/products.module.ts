@@ -24,7 +24,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { PRODUCTS_COMPONENTS } from "./components";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
-import { PRODUCTS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProductsComponent, ...PRODUCTS_COMPONENTS],
@@ -51,7 +50,6 @@ import { PRODUCTS_PROVIDERS } from "./providers";
 		DatatableSkeletonModule,
 		TabsSkeletonModule,
 		MoreModule
-	],
-	providers: PRODUCTS_PROVIDERS
+	]
 })
 export class ProductsModule {}

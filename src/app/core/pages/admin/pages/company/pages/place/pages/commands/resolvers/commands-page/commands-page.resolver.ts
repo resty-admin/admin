@@ -2,14 +2,14 @@ import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
 import { PLACE_ID } from "@shared/constants";
-import { from, of, switchMap } from "rxjs";
+import { map, of } from "rxjs";
 
 import type { CommandsPageQuery } from "../../graphql";
-import { CommandsPageService } from "../../services";
+import { CommandsPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class CommandsPageResolver implements Resolve<CommandsPageQuery["commands"]["data"]> {
-	constructor(private readonly _commandsPageService: CommandsPageService) {}
+	constructor(private readonly _commandsPageGQL: CommandsPageGQL) {}
 
 	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {
 		const placeId = activatedRouteSnapshot.paramMap.get(PLACE_ID.slice(1));
@@ -18,12 +18,10 @@ export class CommandsPageResolver implements Resolve<CommandsPageQuery["commands
 			return of([]);
 		}
 
-		this._commandsPageService.commandsPageQuery.resetLastResults();
-
-		return from(
-			this._commandsPageService.commandsPageQuery.setVariables({
+		return this._commandsPageGQL
+			.fetch({
 				filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
 			})
-		).pipe(switchMap(() => this._commandsPageService.commands$));
+			.pipe(map((result) => result.data.commands.data));
 	}
 }

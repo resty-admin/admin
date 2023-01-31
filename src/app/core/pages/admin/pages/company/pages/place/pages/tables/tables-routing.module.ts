@@ -3,7 +3,6 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { TablesPageSkeletonComponent } from "./components";
-import { TABLES_PAGE } from "./constants";
 import { TablesComponent } from "./layout/tables.component";
 import { TablesPageResolver } from "./resolvers";
 
@@ -12,7 +11,7 @@ export const TABLES_ROUTES: INavigationSkeletonRoute[] = [
 		path: "",
 		component: TablesComponent,
 		data: {
-			animation: TABLES_PAGE
+			animation: "tablesPage"
 		},
 		resolve: {
 			tables: TablesPageResolver

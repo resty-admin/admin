@@ -19,7 +19,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { AccountingSystemsRoutingModule } from "./accounting-systems-routing.module";
 import { ACCOUNTING_SYSTEMS_COMPONENTS } from "./components";
 import { AccountingSystemsComponent } from "./layout/accounting-systems.component";
-import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AccountingSystemsComponent, ...ACCOUNTING_SYSTEMS_COMPONENTS],
@@ -39,7 +38,6 @@ import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 		SkeletonModule,
 		FiltersSkeletonModule,
 		ListSkeletonModule
-	],
-	providers: ACCOUNTING_SYSTEMS_PROVIDERS
+	]
 })
 export class AccountingSystemsModule {}

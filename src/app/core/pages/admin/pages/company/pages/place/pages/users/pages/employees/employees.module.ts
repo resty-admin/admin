@@ -21,7 +21,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { EMPLOYEES_COMPONENTS } from "./components";
 import { EmployeesRoutingModule } from "./employees-routing.module";
 import { EmployeesComponent } from "./layout/employees.component";
-import { EMPLOYEES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [EmployeesComponent, ...EMPLOYEES_COMPONENTS],
@@ -45,7 +44,6 @@ import { EMPLOYEES_PROVIDERS } from "./providers";
 		FiltersSkeletonModule,
 		DatatableSkeletonModule,
 		MoreModule
-	],
-	providers: EMPLOYEES_PROVIDERS
+	]
 })
 export class EmployeesModule {}

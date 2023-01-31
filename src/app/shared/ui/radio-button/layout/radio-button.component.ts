@@ -1,5 +1,5 @@
 import type { OnChanges } from "@angular/core";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 import { ControlValueAccessor } from "@shared/classes";
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import { getControlValueAccessorProviders } from "@shared/functions";
@@ -17,6 +17,8 @@ import { IRadioButtonTheme } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RadioButtonComponent extends ControlValueAccessor<boolean> implements OnChanges {
+	@ContentChild("labelTemplate", { static: true }) labelTemplate?: TemplateRef<unknown>;
+
 	@Input() theme: IRadioButtonTheme = "1";
 	@Input() options?: IRadioButtonOption[] = [];
 

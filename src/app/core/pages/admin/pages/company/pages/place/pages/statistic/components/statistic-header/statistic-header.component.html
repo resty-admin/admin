@@ -1,10 +1,10 @@
-<div class="statistic-header" *transloco="let t; read: statisticPage">
+<div class="statistic-header" *transloco="let t">
 	<p class="money-value">{{ totalAmount }}</p>
-	<p class="money-label">{{ t("money") }} грн</p>
+	<p class="money-label">{{ t("money") }} {{ t("currency") }}</p>
 
 	<div class="divider"></div>
 
-	<p class="comission-value">5% = {{ tax }} грн</p>
+	<p class="comission-value">5% = {{ tax }} {{ t("currency") }}</p>
 	<p class="comission-label">{{ t("comission") }}</p>
 
 	<app-image class="image" name="statistic"></app-image>

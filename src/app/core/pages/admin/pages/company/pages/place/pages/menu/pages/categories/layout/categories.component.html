@@ -1,7 +1,7 @@
-<div class="categories-page" *transloco="let t; read: categoriesPage">
+<div class="categories-page" *transloco="let t">
 	<button appButton class="add" (click)="openCreateCategoryDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("add") }}</span>
+		<span class="text">{{ t("ADD") }}</span>
 	</button>
 
 	<app-filters class="filters"></app-filters>
@@ -20,12 +20,12 @@
 
 			<ul class="products">
 				<li class="product" *ngFor="let product of category.products; trackBy: sharedService.trackByFn">
-					<p class="name-label">{{ t("name") }}</p>
+					<p class="name-label">{{ t("NAME") }}</p>
 					<p class="name-value">{{ product.name }}</p>
-					<p class="description-label">{{ t("description") }}</p>
+					<p class="description-label">{{ t("DESCRIPTION") }}</p>
 					<p class="description-value">{{ product.description }}</p>
-					<p class="price-label">{{ t("price") }}</p>
-					<p class="price-value">{{ product.price }} {{ t("currency") }}</p>
+					<p class="price-label">{{ t("PRICE") }}</p>
+					<p class="price-value">{{ product.price }} {{ t("CURRENCY") }}</p>
 					<app-more
 						class="more"
 						(editClicked)="openUpdateProductDialog(product)"

@@ -3,7 +3,6 @@ import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { ADMIN_ROUTES as SHARED_ADMIN_ROUTES } from "@shared/constants";
 
-import { ADMIN_PAGE } from "./constants";
 import { AdminComponent } from "./layout/admin.component";
 
 export const ADMIN_ROUTES: Route[] = [
@@ -11,7 +10,7 @@ export const ADMIN_ROUTES: Route[] = [
 		path: "",
 		component: AdminComponent,
 		data: {
-			animation: ADMIN_PAGE
+			animation: "adminPage"
 		},
 		children: [
 			{

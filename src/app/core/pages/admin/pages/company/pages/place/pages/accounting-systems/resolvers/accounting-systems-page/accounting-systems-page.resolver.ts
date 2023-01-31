@@ -1,14 +1,15 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
+import type { ApolloQueryResult } from "@apollo/client";
 
 import type { AccountingSystemsPageQuery } from "../../graphql";
-import { AccountingSystemsPageService } from "../../services";
+import { AccountingSystemsPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class AccountingSystemsPageResolver implements Resolve<AccountingSystemsPageQuery["accountingSystems"]["data"]> {
-	constructor(private readonly _accountingSystemsPageService: AccountingSystemsPageService) {}
+export class AccountingSystemsPageResolver implements Resolve<ApolloQueryResult<AccountingSystemsPageQuery>> {
+	constructor(private readonly _accountingSystemsPageGQL: AccountingSystemsPageGQL) {}
 
 	resolve() {
-		return this._accountingSystemsPageService.accountingSystems$;
+		return this._accountingSystemsPageGQL.fetch();
 	}
 }

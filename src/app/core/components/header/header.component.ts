@@ -7,8 +7,6 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
 
-import { CORE_PAGE } from "../../constants";
-
 @Component({
 	selector: "app-header",
 	templateUrl: "./header.component.html",
@@ -22,7 +20,6 @@ export class HeaderComponent implements OnChanges {
 	@Input() isAsideOpen: boolean = false;
 	@Input() activeOrder?: any;
 
-	readonly corePage = CORE_PAGE;
 	readonly orderId = ORDER_ID;
 
 	activeOrderLink = "";

@@ -1,16 +1,19 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { UserDialogComponent, UsersService } from "@features/users";
 import type { UserEntity } from "@graphql";
+import { UserRoleEnum } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
+import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, switchMap, take } from "rxjs";
+import { filter, from, map, switchMap, take } from "rxjs";
 
-import { GUESTS_PAGE } from "../constants";
-import { GuestsPageService } from "../services";
+import { GuestsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-guests",
@@ -18,19 +21,28 @@ import { GuestsPageService } from "../services";
 	styleUrls: ["./guests.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GuestsComponent {
-	readonly guestsPage = GUESTS_PAGE;
-
-	readonly guests$ = this._guestsPageService.guests$;
+export class GuestsComponent implements OnInit {
+	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
+	readonly guests$ = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _guestsPageService: GuestsPageService,
+		private readonly _guestsPageGQL: GuestsPageGQL,
 		private readonly _usersService: UsersService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
-		private readonly _i18nService: I18nService
+		private readonly _i18nService: I18nService,
+		private readonly _routerService: RouterService
 	) {}
+
+	async ngOnInit() {
+		await this._guestsPageQuery.setVariables({
+			filtersArgs: [
+				{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) },
+				{ key: "role", operator: "=", value: UserRoleEnum.Client }
+			]
+		});
+	}
 
 	openUpdateUserDialog(data: AtLeast<UserEntity, "id">) {
 		this._dialogService
@@ -39,8 +51,8 @@ export class GuestsComponent {
 				filter((user) => Boolean(user)),
 				switchMap((user) =>
 					this._usersService.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel }).pipe(
-						switchMap(() => from(this._guestsPageService.guestsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("title"))
+						switchMap(() => from(this._guestsPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("UPDATE_USER"))
 					)
 				),
 				take(1)
@@ -51,14 +63,14 @@ export class GuestsComponent {
 	openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("confirm"), value }
+				data: { title: this._i18nService.translate("CONFIRM_USER"), value }
 			})
 			.afterClosed$.pipe(
 				filter((user) => Boolean(user)),
 				switchMap(() =>
 					this._usersService.deleteUser(value.id).pipe(
-						switchMap(() => from(this._guestsPageService.guestsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("title"))
+						switchMap(() => from(this._guestsPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("DELETE_USER"))
 					)
 				),
 				take(1)

@@ -3,7 +3,6 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { NotificationsPageSkeletonComponent } from "./components";
-import { NOTIFICATIONS_PAGE } from "./constants";
 import { NotificationsComponent } from "./layout/notifications.component";
 import { NotificationsPageResolver } from "./resolvers";
 
@@ -12,7 +11,7 @@ export const NOTIFICATIONS_ROUTES: INavigationSkeletonRoute[] = [
 		path: "",
 		component: NotificationsComponent,
 		data: {
-			animation: NOTIFICATIONS_PAGE
+			animation: "notificationsPage"
 		},
 		resolve: {
 			places: NotificationsPageResolver

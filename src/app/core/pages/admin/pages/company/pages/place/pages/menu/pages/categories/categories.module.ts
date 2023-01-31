@@ -23,7 +23,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { CategoriesRoutingModule } from "./categories-routing.module";
 import { CATEGORIES_COMPONENTS } from "./components";
 import { CategoriesComponent } from "./layout/categories.component";
-import { CATEGORIES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CategoriesComponent, ...CATEGORIES_COMPONENTS],
@@ -49,7 +48,6 @@ import { CATEGORIES_PROVIDERS } from "./providers";
 		TabsSkeletonModule,
 		DatatableSkeletonModule,
 		MoreModule
-	],
-	providers: CATEGORIES_PROVIDERS
+	]
 })
 export class CategoriesModule {}

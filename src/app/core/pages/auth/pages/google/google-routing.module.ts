@@ -4,13 +4,11 @@ import { RouterModule } from "@angular/router";
 import { ACCESS_TOKEN } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 
-import { AUTH_PAGE } from "../../constants";
-
 export const SIGN_IN_ROUTES: Route[] = [
 	{
 		path: `:${ACCESS_TOKEN}`,
 		data: {
-			animation: AUTH_PAGE
+			animation: "authPage"
 		}
 	},
 	{

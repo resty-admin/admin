@@ -3,8 +3,6 @@ import { ChildrenOutletContexts } from "@angular/router";
 import { routerAnimation } from "@shared/animations";
 import { ADMIN_ROUTES } from "@shared/constants";
 
-import { ORDERS_PAGE } from "../constants";
-
 @Component({
 	selector: "app-orders",
 	templateUrl: "./orders.component.html",
@@ -13,14 +11,13 @@ import { ORDERS_PAGE } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdersComponent {
-	readonly ordersPage = ORDERS_PAGE;
 	readonly pages = [
 		{
-			label: "Активные заказы",
+			label: "ACTIVE_ORDERS",
 			routerLink: ADMIN_ROUTES.ACTIVE_ORDERS.path
 		},
 		{
-			label: "История заказов",
+			label: "HISTORY_ORDERS",
 			routerLink: ADMIN_ROUTES.HISTORY_ORDERS.path
 		}
 	];

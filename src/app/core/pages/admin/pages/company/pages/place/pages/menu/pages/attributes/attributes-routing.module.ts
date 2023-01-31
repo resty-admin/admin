@@ -3,7 +3,6 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { AttributesPageSkeletonComponent } from "./components";
-import { ATTRIBUTES_PAGE } from "./constants";
 import { AttributesComponent } from "./layout/attributes.component";
 import { AttriburesPageResolver } from "./resolvers";
 
@@ -12,7 +11,7 @@ export const ATTRIBUTES_ROUTES: INavigationSkeletonRoute[] = [
 		path: "",
 		component: AttributesComponent,
 		data: {
-			animation: ATTRIBUTES_PAGE
+			animation: "attributesPage"
 		},
 		resolve: {
 			attributeGroups: AttriburesPageResolver

@@ -1,29 +1,25 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
+import type { ApolloQueryResult } from "@apollo/client";
 import { HALL_ID } from "@shared/constants";
-import { from, switchMap } from "rxjs";
 
 import type { TablesPageQuery } from "../../graphql";
-import { TablesPageService } from "../../services";
+import { TablesPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class TablesPageResolver implements Resolve<TablesPageQuery["tables"]["data"]> {
-	constructor(private readonly _tablesPageService: TablesPageService) {}
+export class TablesPageResolver implements Resolve<ApolloQueryResult<TablesPageQuery> | null> {
+	constructor(private readonly _tablesPageGQL: TablesPageGQL) {}
 
 	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {
 		const hallId = activatedRouteSnapshot.paramMap.get(HALL_ID.slice(1));
 
 		if (!hallId) {
-			return;
+			return null;
 		}
 
-		this._tablesPageService.tablesPageQuery.resetLastResults();
-
-		return from(
-			this._tablesPageService.tablesPageQuery.setVariables({
-				filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
-			})
-		).pipe(switchMap(() => this._tablesPageService.tables$));
+		return this._tablesPageGQL.fetch({
+			filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }]
+		});
 	}
 }

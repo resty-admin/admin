@@ -9,7 +9,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { AttributeGroupDialogComponent } from "./layout/attribute-group-dialog.component";
-import { ATTRIBUTE_GROUP_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AttributeGroupDialogComponent],
@@ -23,7 +22,6 @@ import { ATTRIBUTE_GROUP_DIALOG_PROVIDERS } from "./providers";
 		SelectModule,
 		I18nModule
 	],
-	providers: ATTRIBUTE_GROUP_DIALOG_PROVIDERS,
 	exports: [AttributeGroupDialogComponent]
 })
 export class AttributeGroupDialogModule {}

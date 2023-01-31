@@ -1,13 +1,13 @@
-<div class="role-page" *transloco="let t; read: rolePage">
+<div class="role-page" *transloco="let t">
 	<app-image class="background-image" name="auth"></app-image>
 
-	<h1 class="title">{{ t("title") }}</h1>
+	<h1 class="title">{{ t("TITLE") }}</h1>
 
 	<ul class="roles">
 		<li class="role" *ngFor="let role of roles; trackBy: sharedService.trackByFn">
 			<a class="role-link" [routerLink]="adminRoutes.SIGN_UP.absolutePath" [queryParams]="{ role: role.value }">
-				<span class="label">{{ role.label }}</span>
-				<span class="description">{{ role.description }}</span>
+				<span class="label">{{ t(role.label) }}</span>
+				<span class="description">{{ t(role.description) }}</span>
 				<app-image class="image" [name]="role.image"></app-image>
 			</a>
 		</li>

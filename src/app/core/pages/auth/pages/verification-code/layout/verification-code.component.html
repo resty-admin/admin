@@ -1,19 +1,19 @@
-<div class="verification-code" *transloco="let t; read: verificationCodePage">
+<div class="verification-code" *transloco="let t">
 	<app-image class="image" name="auth"></app-image>
 
 	<app-card theme="1">
 		<div class="card">
-			<h1 appTypography theme="2" class="title">{{ t("title") }}</h1>
-			<p appTypography theme="3" class="description">{{ t("description") }}</p>
+			<h1 appTypography theme="2" class="title">{{ t("TITLE") }}</h1>
+			<p appTypography theme="3" class="description">{{ t("DESCRIPTION") }}</p>
 
 			<form class="form" [formGroup]="formGroup" (ngSubmit)="verifyCode(formGroup.value)">
 				<app-code-input class="code-input" formControlName="verificationCode"></app-code-input>
 
 				<p appTypography theme="3" class="help">
-					{{ t("didnt-come") }} <button class="resend">{{ t("send-again") }}</button>
+					{{ t("DIDNT_COME") }} <button class="resend">{{ t("SEND_AGAIN") }}</button>
 				</p>
 
-				<button appButton theme="1" class="submit">{{ t("send") }}</button>
+				<button appButton theme="1" class="submit">{{ t("SEND") }}</button>
 			</form>
 		</div>
 	</app-card>

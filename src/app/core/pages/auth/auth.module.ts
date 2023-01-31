@@ -7,11 +7,9 @@ import { LanguageSelectModule } from "@shared/ui/language-select";
 
 import { AuthRoutingModule } from "./auth-routing.module";
 import { AuthComponent } from "./layout/auth.component";
-import { AUTH_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AuthComponent],
-	imports: [CommonModule, AuthRoutingModule, I18nModule, ImageModule, ThemeModule, LanguageSelectModule],
-	providers: AUTH_PROVIDERS
+	imports: [CommonModule, AuthRoutingModule, I18nModule, ImageModule, ThemeModule, LanguageSelectModule]
 })
 export class AuthModule {}

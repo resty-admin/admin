@@ -3,16 +3,17 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@ang
 import { ActionsService } from "@features/app";
 import { ProductDialogComponent, ProductsService } from "@features/products";
 import type { ProductEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
+import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, switchMap, take } from "rxjs";
+import { filter, from, map, switchMap, take } from "rxjs";
 
-import { PRODUCTS_PAGE } from "../constants";
-import { ProductsPageService } from "../services";
+import { ProductsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-products",
@@ -22,23 +23,30 @@ import { ProductsPageService } from "../services";
 })
 export class ProductsComponent implements OnInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
-	readonly productsPage = PRODUCTS_PAGE;
 
-	readonly products$ = this._productsPageService.products$;
+	private readonly _productsPageQuery = this._productsPageGQL.watch();
+	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
 
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _actionsService: ActionsService,
-		private readonly _productsPageService: ProductsPageService,
+		private readonly _productsPageGQL: ProductsPageGQL,
 
 		private readonly _productsService: ProductsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
-		private readonly _i18nService: I18nService
+		private readonly _i18nService: I18nService,
+		private readonly _routerService: RouterService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this._actionsService.setAction({ label: "Добавить блюдо", func: () => this.openCreateProductDialog() });
+
+		await this._productsPageQuery.setVariables({
+			filtersArgs: [
+				{ key: "category.place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }
+			]
+		});
 	}
 
 	openCreateProductDialog() {
@@ -57,8 +65,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 							price: product.price
 						})
 						.pipe(
-							switchMap(() => from(this._productsPageService.productsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("createProduct"))
+							switchMap(() => from(this._productsPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("CREATE_PRODUCT"))
 						)
 				),
 				take(1)
@@ -83,8 +91,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 							price: product.price
 						})
 						.pipe(
-							switchMap(() => from(this._productsPageService.productsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("updateProduct"))
+							switchMap(() => from(this._productsPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_PRODUCT"))
 						)
 				),
 				take(1)
@@ -95,14 +103,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
 		return this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("confirmProduct"), value: product }
+				data: { title: this._i18nService.translate("CONFIRM_PRODUCT"), value: product }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap((product) =>
 					this._productsService.deleteProduct(product.id).pipe(
-						switchMap(() => from(this._productsPageService.productsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("deleteProduct"))
+						switchMap(() => from(this._productsPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("DELETE_PRODUCT"))
 					)
 				)
 			);

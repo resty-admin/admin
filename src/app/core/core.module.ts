@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
+import { AUTH_PROVIDERS } from "@features/auth";
 import { CompanyDialogModule } from "@features/companies";
 import { PlaceDialogModule } from "@features/places";
 import { ApiModule } from "@shared/modules/api";
@@ -54,7 +55,6 @@ import {
 import { CODE_INPUT_CONFIG } from "./configs/code-input.config";
 import { CoreRoutingModule } from "./core-routing.module";
 import { CoreComponent } from "./layout/core.component";
-import { CORE_PAGE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CoreComponent, ...CORE_COMPONENTS],
@@ -94,7 +94,7 @@ import { CORE_PAGE_PROVIDERS } from "./providers";
 		CompanyDialogModule,
 		PlaceDialogModule
 	],
-	providers: CORE_PAGE_PROVIDERS,
+	providers: AUTH_PROVIDERS,
 	exports: [CoreComponent]
 })
 export class CoreModule {}

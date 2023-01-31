@@ -3,11 +3,9 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { HallEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { take } from "rxjs";
 
-import { HALL_DIALOG } from "../constants";
 import type { IHallForm } from "../interfaces";
 
 @Component({
@@ -17,8 +15,6 @@ import type { IHallForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallDialogComponent implements OnInit {
-	readonly hallDialog = HALL_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IHallForm>({
 		name: "",
 		file: null

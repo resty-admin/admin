@@ -1,15 +1,16 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
+import type { ApolloQueryResult } from "@apollo/client";
 import { ORDER_ID } from "@shared/constants";
-import { from, of, switchMap } from "rxjs";
+import { of } from "rxjs";
 
 import type { HistoryOrderPageQuery } from "../../graphql";
-import { HistoryOrderPageService } from "../../services";
+import { HistoryOrderPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class HistoryOrderPageResolver implements Resolve<HistoryOrderPageQuery["order"]> {
-	constructor(private readonly _historyOrderPageService: HistoryOrderPageService) {}
+export class HistoryOrderPageResolver implements Resolve<ApolloQueryResult<HistoryOrderPageQuery> | null> {
+	constructor(private readonly _historyOrderPageGQL: HistoryOrderPageGQL) {}
 
 	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {
 		const orderId = activatedRouteSnapshot.paramMap.get(ORDER_ID.slice(1));
@@ -18,10 +19,6 @@ export class HistoryOrderPageResolver implements Resolve<HistoryOrderPageQuery["
 			return of(null);
 		}
 
-		this._historyOrderPageService.historyOrderPageQuery.resetLastResults();
-
-		return from(this._historyOrderPageService.historyOrderPageQuery.setVariables({ orderId })).pipe(
-			switchMap(() => this._historyOrderPageService.historyOrder$)
-		);
+		return this._historyOrderPageGQL.fetch({ orderId });
 	}
 }

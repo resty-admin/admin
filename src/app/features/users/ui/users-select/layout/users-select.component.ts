@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import type { ISimpleChanges } from "@shared/interfaces";
 import { SharedService } from "@shared/services";
 
-import { USERS_SELECT } from "../constants";
 import type { IUserToSelect } from "../interfaces";
 
 @Component({
@@ -13,7 +12,6 @@ import type { IUserToSelect } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersSelectComponent implements OnChanges {
-	readonly usersSelect = USERS_SELECT;
 	@Output() selectedUsersChange = new EventEmitter<string[]>();
 	@Input() selectedUsers?: string[] | null;
 	@Input() users?: IUserToSelect[] | null;

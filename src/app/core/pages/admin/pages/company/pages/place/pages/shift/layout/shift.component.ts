@@ -1,3 +1,4 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ShiftsService } from "@features/shift";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
@@ -9,8 +10,7 @@ import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, shareReplay, Subject, switchMap, take } from "rxjs";
 
-import { SHIFT_PAGE } from "../constants";
-import { ShiftPageService } from "../services";
+import { ActiveShiftGQL, ShiftPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-shift",
@@ -18,33 +18,47 @@ import { ShiftPageService } from "../services";
 	styleUrls: ["./shift.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShiftComponent {
-	readonly shiftPage = SHIFT_PAGE;
-
+export class ShiftComponent implements OnInit {
 	readonly selectedHallsSubject = new Subject<string[]>();
 	readonly selectedHalls$ = this.selectedHallsSubject.asObservable();
 
-	readonly halls$ = this._shiftPageService.shiftPage$.pipe(map((data) => data.halls.data));
+	private readonly _shiftPageQuery = this._shiftPageGQL.watch();
+	private readonly _activeShiftQuery = this._activeShiftGQL.watch();
 
-	readonly tables$ = this._shiftPageService.shiftPage$.pipe(
-		map((data) => data.tables.data),
+	readonly halls$ = this._shiftPageQuery.valueChanges.pipe(map((result) => result.data.halls.data));
+
+	readonly tables$ = this._shiftPageQuery.valueChanges.pipe(
+		map((result) => result.data.tables.data),
 		switchMap((tables) =>
 			this.selectedHalls$.pipe(map((halls) => (tables || []).filter((table) => halls.includes(table.hall.id))))
 		)
 	);
 
-	readonly activeShift$ = this._shiftPageService.activeShift$.pipe(shareReplay({ refCount: true }));
+	readonly activeShift$ = this._activeShiftQuery.valueChanges.pipe(
+		map((result) => result.data.activeShift),
+		shareReplay({ refCount: true })
+	);
 
 	selectedTables: ITableToSelect[] = [];
 
 	constructor(
-		private readonly _shiftPageService: ShiftPageService,
+		private readonly _shiftPageGQL: ShiftPageGQL,
+		private readonly _activeShiftGQL: ActiveShiftGQL,
 		private readonly _shiftsService: ShiftsService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService
 	) {}
+
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		await this._shiftPageQuery.setVariables({
+			hallsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
+			tablesFiltersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
+		});
+	}
 
 	setSelectedHalls(halls: string[]) {
 		this.selectedHallsSubject.next(halls);
@@ -57,8 +71,8 @@ export class ShiftComponent {
 				tables: (tables || []).map((table) => table.id)
 			})
 			.pipe(
-				switchMap(() => this._shiftPageService.activeShiftQuery.refetch()),
-				this._toastrService.observe(this._i18nService.translate("createShift")),
+				switchMap(() => this._activeShiftQuery.refetch()),
+				this._toastrService.observe(this._i18nService.translate("CREATE_SHIFT")),
 				take(1)
 			)
 			.subscribe();
@@ -68,8 +82,8 @@ export class ShiftComponent {
 		this._shiftsService
 			.updateShift({ id, tables: (tables || []).map((table) => table.id) })
 			.pipe(
-				switchMap(() => this._shiftPageService.activeShiftQuery.refetch()),
-				this._toastrService.observe(this._i18nService.translate("updateShift")),
+				switchMap(() => this._activeShiftQuery.refetch()),
+				this._toastrService.observe(this._i18nService.translate("UPDATE_SHIFT")),
 				take(1)
 			)
 			.subscribe();
@@ -78,14 +92,14 @@ export class ShiftComponent {
 	closeShift(shiftId: string) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("title"), value: { label: shiftId } }
+				data: { title: this._i18nService.translate("CONFIRM_SHIFT"), value: { label: shiftId } }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._shiftsService.closeShift(shiftId).pipe(
-						switchMap(() => this._shiftPageService.activeShiftQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("closeShift"))
+						switchMap(() => this._activeShiftQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("CLOSE_SHIFT"))
 					)
 				),
 				take(1)

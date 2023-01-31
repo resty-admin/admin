@@ -13,10 +13,9 @@ import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
-import { CATEGORIES_PAGE } from "../constants";
-import { CategoriesPageService } from "../services";
+import { CategoriesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-categories",
@@ -25,15 +24,14 @@ import { CategoriesPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
-	readonly categoriesPage = CATEGORIES_PAGE;
-
-	readonly categories$ = this._categoriesPageService.categories$;
+	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
+	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
 
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
-		private readonly _categoriesPageService: CategoriesPageService,
+		private readonly _categoriesPageGQL: CategoriesPageGQL,
 		private readonly _categoriesService: CategoriesService,
 		private readonly _productsService: ProductsService,
 		private readonly _dialogService: DialogService,
@@ -41,8 +39,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		private readonly _i18nService: I18nService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this._actionsService.setAction({ label: "Добавить категорию", func: () => this.openCreateCategoryDialog() });
+
+		await this._categoriesPageQuery.setVariables({
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+		});
 	}
 
 	openCreateCategoryDialog() {
@@ -58,8 +60,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 							file: category.file?.id
 						})
 						.pipe(
-							switchMap(() => this._categoriesPageService.categoriesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("createCategory"))
+							switchMap(() => this._categoriesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("CREATE_CATEGORY"))
 						)
 				),
 				take(1)
@@ -76,8 +78,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 					this._categoriesService
 						.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
 						.pipe(
-							switchMap(() => this._categoriesPageService.categoriesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("updateCategory"))
+							switchMap(() => this._categoriesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_CATEGORY"))
 						)
 				),
 				take(1)
@@ -87,13 +89,13 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
 	openDeleteCategoryDialog(value: DeepAtLeast<CategoryEntity, "id">) {
 		return this._dialogService
-			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("confrimCategory"), value } })
+			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("CONFIRM_CATEGORY"), value } })
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._categoriesService.deleteCategory(value.id).pipe(
-						switchMap(() => this._categoriesPageService.categoriesPageQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("deleteCategory"))
+						switchMap(() => this._categoriesPageQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("DELETE_CATEGORY"))
 					)
 				),
 				take(1)
@@ -116,8 +118,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 							price: product.price
 						})
 						.pipe(
-							switchMap(() => this._categoriesPageService.categoriesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("updateProduct"))
+							switchMap(() => this._categoriesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_PRODUCT"))
 						)
 				),
 				take(1)
@@ -128,14 +130,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 	openDeleteProductDialog(product: DeepAtLeast<ProductEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("confirmProduct"), value: product }
+				data: { title: this._i18nService.translate("CONFIRM_PRODUCT"), value: product }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._productsService.deleteProduct(product.id).pipe(
-						switchMap(() => this._categoriesPageService.categoriesPageQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("deleteProduct"))
+						switchMap(() => this._categoriesPageQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("DELETE_PRODUCT"))
 					)
 				),
 				take(1)

@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { FORM } from "@shared/constants";
 
-import { CORE_PAGE } from "../../constants";
 import type { AdminPlacesQuery } from "../../graphql";
 
 @Component({
@@ -17,8 +15,6 @@ export class PlaceSelectComponent {
 	@Output() deletePlaceClicked = new EventEmitter();
 	@Input() places: AdminPlacesQuery["places"]["data"] = [];
 	@Input() placeId?: string | null;
-	readonly corePage = CORE_PAGE;
-	readonly form = FORM;
 
 	emitAddPlaceClick() {
 		this.addPlaceClicked.emit();

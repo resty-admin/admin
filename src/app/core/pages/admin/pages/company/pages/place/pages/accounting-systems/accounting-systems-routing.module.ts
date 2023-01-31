@@ -3,7 +3,6 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { AccountingSystemsPageSkeletonComponent } from "./components";
-import { ACCOUNTING_SYSTEMS_PAGE } from "./constants";
 import { AccountingSystemsComponent } from "./layout/accounting-systems.component";
 import { AccountingSystemsPageResolver } from "./resolvers";
 
@@ -12,7 +11,7 @@ export const ACCOUNTING_SYSTEMS_ROUTES: INavigationSkeletonRoute[] = [
 		path: "",
 		component: AccountingSystemsComponent,
 		data: {
-			animation: ACCOUNTING_SYSTEMS_PAGE
+			animation: "accountingSystemPage"
 		},
 		resolve: {
 			accountingSystems: AccountingSystemsPageResolver

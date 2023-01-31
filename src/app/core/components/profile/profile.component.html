@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: corePage">
+<ng-container *transloco="let t">
 	<a class="user" *ngIf="user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="emitCloseClick()">
 		<div class="image">{{ user.name | initials }}</div>
 		<p class="name">{{ user.name }}</p>

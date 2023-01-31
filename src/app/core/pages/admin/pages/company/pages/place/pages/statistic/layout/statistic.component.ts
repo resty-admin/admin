@@ -1,12 +1,12 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { PlacesService } from "@features/places";
 import { PlaceVerificationStatusEnum } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { from, switchMap, take } from "rxjs";
+import { from, map, switchMap, take } from "rxjs";
 
-import { STATISTIC_PAGE } from "../constants";
-import { StatisticPageService } from "../services";
+import { StatisticPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-statistic",
@@ -14,16 +14,20 @@ import { StatisticPageService } from "../services";
 	styleUrls: ["./statistic.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatisticComponent {
-	readonly statisticPage = STATISTIC_PAGE;
+export class StatisticComponent implements OnInit {
+	private readonly _statisticPageQuery = this._statisticPageGQL.watch();
 
-	readonly statisticPage$ = this._statisticPageService.statisticPage$;
+	readonly statisticPage$ = this._statisticPageQuery.valueChanges.pipe(map((result) => result.data));
 
 	constructor(
-		private readonly _statisticPageService: StatisticPageService,
+		private readonly _statisticPageGQL: StatisticPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _placesService: PlacesService
 	) {}
+
+	async ngOnInit() {
+		await this._statisticPageQuery.setVariables({ placeId: this._routerService.getParams(PLACE_ID.slice(1)) });
+	}
 
 	changeStatus(status: PlaceVerificationStatusEnum) {
 		const newStatus =
@@ -35,7 +39,7 @@ export class StatisticComponent {
 			.updatePlaceVerification(this._routerService.getParams(PLACE_ID.slice(1)), newStatus)
 			.pipe(
 				take(1),
-				switchMap(() => from(this._statisticPageService.statisticPageQuery.refetch()))
+				switchMap(() => from(this._statisticPageQuery.refetch()))
 			)
 			.subscribe();
 	}

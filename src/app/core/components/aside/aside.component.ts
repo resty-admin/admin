@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { UserEntity } from "@graphql";
+import type { IAsidePage } from "@shared/interfaces";
 
 import type { AdminCompaniesQuery, AdminPlacesQuery } from "../../graphql";
-import type { IAsidePage } from "../../interfaces";
 
 @Component({
 	selector: "app-aside",

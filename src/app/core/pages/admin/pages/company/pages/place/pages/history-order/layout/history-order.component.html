@@ -1,4 +1,4 @@
-<div class="order-page" *transloco="let t; read: activeOrderPage">
+<div class="order-page" *transloco="let t">
 	<ng-container *ngIf="historyOrder$ | async as historyOrder">
 		<app-order-info [order]="historyOrder"></app-order-info>
 

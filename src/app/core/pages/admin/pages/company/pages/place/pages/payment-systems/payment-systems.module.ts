@@ -19,7 +19,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { PAYMENT_SYSTEMS_COMPONENTS } from "./components";
 import { PaymentSystemsComponent } from "./layout/payment-systems.component";
 import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
-import { PAYMENT_SYSTEMS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PaymentSystemsComponent, ...PAYMENT_SYSTEMS_COMPONENTS],
@@ -42,7 +41,6 @@ import { PAYMENT_SYSTEMS_PROVIDERS } from "./providers";
 		FiltersSkeletonModule,
 		PaymentSystemSkeletonModule,
 		ListSkeletonModule
-	],
-	providers: PAYMENT_SYSTEMS_PROVIDERS
+	]
 })
 export class PaymentSystemsModule {}

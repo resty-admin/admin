@@ -6,10 +6,9 @@ import { ProductToOrderStatusEnum } from "@graphql";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { switchMap, take } from "rxjs";
+import { map, switchMap, take } from "rxjs";
 
-import { ACTIVE_ORDER_PAGE } from "../constants";
-import { ActiveOrderPageService } from "../services";
+import { ActiveOrderPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-active-order",
@@ -18,23 +17,27 @@ import { ActiveOrderPageService } from "../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
-	readonly activeOrderPage = ACTIVE_ORDER_PAGE;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
-	readonly activeOrder$ = this._activeOrderPageService.activeOrder$;
+	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
+	readonly activeOrder$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: string[] = [];
 
 	constructor(
-		private readonly _activeOrderPageService: ActiveOrderPageService,
+		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService
 	) {}
 
-	ngOnInit() {
-		this._ordersService.setActiveOrderId(this._routerService.getParams(ORDER_ID.slice(1)));
+	async ngOnInit() {
+		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
+
+		await this._activeOrderPageQuery.setVariables({ orderId });
+
+		this._ordersService.setActiveOrderId(orderId);
 
 		this._breadcrumbsService.setBreadcrumb({
 			routerLink: ADMIN_ROUTES.ORDERS.absolutePath

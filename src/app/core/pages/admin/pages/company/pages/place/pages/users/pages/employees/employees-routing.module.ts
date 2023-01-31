@@ -3,7 +3,6 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { EmployeesPageSkeletonComponent } from "./components";
-import { EMPLOYEES_PAGE } from "./constants";
 import { EmployeesComponent } from "./layout/employees.component";
 import { EmployeesPageResolver } from "./resolvers";
 
@@ -12,7 +11,7 @@ export const EMPLOYEES_ROUTES: INavigationSkeletonRoute[] = [
 		path: "",
 		component: EmployeesComponent,
 		data: {
-			animation: EMPLOYEES_PAGE
+			animation: "employeesPage"
 		},
 		resolve: {
 			employees: EmployeesPageResolver

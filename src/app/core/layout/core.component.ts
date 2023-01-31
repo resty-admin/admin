@@ -10,6 +10,7 @@ import type { CompanyEntity, PlaceEntity } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { routerAnimation } from "@shared/animations";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
+import { ASIDE_PAGES } from "@shared/data";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
@@ -18,7 +19,6 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { combineLatest, filter, from, map, shareReplay, startWith, switchMap, take } from "rxjs";
 
-import { ASIDE_PAGES } from "../data";
 import { AdminCompaniesGQL, AdminOrderGQL, AdminPlacesGQL } from "../graphql";
 
 @UntilDestroy()
@@ -160,7 +160,7 @@ export class CoreComponent implements OnInit {
 				switchMap((company) =>
 					this._companiesService.createCompany({ name: company.name, logo: company.logo?.id }).pipe(
 						switchMap((result) => from(this._adminCompaniesQuery.refetch()).pipe(map(() => result))),
-						this._toastrService.observe(this._i18nService.translate("createCompany"))
+						this._toastrService.observe(this._i18nService.translate("CREATE_COMPANY"))
 					)
 				),
 				take(1)
@@ -184,7 +184,7 @@ export class CoreComponent implements OnInit {
 				switchMap((company) =>
 					this._companiesService.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id }).pipe(
 						switchMap(() => this._adminCompaniesQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("updateCompany"))
+						this._toastrService.observe(this._i18nService.translate("UPDATE_COMPANY"))
 					)
 				),
 				take(1)
@@ -195,14 +195,14 @@ export class CoreComponent implements OnInit {
 	openDeleteCompanyDialog(value: AtLeast<CompanyEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("confirmCompany"), value }
+				data: { title: this._i18nService.translate("CONFIRM_COMPANY"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._companiesService.deleteCompany(value.id).pipe(
 						switchMap(() => this._adminCompaniesQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("deleteCompany"))
+						this._toastrService.observe(this._i18nService.translate("DELETE_COMPANY"))
 					)
 				),
 				take(1)
@@ -222,7 +222,7 @@ export class CoreComponent implements OnInit {
 						.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
 						.pipe(
 							switchMap((result) => from(this._adminPlacesQuery.refetch()).pipe(map(() => result))),
-							this._toastrService.observe(this._i18nService.translate("createPlace"))
+							this._toastrService.observe(this._i18nService.translate("CREATE_PLACE"))
 						)
 				),
 				take(1)
@@ -248,7 +248,7 @@ export class CoreComponent implements OnInit {
 						.updatePlace({ id: place.id, name: place.name, address: place.address, file: place.file?.id })
 						.pipe(
 							switchMap(() => this._adminPlacesQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("updatePlace"))
+							this._toastrService.observe(this._i18nService.translate("UPDATE_PLACE"))
 						)
 				),
 				take(1)
@@ -259,14 +259,14 @@ export class CoreComponent implements OnInit {
 	openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("confirmPlace"), value }
+				data: { title: this._i18nService.translate("CONFIRM_PLACE"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._placesService.deletePlace(value.id).pipe(
 						switchMap(() => this._adminPlacesQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("deletePlace"))
+						this._toastrService.observe(this._i18nService.translate("DELETE_PLACE"))
 					)
 				)
 			)

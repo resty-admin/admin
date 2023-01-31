@@ -1,14 +1,14 @@
-<div class="employees-page" *transloco="let t; read: employeesPage">
+<div class="employees-page" *transloco="let t">
 	<button appButton class="add" (click)="openAddEmployeeDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("add") }}</span>
+		<span class="text">{{ t("ADD") }}</span>
 	</button>
 
 	<app-filters class="filters"></app-filters>
 	<!--desktop-->
 	<app-datatable class="datatable-desktop" [rows]="employees$ | async">
 		<ng-container appColumn="name">
-			<ng-template #header>{{ t("name") }}</ng-template>
+			<ng-template #header>{{ t("NAME") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="email">

@@ -3,10 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { AccountingSystemEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
-
-import { ACCOUNTING_SYSTEM_DIALOG } from "../constants";
 
 @Component({
 	selector: "app-accounting-system-dialog",
@@ -15,8 +12,6 @@ import { ACCOUNTING_SYSTEM_DIALOG } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemDialogComponent implements OnInit {
-	readonly accountingSystemDialog = ACCOUNTING_SYSTEM_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group({});
 
 	data?: DeepPartial<AccountingSystemEntity>;

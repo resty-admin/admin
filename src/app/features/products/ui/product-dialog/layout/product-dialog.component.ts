@@ -8,7 +8,6 @@ import type { CategoryEntity } from "@graphql";
 import type { AttributesGroupEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { PLACE_ID } from "@shared/constants";
 import type { DeepPartial } from "@shared/interfaces";
 import { FilesService } from "@shared/modules/files";
@@ -18,7 +17,6 @@ import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
-import { PRODUCT_DIALOG } from "../constants";
 import { ProductAttributeGroupsGQL, ProductCategoriesGQL } from "../graphql";
 import type { IProductForm } from "../interfaces";
 
@@ -29,8 +27,6 @@ import type { IProductForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDialogComponent implements OnInit {
-	readonly productDialog = PRODUCT_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IProductForm>({
 		name: "",
 		description: "",
@@ -111,7 +107,7 @@ export class ProductDialogComponent implements OnInit {
 							type: attributeGroup.type,
 							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
 						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("title")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE")))
 				),
 				take(1)
 			)
@@ -131,7 +127,7 @@ export class ProductDialogComponent implements OnInit {
 							place: this._routerService.getParams(PLACE_ID.slice(1)),
 							file: category.file?.id
 						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("title")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_CATEGORY")))
 				),
 				take(1)
 			)

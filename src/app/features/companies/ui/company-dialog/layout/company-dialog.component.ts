@@ -3,11 +3,9 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { CompanyEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
 import { take } from "rxjs";
 
-import { COMPANY_DIALOG } from "../constants";
 import type { ICompanyForm } from "../interfaces";
 
 @Component({
@@ -17,8 +15,6 @@ import type { ICompanyForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyDialogComponent implements OnInit {
-	readonly companyDialog = COMPANY_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<ICompanyForm>({
 		name: "",
 		logo: null

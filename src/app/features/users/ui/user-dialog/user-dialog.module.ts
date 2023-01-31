@@ -9,7 +9,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { UserDialogComponent } from "./layout/user-dialog.component";
-import { USER_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [UserDialogComponent],
@@ -23,7 +22,6 @@ import { USER_DIALOG_PROVIDERS } from "./providers";
 		SelectModule,
 		I18nModule
 	],
-	providers: USER_DIALOG_PROVIDERS,
 	exports: [UserDialogComponent]
 })
 export class UserDialogModule {}

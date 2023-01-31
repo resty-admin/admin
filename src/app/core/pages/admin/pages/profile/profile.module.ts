@@ -11,7 +11,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { ProfileComponent } from "./layout/profile.component";
 import { ProfileRoutingModule } from "./profile-routing.module";
-import { PROFILE_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProfileComponent],
@@ -26,7 +25,6 @@ import { PROFILE_PROVIDERS } from "./providers";
 		ThemeModule,
 		ReactiveFormsModule,
 		I18nModule
-	],
-	providers: PROFILE_PROVIDERS
+	]
 })
 export class ProfileModule {}

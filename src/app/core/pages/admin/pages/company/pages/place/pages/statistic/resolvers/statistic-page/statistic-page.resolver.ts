@@ -1,15 +1,16 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
+import type { ApolloQueryResult } from "@apollo/client";
 import { PLACE_ID } from "@shared/constants";
-import { from, of, switchMap } from "rxjs";
+import { of } from "rxjs";
 
 import type { StatisticPageQuery } from "../../graphql";
-import { StatisticPageService } from "../../services";
+import { StatisticPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class StatisticPageResolver implements Resolve<StatisticPageQuery | null> {
-	constructor(private readonly _statisticPageService: StatisticPageService) {}
+export class StatisticPageResolver implements Resolve<ApolloQueryResult<StatisticPageQuery> | null> {
+	constructor(private readonly _statisticPageGQL: StatisticPageGQL) {}
 
 	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {
 		const placeId = activatedRouteSnapshot.paramMap.get(PLACE_ID.slice(1));
@@ -18,8 +19,6 @@ export class StatisticPageResolver implements Resolve<StatisticPageQuery | null>
 			return of(null);
 		}
 
-		return from(this._statisticPageService.statisticPageQuery.setVariables({ placeId })).pipe(
-			switchMap(() => this._statisticPageService.statisticPage$)
-		);
+		return this._statisticPageGQL.fetch({ placeId });
 	}
 }

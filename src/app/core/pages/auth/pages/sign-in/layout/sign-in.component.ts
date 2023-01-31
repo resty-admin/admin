@@ -4,14 +4,16 @@ import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
+import { AUTH_TYPES } from "@shared/data";
 import { RouterService } from "@shared/modules/router";
 import { take } from "rxjs";
 
-import { AUTH_TYPES } from "../../../data";
-import { SIGN_IN_PAGE } from "../constants";
-import type { ISignIn } from "../interfaces";
+export interface ISignIn {
+	email: string;
+	tel: string;
+	password: string;
+}
 
 @UntilDestroy()
 @Component({
@@ -21,8 +23,6 @@ import type { ISignIn } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignInComponent implements OnInit {
-	readonly signInPage = SIGN_IN_PAGE;
-	readonly form = FORM;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 

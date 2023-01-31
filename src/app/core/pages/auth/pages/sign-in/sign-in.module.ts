@@ -12,7 +12,6 @@ import { RadioButtonModule } from "@shared/ui/radio-button";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { SignInComponent } from "./layout/sign-in.component";
-import { SIGN_IN_PROVIDERS } from "./providers";
 import { SignInRoutingModule } from "./sign-in-routing.module";
 
 @NgModule({
@@ -30,7 +29,6 @@ import { SignInRoutingModule } from "./sign-in-routing.module";
 		IconModule,
 		ImageModule,
 		CardModule
-	],
-	providers: SIGN_IN_PROVIDERS
+	]
 })
 export class SignInModule {}
