@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prod-admin-k8s-deployment
+  name: dev-admin-k8s-deployment
 spec:
   selector:
     matchLabels:
-      app: prod-admin-k8s
+      app: dev-admin-k8s
   replicas: 2
   template:
     metadata:
       labels:
-        app: prod-admin-k8s
+        app: dev-admin-k8s
     spec:
       containers:
-        - name: prod-admin-k8s
+        - name: dev-admin-k8s
           image: registry.digitalocean.com/resty-registry/admin:latest
           ports:
             - containerPort: 80
@@ -25,7 +25,7 @@ metadata:
   name: admin-service
 spec:
   selector:
-    app: prod-admin-k8s
+    app: dev-admin-k8s
   ports:
     - protocol: TCP
       port: 8080
