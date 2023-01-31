@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: admin-service
+  name: prod-admin-service
 spec:
   selector:
     app: prod-admin-k8s

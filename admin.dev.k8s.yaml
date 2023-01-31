@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: admin-service
+  name: dev-admin-service
 spec:
   selector:
     app: dev-admin-k8s
