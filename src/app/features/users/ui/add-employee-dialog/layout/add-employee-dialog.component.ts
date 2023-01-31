@@ -1,12 +1,12 @@
 import type { OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { UserEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FORM } from "@shared/constants";
 import type { DeepAtLeast } from "@shared/interfaces";
-import { lastValueFrom, take } from "rxjs";
+import { take } from "rxjs";
 
 import { ADD_EMPLOYEE_DIALOG } from "../constants";
 import { FindUserGQL } from "../graphql";
@@ -35,28 +35,26 @@ export class AddEmployeeDialogComponent implements OnInit {
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
-		private readonly _findUserGQL: FindUserGQL,
-		private readonly _changeDetectorRef: ChangeDetectorRef
+		private readonly _findUserGQL: FindUserGQL
 	) {}
 
-	async findEmployee(user: IAddEmployeeForm) {
+	findEmployee(user: IAddEmployeeForm) {
 		const filtersArgs = user.tel
 			? [{ key: "tel", operator: "=", value: user.tel }]
 			: user.email
 			? [{ key: "email", operator: "=", value: user.email }]
 			: [];
 
-		try {
-			const result = await lastValueFrom(this._findUserGQL.watch({ filtersArgs }).valueChanges.pipe(take(1)));
+		this._findUserGQL
+			.fetch({ filtersArgs })
+			.pipe(take(1))
+			.subscribe((result) => {
+				if (!result.data.user) {
+					return;
+				}
 
-			if (!result.data.user) {
-				return;
-			}
-
-			this.isEmployee = result.data.user;
-
-			this._changeDetectorRef.detectChanges();
-		} catch {}
+				this.isEmployee = result.data.user;
+			});
 	}
 
 	ngOnInit() {

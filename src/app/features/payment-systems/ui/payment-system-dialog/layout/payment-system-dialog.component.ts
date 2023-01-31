@@ -32,7 +32,7 @@ export class PaymentSystemDialogComponent implements OnInit {
 			return;
 		}
 
-		this.fields = Object.keys(this.data.configFields);
+		this.fields = Object.keys(this.data.configFields || {});
 
 		for (const field of this.fields) {
 			this.formGroup.addControl(field, new FormControl(""));

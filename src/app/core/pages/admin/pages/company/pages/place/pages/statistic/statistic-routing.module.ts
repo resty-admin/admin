@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { StatisticSkeletonComponent } from "./components";
+import { StatisticPageSkeletonComponent } from "./components";
 import { STATISTIC_PAGE } from "./constants";
 import { StatisticComponent } from "./layout/statistic.component";
-import { StatisticResolver } from "./resolvers";
+import { StatisticPageResolver } from "./resolvers";
 
 export const STATISTIC_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const STATISTIC_ROUTES: INavigationSkeletonRoute[] = [
 			animation: STATISTIC_PAGE
 		},
 		resolve: {
-			places: StatisticResolver
+			statistic: StatisticPageResolver
 		},
 		skeleton: {
-			component: StatisticSkeletonComponent
+			component: StatisticPageSkeletonComponent
 		}
 	}
 ];

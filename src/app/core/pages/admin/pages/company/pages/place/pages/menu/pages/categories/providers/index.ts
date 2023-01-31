@@ -1,3 +1,3 @@
-import { CATEGORIES_I18N_PROVIDER } from "./categories-i18n.provider";
+import { CATEGORIES_I18N_PROVIDERS } from "./categories-i18n.provider";
 
-export const CATEGORIES_PROVIDERS = [CATEGORIES_I18N_PROVIDER];
+export const CATEGORIES_PROVIDERS = CATEGORIES_I18N_PROVIDERS;

@@ -43,5 +43,7 @@
 	"role_label": "Role",
 	"role_placeholder": "Select role",
 	"search_label": "Search",
-	"search_placeholder": "Start typing..."
+	"search_placeholder": "Start typing...",
+	"merchantId_label": "Merchant ID",
+	"merchantId_placeholder": "Enter merchant id..."
 }

@@ -5,11 +5,19 @@ query CategoriesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		data {
 			id
 			name
+			file {
+				id
+				url
+			}
 			products {
 				id
 				name
 				description
 				price
+				file {
+					id
+					url
+				}
 			}
 		}
 	}

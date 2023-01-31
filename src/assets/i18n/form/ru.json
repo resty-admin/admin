@@ -43,5 +43,7 @@
 	"role_label": "Роль",
 	"role_placeholder": "Выберите роль",
 	"search_label": "Поиск",
-	"search_placeholder": "Начните писать..."
+	"search_placeholder": "Начните писать...",
+	"merchantId_label": "Мерчант айди",
+	"merchantId_placeholder": "Введите мерчант айди..."
 }

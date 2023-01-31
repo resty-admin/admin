@@ -21,6 +21,8 @@
 			font-size: rem(16);
 			line-height: rem(24);
 			color: var(--dark);
+
+			@include noWrap();
 		}
 		.description {
 			width: 100%;
@@ -29,9 +31,7 @@
 			font-size: rem(11);
 			line-height: rem(16);
 			color: var(--grey);
-			&:empty {
-				display: none;
-			}
+			height: rem(16);
 		}
 		.more {
 			grid-area: more;

@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { CommandsSkeletonComponent } from "./components";
+import { CommandsPageSkeletonComponent } from "./components";
 import { COMMANDS_PAGE } from "./constants";
 import { CommandsComponent } from "./layout/commands.component";
-import { CommandsResolver } from "./resolvers";
+import { CommandsPageResolver } from "./resolvers";
 
 export const COMMANDS_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const COMMANDS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: COMMANDS_PAGE
 		},
 		resolve: {
-			commands: CommandsResolver
+			commands: CommandsPageResolver
 		},
 		skeleton: {
-			component: CommandsSkeletonComponent
+			component: CommandsPageSkeletonComponent
 		}
 	}
 ];

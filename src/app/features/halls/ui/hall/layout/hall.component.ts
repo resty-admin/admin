@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import type { HallEntity } from "@graphql";
-import type { IAction } from "@shared/ui/actions";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { IHall } from "../interfaces/hall.interface";
 
@@ -11,6 +9,15 @@ import { IHall } from "../interfaces/hall.interface";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HallComponent {
+	@Output() editClicked = new EventEmitter<IHall>();
+	@Output() deleteClicked = new EventEmitter<IHall>();
 	@Input() hall?: IHall;
-	@Input() actions?: IAction<HallEntity>[] | null;
+
+	emitEditClick(hall: IHall) {
+		this.editClicked.emit(hall);
+	}
+
+	emitDeleteClick(hall: IHall) {
+		this.editClicked.emit(hall);
+	}
 }

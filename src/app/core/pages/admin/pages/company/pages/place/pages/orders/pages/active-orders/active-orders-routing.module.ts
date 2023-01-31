@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { ActiveOrdersSkeletonComponent } from "./components";
+import { ActiveOrdersPageSkeletonComponent } from "./components";
 import { ACTIVE_ORDERS_PAGE } from "./constants";
 import { ActiveOrdersComponent } from "./layout/active-orders.component";
-import { ActiveOrdersResolver } from "./resolvers";
+import { ActiveOrdersPageResolver } from "./resolvers";
 
 export const ACTIVE_ORDERS_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const ACTIVE_ORDERS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: ACTIVE_ORDERS_PAGE
 		},
 		resolve: {
-			orders: ActiveOrdersResolver
+			activeOrders: ActiveOrdersPageResolver
 		},
 		skeleton: {
-			component: ActiveOrdersSkeletonComponent
+			component: ActiveOrdersPageSkeletonComponent
 		}
 	}
 ];

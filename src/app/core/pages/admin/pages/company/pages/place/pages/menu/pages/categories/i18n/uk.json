@@ -2,5 +2,10 @@
 	"add": "Добавить категорию",
 	"name": "Имя",
 	"description": "Описание",
-	"price": "Цена"
+	"price": "Цена",
+	"currency": "грн",
+	"createCategory": "Категория создан",
+	"updateCategory": "Категория обновлен",
+	"deleteCategory": "Категория удален",
+	"confirmCategory": "Вы уверены, что хотите удалить категорию"
 }

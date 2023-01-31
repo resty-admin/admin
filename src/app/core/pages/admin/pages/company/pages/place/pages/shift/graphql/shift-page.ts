@@ -3,14 +3,9 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../graphql";
-export type ShiftPageQueryVariables = Types.Exact<{
-	hallsFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-	tablesFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-	take?: Types.InputMaybe<Types.Scalars["Int"]>;
-	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
-}>;
+export type ActiveShiftQueryVariables = Types.Exact<Record<string, never>>;
 
-export interface ShiftPageQuery {
+export interface ActiveShiftQuery {
 	__typename?: "Query";
 	activeShift?: {
 		__typename?: "ActiveShiftEntity";
@@ -25,6 +20,17 @@ export interface ShiftPageQuery {
 			  }[]
 			| null;
 	} | null;
+}
+
+export type ShiftPageQueryVariables = Types.Exact<{
+	hallsFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
+	tablesFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
+	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
+}>;
+
+export interface ShiftPageQuery {
+	__typename?: "Query";
 	halls: {
 		__typename?: "PaginatedHall";
 		page: number;
@@ -46,8 +52,8 @@ export interface ShiftPageQuery {
 	};
 }
 
-export const ShiftPageDocument = gql`
-	query ShiftPage($hallsFiltersArgs: [FiltersArgsDto!], $tablesFiltersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+export const ActiveShiftDocument = gql`
+	query ActiveShift {
 		activeShift {
 			id
 			tables {
@@ -60,6 +66,21 @@ export const ShiftPageDocument = gql`
 				}
 			}
 		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class ActiveShiftGQL extends Apollo.Query<ActiveShiftQuery, ActiveShiftQueryVariables> {
+	override document = ActiveShiftDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const ShiftPageDocument = gql`
+	query ShiftPage($hallsFiltersArgs: [FiltersArgsDto!], $tablesFiltersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		halls(filtersArgs: $hallsFiltersArgs, take: $take, skip: $skip) {
 			page
 			totalCount

@@ -3,11 +3,11 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../graphql";
-export type AdminPageQueryVariables = Types.Exact<{
+export type AdminOrderQueryVariables = Types.Exact<{
 	orderId: Types.Scalars["String"];
 }>;
 
-export interface AdminPageQuery {
+export interface AdminOrderQuery {
 	__typename?: "Query";
 	order?: { __typename?: "ActiveOrderEntity"; type: Types.OrderTypeEnum; id: string; code: number } | null;
 }
@@ -46,13 +46,14 @@ export interface AdminPlacesQuery {
 					id: string;
 					name: string;
 					verificationStatus: Types.PlaceVerificationStatusEnum;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 			  }[]
 			| null;
 	};
 }
 
-export const AdminPageDocument = gql`
-	query AdminPage($orderId: String!) {
+export const AdminOrderDocument = gql`
+	query AdminOrder($orderId: String!) {
 		order(id: $orderId) {
 			type
 			id
@@ -64,8 +65,8 @@ export const AdminPageDocument = gql`
 @Injectable({
 	providedIn: "root"
 })
-export class AdminPageGQL extends Apollo.Query<AdminPageQuery, AdminPageQueryVariables> {
-	override document = AdminPageDocument;
+export class AdminOrderGQL extends Apollo.Query<AdminOrderQuery, AdminOrderQueryVariables> {
+	override document = AdminOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);
@@ -103,6 +104,10 @@ export const AdminPlacesDocument = gql`
 				id
 				name
 				verificationStatus
+				file {
+					id
+					url
+				}
 			}
 		}
 	}

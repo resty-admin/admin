@@ -1,1 +1,1 @@
-export * from "./tables/tables.resolver";
+export * from "./tables-page/tables-page.resolver";

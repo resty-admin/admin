@@ -1,0 +1,77 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.aside {
+		width: rem(300);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
+		overflow: hidden;
+		padding: rem(14) rem(24);
+		row-gap: rem(32);
+		border-right: rem(1) solid var(--dark-b);
+		background-color: var(--light);
+		.profile {
+			@include hideOnDesktop();
+		}
+		.nav {
+			flex: 1;
+			overflow: hidden;
+		}
+	}
+}
+@include dark() {
+	.aside {
+		background-color: var(--dark);
+		border-color: var(--light-b);
+		.user {
+			background-color: var(--dark-grey);
+			.name {
+				color: var(--light);
+			}
+			.description {
+				color: var(--light-t);
+			}
+			.sign-out {
+				background-color: var(--dark);
+				.icon {
+				}
+			}
+		}
+		.company,
+		.place {
+			.title .text {
+				color: var(--light);
+			}
+			.container .button {
+				background-color: var(--dark-grey);
+			}
+		}
+		.nav {
+			border-color: var(--light-b);
+			.pages .page .link {
+				.label {
+					color: var(--light);
+				}
+				.icon {
+				}
+				&.disabled {
+					span {
+						color: var(--light-b);
+					}
+					.icon {
+					}
+				}
+			}
+		}
+		.support {
+			.label {
+				color: var(--grey);
+			}
+			.tel {
+				color: var(--light);
+			}
+		}
+	}
+}

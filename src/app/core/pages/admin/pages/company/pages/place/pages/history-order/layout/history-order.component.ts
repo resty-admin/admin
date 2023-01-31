@@ -1,20 +1,16 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { ProductToOrderStatusEnum } from "@graphql";
-import { FormControl } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map, take, tap } from "rxjs";
+import { take } from "rxjs";
 
 import { HISTORY_ORDER_PAGE } from "../constants";
-import { HistoryOrderPageGQL } from "../graphql";
+import { HistoryOrderPageService } from "../services";
 
-@UntilDestroy()
 @Component({
 	selector: "app-history-order",
 	templateUrl: "./history-order.component.html",
@@ -22,103 +18,37 @@ import { HistoryOrderPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryOrderComponent implements OnInit, OnDestroy {
-	readonly historyOrderPage = HISTORY_ORDER_PAGE;
-
+	readonly activeOrderPage = HISTORY_ORDER_PAGE;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 
-	readonly productsControl = new FormControl();
-	readonly usersControl = new FormControl<string[]>();
-	private readonly _activeOrderPageQuery = this._historyOrderPageGQL.watch();
-	readonly order$ = this._activatedRoute.data.pipe(map((result) => result["data"]));
+	readonly historyOrder$ = this._historyOrderPageService.historyOrder$;
+
+	selectedUsers: string[] = [];
+	selectedProductsToOrders: string[] = [];
 
 	constructor(
-		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,
+		private readonly _historyOrderPageService: HistoryOrderPageService,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
 		private readonly _ordersService: OrdersService
 	) {}
 
-	async approveTableInOrder() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-		await lastValueFrom(this._ordersService.approveTableInOrder(orderId));
-	}
-
-	async rejectTableInOrder() {
-		const orderId = this._routerService.getParams(ORDER_ID.slice(1));
-
-		await lastValueFrom(this._ordersService.rejectTableInOrder(orderId));
-	}
-
-	async approveProductsInOrder() {
-		const productsToOrdersIds = Object.entries(this.productsControl.value || {})
-			.filter(([_, value]) => value)
-			.map(([key]) => key);
-
-		await lastValueFrom(this._ordersService.approveProductsInOrder(productsToOrdersIds));
-
-		await this._activeOrderPageQuery.refetch();
-	}
-
-	async rejectProductsInOrder() {
-		const productsToOrdersIds = Object.entries(this.productsControl.value || {})
-			.filter(([_, value]) => value)
-			.map(([key]) => key);
-
-		await lastValueFrom(this._ordersService.rejectProductsInOrder(productsToOrdersIds));
-
-		await this._activeOrderPageQuery.refetch();
-	}
-
-	async ngOnInit() {
-		const { companyId, placeId, orderId } = this._routerService.getParams();
-
-		if (!orderId) {
-			return;
-		}
-
-		this._ordersService.setActiveOrderId(orderId);
-
-		this.usersControl.valueChanges
-			.pipe(
-				untilDestroyed(this),
-				tap(async (users) => {
-					const order: any = await lastValueFrom(this.order$.pipe(take(1)));
-					const productsByUser = Object.keys(this.productsControl.value || {}).reduce((productsMap, id) => {
-						const userId = (order.productsToOrders || []).find((productToOrder: any) => productToOrder.id === id)?.user
-							.id;
-
-						return {
-							...productsMap,
-							[id]: userId && (users || []).includes(userId)
-						};
-					}, {});
-
-					this.productsControl.patchValue(productsByUser);
-				})
-			)
-			.subscribe();
+	ngOnInit() {
+		this._ordersService.setActiveOrderId(this._routerService.getParams(ORDER_ID.slice(1)));
 
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: ADMIN_ROUTES.ORDERS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+			routerLink: ADMIN_ROUTES.ORDERS.absolutePath
+				.replace(COMPANY_ID, this._routerService.getParams(COMPANY_ID.slice(1)))
+				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 		});
 
 		this._actionsService.setAction({
 			label: "Подтвердить оплату",
-			func: async () => {
-				const productsToOrdersIds = Object.entries(this.productsControl.value || {})
-					.filter(([_, value]) => value)
-					.map(([key]) => key);
-
-				await lastValueFrom(this._ordersService.setPaidStatusForProductsInOrder(productsToOrdersIds));
-
-				await this._activeOrderPageQuery.refetch();
+			func: () => {
+				this._ordersService.setPaidStatusForProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
 			}
 		});
-
-		await this._activeOrderPageQuery.setVariables({ orderId });
 	}
 
 	ngOnDestroy() {

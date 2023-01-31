@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import type { TableEntity } from "@graphql";
-import type { IAction } from "@shared/ui/actions";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { ITable } from "../interfaces";
 
@@ -11,6 +9,15 @@ import { ITable } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent {
+	@Output() editClicked = new EventEmitter<ITable>();
+	@Output() deleteClicked = new EventEmitter<ITable>();
 	@Input() table?: ITable;
-	@Input() actions?: IAction<TableEntity>[] | null;
+
+	emitEditClick(table: ITable) {
+		this.editClicked.emit(table);
+	}
+
+	emitDeleteClick(table: ITable) {
+		this.editClicked.emit(table);
+	}
 }

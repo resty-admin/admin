@@ -3,5 +3,8 @@
 	"close": "Close shift",
 	"subtitle": "You have to select tables to open the shift",
 	"edit": "Edit",
-	"create": "Create"
+	"create": "Create",
+	"createShift": "Смена создана",
+	"updateShift": "Смена обновлена",
+	"closeShift": "Смена закрыта"
 }

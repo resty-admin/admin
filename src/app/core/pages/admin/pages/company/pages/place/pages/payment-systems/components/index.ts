@@ -1,5 +1,5 @@
-import { PaymentSystemsSkeletonComponent } from "./payment-systems-skeleton/payment-systems-skeleton.component";
+import { PaymentSystemsPageSkeletonComponent } from "./payment-systems-page-skeleton/payment-systems-page-skeleton.component";
 
-export const PAYMENT_SYSTEMS_COMPONENTS = [PaymentSystemsSkeletonComponent];
+export const PAYMENT_SYSTEMS_COMPONENTS = [PaymentSystemsPageSkeletonComponent];
 
-export * from "./payment-systems-skeleton/payment-systems-skeleton.component";
+export * from "./payment-systems-page-skeleton/payment-systems-page-skeleton.component";

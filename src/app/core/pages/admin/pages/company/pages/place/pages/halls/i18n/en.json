@@ -1,4 +1,7 @@
 {
 	"title": "Halls",
-	"add": "Add hall"
+	"add": "Add hall",
+	"createHall": "Зал создан",
+	"updateHall": "Зал обновлен",
+	"deleteHall": "Зал удален"
 }

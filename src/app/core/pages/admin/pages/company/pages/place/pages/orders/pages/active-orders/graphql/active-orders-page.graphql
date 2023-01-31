@@ -6,9 +6,14 @@ query ActiveOrdersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) 
 			id
 			code
 			status
+			type
 			table {
 				id
 				name
+				file {
+					id
+					url
+				}
 			}
 		}
 	}

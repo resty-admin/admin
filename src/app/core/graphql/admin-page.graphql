@@ -1,4 +1,4 @@
-query AdminPage($orderId: String!) {
+query AdminOrder($orderId: String!) {
 	order(id: $orderId) {
 		type
 		id
@@ -25,6 +25,10 @@ query AdminPlaces($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 			id
 			name
 			verificationStatus
+			file {
+				id
+				url
+			}
 		}
 	}
 }

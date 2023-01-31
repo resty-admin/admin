@@ -5,7 +5,7 @@ import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { COMPANY_DIALOG } from "../constants";
 import type { ICompanyForm } from "../interfaces";
@@ -42,16 +42,17 @@ export class CompanyDialogComponent implements OnInit {
 		this.formGroup.patchValue(this._dialogRef.data);
 	}
 
-	async closeDialog(company?: ICompanyForm) {
+	closeDialog(company?: ICompanyForm) {
 		if (!company) {
 			this._dialogRef.close();
 			return;
 		}
 
-		this._dialogRef.close({
-			...this.data,
-			...company,
-			logo: await lastValueFrom(this._filesService.getFile(company.logo))
-		});
+		this._filesService
+			.getFile(company.logo)
+			.pipe(take(1))
+			.subscribe((logo) => {
+				this._dialogRef.close({ ...this.data, ...company, logo });
+			});
 	}
 }

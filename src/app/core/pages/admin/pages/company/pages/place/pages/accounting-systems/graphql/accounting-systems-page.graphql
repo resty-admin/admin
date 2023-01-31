@@ -5,6 +5,7 @@ query AccountingSystemsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: 
 		data {
 			id
 			name
+			configFields
 		}
 	}
 }

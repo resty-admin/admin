@@ -1,1 +1,1 @@
-export * from "./history-order/history-order.resolver";
+export * from "./history-order-page/history-order-page.resolver";

@@ -5,7 +5,7 @@ import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { PLACE_DIALOG } from "../constants";
 import type { IPlaceForm } from "../interfaces";
@@ -43,16 +43,17 @@ export class PlaceDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	async closeDialog(place?: IPlaceForm) {
+	closeDialog(place?: IPlaceForm) {
 		if (!place) {
 			this._dialogRef.close();
 			return;
 		}
 
-		this._dialogRef.close({
-			...this.data,
-			...place,
-			file: await lastValueFrom(this._filesService.getFile(place.file))
-		});
+		this._filesService
+			.getFile(place.file)
+			.pipe(take(1))
+			.subscribe((file) => {
+				this._dialogRef.close({ ...this.data, ...place, file });
+			});
 	}
 }

@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { ShiftSkeletonComponent } from "./components";
+import { ShiftPageSkeletonComponent } from "./components";
 import { SHIFT_PAGE } from "./constants";
 import { ShiftComponent } from "./layout/shift.component";
-import { ShiftResolver } from "./resolvers";
+import { ShiftPageResolver } from "./resolvers";
 
 export const SHIFT_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const SHIFT_ROUTES: INavigationSkeletonRoute[] = [
 			animation: SHIFT_PAGE
 		},
 		resolve: {
-			shift: ShiftResolver
+			shift: ShiftPageResolver
 		},
 		skeleton: {
-			component: ShiftSkeletonComponent
+			component: ShiftPageSkeletonComponent
 		}
 	}
 ];

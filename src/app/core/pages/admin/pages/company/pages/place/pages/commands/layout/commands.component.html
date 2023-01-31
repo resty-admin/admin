@@ -12,5 +12,9 @@
 </div>
 
 <ng-template let-item #commandTemplate>
-	<app-command [command]="item" [actions]="actions"></app-command>
+	<app-command
+		[command]="item"
+		(editClicked)="openUpdateCommandDialog(item)"
+		(deleteClicked)="openDeleteCommandDialog(item)"
+	></app-command>
 </ng-template>

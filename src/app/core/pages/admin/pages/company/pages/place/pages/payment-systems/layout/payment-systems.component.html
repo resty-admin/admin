@@ -3,11 +3,14 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list class="list" [items]="paymentSystems$ | async" [itemTemplate]="paymentSystemTempalte"></app-list>
+	<app-list
+		class="list"
+		[items]="paymentSystems$ | async"
+		[itemTemplate]="paymentSystemTempalte"
+		(clicked)="openPaymentSystemDialog($event)"
+	></app-list>
 </div>
 
 <ng-template let-item #paymentSystemTempalte>
-	<button class="button" (click)="openPaymentSystemDialog(item)">
-		<app-payment-system [paymentSystem]="item"></app-payment-system>
-	</button>
+	<app-payment-system [paymentSystem]="item"></app-payment-system>
 </ng-template>

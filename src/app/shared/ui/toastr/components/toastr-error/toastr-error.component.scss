@@ -9,10 +9,11 @@
 		grid-row-gap: rem(5);
 		grid-column-gap: rem(15);
 		align-items: center;
-		background-color: var(--light-grey);
-		backdrop-filter: blur(2px);
-		border-radius: 12px;
 		padding: rem(8) rem(16) rem(21) rem(8);
+		min-width: rem(200);
+		background: rgb(0 0 0 / 70%);
+		backdrop-filter: blur(2px);
+		border-radius: rem(12);
 
 		.circle {
 			grid-area: circle;
@@ -34,7 +35,7 @@
 			font-weight: 500;
 			font-size: rem(16);
 			line-height: rem(24);
-			color: var(--dark);
+			color: var(--light);
 		}
 
 		.messages {
@@ -45,13 +46,15 @@
 				font-weight: 400;
 				font-size: rem(13);
 				line-height: rem(16);
-				color: var(--dark);
+				color: var(--light);
 			}
 		}
 
 		.close .icon {
 			width: rem(12);
 			height: rem(12);
+
+			@include icon(var(--light), var(--light));
 		}
 	}
 }

@@ -1,5 +1,5 @@
-import { AccountingSystemsSkeletonComponent } from "./accounting-systems-skeleton/accounting-systems-skeleton.component";
+import { AccountingSystemsPageSkeletonComponent } from "./accounting-systems-page-skeleton/accounting-systems-page-skeleton.component";
 
-export const ACCOUNTING_SYSTEMS_COMPONENTS = [AccountingSystemsSkeletonComponent];
+export const ACCOUNTING_SYSTEMS_COMPONENTS = [AccountingSystemsPageSkeletonComponent];
 
-export * from "./accounting-systems-skeleton/accounting-systems-skeleton.component";
+export * from "./accounting-systems-page-skeleton/accounting-systems-page-skeleton.component";

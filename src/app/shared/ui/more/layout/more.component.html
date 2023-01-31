@@ -1,0 +1,23 @@
+<button
+	class="app-more"
+	appStopPropagation
+	appIconButton
+	theme="1"
+	placement="left"
+	variation="popper"
+	[tippy]="moreActions"
+	[data]="data"
+>
+	<app-icon class="icon" name="more"></app-icon>
+</button>
+
+<ng-template #moreActions let-data let-hide>
+	<ul class="actions">
+		<li class="action" *ngFor="let action of defaultActions; trackBy: sharedService.trackByFn">
+			<button class="button" (click)="action.func(data); hide()">
+				<app-icon class="icon" [name]="action.icon"></app-icon>
+				<span class="text">{{ action.label }}</span>
+			</button>
+		</li>
+	</ul>
+</ng-template>

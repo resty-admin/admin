@@ -1,0 +1,33 @@
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { SharedService } from "@shared/services";
+import type { IAction } from "@shared/ui/actions";
+
+@Component({
+	selector: "app-more",
+	templateUrl: "./more.component.html",
+	styleUrls: ["./more.component.scss"],
+	changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class MoreComponent<T> {
+	@Output() editClicked = new EventEmitter<T>();
+	@Output() deleteClicked = new EventEmitter<T>();
+
+	@Input() data?: T;
+
+	readonly defaultActions: IAction<T>[] = [
+		{
+			icon: "edit",
+			label: "Редактировать",
+			func: (data) => this.editClicked.emit(data)
+		},
+		{
+			icon: "delete",
+			label: "Удалить",
+			func: (data) => this.deleteClicked.emit(data)
+		}
+	];
+
+	@Input() additionalFunc = () => undefined;
+
+	constructor(readonly sharedService: SharedService) {}
+}

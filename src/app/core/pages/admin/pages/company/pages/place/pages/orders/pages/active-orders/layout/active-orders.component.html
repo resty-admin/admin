@@ -11,6 +11,10 @@
 
 <ng-template let-item #order>
 	<a class="link" [routerLink]="item.id">
-		<app-order [order]="item" [actions]="actions"></app-order>
+		<app-order
+			[order]="item"
+			(editClicked)="openUpdateOrderDialog(item)"
+			(deleteClicked)="openDeleteOrderDialog(item)"
+		></app-order>
 	</a>
 </ng-template>

@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { EmployeesSkeletonComponent } from "./components";
+import { EmployeesPageSkeletonComponent } from "./components";
 import { EMPLOYEES_PAGE } from "./constants";
 import { EmployeesComponent } from "./layout/employees.component";
-import { EmployeesResolver } from "./resolvers";
+import { EmployeesPageResolver } from "./resolvers";
 
 export const EMPLOYEES_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const EMPLOYEES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: EMPLOYEES_PAGE
 		},
 		resolve: {
-			employees: EmployeesResolver
+			employees: EmployeesPageResolver
 		},
 		skeleton: {
-			component: EmployeesSkeletonComponent
+			component: EmployeesPageSkeletonComponent
 		}
 	}
 ];

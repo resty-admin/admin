@@ -5,7 +5,7 @@ import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { CATEGORY_DIALOG } from "../constants";
 import type { ICategoryForm } from "../interfaces";
@@ -42,16 +42,17 @@ export class CategoryDialogComponent implements OnInit {
 		this.formGroup.patchValue({ ...this.data, file: null });
 	}
 
-	async closeDialog(category?: ICategoryForm) {
+	closeDialog(category?: ICategoryForm) {
 		if (!category) {
 			this._dialogRef.close();
 			return;
 		}
 
-		this._dialogRef.close({
-			...this.data,
-			...category,
-			file: await lastValueFrom(this._filesService.getFile(category.file))
-		});
+		this._filesService
+			.getFile(category.file)
+			.pipe(take(1))
+			.subscribe((file) => {
+				this._dialogRef.close({ ...this.data, ...category, file });
+			});
 	}
 }

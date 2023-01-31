@@ -10,7 +10,7 @@
 		</div>
 		<div class="info">
 			<p class="name">{{ user.name }}</p>
-			<p class="role">{{ user.role }}</p>
+			<p class="role">{{ t(user.role) }}</p>
 		</div>
 
 		<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
@@ -38,7 +38,10 @@
 
 			<button class="submit">{{ f("submit") }}</button>
 
-			<app-image class="image" name="manager"></app-image>
+			<app-image
+				class="image"
+				[name]="user.role === userRoleEnum.Admin ? 'manager' : user.role.toLowerCase()"
+			></app-image>
 		</form>
 
 		<button class="delete" (click)="deleteMe()">{{ t("delete_profile") }}</button>

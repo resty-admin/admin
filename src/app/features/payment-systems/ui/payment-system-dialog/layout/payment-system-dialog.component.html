@@ -6,8 +6,8 @@
 			*ngFor="let field of fields"
 			class="input"
 			[formControlName]="field"
-			[label]="field"
-			[placeholder]="field"
+			[label]="f(field + '_label')"
+			[placeholder]="f(field + '_placeholder')"
 		></app-input>
 
 		<button appButton theme="1" class="submit">{{ t("connect") }}</button>

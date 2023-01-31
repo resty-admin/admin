@@ -1,16 +1,12 @@
 mutation CreateAttr($attr: CreateAttributeInput!) {
 	createAttr(attr: $attr) {
 		id
-		name
-		price
 	}
 }
 
 mutation UpdateAttr($attr: UpdateAttributeInput!) {
 	updateAttr(attr: $attr) {
 		id
-		name
-		price
 	}
 }
 

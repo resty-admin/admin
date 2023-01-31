@@ -15,7 +15,15 @@ export interface TablesPageQuery {
 		__typename?: "PaginatedTable";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "TableEntity"; id: string; name: string; code: number }[] | null;
+		data?:
+			| {
+					__typename?: "TableEntity";
+					id: string;
+					name: string;
+					code: number;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -28,6 +36,10 @@ export const TablesPageDocument = gql`
 				id
 				name
 				code
+				file {
+					id
+					url
+				}
 			}
 		}
 	}

@@ -2,9 +2,10 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
+import { UserRoleEnum } from "@graphql";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { FORM } from "@shared/constants";
-import { firstValueFrom, lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { PROFILE_PAGE } from "../constants";
 import type { IProfileForm } from "../interfaces";
@@ -20,6 +21,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	readonly profilePage = PROFILE_PAGE;
 	readonly user$ = this._authService.me$;
 
+	readonly userRoleEnum = UserRoleEnum;
+
 	readonly formGroup = this._formBuilder.group<IProfileForm>({
 		name: "",
 		tel: "",
@@ -32,14 +35,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		private readonly _actionsService: ActionsService
 	) {}
 
-	async ngOnInit() {
-		const user = await firstValueFrom(this.user$);
+	ngOnInit() {
+		this.user$.pipe(take(1)).subscribe((user) => {
+			if (!user) {
+				return;
+			}
 
-		if (!user) {
-			return;
-		}
-
-		this.formGroup.patchValue(user);
+			this.formGroup.patchValue(user);
+		});
 
 		this._actionsService.setAction({
 			label: "Обновить пользователя",
@@ -53,12 +56,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	async updateMe(formValue: IProfileForm) {
-		await lastValueFrom(this._authService.updateMe(formValue));
+	updateMe(formValue: IProfileForm) {
+		this._authService.updateMe(formValue).pipe(take(1)).subscribe();
 	}
 
-	async deleteMe() {
-		await lastValueFrom(this._authService.deleteMe());
+	deleteMe() {
+		this._authService.deleteMe().pipe(take(1)).subscribe();
 	}
 
 	ngOnDestroy() {

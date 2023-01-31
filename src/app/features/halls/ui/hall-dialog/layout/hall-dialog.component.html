@@ -11,6 +11,7 @@
 		<app-file
 			class="input"
 			formControlName="file"
+			[previewImage]="data?.file"
 			[label]="f('file_label')"
 			[placeholder]="f('file_placeholder')"
 		></app-file>

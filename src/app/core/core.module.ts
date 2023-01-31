@@ -2,11 +2,13 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
-import { CORE_COMPONENTS } from "@core/components";
+import { CompanyDialogModule } from "@features/companies";
+import { PlaceDialogModule } from "@features/places";
 import { ApiModule } from "@shared/modules/api";
 import { ApolloModule } from "@shared/modules/apollo";
 import { CookiesModule } from "@shared/modules/cookies";
 import { CryptoModule } from "@shared/modules/crypto";
+import { DirectivesModule } from "@shared/modules/directives";
 import { ErrorsModule } from "@shared/modules/errors";
 import { I18nModule } from "@shared/modules/i18n";
 import { PipesModule } from "@shared/modules/pipes";
@@ -23,6 +25,7 @@ import { FileModule } from "@shared/ui/file";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { LinkModule } from "@shared/ui/link";
+import { MoreModule } from "@shared/ui/more";
 import { NavigationSkeletonModule } from "@shared/ui/navigation-skeleton";
 import { ProgressBarModule } from "@shared/ui/progress-bar";
 import { SelectModule } from "@shared/ui/select";
@@ -30,6 +33,7 @@ import { ToastrModule } from "@shared/ui/toastr";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 
+import { CORE_COMPONENTS } from "./components";
 import {
 	API_CONFIG,
 	APOLLO_CONFIG,
@@ -84,7 +88,11 @@ import { CORE_PAGE_PROVIDERS } from "./providers";
 		ActiveOrderModule,
 		ReactiveFormsModule,
 		ButtonModule,
-		LinkModule
+		LinkModule,
+		DirectivesModule,
+		MoreModule,
+		CompanyDialogModule,
+		PlaceDialogModule
 	],
 	providers: CORE_PAGE_PROVIDERS,
 	exports: [CoreComponent]

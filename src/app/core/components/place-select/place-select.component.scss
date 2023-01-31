@@ -1,0 +1,40 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.place {
+		display: grid;
+		row-gap: rem(10);
+		.title {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.text {
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+		}
+		.container {
+			display: flex;
+			align-items: flex-end;
+			column-gap: rem(5);
+			.button {
+				background-color: var(--light-grey);
+				height: rem(48);
+			}
+			.select {
+				flex: 1;
+			}
+			.more::ng-deep {
+				height: rem(46);
+				.app-more {
+					height: 100%;
+					background-color: var(--light-grey);
+				}
+			}
+		}
+	}
+}
+@include dark() {
+}

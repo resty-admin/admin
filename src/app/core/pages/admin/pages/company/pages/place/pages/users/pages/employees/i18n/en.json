@@ -1,4 +1,8 @@
 {
 	"title": "Users",
-	"add": "Add user"
+	"add": "Add user",
+	"name": "Name",
+	"email": "Email",
+	"tel": "Tel",
+	"role": "Role"
 }

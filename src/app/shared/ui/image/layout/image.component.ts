@@ -2,7 +2,7 @@ import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional } from "@angular/core";
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
-import { BehaviorSubject, map, of, switchMap } from "rxjs";
+import { BehaviorSubject, filter, map, of, switchMap } from "rxjs";
 
 import { IMAGE_CONFIG } from "../injection-tokens";
 import { IImageConfig, IImageTheme } from "../interfaces";
@@ -30,11 +30,13 @@ export class ImageComponent implements OnChanges {
 				: this._imageConfig.theme$.pipe(
 						map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.name}.${this.format}`)
 				  )
-		)
+		),
+		filter(() => Boolean(this.name))
 	);
 
 	readonly placeholderSrc$ = this._imageConfig.theme$.pipe(
-		map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.placeholder}.${this.format}`)
+		map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.placeholder}.${this.format}`),
+		filter(() => Boolean(this.placeholder))
 	);
 
 	className = `app-image ${THEME.replace(ANY_SYMBOL, this.theme)}`;

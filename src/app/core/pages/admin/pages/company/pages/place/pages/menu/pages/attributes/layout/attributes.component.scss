@@ -97,7 +97,11 @@
 							position: absolute;
 							right: rem(4);
 							top: rem(12);
-							background-color: var(--light-grey);
+							&::ng-deep {
+								.app-more {
+									background-color: var(--light-grey);
+								}
+							}
 						}
 
 						@include desktop() {
@@ -141,7 +145,7 @@
 					}
 				}
 
-				.more {
+				.more::ng-deep .app-more {
 					background-color: var(--dark-grey);
 				}
 			}

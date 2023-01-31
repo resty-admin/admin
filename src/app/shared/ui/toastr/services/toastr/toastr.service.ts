@@ -15,7 +15,7 @@ export class ToastrService {
 
 	observe<T>(title?: string, message?: string): (source: Observable<T>) => Observable<T> {
 		return (source: Observable<T>) => {
-			const loadingRef = this.loading();
+			const loadingRef = this.loading(undefined, { data: { title, message } });
 
 			return source.pipe(
 				tap({

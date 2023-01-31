@@ -1,3 +1,3 @@
-import { USERS_I18N_PROVIDER } from "./users-i18n.provider";
+import { USERS_I18N_PROVIDERS } from "./users-i18n.provider";
 
-export const USERS_PROVIDERS = [USERS_I18N_PROVIDER];
+export const USERS_PROVIDERS = USERS_I18N_PROVIDERS;

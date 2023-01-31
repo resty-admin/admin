@@ -1,5 +1,5 @@
-import { PlacesSkeletonComponent } from "./places-skeleton/places-skeleton.component";
+import { PlacesPageSkeletonComponent } from "./places-page-skeleton/places-page-skeleton.component";
 
-export const PLACES_COMPONENTS = [PlacesSkeletonComponent];
+export const PLACES_COMPONENTS = [PlacesPageSkeletonComponent];
 
-export * from "./places-skeleton/places-skeleton.component";
+export * from "./places-page-skeleton/places-page-skeleton.component";

@@ -7,7 +7,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { AUTH_TYPES } from "../../../data";
 import { SIGN_IN_PAGE } from "../constants";
@@ -48,9 +48,15 @@ export class SignInComponent implements OnInit {
 		});
 	}
 
-	async signIn(body: ISignIn) {
-		await lastValueFrom(this._authService.signIn(body));
-
-		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
+	signIn(body: ISignIn) {
+		this._authService
+			.signIn(body)
+			.pipe(take(1))
+			.subscribe(async (accessToken) => {
+				if (!accessToken) {
+					return;
+				}
+				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
+			});
 	}
 }

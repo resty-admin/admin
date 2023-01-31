@@ -1,5 +1,5 @@
-import { EmployeesSkeletonComponent } from "./employees-skeleton/employees-skeleton.component";
+import { EmployeesPageSkeletonComponent } from "./employees-page-skeleton/employees-page-skeleton.component";
 
-export const EMPLOYEES_COMPONENTS = [EmployeesSkeletonComponent];
+export const EMPLOYEES_COMPONENTS = [EmployeesPageSkeletonComponent];
 
-export * from "./employees-skeleton/employees-skeleton.component";
+export * from "./employees-page-skeleton/employees-page-skeleton.component";

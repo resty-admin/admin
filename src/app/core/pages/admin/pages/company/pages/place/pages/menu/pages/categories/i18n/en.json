@@ -2,5 +2,10 @@
 	"add": "Add category",
 	"name": "Name",
 	"description": "Description",
-	"price": "Price"
+	"price": "Price",
+	"currency": "uah",
+	"createCategory": "Категория создан",
+	"updateCategory": "Категория обновлен",
+	"deleteCategory": "Категория удален",
+	"confirmCategory": "Вы уверены, что хотите удалить категорию"
 }

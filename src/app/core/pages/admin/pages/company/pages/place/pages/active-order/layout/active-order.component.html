@@ -1,33 +1,38 @@
 <div class="order-page" *transloco="let t; read: activeOrderPage">
-	<ng-container *ngIf="order$ | async as order">
-		<app-order-info [order]="order"></app-order-info>
+	<ng-container *ngIf="activeOrder$ | async as activeOrder">
+		<app-order-info [order]="activeOrder"></app-order-info>
 
 		<div class="actions">
-			<button class="approve" (click)="approveTableInOrder()">Подтвердить</button>
-			<button class="reject" (click)="rejectTableInOrder()">Отклонить</button>
+			<button class="approve" (click)="approveTableInOrder()">{{ t("confirm") }}</button>
+			<button class="reject" (click)="rejectTableInOrder()">{{ t("reject") }}</button>
 		</div>
 
 		<app-users-select
 			class="users-select"
-			[users]="order.users"
+			[users]="activeOrder.users"
 			[(selectedUsers)]="selectedUsers"
 			(selectedUsersChange)="setSelectedUsers($event)"
 		></app-users-select>
 
 		<app-products-to-order-select
 			class="products-select"
-			[productsToOrders]="order.productsToOrders"
+			[productsToOrders]="activeOrder.productsToOrders"
 			[(selectedProductsToOrders)]="selectedProductsToOrders"
 			(selectedProductsToOrdersChange)="setSelectedProductsToOrders($event)"
 		></app-products-to-order-select>
 
 		<div class="actions">
-			<button class="approve" (click)="approveProductsInOrder()">Подтвердить</button>
-			<button class="reject" (click)="rejectProductsInOrder()">Отклонить</button>
+			<button class="approve" (click)="approveProductsInOrder()">{{ t("confirm") }}</button>
+			<button class="reject" (click)="rejectProductsInOrder()">{{ t("confirm") }}</button>
 		</div>
 
-		<button class="cancel" (click)="cancelOrder(order.id)">{{ t("cancel") }}</button>
+		<button class="cancel" (click)="cancelOrder(activeOrder.id)">{{ t("cancel") }}</button>
 
-		<app-textarea class="textarea" [value]="order.comments" label="Комментарий" [disabled]="true"></app-textarea>
+		<app-textarea
+			class="textarea"
+			[value]="activeOrder.comments"
+			[label]="t('comment')"
+			[disabled]="true"
+		></app-textarea>
 	</ng-container>
 </div>

@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { AUTH_TYPES } from "../../../data";
 import { SIGN_UP_PAGE } from "../constants";
@@ -60,15 +60,18 @@ export class SignUpComponent implements OnInit {
 		});
 	}
 
-	async signUp(body: ISignUp) {
-		const accessToken = await lastValueFrom(this._authService.signUp(body));
+	signUp(body: ISignUp) {
+		this._authService
+			.signUp(body)
+			.pipe(take(1))
+			.subscribe(async (accessToken) => {
+				if (!accessToken) {
+					return;
+				}
 
-		if (!accessToken) {
-			return;
-		}
-
-		await this._routerService.navigateByUrl(
-			ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
-		);
+				await this._routerService.navigateByUrl(
+					ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+				);
+			});
 	}
 }

@@ -1,0 +1,12 @@
+<div class="wallet-header" *transloco="let t; read: walletPage">
+	<p class="money-value">{{ totalAmount }} грн</p>
+	<p class="money-label">{{ t("money") }}</p>
+	<span class="first-divider"></span>
+	<p class="commission-value">5% = {{ tax }} грн</p>
+	<p class="commission-label">{{ t("comission") }}</p>
+	<span class="second-divider"></span>
+	<p class="date-value">15.10.22</p>
+	<p class="date-label">{{ t("date") }}</p>
+
+	<app-image class="image" name="wallet"></app-image>
+</div>

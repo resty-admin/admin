@@ -1,21 +1,12 @@
 <div class="command">
 	<p class="label">{{ command?.name }}</p>
 
-	<button
-		appIconButton
+	<app-more
 		class="more"
-		[tippy]="actionsTemplate"
 		[data]="command"
-		placement="left"
-		variation="popper"
-		theme="1"
-	>
-		<app-icon class="icon" name="more"></app-icon>
-	</button>
+		(editClicked)="emitEditClick($event)"
+		(deleteClicked)="emitDeleteClick($event)"
+	></app-more>
 
 	<p class="description">{{ command?.description }}</p>
 </div>
-
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>

@@ -14,6 +14,7 @@ import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
+import { MoreModule } from "@shared/ui/more";
 import { SelectModule } from "@shared/ui/select";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
@@ -48,7 +49,8 @@ import { PRODUCTS_PROVIDERS } from "./providers";
 		SkeletonModule,
 		FiltersSkeletonModule,
 		DatatableSkeletonModule,
-		TabsSkeletonModule
+		TabsSkeletonModule,
+		MoreModule
 	],
 	providers: PRODUCTS_PROVIDERS
 })

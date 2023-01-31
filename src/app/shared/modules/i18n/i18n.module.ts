@@ -19,7 +19,7 @@ export class I18nModule {
 				{
 					provide: APP_INITIALIZER,
 					multi: true,
-					useFactory: (_i18nService: I18nService) => async () => _i18nService.appInitializer(config.defaultLang || ""),
+					useFactory: (_i18nService: I18nService) => () => _i18nService.appInitializer(config.defaultLang || ""),
 					deps: [I18nService]
 				},
 				...(TranslocoModule.forRoot(config).providers || [])

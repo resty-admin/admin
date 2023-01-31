@@ -1,24 +1,25 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
-import { AttributeGroupsService, AttributesService } from "@features/attributes";
-import { AttributeDialogComponent } from "@features/attributes/ui/attribute-dialog/layout/attribute-dialog.component";
-import { AttributeGroupDialogComponent } from "@features/attributes/ui/attribute-group-dialog/layout/attribute-group-dialog.component";
+import {
+	AttributeDialogComponent,
+	AttributeGroupDialogComponent,
+	AttributeGroupsService,
+	AttributesService
+} from "@features/attributes";
 import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
-import type { AtLeast } from "@shared/interfaces";
+import type { DeepAtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map } from "rxjs";
+import { filter, from, switchMap, take } from "rxjs";
 
 import { ATTRIBUTES_PAGE } from "../constants";
-import { AttributesPageGQL } from "../graphql";
+import { AttributesPageService } from "../services";
 
 @Component({
 	selector: "app-attributes",
@@ -28,227 +29,154 @@ import { AttributesPageGQL } from "../graphql";
 })
 export class AttributesComponent implements OnInit, OnDestroy {
 	readonly attributesPage = ATTRIBUTES_PAGE;
-	private readonly _attributesPageQuery = this._attributesPageGQL.watch();
-	readonly attributeGroups$ = this._activatedRoute.data.pipe(map((data) => data["attributeGroups"]));
 
-	readonly attributesGroupActions: IAction<AttributesGroupEntity>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (attributesGroup) => this.openUpdateAttributeGroupDialog(attributesGroup)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (attributesGroup) => this.openDeleteAttributeGroupDialog(attributesGroup)
-		}
-	];
-
-	readonly attributeActions: IAction<AttributesEntity>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (attribute?) => this.openUpdateAttributeDialog(attribute)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (attribute?) => this.openDeleteAttributeDialog(attribute)
-		}
-	];
+	readonly attributeGroups$ = this._attributesPageService.attributeGroups$;
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _attributesPageGQL: AttributesPageGQL,
-		private readonly _attributeGroupsService: AttributeGroupsService,
-		private readonly _attributesService: AttributesService,
 		private readonly _routerService: RouterService,
 		private readonly _actionsService: ActionsService,
+		private readonly _attributesPageService: AttributesPageService,
+		private readonly _attributeGroupsService: AttributeGroupsService,
+		private readonly _attributesService: AttributesService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
 
-	async ngOnInit() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
-			return;
-		}
-
+	ngOnInit() {
 		this._actionsService.setAction({
 			label: "Добавить модификации",
-			func: () => this.openCreateAttributeDialog()
-		});
-
-		await this._attributesPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			func: () => this.openCreateAttributeGroupDialog()
 		});
 	}
 
-	async openCreateAttributeGroupDialog() {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!place) {
-			return;
-		}
-
-		const attributeGroup: AttributesGroupEntity | undefined = await lastValueFrom(
-			this._dialogService.open(AttributeGroupDialogComponent).afterClosed$
-		);
-
-		if (!attributeGroup) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._attributeGroupsService
-				.createAttributeGroup({
-					name: attributeGroup.name,
-					place,
-					maxItemsForPick: attributeGroup.maxItemsForPick,
-					type: attributeGroup.type,
-					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-				})
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPage),
-						this._i18nService.translate("updated", {}, this.attributesPage)
-					)
-				)
-		);
-
-		await this._attributesPageQuery.refetch();
+	openCreateAttributeGroupDialog() {
+		this._dialogService
+			.open(AttributeGroupDialogComponent)
+			.afterClosed$.pipe(
+				filter((attributeGroup) => Boolean(attributeGroup)),
+				switchMap((attributeGroup) =>
+					this._attributeGroupsService
+						.createAttributeGroup({
+							name: attributeGroup.name,
+							place: this._routerService.getParams(PLACE_ID.slice(1)),
+							maxItemsForPick: attributeGroup.maxItemsForPick,
+							type: attributeGroup.type,
+							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
+						})
+						.pipe(
+							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("createAttributeGroup"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openUpdateAttributeGroupDialog(data: AtLeast<AttributesGroupEntity, "id">) {
-		const attributeGroup: AttributesGroupEntity | undefined = await lastValueFrom(
-			this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$
-		);
-
-		if (!attributeGroup) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._attributeGroupsService
-				.updateAttributeGroup({
-					id: attributeGroup.id,
-					name: attributeGroup.name,
-					maxItemsForPick: attributeGroup.maxItemsForPick,
-					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-				})
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPage),
-						this._i18nService.translate("updated", {}, this.attributesPage)
-					)
-				)
-		);
-
-		await this._attributesPageQuery.refetch();
+	openUpdateAttributeGroupDialog(data: DeepAtLeast<AttributesGroupEntity, "id">) {
+		this._dialogService
+			.open(AttributeGroupDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((attributeGroup) => Boolean(attributeGroup)),
+				switchMap((attributeGroup) =>
+					this._attributeGroupsService
+						.updateAttributeGroup({
+							id: attributeGroup.id,
+							name: attributeGroup.name,
+							maxItemsForPick: attributeGroup.maxItemsForPick,
+							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
+						})
+						.pipe(
+							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("updateAttributeGroup"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openDeleteAttributeGroupDialog(value: AtLeast<AttributesGroupEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPage), value } };
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._attributeGroupsService
-				.deleteAttributeGroup(value.id)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPage),
-						this._i18nService.translate("updated", {}, this.attributesPage)
+	openDeleteAttributeGroupDialog(value: DeepAtLeast<AttributesGroupEntity, "id">) {
+		return this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("confirmAttributeGroup"), value }
+			})
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._attributeGroupsService.deleteAttributeGroup(value.id).pipe(
+						switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("deleteAttributeGroup"))
 					)
-				)
-		);
-
-		await this._attributesPageQuery.refetch();
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openCreateAttributeDialog(data?: AtLeast<AttributesEntity, "attributesGroup">) {
-		const attribute: AttributesEntity | undefined = await lastValueFrom(
-			this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$
-		);
-
-		if (!attribute) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._attributesService
-				.createAttribute({
-					name: attribute.name,
-					price: attribute.price,
-					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-				})
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPage),
-						this._i18nService.translate("updated", {}, this.attributesPage)
-					)
-				)
-		);
-
-		await this._attributesPageQuery.refetch();
+	openCreateAttributeDialog(data?: DeepAtLeast<AttributesEntity, "attributesGroup">) {
+		this._dialogService
+			.open(AttributeDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((attribute) => Boolean(attribute)),
+				switchMap((attribute) =>
+					this._attributesService
+						.createAttribute({
+							name: attribute.name,
+							price: attribute.price,
+							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
+						})
+						.pipe(
+							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("createAttribute"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openUpdateAttributeDialog(data: AtLeast<AttributesEntity, "id">) {
-		const attribute: AttributesEntity | undefined = await lastValueFrom(
-			this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$
-		);
-
-		if (!attribute) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._attributesService
-				.updateAttribute({
-					id: attribute.id,
-					name: attribute.name,
-					price: attribute.price,
-					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-				})
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPage),
-						this._i18nService.translate("updated", {}, this.attributesPage)
-					)
-				)
-		);
-
-		await this._attributesPageQuery.refetch();
+	openUpdateAttributeDialog(data: DeepAtLeast<AttributesEntity, "id">) {
+		this._dialogService
+			.open(AttributeDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((attribute) => Boolean(attribute)),
+				switchMap((attribute) =>
+					this._attributesService
+						.updateAttribute({
+							id: attribute.id,
+							name: attribute.name,
+							price: attribute.price,
+							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
+						})
+						.pipe(
+							switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("updateAttribute"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openDeleteAttributeDialog(value: AtLeast<AttributesEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.attributesPage), value } };
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._attributesService
-				.deleteAttribute(value.id)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributesPage),
-						this._i18nService.translate("updated", {}, this.attributesPage)
+	openDeleteAttributeDialog(value: DeepAtLeast<AttributesEntity, "id">) {
+		return this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("confirmAttribute"), value }
+			})
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._attributesService.deleteAttribute(value.id).pipe(
+						switchMap(() => from(this._attributesPageService.attributesPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("deleteAttribute"))
 					)
-				)
-		);
-
-		await this._attributesPageQuery.refetch();
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
 	ngOnDestroy() {

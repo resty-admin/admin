@@ -6,7 +6,30 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-datatable class="datatable-desktop" [rows]="products$ | async" [columns]="columns"></app-datatable>
+	<app-datatable class="datatable-desktop" [rows]="products$ | async">
+		<ng-container appColumn="name">
+			<ng-template #header>{{ t("name") }}</ng-template>
+			<ng-template #value let-value>{{ value }}</ng-template>
+		</ng-container>
+		<ng-container appColumn="description">
+			<ng-template #header>{{ t("description") }}</ng-template>
+			<ng-template #value let-value>{{ value }}</ng-template>
+		</ng-container>
+		<ng-container appColumn="сategory">
+			<ng-template #header>{{ t("category") }}</ng-template>
+			<ng-template #value let-row="row">{{ row.category.name }}</ng-template>
+		</ng-container>
+		<ng-container appColumn="price">
+			<ng-template #header>{{ t("price") }}</ng-template>
+			<ng-template #value let-value>{{ value }} {{ t("currency") }}</ng-template>
+		</ng-container>
+		<ng-container appColumn="more">
+			<ng-template #header></ng-template>
+			<ng-template #value let-row="row">
+				<ng-container *ngTemplateOutlet="moreTemplate; context: { row }"></ng-container>
+			</ng-template>
+		</ng-container>
+	</app-datatable>
 
 	<ul class="datatable-mobile">
 		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
@@ -22,26 +45,12 @@
 				<p class="category-label">{{ t("category") }}</p>
 				<p class="category-value">{{ product.category.name }}</p>
 				<p class="price-label">{{ t("price") }}</p>
-				<p class="price-value">{{ product.price }} грн</p>
+				<p class="price-value">{{ product.price }} {{ t("currency") }}</p>
 			</div>
 		</li>
 	</ul>
 </div>
 
 <ng-template #moreTemplate let-row="row">
-	<button
-		class="more"
-		appIconButton
-		[tippy]="actionsTemplate"
-		[data]="row"
-		placement="left"
-		variation="popper"
-		theme="1"
-	>
-		<app-icon class="icon" name="more"></app-icon>
-	</button>
-</ng-template>
-
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+	<app-more (editClicked)="openUpdateProductDialog(row)" (deleteClicked)="openDeleteProductDialog(row)"></app-more>
 </ng-template>

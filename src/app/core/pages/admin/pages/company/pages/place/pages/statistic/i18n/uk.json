@@ -3,5 +3,13 @@
 	"guests": "Гости",
 	"employees": "Сотрудники",
 	"halls": "Залы",
-	"tables": "Столы"
+	"tables": "Столы",
+	"money": "Заработано за месяц с нами",
+	"comission": "Комиссия",
+	"status_label": "Статус",
+	"status_description": "Статус заведения",
+	"status_info": "Чтобы открыться - подпишите договор и добавьте карту",
+	"change_status": "Изменить статус",
+	"NOT_VERIFIED": "Тестовый",
+	"VERIFIED": "Продакшн"
 }

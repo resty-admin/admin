@@ -1,1 +1,1 @@
-export * from "./active-orders/active-orders.resolver";
+export * from "./active-orders-page/active-orders-page.resolver";

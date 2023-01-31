@@ -1,3 +1,3 @@
-import { STATISTIC_I18N_PROVIDER } from "./statistic-i18n.provider";
+import { STATISTIC_I18N_PROVIDERS } from "./statistic-i18n.provider";
 
-export const STATISTIC_PROVIDERS = [STATISTIC_I18N_PROVIDER];
+export const STATISTIC_PROVIDERS = STATISTIC_I18N_PROVIDERS;

@@ -1,13 +1,12 @@
 mutation UpdateCommand($command: UpdateCommandInput!) {
 	updateCommand(command: $command) {
-		name
+		id
 	}
 }
 
 mutation CreateCommand($command: CreateCommandInput!) {
 	createCommand(command: $command) {
 		id
-		name
 	}
 }
 

@@ -6,6 +6,10 @@ query TablesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 			id
 			name
 			code
+			file {
+				id
+				url
+			}
 		}
 	}
 }

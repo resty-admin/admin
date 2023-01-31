@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { GuestsSkeletonComponent } from "./components";
+import { GuestsPageSkeletonComponent } from "./components";
 import { GUESTS_PAGE } from "./constants";
 import { GuestsComponent } from "./layout/guests.component";
-import { GuestsResolver } from "./resolvers";
+import { GuestsPageResolver } from "./resolvers";
 
 export const GUESTS_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const GUESTS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: GUESTS_PAGE
 		},
 		resolve: {
-			guests: GuestsResolver
+			guests: GuestsPageResolver
 		},
 		skeleton: {
-			component: GuestsSkeletonComponent
+			component: GuestsPageSkeletonComponent
 		}
 	}
 ];

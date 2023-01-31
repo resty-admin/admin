@@ -1,0 +1,27 @@
+<aside class="aside" *transloco="let t">
+	<app-profile class="profile" [user]="user" (signOutClicked)="emitSignOutClick()"></app-profile>
+
+	<app-company-select
+		class="company-select"
+		[companies]="companies"
+		[companyId]="companyId"
+		(companyChanged)="emitCompanyChanged($event)"
+		(addCompanyClicked)="emitAddCompanyClick()"
+		(editCompanyClicked)="emitEditCompanyClick($event)"
+		(deleteCompanyClicked)="emitDeleteCompanyClick($event)"
+	></app-company-select>
+
+	<app-place-select
+		class="place-select"
+		[places]="places"
+		[placeId]="placeId"
+		(placeChanged)="emitPlaceChange($event)"
+		(addPlaceClicked)="emitAddPlaceClick()"
+		(editPlaceClicked)="emitEditPlaceClick($event)"
+		(deletePlaceClicked)="emitDeletePlaceClick($event)"
+	></app-place-select>
+
+	<app-nav class="nav" [pages]="pages" (closeClicked)="emitCloseClick()"></app-nav>
+
+	<app-support class="support"></app-support>
+</aside>

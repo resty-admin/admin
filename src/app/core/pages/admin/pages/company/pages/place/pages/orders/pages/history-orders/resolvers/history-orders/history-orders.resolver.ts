@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
-import type { Observable } from "rxjs";
-import { map } from "rxjs";
 
-import { HistoryOrdersPageGQL } from "../../graphql";
+import type { HistoryOrdersPageQuery } from "../../graphql";
+import { HistoryOrdersPageService } from "../../services";
 
 @Injectable({ providedIn: "root" })
-export class HistoryOrdersResolver implements Resolve<any> {
-	constructor(private _historyOrdersPageGQL: HistoryOrdersPageGQL) {}
+export class HistoryOrdersResolver implements Resolve<HistoryOrdersPageQuery["historyOrders"]["data"]> {
+	constructor(private readonly _historyOrdersPageService: HistoryOrdersPageService) {}
 
-	resolve(): Observable<any> {
-		return this._historyOrdersPageGQL.watch().valueChanges.pipe(map((result) => result.data.historyOrders.data));
+	resolve() {
+		return this._historyOrdersPageService.historyOrders$;
 	}
 }

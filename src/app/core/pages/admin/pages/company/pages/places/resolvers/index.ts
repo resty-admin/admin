@@ -1,1 +1,1 @@
-export * from "./places/places.resolver";
+export * from "./places-page/places-page.resolver";

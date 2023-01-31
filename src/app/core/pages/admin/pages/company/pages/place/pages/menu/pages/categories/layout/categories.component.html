@@ -11,17 +11,11 @@
 			<div class="header">
 				<h1 class="label">{{ category.name }}</h1>
 
-				<button
+				<app-more
 					class="more"
-					appIconButton
-					[tippy]="categoryActionsTemplate"
-					[data]="category"
-					placement="left"
-					variation="popper"
-					theme="1"
-				>
-					<app-icon class="icon" name="more"></app-icon>
-				</button>
+					(editClicked)="openUpdateCategoryDialog(category)"
+					(deleteClicked)="openDeleteCategoryDialog(category)"
+				></app-more>
 			</div>
 
 			<ul class="products">
@@ -31,28 +25,14 @@
 					<p class="description-label">{{ t("description") }}</p>
 					<p class="description-value">{{ product.description }}</p>
 					<p class="price-label">{{ t("price") }}</p>
-					<p class="price-value">{{ product.price }} грн</p>
-					<button
+					<p class="price-value">{{ product.price }} {{ t("currency") }}</p>
+					<app-more
 						class="more"
-						appIconButton
-						[tippy]="productsActionsTemplate"
-						[data]="product"
-						placement="left"
-						variation="popper"
-						theme="1"
-					>
-						<app-icon class="icon" name="more"></app-icon>
-					</button>
+						(editClicked)="openUpdateProductDialog(product)"
+						(deleteClicked)="openDeleteProductDialog(product)"
+					></app-more>
 				</li>
 			</ul>
 		</li>
 	</ul>
 </div>
-
-<ng-template #categoryActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="categoryActions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>
-
-<ng-template #productsActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="productActions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>

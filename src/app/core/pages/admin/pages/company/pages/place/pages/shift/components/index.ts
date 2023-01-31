@@ -1,5 +1,5 @@
-import { ShiftSkeletonComponent } from "./shift-skeleton/shift-skeleton.component";
+import { ShiftPageSkeletonComponent } from "./shift-page-skeleton/shift-page-skeleton.component";
 
-export const SHIFT_COMPONENTS = [ShiftSkeletonComponent];
+export const SHIFT_COMPONENTS = [ShiftPageSkeletonComponent];
 
-export * from "./shift-skeleton/shift-skeleton.component";
+export * from "./shift-page-skeleton/shift-page-skeleton.component";

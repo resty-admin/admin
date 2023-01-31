@@ -1,4 +1,7 @@
 {
 	"title": "Order #",
-	"cancel": "Отменить"
+	"cancel": "Отменить",
+	"confirm": "Confirm",
+	"reject": "Reject",
+	"comment": "Comment"
 }

@@ -1,4 +1,8 @@
 {
 	"title": "Active orders",
-	"add": "Add order"
+	"add": "Add order",
+	"createOrder": "Заказ создан",
+	"updateOrder": "Заказ обновлен",
+	"deleteOrder": "Заказ удаен",
+	"closeOrder": "Заказ закрыт"
 }

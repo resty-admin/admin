@@ -9,7 +9,7 @@ export type UpdateCommandMutationVariables = Types.Exact<{
 
 export interface UpdateCommandMutation {
 	__typename?: "Mutation";
-	updateCommand: { __typename?: "CommandEntity"; name: string };
+	updateCommand: { __typename?: "CommandEntity"; id: string };
 }
 
 export type CreateCommandMutationVariables = Types.Exact<{
@@ -18,7 +18,7 @@ export type CreateCommandMutationVariables = Types.Exact<{
 
 export interface CreateCommandMutation {
 	__typename?: "Mutation";
-	createCommand: { __typename?: "CommandEntity"; id: string; name: string };
+	createCommand: { __typename?: "CommandEntity"; id: string };
 }
 
 export type DeleteCommandMutationVariables = Types.Exact<{
@@ -33,7 +33,7 @@ export interface DeleteCommandMutation {
 export const UpdateCommandDocument = gql`
 	mutation UpdateCommand($command: UpdateCommandInput!) {
 		updateCommand(command: $command) {
-			name
+			id
 		}
 	}
 `;
@@ -52,7 +52,6 @@ export const CreateCommandDocument = gql`
 	mutation CreateCommand($command: CreateCommandInput!) {
 		createCommand(command: $command) {
 			id
-			name
 		}
 	}
 `;

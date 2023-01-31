@@ -3,5 +3,10 @@
 	"name": "Name",
 	"description": "Description",
 	"category": "Category",
-	"price": "Price"
+	"price": "Price",
+	"currency": "uah",
+	"createProduct": "Продукт создан",
+	"updateProduct": "Продукт обновлен",
+	"deleteProduct": "Продукт удален",
+	"confirmProduct": "Вы уверены, что хотите удалить продукт"
 }

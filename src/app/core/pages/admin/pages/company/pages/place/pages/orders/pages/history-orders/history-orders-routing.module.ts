@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { HistoryOrdersSkeletonComponent } from "./components";
+import { HistoryOrdersPageSkeletonComponent } from "./components";
 import { HISTORY_ORDERS_PAGE } from "./constants";
 import { HistoryOrdersComponent } from "./layout/history-orders.component";
 import { HistoryOrdersResolver } from "./resolvers";
@@ -15,10 +15,10 @@ export const HISTORY_ORDERS_ROUTES: INavigationSkeletonRoute[] = [
 			animation: HISTORY_ORDERS_PAGE
 		},
 		resolve: {
-			places: HistoryOrdersResolver
+			historyOrders: HistoryOrdersResolver
 		},
 		skeleton: {
-			component: HistoryOrdersSkeletonComponent
+			component: HistoryOrdersPageSkeletonComponent
 		}
 	}
 ];

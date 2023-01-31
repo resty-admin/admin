@@ -1,7 +1,13 @@
 <div class="shift" *transloco="let t; read: shiftPage">
 	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<button *ngIf="shiftId" appButton theme="2" class="close" (click)="closeShift(shiftId)">
+	<button
+		*ngIf="activeShift$ | async as activeShift"
+		appButton
+		theme="2"
+		class="close"
+		(click)="closeShift(activeShift.id)"
+	>
 		<app-icon class="icon" name="close"></app-icon>
 		<span class="text">{{ t("close") }}</span>
 	</button>
@@ -11,21 +17,36 @@
 	<app-halls-select
 		class="halls"
 		[halls]="halls$ | async"
-		[(selectedHalls)]="selectedHalls"
 		(selectedHallsChange)="setSelectedHalls($event)"
 	></app-halls-select>
 
 	<app-tables-select
 		class="tables-select"
 		[tables]="tables$ | async"
+		[selectedTables]="(activeShift$ | async)?.tables"
 		[(selectedTables)]="selectedTables"
 	></app-tables-select>
 
 	<footer class="footer">
-		<app-selected-tables class="selected-tables" [(selectedTables)]="selectedTables"></app-selected-tables>
+		<app-selected-tables
+			class="selected-tables"
+			[selectedTables]="(activeShift$ | async)?.tables"
+			[(selectedTables)]="selectedTables"
+		></app-selected-tables>
 
-		<button appButton theme="1" (click)="shiftId ? updateShift(shiftId, selectedTables) : createShift(selectedTables)">
-			{{ t(shiftId ? "edit" : "create") }}
+		<button
+			appButton
+			theme="1"
+			*ngIf="activeShift$ | async as activeShift; else createButton"
+			(click)="updateShift(activeShift.id, selectedTables)"
+		>
+			{{ t("edit") }}
 		</button>
+
+		<ng-template #createButton>
+			<button appButton theme="1" (click)="createShift(selectedTables)">
+				{{ t("create") }}
+			</button>
+		</ng-template>
 	</footer>
 </div>

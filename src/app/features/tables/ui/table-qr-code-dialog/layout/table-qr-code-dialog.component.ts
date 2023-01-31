@@ -22,6 +22,6 @@ export class TableQrCodeDialogComponent implements OnInit {
 			return;
 		}
 
-		this.qrData = `http://192.168.68.102:4201/places/f657841f-b153-4775-a060-17648ab51b88/connect-to-table?code=${this.data.code}`;
+		this.qrData = `http://192.168.68.103:4201/places/f657841f-b153-4775-a060-17648ab51b88/connect-to-table?code=${this.data.code}`;
 	}
 }

@@ -1,0 +1,21 @@
+<div class="place" *transloco="let t; read: corePage">
+	<p class="title">
+		<span class="text">{{ t("places") }}</span>
+		<button appIconButton class="button" (click)="emitAddPlaceClick()">
+			<app-icon class="icon" name="add"></app-icon>
+		</button>
+	</p>
+	<div class="container" *transloco="let f; read: form">
+		<app-select
+			class="select"
+			bindLabel="name"
+			bindValue="id"
+			[value]="placeId"
+			[label]="f('place_label')"
+			[placeholder]="f('place_placeholder')"
+			[options]="places"
+			(valueChange)="emitPlaceChange($event)"
+		></app-select>
+		<app-more class="more" (editClicked)="emitEditClick(placeId)" (deleteClicked)="emitDeleteClick(placeId)"></app-more>
+	</div>
+</div>

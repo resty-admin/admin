@@ -1,6 +1,6 @@
 @import "/src/assets/scss/abstractions/index";
 
-@include page() {
+@include component() {
 	.footer {
 		padding: rem(15);
 		display: flex;

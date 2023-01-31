@@ -1,1 +1,1 @@
-export * from "./wallet/wallet.resolver";
+export * from "./wallet-page/wallet-page.resolver";

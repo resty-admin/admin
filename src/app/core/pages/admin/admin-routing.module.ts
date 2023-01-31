@@ -31,6 +31,10 @@ export const ADMIN_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/welcome/welcome.module").then((m) => m.WelcomeModule)
 			},
 			{
+				...SHARED_ADMIN_ROUTES.NOTIFICATIONS,
+				loadChildren: () => import("./pages/notifications/notifications.module").then((m) => m.NotificationsModule)
+			},
+			{
 				path: "**",
 				redirectTo: SHARED_ADMIN_ROUTES.COMPANIES.path
 			}

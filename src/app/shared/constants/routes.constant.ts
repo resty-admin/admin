@@ -58,6 +58,10 @@ export const ADMIN_ROUTES = {
 		path: "profile",
 		absolutePath: "/profile"
 	},
+	NOTIFICATIONS: {
+		path: "notifications",
+		absolutePath: "/notifications"
+	},
 	COMPANIES: {
 		path: "companies",
 		absolutePath: "/companies"
@@ -169,6 +173,10 @@ export const ADMIN_ROUTES = {
 	COMMAND: {
 		path: `commands/${COMMAND_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/commands/${COMMAND_ID}`
+	},
+	ACCESS: {
+		path: `access`,
+		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/access`
 	},
 	WALLET: {
 		path: `wallet`,

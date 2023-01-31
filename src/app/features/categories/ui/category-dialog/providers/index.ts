@@ -1,3 +1,3 @@
-import { CATEGORY_DIALOG_I18N_PROVIDER } from "./category-dialog-i18n.provider";
+import { CATEGORY_DIALOG_I18N_PROVIDERS } from "./category-dialog-i18n.provider";
 
-export const CATEGORY_DIALOG_PROVIDERS = [CATEGORY_DIALOG_I18N_PROVIDER];
+export const CATEGORY_DIALOG_PROVIDERS = CATEGORY_DIALOG_I18N_PROVIDERS;

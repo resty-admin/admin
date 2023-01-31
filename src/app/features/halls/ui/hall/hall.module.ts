@@ -6,12 +6,22 @@ import { ActionsModule } from "@shared/ui/actions";
 import { ButtonModule } from "@shared/ui/button";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
+import { MoreModule } from "@shared/ui/more";
 
 import { HallComponent } from "./layout/hall.component";
 
 @NgModule({
 	declarations: [HallComponent],
-	imports: [CommonModule, ActionsModule, IconModule, TippyDirective, ButtonModule, DirectivesModule, ImageModule],
+	imports: [
+		CommonModule,
+		ActionsModule,
+		IconModule,
+		TippyDirective,
+		ButtonModule,
+		DirectivesModule,
+		ImageModule,
+		MoreModule
+	],
 	exports: [HallComponent]
 })
 export class HallModule {}

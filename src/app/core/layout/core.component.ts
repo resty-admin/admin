@@ -1,7 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ChildrenOutletContexts, NavigationStart, Router } from "@angular/router";
-import { AdminCompaniesGQL, AdminPageGQL, AdminPlacesGQL } from "@core/graphql";
 import { AsideService } from "@features/app";
 import { AuthService } from "@features/auth";
 import { CompaniesService, CompanyDialogComponent } from "@features/companies";
@@ -14,11 +13,13 @@ import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
-import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { catchError, filter, lastValueFrom, map, of, shareReplay, startWith, switchMap, take } from "rxjs";
+import { combineLatest, filter, from, map, shareReplay, startWith, switchMap, take } from "rxjs";
+
+import { ASIDE_PAGES } from "../data";
+import { AdminCompaniesGQL, AdminOrderGQL, AdminPlacesGQL } from "../graphql";
 
 @UntilDestroy()
 @Component({
@@ -29,49 +30,64 @@ import { catchError, filter, lastValueFrom, map, of, shareReplay, startWith, swi
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoreComponent implements OnInit {
-	readonly adminPageI18n = "adminPage";
-	readonly profileActions: IAction[] = [
-		{
-			label: "Профиль",
-			icon: "profile",
-			func: () => this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath)
-		},
-		{
-			label: "Выйти",
-			icon: "exit",
-			func: () => this.signOut()
-		}
-	];
-
-	readonly placeActions: IAction<PlaceEntity>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (place) => this.openUpdatePlaceDialog(place)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (place) => this.openDeletePlaceDialog(place)
-		}
-	];
-
-	readonly companyActions: IAction<CompanyEntity>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (company) => this.openUpdateCompanyDialog(company)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (company) => this.openDeleteCompanyDialog(company)
-		}
-	];
-
 	readonly isAsideOpen$ = this._asideService.isOpen$;
 
-	readonly user$ = this._authService.me$;
+	private readonly _adminCompaniesQuery = this._adminCompaniesGQL.watch();
+	private readonly _adminPlacesQuery = this._adminPlacesGQL.watch();
+
+	readonly user$ = this._authService.me$.pipe(shareReplay({ refCount: true }));
+
+	readonly companies$ = this._adminCompaniesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
+
+	readonly companyId$ = this._routerService.selectParams().pipe(
+		map(({ companyId }) => companyId),
+		shareReplay({ refCount: true })
+	);
+
+	readonly places$ = this.companyId$.pipe(
+		filter((companyId) => Boolean(companyId)),
+		switchMap((companyId) =>
+			this._adminPlacesQuery.setVariables({
+				filtersArgs: [
+					{
+						key: "company.id",
+						operator: "=",
+						value: companyId
+					}
+				]
+			})
+		),
+		switchMap(() => this._adminPlacesQuery.valueChanges),
+		map((result) => result.data.places.data)
+	);
+
+	readonly placeId$ = this.places$.pipe(
+		take(1),
+		switchMap(() =>
+			this._routerService.selectParams().pipe(
+				map(({ placeId }) => placeId),
+				shareReplay({ refCount: true })
+			)
+		)
+	);
+
+	readonly pages$ = combineLatest([this.companyId$, this.placeId$]).pipe(
+		startWith([null, null]),
+		map(([companyId, placeId]) =>
+			ASIDE_PAGES.map((page) => ({
+				...page,
+				routerLink: page.routerLink.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId),
+				disabled: !companyId || !placeId
+			}))
+		)
+	);
+
+	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
+		filter((orderId) => Boolean(orderId)),
+		switchMap((orderId) => this._adminOrderGQL.fetch({ orderId: orderId! })),
+		map((result) => result.data.order),
+		shareReplay({ refCount: true })
+	);
 
 	readonly isAuth$ = this._router.events.pipe(
 		untilDestroyed(this),
@@ -81,233 +97,180 @@ export class CoreComponent implements OnInit {
 		shareReplay({ refCount: true })
 	);
 
-	readonly activeOrder$ = this._ordersService.activeOrderId$.pipe(
-		filter((orderId) => Boolean(orderId)),
-		switchMap((orderId) => this._adminPageGQL.watch({ orderId: orderId! }).valueChanges),
-		map((result) => result.data.order),
-		catchError(() => of(null))
-	);
-
-	private readonly _adminPlacesQuery = this._adminPlacesGQL.watch();
-
-	readonly places$ = this._adminPlacesQuery.valueChanges.pipe(map((result) => result.data.places.data));
-
-	private readonly _adminCompaniesQuery = this._adminCompaniesGQL.watch();
-	readonly companies$ = this._adminCompaniesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
-	readonly activeCompanyId$ = this._routerService.selectParams().pipe(map((params) => params["companyId"]));
-	readonly activePlaceId$ = this._routerService.selectParams().pipe(map((params) => params["placeId"]));
-
 	constructor(
+		private readonly _adminOrderGQL: AdminOrderGQL,
 		private readonly _adminCompaniesGQL: AdminCompaniesGQL,
 		private readonly _adminPlacesGQL: AdminPlacesGQL,
-		private readonly _adminPageGQL: AdminPageGQL,
-		private readonly _routerService: RouterService,
-		private readonly _authService: AuthService,
-		private readonly _asideService: AsideService,
+		private readonly _dialogService: DialogService,
 		private readonly _companiesService: CompaniesService,
 		private readonly _placesService: PlacesService,
-		private readonly _ordersService: OrdersService,
-		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService,
-		private readonly _router: Router,
-		private readonly _childrenOutletContexts: ChildrenOutletContexts
+		private readonly _routerService: RouterService,
+		private readonly _authService: AuthService,
+		private readonly _childrenOutletContexts: ChildrenOutletContexts,
+		private readonly _ordersService: OrdersService,
+		private readonly _asideService: AsideService,
+		private readonly _router: Router
 	) {}
 
 	getRouteAnimationData() {
 		return this._childrenOutletContexts.getContext("primary")?.route?.snapshot?.data?.["animation"];
 	}
 
-	async ngOnInit() {
-		this._placesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
-			await this._adminPlacesQuery.refetch();
-		});
-
-		this._companiesService.changes$.pipe(untilDestroyed(this)).subscribe(async () => {
-			await this._adminCompaniesQuery.refetch();
-		});
-
-		try {
-			const user = await lastValueFrom(this.user$.pipe(take(1)));
-
+	ngOnInit() {
+		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (user?.email || user?.tel) {
 				return;
 			}
 
 			await this._routerService.navigateByUrl(ADMIN_ROUTES.WELCOME.absolutePath);
-		} catch {}
+		});
 	}
 
 	toggleAside() {
 		this._asideService.toggleAside();
 	}
 
-	async changeUrlWithCompany(companyId: string) {
-		if (!companyId) {
+	async navigateToCompany(companyId: string) {
+		if (companyId === this._routerService.getParams(COMPANY_ID.slice(1))) {
 			return;
 		}
 
-		await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, companyId));
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.PLACES.absolutePath.replace(COMPANY_ID, companyId));
 	}
 
-	async changeUrlWithPlace(placeId: string) {
-		const companyId = this._routerService.getParams(COMPANY_ID.slice(1));
-
-		if (!companyId || !placeId) {
+	async navigateToPlace(placeId: string) {
+		if (placeId === this._routerService.getParams(PLACE_ID.slice(1))) {
 			return;
 		}
 
 		await this._routerService.navigateByUrl(
-			ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+			ADMIN_ROUTES.STATISTIC.absolutePath
+				.replace(COMPANY_ID, this._routerService.getParams(COMPANY_ID.slice(1)))
+				.replace(PLACE_ID, placeId)
 		);
 	}
 
-	async openCreateCompanyDialog() {
-		const company: CompanyEntity | undefined = await lastValueFrom(
-			this._dialogService.open(CompanyDialogComponent).afterClosed$
-		);
-
-		if (!company) {
-			return;
-		}
-
-		const result = await lastValueFrom(
-			this._companiesService
-				.createCompany({ name: company.name, logo: company.logo?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.adminPageI18n),
-						this._i18nService.translate("title", {}, this.adminPageI18n)
+	openCreateCompanyDialog() {
+		this._dialogService
+			.open(CompanyDialogComponent)
+			.afterClosed$.pipe(
+				filter((company) => Boolean(company)),
+				switchMap((company) =>
+					this._companiesService.createCompany({ name: company.name, logo: company.logo?.id }).pipe(
+						switchMap((result) => from(this._adminCompaniesQuery.refetch()).pipe(map(() => result))),
+						this._toastrService.observe(this._i18nService.translate("createCompany"))
 					)
-				)
-		);
+				),
+				take(1)
+			)
+			.subscribe(async (result) => {
+				if (!result?.data?.createCompany) {
+					return;
+				}
 
-		if (!result?.data?.createCompany) {
-			return;
-		}
-
-		await this._routerService.navigateByUrl(
-			ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, result.data.createCompany.id)
-		);
+				await this._routerService.navigateByUrl(
+					ADMIN_ROUTES.COMPANY.absolutePath.replace(COMPANY_ID, result.data.createCompany.id)
+				);
+			});
 	}
 
-	async openUpdateCompanyDialog(data: AtLeast<CompanyEntity, "id">) {
-		const company: CompanyEntity | undefined = await lastValueFrom(
-			this._dialogService.open(CompanyDialogComponent, { data }).afterClosed$
-		);
-
-		if (!company) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._companiesService
-				.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.adminPageI18n),
-						this._i18nService.translate("title", {}, this.adminPageI18n)
+	openUpdateCompanyDialog(data: AtLeast<CompanyEntity, "id">) {
+		this._dialogService
+			.open(CompanyDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((company) => Boolean(company)),
+				switchMap((company) =>
+					this._companiesService.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id }).pipe(
+						switchMap(() => this._adminCompaniesQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("updateCompany"))
 					)
-				)
-		);
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openDeleteCompanyDialog(value: AtLeast<CompanyEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.adminPageI18n), value } };
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._companiesService
-				.deleteCompany(value.id)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.adminPageI18n),
-						this._i18nService.translate("title", {}, this.adminPageI18n)
+	openDeleteCompanyDialog(value: AtLeast<CompanyEntity, "id">) {
+		this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("confirmCompany"), value }
+			})
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._companiesService.deleteCompany(value.id).pipe(
+						switchMap(() => this._adminCompaniesQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("deleteCompany"))
 					)
-				)
-		);
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openCreatePlaceDialog() {
+	openCreatePlaceDialog() {
 		const company = this._routerService.getParams(COMPANY_ID.slice(1));
 
-		if (!company) {
-			return;
-		}
+		this._dialogService
+			.open(PlaceDialogComponent)
+			.afterClosed$.pipe(
+				filter((place) => Boolean(place)),
+				switchMap((place) =>
+					this._placesService
+						.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
+						.pipe(
+							switchMap((result) => from(this._adminPlacesQuery.refetch()).pipe(map(() => result))),
+							this._toastrService.observe(this._i18nService.translate("createPlace"))
+						)
+				),
+				take(1)
+			)
+			.subscribe(async (result) => {
+				if (!result?.data?.createPlace) {
+					return;
+				}
 
-		const place: PlaceEntity | undefined = await lastValueFrom(
-			this._dialogService.open(PlaceDialogComponent).afterClosed$
-		);
-
-		if (!place) {
-			return;
-		}
-
-		const result = await lastValueFrom(
-			this._placesService
-				.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.adminPageI18n),
-						this._i18nService.translate("title", {}, this.adminPageI18n)
-					)
-				)
-		);
-
-		if (!result.data?.createPlace) {
-			return;
-		}
-
-		await this._routerService.navigateByUrl(
-			ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, company).replace(PLACE_ID, result.data.createPlace.id)
-		);
+				await this._routerService.navigateByUrl(
+					ADMIN_ROUTES.PLACE.absolutePath.replace(COMPANY_ID, company).replace(PLACE_ID, result.data.createPlace.id)
+				);
+			});
 	}
 
-	async openUpdatePlaceDialog(data: AtLeast<PlaceEntity, "id">) {
-		const place: PlaceEntity | undefined = await lastValueFrom(
-			this._dialogService.open(PlaceDialogComponent, { data }).afterClosed$
-		);
-
-		if (!place) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._placesService
-				.updatePlace({ id: place.id, name: place.name, address: place.address, file: place.file?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.adminPageI18n),
-						this._i18nService.translate("title", {}, this.adminPageI18n)
-					)
-				)
-		);
+	openUpdatePlaceDialog(data: AtLeast<PlaceEntity, "id">) {
+		this._dialogService
+			.open(PlaceDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((place) => Boolean(place)),
+				switchMap((place) =>
+					this._placesService
+						.updatePlace({ id: place.id, name: place.name, address: place.address, file: place.file?.id })
+						.pipe(
+							switchMap(() => this._adminPlacesQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("updatePlace"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("title", {}, this.adminPageI18n), value } };
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._placesService
-				.deletePlace(value.id)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.adminPageI18n),
-						this._i18nService.translate("title", {}, this.adminPageI18n)
+	openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
+		this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("confirmPlace"), value }
+			})
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._placesService.deletePlace(value.id).pipe(
+						switchMap(() => this._adminPlacesQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("deletePlace"))
 					)
 				)
-		);
+			)
+			.subscribe(() => {});
 	}
 
 	async signOut() {

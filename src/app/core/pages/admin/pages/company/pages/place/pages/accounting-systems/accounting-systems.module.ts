@@ -1,7 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { AccountingSystemModule, AccountingSytemSkeletonModule } from "@features/accounting-systems";
+import {
+	AccountingSystemDialogModule,
+	AccountingSystemModule,
+	AccountingSytemSkeletonModule
+} from "@features/accounting-systems";
 import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { FiltersModule } from "@shared/ui/filters";
@@ -29,6 +33,7 @@ import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 		I18nModule,
 		FiltersModule,
 		ListModule,
+		AccountingSystemDialogModule,
 		AccountingSystemModule,
 		AccountingSytemSkeletonModule,
 		SkeletonModule,

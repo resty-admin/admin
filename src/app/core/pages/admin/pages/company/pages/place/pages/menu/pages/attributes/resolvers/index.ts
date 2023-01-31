@@ -1,1 +1,1 @@
-export * from "./attribures/attribures.resolver";
+export * from "./attribures-page/attribures-page.resolver";

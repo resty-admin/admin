@@ -9,12 +9,7 @@ export type CreateCategoryMutationVariables = Types.Exact<{
 
 export interface CreateCategoryMutation {
 	__typename?: "Mutation";
-	createCategory: {
-		__typename?: "CategoryEntity";
-		id: string;
-		name: string;
-		file?: { __typename?: "FileEntity"; url: string; id: string } | null;
-	};
+	createCategory: { __typename?: "CategoryEntity"; id: string };
 }
 
 export type UpdateCategoryMutationVariables = Types.Exact<{
@@ -23,12 +18,7 @@ export type UpdateCategoryMutationVariables = Types.Exact<{
 
 export interface UpdateCategoryMutation {
 	__typename?: "Mutation";
-	updateCategory: {
-		__typename?: "CategoryEntity";
-		id: string;
-		name: string;
-		file?: { __typename?: "FileEntity"; url: string; id: string } | null;
-	};
+	updateCategory: { __typename?: "CategoryEntity"; id: string };
 }
 
 export type DeleteCategoryMutationVariables = Types.Exact<{
@@ -44,11 +34,6 @@ export const CreateCategoryDocument = gql`
 	mutation CreateCategory($category: CreateCategoryInput!) {
 		createCategory(category: $category) {
 			id
-			name
-			file {
-				url
-				id
-			}
 		}
 	}
 `;
@@ -67,11 +52,6 @@ export const UpdateCategoryDocument = gql`
 	mutation UpdateCategory($category: UpdateCategoryInput!) {
 		updateCategory(category: $category) {
 			id
-			name
-			file {
-				url
-				id
-			}
 		}
 	}
 `;

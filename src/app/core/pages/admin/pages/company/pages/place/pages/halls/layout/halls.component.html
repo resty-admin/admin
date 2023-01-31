@@ -7,5 +7,9 @@
 </div>
 
 <ng-template let-item #hallTemplate>
-	<app-hall [hall]="item" [actions]="actions"></app-hall>
+	<app-hall
+		[hall]="item"
+		(editClicked)="openUpdateHallDialog(item)"
+		(deleteClicked)="openDeleteHallDialog(item)"
+	></app-hall>
 </ng-template>

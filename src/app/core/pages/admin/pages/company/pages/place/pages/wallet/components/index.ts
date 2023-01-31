@@ -1,9 +1,9 @@
-import { WalletHeaderComponent } from "./wallet-header/layout/wallet-header.component";
+import { WalletHeaderComponent } from "./wallet-header/wallet-header.component";
 import { WalletHeaderSkeletonComponent } from "./wallet-header-skeleton/wallet-header-skeleton.component";
-import { WalletSkeletonComponent } from "./wallet-skeleton/wallet-skeleton.component";
+import { WalletPageSkeletonComponent } from "./wallet-page-skeleton/wallet-page-skeleton.component";
 
-export const WALLET_COMPONENTS = [WalletHeaderComponent, WalletHeaderSkeletonComponent, WalletSkeletonComponent];
+export const WALLET_COMPONENTS = [WalletHeaderComponent, WalletHeaderSkeletonComponent, WalletPageSkeletonComponent];
 
-export { WalletHeaderComponent } from "./wallet-header/layout/wallet-header.component";
+export { WalletHeaderComponent } from "./wallet-header/wallet-header.component";
 export { WalletHeaderSkeletonComponent } from "./wallet-header-skeleton/wallet-header-skeleton.component";
-export { WalletSkeletonComponent } from "./wallet-skeleton/wallet-skeleton.component";
+export { WalletPageSkeletonComponent } from "./wallet-page-skeleton/wallet-page-skeleton.component";

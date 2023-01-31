@@ -1,1 +1,1 @@
-export * from "./companies/companies.resolver";
+export * from "./companies-page/companies-page.resolver";

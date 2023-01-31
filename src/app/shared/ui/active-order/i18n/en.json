@@ -1,0 +1,7 @@
+{
+	"order": "Order",
+	"PICKUP": "Pickup",
+	"RESERVE": "Reserve",
+	"IN_PLACE": "In place",
+	"DELIVERY": "Delivery"
+}

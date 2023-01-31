@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import type { CommandEntity } from "@graphql";
-import type { IAction } from "@shared/ui/actions";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { ICommand } from "../interfaces/command.interface";
 
@@ -11,6 +9,15 @@ import { ICommand } from "../interfaces/command.interface";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandComponent {
+	@Output() editClicked = new EventEmitter<ICommand>();
+	@Output() deleteClicked = new EventEmitter<ICommand>();
 	@Input() command?: ICommand;
-	@Input() actions?: IAction<CommandEntity>[] | null;
+
+	emitEditClick(command: ICommand) {
+		this.editClicked.emit(command);
+	}
+
+	emitDeleteClick(command: ICommand) {
+		this.editClicked.emit(command);
+	}
 }

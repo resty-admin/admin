@@ -16,7 +16,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { PRODUCT_DIALOG } from "../constants";
 import { ProductAttributeGroupsGQL, ProductCategoriesGQL } from "../graphql";
@@ -96,81 +96,64 @@ export class ProductDialogComponent implements OnInit {
 		});
 	}
 
-	async openCreateAttributeGroupDialog(data: DeepPartial<AttributesGroupEntity>) {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!place) {
-			return;
-		}
-
-		const attributeGroup: AttributesGroupEntity | undefined = await lastValueFrom(
-			this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$
-		);
-
-		if (!attributeGroup) {
-			return;
-		}
-
-		const result = await lastValueFrom(
-			this._attributeGroupsService
-				.createAttributeGroup({
-					name: attributeGroup.name,
-					place,
-					maxItemsForPick: attributeGroup.maxItemsForPick,
-					type: attributeGroup.type,
-					attributes: attributeGroup.attributes?.map((attribute) => attribute.id)
-				})
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.productDialog),
-						this._i18nService.translate("title", {}, this.productDialog)
-					)
-				)
-		);
-
-		return result.data?.createAttrGroup;
+	openCreateAttributeGroupDialog(data: DeepPartial<AttributesGroupEntity>) {
+		this._dialogService
+			.open(AttributeGroupDialogComponent, { data })
+			.afterClosed$.pipe(
+				take(1),
+				filter((attributeGroup) => Boolean(attributeGroup)),
+				switchMap((attributeGroup) =>
+					this._attributeGroupsService
+						.createAttributeGroup({
+							name: attributeGroup.name,
+							place: this._routerService.getParams(PLACE_ID.slice(1)),
+							maxItemsForPick: attributeGroup.maxItemsForPick,
+							type: attributeGroup.type,
+							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
+						})
+						.pipe(this._toastrService.observe(this._i18nService.translate("title")))
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openCreateCategoryDialog(data: DeepPartial<CategoryEntity>) {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!place) {
-			return;
-		}
-
-		const category: CategoryEntity | undefined = await lastValueFrom(
-			this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$
-		);
-
-		if (!category) {
-			return;
-		}
-
-		const result = await lastValueFrom(
-			this._categoriesService
-				.createCategory({ name: category.name, place, file: category.file?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.productDialog),
-						this._i18nService.translate("title", {}, this.productDialog)
-					)
-				)
-		);
-
-		return result.data?.createCategory;
+	openCreateCategoryDialog(data: DeepPartial<CategoryEntity>) {
+		this._dialogService
+			.open(CategoryDialogComponent, { data })
+			.afterClosed$.pipe(
+				take(1),
+				filter((category) => Boolean(category)),
+				switchMap((category) =>
+					this._categoriesService
+						.createCategory({
+							name: category.name,
+							place: this._routerService.getParams(PLACE_ID.slice(1)),
+							file: category.file?.id
+						})
+						.pipe(this._toastrService.observe(this._i18nService.translate("title")))
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async closeDialog(product?: Partial<IProductForm>) {
+	closeDialog(product?: Partial<IProductForm>) {
 		if (!product) {
 			this._dialogRef.close();
 			return;
 		}
 
-		return this._dialogRef.close({
-			...this.data,
-			...product,
-			category: { id: product.category },
-			file: await lastValueFrom(this._filesService.getFile(product.file))
-		});
+		this._filesService
+			.getFile(product.file)
+			.pipe(take(1))
+			.subscribe((file) => {
+				this._dialogRef.close({
+					...this.data,
+					...product,
+					category: { id: product.category },
+					file
+				});
+			});
 	}
 }

@@ -9,7 +9,7 @@ export type CreateAttrMutationVariables = Types.Exact<{
 
 export interface CreateAttrMutation {
 	__typename?: "Mutation";
-	createAttr: { __typename?: "AttributesEntity"; id: string; name: string; price: number };
+	createAttr: { __typename?: "AttributesEntity"; id: string };
 }
 
 export type UpdateAttrMutationVariables = Types.Exact<{
@@ -18,7 +18,7 @@ export type UpdateAttrMutationVariables = Types.Exact<{
 
 export interface UpdateAttrMutation {
 	__typename?: "Mutation";
-	updateAttr: { __typename?: "AttributesEntity"; id: string; name: string; price: number };
+	updateAttr: { __typename?: "AttributesEntity"; id: string };
 }
 
 export type DeleteAttrMutationVariables = Types.Exact<{
@@ -34,8 +34,6 @@ export const CreateAttrDocument = gql`
 	mutation CreateAttr($attr: CreateAttributeInput!) {
 		createAttr(attr: $attr) {
 			id
-			name
-			price
 		}
 	}
 `;
@@ -54,8 +52,6 @@ export const UpdateAttrDocument = gql`
 	mutation UpdateAttr($attr: UpdateAttributeInput!) {
 		updateAttr(attr: $attr) {
 			id
-			name
-			price
 		}
 	}
 `;

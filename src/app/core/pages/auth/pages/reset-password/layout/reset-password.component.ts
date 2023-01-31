@@ -4,7 +4,7 @@ import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { ADMIN_ROUTES, FORM } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { RESET_PASSWORD_PAGE } from "../constants";
 import type { IResetPassword } from "../interfaces";
@@ -31,9 +31,12 @@ export class ResetPasswordComponent {
 		private readonly _routerService: RouterService
 	) {}
 
-	async resetPassword(body: IResetPassword) {
-		await lastValueFrom(this._authService.resetPassword(body));
-
-		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
+	resetPassword(body: IResetPassword) {
+		this._authService
+			.resetPassword(body)
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
+			});
 	}
 }

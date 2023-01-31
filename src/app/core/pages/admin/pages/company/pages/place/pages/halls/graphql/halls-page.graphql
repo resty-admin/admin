@@ -5,6 +5,10 @@ query HallsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 		data {
 			id
 			name
+			file {
+				id
+				url
+			}
 		}
 	}
 }

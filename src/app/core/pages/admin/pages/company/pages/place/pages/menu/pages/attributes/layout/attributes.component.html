@@ -14,46 +14,26 @@
 			<div class="header">
 				<h1 class="label">{{ attributesGroup.name }}</h1>
 
-				<button
+				<app-more
 					class="more"
-					appIconButton
-					[tippy]="attributesGroupActionsTemplate"
-					[data]="attributesGroup"
-					placement="left"
-					variation="popper"
-					theme="1"
-				>
-					<app-icon class="icon" name="more"></app-icon>
-				</button>
+					(editClicked)="openUpdateAttributeGroupDialog(attributesGroup)"
+					(deleteClicked)="openDeleteAttributeGroupDialog(attributesGroup)"
+				></app-more>
 			</div>
 
 			<ul class="attributes">
 				<li class="attribute" *ngFor="let attribute of attributesGroup.attributes; trackBy: sharedService.trackByFn">
-					<p class="name-label">Название</p>
+					<p class="name-label">{{ t("name") }}</p>
 					<p class="name-value">{{ attribute.name }}</p>
-					<p class="description-label">Цена</p>
-					<p class="description-value">{{ attribute.price }}грн</p>
-					<button
+					<p class="description-label">{{ t("description") }}</p>
+					<p class="description-value">{{ attribute.price }}{{ t("price") }}</p>
+					<app-more
 						class="more"
-						appIconButton
-						[tippy]="attributeActionsTemplate"
-						[data]="attribute"
-						placement="left"
-						variation="popper"
-						theme="1"
-					>
-						<app-icon class="icon" name="more"></app-icon>
-					</button>
+						(editClicked)="openUpdateAttributeDialog(attribute)"
+						(deleteClicked)="openDeleteAttributeDialog(attribute)"
+					></app-more>
 				</li>
 			</ul>
 		</li>
 	</ul>
 </div>
-
-<ng-template #attributesGroupActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="attributesGroupActions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>
-
-<ng-template #attributeActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="attributeActions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>

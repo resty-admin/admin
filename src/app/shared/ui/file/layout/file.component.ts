@@ -1,6 +1,6 @@
 import type { OnChanges, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input } from "@angular/core";
-import { FileEntity } from "@graphql";
+import type { FileEntity } from "@graphql";
 import { ControlValueAccessor } from "@shared/classes";
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import { getControlValueAccessorProviders } from "@shared/functions";
@@ -20,7 +20,7 @@ import { IFileConfig, IFileTheme } from "../interfaces";
 export class FileComponent extends ControlValueAccessor<File | null> implements OnInit, OnChanges {
 	@Input() label = "";
 	@Input() theme: IFileTheme = "1";
-	@Input() previewImage?: FileEntity;
+	@Input() previewImage?: FileEntity | null;
 
 	fileName = "";
 

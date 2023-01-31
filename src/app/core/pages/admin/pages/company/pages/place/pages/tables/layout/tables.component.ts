@@ -1,6 +1,5 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
 import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "@features/tables";
 import type { TableEntity } from "@graphql";
@@ -9,14 +8,13 @@ import type { AtLeast } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
-import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map } from "rxjs";
+import { filter, from, switchMap, take } from "rxjs";
 
 import { TABLES_PAGE } from "../constants";
-import { TablesPageGQL } from "../graphql";
+import { TablesPageService } from "../services";
 
 @Component({
 	selector: "app-tables",
@@ -26,127 +24,91 @@ import { TablesPageGQL } from "../graphql";
 })
 export class TablesComponent implements OnInit, OnDestroy {
 	readonly tablesPage = TABLES_PAGE;
-	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
-	readonly tables$ = this._activatedRoute.data.pipe(map((data) => data["tables"]));
 
-	readonly actions: IAction<TableEntity>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (table) => this.openUpdateTableDialog(table)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (table) => this.openDeleteTableDialog(table)
-		}
-	];
+	readonly tables$ = this._tablesPageService.tables$;
 
 	constructor(
-		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _tablesPageGQL: TablesPageGQL,
+		private readonly _tablesPageService: TablesPageService,
 		private readonly _tablesService: TablesService,
 		private readonly _routerService: RouterService,
-		private readonly _dialogService: DialogService,
-		private readonly _actionsService: ActionsService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _actionsService: ActionsService,
+		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
 
-	async ngOnInit() {
-		const { companyId, placeId, hallId } = this._routerService.getParams();
-
-		if (!companyId || !placeId || !hallId) {
-			return;
-		}
-
+	ngOnInit() {
 		this._breadcrumbsService.setBreadcrumb({
-			routerLink: ADMIN_ROUTES.HALLS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+			routerLink: ADMIN_ROUTES.HALLS.absolutePath
+				.replace(COMPANY_ID, this._routerService.getParams(COMPANY_ID.slice(1)))
+				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 		});
 
 		this._actionsService.setAction({ label: "Добавить стол", func: () => this.openCreateTableDialog() });
-
-		await this._tablesPageQuery.setVariables({ filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }] });
 	}
 
-	async openTableQrCodeDialog(data: TableEntity) {
-		await lastValueFrom(this._dialogService.open(TableQrCodeDialogComponent, { data }).afterClosed$);
+	openCreateTableDialog() {
+		return this._dialogService
+			.open(TableDialogComponent)
+			.afterClosed$.pipe(
+				filter((table) => Boolean(table)),
+				switchMap((table) =>
+					this._tablesService
+						.createTable({
+							name: table.name,
+							hall: this._routerService.getParams(HALL_ID.slice(1)),
+							file: table.file?.id,
+							code: table.code
+						})
+						.pipe(
+							switchMap(() => from(this._tablesPageService.tablesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("createTable"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openCreateTableDialog() {
-		const hall = this._routerService.getParams(HALL_ID.slice(1));
+	openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {
+		this._dialogService
+			.open(TableDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((table) => Boolean(table)),
+				switchMap((table) =>
+					this._tablesService
+						.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
+						.pipe(
+							switchMap(() => from(this._tablesPageService.tablesPageQuery.refetch())),
+							this._toastrService.observe(this._i18nService.translate("updateTable"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
+	}
 
-		if (!hall) {
-			return;
-		}
-
-		const table: TableEntity | undefined = await lastValueFrom(
-			this._dialogService.open(TableDialogComponent).afterClosed$
-		);
-
-		if (!table) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._tablesService
-				.createTable({ name: table.name, hall, file: table.file?.id, code: table.code })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.tablesPage),
-						this._i18nService.translate("created", {}, this.tablesPage)
+	openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
+		this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("confirmTable"), value }
+			})
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._tablesService.deleteTable(value.id).pipe(
+						switchMap(() => from(this._tablesPageService.tablesPageQuery.refetch())),
+						this._toastrService.observe(this._i18nService.translate("deleteTable"))
 					)
-				)
-		);
-
-		await this._tablesPageQuery.refetch();
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {
-		const table: TableEntity | undefined = await lastValueFrom(
-			this._dialogService.open(TableDialogComponent, { data }).afterClosed$
-		);
-
-		if (!table) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._tablesService
-				.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.tablesPage),
-						this._i18nService.translate("updated", {}, this.tablesPage)
-					)
-				)
-		);
-
-		await this._tablesPageQuery.refetch();
-	}
-
-	async openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
-		const config = { data: { title: this._i18nService.translate("confirm", {}, this.tablesPage), value } };
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._tablesService
-				.deleteTable(value.id)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.tablesPage),
-						this._i18nService.translate("deleted", {}, this.tablesPage)
-					)
-				)
-		);
-
-		await this._tablesPageQuery.refetch();
+	openTableQrCodeDialog(data: TableEntity) {
+		this._dialogService.open(TableQrCodeDialogComponent, { data }).afterClosed$.pipe(take(1)).subscribe();
 	}
 
 	ngOnDestroy() {

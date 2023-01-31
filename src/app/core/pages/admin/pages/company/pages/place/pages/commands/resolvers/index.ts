@@ -1,1 +1,1 @@
-export * from "./commands/commands.resolver";
+export * from "./commands-page/commands-page.resolver";

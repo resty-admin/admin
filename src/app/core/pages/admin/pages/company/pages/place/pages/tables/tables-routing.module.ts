@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { TablesSkeletonComponent } from "./components";
+import { TablesPageSkeletonComponent } from "./components";
 import { TABLES_PAGE } from "./constants";
 import { TablesComponent } from "./layout/tables.component";
-import { TablesResolver } from "./resolvers";
+import { TablesPageResolver } from "./resolvers";
 
 export const TABLES_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const TABLES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: TABLES_PAGE
 		},
 		resolve: {
-			tables: TablesResolver
+			tables: TablesPageResolver
 		},
 		skeleton: {
-			component: TablesSkeletonComponent
+			component: TablesPageSkeletonComponent
 		}
 	}
 ];

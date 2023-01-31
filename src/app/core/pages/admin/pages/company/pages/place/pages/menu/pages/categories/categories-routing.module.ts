@@ -2,10 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { CategoriesSkeletonComponent } from "./components";
+import { CategoriesPageSkeletonComponent } from "./components";
 import { CATEGORIES_PAGE } from "./constants";
 import { CategoriesComponent } from "./layout/categories.component";
-import { CategoriesResolver } from "./resolvers";
+import { CategoriesPageResolver } from "./resolvers";
 
 export const CATEGORIES_ROUTES: INavigationSkeletonRoute[] = [
 	{
@@ -15,10 +15,10 @@ export const CATEGORIES_ROUTES: INavigationSkeletonRoute[] = [
 			animation: CATEGORIES_PAGE
 		},
 		resolve: {
-			categories: CategoriesResolver
+			categories: CategoriesPageResolver
 		},
 		skeleton: {
-			component: CategoriesSkeletonComponent
+			component: CategoriesPageSkeletonComponent
 		}
 	}
 ];

@@ -1,1 +1,1 @@
-export * from "./categories/categories.resolver";
+export * from "./categories-page/categories-page.resolver";

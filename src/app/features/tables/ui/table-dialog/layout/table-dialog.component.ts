@@ -5,7 +5,7 @@ import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { FORM } from "@shared/constants";
 import { FilesService } from "@shared/modules/files";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 import { TABLE_DIALOG } from "../constants";
 import type { ITableForm } from "../interfaces";
@@ -49,10 +49,15 @@ export class TableDialogComponent implements OnInit {
 			return;
 		}
 
-		this._dialogRef.close({
-			...this.data,
-			...table,
-			file: await lastValueFrom(this._filesService.getFile(table.file))
-		});
+		this._filesService
+			.getFile(table.file)
+			.pipe(take(1))
+			.subscribe((file) => {
+				this._dialogRef.close({
+					...this.data,
+					...table,
+					file
+				});
+			});
 	}
 }

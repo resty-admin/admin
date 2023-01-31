@@ -33,6 +33,12 @@
 			position: absolute;
 			right: rem(8);
 			top: rem(8);
+			&::ng-deep .app-more {
+				background-color: var(--light-grey);
+			}
+			&.placeholder::ng-deep .app-more {
+				background-color: var(--light);
+			}
 		}
 	}
 }

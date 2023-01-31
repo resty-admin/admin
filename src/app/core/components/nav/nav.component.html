@@ -1,0 +1,18 @@
+<nav class="nav" *transloco="let t; read: corePage">
+	<ul class="pages">
+		<li class="page" *ngFor="let page of pages; trackBy: sharedService.trackByFn">
+			<a
+				appLink
+				class="link"
+				theme="0"
+				routerLinkActive="active"
+				[routerLink]="page.routerLink"
+				(click)="emitCloseClick()"
+				[class.disabled]="page.disabled"
+			>
+				<app-icon class="icon" [name]="page.icon"></app-icon>
+				<span class="label">{{ t(page.label) }}</span>
+			</a>
+		</li>
+	</ul>
+</nav>

@@ -40,12 +40,12 @@ export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, 
 	}
 
 	ngOnChanges(changes: ISimpleChanges<ControlValueAccessor<T>>) {
-		if (changes.errors?.currentValue) {
+		if (changes.errors) {
 			this.formControl.setErrors(changes.errors.currentValue);
 		}
 
-		if (changes.value?.currentValue) {
-			this.formControl.setValue(changes.value.currentValue);
+		if (changes.value) {
+			this.formControl.setValue(changes.value.currentValue as any);
 		}
 
 		if (changes.disabled) {
