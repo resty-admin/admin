@@ -1,5 +1,7 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Optional } from "@angular/core";
 import { HotToastRef } from "@ngneat/hot-toast";
+import { SharedService } from "@shared/services";
 
 export interface IErrorData {
 	title: string;
@@ -12,11 +14,16 @@ export interface IErrorData {
 	styleUrls: ["./toastr-error.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToastrErrorComponent {
-	constructor(@Optional() @Inject(HotToastRef) private readonly toastRef: HotToastRef<IErrorData>) {}
+export class ToastrErrorComponent implements OnInit {
+	data!: IErrorData;
 
-	get data() {
-		return this.toastRef.data;
+	constructor(
+		@Optional() @Inject(HotToastRef) private readonly toastRef: HotToastRef<IErrorData>,
+		readonly sharedService: SharedService
+	) {}
+
+	ngOnInit() {
+		this.data = this.toastRef.data;
 	}
 
 	close() {

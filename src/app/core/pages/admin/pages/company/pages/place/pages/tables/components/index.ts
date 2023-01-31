@@ -1,5 +1,5 @@
-import { TableDialogComponent } from "./table-dialog/table-dialog.component";
+import { TablesSkeletonComponent } from "./tables-skeleton/tables-skeleton.component";
 
-export const TABLES_COMPONENTS = [TableDialogComponent];
+export const TABLES_COMPONENTS = [TablesSkeletonComponent];
 
-export * from "./table-dialog/table-dialog.component";
+export * from "./tables-skeleton/tables-skeleton.component";

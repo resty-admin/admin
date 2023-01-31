@@ -9,7 +9,7 @@ import type { ICryptoConfig } from "./interfaces";
 	imports: [CommonModule]
 })
 export class CryptoModule {
-	static forRoot(config: ICryptoConfig): ModuleWithProviders<any> {
+	static forRoot(config: ICryptoConfig): ModuleWithProviders<CryptoModule> {
 		return {
 			ngModule: CryptoModule,
 			providers: [

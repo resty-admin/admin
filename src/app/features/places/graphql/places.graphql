@@ -1,0 +1,21 @@
+mutation UpdatePlace($place: UpdatePlaceInput!) {
+	updatePlace(place: $place) {
+		id
+	}
+}
+
+mutation CreatePlaces($place: CreatePlaceInput!) {
+	createPlace(place: $place) {
+		id
+	}
+}
+
+mutation DeletePlace($placeId: String!) {
+	deletePlace(placeId: $placeId)
+}
+
+mutation UpdatePlaceVerification($placeId: String!, $status: PlaceVerificationStatusEnum!) {
+	updatePlaceVerification(placeId: $placeId, status: $status) {
+		id
+	}
+}

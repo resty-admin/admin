@@ -11,30 +11,24 @@ body {
 			background-color: var(--light);
 			border-radius: rem(8);
 			border: rem(1) solid transparent;
-			&:hover {
-				border-color: var(--primary);
-				.icon {
-					svg {
-						fill: var(--primary);
-					}
-				}
-			}
 			.icon {
 				width: rem(16);
 				height: rem(16);
-				svg {
-					fill: var(--dark);
-				}
 			}
+			&:hover {
+				border-color: var(--primary);
+			}
+		}
+		&.theme-2 {
 		}
 	}
 
 	&.dark .app-icon-button.theme-1 {
 		background-color: var(--dark);
-		&:not(:hover) {
-			.icon svg {
-				fill: var(--light);
-			}
+		.icon {
+		}
+		&:hover {
+			border-color: var(--primary);
 		}
 	}
 }

@@ -1,0 +1,7 @@
+<div class="statistic-footer" *transloco="let t; read: statisticFooter">
+	<p class="status-type">{{ t(verificationStatus + "") }}</p>
+	<p class="description">{{ t("status_description") }}</p>
+
+	<p class="info">{{ t("status_info") }}</p>
+	<button class="button" (click)="emitButotnClick()">{{ t("change_status") }}</button>
+</div>

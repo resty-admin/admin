@@ -1,0 +1,15 @@
+mutation CreateShift($shift: CreateShiftInput!) {
+	createShift(shift: $shift) {
+		id
+	}
+}
+
+mutation UpdateShift($shift: UpdateShiftInput!) {
+	updateShift(shift: $shift) {
+		id
+	}
+}
+
+mutation CloseShift($shiftId: String!) {
+	closeShift(shiftId: $shiftId)
+}

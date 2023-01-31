@@ -1,0 +1,52 @@
+query HistoryOrderPage($orderId: String!) {
+	order(id: $orderId) {
+		id
+		type
+		orderNumber
+		code
+		status
+		totalPrice
+		tableStatus
+		startDate
+		users {
+			id
+			name
+		}
+		table {
+			id
+			name
+			hall {
+				id
+				name
+			}
+		}
+		productsToOrders {
+			id
+			count
+			status
+			paidStatus
+			product {
+				id
+				name
+				description
+				price
+				file {
+					id
+					url
+				}
+				attrsGroups {
+					id
+					name
+					attributes {
+						id
+						name
+					}
+				}
+			}
+			user {
+				id
+				name
+			}
+		}
+	}
+}

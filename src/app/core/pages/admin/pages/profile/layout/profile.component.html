@@ -1,21 +1,46 @@
-<div class="profile-page" *ngIf="user$ | async as user">
-	<h1 appTypography theme="1" class="title">Личный кабинет</h1>
+<ng-container *transloco="let t; read: profilePage">
+	<div class="profile-page" *ngIf="user$ | async as user">
+		<div class="header">
+			<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<div class="info">
-		<p class="name">{{ user.name }}</p>
-		<p class="role">{{ user.role }}</p>
+			<div class="tools">
+				<app-language-select class="language"></app-language-select>
+				<app-theme class="theme"></app-theme>
+			</div>
+		</div>
+		<div class="info">
+			<p class="name">{{ user.name }}</p>
+			<p class="role">{{ user.role }}</p>
+		</div>
+
+		<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
+			<app-input
+				class="input name"
+				theme="2"
+				formControlName="name"
+				[label]="f('name_label')"
+				[placeholder]="f('name_placeholder')"
+			></app-input>
+			<app-input
+				class="input tel"
+				theme="2"
+				formControlName="tel"
+				[label]="f('tel_label')"
+				[placeholder]="f('tel_placeholder')"
+			></app-input>
+			<app-input
+				class="input email"
+				theme="2"
+				formControlName="email"
+				[label]="f('email_label')"
+				[placeholder]="f('email_placeholder')"
+			></app-input>
+
+			<button class="submit">{{ f("submit") }}</button>
+
+			<app-image class="image" name="manager"></app-image>
+		</form>
+
+		<button class="delete" (click)="deleteMe()">{{ t("delete_profile") }}</button>
 	</div>
-
-	<form class="form">
-		<app-input class="input name" placeholder="Имя"></app-input>
-		<app-input class="input tel" placeholder="Телефон"></app-input>
-		<app-input class="input email" placeholder="Почта"></app-input>
-		<app-input class="input role" placeholder="Роль"></app-input>
-
-		<button class="submit">Сохранить</button>
-
-		<app-image class="image" name="profile"></app-image>
-	</form>
-
-	<button class="delete">Удалить профиль</button>
-</div>
+</ng-container>

@@ -1,0 +1,19 @@
+<div class="users-select" *transloco="let t; read: usersSelect">
+	<ul class="users">
+		<li class="user">
+			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
+		</li>
+		<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: sharedService.trackByFn">
+			<input
+				class="checkbox"
+				type="checkbox"
+				[id]="'user_' + user.id"
+				[name]="'user_' + user.id"
+				[value]="user.id"
+				[(ngModel)]="user.selected"
+				(change)="emitChange()"
+			/>
+			<label class="label" [for]="i">{{ user.name }}</label>
+		</li>
+	</ul>
+</div>

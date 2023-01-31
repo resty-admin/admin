@@ -1,30 +1,33 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
-import { PipesModule } from "src/app/shared/modules/pipes";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { FileModule } from "src/app/shared/ui/file";
-import { IconModule } from "src/app/shared/ui/icon";
-import { ImageModule } from "src/app/shared/ui/image";
-import { InputModule } from "src/app/shared/ui/input";
+import { PlaceDialogModule } from "@features/places/ui/place-dialog/place-dialog.module";
+import { I18nModule } from "@shared/modules/i18n";
+import { PipesModule } from "@shared/modules/pipes";
+import { ButtonModule } from "@shared/ui/button";
+import { IconModule } from "@shared/ui/icon";
+import { ImageModule } from "@shared/ui/image";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TypographyModule } from "@shared/ui/typography";
 
 import { PLACES_COMPONENTS } from "./components";
 import { PlacesComponent } from "./layout/places.component";
 import { PlacesRoutingModule } from "./places-routing.module";
+import { PLACES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PlacesComponent, ...PLACES_COMPONENTS],
 	imports: [
 		CommonModule,
 		PlacesRoutingModule,
-		IconModule,
 		ImageModule,
-		ReactiveFormsModule,
-		InputModule,
+		IconModule,
 		ButtonModule,
 		PipesModule,
-		FileModule
+		TypographyModule,
+		I18nModule,
+		PlaceDialogModule,
+		SkeletonModule
 	],
-	exports: [PlacesComponent]
+	providers: PLACES_PROVIDERS
 })
 export class PlacesModule {}

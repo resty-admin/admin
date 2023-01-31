@@ -1,0 +1,8 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.place {
+		width: 100%;
+		height: 100%;
+	}
+}

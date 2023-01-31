@@ -1,17 +1,18 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import type { IAuthType } from "@features/auth/interfaces";
+import { AuthService } from "@features/auth/services";
+import { UserRoleEnum } from "@graphql";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { filter, take } from "rxjs";
-import { DYNAMIC_TOKEN } from "src/app/shared/constants";
-import { UserRoleEnum } from "src/app/shared/enums";
-import { RouterService } from "src/app/shared/modules/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { FORM } from "@shared/constants";
+import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import { lastValueFrom } from "rxjs";
 
-import type { IAuthType } from "../../../interfaces";
-import { AuthService } from "../../../services";
-import { AUTH_TYPES } from "../../../utils";
+import { AUTH_TYPES } from "../../../data";
+import { SIGN_UP_PAGE } from "../constants";
+import type { ISignUp } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -21,55 +22,53 @@ import { AUTH_TYPES } from "../../../utils";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnInit {
+	readonly form = FORM;
+	readonly signUpPage = SIGN_UP_PAGE;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
-	readonly roles = [UserRoleEnum.ADMIN, UserRoleEnum.HOSTESS, UserRoleEnum.WAITER, UserRoleEnum.HOOKAH].map((role) => ({
+	readonly roles = [UserRoleEnum.Admin, UserRoleEnum.Hostess, UserRoleEnum.Waiter, UserRoleEnum.Hookah].map((role) => ({
 		label: role,
 		value: role
 	}));
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group({
+	readonly formGroup = this._formBuilder.group<ISignUp>({
 		email: "",
 		tel: "",
 		password: "",
-		role: UserRoleEnum.ADMIN
+		role: UserRoleEnum.Admin
 	});
 
 	constructor(
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
-		private readonly _routerService: RouterService,
-		private readonly _toastrService: ToastrService
+		private readonly _routerService: RouterService
 	) {}
 
 	ngOnInit() {
-		this._routerService
-			.selectQueryParams<UserRoleEnum>("role")
-			.pipe(
-				untilDestroyed(this),
-				filter((role) => role && role in UserRoleEnum)
-			)
-			.subscribe((role) => {
-				this.form.patchValue({ role });
-			});
+		const role = this._routerService.getQueryParams("role");
+
+		if (role && Object.values(UserRoleEnum).includes(role)) {
+			this.formGroup.patchValue({ role });
+		}
 
 		this.typeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((type) => {
-			this.form.get("email").disable();
-			this.form.get("tel").disable();
+			this.formGroup.get("email").disable();
+			this.formGroup.get("tel").disable();
 
-			this.form.get(type).enable();
+			this.formGroup.get(type).enable();
 		});
 	}
 
-	signUp(formValue: any) {
-		this._authService
-			.signUp(formValue)
-			.pipe(take(1), this._toastrService.observe("Регистрация", "Вы успешно зарегестрировались"))
-			.subscribe(async ({ accessToken }) => {
-				await this._routerService.navigateByUrl(
-					ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
-				);
-			});
+	async signUp(body: ISignUp) {
+		const accessToken = await lastValueFrom(this._authService.signUp(body));
+
+		if (!accessToken) {
+			return;
+		}
+
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+		);
 	}
 }

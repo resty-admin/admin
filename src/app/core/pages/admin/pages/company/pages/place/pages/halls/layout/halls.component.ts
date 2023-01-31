@@ -1,17 +1,21 @@
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { filter, from, switchMap, take } from "rxjs";
-import type { IHall } from "src/app/shared/interfaces";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
-import { DialogService } from "src/app/shared/ui/dialog";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { ActionsService } from "@features/app";
+import { HallDialogComponent, HallsService } from "@features/halls";
+import type { HallEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
+import { lastValueFrom, map } from "rxjs";
 
-import { PLACE_ID } from "../../../../../../../../../../shared/constants";
-import { HallsService } from "../../../../../../../../../../shared/modules/halls";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import type { IAction } from "../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { HallDialogComponent } from "../components";
+import { HALLS_PAGE } from "../constants";
+import { HallsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-halls",
@@ -19,83 +23,126 @@ import { HallDialogComponent } from "../components";
 	styleUrls: ["./halls.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HallsComponent {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
+export class HallsComponent implements OnInit, OnDestroy {
+	readonly hallsPage = HALLS_PAGE;
+	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
+	readonly halls$ = this._activatedRoute.data.pipe(map((data) => data["halls"]));
 
-	readonly actions: IAction<IHall>[] = [
+	readonly actions: IAction<HallEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (hall?: IHall) => this.openHallDialog(hall)
+			func: (hall) => this.openUpdateHallDialog(hall)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (hall?: IHall) => {
-				if (!hall) {
-					return;
-				}
-
-				this.openDeleteHallDialog(hall);
-			}
+			func: (hall) => this.openDeleteHallDialog(hall)
 		}
 	];
 
-	readonly halls$ = this._hallsService.halls$;
-
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _hallsPageGQL: HallsPageGQL,
+		private readonly _hallsService: HallsService,
+		private readonly _routerService: RouterService,
+		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
-		private readonly _routerService: RouterService,
-		private readonly _hallsService: HallsService,
-		private readonly _activatedRoute: ActivatedRoute
+		private readonly _i18nService: I18nService
 	) {}
 
-	async navigateToHall(hall: Partial<IHall>) {
-		await this._routerService.navigate([`${hall.id}/tables`], {
-			relativeTo: this._activatedRoute
+	async openCreateHallDialog() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!place) {
+			return;
+		}
+
+		const hall: HallEntity | undefined = await lastValueFrom(
+			this._dialogService.open(HallDialogComponent).afterClosed$
+		);
+
+		if (!hall) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._hallsService
+				.createHall({ name: hall.name, place, file: hall.file?.id })
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.hallsPage),
+						this._i18nService.translate("created", {}, this.hallsPage)
+					)
+				)
+		);
+
+		await this._hallsPageQuery.refetch();
+	}
+
+	async openUpdateHallDialog(data: AtLeast<HallEntity, "id">) {
+		const hall: HallEntity | undefined = await lastValueFrom(
+			this._dialogService.open(HallDialogComponent, { data }).afterClosed$
+		);
+
+		if (!hall) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._hallsService
+				.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id })
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.hallsPage),
+						this._i18nService.translate("updated", {}, this.hallsPage)
+					)
+				)
+		);
+
+		await this._hallsPageQuery.refetch();
+	}
+
+	async openDeleteHallDialog(value: AtLeast<HallEntity, "id">) {
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.hallsPage), value } };
+
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._hallsService
+				.deleteHall(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.hallsPage),
+						this._i18nService.translate("deleted", {}, this.hallsPage)
+					)
+				)
+		);
+
+		await this._hallsPageQuery.refetch();
+	}
+
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
+
+		this._actionsService.setAction({
+			label: "Добавить зал",
+			func: () => this.openCreateHallDialog()
 		});
+
+		await this._hallsPageQuery.setVariables({ filtersArgs: [{ key: "place.id", operator: "=", value: placeId }] });
 	}
 
-	openHallDialog(hall?: Partial<IHall>) {
-		this._dialogService
-			.open(HallDialogComponent, { data: hall })
-			.afterClosed$.pipe(
-				take(1),
-				filter((hall) => Boolean(hall)),
-				switchMap((hall: Partial<IHall>) =>
-					hall.id
-						? this._hallsService.updateHall(hall.id, hall).pipe(take(1), this._toastrService.observe("Залы"))
-						: this._hallsService
-								.createHall({
-									...hall,
-									place: this._routerService.getParams(PLACE_ID.slice(1))
-								} as unknown as any)
-								.pipe(take(1), this._toastrService.observe("Залы"))
-				),
-				switchMap(() => from(this._hallsService.refetchHalls()))
-			)
-			.subscribe();
-	}
-
-	openDeleteHallDialog(hall: Partial<IHall>) {
-		this._dialogService
-			.open(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить зал?",
-					value: hall
-				}
-			})
-			.afterClosed$.pipe(
-				take(1),
-				filter((hall) => Boolean(hall)),
-				switchMap((hall) => this._hallsService.deleteHall(hall.id))
-			)
-			.subscribe();
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

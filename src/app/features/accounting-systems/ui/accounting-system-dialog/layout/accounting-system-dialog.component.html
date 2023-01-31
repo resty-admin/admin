@@ -1,0 +1,20 @@
+<div class="accounting-system-dialog" *transloco="let t; read: accountingSystemDialog">
+	<p appTypography theme="2" class="title">{{ t("add") }}</p>
+
+	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input
+			class="input"
+			formControlName="publicKey"
+			[label]="f('public_key_label')"
+			[placeholder]="f('public_key_description')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="privateKey"
+			[label]="f('private_key_label')"
+			[placeholder]="f('private_key_placeholder')"
+		></app-input>
+
+		<button class="submit">{{ t("connect") }}</button>
+	</form>
+</div>

@@ -1,7 +1,9 @@
+import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
+import { ControlValueAccessor } from "@shared/classes";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import { getControlValueAccessorProviders } from "@shared/functions";
+import type { ISimpleChanges } from "@shared/interfaces";
 
 import { IToggleTheme } from "../interfaces";
 
@@ -12,11 +14,17 @@ import { IToggleTheme } from "../interfaces";
 	providers: getControlValueAccessorProviders(ToggleComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToggleComponent extends ControlValueAccessor<boolean> {
+export class ToggleComponent extends ControlValueAccessor<boolean> implements OnChanges {
 	@Input() label = "";
 	@Input() theme: IToggleTheme = "1";
 
-	get className() {
-		return `app-toggle ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+	className = `app-toggle ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+
+	override ngOnChanges(changes: ISimpleChanges<ToggleComponent>) {
+		if (changes.theme && changes.theme.currentValue) {
+			this.className = `app-toggle ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
+		}
+
+		super.ngOnChanges(changes);
 	}
 }

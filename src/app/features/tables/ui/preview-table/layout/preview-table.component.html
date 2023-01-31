@@ -1,0 +1,5 @@
+<div class="table" [class.active]="active" *ngIf="table">
+	<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+	<span class="name">{{ table.name }}</span>
+	<span class="status">{{ table.hall?.name }}</span>
+</div>

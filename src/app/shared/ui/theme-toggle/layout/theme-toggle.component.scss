@@ -3,14 +3,18 @@
 @include component() {
 	.app-theme-toggle.theme-1 {
 		position: relative;
-		background-color: var(--primary);
+		background-color: var(--light);
 		border-radius: rem(8);
 		width: rem(34);
 		height: rem(34);
-		border: rem(2) solid var(--light);
+		border: rem(1) solid transparent;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+
+		&:hover {
+			border-color: var(--primary);
+		}
 
 		.input {
 			position: absolute;
@@ -24,16 +28,13 @@
 		.icon {
 			width: rem(16);
 			height: rem(16);
-
-			@include icon(var(--dark));
 		}
 	}
 }
 @include dark() {
 	.app-theme-toggle.theme-1 {
-		border-color: var(--dark);
+		background-color: var(--dark);
 		.icon {
-			@include icon(var(--light), var(--light));
 		}
 	}
 }

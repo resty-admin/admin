@@ -1,0 +1,3 @@
+import { ACCOUNTING_SYTEM_DILAOG_I18N_PROVIDER } from "./accounting-system-dialog-i18n.provider";
+
+export const ACCOUNTING_SYSTEMS_DIALOG_PROVIDERS = [ACCOUNTING_SYTEM_DILAOG_I18N_PROVIDER];

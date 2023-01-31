@@ -1,0 +1,19 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.selected-tables-skeleton {
+		display: flex;
+		overflow: auto;
+		column-gap: rem(8);
+		.selected-table {
+			position: relative;
+			display: flex;
+			column-gap: rem(10);
+			border-radius: rem(8);
+			width: rem(140);
+			height: rem(40);
+		}
+	}
+}
+@include dark() {
+}

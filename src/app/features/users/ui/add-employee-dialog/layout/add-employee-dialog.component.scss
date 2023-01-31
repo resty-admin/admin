@@ -1,0 +1,23 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include page() {
+	.add-employee-dialog {
+		display: grid;
+		padding: rem(57) rem(32);
+		row-gap: rem(32);
+
+		.form {
+			display: grid;
+			row-gap: rem(24);
+
+			.or {
+				width: 100%;
+				font-weight: 600;
+				font-size: rem(13);
+				line-height: rem(24);
+				color: var(--dark);
+				padding-left: rem(15);
+			}
+		}
+	}
+}

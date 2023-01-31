@@ -1,14 +1,22 @@
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
-import type { ICommand } from "src/app/shared/interfaces";
-import { CommandsService } from "src/app/shared/modules/commands";
-import type { IAction } from "src/app/shared/ui/actions";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
-import { DialogService } from "src/app/shared/ui/dialog";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { ActivatedRoute } from "@angular/router";
+import { ActionsService } from "@features/app";
+import { CommandDialogComponent } from "@features/commands";
+import { CommandsService } from "@features/commands/services/commands/commands.service";
+import type { CommandEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
+import { lastValueFrom, map } from "rxjs";
 
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { CommandDialogComponent } from "../components";
+import { COMMANDS_PAGE } from "../constants";
+import { CommandsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-commands",
@@ -16,73 +24,128 @@ import { CommandDialogComponent } from "../components";
 	styleUrls: ["./commands.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommandsComponent {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
+export class CommandsComponent implements OnInit, OnDestroy {
+	readonly commandsPage = COMMANDS_PAGE;
+	private readonly _commandsPageQuery = this._commandsPageGQL.watch();
+	readonly commands$ = this._activatedRoute.data.pipe(map((data) => data["commands"]));
 
-	readonly actions: IAction<ICommand>[] = [
+	readonly actions: IAction<CommandEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (command?: ICommand) => this.openCommandDialog(command)
+			func: (command) => this.openUpdateCommandDialog(command)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (command?: ICommand) => {
-				if (!command) {
-					return;
-				}
-
-				this.openCommandDialog(command);
-			}
+			func: (command) => this.openDeleteCommandDialog(command)
 		}
 	];
 
-	readonly commands$ = this._commandsService.commands$;
-
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _routerService: RouterService,
+		private readonly _commandsPageGQL: CommandsPageGQL,
 		private readonly _commandsService: CommandsService,
+		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
-	openCommandDialog(command?: Partial<ICommand>) {
-		this._dialogService
-			.open(CommandDialogComponent, { data: command })
-			.afterClosed$.pipe(
-				take(1),
-				filter((result) => Boolean(result)),
-				switchMap((command: Partial<ICommand>) =>
-					command.id
-						? this._commandsService
-								.updateCommand(command.id, command)
-								.pipe(take(1), this._toastrService.observe("Комманды"))
-						: this._commandsService.createCommand(command).pipe(take(1), this._toastrService.observe("Комманды"))
-				)
-			)
-			.subscribe(async () => {
-				await this._commandsService.refetchCommands();
-			});
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
+
+		this._actionsService.setAction({
+			label: "Добавить команлу",
+			func: () => this.openCreateCommandDialog()
+		});
 	}
 
-	openDeleteCommandDialog(command: Partial<ICommand>) {
-		this._dialogService
-			.open(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить пользователя?",
-					value: command
-				}
-			})
-			.afterClosed$.pipe(
-				take(1),
-				filter((command) => Boolean(command)),
-				switchMap((command) => this._commandsService.deleteCommand(command.id))
-			)
-			.subscribe();
+	async openCreateCommandDialog() {
+		const place = this._routerService.getParams(PLACE_ID.slice(1));
+
+		const command: CommandEntity | undefined = await lastValueFrom(
+			this._dialogService.open(CommandDialogComponent).afterClosed$
+		);
+
+		if (!command) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._commandsService
+				.createCommand({
+					name: command.name,
+					description: command.description,
+					place
+				})
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.commandsPage),
+						this._i18nService.translate("added", {}, this.commandsPage)
+					)
+				)
+		);
+
+		await this._commandsPageQuery.refetch();
+	}
+
+	async openUpdateCommandDialog(data: AtLeast<CommandEntity, "place">) {
+		const command: CommandEntity | undefined = await lastValueFrom(
+			this._dialogService.open(CommandDialogComponent, { data }).afterClosed$
+		);
+
+		if (!command) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._commandsService
+				.updateCommand({
+					id: command.id,
+					name: command.name,
+					description: command.description
+				})
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.commandsPage),
+						this._i18nService.translate("edited", {}, this.commandsPage)
+					)
+				)
+		);
+
+		await this._commandsPageQuery.refetch();
+	}
+
+	async openDeleteCommandDialog(value: AtLeast<CommandEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить команду?", value } };
+
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._commandsService
+				.deleteCommand(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.commandsPage),
+						this._i18nService.translate("deleted", {}, this.commandsPage)
+					)
+				)
+		);
+
+		await this._commandsPageQuery.refetch();
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

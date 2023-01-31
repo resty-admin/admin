@@ -12,14 +12,71 @@
 				font-size: rem(13);
 				line-height: rem(24);
 				background-color: var(--light-grey);
+				border: rem(1) solid transparent;
 				&::placeholder {
 					color: var(--dark-t);
+				}
+				&:focus,
+				&:hover {
+					border-color: var(--primary);
+				}
+			}
+
+			.label {
+				display: block;
+				font-weight: 400;
+				font-size: 11px;
+				line-height: 16px;
+				color: var(--dark-t);
+				margin-bottom: rem(5);
+				margin-left: rem(15);
+
+				@include desktop() {
+					font-size: 13px;
 				}
 			}
 
 			@include desktop() {
 				.input {
 					font-size: rem(16);
+				}
+			}
+		}
+		&.theme-2 {
+			.input {
+				width: 100%;
+				border-radius: rem(12);
+				padding: rem(12) rem(16);
+				color: var(--dark);
+				font-weight: 400;
+				font-size: rem(13);
+				line-height: rem(24);
+				background-color: var(--light);
+				border: rem(1) solid transparent;
+				&::placeholder {
+					color: var(--dark-t);
+				}
+				&:focus,
+				&:hover {
+					border-color: var(--primary);
+				}
+
+				@include desktop() {
+					font-size: rem(16);
+				}
+			}
+
+			.label {
+				display: block;
+				font-weight: 400;
+				font-size: 11px;
+				line-height: 16px;
+				color: var(--dark-t);
+				margin-bottom: rem(5);
+				margin-left: rem(15);
+
+				@include desktop() {
+					font-size: 13px;
 				}
 			}
 		}
@@ -35,6 +92,34 @@
 				&::placeholder {
 					color: var(--light-t);
 				}
+
+				&:hover,
+				&:focus {
+					border-color: var(--primary);
+				}
+			}
+
+			.label {
+				color: var(--light-t);
+			}
+		}
+		&.theme-2 {
+			.input {
+				background-color: var(--dark);
+				color: var(--light);
+
+				&::placeholder {
+					color: var(--light-t);
+				}
+
+				&:hover,
+				&:focus {
+					border-color: var(--primary);
+				}
+			}
+
+			.label {
+				color: var(--light-t);
 			}
 		}
 	}

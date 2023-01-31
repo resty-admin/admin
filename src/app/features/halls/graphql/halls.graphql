@@ -1,0 +1,15 @@
+mutation CreateHall($hall: CreateHallInput!) {
+	createHall(hall: $hall) {
+		id
+	}
+}
+
+mutation UpdateHall($hall: UpdateHallInput!) {
+	updateHall(hall: $hall) {
+		id
+	}
+}
+
+mutation DeleteHall($hallId: String!) {
+	deleteHall(hallId: $hallId)
+}

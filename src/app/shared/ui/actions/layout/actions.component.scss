@@ -21,14 +21,11 @@
 				.icon {
 					widows: rem(12);
 					height: rem(12);
-
-					@include icon(var(--dark), var(--dark));
 				}
 				&:hover {
 					backdrop-filter: blur(2px);
 					background-color: var(--primary);
 					.icon {
-						@include icon(var(--dark), var(--dark));
 					}
 				}
 			}
@@ -41,7 +38,6 @@
 			color: var(--light);
 		}
 		.icon {
-			@include icon(var(--light), var(--light));
 		}
 	}
 }

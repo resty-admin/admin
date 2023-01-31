@@ -55,8 +55,6 @@
 		.close .icon {
 			width: rem(12);
 			height: rem(12);
-
-			@include icon(var(--dark), var(--dark));
 		}
 	}
 }
@@ -73,7 +71,6 @@
 			color: var(--light);
 		}
 		.close .icon {
-			@include icon(var(--light), var(--light));
 		}
 	}
 }

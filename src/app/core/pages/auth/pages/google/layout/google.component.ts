@@ -1,4 +1,9 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AuthService } from "@features/auth/services";
+import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import { lastValueFrom } from "rxjs";
 
 @Component({
 	selector: "app-google",
@@ -6,4 +11,14 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 	styleUrls: ["./google.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GoogleComponent {}
+export class GoogleComponent implements OnInit {
+	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
+
+	async ngOnInit() {
+		const googleUser = this._routerService.getParams();
+
+		await lastValueFrom(this._authService.google(googleUser));
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
+	}
+}

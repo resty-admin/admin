@@ -1,5 +1,0 @@
-export enum ModelTypeEnum {
-	BACKGROUND = "BACKGROUND",
-	TABLE = "TABLE",
-	DECORATION = "DECORATION"
-}

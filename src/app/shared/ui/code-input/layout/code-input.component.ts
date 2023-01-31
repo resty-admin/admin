@@ -1,7 +1,9 @@
+import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { ControlValueAccessor } from "src/app/shared/classes";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import { getControlValueAccessorProviders } from "src/app/shared/functions";
+import { ControlValueAccessor } from "@shared/classes";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import { getControlValueAccessorProviders } from "@shared/functions";
+import type { ISimpleChanges } from "@shared/interfaces";
 
 import { ICodeInputTheme } from "../interfaces";
 
@@ -12,7 +14,7 @@ import { ICodeInputTheme } from "../interfaces";
 	providers: getControlValueAccessorProviders(CodeInputComponent),
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CodeInputComponent extends ControlValueAccessor<number> {
+export class CodeInputComponent extends ControlValueAccessor<number> implements OnChanges {
 	@Output() codeChanged = new EventEmitter<number>();
 	@Output() codeCompleted = new EventEmitter<number>();
 
@@ -29,8 +31,14 @@ export class CodeInputComponent extends ControlValueAccessor<number> {
 	@Input() autocapitalize = "";
 	@Input() codeLength = 4;
 
-	get className() {
-		return `app-code-input ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+	className = `app-code-input ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+
+	override ngOnChanges(changes: ISimpleChanges<CodeInputComponent>) {
+		if (changes.theme) {
+			this.className = `app-code-input ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
+		}
+
+		super.ngOnChanges(changes);
 	}
 
 	emitCodeChange(code: string) {

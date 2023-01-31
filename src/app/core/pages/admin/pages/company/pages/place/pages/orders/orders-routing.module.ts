@@ -1,18 +1,22 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { ADMIN_ROUTES } from "@shared/constants";
 
-import { ADMIN_ROUTES } from "../../../../../../../../../shared/routes";
+import { ORDERS_PAGE } from "./constants";
 import { OrdersComponent } from "./layout/orders.component";
 
 export const ORDERS_ROUTES: Route[] = [
 	{
 		path: "",
 		component: OrdersComponent,
+		data: {
+			animation: ORDERS_PAGE
+		},
 		children: [
 			{
-				...ADMIN_ROUTES.ALL_ORDERS,
-				loadChildren: () => import("./pages/all-orders/all-orders.module").then((m) => m.AllOrdersModule)
+				...ADMIN_ROUTES.HISTORY_ORDERS,
+				loadChildren: () => import("./pages/history-orders/history-orders.module").then((m) => m.HistoryOrdersModule)
 			},
 			{
 				...ADMIN_ROUTES.ACTIVE_ORDERS,

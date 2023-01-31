@@ -1,19 +1,28 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { DirectivesModule } from "src/app/shared/modules/directives";
-import { ActionsModule } from "src/app/shared/ui/actions";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { DatatableModule } from "src/app/shared/ui/datatable";
-import { IconModule } from "src/app/shared/ui/icon";
-import { InputModule } from "src/app/shared/ui/input";
-import { TextareaModule } from "src/app/shared/ui/textarea";
-import { TooltipModule } from "src/app/shared/ui/tooltip";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { CommandModule, CommandSkeletonModule } from "@features/commands";
+import { CommandDialogModule } from "@features/commands/ui";
+import { TranslocoModule } from "@shared/modules/i18n";
+import { ActionsModule } from "@shared/ui/actions";
+import { AddHeaderModule } from "@shared/ui/add-header";
+import { AddHeaderSkeletonModule } from "@shared/ui/add-header-skeleton";
+import { ButtonModule } from "@shared/ui/button";
+import { FiltersModule } from "@shared/ui/filters";
+import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
+import { IconModule } from "@shared/ui/icon";
+import { InputModule } from "@shared/ui/input";
+import { ListModule } from "@shared/ui/list";
+import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TextareaModule } from "@shared/ui/textarea";
+import { TooltipModule } from "@shared/ui/tooltip";
+import { TypographyModule } from "@shared/ui/typography";
 
 import { CommandsRoutingModule } from "./commands-routing.module";
 import { COMMANDS_COMPONENTS } from "./components";
 import { CommandsComponent } from "./layout/commands.component";
+import { COMMANDS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CommandsComponent, ...COMMANDS_COMPONENTS],
@@ -21,16 +30,25 @@ import { CommandsComponent } from "./layout/commands.component";
 		CommonModule,
 		CommandsRoutingModule,
 		InputModule,
-		ReactiveFormsModule,
 		TypographyModule,
-		DatatableModule,
 		ButtonModule,
 		IconModule,
-		TextareaModule,
 		ActionsModule,
 		TooltipModule,
-		DirectivesModule
+		TranslocoModule,
+		AddHeaderModule,
+		FiltersModule,
+		ListModule,
+		TextareaModule,
+		ReactiveFormsModule,
+		CommandDialogModule,
+		CommandModule,
+		SkeletonModule,
+		FiltersSkeletonModule,
+		ListSkeletonModule,
+		AddHeaderSkeletonModule,
+		CommandSkeletonModule
 	],
-	exports: [CommandsComponent]
+	providers: COMMANDS_PROVIDERS
 })
 export class CommandsModule {}

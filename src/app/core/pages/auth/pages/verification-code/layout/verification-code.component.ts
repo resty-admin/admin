@@ -1,16 +1,15 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { take } from "rxjs";
-import { DYNAMIC_TOKEN } from "src/app/shared/constants";
-import type { IVerifyCode } from "src/app/shared/interfaces";
-import { RouterService } from "src/app/shared/modules/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
+import { DYNAMIC_TOKEN } from "@shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import { lastValueFrom } from "rxjs";
 
-import { AuthService } from "../../../services";
+import { VERIFICATION_CODE_PAGE } from "../constants";
+import type { IVerificationCode } from "../interfaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-verification-code",
 	templateUrl: "./verification-code.component.html",
@@ -18,7 +17,8 @@ import { AuthService } from "../../../services";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VerificationCodeComponent implements OnInit {
-	readonly form = this._formBuilder.group<IVerifyCode>({
+	readonly verificationCodePage = VERIFICATION_CODE_PAGE;
+	readonly formGroup = this._formBuilder.group<IVerificationCode>({
 		verificationCode: 0
 	});
 
@@ -28,21 +28,19 @@ export class VerificationCodeComponent implements OnInit {
 		private readonly _routerService: RouterService
 	) {}
 
-	ngOnInit() {
-		this._routerService
-			.selectParams(DYNAMIC_TOKEN)
-			.pipe(untilDestroyed(this))
-			.subscribe((accessToken) => {
-				this._authService.updateAccessToken(accessToken);
-			});
+	async ngOnInit() {
+		const dynamicToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
+
+		if (!dynamicToken) {
+			return;
+		}
+
+		await this._authService.updateAccessToken(dynamicToken);
 	}
 
-	verifyCode(formValue: IVerifyCode) {
-		this._authService
-			.verifyCode(formValue)
-			.pipe(take(1))
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
-			});
+	async verifyCode({ verificationCode }: IVerificationCode) {
+		await lastValueFrom(this._authService.verifyCode(verificationCode));
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 	}
 }

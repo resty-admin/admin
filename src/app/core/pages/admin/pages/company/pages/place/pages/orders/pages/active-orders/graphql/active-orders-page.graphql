@@ -1,0 +1,15 @@
+query ActiveOrdersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	orders(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			code
+			status
+			table {
+				id
+				name
+			}
+		}
+	}
+}

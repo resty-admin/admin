@@ -1,0 +1,56 @@
+<div class="product-dialog" *transloco="let t; read: productDialog">
+	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
+
+	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="f('name_label')"
+			[placeholder]="f('name_placeholder')"
+		></app-input>
+		<app-textarea
+			class="input"
+			formControlName="description"
+			[label]="f('description_label')"
+			[placeholder]="f('description_placeholder')"
+		></app-textarea>
+		<app-input
+			class="input"
+			formControlName="price"
+			returnType="float"
+			[label]="f('price_label')"
+			[placeholder]="f('price_placeholder')"
+		></app-input>
+		<app-file
+			class="input"
+			formControlName="file"
+			[label]="f('file_label')"
+			[placeholder]="f('file_placeholder')"
+		></app-file>
+		<app-select
+			class="input"
+			bindLabel="name"
+			bindValue="id"
+			formControlName="category"
+			[label]="f('category_label')"
+			[placeholder]="f('category_placeholder')"
+			[options]="categories$ | async"
+			[searchable]="true"
+			[addTag]="addCategoryTag"
+		></app-select>
+		<app-select
+			class="input"
+			bindLabel="name"
+			bindValue="id"
+			formControlName="attrsGroups"
+			[label]="f('attribute_groups_label')"
+			[placeholder]="f('attribute_groups_placeholder')"
+			[options]="attributeGroups$ | async"
+			[multiple]="true"
+			[searchable]="true"
+			[addTag]="addAttributeGroupTag"
+		></app-select>
+
+		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
+	</form>
+</div>

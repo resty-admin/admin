@@ -1,16 +1,17 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import type { IAuthType } from "@features/auth/interfaces";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { take } from "rxjs";
-import type { ISignIn } from "src/app/shared/interfaces";
-import { RouterService } from "src/app/shared/modules/router";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { FORM } from "@shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
+import { lastValueFrom } from "rxjs";
 
-import type { IAuthType } from "../../../interfaces";
-import { AuthService } from "../../../services";
-import { AUTH_TYPES } from "../../../utils";
+import { AUTH_TYPES } from "../../../data";
+import { SIGN_IN_PAGE } from "../constants";
+import type { ISignIn } from "../interfaces";
 
 @UntilDestroy()
 @Component({
@@ -20,11 +21,13 @@ import { AUTH_TYPES } from "../../../utils";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignInComponent implements OnInit {
+	readonly signInPage = SIGN_IN_PAGE;
+	readonly form = FORM;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group({
+	readonly formGroup = this._formBuilder.group<ISignIn>({
 		email: "",
 		tel: "",
 		password: ""
@@ -33,25 +36,21 @@ export class SignInComponent implements OnInit {
 	constructor(
 		private readonly _routerService: RouterService,
 		private readonly _formBuilder: FormBuilder,
-		private readonly _authService: AuthService,
-		private readonly _toastrService: ToastrService
+		private readonly _authService: AuthService
 	) {}
 
 	ngOnInit() {
 		this.typeControl.valueChanges.pipe(untilDestroyed(this)).subscribe((type) => {
-			this.form.get("email").disable();
-			this.form.get("tel").disable();
+			this.formGroup.get("email").disable();
+			this.formGroup.get("tel").disable();
 
-			this.form.get(type).enable();
+			this.formGroup.get(type).enable();
 		});
 	}
 
-	signIn(formValue: ISignIn) {
-		this._authService
-			.signIn(formValue)
-			.pipe(take(1), this._toastrService.observe("Вход", "Вы успешно вошли"))
-			.subscribe(async () => {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
-			});
+	async signIn(body: ISignIn) {
+		await lastValueFrom(this._authService.signIn(body));
+
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 	}
 }

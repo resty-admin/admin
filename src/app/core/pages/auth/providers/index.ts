@@ -1,3 +1,3 @@
-import { AUTH_INITIALIZER } from "./auth-initializer.provider";
+import { AUTH_I18N_PROVIDER } from "./auth-i18n.provider";
 
-export const AUTH_PROVIDERS = [AUTH_INITIALIZER];
+export const AUTH_PROVIDERS = [AUTH_I18N_PROVIDER];

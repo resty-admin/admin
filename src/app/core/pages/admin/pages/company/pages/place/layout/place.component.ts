@@ -1,39 +1,18 @@
-import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { switchMap, take, tap } from "rxjs";
+import { ChildrenOutletContexts } from "@angular/router";
+import { routerAnimation } from "@shared/animations";
 
-import { PLACE_ID } from "../../../../../../../../shared/constants";
-import { PlacesService } from "../../../../../../../../shared/modules/places";
-import { AsideService } from "../../../../../services/aside/aside.service";
-
-@UntilDestroy()
 @Component({
 	selector: "app-place",
 	templateUrl: "./place.component.html",
 	styleUrls: ["./place.component.scss"],
+	animations: [routerAnimation],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlaceComponent implements OnInit {
-	constructor(
-		private readonly _placesService: PlacesService,
-		private readonly _asideService: AsideService,
-		private readonly _activatedRoute: ActivatedRoute
-	) {}
+export class PlaceComponent {
+	constructor(private readonly _childrenOutletContexts: ChildrenOutletContexts) {}
 
-	ngOnInit() {
-		this._activatedRoute.paramMap
-			.pipe(
-				untilDestroyed(this),
-				tap((paramMap) => {
-					this._asideService.activePlaceIdSubject.next(paramMap.get(PLACE_ID.slice(1)) || "");
-				}),
-				switchMap(() => this._placesService.places$),
-				take(1)
-			)
-			.subscribe((places) => {
-				this._asideService.placesBehaviourSubject.next(places);
-			});
+	getRouteAnimationData() {
+		return this._childrenOutletContexts.getContext("primary")?.route?.snapshot?.data?.["animation"];
 	}
 }

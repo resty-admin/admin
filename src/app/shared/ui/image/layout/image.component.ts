@@ -1,8 +1,8 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional } from "@angular/core";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 import { BehaviorSubject, map, of, switchMap } from "rxjs";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import type { ISimpleChanges } from "src/app/shared/interfaces";
 
 import { IMAGE_CONFIG } from "../injection-tokens";
 import { IImageConfig, IImageTheme } from "../interfaces";
@@ -14,7 +14,7 @@ import { IImageConfig, IImageTheme } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageComponent implements OnChanges {
-	@Input() name = "";
+	@Input() name? = "";
 	@Input() theme: IImageTheme = "1";
 	@Input() format: "png" | "svg" = "png";
 	@Input() remote = false;
@@ -37,17 +37,17 @@ export class ImageComponent implements OnChanges {
 		map((theme) => `${this._imageConfig.localAssetsUrl}/${theme}/${this.placeholder}.${this.format}`)
 	);
 
+	className = `app-image ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+
 	constructor(@Optional() @Inject(IMAGE_CONFIG) private readonly _imageConfig: IImageConfig) {}
 
 	ngOnChanges(changes: ISimpleChanges<ImageComponent>) {
-		if (!changes.remote) {
-			return;
+		if (changes.theme) {
+			this.className = `app-image ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
 		}
 
-		this.remoteSubject.next(changes.remote.currentValue);
-	}
-
-	get className() {
-		return `app-image ${THEME.replace(ANY_SYMBOL, this.theme)}`;
+		if (changes.remote) {
+			this.remoteSubject.next(changes.remote.currentValue);
+		}
 	}
 }

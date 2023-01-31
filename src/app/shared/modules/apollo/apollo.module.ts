@@ -13,7 +13,7 @@ export class ApolloModule {
 	static forRoot(config: IApolloConfig): ModuleWithProviders<ApolloModule> {
 		return {
 			ngModule: ApolloModule,
-			providers: [getApolloProvider(config.url)]
+			providers: [getApolloProvider(config.url, config.production)]
 		};
 	}
 }

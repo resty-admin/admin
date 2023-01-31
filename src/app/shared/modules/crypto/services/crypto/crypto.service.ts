@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { CryptoJs } from "src/app/shared/classes";
+import { CryptoJs } from "@shared/classes";
 
 import { CRYPTO_CONFIG } from "../../injection-tokens";
 import { ICryptoConfig } from "../../interfaces";

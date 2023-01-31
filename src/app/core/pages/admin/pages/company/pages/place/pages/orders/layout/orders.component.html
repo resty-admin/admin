@@ -1,18 +1,9 @@
-<div class="orders-page">
-	<h1 appTypography theme="1" class="title">Заказы</h1>
+<div class="orders-page" *transloco="let t; read: ordersPage">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<button appButton theme="1" class="add" (click)="openOrderDialog()">
-		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить Заказ</span>
-	</button>
+	<app-tabs class="tabs" [tabs]="pages"></app-tabs>
 
-	<ul class="links">
-		<li class="link-item" *ngFor="let page of pages">
-			<a class="link" [routerLink]="page.routerLink" routerLinkActive="active">{{ page.label }}</a>
-		</li>
-	</ul>
-
-	<div class="pages">
+	<div class="pages" [@routeAnimations]="getRouteAnimationData()">
 		<router-outlet></router-outlet>
 	</div>
 </div>

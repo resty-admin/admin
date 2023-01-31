@@ -1,5 +1,5 @@
 <ul [class]="className">
-	<li class="option" *ngFor="let option of options; let i = index; trackBy: trackByFn">
+	<li class="option" *ngFor="let option of options; let i = index; trackBy: sharedService.trackByFn">
 		<input class="input" type="radio" [formControl]="formControl" [value]="option.value" [id]="id + i" />
 		<div class="decoration"></div>
 		<label class="label" [for]="id + i">{{ option.label }}</label>

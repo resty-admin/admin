@@ -1,0 +1,17 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.payment-systems-skeleton {
+		display: grid;
+		row-gap: rem(16);
+
+		@include pagePadding();
+		@include desktop() {
+			row-gap: rem(32);
+		}
+	}
+
+	.button {
+		width: 100%;
+	}
+}

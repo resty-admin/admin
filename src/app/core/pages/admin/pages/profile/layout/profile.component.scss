@@ -5,8 +5,20 @@
 		display: grid;
 		row-gap: rem(16);
 
+		@include pagePadding();
 		@include desktop() {
 			row-gap: rem(32);
+		}
+
+		.header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.tools {
+				display: flex;
+				align-items: center;
+				column-gap: rem(15);
+			}
 		}
 
 		.info {
@@ -23,25 +35,32 @@
 				font-weight: 500;
 				font-size: rem(13);
 				line-height: rem(16);
-				color: var(--primary-hover);
+				color: var(--primary);
 			}
 		}
 
 		.form {
 			display: grid;
-			padding: rem(20) rem(16) rem(0);
+			padding: rem(20) rem(20) rem(0) rem(20);
 			background-color: var(--light-grey);
 			border-radius: rem(16);
 			row-gap: rem(12);
+			grid-template-areas:
+				"name"
+				"email"
+				"tel"
+				"role"
+				"submit"
+				"image";
 
 			@include desktop() {
 				grid-template-areas:
-					"name email image"
-					"tel role image"
-					"submit . image";
-				grid-template-columns: 1fr 1fr auto;
-				padding-right: 0;
+					"image name tel"
+					"image email email"
+					"image . submit";
+				grid-template-columns: auto 1fr 1fr;
 				column-gap: rem(24);
+				padding: rem(20) rem(20) rem(0) rem(0);
 			}
 
 			.name {
@@ -59,15 +78,36 @@
 			.submit {
 				grid-area: submit;
 				align-self: start;
-				justify-self: start;
+				justify-self: end;
+				width: 100%;
+
+				@include hideOnMobile();
+				@include desktop() {
+					width: auto;
+				}
 			}
 			.image {
-				height: rem(140);
 				grid-area: image;
 				align-self: end;
+				justify-self: start;
+				margin-top: rem(12);
+				height: rem(150);
+				margin-left: rem(-20);
+				width: rem(155);
 
+				@include image() {
+					border-bottom-left-radius: rem(16);
+					object-fit: contain;
+				}
 				@include desktop() {
-					height: rem(240);
+					width: rem(229);
+					height: auto;
+					grid-area: image;
+					margin-left: 0;
+
+					@include image() {
+						object-fit: cover;
+					}
 				}
 			}
 			.submit {
@@ -87,9 +127,10 @@
 			line-height: rem(16);
 			text-decoration-line: underline;
 			color: #393939;
-			text-align: left;
+			text-align: center;
 
 			@include desktop() {
+				text-align: left;
 				font-size: rem(13);
 			}
 		}

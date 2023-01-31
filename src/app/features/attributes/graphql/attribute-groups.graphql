@@ -1,0 +1,21 @@
+mutation CreateAttrGroup($attrGroup: CreateAttributeGroupInput!) {
+	createAttrGroup(attrGroup: $attrGroup) {
+		id
+		type
+		maxItemsForPick
+		name
+	}
+}
+
+mutation UpdateAttrGroup($attrGroup: UpdateAttributeGroupInput!) {
+	updateAttrGroup(attrGroup: $attrGroup) {
+		id
+		type
+		maxItemsForPick
+		name
+	}
+}
+
+mutation DeleteAttrGroup($attrGroupId: String!) {
+	deleteAttrGroup(attrGroupId: $attrGroupId)
+}

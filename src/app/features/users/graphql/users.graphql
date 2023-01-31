@@ -1,0 +1,21 @@
+mutation CreateUser($user: CreateUserInput!) {
+	createUser(user: $user) {
+		id
+	}
+}
+
+mutation UpdateUser($user: UpdateUserInput!) {
+	updateUser(user: $user) {
+		id
+	}
+}
+
+mutation DeleteUser($userId: String!) {
+	deleteUser(userId: $userId)
+}
+
+mutation AddEmployeeToPlace($employeeData: AddEmployeeInput!) {
+	addEmployeeToPlace(employeeData: $employeeData) {
+		id
+	}
+}

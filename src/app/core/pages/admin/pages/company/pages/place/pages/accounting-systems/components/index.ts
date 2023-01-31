@@ -1,5 +1,5 @@
-import { AccountingSystemDialogComponent } from "./accounting-system-dialog/accounting-system-dialog.component";
+import { AccountingSystemsSkeletonComponent } from "./accounting-systems-skeleton/accounting-systems-skeleton.component";
 
-export const ACCONTING_SYSTEMS_COMPONENTS = [AccountingSystemDialogComponent];
+export const ACCOUNTING_SYSTEMS_COMPONENTS = [AccountingSystemsSkeletonComponent];
 
-export * from "./accounting-system-dialog/accounting-system-dialog.component";
+export * from "./accounting-systems-skeleton/accounting-systems-skeleton.component";

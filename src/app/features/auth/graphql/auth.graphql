@@ -1,0 +1,55 @@
+mutation SignIn($body: SignInInput!) {
+	signIn(body: $body) {
+		accessToken
+	}
+}
+
+mutation SignUp($body: SignUpInput!) {
+	signUp(body: $body) {
+		accessToken
+	}
+}
+
+mutation Telegram($telegramUser: TelegramUserInput!) {
+	telegram(telegramUser: $telegramUser) {
+		accessToken
+	}
+}
+
+mutation Google($telegramUser: TelegramUserInput!) {
+	telegram(telegramUser: $telegramUser) {
+		accessToken
+	}
+}
+
+mutation VerifyCode($code: Int!) {
+	verifyCode(code: $code) {
+		accessToken
+	}
+}
+
+mutation ResetPassword($body: ResetPasswordInput!) {
+	resetPassword(body: $body) {
+		accessToken
+	}
+}
+
+mutation ForgotPassword($body: ForgotPasswordInput!) {
+	forgotPassword(body: $body)
+}
+
+query GetMe {
+	getMe {
+		accessToken
+	}
+}
+
+mutation UpdateMe($user: UpdateMeInput!) {
+	updateMe(user: $user) {
+		id
+	}
+}
+
+mutation DeleteMe {
+	deleteMe
+}

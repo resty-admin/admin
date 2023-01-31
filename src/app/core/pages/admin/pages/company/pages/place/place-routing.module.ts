@@ -1,18 +1,22 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { ADMIN_ROUTES as SHARED_ADMIN_ROUTES } from "src/app/shared/routes";
+import { ADMIN_ROUTES as SHARED_ADMIN_ROUTES } from "@shared/constants";
 
+import { PLACE_PAGE } from "./constants";
 import { PlaceComponent } from "./layout/place.component";
 
 export const PLACE_ROUTES: Route[] = [
 	{
 		path: "",
 		component: PlaceComponent,
+		data: {
+			animation: PLACE_PAGE
+		},
 		children: [
 			{
-				...SHARED_ADMIN_ROUTES.DASHBOARD,
-				loadChildren: () => import("./pages/dashboard/dashboard.module").then((m) => m.DashboardModule)
+				...SHARED_ADMIN_ROUTES.STATISTIC,
+				loadChildren: () => import("./pages/statistic/statistic.module").then((m) => m.StatisticModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.SHIFT,
@@ -52,8 +56,12 @@ export const PLACE_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/orders/orders.module").then((m) => m.OrdersModule)
 			},
 			{
-				...SHARED_ADMIN_ROUTES.ORDER,
-				loadChildren: () => import("./pages/orders/orders.module").then((m) => m.OrdersModule)
+				...SHARED_ADMIN_ROUTES.ACTIVE_ORDER,
+				loadChildren: () => import("./pages/active-order/active-order.module").then((m) => m.ActiveOrderModule)
+			},
+			{
+				...SHARED_ADMIN_ROUTES.HISTORY_ORDER,
+				loadChildren: () => import("./pages/history-order/history-order.module").then((m) => m.HistoryOrderModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.ACCOUNTING_SYSTEMS,
@@ -70,7 +78,7 @@ export const PLACE_ROUTES: Route[] = [
 			},
 			{
 				path: "**",
-				redirectTo: SHARED_ADMIN_ROUTES.DASHBOARD.path
+				redirectTo: SHARED_ADMIN_ROUTES.STATISTIC.path
 			}
 		]
 	}

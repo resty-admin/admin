@@ -1,34 +1,16 @@
-<div class="commands-page">
-	<h1 appTypography theme="1" class="title">Команды</h1>
+<div class="commands-page" *transloco="let t; read: commandsPage">
+	<app-add-header
+		class="add-header"
+		[title]="t('title')"
+		[add]="t('add')"
+		(clicked)="openCreateCommandDialog()"
+	></app-add-header>
 
-	<button appButton class="add" (click)="openCommandDialog()">
-		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить</span>
-	</button>
+	<app-filters class="filters"></app-filters>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
-
-	<ul class="commands">
-		<li class="command" *ngFor="let command of commands$ | async">
-			<p class="label">{{ command.name }}</p>
-
-			<button
-				appIconButton
-				class="more"
-				[tippy]="actionsTemplate"
-				[data]="command"
-				placement="left"
-				variation="popper"
-				theme="1"
-			>
-				<app-icon class="icon" name="more"></app-icon>
-			</button>
-
-			<p class="description">{{ command.description }}</p>
-		</li>
-	</ul>
+	<app-list class="list" [items]="commands$ | async" [itemTemplate]="commandTemplate"></app-list>
 </div>
 
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+<ng-template let-item #commandTemplate>
+	<app-command [command]="item" [actions]="actions"></app-command>
 </ng-template>

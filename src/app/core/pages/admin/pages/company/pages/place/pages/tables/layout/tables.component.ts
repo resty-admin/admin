@@ -1,22 +1,22 @@
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { filter, from, switchMap, take } from "rxjs";
-import type { ITable } from "src/app/shared/interfaces";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
-import { DialogService } from "src/app/shared/ui/dialog";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { ActivatedRoute } from "@angular/router";
+import { ActionsService } from "@features/app";
+import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "@features/tables";
+import type { TableEntity } from "@graphql";
+import { ADMIN_ROUTES, COMPANY_ID, HALL_ID, PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { I18nService } from "@shared/modules/i18n";
+import { RouterService } from "@shared/modules/router";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
+import { lastValueFrom, map } from "rxjs";
 
-import { DYNAMIC_ID } from "../../../../../../../../../../shared/constants";
-import { RouterService } from "../../../../../../../../../../shared/modules/router";
-import { TablesService } from "../../../../../../../../../../shared/modules/tables";
-import type { IAction } from "../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../shared/ui/confirmation-dialog";
-import { TableDialogComponent } from "../components";
-
-export type IResponse<T extends string> = {
-	[K in T]: {
-		data: ITable[];
-	};
-};
+import { TABLES_PAGE } from "../constants";
+import { TablesPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-tables",
@@ -24,76 +24,133 @@ export type IResponse<T extends string> = {
 	styleUrls: ["./tables.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TablesComponent {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
+export class TablesComponent implements OnInit, OnDestroy {
+	readonly tablesPage = TABLES_PAGE;
+	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
+	readonly tables$ = this._activatedRoute.data.pipe(map((data) => data["tables"]));
 
-	readonly tables$ = this._tablesService.tables$;
-
-	readonly actions: IAction<ITable>[] = [
+	readonly actions: IAction<TableEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (table?: ITable) => this.openTableDialog(table)
+			func: (table) => this.openUpdateTableDialog(table)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (table?: ITable) => {
-				if (!table) {
-					return;
-				}
-
-				this.openDeleteTableDialog(table);
-			}
+			func: (table) => this.openDeleteTableDialog(table)
 		}
 	];
 
 	constructor(
+		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _tablesPageGQL: TablesPageGQL,
 		private readonly _tablesService: TablesService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _actionsService: ActionsService,
+		private readonly _breadcrumbsService: BreadcrumbsService,
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
-	openTableDialog(table?: Partial<ITable>) {
-		this._dialogService
-			.open(TableDialogComponent, { data: table })
-			.afterClosed$.pipe(
-				take(1),
-				filter((result) => Boolean(result)),
-				switchMap((table: Partial<ITable>) =>
-					table.id
-						? this._tablesService.updateTable(table.id, table).pipe(take(1), this._toastrService.observe("Столы"))
-						: this._tablesService
-								.createTable({
-									...table,
-									hall: this._routerService.getParams(DYNAMIC_ID.slice(1))
-								} as unknown as any)
-								.pipe(take(1), this._toastrService.observe("Столы"))
-				),
-				switchMap(() => from(this._tablesService.refetchTables()))
-			)
-			.subscribe();
+	async ngOnInit() {
+		const { companyId, placeId, hallId } = this._routerService.getParams();
+
+		if (!companyId || !placeId || !hallId) {
+			return;
+		}
+
+		this._breadcrumbsService.setBreadcrumb({
+			routerLink: ADMIN_ROUTES.HALLS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+		});
+
+		this._actionsService.setAction({ label: "Добавить стол", func: () => this.openCreateTableDialog() });
+
+		await this._tablesPageQuery.setVariables({ filtersArgs: [{ key: "hall.id", operator: "=", value: hallId }] });
 	}
 
-	openDeleteTableDialog(table: Partial<ITable>) {
-		this._dialogService
-			.open(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить зал?",
-					value: table
-				}
-			})
-			.afterClosed$.pipe(
-				take(1),
-				filter((table) => Boolean(table)),
-				switchMap((table) => this._tablesService.deleteTable(table.id))
-			)
-			.subscribe();
+	async openTableQrCodeDialog(data: TableEntity) {
+		await lastValueFrom(this._dialogService.open(TableQrCodeDialogComponent, { data }).afterClosed$);
+	}
+
+	async openCreateTableDialog() {
+		const hall = this._routerService.getParams(HALL_ID.slice(1));
+
+		if (!hall) {
+			return;
+		}
+
+		const table: TableEntity | undefined = await lastValueFrom(
+			this._dialogService.open(TableDialogComponent).afterClosed$
+		);
+
+		if (!table) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._tablesService
+				.createTable({ name: table.name, hall, file: table.file?.id, code: table.code })
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.tablesPage),
+						this._i18nService.translate("created", {}, this.tablesPage)
+					)
+				)
+		);
+
+		await this._tablesPageQuery.refetch();
+	}
+
+	async openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {
+		const table: TableEntity | undefined = await lastValueFrom(
+			this._dialogService.open(TableDialogComponent, { data }).afterClosed$
+		);
+
+		if (!table) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._tablesService
+				.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.tablesPage),
+						this._i18nService.translate("updated", {}, this.tablesPage)
+					)
+				)
+		);
+
+		await this._tablesPageQuery.refetch();
+	}
+
+	async openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
+		const config = { data: { title: this._i18nService.translate("confirm", {}, this.tablesPage), value } };
+
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._tablesService
+				.deleteTable(value.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.tablesPage),
+						this._i18nService.translate("deleted", {}, this.tablesPage)
+					)
+				)
+		);
+
+		await this._tablesPageQuery.refetch();
+	}
+
+	ngOnDestroy() {
+		this._breadcrumbsService.setBreadcrumb(null);
+		this._actionsService.setAction(null);
 	}
 }

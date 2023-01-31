@@ -1,0 +1,33 @@
+<ul class="products-to-order-select" *transloco="let t; read: productsToOrderSelect">
+	<li
+		class="products-to-orders-by-status"
+		*ngFor="
+			let productToOrderWithSelectedByStatus of productsToOrdersWithSelectedByStatus;
+			trackBy: sharedService.trackByFn
+		"
+	>
+		<p class="status">{{ t(productToOrderWithSelectedByStatus.status) }}</p>
+		<ul class="products-to-orders">
+			<li
+				class="product-to-order"
+				*ngFor="
+					let productToOrder of productToOrderWithSelectedByStatus.productsToOrders;
+					let i = index;
+					trackBy: sharedService.trackByFn
+				"
+			>
+				<input
+					class="checkbox"
+					type="checkbox"
+					[id]="'productToOrder_' + productToOrder.id"
+					[name]="'productToOrder_' + productToOrder.id"
+					[value]="productToOrder.id"
+					[(ngModel)]="productToOrder.selected"
+					(change)="emitChange()"
+					*ngIf="productToOrder.paidStatus === 'NOT_PAID'"
+				/>
+				<app-product-to-order class="product" [productToOrder]="productToOrder"></app-product-to-order>
+			</li>
+		</ul>
+	</li>
+</ul>

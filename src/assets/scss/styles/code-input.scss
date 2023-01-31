@@ -15,7 +15,8 @@ body {
 					width: rem(72);
 					height: rem(72);
 					border-radius: rem(12);
-					background-color: #f8f8f8;
+					background-color: var(--light-grey);
+					color: var(--dark);
 					&:disabled {
 						border-color: var(--light-disable);
 						color: var(--light-disable);
@@ -35,7 +36,11 @@ body {
 
 	&.dark .app-code-input {
 		&.theme-1 span input {
-			background-color: #2b2c2b;
+			background-color: var(--dark-grey);
+			color: var(--light);
+			&.has-value {
+				color: var(--primary);
+			}
 			&:disabled {
 				border-color: var(--light-disable);
 				color: var(--light-disable);

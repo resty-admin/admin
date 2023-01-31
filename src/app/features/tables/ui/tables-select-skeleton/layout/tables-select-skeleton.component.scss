@@ -1,0 +1,39 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.tables-select-skeleton .tables {
+		display: grid;
+		gap: rem(8);
+
+		@include desktop() {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+		.table {
+			display: block;
+			background-color: var(--light-grey);
+			border-radius: rem(20);
+			border: rem(1) solid transparent;
+			width: rem(240);
+			height: rem(214);
+
+			.image {
+				height: rem(160);
+				width: 100%;
+
+				@include image() {
+					border-radius: rem(20);
+				}
+			}
+
+			.container {
+				padding: rem(14) rem(15);
+				display: flex;
+				justify-content: space-between;
+				.text {
+					height: rem(24);
+					width: rem(100);
+				}
+			}
+		}
+	}
+}

@@ -1,47 +1,31 @@
-<div class="shift-page">
-	<h1 appTypography theme="1" class="title">Смена</h1>
+<div class="shift" *transloco="let t; read: shiftPage">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<p class="description">
-		Смена завершится через
-		<br />
-		<span class="time">12ч 34м</span>
-	</p>
+	<button *ngIf="shiftId" appButton theme="2" class="close" (click)="closeShift(shiftId)">
+		<app-icon class="icon" name="close"></app-icon>
+		<span class="text">{{ t("close") }}</span>
+	</button>
 
-	<h2 appTypography theme="3" class="subtitle">Выберите столы, чтобы открыть смену</h2>
+	<h2 appTypography theme="4" class="subtitle">{{ t("subtitle") }}</h2>
 
-	<ul class="halls">
-		<li class="hall">
-			<button class="button">Все</button>
-		</li>
-		<li class="hall" *ngFor="let hall of halls$ | async">
-			<button class="button">
-				{{ hall.name }}
-			</button>
-		</li>
-	</ul>
+	<app-halls-select
+		class="halls"
+		[halls]="halls$ | async"
+		[(selectedHalls)]="selectedHalls"
+		(selectedHallsChange)="setSelectedHalls($event)"
+	></app-halls-select>
 
-	<ul class="tables">
-		<li class="table" *ngFor="let table of tables$ | async">
-			<button class="button">
-				<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
-				<div class="content">
-					<span class="text">{{ table.name }}</span>
-					<div class="circle"></div>
-				</div>
-			</button>
-		</li>
-	</ul>
+	<app-tables-select
+		class="tables-select"
+		[tables]="tables$ | async"
+		[(selectedTables)]="selectedTables"
+	></app-tables-select>
 
 	<footer class="footer">
-		<ul class="selected-tables">
-			<li class="selected-table" *ngFor="let selectedTable of selectedTables">
-				<span class="label">{{ selectedTable.hall }}</span>
-				<button class="button">
-					<app-icon class="icon" name="close"></app-icon>
-				</button>
-			</li>
-		</ul>
+		<app-selected-tables class="selected-tables" [(selectedTables)]="selectedTables"></app-selected-tables>
 
-		<button class="submit">Подтвердить {{ selectedTables.length }} стола</button>
+		<button appButton theme="1" (click)="shiftId ? updateShift(shiftId, selectedTables) : createShift(selectedTables)">
+			{{ t(shiftId ? "edit" : "create") }}
+		</button>
 	</footer>
 </div>

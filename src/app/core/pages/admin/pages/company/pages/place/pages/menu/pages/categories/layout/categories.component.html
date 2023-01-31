@@ -1,24 +1,20 @@
-<div class="categories-page">
-	<button appButton class="add" (click)="openCategoryDialog()">
+<div class="categories-page" *transloco="let t; read: categoriesPage">
+	<button appButton class="add" (click)="openCreateCategoryDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить категорию</span>
+		<span class="text">{{ t("add") }}</span>
 	</button>
 
-	<app-input class="search"></app-input>
-
-	<button class="filters">
-		<app-icon class="icon" name="filters"></app-icon>
-	</button>
+	<app-filters class="filters"></app-filters>
 
 	<ul class="categories">
-		<li class="category" *ngFor="let category of categories$ | async">
+		<li class="category" *ngFor="let category of categories$ | async; trackBy: sharedService.trackByFn">
 			<div class="header">
 				<h1 class="label">{{ category.name }}</h1>
 
 				<button
 					class="more"
 					appIconButton
-					[tippy]="actionsTemplate"
+					[tippy]="categoryActionsTemplate"
 					[data]="category"
 					placement="left"
 					variation="popper"
@@ -29,19 +25,34 @@
 			</div>
 
 			<ul class="products">
-				<li class="product" *ngFor="let product of category.products">
-					<p class="name-label">Название</p>
+				<li class="product" *ngFor="let product of category.products; trackBy: sharedService.trackByFn">
+					<p class="name-label">{{ t("name") }}</p>
 					<p class="name-value">{{ product.name }}</p>
-					<p class="description-label">Описание</p>
+					<p class="description-label">{{ t("description") }}</p>
 					<p class="description-value">{{ product.description }}</p>
-					<p class="price-label">Цена</p>
+					<p class="price-label">{{ t("price") }}</p>
 					<p class="price-value">{{ product.price }} грн</p>
+					<button
+						class="more"
+						appIconButton
+						[tippy]="productsActionsTemplate"
+						[data]="product"
+						placement="left"
+						variation="popper"
+						theme="1"
+					>
+						<app-icon class="icon" name="more"></app-icon>
+					</button>
 				</li>
 			</ul>
 		</li>
 	</ul>
 </div>
 
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+<ng-template #categoryActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="categoryActions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>
+
+<ng-template #productsActionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="productActions" [data]="data" [additionalFunc]="hide"></app-actions>
 </ng-template>

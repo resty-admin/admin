@@ -1,0 +1,53 @@
+mutation CreateOrder($order: CreateOrderInput!) {
+	createOrder(order: $order) {
+		id
+	}
+}
+
+mutation UpdateOrder($order: UpdateOrderInput!) {
+	updateOrder(order: $order) {
+		id
+	}
+}
+
+mutation DeleteOrder($orderId: String!) {
+	deleteOrder(orderId: $orderId)
+}
+
+mutation CloseOrder($orderId: String!) {
+	closeOrder(orderId: $orderId)
+}
+
+mutation CancelOrder($orderId: String!) {
+	cancelOrder(orderId: $orderId)
+}
+
+mutation ApproveProductsInOrder($productToOrderIds: [String!]!) {
+	approveProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}
+
+mutation RejectProductsInOrder($productToOrderIds: [String!]!) {
+	rejectProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}
+
+mutation ApproveTableInOrder($orderId: String!) {
+	approveTableInOrder(orderId: $orderId) {
+		id
+	}
+}
+
+mutation RejectTableInOrder($orderId: String!) {
+	rejectTableInOrder(orderId: $orderId) {
+		id
+	}
+}
+
+mutation SetPaidStatusForProductsInOrder($productToOrderIds: [String!]!) {
+	setPaidStatusForProductsInOrder(productToOrderIds: $productToOrderIds) {
+		id
+	}
+}

@@ -1,13 +1,25 @@
 import { NgModule } from "@angular/core";
-import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
+import { CompaniesSkeletonComponent } from "./components";
+import { COMPANIES_PAGE } from "./constants";
 import { CompaniesComponent } from "./layout/companies.component";
+import { CompaniesResolver } from "./resolvers";
 
-export const COMPNAIES_ROUTES: Route[] = [
+export const COMPNAIES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
-		component: CompaniesComponent
+		component: CompaniesComponent,
+		data: {
+			animation: COMPANIES_PAGE
+		},
+		resolve: {
+			companies: CompaniesResolver
+		},
+		skeleton: {
+			component: CompaniesSkeletonComponent
+		}
 	}
 ];
 

@@ -1,15 +1,16 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { ACCESS_TOKEN } from "src/app/shared/constants";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
-
-import { GoogleComponent } from "./layout/google.component";
+import { AUTH_PAGE } from "@core/pages/auth/constants";
+import { ACCESS_TOKEN } from "@shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
 
 export const SIGN_IN_ROUTES: Route[] = [
 	{
 		path: `:${ACCESS_TOKEN}`,
-		component: GoogleComponent
+		data: {
+			animation: AUTH_PAGE
+		}
 	},
 	{
 		path: "",

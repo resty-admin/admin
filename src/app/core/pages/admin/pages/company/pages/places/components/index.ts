@@ -1,5 +1,5 @@
-import { PlaceDialogComponent } from "./place-dialog/place-dialog.component";
+import { PlacesSkeletonComponent } from "./places-skeleton/places-skeleton.component";
 
-export const PLACES_COMPONENTS = [PlaceDialogComponent];
+export const PLACES_COMPONENTS = [PlacesSkeletonComponent];
 
-export * from "./place-dialog/place-dialog.component";
+export * from "./places-skeleton/places-skeleton.component";

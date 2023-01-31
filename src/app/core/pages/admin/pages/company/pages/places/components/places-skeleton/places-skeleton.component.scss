@@ -1,0 +1,58 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.places-page-skeleton {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.image {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 80%;
+		}
+
+		.card {
+			z-index: 1;
+			width: 90%;
+			border-radius: rem(16);
+			padding: rem(39);
+			text-align: center;
+			background-color: var(--light);
+			display: grid;
+			row-gap: rem(30);
+
+			@include desktop() {
+				width: rem(620);
+				padding: rem(82) rem(100);
+			}
+
+			.places {
+				display: flex;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: rem(16);
+
+				.place .link {
+					width: rem(72);
+					height: rem(72);
+					border-radius: rem(16);
+					border: rem(2) solid transparent;
+					background-color: #f3f3f3;
+
+					@include desktop() {
+						width: rem(128);
+						height: rem(128);
+					}
+				}
+			}
+		}
+	}
+}
+@include dark() {
+}

@@ -1,0 +1,19 @@
+query AttributesPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
+	attributeGroups(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
+		page
+		totalCount
+		data {
+			id
+			name
+			maxItemsForPick
+			attributes {
+				id
+				name
+				price
+				attributesGroup {
+					id
+				}
+			}
+		}
+	}
+}

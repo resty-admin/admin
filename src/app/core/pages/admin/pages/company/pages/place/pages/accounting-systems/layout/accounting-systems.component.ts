@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
-import type { IAccountingSystem } from "src/app/shared/interfaces";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
-import { DialogService } from "src/app/shared/ui/dialog";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { ActivatedRoute } from "@angular/router";
+import { AccountingSystemDialogComponent, AccountingSystemsService } from "@features/accounting-systems";
+import type { AccountingSystemEntity } from "@graphql";
+import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
+import { lastValueFrom, map } from "rxjs";
 
-import { AccountingSystemsService } from "../../../../../../../../../../shared/modules/accounting-systems";
-import { AccountingSystemDialogComponent } from "../components";
+import { ACCOUNTING_SYSTEMS_PAGE } from "../constants";
 
 @Component({
 	selector: "app-accounting-systems",
@@ -15,37 +17,39 @@ import { AccountingSystemDialogComponent } from "../components";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemsComponent {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
-
-	readonly accountingSystems$ = this._accountingSystemsService.accountingSystems$;
+	readonly accountingSystemsPage = ACCOUNTING_SYSTEMS_PAGE;
+	readonly accountingSystems$ = this._activatedRoute.data.pipe(map((data) => data["accountingSystems"]));
 
 	constructor(
-		private readonly _accountingSystemsService: AccountingSystemsService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _toastrService: ToastrService,
+		private readonly _accountingSystemsService: AccountingSystemsService,
+		private readonly _i18nService: I18nService
 	) {}
 
-	openAccountingSystemDialog(accountingSystem?: Partial<IAccountingSystem>) {
-		this._dialogService
-			.open(AccountingSystemDialogComponent, { data: accountingSystem })
-			.afterClosed$.pipe(
-				take(1),
-				filter((accountingSystem) => Boolean(accountingSystem)),
-				switchMap((accountingSystem: Partial<IAccountingSystem>) =>
-					accountingSystem.id
-						? this._accountingSystemsService
-								.updateAccountingSystem(accountingSystem.id, accountingSystem)
-								.pipe(take(1), this._toastrService.observe("Системы учета"))
-						: this._accountingSystemsService
-								.createAccountingSystem(accountingSystem)
-								.pipe(take(1), this._toastrService.observe("Системы учета"))
-				)
-			)
-			.subscribe();
+	async openPaymentSystemDialog(data: AtLeast<AccountingSystemEntity, "id">) {
+		const accountingSystem: AccountingSystemEntity | undefined = await lastValueFrom(
+			this._dialogService.open(AccountingSystemDialogComponent, { data }).afterClosed$
+		);
+
+		if (!accountingSystem) {
+			return;
+		}
+
+		try {
+			await lastValueFrom(
+				this._accountingSystemsService
+					.connectPaymentSystemToPlace(accountingSystem)
+					.pipe(
+						this._toastrService.observe(
+							this._i18nService.translate("title", {}, this.accountingSystemsPage),
+							this._i18nService.translate("title", {}, this.accountingSystemsPage)
+						)
+					)
+			);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }

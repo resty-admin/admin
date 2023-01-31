@@ -1,5 +1,5 @@
-import { CategoryDialogComponent } from "./category-dialog/category-dialog.component";
+import { CategoriesSkeletonComponent } from "./categories-skeleton/categories-skeleton.component";
 
-export const CATEGORIES_COMPONENTS = [CategoryDialogComponent];
+export const CATEGORIES_COMPONENTS = [CategoriesSkeletonComponent];
 
-export * from "./category-dialog/category-dialog.component";
+export * from "./categories-skeleton/categories-skeleton.component";

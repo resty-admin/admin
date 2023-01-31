@@ -1,8 +1,43 @@
 <div class="core">
-	<app-cookies></app-cookies>
+	<app-cookies class="cookies"></app-cookies>
 	<app-progress-bar class="progress-bar"></app-progress-bar>
 
-	<div class="pages">
-		<router-outlet></router-outlet>
-	</div>
+	<app-header
+		*ngIf="(isAuth$ | async) === false"
+		class="header"
+		[profileActions]="profileActions"
+		[user]="user$ | async"
+		[isAsideOpen]="isAsideOpen$ | async"
+		[activeOrder]="activeOrder$ | async"
+		(burgerClicked)="toggleAside()"
+	></app-header>
+
+	<main class="main">
+		<app-aside
+			*ngIf="(isAuth$ | async) === false"
+			class="aside"
+			[class.open]="isAsideOpen$ | async"
+			[companyActions]="companyActions"
+			[placeActions]="placeActions"
+			[companies]="companies$ | async"
+			[places]="places$ | async"
+			[user]="user$ | async"
+			[activeCompanyId]="activeCompanyId$ | async"
+			[activePlaceId]="activePlaceId$ | async"
+			(companyChanged)="changeUrlWithCompany($event)"
+			(placeChanged)="changeUrlWithPlace($event)"
+			(addCompanyClicked)="openCreateCompanyDialog()"
+			(addPlaceClicked)="openCreatePlaceDialog()"
+			(signOutClicked)="signOut()"
+			(closeClicked)="toggleAside()"
+		></app-aside>
+
+		<app-navigation-skeleton class="navigation-skeleton">
+			<div class="pages" [@routeAnimations]="getRouteAnimationData()">
+				<router-outlet></router-outlet>
+			</div>
+
+			<app-footer class="footer"></app-footer>
+		</app-navigation-skeleton>
+	</main>
 </div>

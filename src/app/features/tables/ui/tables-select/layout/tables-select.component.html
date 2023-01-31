@@ -1,0 +1,21 @@
+<div class="tables-select">
+	<ul class="tables">
+		<li class="table" *ngFor="let table of tablesWithSelected; let i = index; trackBy: sharedService.trackByFn">
+			<input
+				class="input"
+				type="checkbox"
+				[id]="'table_' + table.id"
+				[name]="'table_' + table.id"
+				[value]="table.id"
+				[(ngModel)]="table.selected"
+				(change)="emitChange()"
+			/>
+			<label class="label" [for]="'table_' + table.id">
+				<app-image class="image" [remote]="true" [name]="table.file?.url" placeholder="table"></app-image>
+				<div class="container">
+					<span class="text">{{ table.name }}</span>
+				</div>
+			</label>
+		</li>
+	</ul>
+</div>

@@ -1,14 +1,13 @@
-<div class="payment-systems-page">
-	<h1 appTypography class="title" theme="1">Платежные системы</h1>
+<div class="payment-systems-page" *transloco="let t; read: paymentSystemsPage">
+	<h1 appTypography class="title" theme="1">{{ t("title") }}</h1>
 
-	<app-input class="search" placeholder="Поиск"></app-input>
+	<app-filters class="filters"></app-filters>
 
-	<ul class="payment-systems">
-		<li class="payment-system" *ngFor="let paymentSystem of paymentSystems$ | async">
-			<button class="button" (click)="openPaymentSystemDialog(paymentSystem)">
-				<!--			<app-image class="image" [remote]="true" [name]="paymentSystem.image"></app-image>-->
-				<p appTypography theme="2">{{ paymentSystem.name }}</p>
-			</button>
-		</li>
-	</ul>
+	<app-list class="list" [items]="paymentSystems$ | async" [itemTemplate]="paymentSystemTempalte"></app-list>
 </div>
+
+<ng-template let-item #paymentSystemTempalte>
+	<button class="button" (click)="openPaymentSystemDialog(item)">
+		<app-payment-system [paymentSystem]="item"></app-payment-system>
+	</button>
+</ng-template>

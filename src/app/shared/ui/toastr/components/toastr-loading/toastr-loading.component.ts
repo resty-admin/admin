@@ -8,7 +8,7 @@ import { HotToastRef } from "@ngneat/hot-toast";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToastrLoadingComponent {
-	constructor(@Optional() @Inject(HotToastRef) public toastRef: HotToastRef<any>) {}
+	constructor(@Optional() @Inject(HotToastRef) public toastRef: HotToastRef<unknown>) {}
 
 	close() {
 		this.toastRef.close();

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Socket } from "ngx-socket-io";
-import { combineLatest, startWith } from "rxjs";
+import { merge } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class SocketIoService {
@@ -10,11 +10,11 @@ export class SocketIoService {
 		this._socket.emit(eventName, ...arguments_);
 	}
 
-	fromEvent(eventName: string) {
-		return this._socket.fromEvent(eventName);
+	fromEvent<T>(eventName: string) {
+		return this._socket.fromEvent<T>(eventName);
 	}
 
-	fromEvents(events: string[]) {
-		return combineLatest(events.map((event) => this._socket.fromEvent(event).pipe(startWith(true))));
+	fromEvents<T>(events: string[]) {
+		return merge(...events.map((event) => this._socket.fromEvent<T>(event)));
 	}
 }

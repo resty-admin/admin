@@ -1,0 +1,10 @@
+@import "../../../../../assets/scss/abstractions/index";
+
+@include component() {
+	.navigation-skeleton {
+		width: 100%;
+		height: 100%;
+	}
+}
+@include dark() {
+}

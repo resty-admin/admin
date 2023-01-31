@@ -1,5 +1,5 @@
-import { HallDialogComponent } from "./hall-dialog/hall-dialog.component";
+import { HallsSkeletonComponent } from "./halls-skeleton/halls-skeleton.component";
 
-export const HALLS_COMPONENTS = [HallDialogComponent];
+export const HALLS_COMPONENTS = [HallsSkeletonComponent];
 
-export * from "./hall-dialog/hall-dialog.component";
+export * from "./halls-skeleton/halls-skeleton.component";

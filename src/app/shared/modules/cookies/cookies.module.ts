@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { IconModule } from "@shared/ui/icon";
 
-import { IconModule } from "../../ui/icon";
 import { COOKIES_COMPONENTS } from "./components";
 import { CookiesComponent } from "./layout/cookies.component";
 

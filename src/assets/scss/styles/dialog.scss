@@ -1,3 +1,52 @@
+@import "src/assets/scss/abstractions";
+
+body {
+	ngneat-dialog {
+		.ngneat-dialog-backdrop {
+			z-index: 1052;
+			padding: 0;
+			.ngneat-dialog-content {
+				width: 100% !important;
+				height: 100vh !important;
+				overflow: visible;
+				background-color: var(--light);
+
+				@include desktop() {
+					border-radius: rem(24);
+					min-width: rem(544);
+					min-height: rem(408);
+					width: auto !important;
+					height: auto !important;
+				}
+				.ngneat-close-dialog {
+					top: rem(16);
+					right: rem(16);
+					width: rem(40);
+					height: rem(40);
+					border-radius: 50%;
+					background-color: var(--light-grey);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+
+					@include desktop() {
+						top: 0;
+						right: rem(-50);
+						background-color: var(--light);
+					}
+				}
+			}
+		}
+	}
+
+	&.dark ngneat-dialog .ngneat-dialog-backdrop .ngneat-dialog-content {
+		background-color: var(--dark);
+		.ngneat-close-dialog {
+			background-color: var(--dark-grey);
+		}
+	}
+}
+
 .cdk-overlay-container {
 	z-index: 1050;
 }

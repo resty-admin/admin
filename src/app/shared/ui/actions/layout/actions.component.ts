@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { SharedService } from "@shared/services";
 
 import type { IAction } from "../interfaces";
 
@@ -9,7 +10,9 @@ import type { IAction } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionsComponent<T> {
-	@Input() actions: IAction<T>[] = [];
-	@Input() data?: T;
-	@Input() additionalFunc: any = () => undefined;
+	@Input() actions?: IAction<T>[] | null = [];
+	@Input() data!: T;
+	@Input() additionalFunc = () => undefined;
+
+	constructor(readonly sharedService: SharedService) {}
 }

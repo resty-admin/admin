@@ -1,0 +1,15 @@
+mutation CreateProduct($product: CreateProductInput!) {
+	createProduct(product: $product) {
+		id
+	}
+}
+
+mutation UpdateProduct($product: UpdateProductInput!) {
+	updateProduct(product: $product) {
+		id
+	}
+}
+
+mutation DeleteProduct($productId: String!) {
+	deleteProduct(productId: $productId)
+}

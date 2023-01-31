@@ -1,0 +1,21 @@
+query StatisticPage(
+	$guestsFiltersArgs: [FiltersArgsDto!]
+	$hallsFiltersArgs: [FiltersArgsDto!]
+	$tablesFiltersArgs: [FiltersArgsDto!]
+) {
+	users(filtersArgs: $guestsFiltersArgs) {
+		totalCount
+	}
+	halls(filtersArgs: $hallsFiltersArgs) {
+		totalCount
+	}
+	tables(filtersArgs: $tablesFiltersArgs) {
+		totalCount
+	}
+}
+
+query StatisticPlace($placeId: String!) {
+	place(id: $placeId) {
+		verificationStatus
+	}
+}

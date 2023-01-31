@@ -1,0 +1,167 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.employees-page {
+		display: grid;
+		align-items: end;
+		grid-template-areas:
+			"filters filters"
+			"datatable datatable";
+		row-gap: rem(16);
+		column-gap: rem(8);
+		grid-template-columns: 1fr auto;
+
+		@include desktop() {
+			grid-template-areas:
+				"filters filters add"
+				"datatable datatable datatable";
+			row-gap: rem(32);
+		}
+
+		.add {
+			grid-area: add;
+
+			@include hideOnMobile(flex);
+		}
+
+		.filters {
+			grid-area: filters;
+		}
+
+		.datatable-desktop {
+			grid-area: datatable;
+			display: none;
+
+			&::ng-deep .datatable-row-odd .more {
+				background-color: var(--light-grey);
+			}
+
+			@include desktop() {
+				display: block;
+			}
+		}
+		.datatable-mobile {
+			grid-area: datatable;
+			display: grid;
+			row-gap: rem(8);
+			.user {
+				position: relative;
+				display: grid;
+				grid-template-areas:
+					"name-label name-label"
+					"name-value name-value"
+					"email-label email-label"
+					"email-value email-value"
+					"tel-label role-label"
+					"tel-value role-value";
+				grid-template-columns: 1fr auto;
+				padding: rem(8) rem(15) rem(21);
+				border-radius: rem(16);
+				background-color: transparent;
+
+				.tel-label,
+				.email-label,
+				.name-label,
+				.role-label {
+					font-weight: 500;
+					font-size: rem(11);
+					line-height: rem(16);
+					color: var(--dark-t);
+					margin-top: rem(6);
+					&.tel-label {
+						grid-area: tel-label;
+					}
+					&.email-label {
+						grid-area: email-label;
+					}
+					&.name-label {
+						grid-area: name-label;
+					}
+					&.role-label {
+						grid-area: role-label;
+						text-align: right;
+						align-self: end;
+					}
+				}
+
+				.tel-value,
+				.email-value,
+				.name-value {
+					font-weight: 400;
+					font-size: rem(13);
+					line-height: rem(16);
+					color: var(--dark);
+					&.tel-value {
+						grid-area: tel-value;
+					}
+					&.email-value {
+						grid-area: email-value;
+					}
+					&.name-value {
+						grid-area: name-value;
+					}
+				}
+
+				.role-value {
+					grid-area: role-value;
+					font-weight: 500;
+					font-size: rem(13);
+					line-height: rem(16);
+					text-align: right;
+					color: var(--primary);
+				}
+
+				.more {
+					position: absolute;
+					right: rem(8);
+					top: rem(8);
+					background-color: var(--light-grey);
+				}
+
+				&:nth-child(2n + 1) {
+					background-color: var(--light-grey);
+					.more {
+						background-color: var(--light);
+					}
+				}
+			}
+
+			@include desktop() {
+				display: none;
+			}
+		}
+	}
+}
+@include dark() {
+	.users-page {
+		.datatable-mobile {
+			.user {
+				.tel-label,
+				.email-label,
+				.name-label,
+				.role-label {
+					color: var(--light-t);
+				}
+				.tel-value,
+				.email-value,
+				.name-value {
+					color: var(--light);
+				}
+
+				.more {
+					background-color: var(--dark-grey);
+				}
+
+				&:nth-child(2n + 1) {
+					background-color: var(--dark-grey);
+					.more {
+						background-color: var(--dark);
+					}
+				}
+			}
+		}
+		.datatable-desktop::ng-deep .datatable-row-odd .more {
+			background-color: var(--dark-grey);
+		}
+	}
+}

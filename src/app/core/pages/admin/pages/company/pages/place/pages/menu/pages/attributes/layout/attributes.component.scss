@@ -1,0 +1,150 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.attributes-page {
+		display: grid;
+		align-items: end;
+		grid-template-areas:
+			"filters filters filters"
+			"attributes-groups attributes-groups attributes-groups";
+		row-gap: rem(16);
+		column-gap: rem(8);
+		grid-template-columns: 1fr auto;
+
+		@include desktop() {
+			grid-template-areas:
+				"filters filters add"
+				"attributes-groups attributes-groups attributes-groups";
+		}
+
+		.add {
+			grid-area: add;
+
+			@include hideOnMobile(flex);
+		}
+
+		.filters {
+			grid-area: filters;
+		}
+
+		.attributes-groups {
+			display: grid;
+			grid-area: attributes-groups;
+			row-gap: rem(14);
+			.attributes-group {
+				.header {
+					background-color: var(--light-grey);
+					border-radius: rem(8);
+					padding: rem(4) rem(4) rem(4) rem(16);
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+
+					@include desktop() {
+						padding: rem(10) rem(8) rem(10) rem(24);
+						border-radius: rem(12);
+					}
+					.label {
+						font-weight: 600;
+						font-size: rem(13);
+						line-height: rem(16);
+						color: var(--primary);
+
+						@include desktop() {
+							font-size: rem(16);
+							line-height: rem(24);
+						}
+					}
+				}
+				.attributes {
+					.attribute {
+						position: relative;
+						padding: rem(4) rem(4) rem(16) rem(16);
+						display: grid;
+						align-items: center;
+						border-bottom: rem(1) solid var(--dark-b);
+
+						.name-label,
+						.description-label,
+						.price-label {
+							font-weight: 500;
+							font-size: rem(11);
+							line-height: rem(16);
+							color: var(--dark-t);
+							margin-top: rem(10);
+
+							@include desktop() {
+								display: none;
+							}
+						}
+
+						.name-value,
+						.description-value,
+						.price-value {
+							font-weight: 500;
+							font-size: rem(11);
+							line-height: rem(16);
+							color: var(--dark);
+							&.description-value {
+								color: var(--dark-t);
+							}
+							&.price-value {
+								justify-self: end;
+							}
+						}
+
+						.more {
+							position: absolute;
+							right: rem(4);
+							top: rem(12);
+							background-color: var(--light-grey);
+						}
+
+						@include desktop() {
+							padding: rem(10) rem(8) rem(10) rem(24);
+							grid-auto-flow: column;
+							justify-content: space-between;
+							column-gap: rem(12);
+							grid-template-columns: 1fr auto auto;
+							.more {
+								position: static;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.attributes-page .attributes-groups .attributes-group {
+		.header {
+			background-color: var(--dark-grey);
+		}
+
+		.attributes {
+			.attribute {
+				border-color: var(--light-b);
+
+				.name-label,
+				.description-label,
+				.price-label {
+					color: var(--light-t);
+				}
+
+				.name-value,
+				.description-value,
+				.price-value {
+					color: var(--light);
+					&.description-value {
+						color: var(--light-t);
+					}
+				}
+
+				.more {
+					background-color: var(--dark-grey);
+				}
+			}
+		}
+	}
+}

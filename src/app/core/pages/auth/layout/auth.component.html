@@ -1,14 +1,14 @@
-<div class="auth">
+<div class="auth" *transloco="let t; read: authPage">
 	<header class="header">
 		<app-language-select class="language-select"></app-language-select>
 		<app-theme class="theme"></app-theme>
 	</header>
 
-	<main class="main">
+	<main class="main" [@routeAnimations]="getRouteAnimationData()">
 		<router-outlet></router-outlet>
 	</main>
 
 	<footer class="footer">
-		<a class="privacy-policy">Политика безопасности</a>
+		<a class="privacy-policy">{{ t("privacy_policy") }}</a>
 	</footer>
 </div>

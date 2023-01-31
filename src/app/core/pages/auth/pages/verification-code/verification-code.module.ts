@@ -1,12 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CodeInputModule } from "angular-code-input";
-import { I18nModule } from "src/app/shared/modules/i18n";
-import { ImageModule } from "src/app/shared/ui/image";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { I18nModule } from "@shared/modules/i18n";
+import { ButtonModule } from "@shared/ui/button";
+import { CardModule } from "@shared/ui/card";
+import { CodeInputModule } from "@shared/ui/code-input";
+import { ImageModule } from "@shared/ui/image";
+import { TypographyModule } from "@shared/ui/typography";
 
 import { VerificationCodeComponent } from "./layout/verification-code.component";
+import { VERIFICATION_CODE_PROVIDERS } from "./providers";
 import { VerificationCodeRoutingModule } from "./verification-code-routing.module";
 
 @NgModule({
@@ -19,7 +22,10 @@ import { VerificationCodeRoutingModule } from "./verification-code-routing.modul
 		TypographyModule,
 		ImageModule,
 		FormsModule,
-		ReactiveFormsModule
-	]
+		ReactiveFormsModule,
+		CardModule,
+		ButtonModule
+	],
+	providers: VERIFICATION_CODE_PROVIDERS
 })
 export class VerificationCodeModule {}

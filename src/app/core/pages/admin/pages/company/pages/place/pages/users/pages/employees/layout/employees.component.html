@@ -1,0 +1,47 @@
+<div class="employees-page" *transloco="let t; read: employeesPage">
+	<button appButton class="add" (click)="openAddEmployeeDialog()">
+		<app-icon class="icon" name="add"></app-icon>
+		<span class="text">{{ t("add") }}</span>
+	</button>
+
+	<app-filters class="filters"></app-filters>
+	<!--desktop-->
+	<app-datatable class="datatable-desktop" [rows]="employees$ | async" [columns]="columns"></app-datatable>
+
+	<!--mobile-->
+	<ul class="datatable-mobile">
+		<li class="user" *ngFor="let user of employees$ | async; trackBy: sharedService.trackByFn">
+			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: user }"></ng-container>
+
+			<p class="name-label">{{ t("DATATABLE.NAME") }}</p>
+			<p class="name-value">{{ user.name }}</p>
+
+			<p class="email-label">{{ t("DATATABLE.EMAIL") }}</p>
+			<p class="email-value">{{ user.email }}</p>
+
+			<p class="tel-label">{{ t("DATATABLE.TEL") }}</p>
+			<p class="tel-value">{{ user.tel }}</p>
+
+			<p class="role-label">{{ t("DATATABLE.ROLE") }}</p>
+			<p class="role-value">{{ user.role }}</p>
+		</li>
+	</ul>
+</div>
+
+<ng-template #moreTemplate let-row="row">
+	<button
+		class="more"
+		appIconButton
+		[tippy]="actionsTemplate"
+		[data]="row"
+		placement="left"
+		variation="popper"
+		theme="1"
+	>
+		<app-icon class="icon" name="more"></app-icon>
+	</button>
+</ng-template>
+
+<ng-template #actionsTemplate let-data="data" let-hide>
+	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
+</ng-template>

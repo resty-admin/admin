@@ -1,13 +1,9 @@
-<div class="menu-page">
-	<h1 appTypography theme="1" class="title">Меню</h1>
+<div class="menu-page" *transloco="let t; read: menuPage">
+	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
 
-	<ul class="links">
-		<li class="link-item" *ngFor="let page of pages">
-			<a class="link" [routerLink]="page.routerLink" routerLinkActive="active">{{ page.label }}</a>
-		</li>
-	</ul>
+	<app-tabs class="tabs" [tabs]="pages"></app-tabs>
 
-	<div class="pages">
+	<div class="pages" [@routeAnimations]="getRouteAnimationData()">
 		<router-outlet></router-outlet>
 	</div>
 </div>

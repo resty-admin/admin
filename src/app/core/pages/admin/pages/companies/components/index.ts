@@ -1,5 +1,5 @@
-import { CompanyDialogComponent } from "./company-dialog/company-dialog.component";
+import { CompaniesSkeletonComponent } from "./companies-skeleton/companies-skeleton.component";
 
-export const COMPANIES_COMPONENTS = [CompanyDialogComponent];
+export const COMPANIES_COMPONENTS = [CompaniesSkeletonComponent];
 
-export * from "./company-dialog/company-dialog.component";
+export * from "./companies-skeleton/companies-skeleton.component";

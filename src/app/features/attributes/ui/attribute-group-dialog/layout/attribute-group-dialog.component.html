@@ -1,0 +1,45 @@
+<div class="attribute-dialog" *transloco="let t; read: attributeGroupDialog">
+	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
+
+	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="f('name_label')"
+			[placeholder]="f('name_placeholder')"
+		></app-input>
+
+		<app-select
+			class="input"
+			formControlName="attributes"
+			bindLabel="name"
+			bindValue="id"
+			[label]="f('attributes_label')"
+			[placeholder]="f('attributes_description')"
+			[options]="attributes$ | async"
+			[searchable]="true"
+			[addTag]="addTag"
+			[multiple]="true"
+		></app-select>
+
+		<app-select
+			class="input"
+			formControlName="type"
+			bindLabel="name"
+			bindValue="value"
+			[options]="attributeGroupTypes"
+			[label]="f('type_label')"
+			[placeholder]="f('type_placeholder')"
+		></app-select>
+
+		<app-input
+			class="input"
+			formControlName="maxItemsForPick"
+			returnType="number"
+			[label]="f('max_items_label')"
+			[placeholder]="f('max_items_placeholder')"
+		></app-input>
+
+		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
+	</form>
+</div>

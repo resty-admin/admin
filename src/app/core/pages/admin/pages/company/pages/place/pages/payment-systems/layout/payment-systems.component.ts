@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { filter, switchMap, take } from "rxjs";
-import type { IPaymentSystem, IUser } from "src/app/shared/interfaces";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
-import { DialogService } from "src/app/shared/ui/dialog";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { ActivatedRoute } from "@angular/router";
+import { PaymentSystemDialogComponent, PaymentSystemsService } from "@features/payment-systems";
+import type { PaymentSystemEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
+import { RouterService } from "@shared/modules/router";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
+import { lastValueFrom, map } from "rxjs";
 
-import { PaymentSystemsService } from "../../../../../../../../../../shared/modules/payment-systems";
-import { PaymentSystemDialogComponent } from "../components";
+import { PAYMENT_SYSTEMS_PAGE } from "../constants";
 
 @Component({
 	selector: "app-payment-systems",
@@ -15,37 +19,44 @@ import { PaymentSystemDialogComponent } from "../components";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemsComponent {
-	readonly columns: IDatatableColumn[] = [
-		{
-			prop: "name",
-			name: "Name"
-		}
-	];
-
-	readonly paymentSystems$ = this._paymentSystemsService.paymentSystems$;
+	readonly paymentSystemsPage = PAYMENT_SYSTEMS_PAGE;
+	readonly paymentSystems$ = this._activatedRoute.data.pipe(map((data) => data["paymentSystems"]));
 
 	constructor(
-		private readonly _paymentSystemsService: PaymentSystemsService,
+		private readonly _activatedRoute: ActivatedRoute,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _paymentsSystemsService: PaymentSystemsService,
+		private readonly _routerService: RouterService,
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
-	openPaymentSystemDialog(paymentSystem?: Partial<IPaymentSystem>) {
-		this._dialogService
-			.open(PaymentSystemDialogComponent, { data: paymentSystem })
-			.afterClosed$.pipe(
-				take(1),
-				filter((paymentSystem) => Boolean(paymentSystem)),
-				switchMap((paymentSystem: Partial<IUser>) =>
-					paymentSystem.id
-						? this._paymentSystemsService
-								.updatePaymentSystem(paymentSystem.id, paymentSystem)
-								.pipe(take(1), this._toastrService.observe("Платежные Системы"))
-						: this._paymentSystemsService
-								.createPaymentSystem(paymentSystem)
-								.pipe(take(1), this._toastrService.observe("Платежные Системы"))
-				)
-			)
-			.subscribe();
+	async openPaymentSystemDialog(data: AtLeast<PaymentSystemEntity, "id">) {
+		const paymentSystem: PaymentSystemEntity | undefined = await lastValueFrom(
+			this._dialogService.open(PaymentSystemDialogComponent, { data }).afterClosed$
+		);
+
+		if (!paymentSystem) {
+			return;
+		}
+
+		try {
+			await lastValueFrom(
+				this._paymentsSystemsService
+					.connectPaymentSystemToPlace({
+						place: this._routerService.getParams(PLACE_ID.slice(1)),
+						paymentSystem: paymentSystem.id,
+						placeConfigFields: paymentSystem.configFields
+					})
+					.pipe(
+						this._toastrService.observe(
+							this._i18nService.translate("title", {}, this.paymentSystemsPage),
+							this._i18nService.translate("connected", {}, this.paymentSystemsPage)
+						)
+					)
+			);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }

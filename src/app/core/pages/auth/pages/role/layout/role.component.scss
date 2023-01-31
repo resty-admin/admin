@@ -3,7 +3,7 @@
 @include page() {
 	.role-page {
 		height: 100%;
-		padding: 0 rem(16);
+		padding: 0 rem(16) rem(16);
 		display: grid;
 		row-gap: rem(24);
 
@@ -41,61 +41,85 @@
 		.roles {
 			display: grid;
 			row-gap: rem(10);
+			height: 100%;
+			overflow: auto;
 
 			@include desktop() {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
 				gap: rem(32);
 			}
-			.role .role-link {
-				display: grid;
-				border-radius: rem(16);
-				padding: rem(30) rem(16) 0;
-				background-color: transparent;
-
-				@include desktop() {
+			.role {
+				.role-link {
+					border-radius: rem(12);
 					display: grid;
-					grid-template-areas:
-						"image label"
-						"image description";
-					grid-template-rows: auto 1fr;
-					height: rem(312);
+					align-items: end;
 					overflow: hidden;
-					column-gap: rem(15);
-					row-gap: rem(13);
 					background-color: var(--light-grey);
-				}
-				.label {
-					font-weight: 600;
-					font-size: rem(20);
-					line-height: rem(24);
-					color: var(--primary);
+					height: rem(312);
+					padding: rem(29) rem(16) 0 rem(0);
 
 					@include desktop() {
-						grid-area: label;
-						font-size: rem(32);
-						line-height: rem(40);
+						display: grid;
+						grid-template-areas:
+							"image label"
+							"image description";
+						background-color: var(--light);
+						padding-right: rem(34);
+						column-gap: rem(25);
+						row-gap: rem(13);
 					}
-				}
-				.description {
-					font-weight: 400;
-					font-size: rem(13);
-					line-height: rem(16);
-					color: var(--dark);
-
-					@include desktop() {
-						grid-area: description;
-						font-size: rem(16);
+					.label {
+						width: 80%;
+						margin: 0 auto;
+						font-weight: 600;
+						font-size: rem(20);
 						line-height: rem(24);
-						align-self: start;
-					}
-				}
-				.image {
-					width: rem(180);
-					margin: 0 auto;
+						color: var(--primary);
 
-					@include desktop() {
-						grid-area: image;
+						@include desktop() {
+							width: 100%;
+							grid-area: label;
+							font-size: rem(32);
+							line-height: rem(40);
+						}
+					}
+					.description {
+						width: 80%;
+						margin: rem(6) auto;
+						font-weight: 400;
+						font-size: rem(13);
+						height: rem(100);
+						overflow: hidden;
+						line-height: rem(16);
+						color: var(--dark);
+
+						@include desktop() {
+							width: 100%;
+							grid-area: description;
+							font-size: rem(16);
+							line-height: rem(24);
+							align-self: start;
+						}
+					}
+					.image {
+						align-self: end;
+						justify-self: start;
+						margin-top: rem(12);
+						height: rem(150);
+
+						@include image() {
+							object-fit: contain;
+						}
+						@include desktop() {
+							width: rem(229);
+							height: auto;
+							grid-area: image;
+
+							@include image () {
+								object-fit: cover;
+							}
+						}
 					}
 				}
 			}

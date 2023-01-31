@@ -1,0 +1,75 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include page() {
+	.statistic-header-skeleton {
+		position: relative;
+		border-radius: rem(16);
+		padding: rem(21) rem(16) 0;
+		background-color: #f8f8f8;
+		display: grid;
+		align-items: center;
+		grid-template-areas:
+			"money-value"
+			"money-label"
+			"divider"
+			"comission-value"
+			"comission-label"
+			"image";
+		row-gap: rem(6);
+
+		@include desktop() {
+			grid-template-areas:
+				"money-value divider comission-value image"
+				"money-label divider comission-label image";
+			padding-top: 0;
+			padding-right: 0;
+			row-gap: rem(6);
+			column-gap: rem(6);
+		}
+		.comission-value,
+		.money-value {
+			align-self: end;
+			height: rem(24);
+			&.comission-value {
+				grid-area: comission-value;
+			}
+			&.money-value {
+				grid-area: money-value;
+			}
+		}
+		.comission-label,
+		.money-label {
+			align-self: start;
+			height: rem(16);
+			&.comission-label {
+				grid-area: comission-label;
+			}
+			&.money-label {
+				grid-area: money-label;
+			}
+		}
+		.divider {
+			grid-area: divider;
+			height: rem(1);
+			background-color: var(--dark-b);
+
+			@include desktop() {
+				width: rem(1);
+				height: 75%;
+			}
+		}
+		.image {
+			justify-self: end;
+			grid-area: image;
+			height: rem(160);
+		}
+	}
+}
+@include dark() {
+	.statistic-header-skeleton {
+		background-color: var(--dark-grey);
+		.divider {
+			background-color: var(--light-b);
+		}
+	}
+}

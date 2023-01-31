@@ -1,21 +1,28 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
-import { DirectivesModule } from "src/app/shared/modules/directives";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { DatatableModule } from "src/app/shared/ui/datatable";
-import { FileModule } from "src/app/shared/ui/file";
-import { IconModule } from "src/app/shared/ui/icon";
-import { ImageModule } from "src/app/shared/ui/image";
-import { InputModule } from "src/app/shared/ui/input";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { HallModule, HallSkeletonModule } from "@features/halls";
+import { HallDialogModule } from "@features/halls/ui/hall-dialog/hall-dialog.module";
+import { DirectivesModule } from "@shared/modules/directives";
+import { TranslocoModule } from "@shared/modules/i18n";
+import { ActionsModule } from "@shared/ui/actions";
+import { AddHeaderModule } from "@shared/ui/add-header";
+import { AddHeaderSkeletonModule } from "@shared/ui/add-header-skeleton";
+import { ButtonModule } from "@shared/ui/button";
+import { DatatableModule } from "@shared/ui/datatable";
+import { FiltersModule } from "@shared/ui/filters";
+import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
+import { IconModule } from "@shared/ui/icon";
+import { ImageModule } from "@shared/ui/image";
+import { InputModule } from "@shared/ui/input";
+import { ListModule } from "@shared/ui/list";
+import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { TooltipModule } from "@shared/ui/tooltip";
+import { TypographyModule } from "@shared/ui/typography";
 
-import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogModule } from "../../../../../../../../../shared/ui/confirmation-dialog";
-import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
 import { HALLS_COMPONENTS } from "./components";
 import { HallsRoutingModule } from "./halls-routing.module";
 import { HallsComponent } from "./layout/halls.component";
+import { HALLS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [HallsComponent, ...HALLS_COMPONENTS],
@@ -23,18 +30,25 @@ import { HallsComponent } from "./layout/halls.component";
 		CommonModule,
 		HallsRoutingModule,
 		InputModule,
-		ReactiveFormsModule,
 		TypographyModule,
 		DatatableModule,
 		ButtonModule,
-		FileModule,
 		IconModule,
 		ImageModule,
 		ActionsModule,
 		TooltipModule,
 		DirectivesModule,
-		ConfirmationDialogModule
+		TranslocoModule,
+		FiltersModule,
+		AddHeaderModule,
+		ListModule,
+		HallDialogModule,
+		HallModule,
+		AddHeaderSkeletonModule,
+		FiltersSkeletonModule,
+		ListSkeletonModule,
+		HallSkeletonModule
 	],
-	exports: [HallsComponent]
+	providers: HALLS_PROVIDERS
 })
 export class HallsModule {}

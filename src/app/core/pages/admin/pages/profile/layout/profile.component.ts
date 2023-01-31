@@ -1,17 +1,67 @@
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
+import { ActionsService } from "@features/app";
+import { AuthService } from "@features/auth/services";
+import { FormBuilder } from "@ngneat/reactive-forms";
+import { FORM } from "@shared/constants";
+import { firstValueFrom, lastValueFrom } from "rxjs";
 
-import { AuthService } from "../../../../auth/services";
+import { PROFILE_PAGE } from "../constants";
+import type { IProfileForm } from "../interfaces";
 
-@UntilDestroy()
 @Component({
 	selector: "app-profile",
 	templateUrl: "./profile.component.html",
 	styleUrls: ["./profile.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileComponent {
-	readonly user$ = this._authService.getMe();
+export class ProfileComponent implements OnInit, OnDestroy {
+	readonly form = FORM;
+	readonly profilePage = PROFILE_PAGE;
+	readonly user$ = this._authService.me$;
 
-	constructor(private readonly _authService: AuthService) {}
+	readonly formGroup = this._formBuilder.group<IProfileForm>({
+		name: "",
+		tel: "",
+		email: ""
+	});
+
+	constructor(
+		private readonly _formBuilder: FormBuilder,
+		private readonly _authService: AuthService,
+		private readonly _actionsService: ActionsService
+	) {}
+
+	async ngOnInit() {
+		const user = await firstValueFrom(this.user$);
+
+		if (!user) {
+			return;
+		}
+
+		this.formGroup.patchValue(user);
+
+		this._actionsService.setAction({
+			label: "Обновить пользователя",
+			func: () => {
+				if (!this.formGroup.value) {
+					return;
+				}
+
+				this.updateMe(this.formGroup.value);
+			}
+		});
+	}
+
+	async updateMe(formValue: IProfileForm) {
+		await lastValueFrom(this._authService.updateMe(formValue));
+	}
+
+	async deleteMe() {
+		await lastValueFrom(this._authService.deleteMe());
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
+	}
 }

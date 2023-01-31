@@ -1,0 +1,15 @@
+<div class="product-to-order" [class.active]="isActive" *ngIf="productToOrder">
+	<p class="title">{{ productToOrder.product.name }}</p>
+
+	<div class="paid-status">
+		<p class="waiting" *ngIf="productToOrder.paidStatus === productToOrderPaidStatus.Waiting">Ожидает оплаты</p>
+		<app-icon
+			class="icon"
+			[name]="productToOrder.paidStatus === productToOrderPaidStatus.Paid ? 'paid' : 'not-paid'"
+		></app-icon>
+	</div>
+
+	<p class="user">{{ productToOrder.user.name }}</p>
+	<p class="count">{{ productToOrder.count }}x</p>
+	<p class="price">{{ productToOrder.product.price }} грн</p>
+</div>

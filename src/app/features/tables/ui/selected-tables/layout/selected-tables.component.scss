@@ -1,0 +1,55 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.selected-tables {
+		display: flex;
+		overflow: auto;
+		column-gap: rem(8);
+		.selected-table {
+			position: relative;
+			display: flex;
+			column-gap: rem(10);
+			background-color: var(--light);
+			border-radius: rem(8);
+			padding: rem(5) rem(8);
+			.label {
+				font-weight: 400;
+				font-size: rem(13);
+				line-height: rem(16);
+				color: var(--dark);
+
+				@include noWrap();
+			}
+			.button .icon {
+				width: rem(8);
+				height: rem(8);
+			}
+
+			@include desktop() {
+				padding: rem(7.5) rem(15);
+				.label {
+					font-size: rem(16);
+					line-height: rem(24);
+				}
+				.button .icon {
+					width: rem(10);
+					height: rem(10);
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.selected-tables {
+		.selected-table {
+			background-color: var(--dark);
+			.label {
+				color: var(--light);
+			}
+			.button {
+				.icon {
+				}
+			}
+		}
+	}
+}

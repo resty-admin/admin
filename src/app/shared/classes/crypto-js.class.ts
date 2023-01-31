@@ -17,9 +17,9 @@ export class CryptoJs {
 	}
 
 	// JWT
-	base64url(source: any) {
+	base64url(source: CryptoJS.lib.WordArray) {
 		// Encode in classical base64
-		let encodedSource: any = CryptoJS.enc.Base64.stringify(source);
+		let encodedSource = CryptoJS.enc.Base64.stringify(source);
 
 		// Remove padding equal characters
 		// eslint-disable-next-line

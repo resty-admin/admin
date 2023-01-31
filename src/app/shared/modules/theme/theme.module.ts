@@ -2,9 +2,9 @@ import { CommonModule } from "@angular/common";
 import type { ModuleWithProviders } from "@angular/core";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { ThemeToggleModule } from "@shared/ui/theme-toggle";
 
 import type { IFactory } from "../../interfaces";
-import { ThemeToggleModule } from "../../ui/theme-toggle";
 import { THEME_CONFIG } from "./injection-tokens";
 import type { IThemeConfig } from "./interfaces";
 import { ThemeComponent } from "./layout/theme.component";

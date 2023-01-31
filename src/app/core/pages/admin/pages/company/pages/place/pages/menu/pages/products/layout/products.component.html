@@ -1,31 +1,27 @@
-<div class="products-page">
-	<button appButton class="add" (click)="openProductDialog()">
+<div class="products-page" *transloco="let t; read: productsPage">
+	<button appButton class="add" (click)="openCreateProductDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">Добавить Блюдо</span>
+		<span class="text">{{ t("add") }}</span>
 	</button>
 
-	<app-input class="search"></app-input>
-
-	<button class="filters">
-		<app-icon class="icon" name="filters"></app-icon>
-	</button>
+	<app-filters class="filters"></app-filters>
 
 	<app-datatable class="datatable-desktop" [rows]="products$ | async" [columns]="columns"></app-datatable>
 
 	<ul class="datatable-mobile">
-		<li class="product" *ngFor="let product of products$ | async">
-			<app-image class="image" [remote]="true" placeholder="product"></app-image>
+		<li class="product" *ngFor="let product of products$ | async; trackBy: sharedService.trackByFn">
+			<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: product }"></ng-container>
 
 			<div class="info">
-				<p class="name-label">Название</p>
+				<p class="name-label">{{ t("name") }}</p>
 				<p class="name-value">{{ product.name }}</p>
-				<p class="description-label">Описание</p>
+				<p class="description-label">{{ t("description") }}</p>
 				<p class="description-value">{{ product.description }}</p>
-				<p class="category-label">Категория</p>
+				<p class="category-label">{{ t("category") }}</p>
 				<p class="category-value">{{ product.category.name }}</p>
-				<p class="price-label">Цена</p>
+				<p class="price-label">{{ t("price") }}</p>
 				<p class="price-value">{{ product.price }} грн</p>
 			</div>
 		</li>

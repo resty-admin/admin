@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import type { IAuthType } from "@features/auth/interfaces";
+import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
-import type { IForgotPassword } from "src/app/shared/interfaces";
-import { ADMIN_ROUTES } from "src/app/shared/routes";
-import type { IRadioButtonOption } from "src/app/shared/ui/radio-button";
+import { FORM } from "@shared/constants";
+import { ADMIN_ROUTES } from "@shared/constants";
+import type { IRadioButtonOption } from "@shared/ui/radio-button";
+import { lastValueFrom } from "rxjs";
 
-import type { IAuthType } from "../../../interfaces";
-import { AuthService } from "../../../services";
-import { AUTH_TYPES } from "../../../utils";
+import { AUTH_TYPES } from "../../../data";
+import { FORGOT_PASSWORD_PAGE } from "../constants";
+import type { IForgotPassword } from "../interfaces";
 
 @Component({
 	selector: "app-forgot-password",
@@ -16,10 +18,12 @@ import { AUTH_TYPES } from "../../../utils";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForgotPasswordComponent {
+	readonly form = FORM;
+	readonly forgotPasswordPage = FORGOT_PASSWORD_PAGE;
 	readonly adminRoutes = ADMIN_ROUTES;
 
 	readonly typeControl = new FormControl<IAuthType>("email");
-	readonly form = this._formBuilder.group<IForgotPassword>({
+	readonly formGroup = this._formBuilder.group<IForgotPassword>({
 		email: "",
 		tel: ""
 	});
@@ -28,7 +32,7 @@ export class ForgotPasswordComponent {
 
 	constructor(private readonly _formBuilder: FormBuilder, private readonly _authService: AuthService) {}
 
-	forgotPassword(formValue: IForgotPassword) {
-		this._authService.forgotPassword(formValue).pipe(take(1)).subscribe();
+	async forgotPassword(body: IForgotPassword) {
+		await lastValueFrom(this._authService.forgotPassword(body));
 	}
 }

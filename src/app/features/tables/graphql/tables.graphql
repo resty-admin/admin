@@ -1,0 +1,15 @@
+mutation CreateTable($table: CreateTableInput!) {
+	createTable(table: $table) {
+		id
+	}
+}
+
+mutation UpdateTable($table: UpdateTableInput!) {
+	updateTable(table: $table) {
+		id
+	}
+}
+
+mutation DeleteTable($tableId: String!) {
+	deleteTable(tableId: $tableId)
+}

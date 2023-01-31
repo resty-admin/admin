@@ -1,30 +1,40 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { DatatableModule } from "src/app/shared/ui/datatable";
-import { IconModule } from "src/app/shared/ui/icon";
-import { ImageModule } from "src/app/shared/ui/image";
-import { InputModule } from "src/app/shared/ui/input";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { AccountingSystemModule, AccountingSytemSkeletonModule } from "@features/accounting-systems";
+import { I18nModule } from "@shared/modules/i18n";
+import { ButtonModule } from "@shared/ui/button";
+import { FiltersModule } from "@shared/ui/filters";
+import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
+import { InputModule } from "@shared/ui/input";
+import { ListModule } from "@shared/ui/list";
+import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { SkeletonModule } from "@shared/ui/skeleton";
+import { TypographyModule } from "@shared/ui/typography";
 
 import { AccountingSystemsRoutingModule } from "./accounting-systems-routing.module";
-import { ACCONTING_SYSTEMS_COMPONENTS } from "./components";
+import { ACCOUNTING_SYSTEMS_COMPONENTS } from "./components";
 import { AccountingSystemsComponent } from "./layout/accounting-systems.component";
+import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 
 @NgModule({
-	declarations: [AccountingSystemsComponent, ...ACCONTING_SYSTEMS_COMPONENTS],
+	declarations: [AccountingSystemsComponent, ...ACCOUNTING_SYSTEMS_COMPONENTS],
 	imports: [
 		CommonModule,
 		AccountingSystemsRoutingModule,
-		InputModule,
 		ReactiveFormsModule,
 		TypographyModule,
-		DatatableModule,
 		ButtonModule,
-		IconModule,
-		ImageModule
+		InputModule,
+		I18nModule,
+		FiltersModule,
+		ListModule,
+		AccountingSystemModule,
+		AccountingSytemSkeletonModule,
+		SkeletonModule,
+		FiltersSkeletonModule,
+		ListSkeletonModule
 	],
-	exports: [AccountingSystemsComponent]
+	providers: ACCOUNTING_SYSTEMS_PROVIDERS
 })
 export class AccountingSystemsModule {}

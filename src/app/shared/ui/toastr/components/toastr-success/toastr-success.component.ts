@@ -1,3 +1,4 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Inject, Optional } from "@angular/core";
 import { HotToastRef } from "@ngneat/hot-toast";
 
@@ -12,11 +13,13 @@ export interface ISuccessData {
 	styleUrls: ["./toastr-success.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToastrSuccessComponent {
+export class ToastrSuccessComponent implements OnInit {
+	data!: ISuccessData;
+
 	constructor(@Optional() @Inject(HotToastRef) private readonly toastRef: HotToastRef<ISuccessData>) {}
 
-	get data() {
-		return this.toastRef.data;
+	ngOnInit() {
+		this.data = this.toastRef.data;
 	}
 
 	close() {

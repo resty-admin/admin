@@ -1,0 +1,19 @@
+query ProductCategories($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	categories(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+		}
+		page
+		totalCount
+	}
+}
+
+query ProductAttributeGroups($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	attributeGroups(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
+		data {
+			id
+			name
+		}
+	}
+}

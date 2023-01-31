@@ -1,0 +1,58 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.command {
+		position: relative;
+		border-radius: rem(12);
+		padding: rem(10) rem(16);
+		background-color: var(--light-grey);
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
+		gap: rem(8);
+		grid-template-areas:
+			"label more"
+			"description description";
+		text-align: left;
+
+		.label {
+			grid-area: label;
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.description {
+			width: 100%;
+			grid-area: description;
+			font-weight: 400;
+			font-size: rem(11);
+			line-height: rem(16);
+			color: var(--grey);
+			&:empty {
+				display: none;
+			}
+		}
+		.more {
+			grid-area: more;
+		}
+	}
+}
+@include dark() {
+	.command {
+		background-color: var(--dark-grey);
+		.label {
+			color: var(--light);
+		}
+		.description {
+			color: var(--grey);
+		}
+		.actions {
+			.button {
+				background-color: var(--dark);
+				.icon {
+				}
+			}
+		}
+	}
+}

@@ -14,7 +14,7 @@ import type { ISimpleChanges } from "../interfaces";
 export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, OnInit, OnChanges {
 	@Output() valueChange = new EventEmitter<T>();
 
-	@Input() value: T | null = null;
+	@Input() value?: T | null = null;
 	@Input() errors: ValidationErrors | null = null;
 	@Input() disabled = false;
 	@Input() placeholder = "";
@@ -22,8 +22,8 @@ export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, 
 	readonly formControl: FormControl<T>;
 	readonly id = v4();
 
-	onChange: ((value: T) => void) | undefined;
-	onTouched: (() => void) | undefined;
+	onChange?: (value: T) => void;
+	onTouched?: () => void;
 
 	constructor(@Inject(String) @Optional() initialValue: T) {
 		this.formControl = new FormControl<T>(initialValue);
@@ -34,6 +34,7 @@ export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, 
 			if (this.onChange) {
 				this.onChange(value);
 			}
+
 			this.valueChange.emit(value);
 		});
 	}

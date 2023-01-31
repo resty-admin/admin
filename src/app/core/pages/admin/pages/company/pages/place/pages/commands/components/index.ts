@@ -1,5 +1,5 @@
-import { CommandDialogComponent } from "./command-dialog/command-dialog.component";
+import { CommandsSkeletonComponent } from "./commands-skeleton/commands-skeleton.component";
 
-export const COMMANDS_COMPONENTS = [CommandDialogComponent];
+export const COMMANDS_COMPONENTS = [CommandsSkeletonComponent];
 
-export * from "./command-dialog/command-dialog.component";
+export * from "./commands-skeleton/commands-skeleton.component";

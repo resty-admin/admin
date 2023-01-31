@@ -1,92 +1,165 @@
-import type { AfterViewInit } from "@angular/core";
+import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
-import { filter, switchMap, take } from "rxjs";
-import type { IProduct } from "src/app/shared/interfaces";
-import type { IDatatableColumn } from "src/app/shared/ui/datatable";
-import { DialogService } from "src/app/shared/ui/dialog";
-import { ToastrService } from "src/app/shared/ui/toastr";
+import { ActivatedRoute } from "@angular/router";
+import { ActionsService } from "@features/app";
+import { ProductsService } from "@features/products";
+import { ProductDialogComponent } from "@features/products/ui";
+import type { ProductEntity } from "@graphql";
+import { PLACE_ID } from "@shared/constants";
+import type { AtLeast } from "@shared/interfaces";
+import { I18nService } from "@shared/modules/i18n";
+import { RouterService } from "@shared/modules/router";
+import { SharedService } from "@shared/services";
+import type { IAction } from "@shared/ui/actions";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import type { IDatatableColumn } from "@shared/ui/datatable";
+import { DialogService } from "@shared/ui/dialog";
+import { ToastrService } from "@shared/ui/toastr";
+import { lastValueFrom, map } from "rxjs";
 
-import { ProductsService } from "../../../../../../../../../../../../shared/modules/products";
-import type { IAction } from "../../../../../../../../../../../../shared/ui/actions";
-import { ConfirmationDialogComponent } from "../../../../../../../../../../../../shared/ui/confirmation-dialog";
-import { ProductDialogComponent } from "../components";
+import { PRODUCTS_PAGE } from "../constants";
+import { ProductsPageGQL } from "../graphql";
 
-@UntilDestroy()
 @Component({
 	selector: "app-products",
 	templateUrl: "./products.component.html",
 	styleUrls: ["./products.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductsComponent implements AfterViewInit {
+export class ProductsComponent implements AfterViewInit, OnInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
-	readonly products$ = this._productsService.products$;
-	readonly actions: IAction<IProduct>[] = [
+	readonly productsPage = PRODUCTS_PAGE;
+	private readonly _productsPageQuery = this._productsPageGQL.watch();
+
+	readonly products$ = this._activatedRoute.data.pipe(map((data) => data["products"]));
+
+	readonly actions: IAction<ProductEntity>[] = [
 		{
 			label: "Редактировать",
 			icon: "edit",
-			func: (product?: IProduct) => this.openProductDialog(product)
+			func: (product) => this.openUpdateProductDialog(product)
 		},
 		{
 			label: "Удалить",
 			icon: "delete",
-			func: (product?: IProduct) => {
-				if (!product) {
-					return;
-				}
-
-				this.openDeleteProductDialog(product);
-			}
+			func: (product) => this.openDeleteProductDialog(product)
 		}
 	];
 
 	columns: IDatatableColumn[] = [];
 
 	constructor(
+		readonly sharedService: SharedService,
+		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _productsPageGQL: ProductsPageGQL,
 		private readonly _productsService: ProductsService,
+		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
-		private readonly _toastrService: ToastrService
+		private readonly _actionsService: ActionsService,
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
-	openProductDialog(product?: Partial<IProduct>) {
-		this._dialogService
-			.open(ProductDialogComponent, { data: product })
-			.afterClosed$.pipe(
-				take(1),
-				filter((product) => Boolean(product)),
-				switchMap((product: Partial<IProduct>) =>
-					product.id
-						? this._productsService
-								.updateProduct(product.id, product)
-								.pipe(take(1), this._toastrService.observe("Блюда"))
-						: this._productsService
-								.createProduct({
-									...product,
-									category: product.category?.id,
-									price: Number(product.price)
-								} as unknown as any)
-								.pipe(take(1), this._toastrService.observe("Блюда"))
-				)
-			)
-			.subscribe();
+	async ngOnInit() {
+		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+
+		if (!placeId) {
+			return;
+		}
+
+		this._actionsService.setAction({
+			label: "Добавить блюдо",
+			func: () => this.openCreateProductDialog()
+		});
+
+		await this._productsPageQuery.setVariables({
+			filtersArgs: [{ key: "category.place.id", operator: "=", value: placeId }]
+		});
 	}
 
-	openDeleteProductDialog(product: Partial<IProduct>) {
-		this._dialogService
-			.open(ConfirmationDialogComponent, {
-				data: {
-					title: "Вы уверены, что хотите удалить блюдо?",
-					value: product
-				}
-			})
-			.afterClosed$.pipe(
-				take(1),
-				filter((product) => Boolean(product)),
-				switchMap((product) => this._productsService.deleteProduct(product.id))
-			)
-			.subscribe();
+	async openCreateProductDialog() {
+		const product: ProductEntity | undefined = await lastValueFrom(
+			this._dialogService.open(ProductDialogComponent).afterClosed$
+		);
+
+		if (!product) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._productsService
+				.createProduct({
+					name: product.name,
+					description: product.description,
+					category: product.category.id,
+					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+					file: product.file?.id,
+					price: product.price
+				})
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productsPage),
+						this._i18nService.translate("created", {}, this.productsPage)
+					)
+				)
+		);
+
+		await this._productsPageQuery.refetch();
+	}
+
+	async openUpdateProductDialog(data: AtLeast<ProductEntity, "id">) {
+		const product: ProductEntity | undefined = await lastValueFrom(
+			this._dialogService.open(ProductDialogComponent, { data }).afterClosed$
+		);
+
+		if (!product) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._productsService
+				.updateProduct({
+					id: product.id,
+					name: product.name,
+					description: product.description,
+					category: product.category.id,
+					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
+					file: product.file?.id,
+					price: product.price
+				})
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productsPage),
+						this._i18nService.translate("updated", {}, this.productsPage)
+					)
+				)
+		);
+
+		await this._productsPageQuery.refetch();
+	}
+
+	async openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
+		const config = { data: { title: "Вы уверены, что хотите удалить продукт?", value: product } };
+
+		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
+
+		if (!isConfirmed) {
+			return;
+		}
+
+		await lastValueFrom(
+			this._productsService
+				.deleteProduct(product.id)
+				.pipe(
+					this._toastrService.observe(
+						this._i18nService.translate("title", {}, this.productsPage),
+						this._i18nService.translate("deleted", {}, this.productsPage)
+					)
+				)
+		);
+
+		await this._productsPageQuery.refetch();
 	}
 
 	ngAfterViewInit() {
@@ -111,5 +184,9 @@ export class ProductsComponent implements AfterViewInit {
 				cellTemplate: this.moreTemplate
 			}
 		];
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }

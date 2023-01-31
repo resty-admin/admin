@@ -1,0 +1,10 @@
+<footer class="footer">
+	<a class="back" *ngIf="breadcrumb$ | async as breadcrumb" [routerLink]="breadcrumb.routerLink">
+		<app-icon class="icon" name="back"></app-icon>
+		<span class="label" *ngIf="breadcrumb.label">{{ breadcrumb.label }}</span>
+	</a>
+
+	<button appButton theme="1" class="action" *ngIf="action$ | async as action" (click)="action.func()">
+		{{ action.label }}
+	</button>
+</footer>

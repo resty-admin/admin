@@ -1,5 +1,5 @@
-import { PaymentSystemDialogComponent } from "./payment-system-dialog/payment-system-dialog.component";
+import { PaymentSystemsSkeletonComponent } from "./payment-systems-skeleton/payment-systems-skeleton.component";
 
-export const PAYMENT_SYSTEMS_COMPONENTS = [PaymentSystemDialogComponent];
+export const PAYMENT_SYSTEMS_COMPONENTS = [PaymentSystemsSkeletonComponent];
 
-export * from "./payment-system-dialog/payment-system-dialog.component";
+export * from "./payment-systems-skeleton/payment-systems-skeleton.component";

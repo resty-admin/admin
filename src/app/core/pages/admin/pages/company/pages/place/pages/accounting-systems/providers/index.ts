@@ -1,0 +1,3 @@
+import { ACCOUNTING_SYSTEMS_I18N_PROVIDER } from "./acconting-system-i18n.provider";
+
+export const ACCOUNTING_SYSTEMS_PROVIDERS = [ACCOUNTING_SYSTEMS_I18N_PROVIDER];

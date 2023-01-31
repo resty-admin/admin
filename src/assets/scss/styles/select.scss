@@ -3,13 +3,22 @@
 body {
 	.app-select {
 		&.theme-1 .ng-select {
+			.ng-input {
+				position: absolute;
+				left: 0;
+				width: 100%;
+				padding: 0 rem(16);
+			}
 			.ng-select-container {
 				background-color: var(--light-grey);
 				border-radius: rem(12);
-				padding: rem(11) rem(16);
 				border: rem(1) solid transparent;
+				cursor: pointer;
 				.ng-value-container {
+					padding: rem(11) rem(16);
+					column-gap: rem(5);
 					.ng-placeholder {
+						position: static;
 						font-weight: 400;
 						font-size: rem(13);
 						line-height: rem(24);
@@ -33,6 +42,9 @@ body {
 				&.ng-has-value .ng-placeholder {
 					display: none;
 				}
+				&:hover {
+					border-color: var(--primary);
+				}
 			}
 			.ng-dropdown-panel {
 				z-index: 1000;
@@ -40,19 +52,30 @@ body {
 					background-color: var(--light-grey);
 					border-radius: 0 0 rem(12) rem(12);
 					margin-top: rem(-10);
-					padding: rem(18) rem(16) rem(8);
+					padding: rem(17.5) rem(5) rem(5);
+					border: rem(1) solid transparent;
 					.ng-option {
-						padding: rem(8) 0;
+						border-radius: rem(12);
 						font-weight: 400;
 						font-size: rem(13);
 						line-height: rem(16);
 						color: var(--dark);
+						padding: rem(10) rem(16);
+						margin-top: rem(5);
+
+						&:first-child {
+							margin-top: 0;
+						}
+
+						&:hover:not(.ng-option-selected) {
+							color: var(--primary);
+						}
 
 						@include desktop() {
 							font-size: rem(16);
 						}
 						&.ng-option-selected {
-							color: var(--primary);
+							background-color: var(--primary-t);
 						}
 						&.ng-option-disabled {
 							color: var(--dark-d);
@@ -61,6 +84,14 @@ body {
 				}
 			}
 
+			&.ng-select-filtered {
+				.ng-value-container .ng-value,
+				.ng-placeholder {
+					display: block;
+					opacity: 0%;
+				}
+			}
+			&.ng-select-focused .ng-select-container,
 			&.ng-select-opened .ng-select-container {
 				border-color: var(--primary);
 			}
@@ -77,6 +108,9 @@ body {
 				&.ng-has-value .ng-value .ng-option-label {
 					color: var(--light);
 				}
+				&:hover {
+					border-color: var(--primary);
+				}
 			}
 			.ng-dropdown-panel .ng-dropdown-panel-items {
 				background-color: var(--dark-grey);
@@ -89,6 +123,10 @@ body {
 						color: var(--light-d);
 					}
 				}
+			}
+			&.ng-select-focused .ng-select-container,
+			&.ng-select-opened .ng-select-container {
+				border-color: var(--primary);
 			}
 		}
 	}

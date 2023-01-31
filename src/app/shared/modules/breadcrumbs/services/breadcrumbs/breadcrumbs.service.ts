@@ -1,16 +1,14 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
+import type { IBreadcrumb } from "../../interfaces";
+
 @Injectable({ providedIn: "root" })
 export class BreadcrumbsService {
-	private readonly _backUrlSubject = new BehaviorSubject<string | null>(null);
-	readonly backUrl$ = this._backUrlSubject.asObservable();
+	private readonly _breadcrumbSubject = new BehaviorSubject<IBreadcrumb | null>(null);
+	readonly breadcrumb$ = this._breadcrumbSubject.asObservable();
 
-	get backUrl() {
-		return this._backUrlSubject.getValue();
-	}
-
-	setBackUrl(url: string | null) {
-		this._backUrlSubject.next(url);
+	setBreadcrumb(breadcrumb: IBreadcrumb | null) {
+		this._breadcrumbSubject.next(breadcrumb);
 	}
 }

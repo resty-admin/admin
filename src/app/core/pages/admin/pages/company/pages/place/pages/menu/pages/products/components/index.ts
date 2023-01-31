@@ -1,5 +1,5 @@
-import { ProductDialogComponent } from "./product-dialog/product-dialog.component";
+import { ProductsSkeletonComponent } from "./products-skeleton/products-skeleton.component";
 
-export const PRODUCTS_COMPONENTS = [ProductDialogComponent];
+export const PRODUCTS_COMPONENTS = [ProductsSkeletonComponent];
 
-export * from "./product-dialog/product-dialog.component";
+export * from "./products-skeleton/products-skeleton.component";

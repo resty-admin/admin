@@ -1,0 +1,41 @@
+<div class="user-dialog" *transloco="let t; read: userDialog">
+	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
+
+	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="f('name_label')"
+			[placeholder]="f('name_placeholder')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="email"
+			[label]="f('email_label')"
+			[placeholder]="f('email_placeholder')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="tel"
+			[label]="f('tel_label')"
+			[placeholder]="f('tel_placeholder')"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="password"
+			[label]="f('password_label')"
+			[placeholder]="f('password_placeholder')"
+		></app-input>
+		<app-select
+			class="input"
+			formControlName="role"
+			bindValue="value"
+			bindLabel="label"
+			[options]="roles"
+			[label]="f('role_label')"
+			[placeholder]="f('role_placeholder')"
+		></app-select>
+
+		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
+	</form>
+</div>

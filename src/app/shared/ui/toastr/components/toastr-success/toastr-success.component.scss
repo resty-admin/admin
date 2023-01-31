@@ -6,6 +6,7 @@
 		grid-template-areas:
 			"circle title close"
 			". description .";
+		grid-template-columns: auto 1fr auto;
 		grid-row-gap: rem(5);
 		grid-column-gap: rem(15);
 		align-items: center;
@@ -13,6 +14,7 @@
 		backdrop-filter: blur(2px);
 		border-radius: 12px;
 		padding: rem(8) rem(16) rem(21) rem(8);
+		min-width: rem(200);
 
 		.circle {
 			grid-area: circle;
@@ -26,8 +28,6 @@
 			.icon {
 				width: rem(12);
 				height: rem(8);
-
-				@include icon(false, var(--light));
 			}
 		}
 
@@ -50,8 +50,6 @@
 		.close .icon {
 			width: rem(12);
 			height: rem(12);
-
-			@include icon(var(--dark), var(--dark));
 		}
 	}
 }
@@ -65,7 +63,6 @@
 			color: var(--light);
 		}
 		.close .icon {
-			@include icon(var(--light), var(--light));
 		}
 	}
 }

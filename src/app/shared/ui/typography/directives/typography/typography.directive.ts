@@ -1,6 +1,6 @@
 import { Directive, HostBinding, Input } from "@angular/core";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
 
-import { ANY_SYMBOL, THEME } from "../../../../constants";
 import { ITypographyTheme } from "../../interfaces";
 
 @Directive({

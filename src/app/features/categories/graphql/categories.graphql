@@ -1,0 +1,25 @@
+mutation CreateCategory($category: CreateCategoryInput!) {
+	createCategory(category: $category) {
+		id
+		name
+		file {
+			url
+			id
+		}
+	}
+}
+
+mutation UpdateCategory($category: UpdateCategoryInput!) {
+	updateCategory(category: $category) {
+		id
+		name
+		file {
+			url
+			id
+		}
+	}
+}
+
+mutation DeleteCategory($categoryId: String!) {
+	deleteCategory(categoryId: $categoryId)
+}

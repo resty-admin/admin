@@ -1,8 +1,8 @@
 import type { AfterViewInit, OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from "@angular/core";
+import { ANY_SYMBOL, THEME } from "@shared/constants";
+import type { ISimpleChanges } from "@shared/interfaces";
 import { NgProgressComponent } from "ngx-progressbar";
-import { ANY_SYMBOL, THEME } from "src/app/shared/constants";
-import type { ISimpleChanges } from "src/app/shared/interfaces";
 
 import { IProgressBarTheme } from "../interfaces";
 
@@ -18,9 +18,7 @@ export class ProgressBarComponent implements OnChanges, AfterViewInit {
 	@Input() theme: IProgressBarTheme = "1";
 	@Input() active = false;
 
-	get className() {
-		return `app-progress-bar ${THEME.replace(ANY_SYMBOL, this.theme)}`;
-	}
+	className = `app-progress-bar ${THEME.replace(ANY_SYMBOL, this.theme)}`;
 
 	ngAfterViewInit() {
 		if (!this.progressBar) {
@@ -33,11 +31,15 @@ export class ProgressBarComponent implements OnChanges, AfterViewInit {
 	}
 
 	ngOnChanges(changes: ISimpleChanges<ProgressBarComponent>) {
-		if (!changes.active || !this.progressBar) {
+		if (!this.progressBar) {
 			return;
 		}
 
-		if (changes.active.currentValue) {
+		if (changes.theme) {
+			this.className = `app-progress-bar ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
+		}
+
+		if (changes.active && changes.active.currentValue) {
 			this.progressBar.start();
 		} else {
 			this.progressBar.complete();

@@ -1,0 +1,28 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.order-page {
+		display: grid;
+		row-gap: rem(24);
+
+		.actions {
+			display: flex;
+			justify-content: space-between;
+			column-gap: rem(15);
+			button {
+				flex: 1;
+				color: var(--light);
+				padding: rem(10);
+				border-radius: rem(6);
+				&.approve {
+					background-color: var(--success);
+				}
+				&.reject {
+					background-color: var(--danger);
+				}
+			}
+		}
+
+		@include pagePadding();
+	}
+}

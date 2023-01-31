@@ -1,26 +1,29 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ButtonModule } from "src/app/shared/ui/button";
-import { DatatableModule } from "src/app/shared/ui/datatable";
-import { IconModule } from "src/app/shared/ui/icon";
-import { InputModule } from "src/app/shared/ui/input";
-import { SelectModule } from "src/app/shared/ui/select";
-import { TypographyModule } from "src/app/shared/ui/typography";
+import { FormsModule } from "@angular/forms";
+import { UserDialogModule } from "@features/users/ui/user-dialog/user-dialog.module";
+import { TranslocoModule } from "@shared/modules/i18n";
+import { ActionsModule } from "@shared/ui/actions";
+import { AddHeaderModule } from "@shared/ui/add-header";
+import { ButtonModule } from "@shared/ui/button";
+import { DatatableModule } from "@shared/ui/datatable";
+import { IconModule } from "@shared/ui/icon";
+import { InputModule } from "@shared/ui/input";
+import { SelectModule } from "@shared/ui/select";
+import { TabsModule } from "@shared/ui/tabs";
+import { TooltipModule } from "@shared/ui/tooltip";
+import { TypographyModule } from "@shared/ui/typography";
 
-import { ActionsModule } from "../../../../../../../../../shared/ui/actions";
-import { TooltipModule } from "../../../../../../../../../shared/ui/tooltip";
-import { USERS_COMPONENTS } from "./components";
 import { UsersComponent } from "./layout/users.component";
+import { USERS_PROVIDERS } from "./providers";
 import { UserRoutingModule } from "./users-routing.module";
 
 @NgModule({
-	declarations: [UsersComponent, ...USERS_COMPONENTS],
+	declarations: [UsersComponent],
 	imports: [
 		CommonModule,
 		UserRoutingModule,
 		InputModule,
-		ReactiveFormsModule,
 		TypographyModule,
 		DatatableModule,
 		ButtonModule,
@@ -28,8 +31,12 @@ import { UserRoutingModule } from "./users-routing.module";
 		SelectModule,
 		FormsModule,
 		ActionsModule,
-		TooltipModule
+		TooltipModule,
+		TranslocoModule,
+		AddHeaderModule,
+		TabsModule,
+		UserDialogModule
 	],
-	exports: [UsersComponent]
+	providers: USERS_PROVIDERS
 })
 export class UsersModule {}
