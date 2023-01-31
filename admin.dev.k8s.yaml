@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: dev-admin-k8s
-          image: registry.digitalocean.com/resty-registry/admin:latest
+          image: registry.digitalocean.com/resty-registry/dev-admin:latest
           ports:
             - containerPort: 80
 ---
