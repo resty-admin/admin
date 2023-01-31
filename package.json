@@ -11,7 +11,7 @@
 		"serve:ssr": "node dist/admin/server/main.js",
 		"build:ssr": "ng build && ng run admin:server",
 		"build:dev": "ng build --configuration=dev",
-		"build:plrod": "ng build --configuration=prod",
+		"build:prod": "ng build --configuration=prod",
 		"prerender": "ng run admin:prerender",
 		"update-packages": "yarn-check -u",
 		"husky:prepare": "husky install && chmod ug+x .husky/*",
