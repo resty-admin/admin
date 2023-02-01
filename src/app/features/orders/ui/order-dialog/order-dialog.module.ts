@@ -9,7 +9,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { OrderDialogComponent } from "./layout/order-dialog.component";
-import { ORDER_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [OrderDialogComponent],
@@ -23,7 +22,6 @@ import { ORDER_DIALOG_PROVIDERS } from "./providers";
 		SelectModule,
 		I18nModule
 	],
-	providers: ORDER_DIALOG_PROVIDERS,
 	exports: [OrderDialogComponent]
 })
 export class OrderDialogModule {}

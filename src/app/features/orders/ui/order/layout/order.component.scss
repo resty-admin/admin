@@ -17,24 +17,10 @@
 			}
 		}
 
-		.info {
-			display: grid;
-			grid-template-areas: "code status";
-			row-gap: rem(6);
-			padding: rem(14) rem(16);
-			.code {
-				grid-area: code;
-				font-weight: 500;
-				font-size: rem(16);
-				line-height: rem(24);
-				color: var(--dark);
-				justify-self: start;
-			}
-			.status {
-				grid-area: status;
-				justify-self: end;
-				color: var(--grey);
-				justify-self: end;
+		.content {
+			.active-order::ng-deep .active-order {
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
 			}
 		}
 

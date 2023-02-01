@@ -1,7 +1,1 @@
-<img
-	appImagePlaceholder
-	[class]="className"
-	[src]="src$ | async"
-	[alt]="name"
-	[placeholder]="placeholderSrc$ | async"
-/>
+<img [class]="className" [defaultImage]="$any(placeholderSrc$ | async)" [lazyLoad]="$any(src$ | async)" [alt]="name" />

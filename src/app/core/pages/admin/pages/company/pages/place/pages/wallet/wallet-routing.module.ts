@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { WalletSkeletonComponent } from "./components";
-import { WALLET_PAGE } from "./constants";
+import { WalletPageSkeletonComponent } from "./components";
 import { WalletComponent } from "./layout/wallet.component";
-import { WalletResolver } from "./resolvers";
+import { WalletPageResolver } from "./resolvers";
 
 export const WALLET_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: WalletComponent,
 		data: {
-			animation: WALLET_PAGE
+			animation: "walletPage"
 		},
 		resolve: {
-			places: WalletResolver
+			places: WalletPageResolver
 		},
 		skeleton: {
-			component: WalletSkeletonComponent
+			component: WalletPageSkeletonComponent
 		}
 	}
 ];

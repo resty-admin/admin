@@ -4,41 +4,36 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../graphql";
 export type StatisticPageQueryVariables = Types.Exact<{
-	guestsFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-	hallsFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-	tablesFiltersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
+	placeId: Types.Scalars["String"];
 }>;
 
 export interface StatisticPageQuery {
 	__typename?: "Query";
-	users: { __typename?: "PaginatedUser"; totalCount: number };
-	halls: { __typename?: "PaginatedHall"; totalCount: number };
-	tables: { __typename?: "PaginatedTable"; totalCount: number };
-}
-
-export type StatisticPlaceQueryVariables = Types.Exact<{
-	placeId: Types.Scalars["String"];
-}>;
-
-export interface StatisticPlaceQuery {
-	__typename?: "Query";
-	place: { __typename?: "PlaceEntity"; verificationStatus: Types.PlaceVerificationStatusEnum };
+	getPlaceStatistic: {
+		__typename?: "StatisticType";
+		employees: number;
+		guests: number;
+		halls: number;
+		tables: number;
+		tax: number;
+		totalAmount: number;
+	};
+	place: { __typename?: "PlaceEntity"; id: string; verificationStatus: Types.PlaceVerificationStatusEnum };
 }
 
 export const StatisticPageDocument = gql`
-	query StatisticPage(
-		$guestsFiltersArgs: [FiltersArgsDto!]
-		$hallsFiltersArgs: [FiltersArgsDto!]
-		$tablesFiltersArgs: [FiltersArgsDto!]
-	) {
-		users(filtersArgs: $guestsFiltersArgs) {
-			totalCount
+	query StatisticPage($placeId: String!) {
+		getPlaceStatistic(placeId: $placeId) {
+			employees
+			guests
+			halls
+			tables
+			tax
+			totalAmount
 		}
-		halls(filtersArgs: $hallsFiltersArgs) {
-			totalCount
-		}
-		tables(filtersArgs: $tablesFiltersArgs) {
-			totalCount
+		place(id: $placeId) {
+			id
+			verificationStatus
 		}
 	}
 `;
@@ -48,24 +43,6 @@ export const StatisticPageDocument = gql`
 })
 export class StatisticPageGQL extends Apollo.Query<StatisticPageQuery, StatisticPageQueryVariables> {
 	override document = StatisticPageDocument;
-
-	constructor(apollo: Apollo.Apollo) {
-		super(apollo);
-	}
-}
-export const StatisticPlaceDocument = gql`
-	query StatisticPlace($placeId: String!) {
-		place(id: $placeId) {
-			verificationStatus
-		}
-	}
-`;
-
-@Injectable({
-	providedIn: "root"
-})
-export class StatisticPlaceGQL extends Apollo.Query<StatisticPlaceQuery, StatisticPlaceQueryVariables> {
-	override document = StatisticPlaceDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

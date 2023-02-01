@@ -1,0 +1,27 @@
+<div class="company" *transloco="let t">
+	<p class="title">
+		<span class="text">{{ t("COMPANIES") }}</span>
+		<button appIconButton class="button" (click)="emitAddCompanyClick()">
+			<app-icon class="icon" name="add"></app-icon>
+		</button>
+	</p>
+
+	<div class="container">
+		<app-select
+			class="select"
+			bindLabel="name"
+			bindValue="id"
+			[value]="companyId"
+			[label]="t('COMPANY_LABEL')"
+			[placeholder]="t('COMPANY_PLACEHOLDER')"
+			[options]="companies"
+			(valueChange)="emitCompanyChange($event)"
+		></app-select>
+
+		<app-more
+			class="more"
+			(editClicked)="emitEditClick(companyId)"
+			(deleteClicked)="emitDeleteClick(companyId)"
+		></app-more>
+	</div>
+</div>

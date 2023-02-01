@@ -1,5 +1,5 @@
-import { CategoriesSkeletonComponent } from "./categories-skeleton/categories-skeleton.component";
+import { CategoriesPageSkeletonComponent } from "./categories-page-skeleton/categories-page-skeleton.component";
 
-export const CATEGORIES_COMPONENTS = [CategoriesSkeletonComponent];
+export const CATEGORIES_COMPONENTS = [CategoriesPageSkeletonComponent];
 
-export * from "./categories-skeleton/categories-skeleton.component";
+export * from "./categories-page-skeleton/categories-page-skeleton.component";

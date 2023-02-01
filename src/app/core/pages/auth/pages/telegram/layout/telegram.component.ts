@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { AuthService } from "@features/auth/services";
 import { ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
 @Component({
 	selector: "app-telegram",
@@ -14,7 +14,7 @@ import { lastValueFrom } from "rxjs";
 export class TelegramComponent implements OnInit {
 	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
 
-	async ngOnInit() {
+	ngOnInit() {
 		const value = this._routerService.getFragment();
 
 		if (!value) {
@@ -23,8 +23,11 @@ export class TelegramComponent implements OnInit {
 
 		const telegramUser = JSON.parse(new URLSearchParams(value).get("user") || "");
 
-		await lastValueFrom(this._authService.telegram(telegramUser));
-
-		await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
+		this._authService
+			.telegram(telegramUser)
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
+			});
 	}
 }

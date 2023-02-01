@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { AttributesSkeletonComponent } from "./components";
-import { ATTRIBUTES_PAGE } from "./constants";
+import { AttributesPageSkeletonComponent } from "./components";
 import { AttributesComponent } from "./layout/attributes.component";
-import { AttriburesResolver } from "./resolvers";
+import { AttriburesPageResolver } from "./resolvers";
 
 export const ATTRIBUTES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: AttributesComponent,
 		data: {
-			animation: ATTRIBUTES_PAGE
+			animation: "attributesPage"
 		},
 		resolve: {
-			attributeGroups: AttriburesResolver
+			attributeGroups: AttriburesPageResolver
 		},
 		skeleton: {
-			component: AttributesSkeletonComponent
+			component: AttributesPageSkeletonComponent
 		}
 	}
 ];

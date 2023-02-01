@@ -1,21 +1,14 @@
-query StatisticPage(
-	$guestsFiltersArgs: [FiltersArgsDto!]
-	$hallsFiltersArgs: [FiltersArgsDto!]
-	$tablesFiltersArgs: [FiltersArgsDto!]
-) {
-	users(filtersArgs: $guestsFiltersArgs) {
-		totalCount
+query StatisticPage($placeId: String!) {
+	getPlaceStatistic(placeId: $placeId) {
+		employees
+		guests
+		halls
+		tables
+		tax
+		totalAmount
 	}
-	halls(filtersArgs: $hallsFiltersArgs) {
-		totalCount
-	}
-	tables(filtersArgs: $tablesFiltersArgs) {
-		totalCount
-	}
-}
-
-query StatisticPlace($placeId: String!) {
 	place(id: $placeId) {
+		id
 		verificationStatus
 	}
 }

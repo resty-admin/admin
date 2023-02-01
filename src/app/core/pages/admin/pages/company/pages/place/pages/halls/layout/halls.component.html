@@ -1,5 +1,5 @@
-<div class="halls-page" *transloco="let t; read: hallsPage">
-	<app-add-header [title]="t('title')" [add]="t('add')" (clicked)="openCreateHallDialog()"></app-add-header>
+<div class="halls-page" *transloco="let t">
+	<app-add-header [title]="t('TITLE')" [add]="t('ADD')" (clicked)="openCreateHallDialog()"></app-add-header>
 
 	<app-filters class="filters"></app-filters>
 
@@ -7,5 +7,9 @@
 </div>
 
 <ng-template let-item #hallTemplate>
-	<app-hall [hall]="item" [actions]="actions"></app-hall>
+	<app-hall
+		[hall]="item"
+		(editClicked)="openUpdateHallDialog(item)"
+		(deleteClicked)="openDeleteHallDialog(item)"
+	></app-hall>
 </ng-template>

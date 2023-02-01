@@ -1,0 +1,6 @@
+query WalletPage($placeId: String!) {
+	getPlaceStatistic(placeId: $placeId) {
+		tax
+		totalAmount
+	}
+}

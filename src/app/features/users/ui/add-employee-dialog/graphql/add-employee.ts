@@ -10,13 +10,24 @@ export type FindUserQueryVariables = Types.Exact<{
 
 export interface FindUserQuery {
 	__typename?: "Query";
-	user: { __typename?: "UserEntity"; id: string };
+	user: {
+		__typename?: "UserEntity";
+		id: string;
+		name: string;
+		email?: string | null;
+		role: Types.UserRoleEnum;
+		tel?: string | null;
+	};
 }
 
 export const FindUserDocument = gql`
 	query FindUser($filtersArgs: [FiltersArgsDto!], $userId: String) {
 		user(filtersArgs: $filtersArgs, id: $userId) {
 			id
+			name
+			email
+			role
+			tel
 		}
 	}
 `;

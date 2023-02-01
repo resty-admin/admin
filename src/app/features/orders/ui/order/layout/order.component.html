@@ -1,25 +1,9 @@
 <div class="order" *ngIf="order">
-	<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.name"></app-image>
+	<app-image class="image" placeholder="table" [remote]="true" [name]="order.table?.file?.url"></app-image>
 
-	<div class="info">
-		<p class="code">{{ order.code }}</p>
-		<p class="status">{{ order.code }}</p>
+	<div class="content">
+		<app-active-order class="active-order" [activeOrder]="order"></app-active-order>
 	</div>
 
-	<button
-		appStopPropagation
-		appIconButton
-		class="more"
-		[tippy]="actionsTemplate"
-		[data]="order"
-		placement="left"
-		variation="popper"
-		theme="1"
-	>
-		<app-icon class="icon" name="more"></app-icon>
-	</button>
+	<app-more class="more" (editClicked)="emitEditClick($event)" (deleteClicked)="emitDeleteClick($event)"></app-more>
 </div>
-
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>

@@ -1,0 +1,11 @@
+<ng-container *transloco="let t">
+	<a class="user" *ngIf="user" [routerLink]="adminRoutes.PROFILE.absolutePath" (click)="emitCloseClick()">
+		<div class="image">{{ user.name | initials }}</div>
+		<p class="name">{{ user.name }}</p>
+		<p class="description">{{ t(user.role) }}</p>
+
+		<button appStopPropagation class="sign-out" (click)="emitSignOutClick()">
+			<app-icon class="icon" name="exit"></app-icon>
+		</button>
+	</a>
+</ng-container>

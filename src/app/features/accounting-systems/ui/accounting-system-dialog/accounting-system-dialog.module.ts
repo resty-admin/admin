@@ -9,7 +9,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { AccountingSystemDialogComponent } from "./layout/accounting-system-dialog.component";
-import { ACCOUNTING_SYSTEMS_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AccountingSystemDialogComponent],
@@ -23,7 +22,6 @@ import { ACCOUNTING_SYSTEMS_DIALOG_PROVIDERS } from "./providers";
 		SelectModule,
 		I18nModule
 	],
-	providers: ACCOUNTING_SYSTEMS_DIALOG_PROVIDERS,
 	exports: [AccountingSystemDialogComponent]
 })
 export class AccountingSystemDialogModule {}

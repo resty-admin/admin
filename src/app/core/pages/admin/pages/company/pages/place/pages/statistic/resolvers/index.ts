@@ -1,1 +1,1 @@
-export * from "./statistic/statistic.resolver";
+export * from "./statistic-page/statistic-page.resolver";

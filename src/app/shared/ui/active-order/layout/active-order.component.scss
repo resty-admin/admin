@@ -10,8 +10,6 @@
 		padding: rem(12);
 		column-gap: rem(12);
 
-		@include hideOnDesktop(flex);
-
 		.divider {
 			width: rem(1);
 			height: 100%;
@@ -23,12 +21,16 @@
 			line-height: rem(16);
 			color: var(--dark);
 			font-weight: 500;
+
+			@include noWrap();
 		}
 
 		.type {
 			font-size: rem(12);
 			line-height: rem(16);
 			font-weight: 500;
+
+			@include noWrap();
 		}
 
 		&.DELIVERY {

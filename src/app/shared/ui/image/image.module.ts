@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import type { ModuleWithProviders } from "@angular/core";
 import { NgModule } from "@angular/core";
+import { LazyLoadImageModule } from "ng-lazyload-image";
 
 import type { IFactory } from "../../interfaces";
 import { IMAGE_DIRECTIVES } from "./directives";
@@ -10,7 +11,7 @@ import { ImageComponent } from "./layout/image.component";
 
 @NgModule({
 	declarations: [ImageComponent, ...IMAGE_DIRECTIVES],
-	imports: [CommonModule],
+	imports: [CommonModule, LazyLoadImageModule],
 	exports: [ImageComponent, ...IMAGE_DIRECTIVES]
 })
 export class ImageModule {

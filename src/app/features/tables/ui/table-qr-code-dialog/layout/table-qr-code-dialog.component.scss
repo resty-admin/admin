@@ -2,6 +2,9 @@
 
 @include component() {
 	.table-qr-code-dialog {
+		display: grid;
+		padding: rem(57) rem(32);
+		row-gap: rem(32);
 	}
 }
 @include dark() {

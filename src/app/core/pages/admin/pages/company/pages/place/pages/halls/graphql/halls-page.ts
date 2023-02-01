@@ -15,7 +15,14 @@ export interface HallsPageQuery {
 		__typename?: "PaginatedHall";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "HallEntity"; id: string; name: string }[] | null;
+		data?:
+			| {
+					__typename?: "HallEntity";
+					id: string;
+					name: string;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+			  }[]
+			| null;
 	};
 }
 
@@ -27,6 +34,10 @@ export const HallsPageDocument = gql`
 			data {
 				id
 				name
+				file {
+					id
+					url
+				}
 			}
 		}
 	}

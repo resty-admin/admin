@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { CompaniesSkeletonComponent } from "./components";
-import { COMPANIES_PAGE } from "./constants";
+import { CompaniesPageSkeletonComponent } from "./components";
 import { CompaniesComponent } from "./layout/companies.component";
-import { CompaniesResolver } from "./resolvers";
+import { CompaniesPageResolver } from "./resolvers";
 
 export const COMPNAIES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: CompaniesComponent,
 		data: {
-			animation: COMPANIES_PAGE
+			animation: "companiesPage"
 		},
 		resolve: {
-			companies: CompaniesResolver
+			companies: CompaniesPageResolver
 		},
 		skeleton: {
-			component: CompaniesSkeletonComponent
+			component: CompaniesPageSkeletonComponent
 		}
 	}
 ];

@@ -9,7 +9,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { AddEmployeeDialogComponent } from "./layout/add-employee-dialog.component";
-import { ADD_EMPLOYEE_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AddEmployeeDialogComponent],
@@ -23,7 +22,6 @@ import { ADD_EMPLOYEE_DIALOG_PROVIDERS } from "./providers";
 		SelectModule,
 		I18nModule
 	],
-	providers: ADD_EMPLOYEE_DIALOG_PROVIDERS,
 	exports: [AddEmployeeDialogComponent]
 })
 export class AddEmployeeDialogModule {}

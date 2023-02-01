@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { AccountingSystemsSkeletonComponent } from "./components";
-import { ACCOUNTING_SYSTEMS_PAGE } from "./constants";
+import { AccountingSystemsPageSkeletonComponent } from "./components";
 import { AccountingSystemsComponent } from "./layout/accounting-systems.component";
-import { AccountingSystemsResolver } from "./resolvers";
+import { AccountingSystemsPageResolver } from "./resolvers";
 
 export const ACCOUNTING_SYSTEMS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: AccountingSystemsComponent,
 		data: {
-			animation: ACCOUNTING_SYSTEMS_PAGE
+			animation: "accountingSystemPage"
 		},
 		resolve: {
-			accountingSystems: AccountingSystemsResolver
+			accountingSystems: AccountingSystemsPageResolver
 		},
 		skeleton: {
-			component: AccountingSystemsSkeletonComponent
+			component: AccountingSystemsPageSkeletonComponent
 		}
 	}
 ];

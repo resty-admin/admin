@@ -1,7 +1,7 @@
-<div class="attributes-page" *transloco="let t; read: attributesPage">
+<div class="attributes-page" *transloco="let t">
 	<button appButton class="add" (click)="openCreateAttributeGroupDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("add") }}</span>
+		<span class="text">{{ t("ADD") }}</span>
 	</button>
 
 	<app-filters class="filters"></app-filters>
@@ -14,46 +14,26 @@
 			<div class="header">
 				<h1 class="label">{{ attributesGroup.name }}</h1>
 
-				<button
+				<app-more
 					class="more"
-					appIconButton
-					[tippy]="attributesGroupActionsTemplate"
-					[data]="attributesGroup"
-					placement="left"
-					variation="popper"
-					theme="1"
-				>
-					<app-icon class="icon" name="more"></app-icon>
-				</button>
+					(editClicked)="openUpdateAttributeGroupDialog(attributesGroup)"
+					(deleteClicked)="openDeleteAttributeGroupDialog(attributesGroup)"
+				></app-more>
 			</div>
 
 			<ul class="attributes">
 				<li class="attribute" *ngFor="let attribute of attributesGroup.attributes; trackBy: sharedService.trackByFn">
-					<p class="name-label">Название</p>
+					<p class="name-label">{{ t("NAME") }}</p>
 					<p class="name-value">{{ attribute.name }}</p>
-					<p class="description-label">Цена</p>
-					<p class="description-value">{{ attribute.price }}грн</p>
-					<button
+					<p class="description-label">{{ t("DESCRIPTION") }}</p>
+					<p class="description-value">{{ attribute.price }}{{ t("CURRENCY") }}</p>
+					<app-more
 						class="more"
-						appIconButton
-						[tippy]="attributeActionsTemplate"
-						[data]="attribute"
-						placement="left"
-						variation="popper"
-						theme="1"
-					>
-						<app-icon class="icon" name="more"></app-icon>
-					</button>
+						(editClicked)="openUpdateAttributeDialog(attribute)"
+						(deleteClicked)="openDeleteAttributeDialog(attribute)"
+					></app-more>
 				</li>
 			</ul>
 		</li>
 	</ul>
 </div>
-
-<ng-template #attributesGroupActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="attributesGroupActions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>
-
-<ng-template #attributeActionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="attributeActions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>

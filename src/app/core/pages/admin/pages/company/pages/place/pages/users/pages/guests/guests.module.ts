@@ -11,6 +11,7 @@ import { FiltersModule } from "@shared/ui/filters";
 import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { InputModule } from "@shared/ui/input";
+import { MoreModule } from "@shared/ui/more";
 import { SelectModule } from "@shared/ui/select";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
@@ -20,7 +21,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { GUESTS_COMPONENTS } from "./components";
 import { GuestsRoutingModule } from "./guests-routing.module";
 import { GuestsComponent } from "./layout/guests.component";
-import { GUESTS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [GuestsComponent, ...GUESTS_COMPONENTS],
@@ -42,8 +42,8 @@ import { GUESTS_PROVIDERS } from "./providers";
 		SkeletonModule,
 		TabsSkeletonModule,
 		FiltersSkeletonModule,
-		DatatableSkeletonModule
-	],
-	providers: GUESTS_PROVIDERS
+		DatatableSkeletonModule,
+		MoreModule
+	]
 })
 export class GuestsModule {}

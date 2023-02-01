@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { AUTH_PAGE } from "@core/pages/auth/constants";
 import { ACCESS_TOKEN } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 
@@ -9,7 +8,7 @@ export const SIGN_IN_ROUTES: Route[] = [
 	{
 		path: `:${ACCESS_TOKEN}`,
 		data: {
-			animation: AUTH_PAGE
+			animation: "authPage"
 		}
 	},
 	{

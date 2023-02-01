@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { ActiveOrdersSkeletonComponent } from "./components";
-import { ACTIVE_ORDERS_PAGE } from "./constants";
+import { ActiveOrdersPageSkeletonComponent } from "./components";
 import { ActiveOrdersComponent } from "./layout/active-orders.component";
-import { ActiveOrdersResolver } from "./resolvers";
+import { ActiveOrdersPageResolver } from "./resolvers";
 
 export const ACTIVE_ORDERS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: ActiveOrdersComponent,
 		data: {
-			animation: ACTIVE_ORDERS_PAGE
+			animation: "activeOrdersPage"
 		},
 		resolve: {
-			orders: ActiveOrdersResolver
+			activeOrders: ActiveOrdersPageResolver
 		},
 		skeleton: {
-			component: ActiveOrdersSkeletonComponent
+			component: ActiveOrdersPageSkeletonComponent
 		}
 	}
 ];

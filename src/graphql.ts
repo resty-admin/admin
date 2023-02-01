@@ -918,6 +918,7 @@ export interface PlaceEntity {
 	company: CompanyEntity;
 	employees?: Maybe<UserEntity[]>;
 	file?: Maybe<FileEntity>;
+	guests?: Maybe<UserEntity[]>;
 	halls: HallEntity[];
 	holidayDays: Scalars["String"];
 	id: Scalars["String"];
@@ -941,6 +942,7 @@ export interface PlaceEntityInput {
 	company: CompanyEntityInput;
 	employees?: InputMaybe<UserEntityInput[]>;
 	file?: InputMaybe<FileEntityInput>;
+	guests?: InputMaybe<UserEntityInput[]>;
 	halls: HallEntityInput[];
 	holidayDays: Scalars["String"];
 	isHide: Scalars["Boolean"];
@@ -1065,6 +1067,7 @@ export interface Query {
 	companies: PaginatedCompany;
 	company: CompanyEntity;
 	getMe: AccessToken;
+	getPlaceStatistic: StatisticType;
 	hall: HallEntity;
 	halls: PaginatedHall;
 	historyOrders: PaginatedHistoryOrder;
@@ -1145,6 +1148,10 @@ export interface QueryCompaniesArgs {
 
 export interface QueryCompanyArgs {
 	id: Scalars["String"];
+}
+
+export interface QueryGetPlaceStatisticArgs {
+	placeId: Scalars["String"];
 }
 
 export interface QueryHallArgs {
@@ -1264,6 +1271,16 @@ export interface SignUpInput {
 	password: Scalars["String"];
 	role: UserRoleEnum;
 	tel?: InputMaybe<Scalars["String"]>;
+}
+
+export interface StatisticType {
+	__typename?: "StatisticType";
+	employees: Scalars["Int"];
+	guests: Scalars["Int"];
+	halls: Scalars["Int"];
+	tables: Scalars["Int"];
+	tax: Scalars["Int"];
+	totalAmount: Scalars["Int"];
 }
 
 export interface TableEntity {

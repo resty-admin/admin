@@ -1,11 +1,21 @@
 import type { OnChanges } from "@angular/core";
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from "@angular/core";
+import {
+	ChangeDetectionStrategy,
+	Component,
+	ContentChildren,
+	EventEmitter,
+	Inject,
+	Input,
+	Output,
+	QueryList
+} from "@angular/core";
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
+import { ColumnDirective } from "@shared/ui/datatable/directives";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 
 import { DATATABLE_CONFIG } from "../injection-tokens";
-import type { IDatatableColumn, IDatatableRow } from "../interfaces";
+import type { IDatatableRow } from "../interfaces";
 import { IDatatableConfig, IDatatableTheme } from "../interfaces";
 
 @Component({
@@ -15,12 +25,13 @@ import { IDatatableConfig, IDatatableTheme } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DatatableComponent implements OnChanges {
+	@ContentChildren(ColumnDirective) appColumns!: QueryList<ColumnDirective>;
+
 	@Output() clicked = new EventEmitter();
 	@Output() mouseEntered = new EventEmitter();
 	@Output() doubleClicked = new EventEmitter();
 	@Output() activated = new EventEmitter();
 	@Input() theme: IDatatableTheme = "1";
-	@Input() columns: IDatatableColumn[] = [];
 	@Input() rows?: IDatatableRow<unknown>[] | null;
 
 	readonly columnMode = ColumnMode;

@@ -1,1 +1,1 @@
-export * from "./products/products.resolver";
+export * from "./products-page/products-page.resolver";

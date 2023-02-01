@@ -9,13 +9,7 @@ export type CreateAttrGroupMutationVariables = Types.Exact<{
 
 export interface CreateAttrGroupMutation {
 	__typename?: "Mutation";
-	createAttrGroup: {
-		__typename?: "AttributesGroupEntity";
-		id: string;
-		type: Types.AttributeGroupTypeEnum;
-		maxItemsForPick: number;
-		name: string;
-	};
+	createAttrGroup: { __typename?: "AttributesGroupEntity"; id: string };
 }
 
 export type UpdateAttrGroupMutationVariables = Types.Exact<{
@@ -24,13 +18,7 @@ export type UpdateAttrGroupMutationVariables = Types.Exact<{
 
 export interface UpdateAttrGroupMutation {
 	__typename?: "Mutation";
-	updateAttrGroup: {
-		__typename?: "AttributesGroupEntity";
-		id: string;
-		type: Types.AttributeGroupTypeEnum;
-		maxItemsForPick: number;
-		name: string;
-	};
+	updateAttrGroup: { __typename?: "AttributesGroupEntity"; id: string };
 }
 
 export type DeleteAttrGroupMutationVariables = Types.Exact<{
@@ -46,9 +34,6 @@ export const CreateAttrGroupDocument = gql`
 	mutation CreateAttrGroup($attrGroup: CreateAttributeGroupInput!) {
 		createAttrGroup(attrGroup: $attrGroup) {
 			id
-			type
-			maxItemsForPick
-			name
 		}
 	}
 `;
@@ -67,9 +52,6 @@ export const UpdateAttrGroupDocument = gql`
 	mutation UpdateAttrGroup($attrGroup: UpdateAttributeGroupInput!) {
 		updateAttrGroup(attrGroup: $attrGroup) {
 			id
-			type
-			maxItemsForPick
-			name
 		}
 	}
 `;

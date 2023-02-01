@@ -1,3 +1,0 @@
-import { PAYMENT_SYSTEM_DIALOG_I18N_PROVIDER } from "./payment-system-dialog-i18n.provider";
-
-export const PAYMENT_SYSTEM_DIALOG_PROVIDERS = [PAYMENT_SYSTEM_DIALOG_I18N_PROVIDER];

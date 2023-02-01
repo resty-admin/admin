@@ -1,18 +1,19 @@
-<div class="hall-dialog" *transloco="let t; read: hallDialog">
+<div class="hall-dialog" *transloco="let t">
 	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
 
-	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="f('name_label')"
-			[placeholder]="f('name_placeholder')"
+			[label]="t('NAME_LABEL')"
+			[placeholder]="t('NAME_PLACEHOLDER')"
 		></app-input>
 		<app-file
 			class="input"
 			formControlName="file"
-			[label]="f('file_label')"
-			[placeholder]="f('file_placeholder')"
+			[previewImage]="data?.file"
+			[label]="t('FILE_LABEL')"
+			[placeholder]="t('FILE_PLACEHOLDER')"
 		></app-file>
 
 		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>

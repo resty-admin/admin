@@ -1,5 +1,13 @@
 <ul class="app-tabs">
 	<li class="tab" *ngFor="let tab of tabs; trackBy: sharedService.trackByFn">
-		<a class="link" [routerLink]="tab.routerLink" routerLinkActive="active">{{ tab.label }}</a>
+		<a class="link" [routerLink]="tab.routerLink" routerLinkActive="active">
+			<ng-container *ngIf="labelTemplate; else defaultLable">
+				<ng-container *ngTemplateOutlet="labelTemplate; context: { $implicit: tab }"></ng-container>
+			</ng-container>
+
+			<ng-template #defaultLable>
+				{{ tab.label }}
+			</ng-template>
+		</a>
 	</li>
 </ul>

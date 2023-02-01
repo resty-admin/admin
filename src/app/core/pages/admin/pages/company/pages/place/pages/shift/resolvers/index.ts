@@ -1,1 +1,1 @@
-export * from "./shift/shift.resolver";
+export * from "./shift-page/shift-page.resolver";

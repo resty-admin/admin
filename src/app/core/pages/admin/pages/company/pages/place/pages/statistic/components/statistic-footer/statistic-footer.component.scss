@@ -1,0 +1,78 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include page() {
+	.statistic-footer {
+		display: grid;
+		align-items: center;
+		grid-template-areas:
+			"status-type description"
+			"info info"
+			"button .";
+		grid-template-columns: auto 1fr;
+		row-gap: rem(12);
+		column-gap: rem(6);
+
+		@include desktop() {
+			row-gap: rem(24);
+		}
+
+		.status-type {
+			text-align: center;
+			padding: rem(6) rem(16);
+			grid-area: status-type;
+			border-radius: rem(8);
+			font-weight: 500;
+			font-size: rem(16);
+			line-height: rem(24);
+			letter-spacing: 0.03em;
+			text-transform: uppercase;
+			&.NOT_VERIFIED {
+				background-color: var(--danger-t);
+				color: var(--danger);
+			}
+			&.VERIFIED {
+				background-color: var(--success-t);
+				color: var(--success);
+			}
+		}
+		.description {
+			grid-area: description;
+			text-align: left;
+			font-weight: 400;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+		}
+		.info {
+			grid-area: info;
+			font-weight: 400;
+			font-size: rem(13);
+			line-height: rem(16);
+			color: var(--dark);
+		}
+		.button {
+			grid-area: button;
+			background-color: var(--primary);
+			border-radius: rem(8);
+			font-weight: 600;
+			font-size: rem(13);
+			line-height: rem(16);
+			text-align: right;
+			color: var(--dark);
+			padding: rem(11) rem(18);
+		}
+	}
+}
+@include dark() {
+	.statistic-footer {
+		.status-type {
+			background-color: var(--dark-grey);
+		}
+		.description {
+			color: var(--light);
+		}
+		.info {
+			color: var(--light);
+		}
+	}
+}

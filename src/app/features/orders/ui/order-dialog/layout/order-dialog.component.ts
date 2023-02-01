@@ -4,9 +4,7 @@ import type { ActiveOrderEntity } from "@graphql";
 import { OrderTypeEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 
-import { ORDER_DIALOG } from "../constants";
 import type { IOrderForm } from "../interfaces";
 
 @Component({
@@ -16,8 +14,6 @@ import type { IOrderForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderDialogComponent implements OnInit {
-	readonly orderDialog = ORDER_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IOrderForm>({
 		code: 0,
 		type: OrderTypeEnum.InPlace

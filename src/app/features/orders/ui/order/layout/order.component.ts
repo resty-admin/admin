@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import type { ActiveOrderEntity } from "@graphql";
-import type { IAction } from "@shared/ui/actions";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { IOrder } from "../interfaces";
 
@@ -11,6 +9,15 @@ import { IOrder } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent {
+	@Output() editClicked = new EventEmitter<IOrder>();
+	@Output() deleteClicked = new EventEmitter<IOrder>();
 	@Input() order?: IOrder;
-	@Input() actions?: IAction<ActiveOrderEntity>[];
+
+	emitEditClick(order: IOrder) {
+		this.editClicked.emit(order);
+	}
+
+	emitDeleteClick(order: IOrder) {
+		this.editClicked.emit(order);
+	}
 }

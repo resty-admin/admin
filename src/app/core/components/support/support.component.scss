@@ -1,0 +1,35 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include component() {
+	.support {
+		display: grid;
+		grid-template-areas:
+			"icon label"
+			". tel";
+		column-gap: rem(8);
+		row-gap: rem(8);
+		grid-template-columns: auto 1fr;
+		padding: rem(11);
+		.icon {
+			grid-area: icon;
+			width: rem(24);
+			height: rem(24);
+		}
+		.label {
+			grid-area: label;
+			font-weight: 400;
+			font-size: rem(16);
+			line-height: rem(20);
+			color: var(--grey);
+		}
+		.tel {
+			grid-area: tel;
+			font-weight: 400;
+			font-size: rem(13);
+			line-height: rem(16);
+			color: var(--dark);
+		}
+	}
+}
+@include dark() {
+}

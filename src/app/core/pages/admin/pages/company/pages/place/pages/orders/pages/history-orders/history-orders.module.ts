@@ -18,7 +18,6 @@ import { TooltipModule } from "@shared/ui/tooltip";
 import { HISTORY_ORDERS_COMPONENTS } from "./components";
 import { HistoryOrdersRoutingModule } from "./history-orders-routing.module";
 import { HistoryOrdersComponent } from "./layout/history-orders.component";
-import { HISTORY_ORDERS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [HistoryOrdersComponent, ...HISTORY_ORDERS_COMPONENTS],
@@ -39,7 +38,6 @@ import { HISTORY_ORDERS_PROVIDERS } from "./providers";
 		FiltersSkeletonModule,
 		ListSkeletonModule,
 		DatatableSkeletonModule
-	],
-	providers: HISTORY_ORDERS_PROVIDERS
+	]
 })
 export class HistoryOrdersModule {}

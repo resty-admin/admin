@@ -4,13 +4,8 @@
 	.code {
 		.qrcode {
 			canvas {
-				width: rem(250) !important;
-				height: rem(250) !important;
-
-				@include desktop () {
-					width: rem(500) !important;
-					height: rem(500) !important;
-				}
+				width: 100% !important;
+				height: 100% !important;
 			}
 		}
 	}

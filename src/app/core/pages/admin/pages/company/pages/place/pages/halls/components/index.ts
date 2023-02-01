@@ -1,5 +1,5 @@
-import { HallsSkeletonComponent } from "./halls-skeleton/halls-skeleton.component";
+import { HallsPageSkeletonComponent } from "./halls-page-skeleton/halls-page-skeleton.component";
 
-export const HALLS_COMPONENTS = [HallsSkeletonComponent];
+export const HALLS_COMPONENTS = [HallsPageSkeletonComponent];
 
-export * from "./halls-skeleton/halls-skeleton.component";
+export * from "./halls-page-skeleton/halls-page-skeleton.component";

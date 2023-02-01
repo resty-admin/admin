@@ -1,20 +1,17 @@
 import type { OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ShiftsService } from "@features/shift";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { DialogService } from "@ngneat/dialog";
 import { PLACE_ID } from "@shared/constants";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
-import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map, ReplaySubject, switchMap } from "rxjs";
+import { filter, map, shareReplay, Subject, switchMap, take } from "rxjs";
 
-import { SHIFT_PAGE } from "../constants";
+import { ActiveShiftGQL, ShiftPageGQL } from "../graphql";
 
-@UntilDestroy()
 @Component({
 	selector: "app-shift",
 	templateUrl: "./shift.component.html",
@@ -22,115 +19,91 @@ import { SHIFT_PAGE } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShiftComponent implements OnInit {
-	readonly shiftPage = SHIFT_PAGE;
-	private readonly _selectedHallsSubject = new ReplaySubject<string[]>();
-	readonly selectedHalls$ = this._selectedHallsSubject.asObservable();
-	readonly halls$ = this._activatedRoute.data.pipe(map((data) => data["shift"]["halls"]));
+	readonly selectedHallsSubject = new Subject<string[]>();
+	readonly selectedHalls$ = this.selectedHallsSubject.asObservable();
 
-	readonly tables$ = this._activatedRoute.data.pipe(
-		map((data) => data["shift"]["tables"]),
+	private readonly _shiftPageQuery = this._shiftPageGQL.watch();
+	private readonly _activeShiftQuery = this._activeShiftGQL.watch();
+
+	readonly halls$ = this._shiftPageQuery.valueChanges.pipe(map((result) => result.data.halls.data));
+
+	readonly tables$ = this._shiftPageQuery.valueChanges.pipe(
+		map((result) => result.data.tables.data),
 		switchMap((tables) =>
-			this.selectedHalls$.pipe(map((halls) => (tables || []).filter((table: any) => halls.includes(table.hall.id))))
+			this.selectedHalls$.pipe(map((halls) => (tables || []).filter((table) => halls.includes(table.hall.id))))
 		)
 	);
 
-	readonly activeShift$ = this._activatedRoute.data.pipe(map((data) => data["activeShift"]));
+	readonly activeShift$ = this._activeShiftQuery.valueChanges.pipe(
+		map((result) => result.data.activeShift),
+		shareReplay({ refCount: true })
+	);
 
 	selectedTables: ITableToSelect[] = [];
-	selectedHalls: string[] = [];
-	shiftId?: string;
 
 	constructor(
-		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _shiftPageGQL: ShiftPageGQL,
+		private readonly _activeShiftGQL: ActiveShiftGQL,
 		private readonly _shiftsService: ShiftsService,
-		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService,
-		private readonly _changeDetectorRef: ChangeDetectorRef,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _dialogService: DialogService
 	) {}
 
 	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
-		if (!placeId) {
-			return;
-		}
-
-		this.activeShift$.pipe(untilDestroyed(this)).subscribe((activeShift) => {
-			this.shiftId = activeShift?.id;
-			this.selectedTables = activeShift?.tables || [];
-
-			this._changeDetectorRef.detectChanges();
+		await this._shiftPageQuery.setVariables({
+			hallsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
+			tablesFiltersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
 		});
 	}
 
 	setSelectedHalls(halls: string[]) {
-		this._selectedHallsSubject.next(halls);
+		this.selectedHallsSubject.next(halls);
 	}
 
-	async createShift(tables?: ITableToSelect[]) {
-		if (!tables) {
-			return;
-		}
-
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-
-		await lastValueFrom(
-			this._shiftsService
-				.createShift({ place, tables: tables.map((table) => table.id) })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.shiftPage),
-						this._i18nService.translate("title", {}, this.shiftPage)
-					)
-				)
-		);
-
-		// await this._activeShiftQuery.refetch();
+	createShift(tables: ITableToSelect[]) {
+		this._shiftsService
+			.createShift({
+				place: this._routerService.getParams(PLACE_ID.slice(1)),
+				tables: (tables || []).map((table) => table.id)
+			})
+			.pipe(
+				switchMap(() => this._activeShiftQuery.refetch()),
+				this._toastrService.observe(this._i18nService.translate("CREATE_SHIFT")),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async updateShift(id: string, tables?: ITableToSelect[]) {
-		if (!tables) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._shiftsService
-				.updateShift({ id, tables: tables.map((table) => table.id) })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.shiftPage),
-						this._i18nService.translate("title", {}, this.shiftPage)
-					)
-				)
-		);
-
-		// await this._activeShiftQuery.refetch();
+	updateShift(id: string, tables: ITableToSelect[]) {
+		this._shiftsService
+			.updateShift({ id, tables: (tables || []).map((table) => table.id) })
+			.pipe(
+				switchMap(() => this._activeShiftQuery.refetch()),
+				this._toastrService.observe(this._i18nService.translate("UPDATE_SHIFT")),
+				take(1)
+			)
+			.subscribe();
 	}
 
-	async closeShift(shiftId: string) {
-		const config = {
-			data: { title: this._i18nService.translate("title", {}, this.shiftPage), value: { label: "" } }
-		};
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._shiftsService
-				.closeShift(shiftId)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.shiftPage),
-						this._i18nService.translate("title", {}, this.shiftPage)
+	closeShift(shiftId: string) {
+		this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("CONFIRM_SHIFT"), value: { label: shiftId } }
+			})
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._shiftsService.closeShift(shiftId).pipe(
+						switchMap(() => this._activeShiftQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("CLOSE_SHIFT"))
 					)
-				)
-		);
-
-		// await this._activeShiftQuery.refetch();
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 }

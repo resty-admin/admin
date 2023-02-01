@@ -1,7 +1,6 @@
 <ngx-datatable
 	[class]="className"
 	[rows]="rows"
-	[columns]="columns"
 	[columnMode]="columnMode.force"
 	(activate)="emitActivate($event)"
 	[headerHeight]="50"
@@ -9,4 +8,13 @@
 	[limit]="5"
 	[messages]="messages"
 	rowHeight="auto"
-></ngx-datatable>
+>
+	<ngx-datatable-column [name]="appColumn.appColumn" *ngFor="let appColumn of appColumns">
+		<ng-template let-column="column" ngx-datatable-header-template>
+			<ng-container *ngTemplateOutlet="appColumn.headerTempalte; context: { $implicit: column }"></ng-container>
+		</ng-template>
+		<ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+			<ng-container *ngTemplateOutlet="appColumn.valueTemplate; context: { $implicit: value, row }"></ng-container>
+		</ng-template>
+	</ngx-datatable-column>
+</ngx-datatable>

@@ -11,7 +11,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { CompaniesRoutingModule } from "./companies-routing.module";
 import { COMPANIES_COMPONENTS } from "./components";
 import { CompaniesComponent } from "./layout/companies.component";
-import { COMPANIES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CompaniesComponent, ...COMPANIES_COMPONENTS],
@@ -25,7 +24,6 @@ import { COMPANIES_PROVIDERS } from "./providers";
 		CompanyDialogModule,
 		I18nModule,
 		SkeletonModule
-	],
-	providers: COMPANIES_PROVIDERS
+	]
 })
 export class CompaniesModule {}

@@ -12,7 +12,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { PLACES_COMPONENTS } from "./components";
 import { PlacesComponent } from "./layout/places.component";
 import { PlacesRoutingModule } from "./places-routing.module";
-import { PLACES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PlacesComponent, ...PLACES_COMPONENTS],
@@ -27,7 +26,6 @@ import { PLACES_PROVIDERS } from "./providers";
 		I18nModule,
 		PlaceDialogModule,
 		SkeletonModule
-	],
-	providers: PLACES_PROVIDERS
+	]
 })
 export class PlacesModule {}

@@ -3,7 +3,6 @@ import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { ADMIN_ROUTES } from "@shared/constants";
 
-import { MENU_PAGE } from "./constants";
 import { MenuComponent } from "./layout/menu.component";
 
 export const MENU_ROUTES: Route[] = [
@@ -11,7 +10,7 @@ export const MENU_ROUTES: Route[] = [
 		path: "",
 		component: MenuComponent,
 		data: {
-			animation: MENU_PAGE
+			animation: "menuPage"
 		},
 		children: [
 			{

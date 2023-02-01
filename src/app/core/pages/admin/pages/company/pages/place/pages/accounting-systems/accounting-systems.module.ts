@@ -1,7 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { AccountingSystemModule, AccountingSytemSkeletonModule } from "@features/accounting-systems";
+import {
+	AccountingSystemDialogModule,
+	AccountingSystemModule,
+	AccountingSytemSkeletonModule
+} from "@features/accounting-systems";
 import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { FiltersModule } from "@shared/ui/filters";
@@ -15,7 +19,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { AccountingSystemsRoutingModule } from "./accounting-systems-routing.module";
 import { ACCOUNTING_SYSTEMS_COMPONENTS } from "./components";
 import { AccountingSystemsComponent } from "./layout/accounting-systems.component";
-import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AccountingSystemsComponent, ...ACCOUNTING_SYSTEMS_COMPONENTS],
@@ -29,12 +32,12 @@ import { ACCOUNTING_SYSTEMS_PROVIDERS } from "./providers";
 		I18nModule,
 		FiltersModule,
 		ListModule,
+		AccountingSystemDialogModule,
 		AccountingSystemModule,
 		AccountingSytemSkeletonModule,
 		SkeletonModule,
 		FiltersSkeletonModule,
 		ListSkeletonModule
-	],
-	providers: ACCOUNTING_SYSTEMS_PROVIDERS
+	]
 })
 export class AccountingSystemsModule {}

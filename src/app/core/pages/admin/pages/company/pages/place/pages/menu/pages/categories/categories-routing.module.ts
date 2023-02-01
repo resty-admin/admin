@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { CategoriesSkeletonComponent } from "./components";
-import { CATEGORIES_PAGE } from "./constants";
+import { CategoriesPageSkeletonComponent } from "./components";
 import { CategoriesComponent } from "./layout/categories.component";
-import { CategoriesResolver } from "./resolvers";
+import { CategoriesPageResolver } from "./resolvers";
 
 export const CATEGORIES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: CategoriesComponent,
 		data: {
-			animation: CATEGORIES_PAGE
+			animation: "categoriesPage"
 		},
 		resolve: {
-			categories: CategoriesResolver
+			categories: CategoriesPageResolver
 		},
 		skeleton: {
-			component: CategoriesSkeletonComponent
+			component: CategoriesPageSkeletonComponent
 		}
 	}
 ];

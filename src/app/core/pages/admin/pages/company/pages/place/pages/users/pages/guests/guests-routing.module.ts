@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { GuestsSkeletonComponent } from "./components";
-import { GUESTS_PAGE } from "./constants";
+import { GuestsPageSkeletonComponent } from "./components";
 import { GuestsComponent } from "./layout/guests.component";
-import { GuestsResolver } from "./resolvers";
+import { GuestsPageResolver } from "./resolvers";
 
 export const GUESTS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: GuestsComponent,
 		data: {
-			animation: GUESTS_PAGE
+			animation: "guestsPage"
 		},
 		resolve: {
-			guests: GuestsResolver
+			guests: GuestsPageResolver
 		},
 		skeleton: {
-			component: GuestsSkeletonComponent
+			component: GuestsPageSkeletonComponent
 		}
 	}
 ];

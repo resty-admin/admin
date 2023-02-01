@@ -16,7 +16,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { MenuComponent } from "./layout/menu.component";
 import { MenuRoutingModule } from "./menu-routing.module";
-import { MENU_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [MenuComponent],
@@ -36,7 +35,6 @@ import { MENU_PROVIDERS } from "./providers";
 		MultipleCheckboxModule,
 		I18nModule,
 		TabsModule
-	],
-	providers: MENU_PROVIDERS
+	]
 })
 export class MenuModule {}

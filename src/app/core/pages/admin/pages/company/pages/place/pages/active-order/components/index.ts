@@ -1,5 +1,5 @@
-import { ActiveOrderSkeletonComponent } from "./active-order-skeleton/active-order-skeleton.component";
+import { ActiveOrderPageSkeletonComponent } from "./active-order-page-skeleton/active-order-page-skeleton.component";
 
-export const ACTIVE_ORDER_COMPONENTS = [ActiveOrderSkeletonComponent];
+export const ACTIVE_ORDER_COMPONENTS = [ActiveOrderPageSkeletonComponent];
 
-export * from "./active-order-skeleton/active-order-skeleton.component";
+export * from "./active-order-page-skeleton/active-order-page-skeleton.component";

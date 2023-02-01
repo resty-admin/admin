@@ -24,10 +24,11 @@
 			grid-template-areas:
 				"money-value first-divider commission-value second-divider date-value image"
 				"money-label first-divider commission-label second-divider date-label image";
+			grid-template-columns: auto auto auto auto auto 1fr auto;
 			padding-top: 0;
 			padding-right: 0;
 			row-gap: 0;
-			column-gap: rem(6);
+			column-gap: rem(24);
 		}
 
 		.date-value,

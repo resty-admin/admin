@@ -1,23 +1,17 @@
-<div class="order-page" *transloco="let t; read: historyOrderPage">
-	<ng-container *ngIf="order$ | async as order">
-		<app-order-info [order]="order"></app-order-info>
+<div class="order-page" *transloco="let t">
+	<ng-container *ngIf="historyOrder$ | async as historyOrder">
+		<app-order-info [order]="historyOrder"></app-order-info>
 
-		<div class="actions">
-			<button class="approve" (click)="approveTableInOrder()">Подтвердить</button>
-			<button class="reject" (click)="rejectTableInOrder()">Отклонить</button>
-		</div>
+		<app-users-select
+			class="users-select"
+			[users]="historyOrder.users"
+			[(selectedUsers)]="selectedUsers"
+		></app-users-select>
 
-		<app-users-select [users]="order.users" [formControl]="usersControl"></app-users-select>
-
-		<!--		<app-products-to-order-select-->
-		<!--			class="products-select"-->
-		<!--			[productsToOrders]="order.productsToOrders"-->
-		<!--			[formControl]="productsControl"-->
-		<!--		></app-products-to-order-select>-->
-
-		<div class="actions">
-			<button class="approve" (click)="approveProductsInOrder()">Подтвердить</button>
-			<button class="reject" (click)="rejectProductsInOrder()">Отклонить</button>
-		</div>
+		<app-products-to-order-select
+			class="products-select"
+			[productsToOrders]="historyOrder.productsToOrders"
+			[(selectedProductsToOrders)]="selectedProductsToOrders"
+		></app-products-to-order-select>
 	</ng-container>
 </div>

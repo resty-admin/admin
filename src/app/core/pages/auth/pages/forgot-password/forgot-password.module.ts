@@ -13,7 +13,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { ForgotPasswordRoutingModule } from "./forgot-password-routing.module";
 import { ForgotPasswordComponent } from "./layout/forgot-password.component";
-import { FORGOT_PASSWORD_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ForgotPasswordComponent],
@@ -30,7 +29,6 @@ import { FORGOT_PASSWORD_PROVIDERS } from "./providers";
 		CardModule,
 		ImageModule,
 		IconModule
-	],
-	providers: FORGOT_PASSWORD_PROVIDERS
+	]
 })
 export class ForgotPasswordModule {}

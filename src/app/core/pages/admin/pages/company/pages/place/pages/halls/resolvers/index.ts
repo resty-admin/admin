@@ -1,1 +1,1 @@
-export * from "./halls/halls.resolver";
+export * from "./halls-page/halls-page.resolver";

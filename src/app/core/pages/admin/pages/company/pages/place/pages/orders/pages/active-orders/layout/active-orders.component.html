@@ -1,7 +1,7 @@
-<div class="active-orders-page" *transloco="let t; read: activeOrdersPage">
+<div class="active-orders-page" *transloco="let t">
 	<button appButton class="add" (click)="openCreateOrderDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("add") }}</span>
+		<span class="text">{{ t("ADD") }}</span>
 	</button>
 
 	<app-filters class="filters"></app-filters>
@@ -11,6 +11,10 @@
 
 <ng-template let-item #order>
 	<a class="link" [routerLink]="item.id">
-		<app-order [order]="item" [actions]="actions"></app-order>
+		<app-order
+			[order]="item"
+			(editClicked)="openUpdateOrderDialog(item)"
+			(deleteClicked)="openDeleteOrderDialog(item)"
+		></app-order>
 	</a>
 </ng-template>

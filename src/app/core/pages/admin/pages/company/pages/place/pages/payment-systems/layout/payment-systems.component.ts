@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { PaymentSystemDialogComponent, PaymentSystemsService } from "@features/payment-systems";
 import type { PaymentSystemEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
@@ -8,9 +7,9 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
-import { PAYMENT_SYSTEMS_PAGE } from "../constants";
+import { PaymentSystemsPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-payment-systems",
@@ -19,44 +18,36 @@ import { PAYMENT_SYSTEMS_PAGE } from "../constants";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentSystemsComponent {
-	readonly paymentSystemsPage = PAYMENT_SYSTEMS_PAGE;
-	readonly paymentSystems$ = this._activatedRoute.data.pipe(map((data) => data["paymentSystems"]));
+	private readonly _paymentSystemsPageQuery = this._paymentSystemsPageGQL.watch();
+	readonly paymentSystems$ = this._paymentSystemsPageQuery.valueChanges.pipe(
+		map((result) => result.data.paymentSystems.data)
+	);
 
 	constructor(
-		private readonly _activatedRoute: ActivatedRoute,
-		private readonly _dialogService: DialogService,
-		private readonly _paymentsSystemsService: PaymentSystemsService,
+		private readonly _paymentSystemsPageGQL: PaymentSystemsPageGQL,
+		private readonly _paymentSystemService: PaymentSystemsService,
 		private readonly _routerService: RouterService,
+		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
 
-	async openPaymentSystemDialog(data: AtLeast<PaymentSystemEntity, "id">) {
-		const paymentSystem: PaymentSystemEntity | undefined = await lastValueFrom(
-			this._dialogService.open(PaymentSystemDialogComponent, { data }).afterClosed$
-		);
-
-		if (!paymentSystem) {
-			return;
-		}
-
-		try {
-			await lastValueFrom(
-				this._paymentsSystemsService
-					.connectPaymentSystemToPlace({
-						place: this._routerService.getParams(PLACE_ID.slice(1)),
-						paymentSystem: paymentSystem.id,
-						placeConfigFields: paymentSystem.configFields
-					})
-					.pipe(
-						this._toastrService.observe(
-							this._i18nService.translate("title", {}, this.paymentSystemsPage),
-							this._i18nService.translate("connected", {}, this.paymentSystemsPage)
-						)
-					)
-			);
-		} catch (error) {
-			console.error(error);
-		}
+	openPaymentSystemDialog(data: AtLeast<PaymentSystemEntity, "id">) {
+		return this._dialogService
+			.open(PaymentSystemDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((paymentSystem) => Boolean(paymentSystem)),
+				switchMap((paymentSystem) =>
+					this._paymentSystemService
+						.connectPaymentSystemToPlace({
+							place: this._routerService.getParams(PLACE_ID.slice(1)),
+							paymentSystem: paymentSystem.id,
+							placeConfigFields: paymentSystem.configFields
+						})
+						.pipe(this._toastrService.observe(this._i18nService.translate("CONNECTED")))
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 }

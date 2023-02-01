@@ -1,15 +1,15 @@
-<div class="payment-system-dialog" *transloco="let t; read: paymentSystemDialog">
-	<p appTypography theme="2" class="title">{{ t("add") }}</p>
+<div class="payment-system-dialog" *transloco="let t">
+	<p appTypography theme="2" class="title">{{ t("ADD") }}</p>
 
-	<form *transloco="let f; read: form" class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			*ngFor="let field of fields"
 			class="input"
 			[formControlName]="field"
-			[label]="field"
-			[placeholder]="field"
+			[label]="t(field + '_label')"
+			[placeholder]="t(field + '_placeholder')"
 		></app-input>
 
-		<button appButton theme="1" class="submit">{{ t("connect") }}</button>
+		<button appButton theme="1" class="submit">{{ t("CONNECT") }}</button>
 	</form>
 </div>

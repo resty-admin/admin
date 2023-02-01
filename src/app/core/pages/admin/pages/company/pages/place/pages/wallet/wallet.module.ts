@@ -13,7 +13,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { WALLET_COMPONENTS } from "./components";
 import { WalletComponent } from "./layout/wallet.component";
-import { WALLET_PROVIDERS } from "./providers";
 import { WalletRoutingModule } from "./wallet-routing.module";
 
 @NgModule({
@@ -31,7 +30,6 @@ import { WalletRoutingModule } from "./wallet-routing.module";
 		ActionsModule,
 		TranslocoModule,
 		SkeletonModule
-	],
-	providers: WALLET_PROVIDERS
+	]
 })
 export class WalletModule {}

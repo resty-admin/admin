@@ -3,12 +3,10 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, take } from "rxjs";
+import { take } from "rxjs";
 
-import { WELCOME_PAGE } from "../constants";
 import type { IWelcomeForm } from "../interfaces";
 
 @Component({
@@ -18,8 +16,6 @@ import type { IWelcomeForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-	readonly welcomePage = WELCOME_PAGE;
-	readonly form = FORM;
 	readonly formGroup = this._formBuilder.group<IWelcomeForm>({
 		name: "",
 		tel: ""
@@ -32,12 +28,14 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 		private readonly _authService: AuthService
 	) {}
 
-	async ngOnInit() {
-		const user = await lastValueFrom(this._authService.me$.pipe(take(1)));
+	ngOnInit() {
+		this._authService.me$.pipe(take(1)).subscribe((user) => {
+			if (!user) {
+				return;
+			}
 
-		if (user) {
 			this.formGroup.patchValue(user);
-		}
+		});
 
 		this._actionsService.setAction({
 			label: "Подтвердить",
@@ -45,15 +43,14 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	async updateMe(value: IWelcomeForm) {
-		try {
-			await lastValueFrom(this._authService.updateMe(value));
-
-			await this._authService.getMeQuery.refetch();
-			await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANIES.absolutePath);
-		} catch (error) {
-			console.error(error);
-		}
+	updateMe(value: IWelcomeForm) {
+		this._authService
+			.updateMe(value)
+			.pipe(take(1))
+			.subscribe(async () => {
+				await this._authService.getMeQuery.refetch();
+				await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANIES.absolutePath);
+			});
 	}
 
 	ngOnDestroy() {

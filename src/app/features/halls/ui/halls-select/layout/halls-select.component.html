@@ -1,7 +1,7 @@
-<div class="halls-select" *transloco="let t; read: hallsSelect">
+<div class="halls-select" *transloco="let t">
 	<ul class="halls">
 		<li class="hall">
-			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
+			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("ALL") }}</button>
 		</li>
 		<li class="hall" *ngFor="let hall of hallsWithSelected; let i = index; trackBy: sharedService.trackByFn">
 			<input

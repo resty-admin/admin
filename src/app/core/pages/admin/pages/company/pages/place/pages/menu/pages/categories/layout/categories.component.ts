@@ -1,25 +1,20 @@
 import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { ActionsService } from "@features/app";
-import { CategoriesService } from "@features/categories";
-import { CategoryDialogComponent } from "@features/categories/ui/category-dialog/layout/category-dialog.component";
-import { ProductsService } from "@features/products";
-import { ProductDialogComponent } from "@features/products/ui";
-import type { PlaceEntity, ProductEntity } from "@graphql";
+import { CategoriesService, CategoryDialogComponent } from "@features/categories";
+import { ProductDialogComponent, ProductsService } from "@features/products";
+import type { ProductEntity } from "@graphql";
 import type { CategoryEntity } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
-import type { AtLeast } from "@shared/interfaces";
+import type { DeepAtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
-import type { IAction } from "@shared/ui/actions";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
-import { CATEGORIES_PAGE } from "../constants";
 import { CategoriesPageGQL } from "../graphql";
 
 @Component({
@@ -29,193 +24,125 @@ import { CategoriesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
-	readonly categoriesPage = CATEGORIES_PAGE;
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
-	readonly categories$ = this._activatedRoute.data.pipe(map((data) => data["categories"]));
-
-	readonly categoryActions: IAction<CategoryEntity>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (category) => this.openUpdateCategoryDialog(category)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (category) => this.openDeleteCategoryDialog(category)
-		}
-	];
-
-	readonly productActions: IAction<ProductEntity>[] = [
-		{
-			label: "Редактировать",
-			icon: "edit",
-			func: (product) => this.openUpdateProductDialog(product)
-		},
-		{
-			label: "Удалить",
-			icon: "delete",
-			func: (product) => this.openDeleteProductDialog(product)
-		}
-	];
+	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
 
 	constructor(
 		readonly sharedService: SharedService,
-		private readonly _activatedRoute: ActivatedRoute,
+		private readonly _routerService: RouterService,
+		private readonly _actionsService: ActionsService,
 		private readonly _categoriesPageGQL: CategoriesPageGQL,
 		private readonly _categoriesService: CategoriesService,
 		private readonly _productsService: ProductsService,
-		private readonly _routerService: RouterService,
-		private readonly _actionsService: ActionsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService
 	) {}
 
-	async openCreateCategoryDialog() {
-		const place = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!place) {
-			return;
-		}
-
-		const category: CategoryEntity | undefined = await lastValueFrom(
-			this._dialogService.open(CategoryDialogComponent).afterClosed$
-		);
-
-		if (!category) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._categoriesService
-				.createCategory({ name: category.name, place, file: category.file?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPage),
-						this._i18nService.translate("created", {}, this.categoriesPage)
-					)
-				)
-		);
-
-		await this._categoriesPageQuery.refetch();
-	}
-
-	async openUpdateCategoryDialog(data: AtLeast<CategoryEntity, "id">) {
-		const category: PlaceEntity | undefined = await lastValueFrom(
-			this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$
-		);
-
-		if (!category) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._categoriesService
-				.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPage),
-						this._i18nService.translate("updated", {}, this.categoriesPage)
-					)
-				)
-		);
-
-		await this._categoriesPageQuery.refetch();
-	}
-
-	async openDeleteCategoryDialog(value: AtLeast<CategoryEntity, "id">) {
-		const config = { data: { title: "Вы уверены, что хотите удалить категорию?", value } };
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._categoriesService
-				.deleteCategory(value.id)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPage),
-						this._i18nService.translate("deleted", {}, this.categoriesPage)
-					)
-				)
-		);
-
-		await this._categoriesPageQuery.refetch();
-	}
-
-	async openUpdateProductDialog(data: AtLeast<ProductEntity, "id">) {
-		const product: ProductEntity | undefined = await lastValueFrom(
-			this._dialogService.open(ProductDialogComponent, { data }).afterClosed$
-		);
-
-		if (!product) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._productsService
-				.updateProduct({
-					id: product.id,
-					category: product.category.id,
-					attrsGroups: product.attrsGroups?.map((attrGroup) => attrGroup.id),
-					file: product.file?.id,
-					price: product.price
-				})
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPage),
-						this._i18nService.translate("updated", {}, this.categoriesPage)
-					)
-				)
-		);
-
-		await this._categoriesPageQuery.refetch();
-	}
-
-	async openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
-		const config = {
-			data: { title: this._i18nService.translate("confirm", {}, this.categoriesPage), value: product }
-		};
-
-		const isConfirmed = await lastValueFrom(this._dialogService.open(ConfirmationDialogComponent, config).afterClosed$);
-
-		if (!isConfirmed) {
-			return;
-		}
-
-		await lastValueFrom(
-			this._productsService
-				.deleteProduct(product.id)
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.categoriesPage),
-						this._i18nService.translate("deleted", {}, this.categoriesPage)
-					)
-				)
-		);
-
-		await this._categoriesPageQuery.refetch();
-	}
-
 	async ngOnInit() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
-			return;
-		}
-
-		this._actionsService.setAction({
-			label: "Добавить категорию",
-			func: () => this.openCreateCategoryDialog()
-		});
+		this._actionsService.setAction({ label: "Добавить категорию", func: () => this.openCreateCategoryDialog() });
 
 		await this._categoriesPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
 		});
+	}
+
+	openCreateCategoryDialog() {
+		return this._dialogService
+			.open(CategoryDialogComponent)
+			.afterClosed$.pipe(
+				filter((category) => Boolean(category)),
+				switchMap((category) =>
+					this._categoriesService
+						.createCategory({
+							place: this._routerService.getParams(PLACE_ID.slice(1)),
+							name: category.name,
+							file: category.file?.id
+						})
+						.pipe(
+							switchMap(() => this._categoriesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("CREATE_CATEGORY"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
+	}
+
+	openUpdateCategoryDialog(data: DeepAtLeast<CategoryEntity, "id">) {
+		return this._dialogService
+			.open(CategoryDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((category) => Boolean(category)),
+				switchMap((category) =>
+					this._categoriesService
+						.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
+						.pipe(
+							switchMap(() => this._categoriesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_CATEGORY"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
+	}
+
+	openDeleteCategoryDialog(value: DeepAtLeast<CategoryEntity, "id">) {
+		return this._dialogService
+			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("CONFIRM_CATEGORY"), value } })
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._categoriesService.deleteCategory(value.id).pipe(
+						switchMap(() => this._categoriesPageQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("DELETE_CATEGORY"))
+					)
+				),
+				take(1)
+			)
+			.subscribe();
+	}
+
+	openUpdateProductDialog(data: DeepAtLeast<ProductEntity, "id">) {
+		this._dialogService
+			.open(ProductDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((product) => Boolean(product)),
+				switchMap((product) =>
+					this._productsService
+						.updateProduct({
+							id: product.id,
+							category: product.category.id,
+							attrsGroups: product.attrsGroups?.map((attrGroup: any) => attrGroup.id),
+							file: product.file?.id,
+							price: product.price
+						})
+						.pipe(
+							switchMap(() => this._categoriesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("UPDATE_PRODUCT"))
+						)
+				),
+				take(1)
+			)
+			.subscribe();
+	}
+
+	openDeleteProductDialog(product: DeepAtLeast<ProductEntity, "id">) {
+		this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("CONFIRM_PRODUCT"), value: product }
+			})
+			.afterClosed$.pipe(
+				filter((isConfirmed) => Boolean(isConfirmed)),
+				switchMap(() =>
+					this._productsService.deleteProduct(product.id).pipe(
+						switchMap(() => this._categoriesPageQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("DELETE_PRODUCT"))
+					)
+				),
+				take(1)
+			)
+			.subscribe();
 	}
 
 	ngOnDestroy() {

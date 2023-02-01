@@ -4,7 +4,6 @@ import { AttributesService } from "@features/attributes";
 import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
 import { AttributeGroupTypeEnum } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
-import { FORM } from "@shared/constants";
 import { PLACE_ID } from "@shared/constants";
 import { buildForm } from "@shared/functions";
 import type { DeepPartial } from "@shared/interfaces";
@@ -12,10 +11,9 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { lastValueFrom, map } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { AttributeDialogComponent } from "../../attribute-dialog/layout/attribute-dialog.component";
-import { ATTRIBUTE_GROUP_DIALOG } from "../constants";
 import { AttributeGroupDialogGQL } from "../graphql";
 import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.interface";
 
@@ -26,8 +24,6 @@ import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.int
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AttributeGroupDialogComponent implements OnInit {
-	readonly attributeGroupDialog = ATTRIBUTE_GROUP_DIALOG;
-	readonly form = FORM;
 	readonly formGroup = buildForm<IAttributeGroupForm>({
 		name: [""],
 		attributes: [null],
@@ -83,31 +79,21 @@ export class AttributeGroupDialogComponent implements OnInit {
 		});
 	}
 
-	async openCreateAttributeDialog(data?: DeepPartial<AttributesEntity>) {
-		const attribute: AttributesEntity | undefined = await lastValueFrom(
-			this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$
+	openCreateAttributeDialog(data?: DeepPartial<AttributesEntity>) {
+		return this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((attribute) => Boolean(attribute)),
+			switchMap((attribute) =>
+				this._attributesService
+					.createAttribute({
+						name: attribute.name,
+						price: attribute.price,
+						attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
+					})
+					.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE")))
+			),
+			take(1)
 		);
-
-		if (!attribute) {
-			return;
-		}
-
-		const result = await lastValueFrom(
-			this._attributesService
-				.createAttribute({
-					name: attribute.name,
-					price: attribute.price,
-					attributesGroup: (attribute.attributesGroup || []).map((attributeGroup) => attributeGroup.id)
-				})
-				.pipe(
-					this._toastrService.observe(
-						this._i18nService.translate("title", {}, this.attributeGroupDialog),
-						this._i18nService.translate("title", {}, this.attributeGroupDialog)
-					)
-				)
-		);
-
-		return result.data?.createAttr;
 	}
 
 	closeDialog(attributeGroup?: DeepPartial<IAttributeGroupForm>) {

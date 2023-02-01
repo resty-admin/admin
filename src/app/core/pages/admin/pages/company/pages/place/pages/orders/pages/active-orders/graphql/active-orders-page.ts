@@ -21,7 +21,13 @@ export interface ActiveOrdersPageQuery {
 					id: string;
 					code: number;
 					status: Types.OrderStatusEnum;
-					table?: { __typename?: "TableEntity"; id: string; name: string } | null;
+					type: Types.OrderTypeEnum;
+					table?: {
+						__typename?: "TableEntity";
+						id: string;
+						name: string;
+						file?: { __typename?: "FileEntity"; id: string; url: string } | null;
+					} | null;
 			  }[]
 			| null;
 	};
@@ -36,9 +42,14 @@ export const ActiveOrdersPageDocument = gql`
 				id
 				code
 				status
+				type
 				table {
 					id
 					name
+					file {
+						id
+						url
+					}
 				}
 			}
 		}

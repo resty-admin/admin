@@ -12,7 +12,6 @@ import { TypographyModule } from "@shared/ui/typography";
 
 import { STATISTIC_COMPONENTS } from "./components";
 import { StatisticComponent } from "./layout/statistic.component";
-import { STATISTIC_PROVIDERS } from "./providers";
 import { StatisticRoutingModule } from "./statistic-routing.module";
 
 @NgModule({
@@ -29,7 +28,6 @@ import { StatisticRoutingModule } from "./statistic-routing.module";
 		ImageModule,
 		I18nModule,
 		SkeletonModule
-	],
-	providers: STATISTIC_PROVIDERS
+	]
 })
 export class StatisticModule {}

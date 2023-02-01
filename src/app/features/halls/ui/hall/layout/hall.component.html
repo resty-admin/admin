@@ -5,20 +5,11 @@
 		<p class="label">{{ hall?.name }}</p>
 	</div>
 
-	<button
-		appIconButton
-		appStopPropagation
+	<app-more
 		class="more"
-		[tippy]="actionsTemplate"
+		[class.placeholder]="hall?.file"
 		[data]="hall"
-		placement="left"
-		variation="popper"
-		theme="1"
-	>
-		<app-icon class="icon" name="more"></app-icon>
-	</button>
+		(editClicked)="emitEditClick($event)"
+		(deleteClicked)="emitDeleteClick($event)"
+	></app-more>
 </div>
-
-<ng-template #actionsTemplate let-data="data" let-hide>
-	<app-actions [actions]="actions" [data]="data" [additionalFunc]="hide"></app-actions>
-</ng-template>

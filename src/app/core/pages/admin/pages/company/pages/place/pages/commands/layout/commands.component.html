@@ -1,8 +1,8 @@
-<div class="commands-page" *transloco="let t; read: commandsPage">
+<div class="commands-page" *transloco="let t">
 	<app-add-header
 		class="add-header"
-		[title]="t('title')"
-		[add]="t('add')"
+		[title]="t('TITLE')"
+		[add]="t('ADD')"
 		(clicked)="openCreateCommandDialog()"
 	></app-add-header>
 
@@ -12,5 +12,9 @@
 </div>
 
 <ng-template let-item #commandTemplate>
-	<app-command [command]="item" [actions]="actions"></app-command>
+	<app-command
+		[command]="item"
+		(editClicked)="openUpdateCommandDialog(item)"
+		(deleteClicked)="openDeleteCommandDialog(item)"
+	></app-command>
 </ng-template>

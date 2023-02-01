@@ -1,5 +1,5 @@
-import { HistoryOrderSkeletonComponent } from "./history-order-skeleton/history-order-skeleton.component";
+import { HistoryOrderPageSkeletonComponent } from "./history-order-page-skeleton/history-order-page-skeleton.component";
 
-export const HISTORY_ORDER_COMPONENTS = [HistoryOrderSkeletonComponent];
+export const HISTORY_ORDER_COMPONENTS = [HistoryOrderPageSkeletonComponent];
 
-export * from "./history-order-skeleton/history-order-skeleton.component";
+export * from "./history-order-page-skeleton/history-order-page-skeleton.component";

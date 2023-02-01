@@ -2,6 +2,14 @@
 	<li class="option" *ngFor="let option of options; let i = index; trackBy: sharedService.trackByFn">
 		<input class="input" type="radio" [formControl]="formControl" [value]="option.value" [id]="id + i" />
 		<div class="decoration"></div>
-		<label class="label" [for]="id + i">{{ option.label }}</label>
+		<label class="label" [for]="id + i">
+			<ng-container *ngIf="labelTemplate; else defaultLable">
+				<ng-container *ngTemplateOutlet="labelTemplate; context: { $implicit: option }"></ng-container>
+			</ng-container>
+
+			<ng-template #defaultLable>
+				{{ option.label }}
+			</ng-template>
+		</label>
 	</li>
 </ul>

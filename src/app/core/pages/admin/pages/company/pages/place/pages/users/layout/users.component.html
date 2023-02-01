@@ -1,7 +1,11 @@
-<div class="users-page" *transloco="let t; read: usersPage">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+<div class="users-page" *transloco="let t">
+	<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
 
-	<app-tabs class="tabs" [tabs]="pages"></app-tabs>
+	<app-tabs class="tabs" [tabs]="pages">
+		<ng-template #labelTempalte let-tab>
+			{{ t(tab.label) }}
+		</ng-template>
+	</app-tabs>
 
 	<div class="pages" [@routeAnimations]="getRouteAnimationData()">
 		<router-outlet></router-outlet>

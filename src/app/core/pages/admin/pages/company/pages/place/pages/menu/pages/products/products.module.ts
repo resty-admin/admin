@@ -14,6 +14,7 @@ import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
+import { MoreModule } from "@shared/ui/more";
 import { SelectModule } from "@shared/ui/select";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
@@ -23,7 +24,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { PRODUCTS_COMPONENTS } from "./components";
 import { ProductsComponent } from "./layout/products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
-import { PRODUCTS_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ProductsComponent, ...PRODUCTS_COMPONENTS],
@@ -48,8 +48,8 @@ import { PRODUCTS_PROVIDERS } from "./providers";
 		SkeletonModule,
 		FiltersSkeletonModule,
 		DatatableSkeletonModule,
-		TabsSkeletonModule
-	],
-	providers: PRODUCTS_PROVIDERS
+		TabsSkeletonModule,
+		MoreModule
+	]
 })
 export class ProductsModule {}

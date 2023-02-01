@@ -1,13 +1,12 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { PlacesService } from "@features/places";
-import type { PlaceVerificationStatusEnum } from "@graphql";
+import { PlaceVerificationStatusEnum } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom, map } from "rxjs";
+import { from, map, switchMap, take } from "rxjs";
 
-import { STATISTIC_PAGE } from "../constants";
-import { StatisticPageGQL, StatisticPlaceGQL } from "../graphql";
+import { StatisticPageGQL } from "../graphql";
 
 @Component({
 	selector: "app-statistic",
@@ -16,53 +15,32 @@ import { StatisticPageGQL, StatisticPlaceGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatisticComponent implements OnInit {
-	readonly statisticPage = STATISTIC_PAGE;
-
-	private readonly _statisticPlaceQuery = this._statisticPlaceGQL.watch();
 	private readonly _statisticPageQuery = this._statisticPageGQL.watch();
 
-	readonly statistic$ = this._statisticPageQuery.valueChanges.pipe(map((result) => result.data));
-
-	readonly usersCount$ = this.statistic$.pipe(map((data) => data.users.totalCount));
-	readonly hallsCount$ = this.statistic$.pipe(map((data) => data.halls.totalCount));
-	readonly tablesCount$ = this.statistic$.pipe(map((data) => data.tables.totalCount));
-
-	readonly verificationStatus$ = this._statisticPlaceQuery.valueChanges.pipe(
-		map((result) => result?.data?.place.verificationStatus)
-	);
+	readonly statisticPage$ = this._statisticPageQuery.valueChanges.pipe(map((result) => result.data));
 
 	constructor(
-		private readonly _routerService: RouterService,
 		private readonly _statisticPageGQL: StatisticPageGQL,
-		private readonly _statisticPlaceGQL: StatisticPlaceGQL,
+		private readonly _routerService: RouterService,
 		private readonly _placesService: PlacesService
 	) {}
 
-	async changeStatus(status: PlaceVerificationStatusEnum) {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
-
-		if (!placeId) {
-			return;
-		}
-
-		await lastValueFrom(this._placesService.updatePlaceVerification(placeId, status));
-
-		await this._statisticPlaceQuery.refetch();
+	async ngOnInit() {
+		await this._statisticPageQuery.setVariables({ placeId: this._routerService.getParams(PLACE_ID.slice(1)) });
 	}
 
-	async ngOnInit() {
-		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
+	changeStatus(status: PlaceVerificationStatusEnum) {
+		const newStatus =
+			status === PlaceVerificationStatusEnum.NotVerified
+				? PlaceVerificationStatusEnum.Verified
+				: PlaceVerificationStatusEnum.NotVerified;
 
-		if (!placeId) {
-			return;
-		}
-
-		await this._statisticPlaceQuery.setVariables({ placeId });
-
-		await this._statisticPageQuery.setVariables({
-			guestsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
-			hallsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
-			tablesFiltersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
-		});
+		this._placesService
+			.updatePlaceVerification(this._routerService.getParams(PLACE_ID.slice(1)), newStatus)
+			.pipe(
+				take(1),
+				switchMap(() => from(this._statisticPageQuery.refetch()))
+			)
+			.subscribe();
 	}
 }

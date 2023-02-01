@@ -13,6 +13,7 @@ import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
+import { MoreModule } from "@shared/ui/more";
 import { SelectModule } from "@shared/ui/select";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
@@ -22,7 +23,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { CategoriesRoutingModule } from "./categories-routing.module";
 import { CATEGORIES_COMPONENTS } from "./components";
 import { CategoriesComponent } from "./layout/categories.component";
-import { CATEGORIES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [CategoriesComponent, ...CATEGORIES_COMPONENTS],
@@ -46,8 +46,8 @@ import { CATEGORIES_PROVIDERS } from "./providers";
 		SkeletonModule,
 		FiltersSkeletonModule,
 		TabsSkeletonModule,
-		DatatableSkeletonModule
-	],
-	providers: CATEGORIES_PROVIDERS
+		DatatableSkeletonModule,
+		MoreModule
+	]
 })
 export class CategoriesModule {}

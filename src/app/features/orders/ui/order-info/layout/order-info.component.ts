@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
-import { ORDER_INFO } from "../constants";
 import { IOrderInfo } from "../interfaces/order-info.interface";
 
 @Component({
@@ -13,7 +12,6 @@ import { IOrderInfo } from "../interfaces/order-info.interface";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderInfoComponent implements OnChanges {
-	readonly orderInfo = ORDER_INFO;
 	@Input() order?: IOrderInfo;
 
 	tableStatus = "";

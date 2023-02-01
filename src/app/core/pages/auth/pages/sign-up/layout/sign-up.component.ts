@@ -5,14 +5,17 @@ import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { FORM } from "@shared/constants";
 import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
+import { AUTH_TYPES } from "@shared/data";
 import { RouterService } from "@shared/modules/router";
-import { lastValueFrom } from "rxjs";
+import { take } from "rxjs";
 
-import { AUTH_TYPES } from "../../../data";
-import { SIGN_UP_PAGE } from "../constants";
-import type { ISignUp } from "../interfaces";
+export interface ISignUp {
+	email: string;
+	tel: string;
+	password: string;
+	role: UserRoleEnum;
+}
 
 @UntilDestroy()
 @Component({
@@ -22,8 +25,6 @@ import type { ISignUp } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnInit {
-	readonly form = FORM;
-	readonly signUpPage = SIGN_UP_PAGE;
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 	readonly roles = [UserRoleEnum.Admin, UserRoleEnum.Hostess, UserRoleEnum.Waiter, UserRoleEnum.Hookah].map((role) => ({
@@ -60,15 +61,18 @@ export class SignUpComponent implements OnInit {
 		});
 	}
 
-	async signUp(body: ISignUp) {
-		const accessToken = await lastValueFrom(this._authService.signUp(body));
+	signUp(body: ISignUp) {
+		this._authService
+			.signUp(body)
+			.pipe(take(1))
+			.subscribe(async (accessToken) => {
+				if (!accessToken) {
+					return;
+				}
 
-		if (!accessToken) {
-			return;
-		}
-
-		await this._routerService.navigateByUrl(
-			ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
-		);
+				await this._routerService.navigateByUrl(
+					ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+				);
+			});
 	}
 }

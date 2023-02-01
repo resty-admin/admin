@@ -29,10 +29,10 @@
 			display: none;
 
 			&::ng-deep {
-				.more {
+				.app-more {
 					background-color: var(--light);
 				}
-				.datatable-row-odd .more {
+				.datatable-row-odd .app-more {
 					background-color: var(--light-grey);
 				}
 			}
@@ -137,10 +137,10 @@
 @include dark() {
 	.products-page {
 		.datatable-desktop::ng-deep {
-			.more {
+			.app-more {
 				background-color: var(--dark);
 			}
-			.datatable-row-odd .more {
+			.datatable-row-odd .app-more {
 				background-color: var(--dark-grey);
 			}
 		}

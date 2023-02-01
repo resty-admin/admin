@@ -17,7 +17,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { ActiveOrderRoutingModule } from "./active-order-routing.module";
 import { ACTIVE_ORDER_COMPONENTS } from "./components";
 import { ActiveOrderComponent } from "./layout/active-order.component";
-import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [ActiveOrderComponent, ...ACTIVE_ORDER_COMPONENTS],
@@ -40,7 +39,6 @@ import { ACTIVE_ORDER_PROVIDERS } from "./providers";
 		OrderInfoSkeletonModule,
 		ProductsToOrderSelectModule,
 		ProductsToOrderSelectSkeletonModule
-	],
-	providers: ACTIVE_ORDER_PROVIDERS
+	]
 })
 export class ActiveOrderModule {}

@@ -1,42 +1,48 @@
-<div class="statistic" *transloco="let t; read: statisticPage">
-	<h1 appTypography theme="1" class="title">{{ t("title") }}</h1>
+<ng-container *transloco="let t">
+	<div class="statistic" *ngIf="statisticPage$ | async as statisticPage">
+		<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
 
-	<app-statistic-header class="header"></app-statistic-header>
+		<app-statistic-header
+			class="header"
+			[tax]="statisticPage.getPlaceStatistic.tax"
+			[totalAmount]="statisticPage.getPlaceStatistic.totalAmount"
+		></app-statistic-header>
 
-	<ul class="cards">
-		<app-statistic-card
-			class="card"
-			link="../users/guests"
-			[value]="usersCount$ | async"
-			[label]="t('guests')"
-			icon="group"
-		></app-statistic-card>
-		<app-statistic-card
-			class="card"
-			link="../users/employees"
-			[value]="usersCount$ | async"
-			[label]="t('employees')"
-			icon="user"
-		></app-statistic-card>
-		<app-statistic-card
-			class="card"
-			link="../halls"
-			[value]="hallsCount$ | async"
-			[label]="t('halls')"
-			icon="halls"
-		></app-statistic-card>
-		<app-statistic-card
-			class="card"
-			link="../halls"
-			[value]="tablesCount$ | async"
-			[label]="t('tables')"
-			icon="table"
-		></app-statistic-card>
-	</ul>
+		<ul class="cards">
+			<app-statistic-card
+				class="card"
+				link="../users/guests"
+				[value]="statisticPage.getPlaceStatistic.guests"
+				[label]="t('GUESTS')"
+				icon="group"
+			></app-statistic-card>
+			<app-statistic-card
+				class="card"
+				link="../users/employees"
+				[value]="statisticPage.getPlaceStatistic.employees"
+				[label]="t('EMPLOYEES')"
+				icon="user"
+			></app-statistic-card>
+			<app-statistic-card
+				class="card"
+				link="../halls"
+				[value]="statisticPage.getPlaceStatistic.halls"
+				[label]="t('HALLS')"
+				icon="halls"
+			></app-statistic-card>
+			<app-statistic-card
+				class="card"
+				link="../halls"
+				[value]="statisticPage.getPlaceStatistic.tables"
+				[label]="t('TABLES')"
+				icon="table"
+			></app-statistic-card>
+		</ul>
 
-	<app-statistic-footer
-		class="footer"
-		[verificationStatus]="verificationStatus$ | async"
-		(buttonClicked)="changeStatus($event)"
-	></app-statistic-footer>
-</div>
+		<app-statistic-footer
+			class="footer"
+			[verificationStatus]="statisticPage.place.verificationStatus"
+			(buttonClicked)="changeStatus($event)"
+		></app-statistic-footer>
+	</div>
+</ng-container>

@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { PlacesSkeletonComponent } from "./components";
-import { PLACES_PAGE } from "./constants";
+import { PlacesPageSkeletonComponent } from "./components";
 import { PlacesComponent } from "./layout/places.component";
-import { PlacesResolver } from "./resolvers";
+import { PlacesPageResolver } from "./resolvers";
 
 export const PLACES_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: PlacesComponent,
 		data: {
-			animation: PLACES_PAGE
+			animation: "placesPage"
 		},
 		resolve: {
-			places: PlacesResolver
+			places: PlacesPageResolver
 		},
 		skeleton: {
-			component: PlacesSkeletonComponent
+			component: PlacesPageSkeletonComponent
 		}
 	}
 ];

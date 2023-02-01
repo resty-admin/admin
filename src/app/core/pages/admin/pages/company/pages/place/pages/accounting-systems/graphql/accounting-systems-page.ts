@@ -15,7 +15,7 @@ export interface AccountingSystemsPageQuery {
 		__typename?: "PaginatedAccountingSystem";
 		page: number;
 		totalCount: number;
-		data?: { __typename?: "AccountingSystemEntity"; id: string; name: string }[] | null;
+		data?: { __typename?: "AccountingSystemEntity"; id: string; name: string; configFields?: any | null }[] | null;
 	};
 }
 
@@ -27,6 +27,7 @@ export const AccountingSystemsPageDocument = gql`
 			data {
 				id
 				name
+				configFields
 			}
 		}
 	}

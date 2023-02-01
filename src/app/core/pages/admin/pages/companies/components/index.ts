@@ -1,5 +1,5 @@
-import { CompaniesSkeletonComponent } from "./companies-skeleton/companies-skeleton.component";
+import { CompaniesPageSkeletonComponent } from "./companies-page-skeleton/companies-page-skeleton.component";
 
-export const COMPANIES_COMPONENTS = [CompaniesSkeletonComponent];
+export const COMPANIES_COMPONENTS = [CompaniesPageSkeletonComponent];
 
-export * from "./companies-skeleton/companies-skeleton.component";
+export * from "./companies-page-skeleton/companies-page-skeleton.component";

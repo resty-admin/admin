@@ -1,14 +1,18 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable, Optional } from "@angular/core";
 import type { HashMap, TranslateParams } from "@ngneat/transloco";
 import { TranslocoService } from "@ngneat/transloco";
 import type { TranslocoScope } from "@ngneat/transloco/lib/types";
 import type { LoadOptions } from "@ngneat/transloco/lib/types";
+import { I18N_SCOPE } from "@shared/modules/i18n";
 import type { Observable } from "rxjs";
 import { catchError, firstValueFrom, of, tap } from "rxjs";
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: "any" })
 export class I18nService {
-	constructor(private readonly _translocoService: TranslocoService) {}
+	constructor(
+		private readonly _translocoService: TranslocoService,
+		@Optional() @Inject(I18N_SCOPE) private i18nScope: string
+	) {}
 
 	selectTranslate<T = unknown>(
 		key: TranslateParams,
@@ -23,7 +27,7 @@ export class I18nService {
 		return this._translocoService.selectTranslation(language);
 	}
 
-	translate<T = string>(key: TranslateParams, parameters?: HashMap, lang?: string): T {
+	translate<T = string>(key: TranslateParams, parameters?: HashMap, lang: string = this.i18nScope): T {
 		return this._translocoService.translate(key, parameters, lang);
 	}
 

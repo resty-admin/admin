@@ -2,23 +2,22 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
-import { HallsSkeletonComponent } from "./components";
-import { HALLS_PAGE } from "./constants";
+import { HallsPageSkeletonComponent } from "./components";
 import { HallsComponent } from "./layout/halls.component";
-import { HallsResolver } from "./resolvers";
+import { HallsPageResolver } from "./resolvers";
 
 export const HALLS_ROUTES: INavigationSkeletonRoute[] = [
 	{
 		path: "",
 		component: HallsComponent,
 		data: {
-			animation: HALLS_PAGE
+			animation: "hallsPage"
 		},
 		resolve: {
-			halls: HallsResolver
+			halls: HallsPageResolver
 		},
 		skeleton: {
-			component: HallsSkeletonComponent
+			component: HallsPageSkeletonComponent
 		}
 	}
 ];

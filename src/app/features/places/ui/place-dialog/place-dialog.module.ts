@@ -8,12 +8,10 @@ import { InputModule } from "@shared/ui/input";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { PlaceDialogComponent } from "./layout/place-dialog.component";
-import { PLACE_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [PlaceDialogComponent],
 	imports: [CommonModule, TypographyModule, ReactiveFormsModule, FileModule, InputModule, ButtonModule, I18nModule],
-	providers: PLACE_DIALOG_PROVIDERS,
 	exports: [PlaceDialogComponent]
 })
 export class PlaceDialogModule {}

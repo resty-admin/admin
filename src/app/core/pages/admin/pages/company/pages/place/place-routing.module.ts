@@ -3,7 +3,6 @@ import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { ADMIN_ROUTES as SHARED_ADMIN_ROUTES } from "@shared/constants";
 
-import { PLACE_PAGE } from "./constants";
 import { PlaceComponent } from "./layout/place.component";
 
 export const PLACE_ROUTES: Route[] = [
@@ -11,7 +10,7 @@ export const PLACE_ROUTES: Route[] = [
 		path: "",
 		component: PlaceComponent,
 		data: {
-			animation: PLACE_PAGE
+			animation: "placePge"
 		},
 		children: [
 			{
@@ -37,6 +36,10 @@ export const PLACE_ROUTES: Route[] = [
 			{
 				...SHARED_ADMIN_ROUTES.MENU,
 				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
+			},
+			{
+				...SHARED_ADMIN_ROUTES.ACCESS,
+				loadChildren: () => import("./pages/access/access.module").then((m) => m.AccessModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.HALLS,

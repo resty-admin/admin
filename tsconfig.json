@@ -20,7 +20,6 @@
 		"lib": ["es2020", "dom", "dom.iterable", "esnext.asynciterable", "ES2021.String"],
 		"paths": {
 			"@env/*": ["src/environments/*"],
-			"@core/*": ["src/app/core/*"],
 			"@shared/*": ["src/app/shared/*"],
 			"@features/*": ["src/app/features/*"],
 			"@graphql": ["src/graphql"]

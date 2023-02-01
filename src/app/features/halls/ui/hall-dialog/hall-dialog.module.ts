@@ -9,7 +9,6 @@ import { SelectModule } from "@shared/ui/select";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { HallDialogComponent } from "./layout/hall-dialog.component";
-import { HALL_DIALOG_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [HallDialogComponent],
@@ -23,7 +22,6 @@ import { HALL_DIALOG_PROVIDERS } from "./providers";
 		SelectModule,
 		I18nModule
 	],
-	providers: HALL_DIALOG_PROVIDERS,
 	exports: [HallDialogComponent]
 })
 export class HallDialogModule {}

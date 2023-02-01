@@ -15,7 +15,6 @@ import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { UsersComponent } from "./layout/users.component";
-import { USERS_PROVIDERS } from "./providers";
 import { UserRoutingModule } from "./users-routing.module";
 
 @NgModule({
@@ -36,7 +35,6 @@ import { UserRoutingModule } from "./users-routing.module";
 		AddHeaderModule,
 		TabsModule,
 		UserDialogModule
-	],
-	providers: USERS_PROVIDERS
+	]
 })
 export class UsersModule {}

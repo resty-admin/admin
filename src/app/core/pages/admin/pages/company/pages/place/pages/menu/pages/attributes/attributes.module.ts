@@ -14,6 +14,7 @@ import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
+import { MoreModule } from "@shared/ui/more";
 import { SelectModule } from "@shared/ui/select";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
@@ -24,7 +25,6 @@ import { TypographyModule } from "@shared/ui/typography";
 import { AttributesRoutingModule } from "./attributes-routing.module";
 import { ATTRIUTES_COMPONENTS } from "./components";
 import { AttributesComponent } from "./layout/attributes.component";
-import { ATTRIBUTES_PROVIDERS } from "./providers";
 
 @NgModule({
 	declarations: [AttributesComponent, ATTRIUTES_COMPONENTS],
@@ -50,8 +50,8 @@ import { ATTRIBUTES_PROVIDERS } from "./providers";
 		SkeletonModule,
 		TabsSkeletonModule,
 		FiltersSkeletonModule,
-		DatatableSkeletonModule
-	],
-	providers: ATTRIBUTES_PROVIDERS
+		DatatableSkeletonModule,
+		MoreModule
+	]
 })
 export class AttributesModule {}

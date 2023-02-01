@@ -1,5 +1,5 @@
-import { AttributesSkeletonComponent } from "./attributes-skeleton/attributes-skeleton.component";
+import { AttributesPageSkeletonComponent } from "./attributes-page-skeleton/attributes-page-skeleton.component";
 
-export const ATTRIUTES_COMPONENTS = [AttributesSkeletonComponent];
+export const ATTRIUTES_COMPONENTS = [AttributesPageSkeletonComponent];
 
-export * from "./attributes-skeleton/attributes-skeleton.component";
+export * from "./attributes-page-skeleton/attributes-page-skeleton.component";
