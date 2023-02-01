@@ -3,7 +3,7 @@ import { environment } from "@env/environment";
 
 export const I18N_CONFIG = {
 	prodMode: !isDevMode(),
-	url: `${environment.assetsUrl}/i18n`,
+	url: `${environment.assetsUrl}/i18n/admin`,
 	availableLangs: ["uk", "ru", "en"],
 	defaultLang: "uk",
 	fallbackLang: ["ru", "en"],
