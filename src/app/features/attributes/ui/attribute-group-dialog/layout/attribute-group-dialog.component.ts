@@ -90,7 +90,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 						price: attribute.price,
 						attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
 					})
-					.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE")))
+					.pipe(this._toastrService.observe(this._i18nService.translate("ATTRIBUTE_GROUPS.CREATE")))
 			),
 			take(1)
 		);

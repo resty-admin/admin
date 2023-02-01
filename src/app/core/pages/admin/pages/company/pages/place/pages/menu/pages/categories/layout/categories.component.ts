@@ -61,7 +61,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 						})
 						.pipe(
 							switchMap(() => this._categoriesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("CREATE_CATEGORY"))
+							this._toastrService.observe(this._i18nService.translate("CATEGORIES.CREATE"))
 						)
 				),
 				take(1)
@@ -79,7 +79,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 						.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
 						.pipe(
 							switchMap(() => this._categoriesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("UPDATE_CATEGORY"))
+							this._toastrService.observe(this._i18nService.translate("CATEGORIES.UPDATE"))
 						)
 				),
 				take(1)
@@ -89,13 +89,13 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
 	openDeleteCategoryDialog(value: DeepAtLeast<CategoryEntity, "id">) {
 		return this._dialogService
-			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("CONFIRM_CATEGORY"), value } })
+			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("CATEGORIES.CONFIRM"), value } })
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._categoriesService.deleteCategory(value.id).pipe(
 						switchMap(() => this._categoriesPageQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("DELETE_CATEGORY"))
+						this._toastrService.observe(this._i18nService.translate("CATEGORIES.DELETE"))
 					)
 				),
 				take(1)
@@ -119,7 +119,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 						})
 						.pipe(
 							switchMap(() => this._categoriesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("UPDATE_PRODUCT"))
+							this._toastrService.observe(this._i18nService.translate("PRODUCTS.UPDATE"))
 						)
 				),
 				take(1)
@@ -130,14 +130,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 	openDeleteProductDialog(product: DeepAtLeast<ProductEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_PRODUCT"), value: product }
+				data: { title: this._i18nService.translate("PRODUCTS.CONFIRM"), value: product }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._productsService.deleteProduct(product.id).pipe(
 						switchMap(() => this._categoriesPageQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("DELETE_PRODUCT"))
+						this._toastrService.observe(this._i18nService.translate("PRODUCTS.DELETE"))
 					)
 				),
 				take(1)

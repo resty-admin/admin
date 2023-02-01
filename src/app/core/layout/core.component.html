@@ -4,7 +4,7 @@
 
 	<app-header
 		class="header"
-		*ngIf="(isAuth$ | async) === false"
+		*ngIf="isClient$ | async"
 		[user]="user$ | async"
 		(signOutClicked)="signOut()"
 		[activeOrder]="activeOrder$ | async"
@@ -14,7 +14,7 @@
 	<main class="main">
 		<app-aside
 			class="aside"
-			*ngIf="(isAuth$ | async) === false"
+			*ngIf="isClient$ | async"
 			[class.open]="isAsideOpen$ | async"
 			[user]="user$ | async"
 			[pages]="pages$ | async"

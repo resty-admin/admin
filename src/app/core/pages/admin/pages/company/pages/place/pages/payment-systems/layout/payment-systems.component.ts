@@ -44,7 +44,7 @@ export class PaymentSystemsComponent {
 							paymentSystem: paymentSystem.id,
 							placeConfigFields: paymentSystem.configFields
 						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("CONNECTED")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("PAYMENT_SYSTEMS.CONNECTED")))
 				),
 				take(1)
 			)

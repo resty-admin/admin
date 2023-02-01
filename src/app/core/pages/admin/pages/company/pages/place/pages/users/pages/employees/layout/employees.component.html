@@ -1,26 +1,26 @@
 <div class="employees-page" *transloco="let t">
 	<button appButton class="add" (click)="openAddEmployeeDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("ADD") }}</span>
+		<span class="text">{{ t("EMPLOYEES.ADD") }}</span>
 	</button>
 
 	<app-filters class="filters"></app-filters>
 	<!--desktop-->
 	<app-datatable class="datatable-desktop" [rows]="employees$ | async">
 		<ng-container appColumn="name">
-			<ng-template #header>{{ t("NAME") }}</ng-template>
+			<ng-template #header>{{ t("EMPLOYEES.NAME") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="email">
-			<ng-template #header>{{ t("email") }}</ng-template>
+			<ng-template #header>{{ t("EMPLOYEES.EMAIL") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="tel">
-			<ng-template #header>{{ t("tel") }}</ng-template>
+			<ng-template #header>{{ t("EMPLOYEES.TEL") }}</ng-template>
 			<ng-template #value let-row="row">{{ row.category.name }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="role">
-			<ng-template #header>{{ t("role") }}</ng-template>
+			<ng-template #header>{{ t("EMPLOYEES.ROLE") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="more">
@@ -36,16 +36,16 @@
 		<li class="user" *ngFor="let employee of employees$ | async; trackBy: sharedService.trackByFn">
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: employee }"></ng-container>
 
-			<p class="name-label">{{ t("name") }}</p>
+			<p class="name-label">{{ t("EMPLOYEES.NAME") }}</p>
 			<p class="name-value">{{ employee.name }}</p>
 
-			<p class="email-label">{{ t("email") }}</p>
+			<p class="email-label">{{ t("EMPLOYEES.EMAIL") }}</p>
 			<p class="email-value">{{ employee.email }}</p>
 
-			<p class="tel-label">{{ t("tel") }}</p>
+			<p class="tel-label">{{ t("EMPLOYEES.TEL") }}</p>
 			<p class="tel-value">{{ employee.tel }}</p>
 
-			<p class="role-label">{{ t("role") }}</p>
+			<p class="role-label">{{ t("EMPLOYEES.ROLE") }}</p>
 			<p class="role-value">{{ employee.role }}</p>
 		</li>
 	</ul>

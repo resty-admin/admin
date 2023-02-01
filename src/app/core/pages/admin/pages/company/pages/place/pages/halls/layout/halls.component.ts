@@ -51,7 +51,7 @@ export class HallsComponent implements OnInit, OnDestroy {
 					.createHall({ name: hall.name, place: this._routerService.getParams(PLACE_ID.slice(1)), file: hall.file?.id })
 					.pipe(
 						switchMap(() => from(this._hallsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("CREATE_HALL"))
+						this._toastrService.observe(this._i18nService.translate("HALLS.CREATE"))
 					)
 			),
 			take(1)
@@ -66,7 +66,7 @@ export class HallsComponent implements OnInit, OnDestroy {
 				switchMap((hall) =>
 					this._hallsService.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id }).pipe(
 						switchMap(() => from(this._hallsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("UPDATE_HALL"))
+						this._toastrService.observe(this._i18nService.translate("HALLS.UPDATE"))
 					)
 				),
 				take(1)
@@ -77,14 +77,14 @@ export class HallsComponent implements OnInit, OnDestroy {
 	openDeleteHallDialog(value: AtLeast<HallEntity, "id">) {
 		return this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM"), value }
+				data: { title: this._i18nService.translate("HALLS.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._hallsService.deleteHall(value.id).pipe(
 						switchMap(() => from(this._hallsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("DELETE_HALL"))
+						this._toastrService.observe(this._i18nService.translate("HALLS.DELETE"))
 					)
 				),
 				take(1)

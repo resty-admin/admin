@@ -48,6 +48,7 @@ import {
 	IMAGE_CONFIG,
 	JWT_CONFIG,
 	SELECT_CONFIG,
+	SKELETON_LOADER,
 	SOCKET_IO_CONFIG,
 	THEME_CONFIG,
 	TOASTR_CONFIG
@@ -80,7 +81,7 @@ import { CoreComponent } from "./layout/core.component";
 		TooltipModule.forRoot(),
 		CodeInputModule.forRoot(CODE_INPUT_CONFIG),
 		I18nModule.forRoot(I18N_CONFIG),
-		NgxSkeletonLoaderModule.forRoot({ animation: "progress" }),
+		NgxSkeletonLoaderModule.forRoot(SKELETON_LOADER),
 		CookiesModule,
 		NavigationSkeletonModule,
 		ActionsModule,

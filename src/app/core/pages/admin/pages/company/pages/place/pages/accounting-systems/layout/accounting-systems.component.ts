@@ -37,7 +37,7 @@ export class AccountingSystemsComponent {
 				switchMap((accountingSystem) =>
 					this._accountingSystemsService
 						.connectPaymentSystemToPlace(accountingSystem)
-						.pipe(this._toastrService.observe(this._i18nService.translate("CONNECTED")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("ACCOUNTING_SYSTEMS.CONNECTED")))
 				),
 				take(1)
 			)

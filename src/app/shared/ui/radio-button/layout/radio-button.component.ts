@@ -5,7 +5,6 @@ import { ANY_SYMBOL, THEME } from "@shared/constants";
 import { getControlValueAccessorProviders } from "@shared/functions";
 import type { ISimpleChanges } from "@shared/interfaces";
 import { SharedService } from "@shared/services";
-import type { IRadioButtonOption } from "@shared/ui/radio-button";
 
 import { IRadioButtonTheme } from "../interfaces";
 
@@ -20,7 +19,10 @@ export class RadioButtonComponent extends ControlValueAccessor<boolean> implemen
 	@ContentChild("labelTemplate", { static: true }) labelTemplate?: TemplateRef<unknown>;
 
 	@Input() theme: IRadioButtonTheme = "1";
-	@Input() options?: IRadioButtonOption[] = [];
+	@Input() options?: any[] = [];
+
+	@Input() bindLabel = "label";
+	@Input() bindValue = "value";
 
 	className = `app-radio-button ${THEME.replace(ANY_SYMBOL, this.theme)}`;
 

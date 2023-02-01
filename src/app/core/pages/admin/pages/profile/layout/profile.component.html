@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
 	<div class="profile-page" *ngIf="user$ | async as user">
 		<div class="header">
-			<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
+			<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
 
 			<div class="tools">
 				<app-language-select class="language"></app-language-select>
@@ -10,7 +10,7 @@
 		</div>
 		<div class="info">
 			<p class="name">{{ user.name }}</p>
-			<p class="role">{{ t(user.role) }}</p>
+			<p class="role">{{ t("USERS." + user.role) }}</p>
 		</div>
 
 		<form class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
@@ -18,25 +18,25 @@
 				class="input name"
 				theme="2"
 				formControlName="name"
-				[label]="t('NAME_LABEL')"
-				[placeholder]="t('NAME_PLACEHOLDER')"
+				[label]="t('FORM.NAME_LABEL')"
+				[placeholder]="t('FORM.NAME_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input tel"
 				theme="2"
 				formControlName="tel"
-				[label]="t('TEL_LABEL')"
-				[placeholder]="t('TEL_PLACEHOLDER')"
+				[label]="t('FORM.TEL_LABEL')"
+				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input email"
 				theme="2"
 				formControlName="email"
-				[label]="t('EMAIL_LABEL')"
-				[placeholder]="t('EMAIL_PLACEHOLDER')"
+				[label]="t('FORM.EMAIL_LABEL')"
+				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
 			></app-input>
 
-			<button class="submit">{{ t("SUBMTI") }}</button>
+			<button class="submit">{{ t("FORM.SUBMTI") }}</button>
 
 			<app-image
 				class="image"
@@ -44,6 +44,6 @@
 			></app-image>
 		</form>
 
-		<button class="delete" (click)="deleteMe()">{{ t("DELETE_PROFILE") }}</button>
+		<button class="delete" (click)="deleteMe()">{{ t("PROFILE.DELETE_PROFILE") }}</button>
 	</div>
 </ng-container>

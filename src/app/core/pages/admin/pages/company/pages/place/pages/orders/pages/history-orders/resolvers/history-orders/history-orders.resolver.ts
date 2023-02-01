@@ -1,12 +1,10 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
-import type { ApolloQueryResult } from "@apollo/client";
 
-import type { HistoryOrderPageQuery } from "../../../../../history-order/graphql";
 import { HistoryOrdersPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class HistoryOrdersResolver implements Resolve<ApolloQueryResult<HistoryOrderPageQuery>> {
+export class HistoryOrdersResolver implements Resolve<unknown> {
 	constructor(private readonly _historyOrdersPageGQL: HistoryOrdersPageGQL) {}
 
 	resolve() {

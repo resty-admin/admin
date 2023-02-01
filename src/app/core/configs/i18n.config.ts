@@ -1,9 +1,9 @@
 import { isDevMode } from "@angular/core";
+import { environment } from "@env/environment";
 
 export const I18N_CONFIG = {
 	prodMode: !isDevMode(),
-	// url: `${environment.assetsUrl}/i18n/`,
-	url: `assets/i18n/`,
+	url: environment.i18nUrl,
 	availableLangs: ["uk", "ru", "en"],
 	defaultLang: "uk",
 	fallbackLang: ["ru", "en"],

@@ -107,7 +107,7 @@ export class ProductDialogComponent implements OnInit {
 							type: attributeGroup.type,
 							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
 						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("ATTRIBUTES_GROUP.CREATE")))
 				),
 				take(1)
 			)
@@ -127,7 +127,7 @@ export class ProductDialogComponent implements OnInit {
 							place: this._routerService.getParams(PLACE_ID.slice(1)),
 							file: category.file?.id
 						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_CATEGORY")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("CATEGORIES.CREATE")))
 				),
 				take(1)
 			)

@@ -1,5 +1,5 @@
-<div class="cookies">
+<div class="cookies" *transloco="let t">
 	<app-icon class="icon" name="cookies"></app-icon>
-	<p class="text">Мы используем файлы cookie для удобства пользования сервисом</p>
-	<button class="button" (click)="close()">ОК</button>
+	<p class="text">{{ t("COOKIES.TITLE") }}</p>
+	<button class="button" (click)="close()">{{ t("COOKIES.OK") }}</button>
 </div>

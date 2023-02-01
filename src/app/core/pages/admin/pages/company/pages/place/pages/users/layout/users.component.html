@@ -1,9 +1,9 @@
 <div class="users-page" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
+	<h1 appTypography theme="1" class="title">{{ t("USERS.TITLE") }}</h1>
 
 	<app-tabs class="tabs" [tabs]="pages">
-		<ng-template #labelTempalte let-tab>
-			{{ t(tab.label) }}
+		<ng-template #labelTemplate let-tab>
+			{{ t("USERS." + tab.label) }}
 		</ng-template>
 	</app-tabs>
 

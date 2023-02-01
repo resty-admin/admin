@@ -2,7 +2,7 @@
 	<app-image class="image" name="places"></app-image>
 
 	<div class="card">
-		<h1 class="title" appTypography theme="2">{{ t("TITLE") }}</h1>
+		<h1 class="title" appTypography theme="2">{{ t("PLACES.TITLE") }}</h1>
 
 		<ul class="places">
 			<li class="place" *ngFor="let place of places$ | async; trackBy: sharedService.trackByFn">

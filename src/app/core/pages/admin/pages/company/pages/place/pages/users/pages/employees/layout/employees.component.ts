@@ -59,7 +59,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 						.addEmployeeToPlace({ userId: employee.id, placeId: this._routerService.getParams(PLACE_ID.slice(1)) })
 						.pipe(
 							switchMap(() => from(this._employeesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("ADD_EMPLOYEE_TO_PLACE"))
+							this._toastrService.observe(this._i18nService.translate("EMPLOYESS.ADD_TO_PLACE"))
 						)
 				),
 				take(1)
@@ -75,7 +75,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 				switchMap((user) =>
 					this._usersService.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel }).pipe(
 						switchMap(() => from(this._employeesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("CREATE_USER"))
+						this._toastrService.observe(this._i18nService.translate("EMPLOYEES.CREATE"))
 					)
 				),
 				take(1)
@@ -87,7 +87,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
 				data: {
-					title: this._i18nService.translate("CONFIRM_USER"),
+					title: this._i18nService.translate("EMPLOYEES.CONFIRM"),
 					value
 				}
 			})
@@ -96,7 +96,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 				switchMap(() =>
 					this._usersService.deleteUser(value.id).pipe(
 						switchMap(() => from(this._employeesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("DELETE_USER"))
+						this._toastrService.observe(this._i18nService.translate("EMPLOYEES.DELETE"))
 					)
 				),
 				take(1)

@@ -1,7 +1,7 @@
 <div class="users-select" *transloco="let t">
 	<ul class="users">
 		<li class="user">
-			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("all") }}</button>
+			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("FORM.ALL") }}</button>
 		</li>
 		<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: sharedService.trackByFn">
 			<input

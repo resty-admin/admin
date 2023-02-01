@@ -56,7 +56,7 @@ export class CommandsComponent implements OnInit, OnDestroy {
 						})
 						.pipe(
 							switchMap(() => from(this._commandsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("CREATE_COMMAND"))
+							this._toastrService.observe(this._i18nService.translate("COMMANDS.CREATE"))
 						)
 				),
 				take(1)
@@ -74,7 +74,7 @@ export class CommandsComponent implements OnInit, OnDestroy {
 						.updateCommand({ id: command.id, name: command.name, description: command.description })
 						.pipe(
 							switchMap(() => from(this._commandsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("UPDATE_COMMAND"))
+							this._toastrService.observe(this._i18nService.translate("COMMANDS.UPDATE"))
 						)
 				),
 				take(1)
@@ -84,13 +84,13 @@ export class CommandsComponent implements OnInit, OnDestroy {
 
 	openDeleteCommandDialog(value: AtLeast<CommandEntity, "id">) {
 		this._dialogService
-			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("CONFIRM_COMMAND"), value } })
+			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("COMMANDS.CONFIRM"), value } })
 			.afterClosed$.pipe(
 				filter((result) => Boolean(result)),
 				switchMap(() =>
 					this._commandsService.deleteCommand(value.id).pipe(
 						switchMap(() => from(this._commandsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("DELETE_COMMAND"))
+						this._toastrService.observe(this._i18nService.translate("COMMANDS.DELETE"))
 					)
 				),
 				take(1)

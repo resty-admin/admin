@@ -8,6 +8,7 @@ export const environment = {
 	apiUrl: "",
 	graphqlUrl: "",
 	assetsUrl: "",
+	i18nUrl: "",
 	cryptoSecret: ""
 };
 

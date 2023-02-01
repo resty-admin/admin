@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
 	<div class="statistic" *ngIf="statisticPage$ | async as statisticPage">
-		<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
+		<h1 appTypography theme="1" class="title">{{ t("STATISTIC.TITLE") }}</h1>
 
 		<app-statistic-header
 			class="header"
@@ -13,28 +13,28 @@
 				class="card"
 				link="../users/guests"
 				[value]="statisticPage.getPlaceStatistic.guests"
-				[label]="t('GUESTS')"
+				[label]="t('STATISTIC.GUESTS')"
 				icon="group"
 			></app-statistic-card>
 			<app-statistic-card
 				class="card"
 				link="../users/employees"
 				[value]="statisticPage.getPlaceStatistic.employees"
-				[label]="t('EMPLOYEES')"
+				[label]="t('STATISTIC.EMPLOYEES')"
 				icon="user"
 			></app-statistic-card>
 			<app-statistic-card
 				class="card"
 				link="../halls"
 				[value]="statisticPage.getPlaceStatistic.halls"
-				[label]="t('HALLS')"
+				[label]="t('STATISTIC.HALLS')"
 				icon="halls"
 			></app-statistic-card>
 			<app-statistic-card
 				class="card"
 				link="../halls"
 				[value]="statisticPage.getPlaceStatistic.tables"
-				[label]="t('TABLES')"
+				[label]="t('STATISTIC.TABLES')"
 				icon="table"
 			></app-statistic-card>
 		</ul>

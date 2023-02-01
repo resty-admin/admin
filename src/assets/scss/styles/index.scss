@@ -1,3 +1,5 @@
+@use "node_modules/@ngneat/hot-toast/src/styles/styles.scss";
+
 @import "button";
 @import "icon-button";
 @import "code-input";
@@ -10,6 +12,5 @@
 @import "tippy";
 @import "typography";
 @import "toastr";
-@import "toastr-angular-15";
 @import "qr-code";
 @import "skeleton";

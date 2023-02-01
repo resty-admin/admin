@@ -72,7 +72,7 @@ export class ShiftComponent implements OnInit {
 			})
 			.pipe(
 				switchMap(() => this._activeShiftQuery.refetch()),
-				this._toastrService.observe(this._i18nService.translate("CREATE_SHIFT")),
+				this._toastrService.observe(this._i18nService.translate("SHIFT.CREATE")),
 				take(1)
 			)
 			.subscribe();
@@ -83,7 +83,7 @@ export class ShiftComponent implements OnInit {
 			.updateShift({ id, tables: (tables || []).map((table) => table.id) })
 			.pipe(
 				switchMap(() => this._activeShiftQuery.refetch()),
-				this._toastrService.observe(this._i18nService.translate("UPDATE_SHIFT")),
+				this._toastrService.observe(this._i18nService.translate("SHIFT.UPDATE")),
 				take(1)
 			)
 			.subscribe();
@@ -92,14 +92,14 @@ export class ShiftComponent implements OnInit {
 	closeShift(shiftId: string) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_SHIFT"), value: { label: shiftId } }
+				data: { title: this._i18nService.translate("SHIFT.CONFIRM"), value: { label: shiftId } }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._shiftsService.closeShift(shiftId).pipe(
 						switchMap(() => this._activeShiftQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("CLOSE_SHIFT"))
+						this._toastrService.observe(this._i18nService.translate("SHIT.CLOSE"))
 					)
 				),
 				take(1)

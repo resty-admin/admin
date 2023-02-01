@@ -1,7 +1,7 @@
 <div class="attributes-page" *transloco="let t">
 	<button appButton class="add" (click)="openCreateAttributeGroupDialog()">
 		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("ADD") }}</span>
+		<span class="text">{{ t("ATTRIBUTES.ADD") }}</span>
 	</button>
 
 	<app-filters class="filters"></app-filters>
@@ -23,10 +23,10 @@
 
 			<ul class="attributes">
 				<li class="attribute" *ngFor="let attribute of attributesGroup.attributes; trackBy: sharedService.trackByFn">
-					<p class="name-label">{{ t("NAME") }}</p>
+					<p class="name-label">{{ t("ATTRIBUTES.NAME") }}</p>
 					<p class="name-value">{{ attribute.name }}</p>
-					<p class="description-label">{{ t("DESCRIPTION") }}</p>
-					<p class="description-value">{{ attribute.price }}{{ t("CURRENCY") }}</p>
+					<p class="description-label">{{ t("ATTRIBUTES.DESCRIPTION") }}</p>
+					<p class="description-value">{{ attribute.price }}{{ t("ATTRIBUTES.CURRENCY") }}</p>
 					<app-more
 						class="more"
 						(editClicked)="openUpdateAttributeDialog(attribute)"

@@ -1,30 +1,30 @@
 <div class="user-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("USER_DIALOG." + data?.id ? "EDIT" : "CREATE") }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="t('NAME_LABEL')"
-			[placeholder]="t('NAME_PLACEHOLDER')"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
 		></app-input>
 		<app-input
 			class="input"
 			formControlName="email"
-			[label]="t('EMAIL_LABEL')"
-			[placeholder]="t('EMAIL_PLACEHOLDER')"
+			[label]="t('FORM.EMAIL_LABEL')"
+			[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
 		></app-input>
 		<app-input
 			class="input"
 			formControlName="tel"
-			[label]="t('TEL_LABEL')"
-			[placeholder]="t('TEL_PLACEHOLDER')"
+			[label]="t('FORM.TEL_LABEL')"
+			[placeholder]="t('FORM.TEL_PLACEHOLDER')"
 		></app-input>
 		<app-input
 			class="input"
 			formControlName="password"
-			[label]="t('PASSWORD_LABEL')"
-			[placeholder]="t('PASSWORD_PLACEHOLDER')"
+			[label]="t('FORM.PASSWORD_LABEL')"
+			[placeholder]="t('FORM.PASSWORD_PLACEHOLDER')"
 		></app-input>
 		<app-select
 			class="input"
@@ -32,10 +32,10 @@
 			bindValue="value"
 			bindLabel="label"
 			[options]="roles"
-			[label]="t('ROLE_LABEL')"
-			[placeholder]="t('ROLE_PLACEHOLDER')"
+			[label]="t('FORM.ROLE_LABEL')"
+			[placeholder]="t('FORM.ROLE_PLACEHOLDER')"
 		></app-select>
 
-		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
+		<button class="submit" appButton type="submit">{{ t("FORM." + data?.id ? "EDIT" : "CREATE") }}</button>
 	</form>
 </div>

@@ -1,9 +1,9 @@
 <div class="orders-page" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
+	<h1 appTypography theme="1" class="title">{{ t("ORDERS.TITLE") }}</h1>
 
 	<app-tabs class="tabs" [tabs]="pages">
 		<ng-template #labelTemplate let-tab>
-			{{ t(tab.label) }}
+			{{ t("ORDERS." + tab.label) }}
 		</ng-template>
 	</app-tabs>
 

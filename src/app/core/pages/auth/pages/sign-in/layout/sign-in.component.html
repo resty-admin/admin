@@ -7,7 +7,7 @@
 		<form class="form" [formGroup]="formGroup" [ngSwitch]="typeControl.value" (ngSubmit)="signIn(formGroup.value)">
 			<app-radio-button class="radio-button" theme="1" [options]="types" [formControl]="typeControl">
 				<ng-template #labelTemplate let-option>
-					{{ t(option.label) }}
+					{{ t("AUTH." + option.label) }}
 				</ng-template>
 			</app-radio-button>
 
@@ -16,45 +16,47 @@
 				class="input"
 				type="email"
 				formControlName="email"
-				[label]="t('EMAIL_LABEL')"
-				[placeholder]="t('EMAIL_PLACEHOLDER')"
+				[label]="t('FORM.EMAIL_LABEL')"
+				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				*ngSwitchCase="'tel'"
 				class="input"
 				type="tel"
 				formControlName="tel"
-				[label]="t('TEL_LABEL')"
-				[placeholder]="t('TEL_PLACEHOLDER')"
+				[label]="t('FORM.TEL_LABEL')"
+				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
 			></app-input>
 			<app-input
 				class="input"
 				type="password"
 				formControlName="password"
-				[label]="t('PASSWORD_LABEL')"
-				[placeholder]="t('PASSWORD_PLACEHOLDER')"
+				[label]="t('FORM.PASSWORD_LABEL')"
+				[placeholder]="t('FORM.PASSWORD_PLACEHOLDER')"
 			></app-input>
 
 			<div class="social-medias">
-				<p class="label">{{ t("OR") }}</p>
+				<p class="label">{{ t("AUTH.OR") }}</p>
 				<button appButton theme="2" class="button" type="button">
 					<app-icon class="icon" name="google"></app-icon>
-					<span class="text">{{ t("GOOGLE") }}</span>
+					<span class="text">{{ t("AUTH.GOOGLE") }}</span>
 				</button>
 				<button appButton theme="2" class="button" type="button">
 					<app-icon class="icon" name="telegram"></app-icon>
-					<span class="text">{{ t("TELEGRAM") }}</span>
+					<span class="text">{{ t("AUTH.TELEGRAM") }}</span>
 				</button>
 			</div>
 
-			<button appButton class="submit">{{ t("SIGN_IN") }}</button>
+			<button appButton class="submit">{{ t("AUTH.SIGN_IN") }}</button>
 		</form>
 
 		<div class="links">
-			<a appLink [routerLink]="adminRoutes.SIGN_UP.absolutePath" class="link">{{ t("SIGN_UP") }}</a>
-			<a appLink [routerLink]="adminRoutes.FORGOT_PASSWORD.absolutePath" class="link">{{ t("FORGOT_PASSWORD") }}</a>
+			<a appLink [routerLink]="adminRoutes.SIGN_UP.absolutePath" class="link">{{ t("AUTH.SIGN_UP") }}</a>
+			<a appLink [routerLink]="adminRoutes.FORGOT_PASSWORD.absolutePath" class="link">{{
+				t("AUTH.FORGOT_PASSWORD")
+			}}</a>
 		</div>
 
-		<p class="privacy-policy">{{ t("PRIVACY_POLICY") }}</p>
+		<p class="privacy-policy">{{ t("AUTH.PRIVACY_POLICY") }}</p>
 	</app-card>
 </div>

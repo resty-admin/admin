@@ -10,6 +10,7 @@ export * from "./icon.config";
 export * from "./image.config";
 export * from "./jwt.config";
 export * from "./select.config";
+export * from "./skeleton-loader.config";
 export * from "./socket-io.config";
 export * from "./theme.config";
 export * from "./toastr.config";

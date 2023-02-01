@@ -1,15 +1,15 @@
 <div class="accounting-system-dialog" *transloco="let t">
-	<p appTypography theme="2" class="title">{{ t("ADD") }}</p>
+	<p appTypography theme="2" class="title">{{ t("ACCOUNTING_SYSTEM_DIALOG.ADD") }}</p>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			*ngFor="let field of fields"
 			class="input"
 			[formControlName]="field"
-			[label]="t(field + '_label')"
-			[placeholder]="t(field + '_placeholder')"
+			[label]="t('FORM.' + field + '_LABEL')"
+			[placeholder]="t('FORM.' + field + '_PLACEHOLDER')"
 		></app-input>
 
-		<button appButton theme="1" class="submit">{{ t("CONNECT") }}</button>
+		<button appButton theme="1" class="submit">{{ t("FORM.CONNECT") }}</button>
 	</form>
 </div>

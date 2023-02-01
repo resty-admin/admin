@@ -1,14 +1,14 @@
 <div class="order-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("ORDER_DIALOG" + data?.id ? "EDIT" : "CREATE") }}</h1>
 
 	<for class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
 			class="input"
 			formControlName="code"
-			[label]="t('CODE_LABEL')"
-			[placeholder]="t('CODE_PLACEHOLDER')"
+			[label]="t('FORM.CODE_LABEL')"
+			[placeholder]="t('FORM.CODE_PLACEHOLDER')"
 		></app-input>
 
-		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
+		<button class="submit" appButton type="submit">{{ t("FORM." + data?.id ? "EDIT" : "CREATE") }}</button>
 	</for>
 </div>

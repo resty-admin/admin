@@ -3,8 +3,8 @@
 		<app-order-info [order]="activeOrder"></app-order-info>
 
 		<div class="actions">
-			<button class="approve" (click)="approveTableInOrder()">{{ t("confirm") }}</button>
-			<button class="reject" (click)="rejectTableInOrder()">{{ t("reject") }}</button>
+			<button class="approve" (click)="approveTableInOrder()">{{ t("ACTIVE_ORDER.CONFIRM") }}</button>
+			<button class="reject" (click)="rejectTableInOrder()">{{ t("ACTIVE_ORDER.CONFIRM") }}</button>
 		</div>
 
 		<app-users-select
@@ -22,16 +22,16 @@
 		></app-products-to-order-select>
 
 		<div class="actions">
-			<button class="approve" (click)="approveProductsInOrder()">{{ t("confirm") }}</button>
-			<button class="reject" (click)="rejectProductsInOrder()">{{ t("confirm") }}</button>
+			<button class="approve" (click)="approveProductsInOrder()">{{ t("ACTIVE_ORDER.CONFIRM") }}</button>
+			<button class="reject" (click)="rejectProductsInOrder()">{{ t("ACTIVE_ORDER.REJECT") }}</button>
 		</div>
 
-		<button class="cancel" (click)="cancelOrder(activeOrder.id)">{{ t("cancel") }}</button>
+		<button class="cancel" (click)="cancelOrder(activeOrder.id)">{{ t("ACTIVE_ORDER.CANCEL") }}</button>
 
 		<app-textarea
 			class="textarea"
 			[value]="activeOrder.comments"
-			[label]="t('COMMNET')"
+			[label]="t('FORM.COMMNET')"
 			[disabled]="true"
 		></app-textarea>
 	</ng-container>

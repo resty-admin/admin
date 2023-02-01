@@ -66,7 +66,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 						})
 						.pipe(
 							switchMap(() => from(this._tablesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("CREATE_TABLE"))
+							this._toastrService.observe(this._i18nService.translate("TABLES.CREATE"))
 						)
 				),
 				take(1)
@@ -84,7 +84,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 						.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
 						.pipe(
 							switchMap(() => from(this._tablesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("UPDATE_TABLE"))
+							this._toastrService.observe(this._i18nService.translate("TABLES.UPDATE"))
 						)
 				),
 				take(1)
@@ -95,14 +95,14 @@ export class TablesComponent implements OnInit, OnDestroy {
 	openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_TABLE"), value }
+				data: { title: this._i18nService.translate("TABLES.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._tablesService.deleteTable(value.id).pipe(
 						switchMap(() => from(this._tablesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("DELETE_TABLE"))
+						this._toastrService.observe(this._i18nService.translate("TABLES.DELETE"))
 					)
 				),
 				take(1)

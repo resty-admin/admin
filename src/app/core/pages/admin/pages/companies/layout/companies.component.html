@@ -2,7 +2,7 @@
 	<app-image class="image" name="companies"></app-image>
 
 	<div class="card">
-		<h1 appTypography theme="2" class="title">{{ t("TITLE") }}</h1>
+		<h1 appTypography theme="2" class="title">{{ t("COMPANIES.TITLE") }}</h1>
 
 		<ul class="companies">
 			<li class="company" *ngFor="let company of companies$ | async; trackBy: sharedService.trackByFn">

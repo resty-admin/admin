@@ -1,14 +1,12 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
-import type { ApolloQueryResult } from "@apollo/client";
 import { PLACE_ID } from "@shared/constants";
 
-import type { ActiveOrdersPageQuery } from "../../graphql";
 import { ActiveOrdersPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class ActiveOrdersPageResolver implements Resolve<ApolloQueryResult<ActiveOrdersPageQuery> | null> {
+export class ActiveOrdersPageResolver implements Resolve<unknown> {
 	constructor(private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL) {}
 
 	resolve(activatedRouteSnapshot: ActivatedRouteSnapshot) {

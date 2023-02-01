@@ -66,7 +66,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 						})
 						.pipe(
 							switchMap(() => from(this._productsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("CREATE_PRODUCT"))
+							this._toastrService.observe(this._i18nService.translate("PRODUCTS.CREATE"))
 						)
 				),
 				take(1)
@@ -92,7 +92,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 						})
 						.pipe(
 							switchMap(() => from(this._productsPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("UPDATE_PRODUCT"))
+							this._toastrService.observe(this._i18nService.translate("PRODUCTS.UPDATE"))
 						)
 				),
 				take(1)
@@ -103,14 +103,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	openDeleteProductDialog(product: AtLeast<ProductEntity, "id">) {
 		return this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_PRODUCT"), value: product }
+				data: { title: this._i18nService.translate("PRODUCTS.CONFIRM"), value: product }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap((product) =>
 					this._productsService.deleteProduct(product.id).pipe(
 						switchMap(() => from(this._productsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("DELETE_PRODUCT"))
+						this._toastrService.observe(this._i18nService.translate("PRODUCTS.DELETE"))
 					)
 				)
 			);

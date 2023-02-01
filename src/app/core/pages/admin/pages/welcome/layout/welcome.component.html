@@ -1,7 +1,7 @@
 <div class="welcome-page" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
+	<h1 appTypography theme="1" class="title">{{ t("WELCOME.TITLE") }}</h1>
 
-	<h2 appTypography theme="3" class="subtitle">{{ t("SUBTITLE") }}</h2>
+	<h2 appTypography theme="3" class="subtitle">{{ t("WELCOME.SUBTITLE") }}</h2>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="updateMe(formGroup.value)">
 		<app-input

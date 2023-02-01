@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
 import { PLACE_ID } from "@shared/constants";
-import { combineLatest, of } from "rxjs";
+import { combineLatest } from "rxjs";
 
 import { ActiveShiftGQL, ShiftPageGQL } from "../../graphql";
 
@@ -14,7 +14,7 @@ export class ShiftPageResolver implements Resolve<unknown> {
 		const placeId = activatedRouteSnapshot.paramMap.get(PLACE_ID.slice(1));
 
 		if (!placeId) {
-			return of(null);
+			return;
 		}
 
 		return combineLatest([

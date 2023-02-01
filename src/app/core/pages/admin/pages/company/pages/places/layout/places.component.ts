@@ -66,7 +66,7 @@ export class PlacesComponent implements OnInit {
 						})
 						.pipe(
 							switchMap((result) => from(this._placesPageQuery.refetch()).pipe(map(() => result.data?.createPlace))),
-							this._toastrService.observe(this._i18nService.translate("CREATE_PLACE"))
+							this._toastrService.observe(this._i18nService.translate("PLACES.CREATE"))
 						)
 				),
 				take(1)
