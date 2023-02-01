@@ -29,7 +29,7 @@ jobs:
           script: |
             cd /home/resty/admin
             git fetch
-            git checkout dev
+            git checkout main
             git pull
             docker system prune -f --volumes
             docker build --no-cache -f Dockerfile -t $(echo $REGISTRY)/$(echo $NGX_ADMIN):latest .
