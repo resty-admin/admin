@@ -15,7 +15,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 
 	getTranslation(lang: string) {
 		return this._httpClient
-			.get<Translation>(`${this._i18nConfig.url}${lang}.json`)
+			.get<Translation>(`${this._i18nConfig.url}/${lang}.json`)
 			.pipe(catchError(() => this._httpClient.get<Translation>(`assets/i18n/${lang}.json`)));
 	}
 }

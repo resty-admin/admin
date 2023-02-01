@@ -6,7 +6,7 @@ import type { IImageConfig } from "@shared/ui/image";
 export const IMAGE_CONFIG: IFactory<IImageConfig> = {
 	useFactory: (themeService: ThemeService) => ({
 		localAssetsUrl: "assets/images",
-		remoteAssetsUrl: environment.assetsUrl,
+		remoteAssetsUrl: `${environment.assetsUrl}/images`,
 		theme$: themeService.theme$
 	}),
 	deps: [ThemeService]
