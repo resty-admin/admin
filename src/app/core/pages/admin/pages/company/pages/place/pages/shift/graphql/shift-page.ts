@@ -3,11 +3,13 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../graphql";
-export type ActiveShiftQueryVariables = Types.Exact<Record<string, never>>;
+export type ActiveShiftQueryVariables = Types.Exact<{
+	filtersArgs: Types.FiltersArgsDto | Types.FiltersArgsDto[];
+}>;
 
 export interface ActiveShiftQuery {
 	__typename?: "Query";
-	activeShift?: {
+	shift: {
 		__typename?: "ActiveShiftEntity";
 		id: string;
 		tables?:
@@ -19,7 +21,7 @@ export interface ActiveShiftQuery {
 					hall: { __typename?: "HallEntity"; id: string; name: string };
 			  }[]
 			| null;
-	} | null;
+	};
 }
 
 export type ShiftPageQueryVariables = Types.Exact<{
@@ -53,8 +55,8 @@ export interface ShiftPageQuery {
 }
 
 export const ActiveShiftDocument = gql`
-	query ActiveShift {
-		activeShift {
+	query ActiveShift($filtersArgs: [FiltersArgsDto!]!) {
+		shift(filtersArgs: $filtersArgs) {
 			id
 			tables {
 				id

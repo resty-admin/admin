@@ -27,7 +27,7 @@ export interface AttributesPageQuery {
 								id: string;
 								name: string;
 								price: number;
-								attributesGroup: { __typename?: "AttributesGroupEntity"; id: string }[];
+								attributesGroup?: { __typename?: "AttributesGroupEntity"; id: string }[] | null;
 						  }[]
 						| null;
 			  }[]

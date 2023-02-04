@@ -1,5 +1,5 @@
-query ActiveShift {
-	activeShift {
+query ActiveShift($filtersArgs: [FiltersArgsDto!]!) {
+	shift(filtersArgs: $filtersArgs) {
 		id
 		tables {
 			id

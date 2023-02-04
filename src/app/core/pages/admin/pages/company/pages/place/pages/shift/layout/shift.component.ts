@@ -1,6 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
+import { AuthService } from "@features/auth";
 import { ShiftsService } from "@features/shift";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
 import { DialogService } from "@ngneat/dialog";
@@ -36,7 +37,7 @@ export class ShiftComponent implements OnInit {
 	);
 
 	readonly activeShift$ = this._activeShiftQuery.valueChanges.pipe(
-		map((result) => result.data.activeShift),
+		map((result) => result.data.shift),
 		shareReplay({ refCount: true })
 	);
 
@@ -50,15 +51,25 @@ export class ShiftComponent implements OnInit {
 		private readonly _i18nService: I18nService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _authService: AuthService
 	) {}
 
 	async ngOnInit() {
 		const placeId = this._routerService.getParams(PLACE_ID.slice(1));
 
-		await this._shiftPageQuery.setVariables({
-			hallsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
-			tablesFiltersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
+		this._authService.me$.pipe(take(1)).subscribe(async (user) => {
+			await this._shiftPageQuery.setVariables({
+				hallsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
+				tablesFiltersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
+			});
+
+			await this._activeShiftQuery.setVariables({
+				filtersArgs: [
+					{ key: "place.id", operator: "=", value: placeId },
+					{ key: "waiter.id", operator: "=", value: user!.id }
+				]
+			});
 		});
 
 		this._actionsService.setAction({

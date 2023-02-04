@@ -96,14 +96,14 @@ export enum AttributeGroupTypeEnum {
 
 export interface AttributesEntity {
 	__typename?: "AttributesEntity";
-	attributesGroup: AttributesGroupEntity[];
+	attributesGroup?: Maybe<AttributesGroupEntity[]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
 	price: Scalars["Int"];
 }
 
 export interface AttributesEntityInput {
-	attributesGroup: AttributesGroupEntityInput[];
+	attributesGroup?: InputMaybe<AttributesGroupEntityInput[]>;
 	name: Scalars["String"];
 	price: Scalars["Int"];
 }
@@ -1245,7 +1245,7 @@ export interface QueryProductsArgs {
 }
 
 export interface QueryShiftArgs {
-	id: Scalars["String"];
+	filtersArgs: FiltersArgsDto[];
 }
 
 export interface QueryShiftsArgs {
@@ -1515,12 +1515,14 @@ export interface UserToPlaceEntity {
 	place: PlaceEntity;
 	role: UserRoleEnum;
 	user: UserEntity;
+	visits?: Maybe<Scalars["Int"]>;
 }
 
 export interface UserToPlaceEntityInput {
 	place: PlaceEntityInput;
 	role: UserRoleEnum;
 	user: UserEntityInput;
+	visits?: InputMaybe<Scalars["Int"]>;
 }
 
 export interface UserToPlaceInput {
