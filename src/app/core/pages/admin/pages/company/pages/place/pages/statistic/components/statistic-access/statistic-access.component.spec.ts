@@ -1,18 +1,18 @@
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { AccessPageSkeletonComponent } from "./access-page-skeleton.component";
+import { StatisticAccessComponent } from "./statistic-access.component";
 
-describe("PlacesComponent", () => {
+describe("StatisticHeaderComponent", () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [RouterTestingModule],
-			declarations: [AccessPageSkeletonComponent]
+			declarations: [StatisticAccessComponent]
 		}).compileComponents();
 	});
 
 	it("should create the app", () => {
-		const fixture = TestBed.createComponent(AccessPageSkeletonComponent);
+		const fixture = TestBed.createComponent(StatisticAccessComponent);
 		const app = fixture.componentInstance;
 		expect(app).toBeTruthy();
 	});

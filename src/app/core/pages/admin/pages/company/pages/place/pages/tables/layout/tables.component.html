@@ -5,15 +5,18 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list class="list" [items]="tables$ | async" [itemTemplate]="tableTemplate"></app-list>
+	<app-list
+		class="list"
+		[items]="tables$ | async"
+		[itemTemplate]="tableTemplate"
+		(clicked)="openTableQrCodeDialog($event)"
+	></app-list>
 </div>
 
 <ng-template let-item #tableTemplate>
-	<button (click)="openTableQrCodeDialog(item)">
-		<app-table
-			[table]="item"
-			(editClicked)="openUpdateTableDialog(item)"
-			(deleteClicked)="openDeleteTableDialog(item)"
-		></app-table>
-	</button>
+	<app-table
+		[table]="item"
+		(editClicked)="openUpdateTableDialog(item)"
+		(deleteClicked)="openDeleteTableDialog(item)"
+	></app-table>
 </ng-template>

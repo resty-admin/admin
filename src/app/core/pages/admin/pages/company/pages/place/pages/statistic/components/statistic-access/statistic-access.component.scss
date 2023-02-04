@@ -1,0 +1,98 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.statistic-access {
+		position: relative;
+		padding: rem(21) rem(16);
+		background: var(--light-grey);
+		border-radius: rem(24);
+		display: grid;
+		row-gap: rem(33);
+		grid-template-areas:
+			"description bots"
+			"code .";
+		grid-template-columns: auto 1fr;
+		column-gap: rem(24);
+		.description {
+			grid-area: description;
+			font-weight: 400;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--grey);
+		}
+
+		.code {
+			grid-area: code;
+			display: flex;
+			align-items: center;
+			column-gap: rem(20);
+			.text {
+				font-weight: 400;
+				font-size: rem(32);
+				line-height: rem(40);
+				color: var(--dark);
+			}
+			.copy {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: rem(32);
+				height: rem(32);
+				background: var(--light);
+				border-radius: rem(8);
+				.icon {
+					width: rem(16);
+					height: rem(16);
+				}
+			}
+		}
+
+		.bots {
+			justify-self: end;
+			grid-area: bots;
+			display: flex;
+			align-items: center;
+			column-gap: rem(12);
+			.bot {
+				display: flex;
+				column-gap: rem(5);
+				align-items: center;
+				background-color: var(--primary);
+				padding: 0 rem(11);
+				height: rem(32);
+				border-radius: rem(8);
+				.icon {
+					width: rem(24);
+					height: rem(24);
+				}
+				.text {
+					font-weight: 400;
+					font-size: rem(16);
+					line-height: rem(24);
+					color: var(--dark);
+				}
+			}
+		}
+
+		.image {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: rem(147);
+			height: rem(100);
+		}
+	}
+}
+@include dark() {
+	.statistic-access {
+		background-color: var(--dark-grey);
+		.code {
+			.text {
+				color: var(--light);
+			}
+			.copy {
+				background-color: var(--dark);
+			}
+		}
+	}
+}

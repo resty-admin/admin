@@ -51,12 +51,6 @@ export const ASIDE_PAGES = [
 		routerLink: ADMIN_ROUTES.WALLET.absolutePath
 	},
 	{
-		label: "ACCESS",
-		icon: "key",
-		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
-		routerLink: ADMIN_ROUTES.ACCESS.absolutePath
-	},
-	{
 		label: "CONTRACT",
 		icon: "contract",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],

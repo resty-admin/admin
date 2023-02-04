@@ -38,10 +38,6 @@ export const PLACE_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/menu/menu.module").then((m) => m.MenuModule)
 			},
 			{
-				...SHARED_ADMIN_ROUTES.ACCESS,
-				loadChildren: () => import("./pages/access/access.module").then((m) => m.AccessModule)
-			},
-			{
 				...SHARED_ADMIN_ROUTES.HALLS,
 				loadChildren: () => import("./pages/halls/halls.module").then((m) => m.HallsModule)
 			},

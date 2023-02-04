@@ -10,7 +10,7 @@
 			width: 100%;
 			height: 100%;
 			opacity: 0%;
-			z-index: 1;
+			z-index: 3;
 			&:hover ~ .preview,
 			&:focus ~ .preview {
 				border-color: var(--primary);

@@ -1,9 +1,9 @@
 import type { OnInit } from "@angular/core";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
 import type { UserEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import type { DeepAtLeast } from "@shared/interfaces";
 import { take } from "rxjs";
 
@@ -30,7 +30,8 @@ export class AddEmployeeDialogComponent implements OnInit {
 	constructor(
 		private readonly _dialogRef: DialogRef,
 		private readonly _formBuilder: FormBuilder,
-		private readonly _findUserGQL: FindUserGQL
+		private readonly _findUserGQL: FindUserGQL,
+		private readonly _changeDetectorRef: ChangeDetectorRef
 	) {}
 
 	findEmployee(user: IAddEmployeeForm) {
@@ -49,14 +50,12 @@ export class AddEmployeeDialogComponent implements OnInit {
 				}
 
 				this.isEmployee = result.data.user;
+				console.log(this.isEmployee);
+				this._changeDetectorRef.detectChanges();
 			});
 	}
 
 	ngOnInit() {
-		this.formGroup.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
-			this.isEmployee = null;
-		});
-
 		this.data = this._dialogRef.data;
 
 		if (!this.data) {
@@ -66,7 +65,7 @@ export class AddEmployeeDialogComponent implements OnInit {
 		this.formGroup.patchValue(this.data);
 	}
 
-	closeDialog(user?: IAddEmployeeForm) {
+	closeDialog(user?: DeepAtLeast<UserEntity, "id">) {
 		if (!user) {
 			this._dialogRef.close();
 			return;

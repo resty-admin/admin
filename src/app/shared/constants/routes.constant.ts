@@ -174,10 +174,6 @@ export const ADMIN_ROUTES = {
 		path: `commands/${COMMAND_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/commands/${COMMAND_ID}`
 	},
-	ACCESS: {
-		path: `access`,
-		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/access`
-	},
 	WALLET: {
 		path: `wallet`,
 		absolutePath: `/companies/${COMPANY_ID}/places/${PLACE_ID}/wallet`

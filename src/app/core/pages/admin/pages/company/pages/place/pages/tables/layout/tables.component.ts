@@ -4,7 +4,7 @@ import { ActionsService } from "@features/app";
 import { TableDialogComponent, TableQrCodeDialogComponent, TablesService } from "@features/tables";
 import type { TableEntity } from "@graphql";
 import { ADMIN_ROUTES, COMPANY_ID, HALL_ID, PLACE_ID } from "@shared/constants";
-import type { AtLeast } from "@shared/interfaces";
+import type { AtLeast, DeepPartial } from "@shared/interfaces";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
@@ -111,7 +111,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	openTableQrCodeDialog(data: TableEntity) {
+	openTableQrCodeDialog(data: DeepPartial<TableEntity>) {
 		this._dialogService.open(TableQrCodeDialogComponent, { data }).afterClosed$.pipe(take(1)).subscribe();
 	}
 

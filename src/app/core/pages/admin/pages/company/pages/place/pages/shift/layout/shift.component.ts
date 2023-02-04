@@ -106,7 +106,7 @@ export class ShiftComponent implements OnInit {
 				switchMap(() =>
 					this._shiftsService.closeShift(shiftId).pipe(
 						switchMap(() => this._activeShiftQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("SHIT.CLOSE"))
+						this._toastrService.observe(this._i18nService.translate("SHIFT.CLOSE"))
 					)
 				),
 				take(1)

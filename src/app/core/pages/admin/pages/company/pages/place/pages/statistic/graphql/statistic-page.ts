@@ -18,7 +18,12 @@ export interface StatisticPageQuery {
 		tax: number;
 		totalAmount: number;
 	};
-	place: { __typename?: "PlaceEntity"; id: string; verificationStatus: Types.PlaceVerificationStatusEnum };
+	place: {
+		__typename?: "PlaceEntity";
+		id: string;
+		verificationStatus: Types.PlaceVerificationStatusEnum;
+		waiterCode?: number | null;
+	};
 }
 
 export const StatisticPageDocument = gql`
@@ -34,6 +39,7 @@ export const StatisticPageDocument = gql`
 		place(id: $placeId) {
 			id
 			verificationStatus
+			waiterCode
 		}
 	}
 `;
