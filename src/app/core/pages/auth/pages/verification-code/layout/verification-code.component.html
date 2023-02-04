@@ -3,17 +3,18 @@
 
 	<app-card theme="1">
 		<div class="card">
-			<h1 appTypography theme="2" class="title">{{ t("TITLE") }}</h1>
-			<p appTypography theme="3" class="description">{{ t("DESCRIPTION") }}</p>
+			<h1 appTypography theme="2" class="title">{{ t("VERIFIFICATION_CODE.TITLE") }}</h1>
+			<p appTypography theme="3" class="description">{{ t("VERIFIFICATION_CODE.DESCRIPTION") }}</p>
 
 			<form class="form" [formGroup]="formGroup" (ngSubmit)="verifyCode(formGroup.value)">
 				<app-code-input class="code-input" formControlName="verificationCode"></app-code-input>
 
 				<p appTypography theme="3" class="help">
-					{{ t("DIDNT_COME") }} <button class="resend">{{ t("SEND_AGAIN") }}</button>
+					{{ t("VERIFIFICATION_CODE.DIDNT_COME") }}
+					<button class="resend">{{ t("VERIFIFICATION_CODE.SEND_AGAIN") }}</button>
 				</p>
 
-				<button appButton theme="1" class="submit">{{ t("SEND") }}</button>
+				<button appButton theme="1" class="submit">{{ t("VERIFIFICATION_CODE.SEND") }}</button>
 			</form>
 		</div>
 	</app-card>

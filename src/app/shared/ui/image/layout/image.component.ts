@@ -51,5 +51,9 @@ export class ImageComponent implements OnChanges {
 		if (changes.remote) {
 			this.remoteSubject.next(changes.remote.currentValue);
 		}
+
+		if (changes.name) {
+			this.remoteSubject.next(this.remoteSubject.value);
+		}
 	}
 }

@@ -1,26 +1,49 @@
 <div class="add-employee-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("ADD_EMPLOYEE_DIALOG.TITLE") }}</h1>
+	<div class="employee" *ngIf="isEmployee; else findEmployeeTmp">
+		<h1 appTypography theme="2" class="title">{{ t("ADD_EMPLOYEE_DIALOG.FINDED") }}</h1>
 
-	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input
-			class="input"
-			formControlName="tel"
-			[label]="t('FORM.TEL_LABEL')"
-			[placeholder]="t('FORM.TEL_PLACEHOLDER')"
-		></app-input>
+		<ul class="info">
+			<li class="info-item">
+				<p class="label">{{ t("ADD_EMPLOYEE_DIALOG.NAME") }}</p>
+				<p class="value">{{ isEmployee.name }}</p>
+			</li>
+			<li class="info-item">
+				<p class="label">{{ t("ADD_EMPLOYEE_DIALOG.EMAIL") }}</p>
+				<p class="value">{{ isEmployee.email }}</p>
+			</li>
+			<li class="info-item">
+				<p class="label">{{ t("ADD_EMPLOYEE_DIALOG.TEL") }}</p>
+				<p class="value">{{ isEmployee.tel }}</p>
+			</li>
+			<li class="info-item">
+				<p class="label">{{ t("ADD_EMPLOYEE_DIALOG.ROLE") }}</p>
+				<p class="value">{{ t("USERS." + isEmployee.role) }}</p>
+			</li>
+		</ul>
 
-		<p class="or">Или</p>
+		<button appButton class="submit" (click)="closeDialog(isEmployee)">{{ t("ADD_EMPLOYEE_DIALOG.ADD") }}</button>
+	</div>
+	<ng-template #findEmployeeTmp>
+		<h1 appTypography theme="2" class="title">{{ t("ADD_EMPLOYEE_DIALOG.TITLE") }}</h1>
 
-		<app-input
-			class="input"
-			formControlName="email"
-			[label]="t('FORM.EMAIL_LABEL')"
-			[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
-		></app-input>
+		<form class="form" [formGroup]="formGroup" (ngSubmit)="findEmployee(formGroup.value)">
+			<app-input
+				class="input"
+				formControlName="tel"
+				[label]="t('FORM.TEL_LABEL')"
+				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
+			></app-input>
 
-		<button *ngIf="!isEmployee" appButton class="search" type="button" (click)="findEmployee(formGroup.value)">
-			Искать
-		</button>
-		<button *ngIf="isEmployee" appButton class="submit" type="submit">{{ t("ADD_EMPLOYEE_DIALOG.ADD") }}</button>
-	</form>
+			<p class="or">Или</p>
+
+			<app-input
+				class="input"
+				formControlName="email"
+				[label]="t('FORM.EMAIL_LABEL')"
+				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+			></app-input>
+
+			<button appButton class="search">Искать</button>
+		</form>
+	</ng-template>
 </div>

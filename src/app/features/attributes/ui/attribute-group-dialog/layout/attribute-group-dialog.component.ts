@@ -36,7 +36,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 		value
 	}));
 
-	private readonly _attributeGroupDialogQuery = this._attributeGroupDialogGQL.watch({ skip: 0, take: 5 });
+	private readonly _attributeGroupDialogQuery = this._attributeGroupDialogGQL.watch();
 
 	readonly attributes$ = this._attributeGroupDialogQuery.valueChanges.pipe(
 		map((result) => result.data.attributes.data)

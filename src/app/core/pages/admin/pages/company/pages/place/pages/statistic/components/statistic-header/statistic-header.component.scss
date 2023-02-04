@@ -5,7 +5,7 @@
 		position: relative;
 		border-radius: rem(16);
 		padding: rem(21) rem(16) 0;
-		background-color: #f8f8f8;
+		background-color: var(--light-grey);
 		display: grid;
 		align-items: center;
 		grid-template-areas:

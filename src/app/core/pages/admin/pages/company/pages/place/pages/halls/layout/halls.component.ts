@@ -10,7 +10,7 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, switchMap, take } from "rxjs";
+import { filter, from, map, switchMap, take } from "rxjs";
 
 import { HallsPageGQL } from "../graphql";
 
@@ -72,7 +72,7 @@ export class HallsComponent implements OnInit, OnDestroy {
 				filter((hall) => Boolean(hall)),
 				switchMap((hall) =>
 					this._hallsService.updateHall({ id: hall.id, name: hall.name, file: hall.file?.id }).pipe(
-						switchMap(() => this._hallsPageQuery.refetch()),
+						switchMap(() => from(this._hallsPageQuery.refetch())),
 						this._toastrService.observe(this._i18nService.translate("HALLS.UPDATE"))
 					)
 				),

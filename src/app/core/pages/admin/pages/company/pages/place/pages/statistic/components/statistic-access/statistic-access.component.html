@@ -1,0 +1,19 @@
+<div class="statistic-access" *transloco="let t">
+	<p class="description">{{ t("ACCESS.DESCRIPTION") }}</p>
+
+	<p class="code" *ngIf="code">
+		<span class="text">{{ code }}</span>
+		<button class="copy" (click)="copyCode(code)">
+			<app-icon class="icon" name="copy"></app-icon>
+		</button>
+	</p>
+
+	<div class="bots">
+		<a class="bot" href="https://t.me/resty_admin_bot">
+			<app-icon class="icon" name="bot"></app-icon>
+			<span class="text">Resty Admin Bot</span>
+		</a>
+	</div>
+
+	<app-image class="image" name="access"></app-image>
+</div>

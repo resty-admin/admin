@@ -1,4 +1,6 @@
-<div class="table-qr-code-dialog">
+<div class="table-qr-code-dialog" *transloco="let t">
 	<h1 appTypography theme="2" class="title">{{ data?.name }}</h1>
-	<app-qr-code class="qr-code" [qrdata]="qrData"></app-qr-code>
+	<app-qr-code #qrCodeComponent class="qr-code" [qrdata]="qrData" [imageName]="data?.name"></app-qr-code>
+
+	<button appButton theme="1" (click)="downloadQrCode()">{{ t("TABLE_QR_CODE_DIALOG.DOWNLOAD") }}</button>
 </div>

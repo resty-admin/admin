@@ -12,9 +12,9 @@ export class QrCodeComponent {
 	@ViewChild(QRCodeComponent, { static: true }) qrCodeComponent!: QRCodeComponent;
 
 	@Input() qrdata = "";
-	@Input() imageName = "";
+	@Input() imageName? = "";
 
-	downloadQr(imageName: string) {
+	downloadQr(imageName?: string) {
 		if (!this.qrCodeComponent.context) {
 			return;
 		}

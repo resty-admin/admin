@@ -1,5 +1,0 @@
-query AccessPage($placeId: String!) {
-	place(id: $placeId) {
-		waiterCode
-	}
-}

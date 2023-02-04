@@ -855,19 +855,15 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "OBJECT",
-										"name": "AttributesGroupEntity",
-										"ofType": null
-									}
+									"kind": "OBJECT",
+									"name": "AttributesGroupEntity",
+									"ofType": null
 								}
 							}
 						},
@@ -938,19 +934,15 @@
 						"name": "attributesGroup",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
+							"kind": "LIST",
 							"name": null,
 							"ofType": {
-								"kind": "LIST",
+								"kind": "NON_NULL",
 								"name": null,
 								"ofType": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "INPUT_OBJECT",
-										"name": "AttributesGroupEntityInput",
-										"ofType": null
-									}
+									"kind": "INPUT_OBJECT",
+									"name": "AttributesGroupEntityInput",
+									"ofType": null
 								}
 							}
 						},
@@ -10775,15 +10767,23 @@
 						"description": null,
 						"args": [
 							{
-								"name": "id",
+								"name": "filtersArgs",
 								"description": null,
 								"type": {
 									"kind": "NON_NULL",
 									"name": null,
 									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
+										"kind": "LIST",
+										"name": null,
+										"ofType": {
+											"kind": "NON_NULL",
+											"name": null,
+											"ofType": {
+												"kind": "INPUT_OBJECT",
+												"name": "FiltersArgsDto",
+												"ofType": null
+											}
+										}
 									}
 								},
 								"defaultValue": null,
@@ -13405,6 +13405,18 @@
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "visits",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "Int",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"inputFields": null,
@@ -13461,6 +13473,18 @@
 								"name": "UserEntityInput",
 								"ofType": null
 							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "visits",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "Int",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,

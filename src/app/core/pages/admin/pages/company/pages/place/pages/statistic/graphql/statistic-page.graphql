@@ -10,5 +10,6 @@ query StatisticPage($placeId: String!) {
 	place(id: $placeId) {
 		id
 		verificationStatus
+		waiterCode
 	}
 }

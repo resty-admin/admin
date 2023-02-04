@@ -13,12 +13,12 @@ import { ADMIN_ROUTES } from "@shared/constants";
 export class MenuComponent {
 	readonly pages = [
 		{
-			label: "PRODUCTS",
-			routerLink: ADMIN_ROUTES.PRODUCTS.path
-		},
-		{
 			label: "CATEGORIES",
 			routerLink: ADMIN_ROUTES.CATEGORIES.path
+		},
+		{
+			label: "PRODUCTS",
+			routerLink: ADMIN_ROUTES.PRODUCTS.path
 		},
 		{
 			label: "ATTRIBUTES",
