@@ -11,6 +11,7 @@ import type {
 import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
+import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
 import { catchError, of } from "rxjs";
 import { map, tap } from "rxjs";
@@ -135,7 +136,6 @@ export class AuthService {
 	}
 
 	async signOut() {
-		this._authRepository.updateAccessToken(undefined);
-		await this.updateAccessToken(undefined);
+		resetStores();
 	}
 }

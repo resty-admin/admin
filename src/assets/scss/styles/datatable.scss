@@ -27,9 +27,12 @@ body {
 		.datatable-body {
 			.datatable-scroll {
 				.datatable-row-wrapper {
+					padding: rem(1) 0;
 					.datatable-body-row {
+						cursor: pointer;
+						border: rem(1.5) solid transparent;
 						border-radius: rem(16);
-						padding: rem(16) 0;
+						height: rem(60);
 						.datatable-body-cell {
 							display: flex;
 							padding: 0 rem(16);
@@ -48,6 +51,9 @@ body {
 
 								@include noWrap();
 							}
+						}
+						&.active {
+							border-color: var(--primary);
 						}
 					}
 					&:nth-child(2n + 1) .datatable-body-row {

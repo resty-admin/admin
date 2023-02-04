@@ -12,7 +12,7 @@ import {
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import { ColumnDirective } from "@shared/ui/datatable/directives";
-import { ColumnMode } from "@swimlane/ngx-datatable";
+import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 
 import { DATATABLE_CONFIG } from "../injection-tokens";
 import type { IDatatableRow } from "../interfaces";
@@ -31,8 +31,13 @@ export class DatatableComponent implements OnChanges {
 	@Output() mouseEntered = new EventEmitter();
 	@Output() doubleClicked = new EventEmitter();
 	@Output() activated = new EventEmitter();
+	@Output() selectChange = new EventEmitter<unknown>();
 	@Input() theme: IDatatableTheme = "1";
 	@Input() rows?: IDatatableRow<unknown>[] | null;
+	@Input() selected: unknown[] = [];
+	@Input() selectionType: SelectionType = SelectionType.single;
+
+	_selected: unknown[] = [];
 
 	readonly columnMode = ColumnMode;
 
@@ -46,6 +51,15 @@ export class DatatableComponent implements OnChanges {
 		if (changes.theme) {
 			this.className = `app-datatable ${THEME.replace(ANY_SYMBOL, changes.theme.currentValue)}`;
 		}
+
+		if (changes.selected || changes.rows) {
+			const selectedIds = new Set((this.selected || []).map((selected: any) => selected.id));
+			this._selected = (this.rows || []).filter((row: any) => selectedIds.has(row.id));
+		}
+	}
+
+	emitSelect(event: unknown) {
+		this.selectChange.emit(event);
 	}
 
 	emitActivate(event: { type: "click" | "dblclick" | "mouseenter"; row: unknown }) {
@@ -53,7 +67,7 @@ export class DatatableComponent implements OnChanges {
 			click: this.clicked,
 			dblclick: this.doubleClicked,
 			mouseenter: this.mouseEntered
-		}[event.type].emit(event.row));
+		})[event.type].emit(event.row);
 
 		this.activated.emit(event);
 	}

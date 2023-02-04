@@ -287,6 +287,6 @@ export class CoreComponent implements OnInit {
 
 	async signOut() {
 		await this._authService.signOut();
-		window.location.href = ADMIN_ROUTES.SIGN_IN.absolutePath;
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
 	}
 }

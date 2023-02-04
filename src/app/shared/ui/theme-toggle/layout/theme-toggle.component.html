@@ -1,4 +1,4 @@
 <div [class]="className">
-	<input class="input" type="checkbox" [value]="checkboxValue" (change)="emitValueChange($event)" />
+	<input class="input" type="checkbox" [checked]="checkboxValue" (change)="emitValueChange($event)" />
 	<app-icon class="icon" [name]="checkboxValue ? 'sun' : 'moon'"></app-icon>
 </div>
