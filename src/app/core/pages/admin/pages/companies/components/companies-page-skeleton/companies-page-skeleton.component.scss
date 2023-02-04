@@ -44,7 +44,6 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					border: rem(2) solid transparent;
 
 					@include desktop() {
 						width: rem(128);
@@ -56,4 +55,9 @@
 	}
 }
 @include dark() {
+	.companies-page-skeleton {
+		.card {
+			background-color: var(--dark);
+		}
+	}
 }

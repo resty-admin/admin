@@ -6,11 +6,14 @@ import { ProductsToOrderSelectModule, ProductsToOrderSelectSkeletonModule } from
 import { ProductToOrderModule } from "@features/products/ui";
 import { PreviewTableModule } from "@features/tables/ui";
 import { UsersSelectModule, UsersSelectSkeletonModule } from "@features/users/ui";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
+import { DatatableModule } from "@shared/ui/datatable";
 import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
+import { RadioButtonModule } from "@shared/ui/radio-button";
 import { SkeletonModule } from "@shared/ui/skeleton";
+import { TabsModule } from "@shared/ui/tabs";
 import { TextareaModule } from "@shared/ui/textarea";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -25,7 +28,7 @@ import { ActiveOrderComponent } from "./layout/active-order.component";
 		ActiveOrderRoutingModule,
 		TypographyModule,
 		ProductToOrderModule,
-		TranslocoModule,
+		I18nModule,
 		ReactiveFormsModule,
 		ImageModule,
 		IconModule,
@@ -38,7 +41,10 @@ import { ActiveOrderComponent } from "./layout/active-order.component";
 		SkeletonModule,
 		OrderInfoSkeletonModule,
 		ProductsToOrderSelectModule,
-		ProductsToOrderSelectSkeletonModule
+		ProductsToOrderSelectSkeletonModule,
+		TabsModule,
+		RadioButtonModule,
+		DatatableModule
 	]
 })
 export class ActiveOrderModule {}

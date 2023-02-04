@@ -4,7 +4,7 @@
 
 		<div class="paid-status">
 			<p class="waiting" *ngIf="productToOrder.paidStatus === productToOrderPaidStatus.Waiting">
-				{{ t("WAITING_FOR_PAY") }}
+				{{ t("ORDER.WAITING_FOR_PAY") }}
 			</p>
 			<app-icon
 				class="icon"
@@ -14,6 +14,6 @@
 
 		<p class="user">{{ productToOrder.user.name }}</p>
 		<p class="count">{{ productToOrder.count }}x</p>
-		<p class="price">{{ productToOrder.product.price }} {{ t("CURRENCY") }}</p>
+		<p class="price">{{ productToOrder.product.price }} {{ t("FORM.CURRENCY") }}</p>
 	</div>
 </ng-container>

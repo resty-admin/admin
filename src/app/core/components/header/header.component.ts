@@ -26,17 +26,17 @@ export class HeaderComponent implements OnChanges {
 
 	readonly userActions: IAction[] = [
 		{
-			label: "profile",
+			label: "PROFILE",
 			icon: "profile",
 			func: () => this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath)
 		},
 		{
-			label: "notifications",
+			label: "NOTIFICATIONS",
 			icon: "notifications",
 			func: () => this._routerService.navigateByUrl(ADMIN_ROUTES.NOTIFICATIONS.absolutePath)
 		},
 		{
-			label: "exit",
+			label: "EXIT",
 			icon: "exit",
 			func: () => this.signOutClicked.emit()
 		}

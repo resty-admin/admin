@@ -81,7 +81,7 @@ export const PLACE_ROUTES: Route[] = [
 			},
 			{
 				path: "**",
-				redirectTo: SHARED_ADMIN_ROUTES.STATISTIC.path
+				redirectTo: SHARED_ADMIN_ROUTES.SHIFT.path
 			}
 		]
 	}

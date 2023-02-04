@@ -11,7 +11,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap } from "rxjs";
 
 import { AttributeDialogComponent } from "../../attribute-dialog/layout/attribute-dialog.component";
 import { AttributeGroupDialogGQL } from "../graphql";
@@ -80,20 +80,21 @@ export class AttributeGroupDialogComponent implements OnInit {
 	}
 
 	openCreateAttributeDialog(data?: DeepPartial<AttributesEntity>) {
-		return this._dialogService.open(AttributeDialogComponent, { data }).afterClosed$.pipe(
-			take(1),
-			filter((attribute) => Boolean(attribute)),
-			switchMap((attribute) =>
-				this._attributesService
-					.createAttribute({
-						name: attribute.name,
-						price: attribute.price,
-						attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
-					})
-					.pipe(this._toastrService.observe(this._i18nService.translate("CREATE_ATTRIBUTE")))
-			),
-			take(1)
-		);
+		this._dialogService
+			.open(AttributeDialogComponent, { data })
+			.afterClosed$.pipe(
+				filter((attribute) => Boolean(attribute)),
+				switchMap((attribute) =>
+					this._attributesService
+						.createAttribute({
+							name: attribute.name,
+							price: attribute.price,
+							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
+						})
+						.pipe(this._toastrService.observe(this._i18nService.translate("ATTRIBUTE_GROUPS.CREATE")))
+				)
+			)
+			.subscribe();
 	}
 
 	closeDialog(attributeGroup?: DeepPartial<IAttributeGroupForm>) {

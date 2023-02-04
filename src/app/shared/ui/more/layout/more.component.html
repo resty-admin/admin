@@ -5,6 +5,7 @@
 	theme="1"
 	placement="left"
 	variation="popper"
+	[disabled]="disabled"
 	[tippy]="moreActions"
 	[data]="data"
 >
@@ -16,7 +17,7 @@
 		<li class="action" *ngFor="let action of defaultActions; trackBy: sharedService.trackByFn">
 			<button class="button" (click)="action.func(data); hide()">
 				<app-icon class="icon" [name]="action.icon"></app-icon>
-				<span class="text">{{ t(action.label) }}</span>
+				<span class="text">{{ t("MORE." + action.label) }}</span>
 			</button>
 		</li>
 	</ul>

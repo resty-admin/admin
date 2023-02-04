@@ -1,7 +1,7 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
-	.users-page {
+	.guests-page {
 		display: grid;
 		row-gap: rem(16);
 
@@ -12,8 +12,8 @@
 		.datatable-desktop {
 			display: none;
 
-			&::ng-deep .datatable-row-odd .more {
-				background-color: var(--light-grey);
+			&::ng-deep .datatable-row-odd .more .app-more {
+				background-color: var(--light);
 			}
 
 			@include desktop() {
@@ -94,12 +94,15 @@
 					position: absolute;
 					right: rem(8);
 					top: rem(8);
-					background-color: var(--light-grey);
+					border-radius: rem(12);
+					&::ng-deep .app-more {
+						background-color: var(--light-grey);
+					}
 				}
 
 				&:nth-child(2n + 1) {
 					background-color: var(--light-grey);
-					.more {
+					.more::ng-deep .app-more {
 						background-color: var(--light);
 					}
 				}
@@ -112,7 +115,7 @@
 	}
 }
 @include dark() {
-	.users-page {
+	.guests-page {
 		.datatable-mobile .user {
 			.tel-label,
 			.email-label,
@@ -132,12 +135,12 @@
 
 			&:nth-child(2n + 1) {
 				background-color: var(--dark-grey);
-				.more {
+				.more::ng-deep .app-more {
 					background-color: var(--dark);
 				}
 			}
 		}
-		.datatable-desktop::ng-deep .datatable-row-odd .more {
+		.datatable-desktop::ng-deep .datatable-row-odd .more .app-more {
 			background-color: var(--dark-grey);
 		}
 	}

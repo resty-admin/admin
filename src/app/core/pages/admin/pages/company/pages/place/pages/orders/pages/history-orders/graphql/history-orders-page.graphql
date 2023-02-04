@@ -1,11 +1,11 @@
-query HistoryOrdersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-	historyOrders(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
-		page
-		totalCount
+query HistoryOrdersPage($placeId: String!, $skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	historyOrders(placeId: $placeId, skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		data {
 			id
 			orderNumber
 			status
 		}
+		page
+		totalCount
 	}
 }

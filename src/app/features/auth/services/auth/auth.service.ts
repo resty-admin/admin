@@ -8,8 +8,10 @@ import type {
 	UpdateMeInput,
 	UserEntity
 } from "@graphql";
+import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
+import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
 import { catchError, of } from "rxjs";
 import { map, tap } from "rxjs";
@@ -32,11 +34,15 @@ import { AuthRepository } from "../../repositories";
 	providedIn: "root"
 })
 export class AuthService {
-	readonly getMeQuery = this._getMeGQL.watch();
-	readonly me$ = this.getMeQuery.valueChanges.pipe(
+	private readonly _getMeQuery = this._getMeGQL.watch();
+	readonly me$ = this._getMeQuery.valueChanges.pipe(
 		map((result) => this._jwtService.decodeToken<UserEntity>(result.data.getMe.accessToken)),
 		catchError(() => of(null))
 	);
+
+	readonly language$ = this._authRepository.language$;
+	readonly accessToken$ = this._authRepository.accessToken$;
+	readonly theme$ = this._authRepository.theme$;
 
 	constructor(
 		private readonly _getMeGQL: GetMeGQL,
@@ -64,7 +70,15 @@ export class AuthService {
 
 	async updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
-		await this.getMeQuery.resetLastResults();
+		await this._getMeQuery.resetLastResults();
+	}
+
+	updateTheme(theme: ThemeEnum) {
+		this._authRepository.updateTheme(theme);
+	}
+
+	updateLanguage(language: LanguagesEnum) {
+		this._authRepository.updateLanguage(language);
 	}
 
 	signIn(body: SignInInput) {
@@ -122,7 +136,6 @@ export class AuthService {
 	}
 
 	async signOut() {
-		this._authRepository.updateUser(undefined);
-		await this.updateAccessToken(undefined);
+		resetStores();
 	}
 }

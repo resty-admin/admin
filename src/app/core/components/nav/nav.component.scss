@@ -19,20 +19,6 @@
 					padding: rem(11);
 					border-radius: rem(8);
 					background-color: transparent;
-					&:hover {
-						background-color: var(--primary-t);
-					}
-					&.active {
-						background-color: var(--primary);
-					}
-					&.disabled {
-						@include disableLink();
-						span {
-							color: var(--dark-d);
-						}
-						.icon {
-						}
-					}
 					.label {
 						font-weight: 400;
 						font-size: rem(16);
@@ -43,10 +29,92 @@
 						width: rem(24);
 						height: rem(24);
 					}
+					&:hover:not(.active) {
+						.icon {
+							@include icon() {
+								path {
+									fill: var(--primary);
+								}
+							}
+						}
+						.label {
+							color: var(--primary);
+						}
+					}
+					&.active {
+						background-color: var(--primary);
+						.label {
+							color: var(--dark);
+						}
+					}
+					&.disabled {
+						@include disableLink();
+						.label {
+							color: var(--dark-d);
+						}
+						.icon {
+							@include icon() {
+								path {
+									fill: var(--dark-d);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
 	}
 }
 @include dark() {
+	.nav {
+		border-top-color: var(--light-b);
+		.pages .page .link {
+			.icon {
+				@include icon() {
+					path {
+						fill: var(--light);
+					}
+				}
+			}
+			.label {
+				color: var(--light);
+			}
+			&.disabled {
+				.label {
+					color: var(--light-d);
+				}
+				.icon {
+					@include icon() {
+						path {
+							fill: var(--light-d);
+						}
+					}
+				}
+			}
+			&.active {
+				.label {
+					color: var(--dark);
+				}
+				.icon {
+					@include icon() {
+						path {
+							fill: var(--dark);
+						}
+					}
+				}
+			}
+			&:hover:not(.active) {
+				.icon {
+					@include icon() {
+						path {
+							fill: var(--primary);
+						}
+					}
+				}
+				.label {
+					color: var(--primary);
+				}
+			}
+		}
+	}
 }

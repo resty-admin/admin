@@ -1,9 +1,9 @@
 import { isDevMode } from "@angular/core";
+import { environment } from "@env/environment";
 
 export const I18N_CONFIG = {
 	prodMode: !isDevMode(),
-	// url: `${environment.assetsUrl}/i18n/`,
-	url: `assets/i18n/`,
+	url: `${environment.assetsUrl}/i18n/admin`,
 	availableLangs: ["uk", "ru", "en"],
 	defaultLang: "uk",
 	fallbackLang: ["ru", "en"],
@@ -15,12 +15,3 @@ export const I18N_CONFIG = {
 		useFallbackTranslation: true
 	}
 };
-
-// {
-// 	availableLangs: ["en", "ru", "uk"],
-// 		defaultLang: "uk",
-// 	// Remove this option if your application
-// 	// doesn't support changing language in runtime.
-// 	reRenderOnLangChange: true,
-// 	prodMode: !isDevMode()
-// }

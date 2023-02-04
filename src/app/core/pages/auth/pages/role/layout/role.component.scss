@@ -107,6 +107,7 @@
 						justify-self: start;
 						margin-top: rem(12);
 						height: rem(150);
+						width: rem(160);
 
 						@include image() {
 							object-fit: contain;
@@ -116,7 +117,7 @@
 							height: auto;
 							grid-area: image;
 
-							@include image () {
+							@include image() {
 								object-fit: cover;
 							}
 						}

@@ -3,28 +3,28 @@
 
 	<app-datatable class="datatable-desktop" [rows]="historyOrders$ | async" (clicked)="navigateToHitoryOrder($event)">
 		<ng-container appColumn="orderNumber">
-			<ng-template #header>{{ t("CODE") }}</ng-template>
+			<ng-template #header>{{ t("DATATABLES.CODE") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="date">
-			<ng-template #header>{{ t("DATE") }}</ng-template>
+			<ng-template #header>{{ t("DATATABLES.DATE") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="status">
-			<ng-template #header>{{ t("STATUS") }}</ng-template>
-			<ng-template #value let-value>{{ t(value) }}</ng-template>
+			<ng-template #header>{{ t("DATATABLES.STATUS") }}</ng-template>
+			<ng-template #value let-value>{{ t("HISTORY_ORDER." + value) }}</ng-template>
 		</ng-container>
 	</app-datatable>
 
 	<ul class="datatable-mobile">
 		<li class="order" *ngFor="let order of historyOrders$ | async; trackBy: sharedService.trackByFn">
-			<p class="code">{{ t("CODE") }} {{ order.orderNumber }}</p>
+			<p class="code">{{ t("DATATABLES.CODE") }} {{ order.orderNumber }}</p>
 
-			<p class="date-label">{{ t("DATE") }}</p>
-			<!--			<p class="date-value">{{ order.date }}</p>-->
+			<p class="date-label">{{ t("DATATABLES.DATE") }}</p>
+			<p class="date-value"></p>
 
-			<p class="role-label">{{ t("STATUS") }}</p>
-			<p [class]="'role-value' + ' ' + order.status">{{ order.status }}</p>
+			<p class="role-label">{{ t("DATATABLES.STATUS") }}</p>
+			<p [class]="'role-value' + ' ' + order.status">{{ "HISTORY_ORDER." + order.status }}</p>
 		</li>
 	</ul>
 </div>

@@ -1,13 +1,14 @@
-query GuestsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-	users(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
-		page
-		totalCount
+query GuestsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+	usersToPlaces(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 		data {
 			id
-			name
-			email
-			role
-			tel
+			user {
+				id
+				name
+				email
+				tel
+				role
+			}
 		}
 	}
 }

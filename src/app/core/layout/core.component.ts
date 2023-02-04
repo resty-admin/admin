@@ -14,6 +14,7 @@ import { ASIDE_PAGES } from "@shared/data";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { ThemeService } from "@shared/modules/theme";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
@@ -89,11 +90,11 @@ export class CoreComponent implements OnInit {
 		shareReplay({ refCount: true })
 	);
 
-	readonly isAuth$ = this._router.events.pipe(
+	readonly isClient$ = this._router.events.pipe(
 		untilDestroyed(this),
 		startWith(this._router),
 		filter((event) => event instanceof NavigationStart),
-		map((event) => (event as NavigationStart).url.includes("/auth")),
+		map((event) => !(event as NavigationStart).url.includes("/auth")),
 		shareReplay({ refCount: true })
 	);
 
@@ -111,7 +112,8 @@ export class CoreComponent implements OnInit {
 		private readonly _childrenOutletContexts: ChildrenOutletContexts,
 		private readonly _ordersService: OrdersService,
 		private readonly _asideService: AsideService,
-		private readonly _router: Router
+		private readonly _router: Router,
+		private readonly _themeService: ThemeService
 	) {}
 
 	getRouteAnimationData() {
@@ -120,11 +122,21 @@ export class CoreComponent implements OnInit {
 
 	ngOnInit() {
 		this.user$.pipe(take(1)).subscribe(async (user) => {
-			if (user?.email || user?.tel) {
-				return;
+			if (user && !user.name) {
+				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
 			}
 
-			await this._routerService.navigateByUrl(ADMIN_ROUTES.WELCOME.absolutePath);
+			// if (user && !user) {
+			//
+			// }
+		});
+
+		this._authService.language$.pipe(untilDestroyed(this)).subscribe((lang) => {
+			this._i18nService.setActiveLang(lang);
+		});
+
+		this._authService.theme$.pipe(untilDestroyed(this)).subscribe((theme) => {
+			this._themeService.setTheme(theme);
 		});
 	}
 
@@ -133,7 +145,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	async navigateToCompany(companyId: string) {
-		if (companyId === this._routerService.getParams(COMPANY_ID.slice(1))) {
+		if (!companyId || companyId === this._routerService.getParams(COMPANY_ID.slice(1))) {
 			return;
 		}
 
@@ -141,7 +153,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	async navigateToPlace(placeId: string) {
-		if (placeId === this._routerService.getParams(PLACE_ID.slice(1))) {
+		if (!placeId || placeId === this._routerService.getParams(PLACE_ID.slice(1))) {
 			return;
 		}
 
@@ -160,7 +172,7 @@ export class CoreComponent implements OnInit {
 				switchMap((company) =>
 					this._companiesService.createCompany({ name: company.name, logo: company.logo?.id }).pipe(
 						switchMap((result) => from(this._adminCompaniesQuery.refetch()).pipe(map(() => result))),
-						this._toastrService.observe(this._i18nService.translate("CREATE_COMPANY"))
+						this._toastrService.observe(this._i18nService.translate("COMPANIES.CREATE"))
 					)
 				),
 				take(1)
@@ -184,7 +196,7 @@ export class CoreComponent implements OnInit {
 				switchMap((company) =>
 					this._companiesService.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id }).pipe(
 						switchMap(() => this._adminCompaniesQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("UPDATE_COMPANY"))
+						this._toastrService.observe(this._i18nService.translate("COMPAMINIES.UPDATE"))
 					)
 				),
 				take(1)
@@ -195,14 +207,14 @@ export class CoreComponent implements OnInit {
 	openDeleteCompanyDialog(value: AtLeast<CompanyEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_COMPANY"), value }
+				data: { title: this._i18nService.translate("COMPANIES.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._companiesService.deleteCompany(value.id).pipe(
 						switchMap(() => this._adminCompaniesQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("DELETE_COMPANY"))
+						this._toastrService.observe(this._i18nService.translate("COMPANIES.DELETE"))
 					)
 				),
 				take(1)
@@ -222,7 +234,7 @@ export class CoreComponent implements OnInit {
 						.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
 						.pipe(
 							switchMap((result) => from(this._adminPlacesQuery.refetch()).pipe(map(() => result))),
-							this._toastrService.observe(this._i18nService.translate("CREATE_PLACE"))
+							this._toastrService.observe(this._i18nService.translate("PLACES.CREATE"))
 						)
 				),
 				take(1)
@@ -248,7 +260,7 @@ export class CoreComponent implements OnInit {
 						.updatePlace({ id: place.id, name: place.name, address: place.address, file: place.file?.id })
 						.pipe(
 							switchMap(() => this._adminPlacesQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("UPDATE_PLACE"))
+							this._toastrService.observe(this._i18nService.translate("PLACES.UPDATE"))
 						)
 				),
 				take(1)
@@ -259,14 +271,14 @@ export class CoreComponent implements OnInit {
 	openDeletePlaceDialog(value: AtLeast<PlaceEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_PLACE"), value }
+				data: { title: this._i18nService.translate("PLACES.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._placesService.deletePlace(value.id).pipe(
 						switchMap(() => this._adminPlacesQuery.refetch()),
-						this._toastrService.observe(this._i18nService.translate("DELETE_PLACE"))
+						this._toastrService.observe(this._i18nService.translate("PLACES.DELETE"))
 					)
 				)
 			)
@@ -275,6 +287,6 @@ export class CoreComponent implements OnInit {
 
 	async signOut() {
 		await this._authService.signOut();
-		window.location.href = ADMIN_ROUTES.SIGN_IN.absolutePath;
+		await this._routerService.navigateByUrl(ADMIN_ROUTES.SIGN_IN.absolutePath);
 	}
 }

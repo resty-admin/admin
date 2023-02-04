@@ -7,7 +7,7 @@
 
 	<app-more
 		class="more"
-		[class.placeholder]="hall?.file"
+		[class.placeholder]="!hall?.file"
 		[data]="hall"
 		(editClicked)="emitEditClick($event)"
 		(deleteClicked)="emitDeleteClick($event)"

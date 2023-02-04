@@ -15,6 +15,7 @@ export class PlaceSelectComponent {
 	@Output() deletePlaceClicked = new EventEmitter();
 	@Input() places: AdminPlacesQuery["places"]["data"] = [];
 	@Input() placeId?: string | null;
+	@Input() disabled: boolean = false;
 
 	emitAddPlaceClick() {
 		this.addPlaceClicked.emit();

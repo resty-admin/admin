@@ -45,4 +45,7 @@
 	}
 }
 @include dark() {
+	.order-skeleton {
+		background-color: var(--dark-grey);
+	}
 }

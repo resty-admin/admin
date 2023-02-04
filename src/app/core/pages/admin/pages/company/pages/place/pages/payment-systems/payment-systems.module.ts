@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PaymentSystemModule, PaymentSystemSkeletonModule } from "@features/payment-systems";
 import { PaymentSystemDialogModule } from "@features/payment-systems/ui";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
 import { FiltersModule } from "@shared/ui/filters";
@@ -32,7 +32,7 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		ButtonModule,
 		IconModule,
 		ImageModule,
-		TranslocoModule,
+		I18nModule,
 		ListModule,
 		FiltersModule,
 		PaymentSystemDialogModule,

@@ -7,6 +7,7 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { LanguageSelectModule } from "@shared/ui/language-select";
 import { LinkModule } from "@shared/ui/link";
+import { ThemeToggleModule } from "@shared/ui/theme-toggle";
 import { TypographyModule } from "@shared/ui/typography";
 
 import { ProfileComponent } from "./layout/profile.component";
@@ -24,7 +25,8 @@ import { ProfileRoutingModule } from "./profile-routing.module";
 		LanguageSelectModule,
 		ThemeModule,
 		ReactiveFormsModule,
-		I18nModule
+		I18nModule,
+		ThemeToggleModule
 	]
 })
 export class ProfileModule {}

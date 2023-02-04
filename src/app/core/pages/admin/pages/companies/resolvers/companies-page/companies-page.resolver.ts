@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import type { Resolve } from "@angular/router";
-import type { ApolloQueryResult } from "@apollo/client";
+import { map } from "rxjs";
 
-import type { CompaniesPageQuery } from "../../graphql";
 import { CompaniesPageGQL } from "../../graphql";
 
 @Injectable({ providedIn: "root" })
-export class CompaniesPageResolver implements Resolve<ApolloQueryResult<CompaniesPageQuery>> {
+export class CompaniesPageResolver implements Resolve<unknown> {
 	constructor(private readonly _companiesPageGQL: CompaniesPageGQL) {}
 
 	resolve() {
-		return this._companiesPageGQL.fetch();
+		return this._companiesPageGQL.fetch().pipe(map((result) => result.data.companies.data));
 	}
 }

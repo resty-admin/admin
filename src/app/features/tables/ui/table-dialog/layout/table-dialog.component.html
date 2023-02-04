@@ -1,28 +1,28 @@
 <div class="table-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t(data?.id ? "edit" : "create") }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("TABLE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-file
 			class="input"
 			formControlName="file"
 			[previewImage]="data?.file"
-			[label]="t('FILE_LABEL')"
-			[placeholder]="t('FILE_PLACEHOLDER')"
+			[label]="t('FORM.FILE_LABEL')"
+			[placeholder]="t('FORM.FILE_PLACEHOLDER')"
 		></app-file>
 		<app-input
 			class="input"
 			formControlName="name"
-			[label]="t('NAME_LABEL')"
-			[placeholder]="t('NAME_PLACEHOLDER')"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
 		></app-input>
 		<app-input
 			class="input"
 			returnType="number"
 			formControlName="code"
-			[label]="t('CODE_LABEL')"
-			[placeholder]="t('CODE_PLACEHOLDER')"
+			[label]="t('FORM.CODE_LABEL')"
+			[placeholder]="t('FORM.CODE_PLACEHOLDER')"
 		></app-input>
 
-		<button class="submit" appButton type="submit">{{ t(data?.id ? "edit" : "create") }}</button>
+		<button class="submit" appButton type="submit">{{ t("TABLE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

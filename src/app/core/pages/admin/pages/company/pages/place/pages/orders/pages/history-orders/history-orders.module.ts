@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { OrderDialogModule } from "@features/orders/ui/order-dialog/order-dialog.module";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
@@ -30,7 +30,7 @@ import { HistoryOrdersComponent } from "./layout/history-orders.component";
 		TooltipModule,
 		ButtonModule,
 		ActionsModule,
-		TranslocoModule,
+		I18nModule,
 		FiltersModule,
 		OrderDialogModule,
 		SkeletonModule,

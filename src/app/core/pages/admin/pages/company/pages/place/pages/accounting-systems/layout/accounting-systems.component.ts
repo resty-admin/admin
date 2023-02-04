@@ -30,14 +30,15 @@ export class AccountingSystemsComponent {
 	) {}
 
 	openAccountingSystemDialog(data: AtLeast<AccountingSystemEntity, "id">) {
-		return this._dialogService
+		this._dialogService
 			.open(AccountingSystemDialogComponent, { data })
 			.afterClosed$.pipe(
+				take(1),
 				filter((accountingSystem) => Boolean(accountingSystem)),
 				switchMap((accountingSystem) =>
 					this._accountingSystemsService
 						.connectPaymentSystemToPlace(accountingSystem)
-						.pipe(this._toastrService.observe(this._i18nService.translate("CONNECTED")))
+						.pipe(this._toastrService.observe(this._i18nService.translate("ACCOUNTING_SYSTEMS.CONNECTED")))
 				),
 				take(1)
 			)

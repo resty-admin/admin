@@ -46,6 +46,6 @@
 }
 @include dark() {
 	.product-to-order-skeleton {
-		border-color: var(--light-b);
+		background-color: var(--dark-grey);
 	}
 }

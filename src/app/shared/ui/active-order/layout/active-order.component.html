@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
 	<a *ngIf="activeOrder" [class]="'active-order' + ' ' + activeOrder.type" [routerLink]="activeOrderLink">
-		<p class="code">{{ t("order") }} №{{ activeOrder.code }}</p>
+		<p class="code">{{ t("ORDERS.CODE") }} №{{ activeOrder.code }}</p>
 		<hr class="divider" />
-		<p class="type">{{ t(activeOrder.type) }}</p>
+		<p class="type">{{ t("ORDERS." + activeOrder.type) }}</p>
 	</a>
 </ng-container>

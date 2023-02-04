@@ -3,13 +3,20 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { ProductToOrderStatusEnum } from "@graphql";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { OrdersEvents } from "@shared/enums";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
+import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
-import { map, switchMap, take } from "rxjs";
+import { SocketIoService } from "@shared/modules/socket-io";
+import { ToastrService } from "@shared/ui/toastr";
+import { SelectionType } from "@swimlane/ngx-datatable";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { ActiveOrderPageGQL } from "../graphql";
 
+@UntilDestroy()
 @Component({
 	selector: "app-active-order",
 	templateUrl: "./active-order.component.html",
@@ -17,19 +24,23 @@ import { ActiveOrderPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveOrderComponent implements OnInit, OnDestroy {
+	readonly SelectionType = SelectionType;
 	readonly statuses = [ProductToOrderStatusEnum.Approved, ProductToOrderStatusEnum.WaitingForApprove];
 	private readonly _activeOrderPageQuery = this._activeOrderPageGQL.watch();
 	readonly activeOrder$ = this._activeOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	selectedUsers: string[] = [];
-	selectedProductsToOrders: string[] = [];
+	selectedProductsToOrders: { id: string }[] = [];
 
 	constructor(
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _socketIoService: SocketIoService,
+		private readonly _toastrService: ToastrService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	async ngOnInit() {
@@ -46,20 +57,34 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		});
 
 		this._actionsService.setAction({
-			label: "Подтвердить оплату",
-			func: () => {
-				this._ordersService.setPaidStatusForProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
-			}
+			label: "CONFIRM_PAYMENT",
+			func: () => this.setPaidStatusForProductsInOrder()
 		});
+
+		this._socketIoService
+			.fromEvents(Object.values(OrdersEvents))
+			.pipe(
+				untilDestroyed(this),
+				filter(({ order }: any) => order.id === orderId),
+				switchMap(() => this._activeOrderPageQuery.refetch())
+			)
+			.subscribe();
+	}
+
+	setPaidStatusForProductsInOrder() {
+		this._ordersService
+			.setPaidStatusForProductsInOrder(this.selectedProductsToOrders.map(({ id }) => id))
+			.pipe(take(1))
+			.subscribe();
 	}
 
 	setSelectedUsers(usersIds: string[]) {
 		this.activeOrder$.pipe(take(1)).subscribe((order) => {
 			const { productsToOrders } = order!;
 
-			this.selectedProductsToOrders = (productsToOrders || [])
-				.filter((productToOrder: any) => usersIds.includes(productToOrder.user.id))
-				.map((productToOrder: any) => productToOrder.id);
+			this.selectedProductsToOrders = (productsToOrders || []).filter((productToOrder: any) =>
+				usersIds.includes(productToOrder.user.id)
+			);
 		});
 	}
 
@@ -86,6 +111,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	approveTableInOrder() {
 		this.activeOrder$
 			.pipe(
+				this._toastrService.observe(this._i18nService.translate("ACTIVE_ORDER.TABLE_APPROVE")),
 				switchMap((order) => this._ordersService.approveTableInOrder(order!.id)),
 				take(1)
 			)
@@ -95,6 +121,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	rejectTableInOrder() {
 		this.activeOrder$
 			.pipe(
+				this._toastrService.observe(this._i18nService.translate("ACTIVE_ORDER.TABLE_REJECT")),
 				switchMap((order) => this._ordersService.rejectTableInOrder(order!.id)),
 				take(1)
 			)
@@ -102,11 +129,17 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	}
 
 	approveProductsInOrder() {
-		this._ordersService.approveProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
+		this._ordersService
+			.approveProductsInOrder(this.selectedProductsToOrders.map(({ id }) => id))
+			.pipe(this._toastrService.observe(this._i18nService.translate("ACTIVE_ORDER.PRODUCTS_APPROVE")), take(1))
+			.subscribe();
 	}
 
 	rejectProductsInOrder() {
-		this._ordersService.rejectProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
+		this._ordersService
+			.rejectProductsInOrder(this.selectedProductsToOrders.map(({ id }) => id))
+			.pipe(this._toastrService.observe(this._i18nService.translate("ACTIVE_ORDER.PRODUCTS_REJECT")), take(1))
+			.subscribe();
 	}
 
 	cancelOrder(orderId: string) {
@@ -120,6 +153,10 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 						.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 				);
 			});
+	}
+
+	selectChange({ selected }: any) {
+		this.selectedProductsToOrders = selected;
 	}
 
 	ngOnDestroy() {

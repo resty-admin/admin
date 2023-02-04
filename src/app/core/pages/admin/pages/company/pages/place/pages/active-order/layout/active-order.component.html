@@ -1,38 +1,85 @@
-<div class="order-page" *transloco="let t">
-	<ng-container *ngIf="activeOrder$ | async as activeOrder">
-		<app-order-info [order]="activeOrder"></app-order-info>
+<ng-container *transloco="let t">
+	<div class="order-page" *ngIf="activeOrder$ | async as activeOrder">
+		<header class="header">
+			<button class="back">
+				<app-icon class="icon" name="back"></app-icon>
+			</button>
+			<h1 class="title" appTypography theme="1">{{ t("ACTIVE_ORDER.ORDER") }} {{ activeOrder.code }}</h1>
 
-		<div class="actions">
-			<button class="approve" (click)="approveTableInOrder()">{{ t("confirm") }}</button>
-			<button class="reject" (click)="rejectTableInOrder()">{{ t("reject") }}</button>
-		</div>
+			<span class="type">{{ t("ORDERS." + activeOrder.type) }}</span>
+		</header>
 
-		<app-users-select
-			class="users-select"
-			[users]="activeOrder.users"
-			[(selectedUsers)]="selectedUsers"
-			(selectedUsersChange)="setSelectedUsers($event)"
-		></app-users-select>
+		<main class="main">
+			<app-order-info
+				class="order-info"
+				[order]="activeOrder"
+				(approveClicked)="approveTableInOrder()"
+				(rejectClicked)="rejectTableInOrder()"
+			></app-order-info>
 
-		<app-products-to-order-select
-			class="products-select"
-			[productsToOrders]="activeOrder.productsToOrders"
-			[(selectedProductsToOrders)]="selectedProductsToOrders"
-			(selectedProductsToOrdersChange)="setSelectedProductsToOrders($event)"
-		></app-products-to-order-select>
+			<app-users-select
+				class="users-select"
+				[users]="activeOrder.users"
+				[(selectedUsers)]="selectedUsers"
+				(selectedUsersChange)="setSelectedUsers($event)"
+			></app-users-select>
 
-		<div class="actions">
-			<button class="approve" (click)="approveProductsInOrder()">{{ t("confirm") }}</button>
-			<button class="reject" (click)="rejectProductsInOrder()">{{ t("confirm") }}</button>
-		</div>
+			<app-datatable
+				class="datatable"
+				[rows]="activeOrder.productsToOrders"
+				[selected]="selectedProductsToOrders"
+				[selectionType]="SelectionType.multiClick"
+				(selectChange)="selectChange($event)"
+			>
+				<ng-container appColumn="product">
+					<ng-template #header>{{ t("ACTIVE_ORDER.NAME") }}</ng-template>
+					<ng-template #value let-value>{{ value.name }}</ng-template>
+				</ng-container>
+				<ng-container appColumn="attributes">
+					<ng-template #header>{{ t("ACTIVE_ORDER.ATTRIBUTES") }}</ng-template>
+					<ng-template #value let-row="row">{{ row.product?.attrsGroups | json }}</ng-template>
+				</ng-container>
+				<ng-container appColumn="user">
+					<ng-template #header>{{ t("ACTIVE_ORDER.USER") }}</ng-template>
+					<ng-template #value let-value>{{ value.name }}</ng-template>
+				</ng-container>
+				<ng-container appColumn="price">
+					<ng-template #header>{{ t("ACTIVE_ORDER.COUNT_PRICE") }}</ng-template>
+					<ng-template #value let-row="row">
+						<span class="count">{{ row.count }}x </span>
+						<span class="price">{{ row.product.price }} {{ t("ACTIVE_ORDER.CURRENCY") }}</span>
+					</ng-template>
+				</ng-container>
+				<ng-container appColumn="status">
+					<ng-template #header>{{ t("ACTIVE_ORDER.STATUS") }}</ng-template>
+					<ng-template #value let-value>
+						{{ t("ACTIVE_ORDER." + value) }}
+					</ng-template>
+				</ng-container>
+				<ng-container appColumn="paidStatus">
+					<ng-template #header>{{ t("ACTIVE_ORDER.PAID_STATUS") }}</ng-template>
+					<ng-template #value let-row="row">
+						<app-icon class="icon" [name]="row.paidStatus === 'PAID' ? 'paid' : 'not-paid'"></app-icon>
+					</ng-template>
+				</ng-container>
+			</app-datatable>
+		</main>
 
-		<button class="cancel" (click)="cancelOrder(activeOrder.id)">{{ t("cancel") }}</button>
+		<footer class="footer">
+			<p class="text">Кол-во: {{ selectedProductsToOrders.length }}</p>
 
-		<app-textarea
-			class="textarea"
-			[value]="activeOrder.comments"
-			[label]="t('COMMNET')"
-			[disabled]="true"
-		></app-textarea>
-	</ng-container>
-</div>
+			<div class="actions">
+				<button class="approve" (click)="approveProductsInOrder()">
+					{{ t("ACTIVE_ORDER.APPROVE") }}
+				</button>
+				<button class="reject" (click)="rejectProductsInOrder()">
+					{{ t("ACTIVE_ORDER.REJECT") }}
+				</button>
+			</div>
+
+			<button appButton theme="1" (click)="setPaidStatusForProductsInOrder()">
+				{{ t("ACTIVE_ORDER.CONFIRM_PAYMENT") }}
+			</button>
+		</footer>
+	</div>
+</ng-container>

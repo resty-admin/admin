@@ -44,11 +44,13 @@ export const AUTH_ROUTES: Route[] = [
 			},
 			{
 				...ADMIN_ROUTES.GOOGLE,
-				loadChildren: () => import("./pages/google/google.module").then((m) => m.GoogleModule)
+				loadChildren: () => import("./pages/google/google.module").then((m) => m.GoogleModule),
+				canActivate: [RoleGuard]
 			},
 			{
 				...ADMIN_ROUTES.TELEGRAM,
-				loadChildren: () => import("./pages/telegram/telegram.module").then((m) => m.TelegramModule)
+				loadChildren: () => import("./pages/telegram/telegram.module").then((m) => m.TelegramModule),
+				canActivate: [RoleGuard]
 			},
 			{
 				path: "**",

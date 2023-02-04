@@ -1,6 +1,6 @@
 <div class="wallet-page" *ngIf="statistic$ | async as statistic">
 	<ng-container *transloco="let t">
-		<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
+		<h1 appTypography theme="1" class="title">{{ t("WALLET.TITLE") }}</h1>
 
 		<app-wallet-header class="header" [totalAmount]="statistic.totalAmount" [tax]="statistic.tax"></app-wallet-header>
 	</ng-container>

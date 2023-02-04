@@ -13,7 +13,7 @@ export class ContractComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this._actionsService.setAction({
-			label: "Подписать",
+			label: "SIGN",
 			func: () => {}
 		});
 	}

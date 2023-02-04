@@ -52,6 +52,11 @@
 }
 @include dark() {
 	.tables-select .tables .table .label {
-		color: var(--light);
+		background-color: var(--dark-grey);
+		.container {
+			.text {
+				color: var(--light);
+			}
+		}
 	}
 }

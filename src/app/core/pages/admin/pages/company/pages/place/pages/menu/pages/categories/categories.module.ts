@@ -3,8 +3,9 @@ import { NgModule } from "@angular/core";
 import { CategoryDialogModule } from "@features/categories/ui";
 import { ProductDialogModule } from "@features/products/ui";
 import { TippyDirective } from "@ngneat/helipopper";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
+import { AddButtonModule } from "@shared/ui/add-button";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableSkeletonModule } from "@shared/ui/datatable-skeleton";
 import { FileModule } from "@shared/ui/file";
@@ -39,7 +40,7 @@ import { CategoriesComponent } from "./layout/categories.component";
 		TooltipModule,
 		ActionsModule,
 		TippyDirective,
-		TranslocoModule,
+		I18nModule,
 		FiltersModule,
 		CategoryDialogModule,
 		ProductDialogModule,
@@ -47,7 +48,8 @@ import { CategoriesComponent } from "./layout/categories.component";
 		FiltersSkeletonModule,
 		TabsSkeletonModule,
 		DatatableSkeletonModule,
-		MoreModule
+		MoreModule,
+		AddButtonModule
 	]
 })
 export class CategoriesModule {}

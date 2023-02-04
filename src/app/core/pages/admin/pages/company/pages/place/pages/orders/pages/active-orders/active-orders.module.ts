@@ -3,8 +3,9 @@ import { NgModule } from "@angular/core";
 import { OrderModule, OrderSkeletonModule } from "@features/orders";
 import { OrderDialogModule } from "@features/orders/ui/order-dialog/order-dialog.module";
 import { DirectivesModule } from "@shared/modules/directives";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
+import { AddButtonModule } from "@shared/ui/add-button";
 import { ButtonModule } from "@shared/ui/button";
 import { FiltersModule } from "@shared/ui/filters";
 import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
@@ -32,7 +33,7 @@ import { ActiveOrdersComponent } from "./layout/active-orders.component";
 		ButtonModule,
 		ActionsModule,
 		TooltipModule,
-		TranslocoModule,
+		I18nModule,
 		FiltersModule,
 		OrderDialogModule,
 		DirectivesModule,
@@ -42,7 +43,8 @@ import { ActiveOrdersComponent } from "./layout/active-orders.component";
 		OrderModule,
 		ListSkeletonModule,
 		OrderSkeletonModule,
-		ListModule
+		ListModule,
+		AddButtonModule
 	]
 })
 export class ActiveOrdersModule {}

@@ -18,7 +18,6 @@
 			.table {
 				display: flex;
 				column-gap: rem(5);
-				background-color: var(--light);
 				.link {
 					font-weight: 600;
 					font-size: rem(16);
@@ -35,7 +34,76 @@
 				}
 			}
 		}
+
+		.actions {
+			@include hideOnMobile(flex);
+			justify-self: start;
+			column-gap: rem(8);
+			.reject,
+			.approve {
+				padding: rem(6) rem(16);
+				border: rem(1) solid transparent;
+				border-radius: rem(6);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				text-align: right;
+				.icon {
+					width: rem(16);
+					height: rem(16);
+				}
+				&.approve {
+					border-color: var(--success);
+					color: var(--success);
+				}
+				&.reject {
+					border-color: var(--danger);
+					color: var(--danger);
+				}
+			}
+		}
+
+		@include desktop() {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			column-gap: rem(24);
+			background: var(--light-grey);
+			border-radius: rem(12);
+			padding: rem(22) rem(16);
+			.table-status {
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+			.links {
+				flex: 1;
+				display: flex;
+				align-items: center;
+			}
+		}
 	}
 }
 @include dark() {
+	.order-info {
+		.links {
+			.date,
+			.table {
+				.name {
+					color: var(--light);
+				}
+			}
+		}
+
+		@include desktop() {
+			background-color: var(--dark-grey);
+			.table-status {
+				color: var(--light);
+			}
+		}
+	}
 }

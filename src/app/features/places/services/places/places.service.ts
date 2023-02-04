@@ -5,7 +5,13 @@ import { ChangesEnum } from "@shared/enums";
 import type { Observable } from "rxjs";
 import { Subject, tap } from "rxjs";
 
-import { CreatePlacesGQL, DeletePlaceGQL, UpdatePlaceGQL, UpdatePlaceVerificationGQL } from "../../graphql";
+import {
+	AddWaiterToPlaceGQL,
+	CreatePlacesGQL,
+	DeletePlaceGQL,
+	UpdatePlaceGQL,
+	UpdatePlaceVerificationGQL
+} from "../../graphql";
 
 @Injectable({ providedIn: "root" })
 export class PlacesService {
@@ -16,7 +22,8 @@ export class PlacesService {
 		private readonly _createPlaceGQL: CreatePlacesGQL,
 		private readonly _updatePlaceGQL: UpdatePlaceGQL,
 		private readonly _deletePlaceGQL: DeletePlaceGQL,
-		private readonly _updatePlaceVerification: UpdatePlaceVerificationGQL
+		private readonly _updatePlaceVerificationGQL: UpdatePlaceVerificationGQL,
+		private readonly _addWaiterToPlaceGQL: AddWaiterToPlaceGQL
 	) {}
 
 	private _emitChanges<T>(changes: string): (source$: Observable<T>) => Observable<T> {
@@ -36,6 +43,10 @@ export class PlacesService {
 	}
 
 	updatePlaceVerification(placeId: string, status: PlaceVerificationStatusEnum) {
-		return this._updatePlaceVerification.mutate({ placeId, status });
+		return this._updatePlaceVerificationGQL.mutate({ placeId, status });
+	}
+
+	addWaiterToPlace(waiterCode: number) {
+		return this._addWaiterToPlaceGQL.mutate({ waiterCode });
 	}
 }

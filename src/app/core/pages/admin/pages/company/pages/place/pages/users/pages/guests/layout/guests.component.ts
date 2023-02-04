@@ -11,7 +11,7 @@ import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { GuestsPageGQL } from "../graphql";
 
@@ -23,7 +23,9 @@ import { GuestsPageGQL } from "../graphql";
 })
 export class GuestsComponent implements OnInit {
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
-	readonly guests$ = this._guestsPageQuery.valueChanges.pipe(map((result) => result.data.users.data));
+	readonly guests$ = this._guestsPageQuery.valueChanges.pipe(
+		map((result) => (result.data.usersToPlaces.data || []).map((userToPlace) => userToPlace.user))
+	);
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -39,7 +41,7 @@ export class GuestsComponent implements OnInit {
 		await this._guestsPageQuery.setVariables({
 			filtersArgs: [
 				{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) },
-				{ key: "role", operator: "=", value: UserRoleEnum.Client }
+				{ key: "user.role", operator: "=", value: UserRoleEnum.Client }
 			]
 		});
 	}
@@ -51,8 +53,8 @@ export class GuestsComponent implements OnInit {
 				filter((user) => Boolean(user)),
 				switchMap((user) =>
 					this._usersService.updateUser({ id: user.id, name: user.name, email: user.email, tel: user.tel }).pipe(
-						switchMap(() => from(this._guestsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("UPDATE_USER"))
+						switchMap(() => this._guestsPageQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("GUESTS.UPDATE"))
 					)
 				),
 				take(1)
@@ -63,14 +65,14 @@ export class GuestsComponent implements OnInit {
 	openDeleteUserDialog(value: AtLeast<UserEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_USER"), value }
+				data: { title: this._i18nService.translate("GUESTS.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
 				filter((user) => Boolean(user)),
 				switchMap(() =>
 					this._usersService.deleteUser(value.id).pipe(
-						switchMap(() => from(this._guestsPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("DELETE_USER"))
+						switchMap(() => this._guestsPageQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("GUESTS.DELETE"))
 					)
 				),
 				take(1)

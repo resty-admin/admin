@@ -1,3 +1,6 @@
-<div [class]="className">
-	<p class="language">UK</p>
-</div>
+<app-select
+	class="language-select"
+	[options]="languages"
+	[value]="value"
+	(valueChange)="emitValueChange($event)"
+></app-select>

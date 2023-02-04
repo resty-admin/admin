@@ -1,5 +1,5 @@
-import type { ITheme } from "./theme.interface";
+import type { ThemeEnum } from "@shared/enums";
 
 export interface IThemeConfig {
-	defaultTheme: ITheme;
+	defaultTheme: ThemeEnum;
 }

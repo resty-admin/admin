@@ -18,6 +18,6 @@ export class OrderComponent {
 	}
 
 	emitDeleteClick(order: IOrder) {
-		this.editClicked.emit(order);
+		this.deleteClicked.emit(order);
 	}
 }

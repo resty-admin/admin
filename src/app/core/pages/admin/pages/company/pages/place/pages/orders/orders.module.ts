@@ -3,7 +3,6 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { OrderDialogModule } from "@features/orders/ui/order-dialog/order-dialog.module";
 import { I18nModule } from "@shared/modules/i18n";
-import { AddHeaderModule } from "@shared/ui/add-header";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
 import { DatepickerModule } from "@shared/ui/datepicker";
@@ -31,7 +30,6 @@ import { OrderRoutingModule } from "./orders-routing.module";
 		IconModule,
 		I18nModule,
 		TabsModule,
-		AddHeaderModule,
 		OrderDialogModule
 	]
 })

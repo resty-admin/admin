@@ -27,6 +27,12 @@
 			.icon {
 				width: rem(4);
 				height: rem(12);
+
+				@include icon() {
+					path {
+						stroke: var(--light);
+					}
+				}
 			}
 		}
 
@@ -53,8 +59,6 @@
 		.close .icon {
 			width: rem(12);
 			height: rem(12);
-
-			@include icon(var(--light), var(--light));
 		}
 	}
 }

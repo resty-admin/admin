@@ -1,27 +1,24 @@
 <div class="products-page" *transloco="let t">
-	<button appButton class="add" (click)="openCreateProductDialog()">
-		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("ADD") }}</span>
-	</button>
+	<app-add-button class="add" (clicked)="openCreateProductDialog()">{{ t("PRODUCTS.ADD") }}</app-add-button>
 
 	<app-filters class="filters"></app-filters>
 
 	<app-datatable class="datatable-desktop" [rows]="products$ | async">
 		<ng-container appColumn="name">
-			<ng-template #header>{{ t("NAME") }}</ng-template>
+			<ng-template #header>{{ t("PRODUCTS.NAME") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="description">
-			<ng-template #header>{{ t("DESCRIPTION") }}</ng-template>
+			<ng-template #header>{{ t("PRODUCTS.DESCRIPTION") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="сategory">
-			<ng-template #header>{{ t("CATEGORY") }}</ng-template>
+			<ng-template #header>{{ t("PRODUCTS.CATEGORY") }}</ng-template>
 			<ng-template #value let-row="row">{{ row.category.name }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="price">
-			<ng-template #header>{{ t("PRICE") }}</ng-template>
-			<ng-template #value let-value>{{ value }} {{ t("CURRENCY") }}</ng-template>
+			<ng-template #header>{{ t("PRODUCTS.PRICE") }}</ng-template>
+			<ng-template #value let-value>{{ value }} {{ t("PRODUCT.CURRENCY") }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="more">
 			<ng-template #header></ng-template>
@@ -38,14 +35,14 @@
 			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: product }"></ng-container>
 
 			<div class="info">
-				<p class="name-label">{{ t("NAME") }}</p>
+				<p class="name-label">{{ t("PRODUCTS.NAME") }}</p>
 				<p class="name-value">{{ product.name }}</p>
-				<p class="description-label">{{ t("DESCRIPTION") }}</p>
+				<p class="description-label">{{ t("PRODUCTS.DESCRIPTION") }}</p>
 				<p class="description-value">{{ product.description }}</p>
-				<p class="category-label">{{ t("CATEGORY") }}</p>
+				<p class="category-label">{{ t("PRODUCTS.CATEGORY") }}</p>
 				<p class="category-value">{{ product.category.name }}</p>
-				<p class="price-label">{{ t("PRICE") }}</p>
-				<p class="price-value">{{ product.price }} {{ t("CURRENCY") }}</p>
+				<p class="price-label">{{ t("PRODUCTS.PRICE") }}</p>
+				<p class="price-value">{{ product.price }} {{ t("PRODUCT.CURRENCY") }}</p>
 			</div>
 		</li>
 	</ul>

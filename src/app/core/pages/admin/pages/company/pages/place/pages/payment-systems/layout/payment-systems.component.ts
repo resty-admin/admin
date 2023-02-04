@@ -36,6 +36,7 @@ export class PaymentSystemsComponent {
 		return this._dialogService
 			.open(PaymentSystemDialogComponent, { data })
 			.afterClosed$.pipe(
+				take(1),
 				filter((paymentSystem) => Boolean(paymentSystem)),
 				switchMap((paymentSystem) =>
 					this._paymentSystemService
@@ -44,9 +45,8 @@ export class PaymentSystemsComponent {
 							paymentSystem: paymentSystem.id,
 							placeConfigFields: paymentSystem.configFields
 						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("CONNECTED")))
-				),
-				take(1)
+						.pipe(take(1), this._toastrService.observe(this._i18nService.translate("PAYMENT_SYSTEMS.CONNECTED")))
+				)
 			)
 			.subscribe();
 	}

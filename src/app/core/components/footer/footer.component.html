@@ -1,10 +1,17 @@
-<footer class="footer">
+<footer class="footer" *transloco="let t">
 	<a class="back" *ngIf="breadcrumb$ | async as breadcrumb" [routerLink]="breadcrumb.routerLink">
 		<app-icon class="icon" name="back"></app-icon>
 		<span class="label" *ngIf="breadcrumb.label">{{ breadcrumb.label }}</span>
 	</a>
 
-	<button appButton theme="1" class="action" *ngIf="action$ | async as action" (click)="action.func()">
-		{{ action.label }}
+	<button
+		appButton
+		theme="1"
+		class="action"
+		*ngIf="action$ | async as action"
+		(click)="action.func()"
+		[disabled]="action.disabled"
+	>
+		{{ t("FOOTER." + action.label) }}
 	</button>
 </footer>

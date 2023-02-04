@@ -38,9 +38,9 @@ export class CompaniesComponent implements OnInit {
 		this._companiesService.changes$
 			.pipe(
 				untilDestroyed(this),
-				switchMap(() => from(this._companiesPageQuery.refetch()))
+				switchMap(() => this._companiesPageQuery.refetch())
 			)
-			.subscribe(() => {});
+			.subscribe();
 	}
 
 	openCreateCompanyDialog(data?: Partial<CreateCommandInput>) {
@@ -51,7 +51,7 @@ export class CompaniesComponent implements OnInit {
 				switchMap((company) =>
 					this._companiesService.createCompany({ name: company.name, logo: company.logo?.id }).pipe(
 						switchMap((result) => from(this._companiesPageQuery.refetch()).pipe(map(() => result.data?.createCompany))),
-						this._toastrService.observe(this._i18nService.translate("CREATE_COMPANY"))
+						this._toastrService.observe(this._i18nService.translate("COMPANIES.CREATE"))
 					)
 				),
 				take(1)

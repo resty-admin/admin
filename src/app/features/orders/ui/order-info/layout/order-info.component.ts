@@ -1,5 +1,5 @@
 import type { OnChanges } from "@angular/core";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
@@ -12,6 +12,8 @@ import { IOrderInfo } from "../interfaces/order-info.interface";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderInfoComponent implements OnChanges {
+	@Output() approveClicked = new EventEmitter();
+	@Output() rejectClicked = new EventEmitter();
 	@Input() order?: IOrderInfo;
 
 	tableStatus = "";
@@ -31,5 +33,13 @@ export class OrderInfoComponent implements OnChanges {
 		this.tableInfo = tableName || "";
 		this.dateInfo = dateName || "";
 		this.tableStatus = tableStatus || "";
+	}
+
+	emitApproveClick() {
+		this.approveClicked.emit();
+	}
+
+	emitRejectClick() {
+		this.rejectClicked.emit();
 	}
 }

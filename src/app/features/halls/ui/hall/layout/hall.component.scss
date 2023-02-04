@@ -54,5 +54,14 @@
 				color: var(--grey);
 			}
 		}
+
+		.more {
+			&::ng-deep .app-more {
+				background-color: var(--dark-grey);
+			}
+			&.placeholder::ng-deep .app-more {
+				background-color: var(--dark);
+			}
+		}
 	}
 }

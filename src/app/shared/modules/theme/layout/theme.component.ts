@@ -2,6 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, Renderer2 } from "@angular/core";
 import { FormControl } from "@ngneat/reactive-forms";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ThemeEnum } from "@shared/enums";
 import { UniversalService } from "@shared/modules/universal";
 
 import { ThemeService } from "../services";
@@ -28,14 +29,14 @@ export class ThemeComponent implements OnInit {
 		}
 
 		this._themeService.theme$.pipe(untilDestroyed(this)).subscribe((theme) => {
-			this.formControl.setValue(theme === "dark", { emitEvent: false });
+			this.formControl.setValue(theme === ThemeEnum.DARK, { emitEvent: false });
 
-			this._renderer2.removeClass(document.body, theme === "light" ? "dark" : "light");
-			this._renderer2.addClass(document.body, theme === "light" ? "light" : "dark");
+			this._renderer2.removeClass(document.body, theme === ThemeEnum.LIGHT ? "dark" : "light");
+			this._renderer2.addClass(document.body, theme === ThemeEnum.LIGHT ? "light" : "dark");
 		});
 
 		this.formControl.valueChanges.pipe(untilDestroyed(this)).subscribe((theme) => {
-			this._themeService.setTheme(theme ? "dark" : "light");
+			this._themeService.setTheme(theme ? ThemeEnum.DARK : ThemeEnum.LIGHT);
 		});
 	}
 }

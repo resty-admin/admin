@@ -2,7 +2,7 @@ import { UserRoleEnum } from "@graphql";
 
 export const ROLES_DATA = [
 	{
-		label: "MANAGER_lABEL",
+		label: "MANAGER_LABEL",
 		value: UserRoleEnum.Manager,
 		image: "manager",
 		description: "MANAGER_DESCRIPTION"
@@ -14,7 +14,7 @@ export const ROLES_DATA = [
 		description: "HOSTESS_DESCRIPTION"
 	},
 	{
-		label: "WAITER_lABEL",
+		label: "WAITER_LABEL",
 		value: UserRoleEnum.Waiter,
 		image: "waiter",
 		description: "WALTER_DESCRIPTION"

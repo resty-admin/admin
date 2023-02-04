@@ -2,10 +2,9 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { TableModule, TableSkeletonModule } from "@features/tables";
 import { TableDialogModule } from "@features/tables/ui/table-dialog/table-dialog.module";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
-import { AddHeaderModule } from "@shared/ui/add-header";
-import { AddHeaderSkeletonModule } from "@shared/ui/add-header-skeleton";
+import { AddButtonModule } from "@shared/ui/add-button";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
 import { FiltersModule } from "@shared/ui/filters";
@@ -16,6 +15,7 @@ import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
 import { QrCodeModule } from "@shared/ui/qr-code";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -36,17 +36,17 @@ import { TablesRoutingModule } from "./tables-routing.module";
 		ImageModule,
 		ActionsModule,
 		TooltipModule,
-		TranslocoModule,
-		AddHeaderModule,
+		I18nModule,
 		FiltersModule,
 		ListModule,
 		TableDialogModule,
 		QrCodeModule,
 		TableModule,
-		AddHeaderSkeletonModule,
 		FiltersSkeletonModule,
 		ListSkeletonModule,
-		TableSkeletonModule
+		TableSkeletonModule,
+		SkeletonModule,
+		AddButtonModule
 	]
 })
 export class TablesModule {}

@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -10,6 +10,6 @@ import { NotificationsRoutingModule } from "./notifications-routing.module";
 
 @NgModule({
 	declarations: [NotificationsComponent, ...NOTIFICATIONS_COMPONENTS],
-	imports: [CommonModule, NotificationsRoutingModule, TypographyModule, TranslocoModule, SkeletonModule]
+	imports: [CommonModule, NotificationsRoutingModule, TypographyModule, I18nModule, SkeletonModule]
 })
 export class NotificationsModule {}

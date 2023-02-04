@@ -3,73 +3,73 @@ import { ADMIN_ROUTES } from "@shared/constants";
 
 export const ASIDE_PAGES = [
 	{
-		label: "statistic",
+		label: "STATISTIC",
 		icon: "statistic",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.STATISTIC.absolutePath
 	},
 	{
-		label: "shift",
+		label: "SHIFT",
 		icon: "shift",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager, UserRoleEnum.Waiter, UserRoleEnum.Hostess, UserRoleEnum.Hookah],
 		routerLink: ADMIN_ROUTES.SHIFT.absolutePath
 	},
 	{
-		label: "orders",
+		label: "ORDERS",
 		icon: "orders",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager, UserRoleEnum.Waiter, UserRoleEnum.Hostess, UserRoleEnum.Hookah],
 		routerLink: ADMIN_ROUTES.ORDERS.absolutePath
 	},
 	{
-		label: "menu",
+		label: "MENU",
 		icon: "menu",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.MENU.absolutePath
 	},
 	{
-		label: "halls",
+		label: "HALLS",
 		icon: "halls",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.HALLS.absolutePath
 	},
 	{
-		label: "users",
+		label: "USERS",
 		icon: "users",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.USERS.absolutePath
 	},
 	{
-		label: "commands",
+		label: "COMMANDS",
 		icon: "commands",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.COMMANDS.absolutePath
 	},
 	{
-		label: "wallet",
+		label: "WALLET",
 		icon: "wallet",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.WALLET.absolutePath
 	},
 	{
-		label: "access",
+		label: "ACCESS",
 		icon: "key",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.ACCESS.absolutePath
 	},
 	{
-		label: "contract",
+		label: "CONTRACT",
 		icon: "contract",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.CONTRACT.absolutePath
 	},
 	{
-		label: "accounting_systems",
+		label: "ACCOUNTING_SYSTEMS",
 		icon: "accounting-systems",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.ACCOUNTING_SYSTEMS.absolutePath
 	},
 	{
-		label: "payment_systems",
+		label: "PAYMENT_SYSTEMS",
 		icon: "payment-systems",
 		roles: [UserRoleEnum.Admin, UserRoleEnum.Manager],
 		routerLink: ADMIN_ROUTES.PAYMENT_SYSTEMS.absolutePath

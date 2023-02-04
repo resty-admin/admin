@@ -1,6 +1,6 @@
 <div class="company" *transloco="let t">
 	<p class="title">
-		<span class="text">{{ t("COMPANIES") }}</span>
+		<span class="text">{{ t("COMPANIES.ADD_COMPANY") }}</span>
 		<button appIconButton class="button" (click)="emitAddCompanyClick()">
 			<app-icon class="icon" name="add"></app-icon>
 		</button>
@@ -12,14 +12,15 @@
 			bindLabel="name"
 			bindValue="id"
 			[value]="companyId"
-			[label]="t('COMPANY_LABEL')"
-			[placeholder]="t('COMPANY_PLACEHOLDER')"
+			[label]="t('FORM.COMPANY_LABEL')"
+			[placeholder]="t('FORM.COMPANY_PLACEHOLDER')"
 			[options]="companies"
 			(valueChange)="emitCompanyChange($event)"
 		></app-select>
 
 		<app-more
 			class="more"
+			[disabled]="!companyId"
 			(editClicked)="emitEditClick(companyId)"
 			(deleteClicked)="emitDeleteClick(companyId)"
 		></app-more>

@@ -2,7 +2,7 @@
 
 @include component() {
 	.aside {
-		width: rem(300);
+		min-width: rem(300);
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;

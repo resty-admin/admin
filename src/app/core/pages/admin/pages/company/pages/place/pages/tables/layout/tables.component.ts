@@ -11,7 +11,7 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { TablesPageGQL } from "../graphql";
 
@@ -48,13 +48,14 @@ export class TablesComponent implements OnInit, OnDestroy {
 				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 		});
 
-		this._actionsService.setAction({ label: "Добавить стол", func: () => this.openCreateTableDialog() });
+		this._actionsService.setAction({ label: "ADD_TABLE", func: () => this.openCreateTableDialog() });
 	}
 
 	openCreateTableDialog() {
-		return this._dialogService
+		this._dialogService
 			.open(TableDialogComponent)
 			.afterClosed$.pipe(
+				take(1),
 				filter((table) => Boolean(table)),
 				switchMap((table) =>
 					this._tablesService
@@ -65,11 +66,11 @@ export class TablesComponent implements OnInit, OnDestroy {
 							code: table.code
 						})
 						.pipe(
-							switchMap(() => from(this._tablesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("CREATE_TABLE"))
+							take(1),
+							switchMap(() => this._tablesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("TABLES.CREATE"))
 						)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}
@@ -83,8 +84,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 					this._tablesService
 						.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
 						.pipe(
-							switchMap(() => from(this._tablesPageQuery.refetch())),
-							this._toastrService.observe(this._i18nService.translate("UPDATE_TABLE"))
+							switchMap(() => this._tablesPageQuery.refetch()),
+							this._toastrService.observe(this._i18nService.translate("TABLES.UPDATE"))
 						)
 				),
 				take(1)
@@ -95,14 +96,14 @@ export class TablesComponent implements OnInit, OnDestroy {
 	openDeleteTableDialog(value: AtLeast<TableEntity, "id">) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("CONFIRM_TABLE"), value }
+				data: { title: this._i18nService.translate("TABLES.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._tablesService.deleteTable(value.id).pipe(
-						switchMap(() => from(this._tablesPageQuery.refetch())),
-						this._toastrService.observe(this._i18nService.translate("DELETE_TABLE"))
+						switchMap(() => this._tablesPageQuery.refetch()),
+						this._toastrService.observe(this._i18nService.translate("TABLES.DELETE"))
 					)
 				),
 				take(1)

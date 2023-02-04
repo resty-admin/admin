@@ -4,7 +4,7 @@ import { PlacesService } from "@features/places";
 import { PlaceVerificationStatusEnum } from "@graphql";
 import { PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { from, map, switchMap, take } from "rxjs";
+import { map, switchMap, take } from "rxjs";
 
 import { StatisticPageGQL } from "../graphql";
 
@@ -39,7 +39,7 @@ export class StatisticComponent implements OnInit {
 			.updatePlaceVerification(this._routerService.getParams(PLACE_ID.slice(1)), newStatus)
 			.pipe(
 				take(1),
-				switchMap(() => from(this._statisticPageQuery.refetch()))
+				switchMap(() => this._statisticPageQuery.refetch())
 			)
 			.subscribe();
 	}

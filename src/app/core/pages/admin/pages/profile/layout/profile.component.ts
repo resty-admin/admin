@@ -4,10 +4,17 @@ import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { take } from "rxjs";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import type { LanguagesEnum } from "@shared/enums";
+import type { ThemeEnum } from "@shared/enums";
+import { I18nService } from "@shared/modules/i18n";
+import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
+import { DialogService } from "@shared/ui/dialog";
+import { switchMap, take } from "rxjs";
 
 import type { IProfileForm } from "../interfaces";
 
+@UntilDestroy()
 @Component({
 	selector: "app-profile",
 	templateUrl: "./profile.component.html",
@@ -25,10 +32,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		email: ""
 	});
 
+	readonly language$ = this._authService.language$;
+	readonly theme$ = this._authService.theme$;
+
 	constructor(
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
-		private readonly _actionsService: ActionsService
+		private readonly _actionsService: ActionsService,
+		private readonly _dialogService: DialogService,
+		private readonly _i18nService: I18nService
 	) {}
 
 	ngOnInit() {
@@ -41,7 +53,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		});
 
 		this._actionsService.setAction({
-			label: "Обновить пользователя",
+			label: "UPDATE_USER",
 			func: () => {
 				if (!this.formGroup.value) {
 					return;
@@ -52,12 +64,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		});
 	}
 
+	changeLanguage(language: LanguagesEnum) {
+		this._authService.updateLanguage(language);
+	}
+
+	changeTheme(theme: ThemeEnum) {
+		this._authService.updateTheme(theme);
+	}
+
 	updateMe(formValue: IProfileForm) {
 		this._authService.updateMe(formValue).pipe(take(1)).subscribe();
 	}
 
 	deleteMe() {
-		this._authService.deleteMe().pipe(take(1)).subscribe();
+		this._dialogService
+			.open(ConfirmationDialogComponent, {
+				data: { title: this._i18nService.translate("USERS.CONFIRM"), value: {} }
+			})
+			.afterClosed$.pipe(switchMap(() => this._authService.deleteMe()))
+			.subscribe();
 	}
 
 	ngOnDestroy() {

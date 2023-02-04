@@ -3,10 +3,9 @@ import { NgModule } from "@angular/core";
 import { HallModule, HallSkeletonModule } from "@features/halls";
 import { HallDialogModule } from "@features/halls/ui/hall-dialog/hall-dialog.module";
 import { DirectivesModule } from "@shared/modules/directives";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
-import { AddHeaderModule } from "@shared/ui/add-header";
-import { AddHeaderSkeletonModule } from "@shared/ui/add-header-skeleton";
+import { AddButtonModule } from "@shared/ui/add-button";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
 import { FiltersModule } from "@shared/ui/filters";
@@ -16,6 +15,7 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { SkeletonModule } from "@shared/ui/skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -37,16 +37,16 @@ import { HallsComponent } from "./layout/halls.component";
 		ActionsModule,
 		TooltipModule,
 		DirectivesModule,
-		TranslocoModule,
+		I18nModule,
 		FiltersModule,
-		AddHeaderModule,
 		ListModule,
 		HallDialogModule,
 		HallModule,
-		AddHeaderSkeletonModule,
 		FiltersSkeletonModule,
 		ListSkeletonModule,
-		HallSkeletonModule
+		HallSkeletonModule,
+		SkeletonModule,
+		AddButtonModule
 	]
 })
 export class HallsModule {}

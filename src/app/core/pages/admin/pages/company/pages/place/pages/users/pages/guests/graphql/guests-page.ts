@@ -4,41 +4,44 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../../../graphql";
 export type GuestsPageQueryVariables = Types.Exact<{
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-	take?: Types.InputMaybe<Types.Scalars["Int"]>;
 	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
+	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface GuestsPageQuery {
 	__typename?: "Query";
-	users: {
-		__typename?: "PaginatedUser";
-		page: number;
-		totalCount: number;
+	usersToPlaces: {
+		__typename?: "PaginatedUserToPlace";
 		data?:
 			| {
-					__typename?: "UserEntity";
+					__typename?: "UserToPlaceEntity";
 					id: string;
-					name: string;
-					email?: string | null;
-					role: Types.UserRoleEnum;
-					tel?: string | null;
+					user: {
+						__typename?: "UserEntity";
+						id: string;
+						name: string;
+						email?: string | null;
+						tel?: string | null;
+						role: Types.UserRoleEnum;
+					};
 			  }[]
 			| null;
 	};
 }
 
 export const GuestsPageDocument = gql`
-	query GuestsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-		users(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
-			page
-			totalCount
+	query GuestsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+		usersToPlaces(skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			data {
 				id
-				name
-				email
-				role
-				tel
+				user {
+					id
+					name
+					email
+					tel
+					role
+				}
 			}
 		}
 	}

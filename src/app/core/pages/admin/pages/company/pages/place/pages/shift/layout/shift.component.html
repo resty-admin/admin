@@ -1,5 +1,5 @@
 <div class="shift" *transloco="let t">
-	<h1 appTypography theme="1" class="title">{{ t("TITLE") }}</h1>
+	<h1 appTypography theme="1" class="title">{{ t("SHIFT.TITLE") }}</h1>
 
 	<button
 		*ngIf="activeShift$ | async as activeShift"
@@ -9,10 +9,10 @@
 		(click)="closeShift(activeShift.id)"
 	>
 		<app-icon class="icon" name="close"></app-icon>
-		<span class="text">{{ t("CLOSE") }}</span>
+		<span class="text">{{ t("SHIFT.CLOSE") }}</span>
 	</button>
 
-	<h2 appTypography theme="4" class="subtitle">{{ t("SUBTITLE") }}</h2>
+	<h2 appTypography theme="4" class="subtitle">{{ t("SHIFT.SUBTITLE") }}</h2>
 
 	<app-halls-select
 		class="halls"
@@ -40,12 +40,12 @@
 			*ngIf="activeShift$ | async as activeShift; else createButton"
 			(click)="updateShift(activeShift.id, selectedTables)"
 		>
-			{{ t("EDIT") }}
+			{{ t("SHIFT.EDIT") }}
 		</button>
 
 		<ng-template #createButton>
 			<button appButton theme="1" (click)="createShift(selectedTables)">
-				{{ t("CREATE") }}
+				{{ t("SHIFT.CREATE") }}
 			</button>
 		</ng-template>
 	</footer>

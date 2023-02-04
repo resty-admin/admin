@@ -4,9 +4,10 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../../../graphql";
 export type HistoryOrdersPageQueryVariables = Types.Exact<{
-	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
-	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	placeId: Types.Scalars["String"];
 	skip?: Types.InputMaybe<Types.Scalars["Int"]>;
+	take?: Types.InputMaybe<Types.Scalars["Int"]>;
+	filtersArgs?: Types.InputMaybe<Types.FiltersArgsDto | Types.FiltersArgsDto[]>;
 }>;
 
 export interface HistoryOrdersPageQuery {
@@ -27,15 +28,15 @@ export interface HistoryOrdersPageQuery {
 }
 
 export const HistoryOrdersPageDocument = gql`
-	query HistoryOrdersPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
-		historyOrders(filtersArgs: $filtersArgs, take: $take, skip: $skip) {
-			page
-			totalCount
+	query HistoryOrdersPage($placeId: String!, $skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
+		historyOrders(placeId: $placeId, skip: $skip, take: $take, filtersArgs: $filtersArgs) {
 			data {
 				id
 				orderNumber
 				status
 			}
+			page
+			totalCount
 		}
 	}
 `;

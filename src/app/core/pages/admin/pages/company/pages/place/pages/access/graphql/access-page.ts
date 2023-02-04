@@ -3,20 +3,19 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../graphql";
-export type WalletPageQueryVariables = Types.Exact<{
+export type AccessPageQueryVariables = Types.Exact<{
 	placeId: Types.Scalars["String"];
 }>;
 
-export interface WalletPageQuery {
+export interface AccessPageQuery {
 	__typename?: "Query";
-	getPlaceStatistic: { __typename?: "StatisticType"; tax: number; totalAmount: number };
+	place: { __typename?: "PlaceEntity"; waiterCode?: number | null };
 }
 
-export const WalletPageDocument = gql`
-	query WalletPage($placeId: String!) {
-		getPlaceStatistic(placeId: $placeId) {
-			tax
-			totalAmount
+export const AccessPageDocument = gql`
+	query AccessPage($placeId: String!) {
+		place(id: $placeId) {
+			waiterCode
 		}
 	}
 `;
@@ -24,8 +23,8 @@ export const WalletPageDocument = gql`
 @Injectable({
 	providedIn: "root"
 })
-export class WalletPageGQL extends Apollo.Query<WalletPageQuery, WalletPageQueryVariables> {
-	override document = WalletPageDocument;
+export class AccessPageGQL extends Apollo.Query<AccessPageQuery, AccessPageQueryVariables> {
+	override document = AccessPageDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

@@ -2,27 +2,81 @@
 
 @include page() {
 	.order-page {
-		display: grid;
+		display: flex;
+		flex-direction: column;
 		row-gap: rem(24);
+		width: 100%;
+		height: 100%;
+
+		@include pagePadding();
+		padding-bottom: 0 !important;
 
 		.actions {
+			flex: 1;
+			justify-self: start;
 			display: flex;
-			justify-content: space-between;
-			column-gap: rem(15);
-			button {
-				flex: 1;
-				color: var(--light);
-				padding: rem(10);
+			column-gap: rem(8);
+			.reject,
+			.approve {
+				padding: rem(6) rem(16);
+				border: rem(1) solid transparent;
 				border-radius: rem(6);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				text-align: right;
+				.icon {
+					width: rem(16);
+					height: rem(16);
+				}
 				&.approve {
-					background-color: var(--success);
+					border-color: var(--success);
+					color: var(--success);
 				}
 				&.reject {
-					background-color: var(--danger);
+					border-color: var(--danger);
+					color: var(--danger);
 				}
 			}
 		}
 
-		@include pagePadding();
+		.header {
+			display: flex;
+			justify-content: space-between;
+			.title {
+				flex: 1;
+			}
+		}
+
+		.main {
+			flex: 1;
+			display: grid;
+			align-items: start;
+			row-gap: rem(24);
+			grid-template-rows: auto auto 1fr;
+		}
+
+		.footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: rem(8) 0;
+			column-gap: rem(12);
+			.text {
+				width: rem(100);
+				font-weight: 500;
+				font-size: rem(20);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+		}
+	}
+}
+@include dark() {
+	.order-page .header .type {
+		color: var(--light);
 	}
 }
