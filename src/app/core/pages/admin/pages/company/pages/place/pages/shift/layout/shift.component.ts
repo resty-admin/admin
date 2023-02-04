@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActionsService } from "@features/app";
 import { ShiftsService } from "@features/shift";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
 import { DialogService } from "@ngneat/dialog";
@@ -48,7 +49,8 @@ export class ShiftComponent implements OnInit {
 		private readonly _toastrService: ToastrService,
 		private readonly _i18nService: I18nService,
 		private readonly _routerService: RouterService,
-		private readonly _dialogService: DialogService
+		private readonly _dialogService: DialogService,
+		private readonly _actionsService: ActionsService
 	) {}
 
 	async ngOnInit() {
@@ -57,6 +59,11 @@ export class ShiftComponent implements OnInit {
 		await this._shiftPageQuery.setVariables({
 			hallsFiltersArgs: [{ key: "place.id", operator: "=", value: placeId }],
 			tablesFiltersArgs: [{ key: "hall.place.id", operator: "=", value: placeId }]
+		});
+
+		this._actionsService.setAction({
+			label: "CREATE_SHIFT",
+			func: () => this.createShift(this.selectedTables)
 		});
 	}
 

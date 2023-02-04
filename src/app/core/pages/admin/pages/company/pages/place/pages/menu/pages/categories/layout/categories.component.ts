@@ -40,7 +40,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 	) {}
 
 	async ngOnInit() {
-		this._actionsService.setAction({ label: "Добавить категорию", func: () => this.openCreateCategoryDialog() });
+		this._actionsService.setAction({ label: "ADD_CATEGORY", func: () => this.openCreateCategoryDialog() });
 
 		await this._categoriesPageQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
@@ -48,9 +48,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 	}
 
 	openCreateCategoryDialog() {
-		return this._dialogService
+		this._dialogService
 			.open(CategoryDialogComponent)
 			.afterClosed$.pipe(
+				take(1),
 				filter((category) => Boolean(category)),
 				switchMap((category) =>
 					this._categoriesService
@@ -60,45 +61,47 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 							file: category.file?.id
 						})
 						.pipe(
+							take(1),
 							switchMap(() => this._categoriesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("CATEGORIES.CREATE"))
 						)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}
 
 	openUpdateCategoryDialog(data: DeepAtLeast<CategoryEntity, "id">) {
-		return this._dialogService
+		this._dialogService
 			.open(CategoryDialogComponent, { data })
 			.afterClosed$.pipe(
+				take(1),
 				filter((category) => Boolean(category)),
 				switchMap((category) =>
 					this._categoriesService
 						.updateCategory({ id: category.id, name: category.name, file: category.file?.id })
 						.pipe(
+							take(1),
 							switchMap(() => this._categoriesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("CATEGORIES.UPDATE"))
 						)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}
 
 	openDeleteCategoryDialog(value: DeepAtLeast<CategoryEntity, "id">) {
-		return this._dialogService
+		this._dialogService
 			.open(ConfirmationDialogComponent, { data: { title: this._i18nService.translate("CATEGORIES.CONFIRM"), value } })
 			.afterClosed$.pipe(
+				take(1),
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._categoriesService.deleteCategory(value.id).pipe(
+						take(1),
 						switchMap(() => this._categoriesPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("CATEGORIES.DELETE"))
 					)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}

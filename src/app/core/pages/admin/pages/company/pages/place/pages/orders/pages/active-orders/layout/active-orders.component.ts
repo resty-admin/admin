@@ -10,7 +10,7 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { ActiveOrdersPageGQL } from "../graphql";
 
@@ -41,17 +41,19 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
 		});
 
-		this._actionsService.setAction({ label: "Добавить заказ", func: () => this.openCreateOrderDialog() });
+		this._actionsService.setAction({ label: "ADD_ORDER", func: () => this.openCreateOrderDialog() });
 	}
 
 	openCreateOrderDialog() {
 		return this._dialogService.open(OrderDialogComponent).afterClosed$.pipe(
+			take(1),
 			filter((order) => Boolean(order)),
 			switchMap((order) =>
 				this._ordersService
 					.createOrder({ place: this._routerService.getParams(PLACE_ID.slice(1)), type: order.type })
 					.pipe(
-						switchMap(() => from(this._activeOrdersPageQuery.refetch())),
+						take(1),
+						switchMap(() => this._activeOrdersPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("ORDERS.CREATE"))
 					)
 			)
@@ -65,7 +67,7 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				filter((order) => Boolean(order)),
 				switchMap((order) =>
 					this._ordersService.updateOrder({ id: order.id, type: order.type }).pipe(
-						switchMap(() => from(this._activeOrdersPageQuery.refetch())),
+						switchMap(() => this._activeOrdersPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("ORDERS.UPDATE"))
 					)
 				),
@@ -83,7 +85,7 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._ordersService.deleteOrder(value.id).pipe(
-						switchMap(() => from(this._activeOrdersPageQuery.refetch())),
+						switchMap(() => this._activeOrdersPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("ORDERS.DELETE"))
 					)
 				),

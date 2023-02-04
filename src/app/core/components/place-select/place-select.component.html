@@ -1,7 +1,7 @@
 <div class="place" *transloco="let t">
 	<p class="title">
 		<span class="text">{{ t("PLACES.ADD_PLACE") }}</span>
-		<button appIconButton class="button" (click)="emitAddPlaceClick()">
+		<button appIconButton [disabled]="disabled" class="button" (click)="emitAddPlaceClick()">
 			<app-icon class="icon" name="add"></app-icon>
 		</button>
 	</p>
@@ -15,7 +15,13 @@
 			[placeholder]="t('FORM.PLACE_PLACEHOLDER')"
 			[options]="places"
 			(valueChange)="emitPlaceChange($event)"
+			[disabled]="disabled"
 		></app-select>
-		<app-more class="more" (editClicked)="emitEditClick(placeId)" (deleteClicked)="emitDeleteClick(placeId)"></app-more>
+		<app-more
+			class="more"
+			[disabled]="!placeId"
+			(editClicked)="emitEditClick(placeId)"
+			(deleteClicked)="emitDeleteClick(placeId)"
+		></app-more>
 	</div>
 </div>

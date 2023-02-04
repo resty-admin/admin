@@ -1,4 +1,4 @@
 <div [class]="className">
-	<input class="input" type="checkbox" [id]="id" [formControl]="formControl" />
-	<app-icon class="icon" [name]="formControl.value ? 'sun' : 'moon'"></app-icon>
+	<input class="input" type="checkbox" [value]="checkboxValue" (change)="emitValueChange($event)" />
+	<app-icon class="icon" [name]="checkboxValue ? 'sun' : 'moon'"></app-icon>
 </div>

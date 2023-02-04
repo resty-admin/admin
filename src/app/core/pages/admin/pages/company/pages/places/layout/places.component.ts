@@ -46,7 +46,7 @@ export class PlacesComponent implements OnInit {
 		this._placesService.changes$
 			.pipe(
 				untilDestroyed(this),
-				switchMap(() => from(this._placesPageQuery.refetch()))
+				switchMap(() => this._placesPageQuery.refetch())
 			)
 			.subscribe();
 	}
@@ -65,11 +65,11 @@ export class PlacesComponent implements OnInit {
 							file: place.file?.id
 						})
 						.pipe(
+							take(1),
 							switchMap((result) => from(this._placesPageQuery.refetch()).pipe(map(() => result.data?.createPlace))),
 							this._toastrService.observe(this._i18nService.translate("PLACES.CREATE"))
 						)
-				),
-				take(1)
+				)
 			)
 			.subscribe(async (createdPlace) => {
 				if (!createdPlace) {

@@ -47,6 +47,7 @@ export interface ActiveOrderEntity {
 	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users?: Maybe<UserEntity[]>;
+	waiters?: Maybe<UserEntity[]>;
 }
 
 export interface ActiveOrderEntityInput {
@@ -63,6 +64,7 @@ export interface ActiveOrderEntityInput {
 	totalPrice?: InputMaybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users?: InputMaybe<UserEntityInput[]>;
+	waiters?: InputMaybe<UserEntityInput[]>;
 }
 
 export interface ActiveShiftEntity {
@@ -384,9 +386,10 @@ export interface Link {
 
 export interface Mutation {
 	__typename?: "Mutation";
-	addEmployeeToPlace: PlaceEntity;
 	addTableToOrder: ActiveOrderEntity;
 	addUserToOrder: ActiveOrderEntity;
+	addUserToPlace: UserToPlaceEntity;
+	addWaiterToPlace: UserToPlaceEntity;
 	approveProductsInOrder: ProductToOrderEntity[];
 	approveTableInOrder: ActiveOrderEntity;
 	cancelOrder: Scalars["String"];
@@ -463,10 +466,6 @@ export interface Mutation {
 	verifyCode: AccessToken;
 }
 
-export interface MutationAddEmployeeToPlaceArgs {
-	employeeData: AddEmployeeInput;
-}
-
 export interface MutationAddTableToOrderArgs {
 	orderId: Scalars["String"];
 	tableId: Scalars["String"];
@@ -474,6 +473,14 @@ export interface MutationAddTableToOrderArgs {
 
 export interface MutationAddUserToOrderArgs {
 	code: Scalars["Int"];
+}
+
+export interface MutationAddUserToPlaceArgs {
+	data: UserToPlaceInput;
+}
+
+export interface MutationAddWaiterToPlaceArgs {
+	waiterCode: Scalars["Float"];
 }
 
 export interface MutationApproveProductsInOrderArgs {
@@ -772,9 +779,11 @@ export interface MutationVerifyCodeArgs {
 }
 
 export enum OrderStatusEnum {
+	Approved = "APPROVED",
 	Cancel = "CANCEL",
 	Closed = "CLOSED",
-	Created = "CREATED"
+	Created = "CREATED",
+	Rejected = "REJECTED"
 }
 
 export enum OrderTypeEnum {
@@ -889,6 +898,13 @@ export interface PaginatedUser {
 	totalCount: Scalars["Int"];
 }
 
+export interface PaginatedUserToPlace {
+	__typename?: "PaginatedUserToPlace";
+	data?: Maybe<UserToPlaceEntity[]>;
+	page: Scalars["Int"];
+	totalCount: Scalars["Int"];
+}
+
 export interface PaymentSystemEntity {
 	__typename?: "PaymentSystemEntity";
 	configFields?: Maybe<Scalars["JSONObject"]>;
@@ -916,9 +932,7 @@ export interface PlaceEntity {
 	categories?: Maybe<CategoryEntity[]>;
 	commands?: Maybe<CommandEntity[]>;
 	company: CompanyEntity;
-	employees?: Maybe<UserEntity[]>;
 	file?: Maybe<FileEntity>;
-	guests?: Maybe<UserEntity[]>;
 	halls: HallEntity[];
 	holidayDays: Scalars["String"];
 	id: Scalars["String"];
@@ -927,7 +941,9 @@ export interface PlaceEntity {
 	orders?: Maybe<ActiveOrderEntity[]>;
 	paymentSystems?: Maybe<PlaceToPaymentSystemEntity[]>;
 	status: PlaceStatusEnum;
+	usersToPlaces?: Maybe<UserToPlaceEntity[]>;
 	verificationStatus: PlaceVerificationStatusEnum;
+	waiterCode?: Maybe<Scalars["Int"]>;
 	weekDays: Scalars["String"];
 	weekendDays: Scalars["String"];
 }
@@ -940,9 +956,7 @@ export interface PlaceEntityInput {
 	categories?: InputMaybe<CategoryEntityInput[]>;
 	commands?: InputMaybe<CommandEntityInput[]>;
 	company: CompanyEntityInput;
-	employees?: InputMaybe<UserEntityInput[]>;
 	file?: InputMaybe<FileEntityInput>;
-	guests?: InputMaybe<UserEntityInput[]>;
 	halls: HallEntityInput[];
 	holidayDays: Scalars["String"];
 	isHide: Scalars["Boolean"];
@@ -950,7 +964,9 @@ export interface PlaceEntityInput {
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 	paymentSystems?: InputMaybe<PlaceToPaymentSystemEntityInput[]>;
 	status: PlaceStatusEnum;
+	usersToPlaces?: InputMaybe<UserToPlaceEntityInput[]>;
 	verificationStatus: PlaceVerificationStatusEnum;
+	waiterCode?: InputMaybe<Scalars["Int"]>;
 	weekDays: Scalars["String"];
 	weekendDays: Scalars["String"];
 }
@@ -1088,6 +1104,7 @@ export interface Query {
 	tables: PaginatedTable;
 	user: UserEntity;
 	users: PaginatedUser;
+	usersToPlaces: PaginatedUserToPlace;
 }
 
 export interface QueryAccountingSystemArgs {
@@ -1166,6 +1183,7 @@ export interface QueryHallsArgs {
 
 export interface QueryHistoryOrdersArgs {
 	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
+	placeId: Scalars["String"];
 	skip?: InputMaybe<Scalars["Int"]>;
 	take?: InputMaybe<Scalars["Int"]>;
 }
@@ -1206,6 +1224,7 @@ export interface QueryPaymentSystemsArgs {
 }
 
 export interface QueryPlaceArgs {
+	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
 	id: Scalars["String"];
 }
 
@@ -1251,6 +1270,12 @@ export interface QueryUserArgs {
 }
 
 export interface QueryUsersArgs {
+	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
+	skip?: InputMaybe<Scalars["Int"]>;
+	take?: InputMaybe<Scalars["Int"]>;
+}
+
+export interface QueryUsersToPlacesArgs {
 	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
 	skip?: InputMaybe<Scalars["Int"]>;
 	take?: InputMaybe<Scalars["Int"]>;
@@ -1320,6 +1345,7 @@ export interface TelegramUserInput {
 	is_premium?: InputMaybe<Scalars["Boolean"]>;
 	language_code?: InputMaybe<Scalars["String"]>;
 	last_name?: InputMaybe<Scalars["String"]>;
+	role: UserRoleEnum;
 	username?: InputMaybe<Scalars["String"]>;
 }
 
@@ -1444,7 +1470,6 @@ export interface UserEntity {
 	name: Scalars["String"];
 	orders?: Maybe<ActiveOrderEntity[]>;
 	password?: Maybe<Scalars["String"]>;
-	place?: Maybe<PlaceEntity>;
 	role: UserRoleEnum;
 	status: UserStatusEnum;
 	tel?: Maybe<Scalars["String"]>;
@@ -1461,7 +1486,6 @@ export interface UserEntityInput {
 	name: Scalars["String"];
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 	password?: InputMaybe<Scalars["String"]>;
-	place?: InputMaybe<PlaceEntityInput>;
 	role: UserRoleEnum;
 	status: UserStatusEnum;
 	tel?: InputMaybe<Scalars["String"]>;
@@ -1483,6 +1507,26 @@ export enum UserRoleEnum {
 export enum UserStatusEnum {
 	NotVerified = "NOT_VERIFIED",
 	Verified = "VERIFIED"
+}
+
+export interface UserToPlaceEntity {
+	__typename?: "UserToPlaceEntity";
+	id: Scalars["String"];
+	place: PlaceEntity;
+	role: UserRoleEnum;
+	user: UserEntity;
+}
+
+export interface UserToPlaceEntityInput {
+	place: PlaceEntityInput;
+	role: UserRoleEnum;
+	user: UserEntityInput;
+}
+
+export interface UserToPlaceInput {
+	place: Scalars["String"];
+	role: UserRoleEnum;
+	user: Scalars["String"];
 }
 
 export interface WorkingHoursInput {

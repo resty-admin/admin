@@ -3,10 +3,9 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CommandModule, CommandSkeletonModule } from "@features/commands";
 import { CommandDialogModule } from "@features/commands/ui";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
-import { AddHeaderModule } from "@shared/ui/add-header";
-import { AddHeaderSkeletonModule } from "@shared/ui/add-header-skeleton";
+import { AddButtonModule } from "@shared/ui/add-button";
 import { ButtonModule } from "@shared/ui/button";
 import { FiltersModule } from "@shared/ui/filters";
 import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
@@ -34,8 +33,7 @@ import { CommandsComponent } from "./layout/commands.component";
 		IconModule,
 		ActionsModule,
 		TooltipModule,
-		TranslocoModule,
-		AddHeaderModule,
+		I18nModule,
 		FiltersModule,
 		ListModule,
 		TextareaModule,
@@ -45,8 +43,8 @@ import { CommandsComponent } from "./layout/commands.component";
 		SkeletonModule,
 		FiltersSkeletonModule,
 		ListSkeletonModule,
-		AddHeaderSkeletonModule,
-		CommandSkeletonModule
+		CommandSkeletonModule,
+		AddButtonModule
 	]
 })
 export class CommandsModule {}

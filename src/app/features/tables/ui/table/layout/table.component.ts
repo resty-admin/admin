@@ -18,6 +18,6 @@ export class TableComponent {
 	}
 
 	emitDeleteClick(table: ITable) {
-		this.editClicked.emit(table);
+		this.deleteClicked.emit(table);
 	}
 }

@@ -11,7 +11,7 @@ import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { ProductsPageGQL } from "../graphql";
 
@@ -40,7 +40,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	) {}
 
 	async ngOnInit() {
-		this._actionsService.setAction({ label: "Добавить блюдо", func: () => this.openCreateProductDialog() });
+		this._actionsService.setAction({ label: "ADD_PRODUCT", func: () => this.openCreateProductDialog() });
 
 		await this._productsPageQuery.setVariables({
 			filtersArgs: [
@@ -65,7 +65,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 							price: product.price
 						})
 						.pipe(
-							switchMap(() => from(this._productsPageQuery.refetch())),
+							switchMap(() => this._productsPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("PRODUCTS.CREATE"))
 						)
 				),
@@ -75,9 +75,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	}
 
 	openUpdateProductDialog(data: AtLeast<ProductEntity, "id">) {
-		return this._dialogService
+		this._dialogService
 			.open(ProductDialogComponent, { data })
 			.afterClosed$.pipe(
+				take(1),
 				filter((product) => Boolean(product)),
 				switchMap((product) =>
 					this._productsService
@@ -91,11 +92,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 							price: product.price
 						})
 						.pipe(
-							switchMap(() => from(this._productsPageQuery.refetch())),
+							take(1),
+							switchMap(() => this._productsPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("PRODUCTS.UPDATE"))
 						)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}
@@ -106,14 +107,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				data: { title: this._i18nService.translate("PRODUCTS.CONFIRM"), value: product }
 			})
 			.afterClosed$.pipe(
+				take(1),
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap((product) =>
 					this._productsService.deleteProduct(product.id).pipe(
-						switchMap(() => from(this._productsPageQuery.refetch())),
+						take(1),
+						switchMap(() => this._productsPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("PRODUCTS.DELETE"))
 					)
 				)
-			);
+			)
+			.subscribe();
 	}
 
 	ngOnDestroy() {

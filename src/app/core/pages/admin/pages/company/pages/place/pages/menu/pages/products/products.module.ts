@@ -3,8 +3,9 @@ import { NgModule } from "@angular/core";
 import { AttributeGroupDialogModule } from "@features/attributes";
 import { CategoryDialogModule } from "@features/categories";
 import { ProductDialogModule } from "@features/products";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
+import { AddButtonModule } from "@shared/ui/add-button";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
 import { DatatableSkeletonModule } from "@shared/ui/datatable-skeleton";
@@ -40,7 +41,7 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		DatatableModule,
 		ActionsModule,
 		TooltipModule,
-		TranslocoModule,
+		I18nModule,
 		FiltersModule,
 		ProductDialogModule,
 		CategoryDialogModule,
@@ -49,7 +50,8 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		FiltersSkeletonModule,
 		DatatableSkeletonModule,
 		TabsSkeletonModule,
-		MoreModule
+		MoreModule,
+		AddButtonModule
 	]
 })
 export class ProductsModule {}

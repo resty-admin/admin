@@ -20,7 +20,6 @@
 			align-items: flex-end;
 			column-gap: rem(5);
 			.button {
-				background-color: var(--light-grey);
 				height: rem(48);
 			}
 			.select {
@@ -31,10 +30,24 @@
 				.app-more {
 					height: 100%;
 					background-color: var(--light-grey);
+					&:disabled {
+						background-color: rgb(0 0 0 / 1%);
+					}
 				}
 			}
 		}
 	}
 }
 @include dark() {
+	.company {
+		.title .text {
+			color: var(--light);
+		}
+		.container .more::ng-deep .app-more {
+			background-color: var(--dark-grey);
+			&:disabled {
+				background-color: rgb(255 255 255 / 1%);
+			}
+		}
+	}
 }

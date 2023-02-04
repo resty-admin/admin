@@ -14,6 +14,7 @@ import { ASIDE_PAGES } from "@shared/data";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
+import { ThemeService } from "@shared/modules/theme";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
@@ -111,7 +112,8 @@ export class CoreComponent implements OnInit {
 		private readonly _childrenOutletContexts: ChildrenOutletContexts,
 		private readonly _ordersService: OrdersService,
 		private readonly _asideService: AsideService,
-		private readonly _router: Router
+		private readonly _router: Router,
+		private readonly _themeService: ThemeService
 	) {}
 
 	getRouteAnimationData() {
@@ -119,12 +121,22 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.user$.pipe(filter((user) => Boolean(user))).subscribe(async (user) => {
-			if (!user || user?.email || user?.tel) {
-				return;
+		this.user$.pipe(take(1)).subscribe(async (user) => {
+			if (user && !user.name) {
+				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
 			}
 
-			await this._routerService.navigateByUrl(ADMIN_ROUTES.WELCOME.absolutePath);
+			// if (user && !user) {
+			//
+			// }
+		});
+
+		this._authService.language$.pipe(untilDestroyed(this)).subscribe((lang) => {
+			this._i18nService.setActiveLang(lang);
+		});
+
+		this._authService.theme$.pipe(untilDestroyed(this)).subscribe((theme) => {
+			this._themeService.setTheme(theme);
 		});
 	}
 
@@ -133,7 +145,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	async navigateToCompany(companyId: string) {
-		if (companyId === this._routerService.getParams(COMPANY_ID.slice(1))) {
+		if (!companyId || companyId === this._routerService.getParams(COMPANY_ID.slice(1))) {
 			return;
 		}
 
@@ -141,7 +153,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	async navigateToPlace(placeId: string) {
-		if (placeId === this._routerService.getParams(PLACE_ID.slice(1))) {
+		if (!placeId || placeId === this._routerService.getParams(PLACE_ID.slice(1))) {
 			return;
 		}
 

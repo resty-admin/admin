@@ -13,6 +13,7 @@
 
 	<app-place-select
 		class="place-select"
+		[disabled]="!companyId"
 		[places]="places"
 		[placeId]="placeId"
 		(placeChanged)="emitPlaceChange($event)"

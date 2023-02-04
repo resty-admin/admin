@@ -15,12 +15,3 @@ export const I18N_CONFIG = {
 		useFallbackTranslation: true
 	}
 };
-
-// {
-// 	availableLangs: ["en", "ru", "uk"],
-// 		defaultLang: "uk",
-// 	// Remove this option if your application
-// 	// doesn't support changing language in runtime.
-// 	reRenderOnLangChange: true,
-// 	prodMode: !isDevMode()
-// }

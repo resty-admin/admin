@@ -4,8 +4,13 @@
 			<h1 appTypography theme="1" class="title">{{ t("PROFILE.TITLE") }}</h1>
 
 			<div class="tools">
-				<app-language-select class="language"></app-language-select>
-				<app-theme class="theme"></app-theme>
+				<app-language-select
+					class="language"
+					[value]="language$ | async"
+					(valueChange)="changeLanguage($event)"
+				></app-language-select>
+
+				<app-theme-toggle class="theme" [value]="theme$ | async" (valueChange)="changeTheme($event)"></app-theme-toggle>
 			</div>
 		</div>
 		<div class="info">

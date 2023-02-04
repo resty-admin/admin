@@ -14,17 +14,19 @@ import { take } from "rxjs";
 export class TelegramComponent implements OnInit {
 	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		const value = this._routerService.getFragment();
+		const role = this._routerService.getQueryParams("role");
 
 		if (!value) {
+			await this._routerService.navigate([ADMIN_ROUTES.SIGN_UP.absolutePath], { queryParamsHandling: "merge" });
 			return;
 		}
 
 		const telegramUser = JSON.parse(new URLSearchParams(value).get("user") || "");
 
 		this._authService
-			.telegram(telegramUser)
+			.telegram({ ...telegramUser, role })
 			.pipe(take(1))
 			.subscribe(async () => {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);

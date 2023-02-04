@@ -20,6 +20,7 @@
 
 		<app-more
 			class="more"
+			[disabled]="!companyId"
 			(editClicked)="emitEditClick(companyId)"
 			(deleteClicked)="emitDeleteClick(companyId)"
 		></app-more>

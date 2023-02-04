@@ -67,7 +67,7 @@
 	}
 }
 @include dark() {
-	.shift-page {
+	.shift-skeleton {
 		.description {
 			color: var(--light-t);
 			.time {

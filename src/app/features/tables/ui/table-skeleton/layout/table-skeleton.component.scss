@@ -39,3 +39,8 @@
 		}
 	}
 }
+@include dark() {
+	.table-skeleton {
+		background-color: var(--dark-grey);
+	}
+}

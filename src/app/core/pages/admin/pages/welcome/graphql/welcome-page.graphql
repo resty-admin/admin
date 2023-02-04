@@ -1,6 +1,0 @@
-query WelcomePage($userId: String!) {
-	user(id: $userId) {
-		id
-		name
-	}
-}

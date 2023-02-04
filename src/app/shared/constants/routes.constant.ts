@@ -54,6 +54,10 @@ export const ADMIN_ROUTES = {
 		path: "",
 		absolutePath: "/"
 	},
+	CONNECT_TO_PLACE: {
+		path: "connect-to-place",
+		absolutePath: "/connect-to-place"
+	},
 	PROFILE: {
 		path: "profile",
 		absolutePath: "/profile"
@@ -69,10 +73,6 @@ export const ADMIN_ROUTES = {
 	COMPANY: {
 		path: `companies/${COMPANY_ID}`,
 		absolutePath: `/companies/${COMPANY_ID}`
-	},
-	WELCOME: {
-		path: `welcome`,
-		absolutePath: `/welcome`
 	},
 	PLACES: {
 		path: `places`,

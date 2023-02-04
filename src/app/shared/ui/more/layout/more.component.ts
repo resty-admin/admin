@@ -13,6 +13,7 @@ export class MoreComponent<T> {
 	@Output() deleteClicked = new EventEmitter<T>();
 
 	@Input() data?: T;
+	@Input() disabled: boolean = false;
 
 	readonly defaultActions: IAction<T>[] = [
 		{

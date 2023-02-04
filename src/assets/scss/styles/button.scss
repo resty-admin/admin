@@ -25,6 +25,11 @@ body {
 			&:hover {
 				background-color: var(--primary-hover);
 			}
+
+			&:disabled {
+				background-color: var(--primary-d);
+				color: var(--dark-d);
+			}
 		}
 		&.theme-2 {
 			padding: rem(12) rem(34);

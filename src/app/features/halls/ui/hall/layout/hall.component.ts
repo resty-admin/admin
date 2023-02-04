@@ -18,6 +18,6 @@ export class HallComponent {
 	}
 
 	emitDeleteClick(hall: IHall) {
-		this.editClicked.emit(hall);
+		this.deleteClicked.emit(hall);
 	}
 }

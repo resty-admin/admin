@@ -4,9 +4,9 @@
 	<div class="access-header">
 		<p class="description">{{ t("ACCESS.DESCRIPTION") }}</p>
 
-		<p class="code">
-			<span class="text">348758394</span>
-			<button class="copy">
+		<p class="code" *ngIf="accessCode$ | async as code">
+			<span class="text">{{ code }}</span>
+			<button class="copy" (click)="copyCode(code)">
 				<app-icon class="icon" name="copy"></app-icon>
 			</button>
 		</p>

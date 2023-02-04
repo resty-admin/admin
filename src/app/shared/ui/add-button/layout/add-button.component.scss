@@ -1,0 +1,13 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.add-button {
+		.icon {
+			@include icon() {
+				path {
+					fill: var(--dark);
+				}
+			}
+		}
+	}
+}

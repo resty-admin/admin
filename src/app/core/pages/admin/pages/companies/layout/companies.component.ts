@@ -38,9 +38,9 @@ export class CompaniesComponent implements OnInit {
 		this._companiesService.changes$
 			.pipe(
 				untilDestroyed(this),
-				switchMap(() => from(this._companiesPageQuery.refetch()))
+				switchMap(() => this._companiesPageQuery.refetch())
 			)
-			.subscribe(() => {});
+			.subscribe();
 	}
 
 	openCreateCompanyDialog(data?: Partial<CreateCommandInput>) {

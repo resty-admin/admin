@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { UserDialogModule } from "@features/users/ui/user-dialog/user-dialog.module";
-import { TranslocoModule } from "@shared/modules/i18n";
+import { I18nModule } from "@shared/modules/i18n";
 import { ActionsModule } from "@shared/ui/actions";
 import { ButtonModule } from "@shared/ui/button";
 import { DatatableModule } from "@shared/ui/datatable";
@@ -36,7 +36,7 @@ import { GuestsComponent } from "./layout/guests.component";
 		FormsModule,
 		ActionsModule,
 		TooltipModule,
-		TranslocoModule,
+		I18nModule,
 		FiltersModule,
 		UserDialogModule,
 		SkeletonModule,

@@ -12,7 +12,7 @@
 		</ng-container>
 		<ng-container appColumn="status">
 			<ng-template #header>{{ t("DATATABLES.STATUS") }}</ng-template>
-			<ng-template #value let-value>{{ t(value) }}</ng-template>
+			<ng-template #value let-value>{{ t("HISTORY_ORDER." + value) }}</ng-template>
 		</ng-container>
 	</app-datatable>
 
@@ -24,7 +24,7 @@
 			<p class="date-value"></p>
 
 			<p class="role-label">{{ t("DATATABLES.STATUS") }}</p>
-			<p [class]="'role-value' + ' ' + order.status">{{ order.status }}</p>
+			<p [class]="'role-value' + ' ' + order.status">{{ "HISTORY_ORDER." + order.status }}</p>
 		</li>
 	</ul>
 </div>

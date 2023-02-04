@@ -1,8 +1,5 @@
 <div class="products-page" *transloco="let t">
-	<button appButton class="add" (click)="openCreateProductDialog()">
-		<app-icon class="icon" name="add"></app-icon>
-		<span class="text">{{ t("PRODUCTS.ADD") }}</span>
-	</button>
+	<app-add-button class="add" (clicked)="openCreateProductDialog()">{{ t("PRODUCTS.ADD") }}</app-add-button>
 
 	<app-filters class="filters"></app-filters>
 
@@ -45,7 +42,7 @@
 				<p class="category-label">{{ t("PRODUCTS.CATEGORY") }}</p>
 				<p class="category-value">{{ product.category.name }}</p>
 				<p class="price-label">{{ t("PRODUCTS.PRICE") }}</p>
-				<p class="price-value">{{ product.price }} {{ t("PRODUCTS.CURRENCY") }}</p>
+				<p class="price-value">{{ product.price }} {{ t("PRODUCT.CURRENCY") }}</p>
 			</div>
 		</li>
 	</ul>

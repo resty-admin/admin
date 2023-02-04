@@ -2,10 +2,13 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import type { ModuleWithProviders } from "@angular/core";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER, translocoConfig } from "@ngneat/transloco";
+import { TranslocoModule } from "@ngneat/transloco";
+import { I18N_CONFIG } from "@shared/modules/i18n/injection-tokens";
+import { TranslocoHttpLoader } from "@shared/modules/i18n/loaders";
 
 import type { II18nConfig } from "./interfaces";
 import { I18nService } from "./services";
-import { TranslocoModule } from "./transloco";
 
 @NgModule({
 	imports: [CommonModule, HttpClientModule, TranslocoModule],
@@ -22,7 +25,26 @@ export class I18nModule {
 					useFactory: (_i18nService: I18nService) => () => _i18nService.appInitializer(config.defaultLang || ""),
 					deps: [I18nService]
 				},
-				...(TranslocoModule.forRoot(config).providers || [])
+				{
+					provide: I18N_CONFIG,
+					useValue: config
+				},
+				{
+					provide: TRANSLOCO_CONFIG,
+					useValue: translocoConfig(config)
+				},
+				{
+					provide: TRANSLOCO_LOADER,
+					useClass: TranslocoHttpLoader
+				}
+				// ...(TranslocoPersistTranslationsModule.forRoot({
+				// 	loader: TranslocoHttpLoader,
+				// 	storage: {
+				// 		provide: PERSIST_TRANSLATIONS_STORAGE,
+				// 		useValue: config.storage,
+				// 	},
+				// 	ttl: 86_400,
+				// }).providers || []),
 			]
 		};
 	}

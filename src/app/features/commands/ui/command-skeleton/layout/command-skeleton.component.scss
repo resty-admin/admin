@@ -32,3 +32,8 @@
 		}
 	}
 }
+@include dark() {
+	.command-skeleton {
+		background-color: var(--dark-grey);
+	}
+}

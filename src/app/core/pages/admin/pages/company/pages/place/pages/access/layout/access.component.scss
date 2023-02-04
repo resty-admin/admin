@@ -23,7 +23,7 @@
 				font-size: rem(16);
 				line-height: rem(24);
 				width: rem(500);
-				color: #808080;
+				color: var(--grey);
 			}
 
 			.code {
@@ -37,10 +37,17 @@
 					color: var(--dark);
 				}
 				.copy {
+					display: flex;
+					align-items: center;
+					justify-content: center;
 					width: rem(32);
 					height: rem(32);
 					background: var(--light);
 					border-radius: rem(8);
+					.icon {
+						width: rem(16);
+						height: rem(16);
+					}
 				}
 			}
 
@@ -55,4 +62,17 @@
 	}
 }
 @include dark() {
+	.access-page {
+		.access-header {
+			background-color: var(--dark-grey);
+			.code {
+				.text {
+					color: var(--light);
+				}
+				.copy {
+					background-color: var(--dark);
+				}
+			}
+		}
+	}
 }

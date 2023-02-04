@@ -140,6 +140,12 @@
 					color: var(--light-t);
 				}
 			}
+
+			.more {
+				&::ng-deep .app-more {
+					background-color: var(--dark-grey);
+				}
+			}
 		}
 	}
 }

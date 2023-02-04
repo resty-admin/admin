@@ -1,5 +1,5 @@
 <header class="header" *transloco="let t">
-	<a class="logo" routerLink="/">
+	<a class="logo" routerLink="/" (click)="isAsideOpen ? emitBurgerClick() : null">
 		<app-image class="image" name="logo" placeholder="logo"></app-image>
 	</a>
 
@@ -13,7 +13,7 @@
 
 	<button class="profile" *ngIf="user" [tippy]="dropdown" placement="bottom-end" variation="popper">
 		<p class="name">{{ user.name }}</p>
-		<p class="role">{{ t(user.role) }}</p>
+		<p class="role">{{ t("USERS." + user.role) }}</p>
 
 		<div class="icon">
 			<span class="text">{{ user.name | initials }}</span>
@@ -28,7 +28,7 @@
 			<li class="action" *ngFor="let action of userActions; trackBy: sharedService.trackByFn">
 				<button class="button" (click)="action.func(); hide()">
 					<app-icon class="icon" [name]="action.icon"></app-icon>
-					<span class="text">{{ t(action.label) }}</span>
+					<span class="text">{{ t("HEADER." + action.label) }}</span>
 				</button>
 			</li>
 		</ul>

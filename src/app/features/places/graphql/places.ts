@@ -40,6 +40,15 @@ export interface UpdatePlaceVerificationMutation {
 	updatePlaceVerification: { __typename?: "PlaceEntity"; id: string };
 }
 
+export type AddWaiterToPlaceMutationVariables = Types.Exact<{
+	waiterCode: Types.Scalars["Float"];
+}>;
+
+export interface AddWaiterToPlaceMutation {
+	__typename?: "Mutation";
+	addWaiterToPlace: { __typename?: "UserToPlaceEntity"; id: string };
+}
+
 export const UpdatePlaceDocument = gql`
 	mutation UpdatePlace($place: UpdatePlaceInput!) {
 		updatePlace(place: $place) {
@@ -108,6 +117,24 @@ export class UpdatePlaceVerificationGQL extends Apollo.Mutation<
 	UpdatePlaceVerificationMutationVariables
 > {
 	override document = UpdatePlaceVerificationDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const AddWaiterToPlaceDocument = gql`
+	mutation AddWaiterToPlace($waiterCode: Float!) {
+		addWaiterToPlace(waiterCode: $waiterCode) {
+			id
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class AddWaiterToPlaceGQL extends Apollo.Mutation<AddWaiterToPlaceMutation, AddWaiterToPlaceMutationVariables> {
+	override document = AddWaiterToPlaceDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

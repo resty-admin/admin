@@ -57,8 +57,10 @@
 @include dark() {
 	.table {
 		background-color: var(--dark-grey);
-		.label {
-			color: var(--light);
+		.content {
+			.label {
+				color: var(--light);
+			}
 		}
 		.more {
 			background-color: var(--dark);

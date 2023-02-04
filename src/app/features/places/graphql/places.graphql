@@ -19,3 +19,9 @@ mutation UpdatePlaceVerification($placeId: String!, $status: PlaceVerificationSt
 		id
 	}
 }
+
+mutation AddWaiterToPlace($waiterCode: Float!) {
+	addWaiterToPlace(waiterCode: $waiterCode) {
+		id
+	}
+}

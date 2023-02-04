@@ -353,6 +353,26 @@
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "waiters",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "OBJECT",
+									"name": "UserEntity",
+									"ofType": null
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"inputFields": null,
@@ -552,6 +572,26 @@
 					},
 					{
 						"name": "users",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "INPUT_OBJECT",
+									"name": "UserEntityInput",
+									"ofType": null
+								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "waiters",
 						"description": null,
 						"type": {
 							"kind": "LIST",
@@ -3813,39 +3853,6 @@
 				"description": null,
 				"fields": [
 					{
-						"name": "addEmployeeToPlace",
-						"description": null,
-						"args": [
-							{
-								"name": "employeeData",
-								"description": null,
-								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "INPUT_OBJECT",
-										"name": "AddEmployeeInput",
-										"ofType": null
-									}
-								},
-								"defaultValue": null,
-								"isDeprecated": false,
-								"deprecationReason": null
-							}
-						],
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "OBJECT",
-								"name": "PlaceEntity",
-								"ofType": null
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "addTableToOrder",
 						"description": null,
 						"args": [
@@ -3921,6 +3928,72 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "ActiveOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "addUserToPlace",
+						"description": null,
+						"args": [
+							{
+								"name": "data",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "INPUT_OBJECT",
+										"name": "UserToPlaceInput",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "UserToPlaceEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "addWaiterToPlace",
+						"description": null,
+						"args": [
+							{
+								"name": "waiterCode",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "Float",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "UserToPlaceEntity",
 								"ofType": null
 							}
 						},
@@ -6495,6 +6568,12 @@
 				"interfaces": null,
 				"enumValues": [
 					{
+						"name": "APPROVED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "CANCEL",
 						"description": null,
 						"isDeprecated": false,
@@ -6508,6 +6587,12 @@
 					},
 					{
 						"name": "CREATED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "REJECTED",
 						"description": null,
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -7497,6 +7582,69 @@
 			},
 			{
 				"kind": "OBJECT",
+				"name": "PaginatedUserToPlace",
+				"description": null,
+				"fields": [
+					{
+						"name": "data",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "OBJECT",
+									"name": "UserToPlaceEntity",
+									"ofType": null
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "page",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalCount",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
 				"name": "PaymentSystemEntity",
 				"description": null,
 				"fields": [
@@ -7778,26 +7926,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "employees",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "OBJECT",
-									"name": "UserEntity",
-									"ofType": null
-								}
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "file",
 						"description": null,
 						"args": [],
@@ -7805,26 +7933,6 @@
 							"kind": "OBJECT",
 							"name": "FileEntity",
 							"ofType": null
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "guests",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "OBJECT",
-									"name": "UserEntity",
-									"ofType": null
-								}
-							}
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -7974,6 +8082,26 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "usersToPlaces",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "OBJECT",
+									"name": "UserToPlaceEntity",
+									"ofType": null
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "verificationStatus",
 						"description": null,
 						"args": [],
@@ -7985,6 +8113,18 @@
 								"name": "PlaceVerificationStatusEnum",
 								"ofType": null
 							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "waiterCode",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "Int",
+							"ofType": null
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -8162,52 +8302,12 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "employees",
-						"description": null,
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "INPUT_OBJECT",
-									"name": "UserEntityInput",
-									"ofType": null
-								}
-							}
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "file",
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
 							"name": "FileEntityInput",
 							"ofType": null
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "guests",
-						"description": null,
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "INPUT_OBJECT",
-									"name": "UserEntityInput",
-									"ofType": null
-								}
-							}
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -8342,6 +8442,26 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "usersToPlaces",
+						"description": null,
+						"type": {
+							"kind": "LIST",
+							"name": null,
+							"ofType": {
+								"kind": "NON_NULL",
+								"name": null,
+								"ofType": {
+									"kind": "INPUT_OBJECT",
+									"name": "UserToPlaceEntityInput",
+									"ofType": null
+								}
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "verificationStatus",
 						"description": null,
 						"type": {
@@ -8352,6 +8472,18 @@
 								"name": "PlaceVerificationStatusEnum",
 								"ofType": null
 							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "waiterCode",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "Int",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -10051,6 +10183,22 @@
 								"deprecationReason": null
 							},
 							{
+								"name": "placeId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
 								"name": "skip",
 								"description": null,
 								"type": {
@@ -10418,6 +10566,26 @@
 						"name": "place",
 						"description": null,
 						"args": [
+							{
+								"name": "filtersArgs",
+								"description": null,
+								"type": {
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
 							{
 								"name": "id",
 								"description": null,
@@ -10894,6 +11062,67 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "PaginatedUser",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "usersToPlaces",
+						"description": null,
+						"args": [
+							{
+								"name": "filtersArgs",
+								"description": null,
+								"type": {
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "skip",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
+								},
+								"defaultValue": "0",
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "take",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
+								},
+								"defaultValue": "10",
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "PaginatedUserToPlace",
 								"ofType": null
 							}
 						},
@@ -11550,6 +11779,22 @@
 							"kind": "SCALAR",
 							"name": "String",
 							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "role",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "UserRoleEnum",
+								"ofType": null
+							}
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -12730,18 +12975,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "place",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "OBJECT",
-							"name": "PlaceEntity",
-							"ofType": null
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "role",
 						"description": null,
 						"args": [],
@@ -12934,18 +13167,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "place",
-						"description": null,
-						"type": {
-							"kind": "INPUT_OBJECT",
-							"name": "PlaceEntityInput",
-							"ofType": null
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "role",
 						"description": null,
 						"type": {
@@ -13114,6 +13335,199 @@
 						"deprecationReason": null
 					}
 				],
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
+				"name": "UserToPlaceEntity",
+				"description": null,
+				"fields": [
+					{
+						"name": "id",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "PlaceEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "role",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "UserRoleEnum",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "user",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "UserEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "UserToPlaceEntityInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "place",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "INPUT_OBJECT",
+								"name": "PlaceEntityInput",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "role",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "UserRoleEnum",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "user",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "INPUT_OBJECT",
+								"name": "UserEntityInput",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "UserToPlaceInput",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "place",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "role",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "UserRoleEnum",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "user",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
 				"possibleTypes": null
 			},
 			{

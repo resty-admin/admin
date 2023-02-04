@@ -1,5 +1,5 @@
 <div class="order-info" *transloco="let t">
-	<p class="table-status" *ngIf="tableStatus">{{ tableStatus }}</p>
+	<p class="table-status" *ngIf="tableStatus">{{ t("TABLE." + tableStatus) }}</p>
 
 	<ul class="links">
 		<li class="table" *ngIf="tableInfo">
@@ -11,4 +11,13 @@
 			<span class="link" href="">{{ dateInfo }}</span>
 		</li>
 	</ul>
+
+	<div class="actions">
+		<button class="approve" (click)="emitApproveClick()">
+			<app-icon class="icon" name="approve"></app-icon>
+		</button>
+		<button class="reject" (click)="emitRejectClick()">
+			<app-icon class="icon" name="reject"></app-icon>
+		</button>
+	</div>
 </div>

@@ -1,6 +1,5 @@
-query WalletPage($placeId: String!) {
-	getPlaceStatistic(placeId: $placeId) {
-		tax
-		totalAmount
+query AccessPage($placeId: String!) {
+	place(id: $placeId) {
+		waiterCode
 	}
 }

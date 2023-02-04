@@ -1,5 +1,5 @@
 <div class="command-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("COMMAND_DIALOG" + data?.id ? "EDIT" : "CREATE") }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("COMMAND_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
@@ -13,6 +13,6 @@
 			[placeholder]="t('FORM.DESCRIPTION_PLACEHOLDER')"
 		></app-textarea>
 
-		<button class="submit" appButton type="submit">{{ t("FORM." + data?.id ? "EDIT" : "CREATE") }}</button>
+		<button class="submit" appButton type="submit">{{ t("COMMAND_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

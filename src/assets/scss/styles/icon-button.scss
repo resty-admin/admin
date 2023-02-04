@@ -15,8 +15,15 @@ body {
 				width: rem(16);
 				height: rem(16);
 			}
-			&:hover {
+			&:hover:not(:disabled) {
 				border-color: var(--primary);
+			}
+			&:disabled {
+				.icon {
+					path {
+						fill: var(--dark-d);
+					}
+				}
 			}
 		}
 		&.theme-2 {
@@ -26,8 +33,18 @@ body {
 	&.dark .app-icon-button.theme-1 {
 		background-color: var(--dark);
 		.icon {
+			path {
+				fill: var(--light);
+			}
 		}
-		&:hover {
+		&:disabled {
+			.icon {
+				path {
+					fill: var(--light-d);
+				}
+			}
+		}
+		&:hover:not(:disabled) {
 			border-color: var(--primary);
 		}
 	}

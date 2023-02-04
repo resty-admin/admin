@@ -48,6 +48,11 @@
 			}
 			.button {
 				.icon {
+					@include icon() {
+						path {
+							stroke: var(--light);
+						}
+					}
 				}
 			}
 		}

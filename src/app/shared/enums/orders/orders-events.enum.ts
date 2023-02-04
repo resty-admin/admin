@@ -1,4 +1,4 @@
-export enum ORDERS_EVENTS {
+export enum OrdersEvents {
 	CREATED = "ORDER_CREATED",
 	CLOSED = "ORDER_CLOSED",
 	CANCELED = "ORDER_CANCELED",

@@ -32,7 +32,7 @@
 			grid-area: datatable;
 			display: none;
 
-			&::ng-deep .datatable-row-odd .more {
+			&::ng-deep .datatable-row-odd .more::ng-deep .app-more {
 				background-color: var(--light-grey);
 			}
 
@@ -115,12 +115,15 @@
 					position: absolute;
 					right: rem(8);
 					top: rem(8);
-					background-color: var(--light-grey);
+					border-radius: rem(12);
+					&::ng-deep .app-more {
+						background-color: var(--light-grey);
+					}
 				}
 
 				&:nth-child(2n + 1) {
 					background-color: var(--light-grey);
-					.more {
+					.more::ng-deep .app-more {
 						background-color: var(--light);
 					}
 				}
@@ -133,7 +136,7 @@
 	}
 }
 @include dark() {
-	.users-page {
+	.employees-page {
 		.datatable-mobile {
 			.user {
 				.tel-label,
@@ -148,19 +151,19 @@
 					color: var(--light);
 				}
 
-				.more {
+				.more::ng-deep .app-more {
 					background-color: var(--dark-grey);
 				}
 
 				&:nth-child(2n + 1) {
 					background-color: var(--dark-grey);
-					.more {
+					.more::ng-deep .app-more {
 						background-color: var(--dark);
 					}
 				}
 			}
 		}
-		.datatable-desktop::ng-deep .datatable-row-odd .more {
+		.datatable-desktop::ng-deep .datatable-row-odd .more::ng-deep .app-more {
 			background-color: var(--dark-grey);
 		}
 	}

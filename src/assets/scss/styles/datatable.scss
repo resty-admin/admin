@@ -13,14 +13,10 @@ body {
 						display: flex;
 						align-items: center;
 						justify-content: flex-start;
-						.datatable-header-cell-wrapper {
-							.datatable-header-cell-label {
-								font-weight: 600;
-								font-size: rem(13);
-								line-height: rem(24);
-								color: var(--grey);
-							}
-						}
+						font-weight: 600;
+						font-size: rem(13);
+						line-height: rem(24);
+						color: var(--grey);
 					}
 					&:last-child .datatable-header-cell-template-wrap {
 						justify-content: flex-end;

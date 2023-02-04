@@ -26,8 +26,9 @@ export const ADMIN_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/company/company.module").then((m) => m.CompanyModule)
 			},
 			{
-				...SHARED_ADMIN_ROUTES.WELCOME,
-				loadChildren: () => import("./pages/welcome/welcome.module").then((m) => m.WelcomeModule)
+				...SHARED_ADMIN_ROUTES.CONNECT_TO_PLACE,
+				loadChildren: () =>
+					import("./pages/connect-to-place/connect-to-place.module").then((m) => m.ConnectToPlaceModule)
 			},
 			{
 				...SHARED_ADMIN_ROUTES.NOTIFICATIONS,

@@ -16,7 +16,7 @@ import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { AttributesPageGQL } from "../graphql";
 
@@ -46,7 +46,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		this._actionsService.setAction({
-			label: "Добавить модификации",
+			label: "ADD_ATTRIBUTE",
 			func: () => this.openCreateAttributeGroupDialog()
 		});
 
@@ -70,7 +70,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageQuery.refetch())),
+							switchMap(() => this._attributesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("ATTRIBUTE_GROUPS.CREATE"))
 						)
 				),
@@ -93,7 +93,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageQuery.refetch())),
+							switchMap(() => this._attributesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("ATTRIBUTE_GROUPS.UPDATE"))
 						)
 				),
@@ -103,19 +103,19 @@ export class AttributesComponent implements OnInit, OnDestroy {
 	}
 
 	openDeleteAttributeGroupDialog(value: DeepAtLeast<AttributesGroupEntity, "id">) {
-		return this._dialogService
+		this._dialogService
 			.open(ConfirmationDialogComponent, {
 				data: { title: this._i18nService.translate("ATTRIBUTE_GROUPS.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
+				take(1),
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._attributeGroupsService.deleteAttributeGroup(value.id).pipe(
-						switchMap(() => from(this._attributesPageQuery.refetch())),
+						switchMap(() => this._attributesPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("ATTRIBUTE_GROUPS.DELETE"))
 					)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}
@@ -133,7 +133,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageQuery.refetch())),
+							switchMap(() => this._attributesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("ATTRIBUTES.CREATE"))
 						)
 				),
@@ -156,7 +156,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)
 						})
 						.pipe(
-							switchMap(() => from(this._attributesPageQuery.refetch())),
+							switchMap(() => this._attributesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("ATTRIBUTES.UPDATE"))
 						)
 				),
@@ -166,19 +166,19 @@ export class AttributesComponent implements OnInit, OnDestroy {
 	}
 
 	openDeleteAttributeDialog(value: DeepAtLeast<AttributesEntity, "id">) {
-		return this._dialogService
+		this._dialogService
 			.open(ConfirmationDialogComponent, {
 				data: { title: this._i18nService.translate("ATTRIBUTES.CONFIRM"), value }
 			})
 			.afterClosed$.pipe(
+				take(1),
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._attributesService.deleteAttribute(value.id).pipe(
-						switchMap(() => from(this._attributesPageQuery.refetch())),
+						switchMap(() => this._attributesPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("ATTRIBUTES.DELETE"))
 					)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}

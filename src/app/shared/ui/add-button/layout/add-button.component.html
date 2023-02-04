@@ -1,0 +1,4 @@
+<button class="add-button" appButton [theme]="theme" (click)="emitClick($event)" [disabled]="disabled">
+	<app-icon class="icon" name="add"></app-icon>
+	<span class="label"><ng-content></ng-content></span>
+</button>

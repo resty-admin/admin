@@ -1,6 +1,7 @@
 <div class="users-select" *transloco="let t">
+	<p class="title">{{ t("USERS.TITLE") }}</p>
 	<ul class="users">
-		<li class="user">
+		<li class="user" *ngIf="(users?.length || 0) > 1">
 			<button class="label" [class.active]="isAll" (click)="toggleAll()">{{ t("FORM.ALL") }}</button>
 		</li>
 		<li class="user" *ngFor="let user of usersWithSelected; let i = index; trackBy: sharedService.trackByFn">

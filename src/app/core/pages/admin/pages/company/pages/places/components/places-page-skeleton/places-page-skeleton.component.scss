@@ -42,8 +42,6 @@
 					width: rem(72);
 					height: rem(72);
 					border-radius: rem(16);
-					border: rem(2) solid transparent;
-					background-color: #f3f3f3;
 
 					@include desktop() {
 						width: rem(128);
@@ -55,4 +53,9 @@
 	}
 }
 @include dark() {
+	.places-page-skeleton {
+		.card {
+			background-color: var(--dark);
+		}
+	}
 }

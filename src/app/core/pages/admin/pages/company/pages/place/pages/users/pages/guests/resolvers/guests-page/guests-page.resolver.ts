@@ -19,7 +19,7 @@ export class GuestsPageResolver implements Resolve<unknown> {
 		return this._guestsPageGQL.fetch({
 			filtersArgs: [
 				{ key: "place.id", operator: "=", value: placeId },
-				{ key: "role", operator: "=", value: UserRoleEnum.Client }
+				{ key: "user.role", operator: "=", value: UserRoleEnum.Client }
 			]
 		});
 	}

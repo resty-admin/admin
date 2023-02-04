@@ -34,6 +34,12 @@
 			.icon {
 				width: rem(10);
 				height: rem(10);
+
+				@include icon() {
+					path {
+						fill: var(--dark);
+					}
+				}
 			}
 		}
 	}

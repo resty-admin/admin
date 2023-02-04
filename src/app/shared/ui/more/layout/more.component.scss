@@ -20,7 +20,12 @@
 				width: rem(15);
 				height: rem(15);
 
-				@include icon(undefined, var(--light));
+				@include icon() {
+					path {
+						fill: var(--light);
+						stroke: var(--light);
+					}
+				}
 			}
 
 			.text {
@@ -34,7 +39,12 @@
 				background: rgb(0 0 0 / 60%);
 				backdrop-filter: blur(2px);
 				.icon {
-					@include icon(undefined, var(--primary));
+					@include icon() {
+						path {
+							fill: var(--primary);
+							stroke: var(--primary);
+						}
+					}
 				}
 				.text {
 					color: var(--primary);

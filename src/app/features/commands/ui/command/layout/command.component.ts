@@ -18,6 +18,6 @@ export class CommandComponent {
 	}
 
 	emitDeleteClick(command: ICommand) {
-		this.editClicked.emit(command);
+		this.deleteClicked.emit(command);
 	}
 }

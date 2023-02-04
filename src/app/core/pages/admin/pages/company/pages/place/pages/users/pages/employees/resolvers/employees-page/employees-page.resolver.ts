@@ -20,7 +20,7 @@ export class EmployeesPageResolver implements Resolve<unknown> {
 		return this._employeesPageGQL.fetch({
 			filtersArgs: [
 				{ key: "place.id", operator: "=", value: placeId },
-				{ key: "role", operator: "=", value: UserRoleEnum.Waiter }
+				{ key: "user.role", operator: "=", value: UserRoleEnum.Waiter }
 			]
 		});
 	}

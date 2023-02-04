@@ -3,6 +3,7 @@ import { RouterModule } from "@angular/router";
 import type { INavigationSkeletonRoute } from "@shared/ui/navigation-skeleton";
 
 import { CompaniesPageSkeletonComponent } from "./components";
+import { CompaniesGuard } from "./guards";
 import { CompaniesComponent } from "./layout/companies.component";
 import { CompaniesPageResolver } from "./resolvers";
 
@@ -13,6 +14,7 @@ export const COMPNAIES_ROUTES: INavigationSkeletonRoute[] = [
 		data: {
 			animation: "companiesPage"
 		},
+		canActivate: [CompaniesGuard],
 		resolve: {
 			companies: CompaniesPageResolver
 		},

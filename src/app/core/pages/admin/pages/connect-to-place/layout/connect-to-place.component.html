@@ -1,0 +1,7 @@
+<div class="connect-to-place" *transloco="let t">
+	<h1 appTypography theme="1">{{ t("CONNECT_TO_PLACE.TITLE") }}</h1>
+
+	<app-code-input class="code-input" [formControl]="codeControl"></app-code-input>
+
+	<button appButton theme="1" class="submit" (click)="connectToPlace()">{{ t("CONNECT_TO_PLACE.SUBMIT") }}</button>
+</div>

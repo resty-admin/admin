@@ -90,13 +90,7 @@
 	}
 }
 @include dark() {
-	.wallet-header {
+	.wallet-header-skeleton {
 		background-color: var(--dark-grey);
-
-		.date-label,
-		.commission-label,
-		.money-label {
-			color: var(--light);
-		}
 	}
 }

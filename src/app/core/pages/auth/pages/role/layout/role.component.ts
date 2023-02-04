@@ -1,5 +1,7 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ADMIN_ROUTES } from "@shared/constants";
+import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 
 import { ROLES_DATA } from "../data";
@@ -10,9 +12,14 @@ import { ROLES_DATA } from "../data";
 	styleUrls: ["./role.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoleComponent {
-	readonly adminRoutes = ADMIN_ROUTES;
+export class RoleComponent implements OnInit {
 	readonly roles = ROLES_DATA;
 
-	constructor(readonly sharedService: SharedService) {}
+	redirect = ADMIN_ROUTES.SIGN_UP.absolutePath;
+
+	constructor(readonly sharedService: SharedService, private readonly _routerService: RouterService) {}
+
+	ngOnInit() {
+		this.redirect = this._routerService.getQueryParams("redirect");
+	}
 }

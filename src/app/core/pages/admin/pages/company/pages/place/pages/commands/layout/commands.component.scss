@@ -4,10 +4,29 @@
 	.commands-page {
 		display: grid;
 		gap: rem(16);
+		grid-template-areas:
+			"title add"
+			"filters filters"
+			"list list";
+		grid-template-columns: 1fr auto;
 
 		@include pagePadding();
 		@include desktop() {
 			row-gap: rem(32);
+		}
+
+		.title {
+			grid-area: title;
+		}
+		.add {
+			grid-area: add;
+			align-self: end;
+		}
+		.filters {
+			grid-area: filters;
+		}
+		.list {
+			grid-area: list;
 		}
 	}
 }

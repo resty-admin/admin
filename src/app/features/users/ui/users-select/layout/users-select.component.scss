@@ -1,43 +1,78 @@
 @import "/src/assets/scss/abstractions/index";
 
 @include component() {
-	.users-select .users {
+	.users-select {
 		display: flex;
-		column-gap: rem(12);
-		.user {
-			position: relative;
-			.label {
-				display: block;
-				border: rem(1) solid transparent;
-				padding: rem(5) rem(24);
-				border-radius: rem(12);
-				color: var(--dark);
-				font-weight: 600;
-				font-size: rem(14);
-				line-height: rem(24);
-				cursor: pointer;
-				&.active {
-					border-color: var(--primary);
-					color: var(--primary);
+		align-items: center;
+		column-gap: rem(16);
+		.title {
+			font-weight: 600;
+			font-size: rem(16);
+			line-height: rem(24);
+			color: var(--dark);
+
+			@include hideOnMobile();
+		}
+		.users {
+			display: flex;
+			align-items: center;
+			column-gap: rem(12);
+			.user {
+				position: relative;
+				.label {
+					display: block;
+					border: rem(1) solid transparent;
+					padding: rem(5) rem(24);
+					border-radius: rem(12);
+					color: var(--dark);
+					font-weight: 600;
+					font-size: rem(14);
+					line-height: rem(24);
+					cursor: pointer;
+					&.active {
+						border-color: var(--primary);
+						color: var(--primary);
+					}
+				}
+				.checkbox {
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					opacity: 0%;
+					&:checked ~ .label {
+						border-color: var(--primary);
+						color: var(--primary);
+					}
 				}
 			}
-			.checkbox {
-				position: absolute;
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-				opacity: 0%;
-				&:checked ~ .label {
-					border-color: var(--primary);
-					color: var(--primary);
-				}
+		}
+
+		@include desktop() {
+			background-color: var(--light-grey);
+			border-radius: rem(12);
+			padding: rem(14) rem(16);
+			.users .user .label {
+				font-weight: 400;
+				font-size: rem(14);
+				line-height: rem(24);
+				color: var(--dark);
 			}
 		}
 	}
 }
 @include dark() {
-	.users-select .users .user .label {
-		color: var(--light);
+	.users-select {
+		.title {
+			color: var(--light);
+		}
+		.users .user .label {
+			color: var(--light);
+		}
+
+		@include desktop() {
+			background-color: var(--dark-grey);
+		}
 	}
 }

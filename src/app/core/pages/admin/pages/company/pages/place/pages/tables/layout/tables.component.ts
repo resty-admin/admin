@@ -11,7 +11,7 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { TablesPageGQL } from "../graphql";
 
@@ -48,13 +48,14 @@ export class TablesComponent implements OnInit, OnDestroy {
 				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 		});
 
-		this._actionsService.setAction({ label: "Добавить стол", func: () => this.openCreateTableDialog() });
+		this._actionsService.setAction({ label: "ADD_TABLE", func: () => this.openCreateTableDialog() });
 	}
 
 	openCreateTableDialog() {
-		return this._dialogService
+		this._dialogService
 			.open(TableDialogComponent)
 			.afterClosed$.pipe(
+				take(1),
 				filter((table) => Boolean(table)),
 				switchMap((table) =>
 					this._tablesService
@@ -65,11 +66,11 @@ export class TablesComponent implements OnInit, OnDestroy {
 							code: table.code
 						})
 						.pipe(
-							switchMap(() => from(this._tablesPageQuery.refetch())),
+							take(1),
+							switchMap(() => this._tablesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("TABLES.CREATE"))
 						)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}
@@ -83,7 +84,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 					this._tablesService
 						.updateTable({ id: table.id, name: table.name, code: table.code, file: table.file?.id })
 						.pipe(
-							switchMap(() => from(this._tablesPageQuery.refetch())),
+							switchMap(() => this._tablesPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("TABLES.UPDATE"))
 						)
 				),
@@ -101,7 +102,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
 					this._tablesService.deleteTable(value.id).pipe(
-						switchMap(() => from(this._tablesPageQuery.refetch())),
+						switchMap(() => this._tablesPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("TABLES.DELETE"))
 					)
 				),

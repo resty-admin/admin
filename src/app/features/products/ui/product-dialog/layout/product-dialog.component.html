@@ -1,5 +1,5 @@
 <div class="product-dialog" *transloco="let t">
-	<h1 appTypography theme="2" class="title">{{ t("PRODUCT_DIALOG." + data?.id ? "EDIT" : "CREATE") }}</h1>
+	<h1 appTypography theme="2" class="title">{{ t("PRODUCT_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
 		<app-input
@@ -52,6 +52,6 @@
 			[addTag]="addAttributeGroupTag"
 		></app-select>
 
-		<button class="submit" appButton type="submit">{{ t("FORM." + data?.id ? "EDIT" : "CREATE") }}</button>
+		<button class="submit" appButton type="submit">{{ t("PRODUCT_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
 	</form>
 </div>

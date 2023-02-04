@@ -1,14 +1,11 @@
 <div class="tables-page" *transloco="let t">
-	<app-add-header
-		class="add-header"
-		[title]="t('TABLES.TITLE')"
-		[add]="t('TABLES.ADD')"
-		(clicked)="openCreateTableDialog()"
-	></app-add-header>
+	<h1 appTypography theme="1">{{ t("TABLES.TITLE") }}</h1>
+
+	<app-add-button class="add" (clicked)="openCreateTableDialog()">{{ t("TABLES.ADD") }}</app-add-button>
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list [items]="tables$ | async" [itemTemplate]="tableTemplate"></app-list>
+	<app-list class="list" [items]="tables$ | async" [itemTemplate]="tableTemplate"></app-list>
 </div>
 
 <ng-template let-item #tableTemplate>

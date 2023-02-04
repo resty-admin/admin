@@ -3,13 +3,17 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
 import { ProductToOrderStatusEnum } from "@graphql";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
+import { OrdersEvents } from "@shared/enums";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
 import { RouterService } from "@shared/modules/router";
-import { map, switchMap, take } from "rxjs";
+import { SocketIoService } from "@shared/modules/socket-io";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { ActiveOrderPageGQL } from "../graphql";
 
+@UntilDestroy()
 @Component({
 	selector: "app-active-order",
 	templateUrl: "./active-order.component.html",
@@ -29,7 +33,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		private readonly _routerService: RouterService,
 		private readonly _breadcrumbsService: BreadcrumbsService,
 		private readonly _actionsService: ActionsService,
-		private readonly _ordersService: OrdersService
+		private readonly _ordersService: OrdersService,
+		private readonly _socketIoService: SocketIoService
 	) {}
 
 	async ngOnInit() {
@@ -46,11 +51,22 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		});
 
 		this._actionsService.setAction({
-			label: "Подтвердить оплату",
-			func: () => {
-				this._ordersService.setPaidStatusForProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
-			}
+			label: "CONFIRM_PAYMENT",
+			func: () => this.setPaidStatusForProductsInOrder()
 		});
+
+		this._socketIoService
+			.fromEvents(Object.values(OrdersEvents))
+			.pipe(
+				untilDestroyed(this),
+				filter(({ order }: any) => order.id === orderId),
+				switchMap(() => this._activeOrderPageQuery.refetch())
+			)
+			.subscribe();
+	}
+
+	setPaidStatusForProductsInOrder() {
+		this._ordersService.setPaidStatusForProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
 	}
 
 	setSelectedUsers(usersIds: string[]) {
@@ -101,12 +117,18 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	approveProductsInOrder() {
-		this._ordersService.approveProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
+	approveProductsInOrder(productToOrderId: string) {
+		this._ordersService
+			.approveProductsInOrder([...(this.selectedProductsToOrders || []), productToOrderId])
+			.pipe(take(1))
+			.subscribe();
 	}
 
-	rejectProductsInOrder() {
-		this._ordersService.rejectProductsInOrder(this.selectedProductsToOrders).pipe(take(1)).subscribe();
+	rejectProductsInOrder(productToOrderId: string) {
+		this._ordersService
+			.rejectProductsInOrder([...(this.selectedProductsToOrders || []), productToOrderId])
+			.pipe(take(1))
+			.subscribe();
 	}
 
 	cancelOrder(orderId: string) {

@@ -79,6 +79,11 @@
 							&:hover {
 								background-color: var(--primary);
 								.icon {
+									@include icon() {
+										path {
+											fill: var(--dark);
+										}
+									}
 								}
 							}
 						}

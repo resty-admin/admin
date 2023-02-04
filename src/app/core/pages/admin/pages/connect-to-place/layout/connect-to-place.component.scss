@@ -1,0 +1,19 @@
+@import "/src/assets/scss/abstractions/index";
+
+@include page() {
+	.connect-to-place {
+		display: grid;
+		justify-content: center;
+		row-gap: rem(12);
+
+		@include pagePadding();
+
+		.submit {
+			@include hideOnMobile();
+		}
+	}
+}
+@include dark() {
+	.connect-to-place {
+	}
+}

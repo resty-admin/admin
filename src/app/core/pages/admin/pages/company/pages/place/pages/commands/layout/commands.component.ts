@@ -10,7 +10,7 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, from, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take } from "rxjs";
 
 import { CommandsPageGQL } from "../graphql";
 
@@ -39,13 +39,14 @@ export class CommandsComponent implements OnInit, OnDestroy {
 			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
 		});
 
-		this._actionsService.setAction({ label: "Добавить команлу", func: () => this.openCreateCommandDialog() });
+		this._actionsService.setAction({ label: "ADD_COMMAND", func: () => this.openCreateCommandDialog() });
 	}
 
 	openCreateCommandDialog() {
-		return this._dialogService
+		this._dialogService
 			.open(CommandDialogComponent)
 			.afterClosed$.pipe(
+				take(1),
 				filter((command) => Boolean(command)),
 				switchMap((command) =>
 					this._commandsService
@@ -55,11 +56,11 @@ export class CommandsComponent implements OnInit, OnDestroy {
 							place: this._routerService.getParams(PLACE_ID.slice(1))
 						})
 						.pipe(
-							switchMap(() => from(this._commandsPageQuery.refetch())),
+							take(1),
+							switchMap(() => this._commandsPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("COMMANDS.CREATE"))
 						)
-				),
-				take(1)
+				)
 			)
 			.subscribe();
 	}
@@ -73,7 +74,7 @@ export class CommandsComponent implements OnInit, OnDestroy {
 					this._commandsService
 						.updateCommand({ id: command.id, name: command.name, description: command.description })
 						.pipe(
-							switchMap(() => from(this._commandsPageQuery.refetch())),
+							switchMap(() => this._commandsPageQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("COMMANDS.UPDATE"))
 						)
 				),
@@ -89,7 +90,7 @@ export class CommandsComponent implements OnInit, OnDestroy {
 				filter((result) => Boolean(result)),
 				switchMap(() =>
 					this._commandsService.deleteCommand(value.id).pipe(
-						switchMap(() => from(this._commandsPageQuery.refetch())),
+						switchMap(() => this._commandsPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("COMMANDS.DELETE"))
 					)
 				),
