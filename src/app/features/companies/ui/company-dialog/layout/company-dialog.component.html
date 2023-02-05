@@ -2,12 +2,6 @@
 	<h1 appTypography theme="2" class="title">{{ t("COMPANY_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-file
-			class="input"
-			formControlName="logo"
-			[label]="t('FORM.FILE_LABEL')"
-			[placeholder]="t('FORM.FILE_PLACEHOLDER')"
-		></app-file>
 		<app-input
 			class="input"
 			formControlName="name"

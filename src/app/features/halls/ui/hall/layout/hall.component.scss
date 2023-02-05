@@ -11,7 +11,10 @@
 			width: 100%;
 			height: rem(176);
 			background-color: white;
-			border-radius: rem(16) rem(16) 0 0;
+
+			@include image () {
+				border-radius: rem(16) rem(16) 0 0;
+			}
 		}
 		.content {
 			padding: rem(14) rem(16);

@@ -90,7 +90,6 @@ export interface AddEmployeeInput {
 
 export enum AttributeGroupTypeEnum {
 	Add = "ADD",
-	AddUniq = "ADD_UNIQ",
 	Remove = "REMOVE"
 }
 
@@ -99,12 +98,14 @@ export interface AttributesEntity {
 	attributesGroup?: Maybe<AttributesGroupEntity[]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
+	place?: Maybe<PlaceEntity>;
 	price: Scalars["Int"];
 }
 
 export interface AttributesEntityInput {
 	attributesGroup?: InputMaybe<AttributesGroupEntityInput[]>;
 	name: Scalars["String"];
+	place?: InputMaybe<PlaceEntityInput>;
 	price: Scalars["Int"];
 }
 
@@ -225,6 +226,7 @@ export interface CreateAttributeGroupInput {
 export interface CreateAttributeInput {
 	attributesGroup: Scalars["String"][];
 	name: Scalars["String"];
+	place: Scalars["String"];
 	price: Scalars["Int"];
 }
 
@@ -1098,11 +1100,11 @@ export interface Query {
 	places: PaginatedPlace;
 	product: ProductEntity;
 	products: PaginatedProduct;
-	shift: ActiveShiftEntity;
+	shift?: Maybe<ActiveShiftEntity>;
 	shifts: PaginatedActiveShift;
 	table: TableEntity;
 	tables: PaginatedTable;
-	user: UserEntity;
+	user?: Maybe<UserEntity>;
 	users: PaginatedUser;
 	usersToPlaces: PaginatedUserToPlace;
 }
@@ -1515,14 +1517,14 @@ export interface UserToPlaceEntity {
 	place: PlaceEntity;
 	role: UserRoleEnum;
 	user: UserEntity;
-	visits?: Maybe<Scalars["Int"]>;
+	visits: Scalars["Int"];
 }
 
 export interface UserToPlaceEntityInput {
 	place: PlaceEntityInput;
 	role: UserRoleEnum;
 	user: UserEntityInput;
-	visits?: InputMaybe<Scalars["Int"]>;
+	visits: Scalars["Int"];
 }
 
 export interface UserToPlaceInput {

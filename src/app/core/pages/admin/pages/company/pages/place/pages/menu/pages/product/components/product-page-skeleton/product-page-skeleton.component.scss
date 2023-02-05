@@ -1,0 +1,13 @@
+@import "/src/assets/scss/abstractions";
+
+@include page() {
+	.product-skeleton {
+		display: grid;
+		row-gap: rem(16);
+
+		@include pagePadding();
+		@include desktop() {
+			row-gap: rem(24);
+		}
+	}
+}

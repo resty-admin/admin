@@ -15,7 +15,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, switchMap, take } from "rxjs";
+import { filter, from, lastValueFrom, map, switchMap, take } from "rxjs";
 
 import { ProductAttributeGroupsGQL, ProductCategoriesGQL } from "../graphql";
 import type { IProductForm } from "../interfaces";
@@ -27,7 +27,7 @@ import type { IProductForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDialogComponent implements OnInit {
-	readonly formGroup = this._formBuilder.group<IProductForm>({
+	readonly formGroup = this._formBuilder.group<any>({
 		name: "",
 		description: "",
 		price: 0,
@@ -45,9 +45,9 @@ export class ProductDialogComponent implements OnInit {
 		map((result) => result.data.attributeGroups.data)
 	);
 
-	readonly addCategoryTag = (name: string) => this.openCreateCategoryDialog({ name });
+	readonly addCategoryTag = (name: string) => lastValueFrom(this.openCreateCategoryDialog({ name }));
 
-	readonly addAttributeGroupTag = (name: string) => this.openCreateAttributeGroupDialog({ name });
+	readonly addAttributeGroupTag = (name: string) => lastValueFrom(this.openCreateAttributeGroupDialog({ name }));
 
 	data?: ProductEntity;
 
@@ -88,50 +88,55 @@ export class ProductDialogComponent implements OnInit {
 
 		this.formGroup.patchValue({
 			...this.data,
-			category: this.data.category?.id
+			category: this.data.category?.id,
+			attrsGroups: (this.data.attrsGroups || []).map((attr) => attr.id)
 		});
 	}
 
 	openCreateAttributeGroupDialog(data: DeepPartial<AttributesGroupEntity>) {
-		this._dialogService
-			.open(AttributeGroupDialogComponent, { data })
-			.afterClosed$.pipe(
-				take(1),
-				filter((attributeGroup) => Boolean(attributeGroup)),
-				switchMap((attributeGroup) =>
-					this._attributeGroupsService
-						.createAttributeGroup({
-							name: attributeGroup.name,
-							place: this._routerService.getParams(PLACE_ID.slice(1)),
-							maxItemsForPick: attributeGroup.maxItemsForPick,
-							type: attributeGroup.type,
-							attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
-						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("ATTRIBUTES_GROUP.CREATE")))
-				),
-				take(1)
-			)
-			.subscribe();
+		return this._dialogService.open(AttributeGroupDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((attributeGroup) => Boolean(attributeGroup)),
+			switchMap((attributeGroup) =>
+				this._attributeGroupsService
+					.createAttributeGroup({
+						name: attributeGroup.name,
+						place: this._routerService.getParams(PLACE_ID.slice(1)),
+						maxItemsForPick: attributeGroup.maxItemsForPick,
+						type: attributeGroup.type,
+						attributes: attributeGroup.attributes?.map((attribute: any) => attribute.id)
+					})
+					.pipe(
+						switchMap((result) =>
+							from(this._productAttributeGroupsQuery.refetch()).pipe(map(() => result.data?.createAttrGroup.id))
+						),
+						this._toastrService.observe(this._i18nService.translate("ATTRIBUTES_GROUP.CREATE"))
+					)
+			),
+			take(1)
+		);
 	}
 
 	openCreateCategoryDialog(data: DeepPartial<CategoryEntity>) {
-		this._dialogService
-			.open(CategoryDialogComponent, { data })
-			.afterClosed$.pipe(
-				take(1),
-				filter((category) => Boolean(category)),
-				switchMap((category) =>
-					this._categoriesService
-						.createCategory({
-							name: category.name,
-							place: this._routerService.getParams(PLACE_ID.slice(1)),
-							file: category.file?.id
-						})
-						.pipe(this._toastrService.observe(this._i18nService.translate("CATEGORIES.CREATE")))
-				),
-				take(1)
-			)
-			.subscribe();
+		return this._dialogService.open(CategoryDialogComponent, { data }).afterClosed$.pipe(
+			take(1),
+			filter((category) => Boolean(category)),
+			switchMap((category) =>
+				this._categoriesService
+					.createCategory({
+						name: category.name,
+						place: this._routerService.getParams(PLACE_ID.slice(1)),
+						file: category.file?.id
+					})
+					.pipe(
+						switchMap((result) =>
+							from(this._productCategoriesQuery.refetch()).pipe(map(() => result.data?.createCategory.id))
+						),
+						this._toastrService.observe(this._i18nService.translate("CATEGORIES.CREATE"))
+					)
+			),
+			take(1)
+		);
 	}
 
 	closeDialog(product?: Partial<IProductForm>) {

@@ -6,5 +6,5 @@ export interface IProductForm {
 	price: ProductEntity["price"];
 	file?: ProductEntity["file"];
 	category?: string;
-	attrsGroups: ProductEntity["attrsGroups"];
+	attrsGroups: string[];
 }

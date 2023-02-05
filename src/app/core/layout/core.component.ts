@@ -72,14 +72,14 @@ export class CoreComponent implements OnInit {
 		)
 	);
 
-	readonly pages$ = combineLatest([this.companyId$, this.placeId$]).pipe(
+	readonly pages$ = combineLatest([this.companyId$, this.placeId$, this._authService.me$]).pipe(
 		startWith([null, null]),
-		map(([companyId, placeId]) =>
+		map(([companyId, placeId, me]) =>
 			ASIDE_PAGES.map((page) => ({
 				...page,
 				routerLink: page.routerLink.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId),
 				disabled: !companyId || !placeId
-			}))
+			})).filter((page) => (me ? page.roles.includes(me.role) : false))
 		)
 	);
 
@@ -170,7 +170,7 @@ export class CoreComponent implements OnInit {
 			.afterClosed$.pipe(
 				filter((company) => Boolean(company)),
 				switchMap((company) =>
-					this._companiesService.createCompany({ name: company.name, logo: company.logo?.id }).pipe(
+					this._companiesService.createCompany({ name: company.name }).pipe(
 						switchMap((result) => from(this._adminCompaniesQuery.refetch()).pipe(map(() => result))),
 						this._toastrService.observe(this._i18nService.translate("COMPANIES.CREATE"))
 					)
@@ -194,7 +194,7 @@ export class CoreComponent implements OnInit {
 			.afterClosed$.pipe(
 				filter((company) => Boolean(company)),
 				switchMap((company) =>
-					this._companiesService.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id }).pipe(
+					this._companiesService.updateCompany({ id: company.id, name: company.name }).pipe(
 						switchMap(() => this._adminCompaniesQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("COMPAMINIES.UPDATE"))
 					)

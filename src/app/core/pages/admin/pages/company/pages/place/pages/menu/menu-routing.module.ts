@@ -22,13 +22,17 @@ export const MENU_ROUTES: Route[] = [
 				loadChildren: () => import("./pages/products/products.module").then((m) => m.ProductsModule)
 			},
 			{
+				...ADMIN_ROUTES.PRODUCT,
+				loadChildren: () => import("./pages/product/product.module").then((m) => m.ProductModule)
+			},
+			{
 				...ADMIN_ROUTES.ATTRIBUTES,
 				loadChildren: () => import("./pages/attributes/attributes.module").then((m) => m.AttributesModule)
 			},
 			{
 				path: "",
 				pathMatch: "full",
-				redirectTo: ADMIN_ROUTES.PRODUCTS.path
+				redirectTo: ADMIN_ROUTES.CATEGORIES.path
 			}
 		]
 	}

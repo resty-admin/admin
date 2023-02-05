@@ -42,8 +42,22 @@
 					@include desktop() {
 						padding: rem(10) rem(8) rem(10) rem(24);
 						border-radius: rem(12);
+						column-gap: rem(12);
 					}
+
+					.image {
+						width: rem(125);
+						height: rem(75);
+						padding: rem(5) 0;
+
+						@include image() {
+							border-radius: rem(16);
+						}
+					}
+
 					.label {
+						flex: 1;
+						justify-self: start;
 						font-weight: 600;
 						font-size: rem(13);
 						line-height: rem(16);
@@ -62,6 +76,16 @@
 						display: grid;
 						align-items: center;
 						border-bottom: rem(1) solid var(--dark-b);
+
+						.image {
+							width: rem(125);
+							height: rem(75);
+							padding: rem(5) 0;
+
+							@include image() {
+								border-radius: rem(16);
+							}
+						}
 
 						.name-label,
 						.description-label,
@@ -106,9 +130,26 @@
 							grid-auto-flow: column;
 							justify-content: space-between;
 							column-gap: rem(12);
-							grid-template-columns: auto 1fr auto auto;
+							grid-template-columns: auto 1fr auto;
+							grid-template-areas:
+								"image name-value more"
+								"image description-value price-value";
+							.image {
+								grid-area: image;
+							}
+							.name-value {
+								grid-area: name-value;
+							}
+							.price-value {
+								grid-area: price-value;
+							}
+							.description-value {
+								grid-area: description-value;
+							}
 							.more {
 								position: static;
+								justify-self: end;
+								grid-area: more;
 							}
 						}
 					}

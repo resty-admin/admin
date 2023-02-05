@@ -32,7 +32,7 @@ body {
 						cursor: pointer;
 						border: rem(1.5) solid transparent;
 						border-radius: rem(16);
-						height: rem(60);
+						min-height: rem(60);
 						.datatable-body-cell {
 							display: flex;
 							padding: 0 rem(16);

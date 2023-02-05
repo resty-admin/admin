@@ -1,0 +1,16 @@
+query ProductPage($productId: String!) {
+	product(id: $productId) {
+		id
+		name
+		description
+		price
+		file {
+			id
+			url
+		}
+		category {
+			id
+			name
+		}
+	}
+}

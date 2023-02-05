@@ -128,6 +128,7 @@ export class AttributesComponent implements OnInit, OnDestroy {
 				switchMap((attribute) =>
 					this._attributesService
 						.createAttribute({
+							place: this._routerService.getParams(PLACE_ID.slice(1)),
 							name: attribute.name,
 							price: attribute.price,
 							attributesGroup: (attribute.attributesGroup || []).map((attributeGroup: any) => attributeGroup.id)

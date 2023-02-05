@@ -6,6 +6,7 @@ export const environment = {
 	production: true,
 	dev: false,
 	apiUrl: "",
+	wsUrl: "",
 	graphqlUrl: "",
 	assetsUrl: "",
 	i18nUrl: "",
