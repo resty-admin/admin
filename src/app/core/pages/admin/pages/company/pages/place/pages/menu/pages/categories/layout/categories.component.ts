@@ -106,9 +106,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
-	openUpdateProductDialog(data: DeepAtLeast<ProductEntity, "id">) {
+	openUpdateProductDialog(data: DeepAtLeast<ProductEntity, "id">, category: any) {
 		this._dialogService
-			.open(ProductDialogComponent, { data })
+			.open(ProductDialogComponent, { data: { ...data, category } })
 			.afterClosed$.pipe(
 				filter((product) => Boolean(product)),
 				switchMap((product) =>
@@ -116,7 +116,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 						.updateProduct({
 							id: product.id,
 							category: product.category.id,
-							attrsGroups: product.attrsGroups?.map((attrGroup: any) => attrGroup.id),
+							attrsGroups: product.attrsGroups,
 							file: product.file?.id,
 							price: product.price
 						})

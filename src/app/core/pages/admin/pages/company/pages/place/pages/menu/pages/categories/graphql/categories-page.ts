@@ -28,6 +28,7 @@ export interface CategoriesPageQuery {
 								name: string;
 								description?: string | null;
 								price: number;
+								attrsGroups?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
 								file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 						  }[]
 						| null;
@@ -53,6 +54,10 @@ export const CategoriesPageDocument = gql`
 					name
 					description
 					price
+					attrsGroups {
+						id
+						name
+					}
 					file {
 						id
 						url

@@ -28,7 +28,7 @@
 					<p class="price-value">{{ product.price }} {{ t("PRODUCT.CURRENCY") }}</p>
 					<app-more
 						class="more"
-						(editClicked)="openUpdateProductDialog(product)"
+						(editClicked)="openUpdateProductDialog(product, category)"
 						(deleteClicked)="openDeleteProductDialog(product)"
 					></app-more>
 				</li>
