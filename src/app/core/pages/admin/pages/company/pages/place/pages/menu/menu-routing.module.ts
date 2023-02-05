@@ -32,7 +32,7 @@ export const MENU_ROUTES: Route[] = [
 			{
 				path: "",
 				pathMatch: "full",
-				redirectTo: ADMIN_ROUTES.PRODUCTS.path
+				redirectTo: ADMIN_ROUTES.CATEGORIES.path
 			}
 		]
 	}

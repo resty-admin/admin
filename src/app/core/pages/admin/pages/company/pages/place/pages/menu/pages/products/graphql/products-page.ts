@@ -24,6 +24,7 @@ export interface ProductsPageQuery {
 					price: number;
 					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 					category: { __typename?: "CategoryEntity"; id: string; name: string };
+					attrsGroups?: { __typename?: "AttributesGroupEntity"; id: string; name: string }[] | null;
 			  }[]
 			| null;
 	};
@@ -44,6 +45,10 @@ export const ProductsPageDocument = gql`
 					url
 				}
 				category {
+					id
+					name
+				}
+				attrsGroups {
 					id
 					name
 				}

@@ -1,8 +1,10 @@
 import { NgModule } from "@angular/core";
 import type { Route } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { UserRoleEnum } from "@graphql";
 import { ADMIN_ROUTES as SHARED_ADMIN_ROUTES } from "@shared/constants";
 
+import { RoleGuard } from "./guards/role.guard";
 import { PlaceComponent } from "./layout/place.component";
 
 export const PLACE_ROUTES: Route[] = [
@@ -15,6 +17,10 @@ export const PLACE_ROUTES: Route[] = [
 		children: [
 			{
 				...SHARED_ADMIN_ROUTES.STATISTIC,
+				canActivate: [RoleGuard],
+				data: {
+					roles: [UserRoleEnum.Admin, UserRoleEnum.Manager]
+				},
 				loadChildren: () => import("./pages/statistic/statistic.module").then((m) => m.StatisticModule)
 			},
 			{
@@ -77,7 +83,7 @@ export const PLACE_ROUTES: Route[] = [
 			},
 			{
 				path: "**",
-				redirectTo: SHARED_ADMIN_ROUTES.SHIFT.path
+				redirectTo: SHARED_ADMIN_ROUTES.STATISTIC.path
 			}
 		]
 	}

@@ -71,7 +71,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 							name: product.name,
 							description: product.description,
 							category: product.category.id,
-							attrsGroups: product.attrsGroups?.map((attrGroup: any) => attrGroup.id),
+							attrsGroups: product.attrsGroups,
 							file: product.file?.id,
 							price: product.price
 						})
@@ -98,7 +98,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 							name: product.name,
 							description: product.description,
 							category: product.category.id,
-							attrsGroups: product.attrsGroups?.map((attrGroup: any) => attrGroup.id),
+							attrsGroups: product.attrsGroups,
 							file: product.file?.id,
 							price: product.price
 						})

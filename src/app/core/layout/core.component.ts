@@ -72,14 +72,14 @@ export class CoreComponent implements OnInit {
 		)
 	);
 
-	readonly pages$ = combineLatest([this.companyId$, this.placeId$]).pipe(
+	readonly pages$ = combineLatest([this.companyId$, this.placeId$, this._authService.me$]).pipe(
 		startWith([null, null]),
-		map(([companyId, placeId]) =>
+		map(([companyId, placeId, me]) =>
 			ASIDE_PAGES.map((page) => ({
 				...page,
 				routerLink: page.routerLink.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId),
 				disabled: !companyId || !placeId
-			}))
+			})).filter((page) => (me ? page.roles.includes(me.role) : false))
 		)
 	);
 

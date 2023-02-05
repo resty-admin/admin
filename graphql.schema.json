@@ -897,6 +897,18 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "place",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "OBJECT",
+							"name": "PlaceEntity",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "price",
 						"description": null,
 						"args": [],
@@ -955,6 +967,18 @@
 								"name": "String",
 								"ofType": null
 							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "place",
+						"description": null,
+						"type": {
+							"kind": "INPUT_OBJECT",
+							"name": "PlaceEntityInput",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -2255,6 +2279,22 @@
 					},
 					{
 						"name": "name",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "place",
 						"description": null,
 						"type": {
 							"kind": "NON_NULL",
@@ -10786,13 +10826,9 @@
 							}
 						],
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "OBJECT",
-								"name": "ActiveShiftEntity",
-								"ofType": null
-							}
+							"kind": "OBJECT",
+							"name": "ActiveShiftEntity",
+							"ofType": null
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -10990,13 +11026,9 @@
 							}
 						],
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "OBJECT",
-								"name": "UserEntity",
-								"ofType": null
-							}
+							"kind": "OBJECT",
+							"name": "UserEntity",
+							"ofType": null
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -13405,9 +13437,13 @@
 						"description": null,
 						"args": [],
 						"type": {
-							"kind": "SCALAR",
-							"name": "Int",
-							"ofType": null
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -13476,9 +13512,13 @@
 						"name": "visits",
 						"description": null,
 						"type": {
-							"kind": "SCALAR",
-							"name": "Int",
-							"ofType": null
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
 						},
 						"defaultValue": null,
 						"isDeprecated": false,

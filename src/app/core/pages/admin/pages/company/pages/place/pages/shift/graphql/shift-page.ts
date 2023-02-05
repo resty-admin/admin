@@ -9,7 +9,7 @@ export type ActiveShiftQueryVariables = Types.Exact<{
 
 export interface ActiveShiftQuery {
 	__typename?: "Query";
-	shift: {
+	shift?: {
 		__typename?: "ActiveShiftEntity";
 		id: string;
 		tables?:
@@ -21,7 +21,7 @@ export interface ActiveShiftQuery {
 					hall: { __typename?: "HallEntity"; id: string; name: string };
 			  }[]
 			| null;
-	};
+	} | null;
 }
 
 export type ShiftPageQueryVariables = Types.Exact<{

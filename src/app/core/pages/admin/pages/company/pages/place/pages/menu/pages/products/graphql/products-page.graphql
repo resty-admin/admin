@@ -15,6 +15,10 @@ query ProductsPage($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 				id
 				name
 			}
+			attrsGroups {
+				id
+				name
+			}
 		}
 	}
 }
