@@ -93,6 +93,18 @@ export enum AttributeGroupTypeEnum {
 	Remove = "REMOVE"
 }
 
+export interface AttributeToProductEntity {
+	__typename?: "AttributeToProductEntity";
+	attribute: AttributesEntity;
+	count: Scalars["Int"];
+	id: Scalars["String"];
+}
+
+export interface AttributeToProductEntityInput {
+	attribute: AttributesEntityInput;
+	count: Scalars["Int"];
+}
+
 export interface AttributesEntity {
 	__typename?: "AttributesEntity";
 	attributesGroup?: Maybe<AttributesGroupEntity[]>;
@@ -1037,7 +1049,7 @@ export interface ProductEntityInput {
 
 export interface ProductToOrderEntity {
 	__typename?: "ProductToOrderEntity";
-	attributes?: Maybe<AttributesEntity[]>;
+	attributesToProduct?: Maybe<AttributeToProductEntity[]>;
 	count: Scalars["Int"];
 	id: Scalars["String"];
 	order: ActiveOrderEntity;
@@ -1048,7 +1060,7 @@ export interface ProductToOrderEntity {
 }
 
 export interface ProductToOrderEntityInput {
-	attributes?: InputMaybe<AttributesEntityInput[]>;
+	attributesToProduct?: InputMaybe<AttributeToProductEntityInput[]>;
 	count: Scalars["Int"];
 	order: ActiveOrderEntityInput;
 	paidStatus: ProductToOrderPaidStatusEnum;

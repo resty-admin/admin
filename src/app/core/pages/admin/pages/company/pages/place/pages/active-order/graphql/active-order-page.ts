@@ -34,6 +34,13 @@ export interface ActiveOrderPageQuery {
 					count: number;
 					status: Types.ProductToOrderStatusEnum;
 					paidStatus: Types.ProductToOrderPaidStatusEnum;
+					attributesToProduct?:
+						| {
+								__typename?: "AttributeToProductEntity";
+								id: string;
+								attribute: { __typename?: "AttributesEntity"; id: string; name: string };
+						  }[]
+						| null;
 					product: {
 						__typename?: "ProductEntity";
 						id: string;
@@ -85,6 +92,13 @@ export const ActiveOrderPageDocument = gql`
 				count
 				status
 				paidStatus
+				attributesToProduct {
+					id
+					attribute {
+						id
+						name
+					}
+				}
 				product {
 					id
 					name
