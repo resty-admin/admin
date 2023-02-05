@@ -1,6 +1,8 @@
 @import "/src/assets/scss/abstractions/index";
 
-@include page() {
+@include component() {
+	overflow: auto;
+
 	.product-dialog {
 		display: grid;
 		padding: rem(57) rem(32);

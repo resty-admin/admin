@@ -170,7 +170,7 @@ export class CoreComponent implements OnInit {
 			.afterClosed$.pipe(
 				filter((company) => Boolean(company)),
 				switchMap((company) =>
-					this._companiesService.createCompany({ name: company.name, logo: company.logo?.id }).pipe(
+					this._companiesService.createCompany({ name: company.name }).pipe(
 						switchMap((result) => from(this._adminCompaniesQuery.refetch()).pipe(map(() => result))),
 						this._toastrService.observe(this._i18nService.translate("COMPANIES.CREATE"))
 					)
@@ -194,7 +194,7 @@ export class CoreComponent implements OnInit {
 			.afterClosed$.pipe(
 				filter((company) => Boolean(company)),
 				switchMap((company) =>
-					this._companiesService.updateCompany({ id: company.id, name: company.name, logo: company.logo?.id }).pipe(
+					this._companiesService.updateCompany({ id: company.id, name: company.name }).pipe(
 						switchMap(() => this._adminCompaniesQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("COMPAMINIES.UPDATE"))
 					)

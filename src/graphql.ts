@@ -90,7 +90,6 @@ export interface AddEmployeeInput {
 
 export enum AttributeGroupTypeEnum {
 	Add = "ADD",
-	AddUniq = "ADD_UNIQ",
 	Remove = "REMOVE"
 }
 

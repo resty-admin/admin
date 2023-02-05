@@ -64,7 +64,7 @@ export class AttributeGroupDialogComponent implements OnInit {
 		}
 
 		await this._attributeGroupDialogQuery.setVariables({
-			filtersArgs: [{ key: "attributesGroup.place.id", operator: "=", value: place }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: place }]
 		});
 
 		this.data = this._dialogRef.data;

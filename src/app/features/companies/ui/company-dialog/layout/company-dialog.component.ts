@@ -3,8 +3,6 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import type { CompanyEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
-import { FilesService } from "@shared/modules/files";
-import { take } from "rxjs";
 
 import type { ICompanyForm } from "../interfaces";
 
@@ -16,17 +14,12 @@ import type { ICompanyForm } from "../interfaces";
 })
 export class CompanyDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<ICompanyForm>({
-		name: "",
-		logo: null
+		name: ""
 	});
 
 	data?: CompanyEntity;
 
-	constructor(
-		private readonly _dialogRef: DialogRef,
-		private readonly _formBuilder: FormBuilder,
-		private readonly _filesService: FilesService
-	) {}
+	constructor(private readonly _dialogRef: DialogRef, private readonly _formBuilder: FormBuilder) {}
 
 	ngOnInit() {
 		this.data = this._dialogRef.data;
@@ -44,11 +37,6 @@ export class CompanyDialogComponent implements OnInit {
 			return;
 		}
 
-		this._filesService
-			.getFile(company.logo)
-			.pipe(take(1))
-			.subscribe((logo) => {
-				this._dialogRef.close({ ...this.data, ...company, logo });
-			});
+		this._dialogRef.close({ ...this.data, ...company });
 	}
 }

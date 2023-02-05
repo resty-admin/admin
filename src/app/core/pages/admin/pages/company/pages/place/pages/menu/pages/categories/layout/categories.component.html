@@ -6,6 +6,8 @@
 	<ul class="categories">
 		<li class="category" *ngFor="let category of categories$ | async; trackBy: sharedService.trackByFn">
 			<div class="header">
+				<app-image class="image" [remote]="true" [name]="category.file?.url" placeholder="category"></app-image>
+
 				<h1 class="label">{{ category.name }}</h1>
 
 				<app-more
@@ -17,6 +19,7 @@
 
 			<ul class="products">
 				<li class="product" *ngFor="let product of category.products; trackBy: sharedService.trackByFn">
+					<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
 					<p class="name-label">{{ t("CATEGORIES.NAME") }}</p>
 					<p class="name-value">{{ product.name }}</p>
 					<p class="description-label">{{ t("CATEGORIES.DESCRIPTION") }}</p>

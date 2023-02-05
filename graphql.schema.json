@@ -831,12 +831,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "ADD_UNIQ",
-						"description": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "REMOVE",
 						"description": null,
 						"isDeprecated": false,

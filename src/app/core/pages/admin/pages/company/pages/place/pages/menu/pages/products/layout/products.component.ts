@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from "@ang
 import { ActionsService } from "@features/app";
 import { ProductDialogComponent, ProductsService } from "@features/products";
 import type { ProductEntity } from "@graphql";
-import { PLACE_ID } from "@shared/constants";
+import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID, PRODUCT_ID } from "@shared/constants";
 import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
@@ -11,6 +11,7 @@ import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
+import { SelectionType } from "@swimlane/ngx-datatable";
 import { filter, map, switchMap, take } from "rxjs";
 
 import { ProductsPageGQL } from "../graphql";
@@ -24,6 +25,8 @@ import { ProductsPageGQL } from "../graphql";
 export class ProductsComponent implements OnInit, OnDestroy {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 
+	readonly SelectionType = SelectionType;
+
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
 	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
 
@@ -31,7 +34,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		readonly sharedService: SharedService,
 		private readonly _actionsService: ActionsService,
 		private readonly _productsPageGQL: ProductsPageGQL,
-
 		private readonly _productsService: ProductsService,
 		private readonly _dialogService: DialogService,
 		private readonly _toastrService: ToastrService,
@@ -49,7 +51,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	openCreateProductDialog() {
+	async navigateToProduct() {
+		await this._routerService.navigateByUrl(
+			ADMIN_ROUTES.PRODUCT.absolutePath
+				.replace(COMPANY_ID, this._routerService.getParams(COMPANY_ID.slice(1)))
+				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
+				.replace(PRODUCT_ID, "create")
+		);
+	}
+
+	async openCreateProductDialog() {
 		this._dialogService
 			.open(ProductDialogComponent)
 			.afterClosed$.pipe(

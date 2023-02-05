@@ -28,16 +28,6 @@
 			grid-area: datatable;
 			display: none;
 
-			.image {
-				width: rem(150);
-				height: rem(100);
-				padding: rem(5) 0;
-
-				@include image() {
-					border-radius: rem(16);
-				}
-			}
-
 			&::ng-deep {
 				.app-more {
 					background-color: var(--light);

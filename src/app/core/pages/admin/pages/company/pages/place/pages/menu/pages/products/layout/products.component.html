@@ -3,7 +3,13 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-datatable class="datatable-desktop" [rows]="products$ | async">
+	<app-datatable class="datatable-desktop" [rows]="products$ | async" [selectionType]="SelectionType.checkbox">
+		<ng-container appColumn="file">
+			<ng-template #header>{{ t("PRODUCTS.FILE") }}</ng-template>
+			<ng-template #value let-row="row">
+				<app-image class="image" [remote]="true" [name]="row.file?.url" placeholder="product"></app-image>
+			</ng-template>
+		</ng-container>
 		<ng-container appColumn="name">
 			<ng-template #header>{{ t("PRODUCTS.NAME") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
