@@ -50,7 +50,6 @@ export class AddEmployeeDialogComponent implements OnInit {
 				}
 
 				this.isEmployee = result.data.user;
-				console.log(this.isEmployee);
 				this._changeDetectorRef.detectChanges();
 			});
 	}

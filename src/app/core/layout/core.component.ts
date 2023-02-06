@@ -72,14 +72,17 @@ export class CoreComponent implements OnInit {
 		)
 	);
 
-	readonly pages$ = combineLatest([this.companyId$, this.placeId$, this._authService.me$]).pipe(
-		startWith([null, null]),
+	readonly pages$ = combineLatest([
+		this.companyId$.pipe(startWith(null)),
+		this.placeId$.pipe(startWith(null)),
+		this.user$
+	]).pipe(
 		map(([companyId, placeId, me]) =>
 			ASIDE_PAGES.map((page) => ({
 				...page,
 				routerLink: page.routerLink.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId),
-				disabled: !companyId || !placeId
-			})).filter((page) => (me ? page.roles.includes(me.role) : false))
+				disabled: !companyId || !placeId || !me
+			})).filter((page) => (me ? page.roles.includes(me.role) : true))
 		)
 	);
 
@@ -125,10 +128,6 @@ export class CoreComponent implements OnInit {
 			if (user && !user.name) {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
 			}
-
-			// if (user && !user) {
-			//
-			// }
 		});
 
 		this._authService.language$.pipe(untilDestroyed(this)).subscribe((lang) => {

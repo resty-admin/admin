@@ -56,10 +56,10 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 		});
 
-		this._actionsService.setAction({
-			label: "CONFIRM_PAYMENT",
-			func: () => this.setPaidStatusForProductsInOrder()
-		});
+		// this._actionsService.setAction({
+		// 	label: "CONFIRM_PAYMENT",
+		// 	func: () => this.setPaidStatusForProductsInOrder()
+		// });
 
 		this._socketIoService
 			.fromEvents(Object.values(OrdersEvents))

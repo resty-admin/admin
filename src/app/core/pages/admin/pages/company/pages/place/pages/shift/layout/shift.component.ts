@@ -1,6 +1,5 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ActionsService } from "@features/app";
 import { AuthService } from "@features/auth";
 import { ShiftsService } from "@features/shift";
 import type { ITableToSelect } from "@features/tables/ui/tables-select/interfaces";
@@ -51,7 +50,6 @@ export class ShiftComponent implements OnInit {
 		private readonly _i18nService: I18nService,
 		private readonly _routerService: RouterService,
 		private readonly _dialogService: DialogService,
-		private readonly _actionsService: ActionsService,
 		private readonly _authService: AuthService
 	) {}
 
@@ -70,11 +68,6 @@ export class ShiftComponent implements OnInit {
 					{ key: "waiter.id", operator: "=", value: user!.id }
 				]
 			});
-		});
-
-		this._actionsService.setAction({
-			label: "CREATE_SHIFT",
-			func: () => this.createShift(this.selectedTables)
 		});
 	}
 

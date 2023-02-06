@@ -35,6 +35,7 @@ import { AuthRepository } from "../../repositories";
 })
 export class AuthService {
 	private readonly _getMeQuery = this._getMeGQL.watch();
+
 	readonly me$ = this._getMeQuery.valueChanges.pipe(
 		map((result) => this._jwtService.decodeToken<UserEntity>(result.data.getMe.accessToken)),
 		catchError(() => of(null))
@@ -70,7 +71,12 @@ export class AuthService {
 
 	async updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
-		await this._getMeQuery.resetLastResults();
+
+		if (this._getMeQuery.getLastResult().errors) {
+			this._getMeQuery.resetLastResults();
+		} else {
+			await this._getMeQuery.refetch();
+		}
 	}
 
 	updateTheme(theme: ThemeEnum) {
@@ -135,7 +141,7 @@ export class AuthService {
 		return this._deleteMeGQL.mutate();
 	}
 
-	async signOut() {
+	signOut() {
 		resetStores();
 	}
 }

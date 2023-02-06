@@ -7,9 +7,9 @@
 		row-gap: rem(24);
 		width: 100%;
 		height: 100%;
+		padding-bottom: 0 !important;
 
 		@include pagePadding();
-		padding-bottom: 0 !important;
 
 		.actions {
 			flex: 1;
