@@ -124,7 +124,7 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.user$.pipe(untilDestroyed(this)).subscribe(async (user) => {
+		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (user && !user.name) {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
 			}
