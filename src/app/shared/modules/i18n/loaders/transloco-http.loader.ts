@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import type { Translation, TranslocoLoader } from "@ngneat/transloco";
-import { catchError } from "rxjs";
+import { catchError, timeout } from "rxjs";
 
 import { I18N_CONFIG } from "../injection-tokens";
 import { II18nConfig } from "../interfaces";
@@ -14,8 +14,9 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 	) {}
 
 	getTranslation(lang: string) {
-		return this._httpClient
-			.get<Translation>(`${this._i18nConfig.url}/${lang}.json`)
-			.pipe(catchError(() => this._httpClient.get<Translation>(`assets/i18n/${lang}.json`)));
+		return this._httpClient.get<Translation>(`${this._i18nConfig.url}/${lang}.json`).pipe(
+			timeout(500),
+			catchError(() => this._httpClient.get<Translation>(`assets/i18n/${lang}.json`))
+		);
 	}
 }
