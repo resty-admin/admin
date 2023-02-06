@@ -124,14 +124,10 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.user$.pipe(take(1)).subscribe(async (user) => {
+		this.user$.pipe(untilDestroyed(this)).subscribe(async (user) => {
 			if (user && !user.name) {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
 			}
-
-			// if (user && !user) {
-			//
-			// }
 		});
 
 		this._authService.language$.pipe(untilDestroyed(this)).subscribe((lang) => {
