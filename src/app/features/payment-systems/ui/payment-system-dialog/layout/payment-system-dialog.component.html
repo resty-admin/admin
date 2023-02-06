@@ -6,8 +6,8 @@
 			*ngFor="let field of fields"
 			class="input"
 			[formControlName]="field"
-			[label]="t('FORM' + field + '_label')"
-			[placeholder]="t('FORM' + field + '_placeholder')"
+			[label]="t('FORM.' + field.toUpperCase() + '_LABEL')"
+			[placeholder]="t('FORM.' + field.toUpperCase() + '_PLACEHOLDER')"
 		></app-input>
 
 		<button appButton theme="1" class="submit">{{ t("PAYMENT_SYSTEM_DIALOG.CONNECT") }}</button>
