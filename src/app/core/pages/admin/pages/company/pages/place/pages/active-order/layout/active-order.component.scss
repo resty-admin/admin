@@ -57,6 +57,29 @@
 			align-items: start;
 			row-gap: rem(24);
 			grid-template-rows: auto auto 1fr;
+			.datatable {
+				.icon.WAITING {
+					@include icon () {
+						path {
+							fill: var(--primary);
+						}
+					}
+				}
+				.icon.PAID {
+					@include icon () {
+						path {
+							fill: var(--success);
+						}
+					}
+				}
+				.icon.NOT_PAID {
+					@include icon () {
+						path {
+							fill: var(--danger);
+						}
+					}
+				}
+			}
 		}
 
 		.footer {

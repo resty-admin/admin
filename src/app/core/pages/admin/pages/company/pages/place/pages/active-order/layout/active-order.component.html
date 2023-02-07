@@ -37,7 +37,7 @@
 				</ng-container>
 				<ng-container appColumn="attributes">
 					<ng-template #header>{{ t("ACTIVE_ORDER.ATTRIBUTES") }}</ng-template>
-					<ng-template #value let-row="row">{{ row.product?.attrsGroups | json }}</ng-template>
+					<ng-template #value let-row="row">{{ row.attributesToProduct | attributesPipe }}</ng-template>
 				</ng-container>
 				<ng-container appColumn="user">
 					<ng-template #header>{{ t("ACTIVE_ORDER.USER") }}</ng-template>
@@ -59,7 +59,7 @@
 				<ng-container appColumn="paidStatus">
 					<ng-template #header>{{ t("ACTIVE_ORDER.PAID_STATUS") }}</ng-template>
 					<ng-template #value let-row="row">
-						<app-icon class="icon" [name]="row.paidStatus === 'PAID' ? 'paid' : 'not-paid'"></app-icon>
+						<app-icon [class]="'icon' + ' ' + row.paidStatus" name="paid"></app-icon>
 					</ng-template>
 				</ng-container>
 			</app-datatable>
