@@ -20,9 +20,10 @@ import { TypographyModule } from "@shared/ui/typography";
 import { ActiveOrderRoutingModule } from "./active-order-routing.module";
 import { ACTIVE_ORDER_COMPONENTS } from "./components";
 import { ActiveOrderComponent } from "./layout/active-order.component";
+import { AttributesPipe } from "./pipes/attributes.pipe";
 
 @NgModule({
-	declarations: [ActiveOrderComponent, ...ACTIVE_ORDER_COMPONENTS],
+	declarations: [ActiveOrderComponent, ...ACTIVE_ORDER_COMPONENTS, AttributesPipe],
 	imports: [
 		CommonModule,
 		ActiveOrderRoutingModule,
