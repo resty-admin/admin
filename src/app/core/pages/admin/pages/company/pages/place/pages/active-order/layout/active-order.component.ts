@@ -56,10 +56,10 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 		});
 
-		// this._actionsService.setAction({
-		// 	label: "CONFIRM_PAYMENT",
-		// 	func: () => this.setPaidStatusForProductsInOrder()
-		// });
+		this._actionsService.setAction({
+			label: "CONFIRM_PAYMENT",
+			func: () => this.setPaidStatusForProductsInOrder()
+		});
 
 		this._socketIoService
 			.fromEvents(Object.values(OrdersEvents))
@@ -88,7 +88,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	setSelectedProductsToOrders(productsToOrdersIds: string[]) {
+	setSelectedProductsToOrders(productsToOrdersIds: { id: string }[]) {
 		this.activeOrder$.pipe(take(1)).subscribe((order) => {
 			const { productsToOrders, users } = order!;
 
@@ -97,7 +97,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 					...usersMap,
 					[user.id]: (productsToOrders || [])
 						.filter((productToOrder: any) => productToOrder.user.id === user.id)
-						.every((productToOrder: any) => productsToOrdersIds.includes(productToOrder.id))
+						.every((productToOrder: any) => productsToOrdersIds.map(({ id }) => id).includes(productToOrder.id))
 				}),
 				{}
 			);

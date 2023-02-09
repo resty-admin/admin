@@ -36,7 +36,7 @@ export class CoreComponent implements OnInit {
 	private readonly _adminCompaniesQuery = this._adminCompaniesGQL.watch();
 	private readonly _adminPlacesQuery = this._adminPlacesGQL.watch();
 
-	readonly user$ = this._authService.me$.pipe(shareReplay({ refCount: true }));
+	readonly user$ = this._authService.me$.pipe(filter((user) => Boolean(user)));
 
 	readonly companies$ = this._adminCompaniesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
 
