@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { PlacesService } from "@features/places";
@@ -17,7 +17,7 @@ import { CompaniesPageGQL } from "../../companies/graphql";
 	styleUrls: ["./connect-to-place.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConnectToPlaceComponent implements OnInit {
+export class ConnectToPlaceComponent implements OnInit, OnDestroy {
 	readonly codeControl = new FormControl<number>();
 
 	constructor(
@@ -45,5 +45,9 @@ export class ConnectToPlaceComponent implements OnInit {
 				await this._companiesPageGQL.watch().refetch();
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.COMPANIES.absolutePath);
 			});
+	}
+
+	ngOnDestroy() {
+		this._actionsService.setAction(null);
 	}
 }
