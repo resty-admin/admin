@@ -36,11 +36,17 @@
 		}
 
 		.actions {
-			@include hideOnMobile(flex);
+			width: 100%;
+			display: flex;
 			justify-self: start;
 			column-gap: rem(8);
+
+			@include desktop () {
+				width: auto;
+			}
 			.reject,
 			.approve {
+				flex: 1;
 				padding: rem(6) rem(16);
 				border: rem(1) solid transparent;
 				border-radius: rem(6);

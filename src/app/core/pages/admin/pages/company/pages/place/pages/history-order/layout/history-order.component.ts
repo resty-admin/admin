@@ -23,7 +23,7 @@ export class HistoryOrderComponent implements OnInit, OnDestroy {
 	readonly historyOrder$ = this._historyOrderPageQuery.valueChanges.pipe(map((result) => result.data.order));
 
 	selectedUsers: string[] = [];
-	selectedProductsToOrders: string[] = [];
+	selectedProductsToOrders: { id: string }[] = [];
 
 	constructor(
 		private readonly _historyOrderPageGQL: HistoryOrderPageGQL,

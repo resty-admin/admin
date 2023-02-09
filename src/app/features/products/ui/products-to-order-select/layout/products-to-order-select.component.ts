@@ -17,8 +17,9 @@ export interface IProductToOrderWithSelectedByStatus {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsToOrderSelectComponent implements OnChanges {
-	@Output() selectedProductsToOrdersChange = new EventEmitter<string[]>();
-	@Input() selectedProductsToOrders?: string[] | null;
+	@Output() selectedProductsToOrdersChange = new EventEmitter<{ id: string }[]>();
+	@Input() selectedProductsToOrders?: { id: string }[] | null;
+
 	@Input() productsToOrders?: IProductToOrderToSelectInput[] | null;
 
 	productsToOrdersWithSelected: IProductToOrderWithSelected[] = [];
@@ -34,7 +35,7 @@ export class ProductsToOrderSelectComponent implements OnChanges {
 
 		this.productsToOrdersWithSelected = (this.productsToOrders || []).map((productToOrder) => ({
 			...productToOrder,
-			selected: (this.selectedProductsToOrders || []).includes(productToOrder.id)
+			selected: (this.selectedProductsToOrders || []).map(({ id }) => id).includes(productToOrder.id)
 		}));
 
 		this.productsToOrdersWithSelectedByStatus = [];
@@ -57,9 +58,7 @@ export class ProductsToOrderSelectComponent implements OnChanges {
 
 	emitChange() {
 		this.selectedProductsToOrdersChange.emit(
-			this.productsToOrdersWithSelected
-				.filter((productToOrder) => productToOrder.selected)
-				.map((productToOrder) => productToOrder.id)
+			this.productsToOrdersWithSelected.filter((productToOrder) => productToOrder.selected)
 		);
 	}
 }

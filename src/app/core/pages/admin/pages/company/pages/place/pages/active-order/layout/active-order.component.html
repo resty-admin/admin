@@ -24,6 +24,13 @@
 				(selectedUsersChange)="setSelectedUsers($event)"
 			></app-users-select>
 
+			<app-products-to-order-select
+				class="products-select"
+				[productsToOrders]="activeOrder.productsToOrders"
+				[(selectedProductsToOrders)]="selectedProductsToOrders"
+				(selectedProductsToOrdersChange)="setSelectedProductsToOrders($event)"
+			></app-products-to-order-select>
+
 			<app-datatable
 				class="datatable"
 				[rows]="activeOrder.productsToOrders"
@@ -77,7 +84,7 @@
 				</button>
 			</div>
 
-			<button appButton theme="1" (click)="setPaidStatusForProductsInOrder()">
+			<button class="submit" appButton theme="1" (click)="setPaidStatusForProductsInOrder()">
 				{{ t("ACTIVE_ORDER.CONFIRM_PAYMENT") }}
 			</button>
 		</footer>
