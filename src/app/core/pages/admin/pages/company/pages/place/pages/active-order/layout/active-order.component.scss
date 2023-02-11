@@ -17,6 +17,9 @@
 			.title {
 				flex: 1;
 			}
+			.type {
+				@include hideOnMobile ();
+			}
 		}
 
 		.main {
@@ -26,10 +29,10 @@
 			row-gap: rem(24);
 			grid-template-rows: auto auto 1fr;
 			.products-select {
-				@include hideOnDesktop ();
+				@include hideOnDesktop();
 			}
 			.datatable {
-				@include hideOnMobile ();
+				@include hideOnMobile();
 				.icon.WAITING {
 					@include icon() {
 						path {
@@ -61,7 +64,7 @@
 			padding: rem(8) 0 rem(75);
 			column-gap: rem(12);
 
-			@include desktop () {
+			@include desktop() {
 				padding-bottom: rem(8);
 			}
 			.actions {
@@ -97,7 +100,7 @@
 				}
 			}
 			.text {
-				@include hideOnMobile ();
+				@include hideOnMobile();
 				width: rem(100);
 				font-weight: 500;
 				font-size: rem(20);
@@ -105,7 +108,7 @@
 				color: var(--dark);
 			}
 			.submit {
-				@include hideOnMobile ();
+				@include hideOnMobile();
 			}
 		}
 	}
