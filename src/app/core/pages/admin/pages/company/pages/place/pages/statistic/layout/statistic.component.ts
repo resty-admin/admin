@@ -2,12 +2,14 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { PlacesService } from "@features/places";
 import { PlaceVerificationStatusEnum } from "@graphql";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { map, switchMap, take } from "rxjs";
 
 import { StatisticPageGQL } from "../graphql";
 
+@UntilDestroy()
 @Component({
 	selector: "app-statistic",
 	templateUrl: "./statistic.component.html",
@@ -25,8 +27,13 @@ export class StatisticComponent implements OnInit {
 		private readonly _placesService: PlacesService
 	) {}
 
-	async ngOnInit() {
-		await this._statisticPageQuery.setVariables({ placeId: this._routerService.getParams(PLACE_ID.slice(1)) });
+	ngOnInit() {
+		this._routerService
+			.selectParams(PLACE_ID.slice(1))
+			.pipe(untilDestroyed(this))
+			.subscribe(async (placeId) => {
+				await this._statisticPageQuery.setVariables({ placeId });
+			});
 	}
 
 	changeStatus(status: PlaceVerificationStatusEnum) {
