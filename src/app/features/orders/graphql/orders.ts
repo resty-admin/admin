@@ -66,22 +66,22 @@ export interface RejectProductsInOrderMutation {
 	rejectProductsInOrder: { __typename?: "ProductToOrderEntity"; id: string }[];
 }
 
-export type ApproveTableInOrderMutationVariables = Types.Exact<{
+export type ApproveOrderMutationVariables = Types.Exact<{
 	orderId: Types.Scalars["String"];
 }>;
 
-export interface ApproveTableInOrderMutation {
+export interface ApproveOrderMutation {
 	__typename?: "Mutation";
-	approveTableInOrder: { __typename?: "ActiveOrderEntity"; id: string };
+	approveOrder: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
-export type RejectTableInOrderMutationVariables = Types.Exact<{
+export type RejectOrderMutationVariables = Types.Exact<{
 	orderId: Types.Scalars["String"];
 }>;
 
-export interface RejectTableInOrderMutation {
+export interface RejectOrderMutation {
 	__typename?: "Mutation";
-	rejectTableInOrder: { __typename?: "ActiveOrderEntity"; id: string };
+	rejectOrder: { __typename?: "ActiveOrderEntity"; id: string };
 }
 
 export type SetPaidStatusForProductsInOrderMutationVariables = Types.Exact<{
@@ -219,9 +219,9 @@ export class RejectProductsInOrderGQL extends Apollo.Mutation<
 		super(apollo);
 	}
 }
-export const ApproveTableInOrderDocument = gql`
-	mutation ApproveTableInOrder($orderId: String!) {
-		approveTableInOrder(orderId: $orderId) {
+export const ApproveOrderDocument = gql`
+	mutation ApproveOrder($orderId: String!) {
+		approveOrder(orderId: $orderId) {
 			id
 		}
 	}
@@ -230,19 +230,16 @@ export const ApproveTableInOrderDocument = gql`
 @Injectable({
 	providedIn: "root"
 })
-export class ApproveTableInOrderGQL extends Apollo.Mutation<
-	ApproveTableInOrderMutation,
-	ApproveTableInOrderMutationVariables
-> {
-	override document = ApproveTableInOrderDocument;
+export class ApproveOrderGQL extends Apollo.Mutation<ApproveOrderMutation, ApproveOrderMutationVariables> {
+	override document = ApproveOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);
 	}
 }
-export const RejectTableInOrderDocument = gql`
-	mutation RejectTableInOrder($orderId: String!) {
-		rejectTableInOrder(orderId: $orderId) {
+export const RejectOrderDocument = gql`
+	mutation RejectOrder($orderId: String!) {
+		rejectOrder(orderId: $orderId) {
 			id
 		}
 	}
@@ -251,11 +248,8 @@ export const RejectTableInOrderDocument = gql`
 @Injectable({
 	providedIn: "root"
 })
-export class RejectTableInOrderGQL extends Apollo.Mutation<
-	RejectTableInOrderMutation,
-	RejectTableInOrderMutationVariables
-> {
-	override document = RejectTableInOrderDocument;
+export class RejectOrderGQL extends Apollo.Mutation<RejectOrderMutation, RejectOrderMutationVariables> {
+	override document = RejectOrderDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

@@ -17,7 +17,6 @@ export interface ActiveOrderPageQuery {
 		code: number;
 		status: Types.OrderStatusEnum;
 		totalPrice?: number | null;
-		tableStatus: Types.TableStatusEnum;
 		startDate: any;
 		comments?: string | null;
 		users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
@@ -72,7 +71,7 @@ export const ActiveOrderPageDocument = gql`
 			code
 			status
 			totalPrice
-			tableStatus
+			status
 			startDate
 			comments
 			users {

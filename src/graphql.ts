@@ -43,7 +43,6 @@ export interface ActiveOrderEntity {
 	startDate: Scalars["DateTime"];
 	status: OrderStatusEnum;
 	table?: Maybe<TableEntity>;
-	tableStatus: TableStatusEnum;
 	totalPrice?: Maybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users?: Maybe<UserEntity[]>;
@@ -60,7 +59,6 @@ export interface ActiveOrderEntityInput {
 	startDate: Scalars["DateTime"];
 	status: OrderStatusEnum;
 	table?: InputMaybe<TableEntityInput>;
-	tableStatus: TableStatusEnum;
 	totalPrice?: InputMaybe<Scalars["Int"]>;
 	type: OrderTypeEnum;
 	users?: InputMaybe<UserEntityInput[]>;
@@ -98,11 +96,13 @@ export interface AttributeToProductEntity {
 	attribute: AttributesEntity;
 	count: Scalars["Int"];
 	id: Scalars["String"];
+	productToOrder: ProductToOrderEntity;
 }
 
 export interface AttributeToProductEntityInput {
 	attribute: AttributesEntityInput;
 	count: Scalars["Int"];
+	productToOrder: ProductToOrderEntityInput;
 }
 
 export interface AttributesEntity {
@@ -404,8 +404,8 @@ export interface Mutation {
 	addUserToOrder: ActiveOrderEntity;
 	addUserToPlace: UserToPlaceEntity;
 	addWaiterToPlace: UserToPlaceEntity;
+	approveOrder: ActiveOrderEntity;
 	approveProductsInOrder: ProductToOrderEntity[];
-	approveTableInOrder: ActiveOrderEntity;
 	cancelOrder: Scalars["String"];
 	closeOrder: Scalars["String"];
 	closeShift: Scalars["String"];
@@ -447,8 +447,8 @@ export interface Mutation {
 	getAccessToken: PlaceToAccountingSystemEntity;
 	getMerchantLoginAndCodeLink: Link;
 	getTableByCode: TableEntity;
+	rejectOrder: ActiveOrderEntity;
 	rejectProductsInOrder: ProductToOrderEntity[];
-	rejectTableInOrder: ActiveOrderEntity;
 	removeEmployeeFromPlace: PlaceEntity;
 	removeTableFromOrder: ActiveOrderEntity;
 	resetPassword: AccessToken;
@@ -497,12 +497,12 @@ export interface MutationAddWaiterToPlaceArgs {
 	waiterCode: Scalars["Float"];
 }
 
-export interface MutationApproveProductsInOrderArgs {
-	productToOrderIds: Scalars["String"][];
+export interface MutationApproveOrderArgs {
+	orderId: Scalars["String"];
 }
 
-export interface MutationApproveTableInOrderArgs {
-	orderId: Scalars["String"];
+export interface MutationApproveProductsInOrderArgs {
+	productToOrderIds: Scalars["String"][];
 }
 
 export interface MutationCancelOrderArgs {
@@ -667,12 +667,12 @@ export interface MutationGetTableByCodeArgs {
 	placeId: Scalars["String"];
 }
 
-export interface MutationRejectProductsInOrderArgs {
-	productToOrderIds: Scalars["String"][];
+export interface MutationRejectOrderArgs {
+	orderId: Scalars["String"];
 }
 
-export interface MutationRejectTableInOrderArgs {
-	orderId: Scalars["String"];
+export interface MutationRejectProductsInOrderArgs {
+	productToOrderIds: Scalars["String"][];
 }
 
 export interface MutationRemoveEmployeeFromPlaceArgs {
@@ -797,7 +797,8 @@ export enum OrderStatusEnum {
 	Cancel = "CANCEL",
 	Closed = "CLOSED",
 	Created = "CREATED",
-	Rejected = "REJECTED"
+	Rejected = "REJECTED",
+	RequestToConfirm = "REQUEST_TO_CONFIRM"
 }
 
 export enum OrderTypeEnum {
@@ -805,6 +806,22 @@ export enum OrderTypeEnum {
 	InPlace = "IN_PLACE",
 	Pickup = "PICKUP",
 	Reserve = "RESERVE"
+}
+
+export enum OrdersEvents {
+	Approved = "APPROVED",
+	Canceled = "CANCELED",
+	Closed = "CLOSED",
+	Confirm = "CONFIRM",
+	Created = "CREATED",
+	PtoApproved = "PTO_APPROVED",
+	PtoRejected = "PTO_REJECTED",
+	Rejected = "REJECTED",
+	RequestToConfirm = "REQUEST_TO_CONFIRM",
+	TableAdded = "TABLE_ADDED",
+	TableRemoved = "TABLE_REMOVED",
+	UserAdded = "USER_ADDED",
+	WaitingForManualPay = "WAITING_FOR_MANUAL_PAY"
 }
 
 export interface PaginatedAccountingSystem {
@@ -1092,6 +1109,8 @@ export interface Query {
 	attributes: PaginatedAttributes;
 	categories: PaginatedCategory;
 	category: CategoryEntity;
+	clientHistoryOrder: HistoryOrderEntity;
+	clientHistoryOrders: PaginatedHistoryOrder;
 	command: CommandEntity;
 	commands: PaginatedCommand;
 	companies: PaginatedCompany;
@@ -1106,6 +1125,7 @@ export interface Query {
 	languages: LanguageEntity;
 	order?: Maybe<ActiveOrderEntity>;
 	orders: PaginatedActiveOrder;
+	ordersEvents: OrdersEvents;
 	paymentSystem: PaymentSystemEntity;
 	paymentSystems: PaginatedPaymentSystem;
 	place: PlaceEntity;
@@ -1159,6 +1179,16 @@ export interface QueryCategoriesArgs {
 
 export interface QueryCategoryArgs {
 	id: Scalars["String"];
+}
+
+export interface QueryClientHistoryOrderArgs {
+	orderId: Scalars["String"];
+}
+
+export interface QueryClientHistoryOrdersArgs {
+	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
+	skip?: InputMaybe<Scalars["Int"]>;
+	take?: InputMaybe<Scalars["Int"]>;
 }
 
 export interface QueryCommandArgs {
@@ -1344,13 +1374,6 @@ export interface TableEntityInput {
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
 }
 
-export enum TableStatusEnum {
-	Approved = "APPROVED",
-	Empty = "EMPTY",
-	Rejected = "REJECTED",
-	WaitingForApprove = "WAITING_FOR_APPROVE"
-}
-
 export interface TelegramUserInput {
 	added_to_attachment_menu?: InputMaybe<Scalars["Boolean"]>;
 	first_name: Scalars["String"];
@@ -1425,10 +1448,9 @@ export interface UpdateMeInput {
 
 export interface UpdateOrderInput {
 	id: Scalars["String"];
-	status?: InputMaybe<OrderStatusEnum>;
+	startDate?: InputMaybe<Scalars["DateTime"]>;
 	table?: InputMaybe<Scalars["String"]>;
 	type?: InputMaybe<OrderTypeEnum>;
-	users?: InputMaybe<Scalars["String"][]>;
 }
 
 export interface UpdatePaymentSystemInput {

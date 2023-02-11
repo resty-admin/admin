@@ -17,7 +17,6 @@ export interface HistoryOrderPageQuery {
 		code: number;
 		status: Types.OrderStatusEnum;
 		totalPrice?: number | null;
-		tableStatus: Types.TableStatusEnum;
 		startDate: any;
 		users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
 		table?: {
@@ -64,7 +63,7 @@ export const HistoryOrderPageDocument = gql`
 			code
 			status
 			totalPrice
-			tableStatus
+			status
 			startDate
 			users {
 				id

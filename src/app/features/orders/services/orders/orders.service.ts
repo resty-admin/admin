@@ -2,14 +2,14 @@ import { Injectable } from "@angular/core";
 import type { CreateOrderInput, UpdateOrderInput } from "@graphql";
 
 import {
+	ApproveOrderGQL,
 	ApproveProductsInOrderGQL,
-	ApproveTableInOrderGQL,
 	CancelOrderGQL,
 	CloseOrderGQL,
 	CreateOrderGQL,
 	DeleteOrderGQL,
+	RejectOrderGQL,
 	RejectProductsInOrderGQL,
-	RejectTableInOrderGQL,
 	SetPaidStatusForProductsInOrderGQL,
 	UpdateOrderGQL
 } from "../../graphql";
@@ -28,8 +28,8 @@ export class OrdersService {
 		private readonly _cancelOrderGQL: CancelOrderGQL,
 		private readonly _approveProductsInOrderGQL: ApproveProductsInOrderGQL,
 		private readonly _rejectProductsInOrderGQL: RejectProductsInOrderGQL,
-		private readonly _approveTableInOrderGQL: ApproveTableInOrderGQL,
-		private readonly _rejectTableInOrderGQL: RejectTableInOrderGQL,
+		private readonly _approveTableInOrderGQL: ApproveOrderGQL,
+		private readonly _rejectTableInOrderGQL: RejectOrderGQL,
 		private readonly _setPaidStatusForProductsInOrderGQL: SetPaidStatusForProductsInOrderGQL
 	) {}
 

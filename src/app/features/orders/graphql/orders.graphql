@@ -34,14 +34,14 @@ mutation RejectProductsInOrder($productToOrderIds: [String!]!) {
 	}
 }
 
-mutation ApproveTableInOrder($orderId: String!) {
-	approveTableInOrder(orderId: $orderId) {
+mutation ApproveOrder($orderId: String!) {
+	approveOrder(orderId: $orderId) {
 		id
 	}
 }
 
-mutation RejectTableInOrder($orderId: String!) {
-	rejectTableInOrder(orderId: $orderId) {
+mutation RejectOrder($orderId: String!) {
+	rejectOrder(orderId: $orderId) {
 		id
 	}
 }
