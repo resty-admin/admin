@@ -24,7 +24,7 @@
 					[value]="productToOrder.id"
 					[(ngModel)]="productToOrder.selected"
 					(change)="emitChange()"
-					*ngIf="productToOrder.paidStatus === 'NOT_PAID'"
+					*ngIf="productToOrder.paidStatus !== 'PAID'"
 				/>
 				<app-product-to-order class="product" [productToOrder]="productToOrder"></app-product-to-order>
 			</li>
