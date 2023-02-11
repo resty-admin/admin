@@ -291,22 +291,6 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "tableStatus",
-						"description": null,
-						"args": [],
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "ENUM",
-								"name": "TableStatusEnum",
-								"ofType": null
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
 						"name": "totalPrice",
 						"description": null,
 						"args": [],
@@ -521,22 +505,6 @@
 							"kind": "INPUT_OBJECT",
 							"name": "TableEntityInput",
 							"ofType": null
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "tableStatus",
-						"description": null,
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "ENUM",
-								"name": "TableStatusEnum",
-								"ofType": null
-							}
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -891,6 +859,22 @@
 						},
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "productToOrder",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "ProductToOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"inputFields": null,
@@ -929,6 +913,22 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "Int",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "productToOrder",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "INPUT_OBJECT",
+								"name": "ProductToOrderEntityInput",
 								"ofType": null
 							}
 						},
@@ -4129,6 +4129,39 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "approveOrder",
+						"description": null,
+						"args": [
+							{
+								"name": "orderId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "ActiveOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "approveProductsInOrder",
 						"description": null,
 						"args": [
@@ -4172,39 +4205,6 @@
 										"ofType": null
 									}
 								}
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "approveTableInOrder",
-						"description": null,
-						"args": [
-							{
-								"name": "orderId",
-								"description": null,
-								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
-								},
-								"defaultValue": null,
-								"isDeprecated": false,
-								"deprecationReason": null
-							}
-						],
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "OBJECT",
-								"name": "ActiveOrderEntity",
-								"ofType": null
 							}
 						},
 						"isDeprecated": false,
@@ -5595,6 +5595,39 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "rejectOrder",
+						"description": null,
+						"args": [
+							{
+								"name": "orderId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "ActiveOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "rejectProductsInOrder",
 						"description": null,
 						"args": [
@@ -5638,39 +5671,6 @@
 										"ofType": null
 									}
 								}
-							}
-						},
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "rejectTableInOrder",
-						"description": null,
-						"args": [
-							{
-								"name": "orderId",
-								"description": null,
-								"type": {
-									"kind": "NON_NULL",
-									"name": null,
-									"ofType": {
-										"kind": "SCALAR",
-										"name": "String",
-										"ofType": null
-									}
-								},
-								"defaultValue": null,
-								"isDeprecated": false,
-								"deprecationReason": null
-							}
-						],
-						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "OBJECT",
-								"name": "ActiveOrderEntity",
-								"ofType": null
 							}
 						},
 						"isDeprecated": false,
@@ -6724,6 +6724,12 @@
 						"description": null,
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "REQUEST_TO_CONFIRM",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"possibleTypes": null
@@ -6756,6 +6762,95 @@
 					},
 					{
 						"name": "RESERVE",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"possibleTypes": null
+			},
+			{
+				"kind": "ENUM",
+				"name": "OrdersEvents",
+				"description": null,
+				"fields": null,
+				"inputFields": null,
+				"interfaces": null,
+				"enumValues": [
+					{
+						"name": "APPROVED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "CANCELED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "CLOSED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "CONFIRM",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "CREATED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "PTO_APPROVED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "PTO_REJECTED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "REJECTED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "REQUEST_TO_CONFIRM",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "TABLE_ADDED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "TABLE_REMOVED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "USER_ADDED",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "WAITING_FOR_MANUAL_PAY",
 						"description": null,
 						"isDeprecated": false,
 						"deprecationReason": null
@@ -9956,6 +10051,100 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "clientHistoryOrder",
+						"description": null,
+						"args": [
+							{
+								"name": "orderId",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "HistoryOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "clientHistoryOrders",
+						"description": null,
+						"args": [
+							{
+								"name": "filtersArgs",
+								"description": null,
+								"type": {
+									"kind": "LIST",
+									"name": null,
+									"ofType": {
+										"kind": "NON_NULL",
+										"name": null,
+										"ofType": {
+											"kind": "INPUT_OBJECT",
+											"name": "FiltersArgsDto",
+											"ofType": null
+										}
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "skip",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
+								},
+								"defaultValue": "0",
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "take",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Int",
+									"ofType": null
+								},
+								"defaultValue": "10",
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "PaginatedHistoryOrder",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "command",
 						"description": null,
 						"args": [
@@ -10590,6 +10779,22 @@
 							"ofType": {
 								"kind": "OBJECT",
 								"name": "PaginatedActiveOrder",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "ordersEvents",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "ENUM",
+								"name": "OrdersEvents",
 								"ofType": null
 							}
 						},
@@ -11780,41 +11985,6 @@
 				"possibleTypes": null
 			},
 			{
-				"kind": "ENUM",
-				"name": "TableStatusEnum",
-				"description": null,
-				"fields": null,
-				"inputFields": null,
-				"interfaces": null,
-				"enumValues": [
-					{
-						"name": "APPROVED",
-						"description": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "EMPTY",
-						"description": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "REJECTED",
-						"description": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "WAITING_FOR_APPROVE",
-						"description": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					}
-				],
-				"possibleTypes": null
-			},
-			{
 				"kind": "INPUT_OBJECT",
 				"name": "TelegramUserInput",
 				"description": null,
@@ -12511,11 +12681,11 @@
 						"deprecationReason": null
 					},
 					{
-						"name": "status",
+						"name": "startDate",
 						"description": null,
 						"type": {
-							"kind": "ENUM",
-							"name": "OrderStatusEnum",
+							"kind": "SCALAR",
+							"name": "DateTime",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -12541,26 +12711,6 @@
 							"kind": "ENUM",
 							"name": "OrderTypeEnum",
 							"ofType": null
-						},
-						"defaultValue": null,
-						"isDeprecated": false,
-						"deprecationReason": null
-					},
-					{
-						"name": "users",
-						"description": null,
-						"type": {
-							"kind": "LIST",
-							"name": null,
-							"ofType": {
-								"kind": "NON_NULL",
-								"name": null,
-								"ofType": {
-									"kind": "SCALAR",
-									"name": "String",
-									"ofType": null
-								}
-							}
 						},
 						"defaultValue": null,
 						"isDeprecated": false,

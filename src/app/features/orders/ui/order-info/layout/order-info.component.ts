@@ -16,7 +16,7 @@ export class OrderInfoComponent implements OnChanges {
 	@Output() rejectClicked = new EventEmitter();
 	@Input() order?: IOrderInfo;
 
-	tableStatus = "";
+	status = "";
 	tableInfo = "";
 	dateInfo = "";
 
@@ -25,14 +25,14 @@ export class OrderInfoComponent implements OnChanges {
 			return;
 		}
 
-		const { table, startDate, tableStatus } = changes.order.currentValue;
+		const { table, startDate, status } = changes.order.currentValue;
 
 		const tableName = table ? `${table.hall?.name}, ${table.name}` : "";
 		const dateName = startDate ? dayjs(startDate).format("MM.DD.YYYY, HH:mm") : "";
 
 		this.tableInfo = tableName || "";
 		this.dateInfo = dateName || "";
-		this.tableStatus = tableStatus || "";
+		this.status = status || "";
 	}
 
 	emitApproveClick() {
