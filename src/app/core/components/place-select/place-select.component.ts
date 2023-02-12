@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import type { UserEntity } from "@graphql";
 
 import type { AdminPlacesQuery } from "../../graphql";
 
@@ -16,6 +17,7 @@ export class PlaceSelectComponent {
 	@Input() places: AdminPlacesQuery["places"]["data"] = [];
 	@Input() placeId?: string | null;
 	@Input() disabled: boolean = false;
+	@Input() user?: UserEntity | null;
 
 	emitAddPlaceClick() {
 		this.addPlaceClicked.emit();

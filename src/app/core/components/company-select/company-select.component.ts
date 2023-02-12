@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import type { UserEntity } from "@graphql";
 
 import type { AdminCompaniesQuery } from "../../graphql";
 
@@ -15,6 +16,7 @@ export class CompanySelectComponent {
 	@Output() companyChanged = new EventEmitter<string>();
 	@Input() companies: AdminCompaniesQuery["companies"]["data"] = [];
 	@Input() companyId?: string | null;
+	@Input() user?: UserEntity | null;
 
 	emitAddCompanyClick() {
 		this.addCompanyClicked.emit();
