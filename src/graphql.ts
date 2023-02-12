@@ -814,6 +814,8 @@ export enum OrdersEvents {
 	Closed = "CLOSED",
 	Confirm = "CONFIRM",
 	Created = "CREATED",
+	ManualPaymentSuccess = "MANUAL_PAYMENT_SUCCESS",
+	PaymentSuccess = "PAYMENT_SUCCESS",
 	PtoApproved = "PTO_APPROVED",
 	PtoRejected = "PTO_REJECTED",
 	Rejected = "REJECTED",
