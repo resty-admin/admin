@@ -3,6 +3,7 @@
 
 	<app-company-select
 		class="company-select"
+		[user]="user"
 		[companies]="companies"
 		[companyId]="companyId"
 		(companyChanged)="emitCompanyChanged($event)"
@@ -13,6 +14,7 @@
 
 	<app-place-select
 		class="place-select"
+		[user]="user"
 		[disabled]="!companyId"
 		[places]="places"
 		[placeId]="placeId"

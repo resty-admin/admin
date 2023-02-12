@@ -1,5 +1,5 @@
 <div class="place" *transloco="let t">
-	<p class="title">
+	<p class="title" *ngIf="user?.role === 'ADMIN' || user?.role === 'MANAGER'">
 		<span class="text">{{ t("PLACES.ADD_PLACE") }}</span>
 		<button appIconButton [disabled]="disabled" class="button" (click)="emitAddPlaceClick()">
 			<app-icon class="icon" name="add"></app-icon>

@@ -6808,6 +6808,18 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "MANUAL_PAYMENT_SUCCESS",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "PAYMENT_SUCCESS",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "PTO_APPROVED",
 						"description": null,
 						"isDeprecated": false,
