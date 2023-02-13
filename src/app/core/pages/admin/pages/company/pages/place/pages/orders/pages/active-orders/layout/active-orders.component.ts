@@ -38,7 +38,8 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		await this._activeOrdersPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }],
+			take: 50
 		});
 
 		this._actionsService.setAction({ label: "ADD_ORDER", func: () => this.openCreateOrderDialog() });
@@ -97,7 +98,24 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	closeOrder(order: AtLeast<ActiveOrderEntity, "id">) {
 		this._ordersService
 			.closeOrder(order.id)
-			.pipe(this._toastrService.observe(this._i18nService.translate("ORDERS.CLOSE")), take(1))
+			.pipe(
+				take(1),
+				this._toastrService.observe(this._i18nService.translate("ORDERS.CLOSE")),
+				switchMap(() => this._activeOrdersPageQuery.refetch()),
+				take(1)
+			)
+			.subscribe();
+	}
+
+	cancelOrder(order: AtLeast<ActiveOrderEntity, "id">) {
+		this._ordersService
+			.cancelOrder(order.id)
+			.pipe(
+				take(1),
+				this._toastrService.observe(this._i18nService.translate("ORDERS.CANCEL")),
+				switchMap(() => this._activeOrdersPageQuery.refetch()),
+				take(1)
+			)
 			.subscribe();
 	}
 

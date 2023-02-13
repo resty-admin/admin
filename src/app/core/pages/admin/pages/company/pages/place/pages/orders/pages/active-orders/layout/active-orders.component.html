@@ -12,6 +12,8 @@
 			[order]="item"
 			(editClicked)="openUpdateOrderDialog(item)"
 			(deleteClicked)="openDeleteOrderDialog(item)"
+			(closeClicked)="closeOrder(item)"
+			(cancelClicked)="cancelOrder(item)"
 		></app-order>
 	</a>
 </ng-template>

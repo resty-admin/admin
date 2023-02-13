@@ -5,5 +5,10 @@
 		<app-active-order class="active-order" [activeOrder]="order"></app-active-order>
 	</div>
 
-	<app-more class="more" (editClicked)="emitEditClick($event)" (deleteClicked)="emitDeleteClick($event)"></app-more>
+	<app-more
+		class="more"
+		[additionalActions]="additionalActions"
+		(editClicked)="emitEditClick($event)"
+		(deleteClicked)="emitDeleteClick($event)"
+	></app-more>
 </div>
