@@ -17,7 +17,8 @@ export class ActiveOrdersPageResolver implements Resolve<unknown> {
 		}
 
 		return this._activeOrdersPageGQL.fetch({
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }],
+			take: 50
 		});
 	}
 }

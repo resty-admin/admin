@@ -1,3 +1,4 @@
+import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { SharedService } from "@shared/services";
 import type { IAction } from "@shared/ui/actions";
@@ -8,27 +9,33 @@ import type { IAction } from "@shared/ui/actions";
 	styleUrls: ["./more.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MoreComponent<T> {
+export class MoreComponent<T> implements OnInit {
 	@Output() editClicked = new EventEmitter<T>();
 	@Output() deleteClicked = new EventEmitter<T>();
 
 	@Input() data?: T;
 	@Input() disabled: boolean = false;
+	@Input() additionalActions?: IAction<T>[];
 
-	readonly defaultActions: IAction<T>[] = [
-		{
-			icon: "edit",
-			label: "EDIT",
-			func: (data) => this.editClicked.emit(data)
-		},
-		{
-			icon: "delete",
-			label: "DELETE",
-			func: (data) => this.deleteClicked.emit(data)
-		}
-	];
+	defaultActions: IAction<T>[] = [];
 
 	@Input() additionalFunc = () => undefined;
 
 	constructor(readonly sharedService: SharedService) {}
+
+	ngOnInit() {
+		this.defaultActions = [
+			{
+				icon: "edit",
+				label: "EDIT",
+				func: (data) => this.editClicked.emit(data)
+			},
+			{
+				icon: "delete",
+				label: "DELETE",
+				func: (data) => this.deleteClicked.emit(data)
+			},
+			...(this.additionalActions || [])
+		];
+	}
 }
