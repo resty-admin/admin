@@ -9,7 +9,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, shareReplay, Subject, switchMap, take } from "rxjs";
+import { delay, filter, map, shareReplay, Subject, switchMap, take } from "rxjs";
 
 import { ActiveShiftGQL, ShiftPageGQL } from "../graphql";
 
@@ -69,6 +69,10 @@ export class ShiftComponent implements OnInit {
 				]
 			});
 		});
+
+		this.halls$.pipe(delay(1), take(1)).subscribe((halls) => {
+			this.setSelectedHalls((halls || []).map((hall) => hall.id));
+		});
 	}
 
 	setSelectedHalls(halls: string[]) {
@@ -103,7 +107,7 @@ export class ShiftComponent implements OnInit {
 	closeShift(shiftId: string) {
 		this._dialogService
 			.open(ConfirmationDialogComponent, {
-				data: { title: this._i18nService.translate("SHIFT.CONFIRM"), value: { label: shiftId } }
+				data: { title: this._i18nService.translate("SHIFT.CONFIRM"), value: { label: "" } }
 			})
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),

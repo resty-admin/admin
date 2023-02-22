@@ -33,7 +33,15 @@
 			[label]="t('FORM.TYPE_LABEL')"
 			[placeholder]="t('FORM.TYPE_PLACEHOLDER')"
 			[errors]="formGroup.controls['type'].errors"
-		></app-select>
+		>
+			<ng-template #selectLabelTemplate let-value>
+				{{ t("FORM." + value.name) }}
+			</ng-template>
+
+			<ng-template #selectOptionTemplate let-value>
+				{{ t("FORM." + value.name) }}
+			</ng-template>
+		</app-select>
 
 		<app-input
 			class="input"

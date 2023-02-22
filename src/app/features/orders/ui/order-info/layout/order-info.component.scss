@@ -41,7 +41,7 @@
 			justify-self: start;
 			column-gap: rem(8);
 
-			@include desktop () {
+			@include desktop() {
 				width: auto;
 			}
 			.reject,
@@ -68,6 +68,19 @@
 				&.reject {
 					border-color: var(--danger);
 					color: var(--danger);
+				}
+			}
+
+			.rejected,
+			.approved {
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				&.rejected {
+					color: var(--danger);
+				}
+				&.approved {
+					color: var(--success);
 				}
 			}
 		}

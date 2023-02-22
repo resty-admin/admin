@@ -13,11 +13,15 @@
 	</ul>
 
 	<div class="actions">
-		<button class="approve" (click)="emitApproveClick()">
-			{{ t("ACTIVE_ORDER.APPROVE") }}
-		</button>
-		<button class="reject" (click)="emitRejectClick()">
-			{{ t("ACTIVE_ORDER.REJECT") }}
-		</button>
+		<ng-container *ngIf="order?.status === orderStatusEnum.RequestToConfirm">
+			<button class="approve" (click)="emitApproveClick()">
+				{{ t("ACTIVE_ORDER.APPROVE") }}
+			</button>
+			<button class="reject" (click)="emitRejectClick()">
+				{{ t("ACTIVE_ORDER.REJECT") }}
+			</button>
+		</ng-container>
+		<p class="approved" *ngIf="order?.status === orderStatusEnum.Approved">{{ t("ACTIVE_ORDER.APPROVED") }}</p>
+		<p class="rejected" *ngIf="order?.status === orderStatusEnum.Rejected">{{ t("ACTIVE_ORDER.REJECTED") }}</p>
 	</div>
 </div>

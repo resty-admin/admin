@@ -74,9 +74,8 @@ export class AuthService {
 
 		if (this._getMeQuery.getLastResult().errors) {
 			this._getMeQuery.resetLastResults();
-		} else {
-			await this._getMeQuery.refetch();
 		}
+		await this._getMeQuery.refetch();
 	}
 
 	updateTheme(theme: ThemeEnum) {

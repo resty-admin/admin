@@ -17,6 +17,7 @@
 	<app-halls-select
 		class="halls"
 		[halls]="halls$ | async"
+		[selectedHalls]="selectedHalls$ | async"
 		(selectedHallsChange)="setSelectedHalls($event)"
 	></app-halls-select>
 

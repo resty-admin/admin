@@ -17,7 +17,7 @@
 			.title {
 				flex: 1;
 
-				@include noWrap ();
+				@include noWrap();
 			}
 			.type {
 				@include hideOnMobile();
@@ -98,6 +98,11 @@
 					&.reject {
 						border-color: var(--danger);
 						color: var(--danger);
+					}
+
+					&:disabled {
+						cursor: not-allowed;
+						opacity: 50%;
 					}
 				}
 			}

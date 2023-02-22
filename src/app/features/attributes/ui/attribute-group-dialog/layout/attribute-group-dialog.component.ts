@@ -28,12 +28,12 @@ export class AttributeGroupDialogComponent implements OnInit {
 	readonly formGroup = buildForm<IAttributeGroupForm>({
 		name: ["", Validators.required],
 		attributes: [null, Validators.required],
-		maxItemsForPick: [0, Validators.required],
+		maxItemsForPick: [0, [Validators.required, Validators.pattern(/^[1-9]$/)]],
 		type: [AttributeGroupTypeEnum.Add, Validators.required]
 	});
 
-	readonly attributeGroupTypes = Object.entries(AttributeGroupTypeEnum).map(([key, value]) => ({
-		name: key,
+	readonly attributeGroupTypes = Object.values(AttributeGroupTypeEnum).map((value) => ({
+		name: value,
 		value
 	}));
 

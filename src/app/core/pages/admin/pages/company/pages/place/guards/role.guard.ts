@@ -22,7 +22,7 @@ export class RoleGuard implements CanActivate {
 
 				this._routerService
 					.navigateByUrl(
-						ADMIN_ROUTES.SHIFT.absolutePath
+						ADMIN_ROUTES.ACTIVE_ORDERS.absolutePath
 							.replace(COMPANY_ID, paramMap.get(COMPANY_ID.slice(1)) || "")
 							.replace(PLACE_ID, paramMap.get(PLACE_ID.slice(1)) || "")
 					)

@@ -16,9 +16,12 @@ export class ActiveOrdersPageResolver implements Resolve<unknown> {
 			return null;
 		}
 
-		return this._activeOrdersPageGQL.fetch({
-			filtersArgs: [{ key: "place.id", operator: "=", value: placeId }],
-			take: 50
-		});
+		return this._activeOrdersPageGQL.fetch(
+			{
+				filtersArgs: [{ key: "place.id", operator: "=", value: placeId }],
+				take: 50
+			},
+			{ fetchPolicy: "network-only" }
+		);
 	}
 }

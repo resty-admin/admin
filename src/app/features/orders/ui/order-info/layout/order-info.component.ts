@@ -1,5 +1,6 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { OrderStatusEnum } from "@graphql";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
@@ -20,12 +21,12 @@ export class OrderInfoComponent implements OnChanges {
 	tableInfo = "";
 	dateInfo = "";
 
+	readonly orderStatusEnum = OrderStatusEnum;
+
 	ngOnChanges(changes: ISimpleChanges<OrderInfoComponent>) {
 		if (!changes.order || !changes.order.currentValue) {
 			return;
 		}
-
-		console.log(changes.order.currentValue);
 
 		const { table, startDate, status } = changes.order.currentValue;
 
