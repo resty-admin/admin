@@ -16,14 +16,14 @@ export class OrderComponent {
 	@Output() cancelClicked = new EventEmitter<IOrder>();
 	@Input() order?: IOrder;
 
-	readonly additionalActions: IAction<IOrder>[] = [
+	readonly actions: IAction<IOrder>[] = [
 		{
 			icon: "close",
 			label: "CLOSE",
 			func: (data) => this.closeClicked.emit(data)
 		},
 		{
-			icon: "close",
+			icon: "delete",
 			label: "CANCEL",
 			func: (data) => this.cancelClicked.emit(data)
 		}

@@ -7,6 +7,7 @@
 			formControlName="name"
 			[label]="t('FORM.NAME_LABEL')"
 			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[errors]="formGroup.controls['name'].errors"
 		></app-input>
 		<app-input
 			class="input"
@@ -14,9 +15,10 @@
 			returnType="float"
 			[label]="t('FORM.PRICE_LABEL')"
 			[placeholder]="t('FORM.PRICE_PLACEHOLDER')"
+			[errors]="formGroup.controls['price'].errors"
 		></app-input>
 
-		<button class="submit" appButton type="submit">
+		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
 			{{ t("ATTRIBUTE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
 		</button>
 	</form>

@@ -20,6 +20,9 @@
 				&:hover:not(:disabled) {
 					border-color: var(--primary);
 				}
+				&.ng-invalid.ng-touched {
+					border-color: var(--danger);
+				}
 			}
 
 			.label {

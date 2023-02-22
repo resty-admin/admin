@@ -2,18 +2,6 @@
 	<h1 appTypography theme="2" class="title">{{ t("PLACE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
 
 	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input
-			class="input"
-			formControlName="name"
-			[label]="t('FORM.NAME_LABEL')"
-			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
-		></app-input>
-		<app-input
-			class="input"
-			formControlName="address"
-			[label]="t('FORM.ADDRESS_LABEL')"
-			[placeholder]="t('FORM.ADDRESS_PLACEHOLDER')"
-		></app-input>
 		<app-file
 			class="input"
 			formControlName="file"
@@ -21,7 +9,23 @@
 			[label]="t('FORM.FILE_LABEL')"
 			[placeholder]="t('FORM.FILE_PLACEHOLDER')"
 		></app-file>
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[errors]="formGroup.controls['name'].errors"
+		></app-input>
+		<app-input
+			class="input"
+			formControlName="address"
+			[label]="t('FORM.ADDRESS_LABEL')"
+			[placeholder]="t('FORM.ADDRESS_PLACEHOLDER')"
+			[errors]="formGroup.controls['address'].errors"
+		></app-input>
 
-		<button class="submit" appButton type="submit">{{ t("PLACE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
+		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
+			{{ t("PLACE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
+		</button>
 	</form>
 </div>

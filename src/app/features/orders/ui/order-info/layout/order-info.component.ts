@@ -25,6 +25,8 @@ export class OrderInfoComponent implements OnChanges {
 			return;
 		}
 
+		console.log(changes.order.currentValue);
+
 		const { table, startDate, status } = changes.order.currentValue;
 
 		const tableName = table ? `${table.hall?.name}, ${table.name}` : "";

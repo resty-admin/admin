@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import { AttributeGroupsService } from "@features/attributes";
 import { AttributeGroupDialogComponent } from "@features/attributes";
 import { CategoriesService, CategoryDialogComponent } from "@features/categories";
@@ -27,13 +28,13 @@ import type { IProductForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDialogComponent implements OnInit {
-	readonly formGroup = this._formBuilder.group<any>({
-		name: "",
-		description: "",
-		price: 0,
+	readonly formGroup = this._formBuilder.group<IProductForm>({
+		name: ["", Validators.required] as any,
+		description: ["", Validators.required] as any,
+		price: ["", [Validators.required, Validators.pattern("^[0-9]*$")]] as any,
 		file: undefined,
-		category: undefined,
-		attrsGroups: []
+		category: [undefined, Validators.required] as any,
+		attrsGroups: [] as any
 	});
 
 	private readonly _productCategoriesQuery = this._productCategoriesGQL.watch({ skip: 0, take: 15 });
@@ -89,7 +90,7 @@ export class ProductDialogComponent implements OnInit {
 		this.formGroup.patchValue({
 			...this.data,
 			category: this.data.category?.id,
-			attrsGroups: (this.data.attrsGroups || []).map((attr) => attr.id)
+			attrsGroups: (this.data.attrsGroups || []).map((attr) => attr.id) as any
 		});
 	}
 

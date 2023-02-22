@@ -28,25 +28,32 @@
 			@include noWrap();
 		}
 		.paid-status {
-			display: flex;
-			align-items: center;
-			column-gap: rem(5);
-			justify-self: end;
 			grid-area: paid-status;
-			.waiting {
-				flex: 1;
-				grid-area: title;
-				font-weight: 500;
-				font-size: rem(14);
-				line-height: rem(24);
-				color: var(--dark);
-
-				@include noWrap();
-			}
+			justify-self: end;
 			.icon {
 				width: rem(20);
 				height: rem(20);
-				justify-self: end;
+				&.WAITING {
+					@include icon() {
+						path {
+							fill: var(--primary);
+						}
+					}
+				}
+				&.PAID {
+					@include icon() {
+						path {
+							fill: var(--success);
+						}
+					}
+				}
+				&.NOT_PAID {
+					@include icon() {
+						path {
+							fill: var(--danger);
+						}
+					}
+				}
 			}
 		}
 		.user {

@@ -12,6 +12,7 @@
 		<app-input
 			class="input"
 			formControlName="name"
+			[errors]="formGroup.controls['name'].errors"
 			[label]="t('FORM.NAME_LABEL')"
 			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
 		></app-input>
@@ -19,10 +20,13 @@
 			class="input"
 			returnType="number"
 			formControlName="code"
+			[errors]="formGroup.controls['code'].errors"
 			[label]="t('FORM.CODE_LABEL')"
 			[placeholder]="t('FORM.CODE_PLACEHOLDER')"
 		></app-input>
 
-		<button class="submit" appButton type="submit">{{ t("TABLE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
+		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
+			{{ t("TABLE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
+		</button>
 	</form>
 </div>

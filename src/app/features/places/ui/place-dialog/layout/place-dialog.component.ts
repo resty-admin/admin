@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { PlaceEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
@@ -16,8 +17,8 @@ import type { IPlaceForm } from "../interfaces";
 })
 export class PlaceDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<IPlaceForm>({
-		name: "",
-		address: "",
+		name: ["", Validators.required] as any,
+		address: ["", Validators.required] as any,
 		file: null
 	});
 

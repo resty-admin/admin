@@ -14,7 +14,7 @@
 
 <ng-template #moreActions let-data let-hide>
 	<ul class="actions" *transloco="let t">
-		<li class="action" *ngFor="let action of defaultActions; trackBy: sharedService.trackByFn">
+		<li class="action" *ngFor="let action of actions; trackBy: sharedService.trackByFn">
 			<button class="button" (click)="action.func(data); hide()">
 				<app-icon class="icon" [name]="action.icon"></app-icon>
 				<span class="text">{{ t("MORE." + action.label) }}</span>

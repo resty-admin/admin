@@ -29,6 +29,7 @@ body {
 			&:disabled {
 				background-color: var(--primary-d);
 				color: var(--dark-d);
+				cursor: not-allowed;
 			}
 		}
 		&.theme-2 {

@@ -7,7 +7,7 @@
 		grid-template-areas:
 			"status-type description"
 			"info info"
-			"button .";
+			"button button";
 		grid-template-columns: auto 1fr;
 		row-gap: rem(12);
 		column-gap: rem(6);
@@ -51,6 +51,7 @@
 			color: var(--dark);
 		}
 		.button {
+			justify-self: start;
 			grid-area: button;
 			background-color: var(--primary);
 			border-radius: rem(8);

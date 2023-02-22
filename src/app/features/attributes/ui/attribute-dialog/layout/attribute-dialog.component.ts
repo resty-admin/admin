@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { AttributesEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
@@ -14,8 +15,8 @@ import type { IAttributeForm } from "../interfaces";
 })
 export class AttributeDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<IAttributeForm>({
-		name: "",
-		price: 0
+		name: ["", Validators.required] as any,
+		price: [0, Validators.required] as any
 	});
 
 	data?: AttributesEntity;

@@ -44,7 +44,7 @@
 		</button>
 
 		<ng-template #createButton>
-			<button appButton theme="1" (click)="createShift(selectedTables)">
+			<button appButton theme="1" (click)="createShift(selectedTables)" [disabled]="selectedTables.length === 0">
 				{{ t("SHIFT.CREATE") }}
 			</button>
 		</ng-template>

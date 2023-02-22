@@ -8,8 +8,11 @@
 			[formControlName]="field"
 			[label]="t('FORM.' + field.toUpperCase() + '_LABEL')"
 			[placeholder]="t('FORM.' + field.toUpperCase() + '_PLACEHOLDER')"
+			[errors]="formGroup.controls[field]?.errors"
 		></app-input>
 
-		<button appButton theme="1" class="submit">{{ t("PAYMENT_SYSTEM_DIALOG.CONNECT") }}</button>
+		<button appButton theme="1" class="submit" [disabled]="formGroup.invalid">
+			{{ t("PAYMENT_SYSTEM_DIALOG.CONNECT") }}
+		</button>
 	</form>
 </div>

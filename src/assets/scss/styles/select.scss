@@ -100,6 +100,9 @@ body {
 			&:hover:not(.ng-select-disabled) .ng-select-container {
 				border-color: var(--primary);
 			}
+			&.ng-invalid.ng-touched .ng-select-container {
+				border-color: var(--danger);
+			}
 		}
 	}
 

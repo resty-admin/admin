@@ -7,8 +7,11 @@
 			formControlName="name"
 			[label]="t('FORM.NAME_LABEL')"
 			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[errors]="formGroup.controls['name'].errors"
 		></app-input>
 
-		<button class="submit" appButton type="submit">{{ t("COMPANY_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
+		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
+			{{ t("COMPANY_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
+		</button>
 	</form>
 </div>
