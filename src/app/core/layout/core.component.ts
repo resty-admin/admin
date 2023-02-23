@@ -124,9 +124,13 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.user$.pipe(take(1)).subscribe(async (user) => {
-			console.log("here?");
+		this._router.events.subscribe((event) => {
+			if (event instanceof NavigationStart) {
+				window.strum("routeChange", event.url);
+			}
+		});
 
+		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (user && !user.name) {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
 			}

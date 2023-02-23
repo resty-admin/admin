@@ -13,6 +13,55 @@
 		<meta name="msapplication-TileColor" content="#da532c" />
 		<meta name="theme-color" content="#ffffff" />
 		<script src="./assets/scripts/telegram.js"></script>
+		<script type="text/javascript">
+			(function (e, r, n, t, s) {
+				var a = [];
+				e[s] = function () {
+					a.push(arguments);
+				};
+				e[s].queue = a;
+				var o = [];
+				var i = [];
+				var c = true;
+				var p = void 0;
+				if (
+					window.PerformanceObserver &&
+					window.PerformanceObserver.supportedEntryTypes &&
+					(PerformanceObserver.supportedEntryTypes.indexOf("longtask") >= 0 ||
+						PerformanceObserver.supportedEntryTypes.indexOf("element") >= 0)
+				) {
+					p = new PerformanceObserver(function (e) {
+						e.getEntries().forEach(function (e) {
+							switch (e.entryType) {
+								case "element":
+									i.push(e);
+									break;
+								case "longtask":
+									o.push(e);
+									break;
+								default:
+									break;
+							}
+						});
+					});
+					p.observe({ entryTypes: ["longtask", "element"] });
+				}
+				e[s + "lt"] = { longTasks: o, timingElements: i, inPageLoad: c, observer: p };
+				if (t) {
+					var u = r.createElement(n);
+					u.async = 1;
+					u.src = t;
+					var f = r.getElementsByTagName(n)[0];
+					f.parentNode.insertBefore(u, f);
+				}
+			})(window, document, "script", "//cdn.sematext.com/experience.js", "strum");
+		</script>
+		<script type="text/javascript">
+			strum("config", {
+				token: "7e3ff670-2ee8-4b8a-b281-40aef1b1ce36",
+				receiverUrl: "https://rum-receiver.eu.sematext.com"
+			});
+		</script>
 	</head>
 	<body class="light">
 		<app-core></app-core>
