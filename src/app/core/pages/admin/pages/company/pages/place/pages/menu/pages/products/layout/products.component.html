@@ -55,5 +55,9 @@
 </div>
 
 <ng-template #moreTemplate let-row="row">
-	<app-more (editClicked)="openUpdateProductDialog(row)" (deleteClicked)="openDeleteProductDialog(row)"></app-more>
+	<app-more
+		class="more"
+		(editClicked)="openUpdateProductDialog(row)"
+		(deleteClicked)="openDeleteProductDialog(row)"
+	></app-more>
 </ng-template>

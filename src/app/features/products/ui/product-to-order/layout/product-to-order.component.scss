@@ -82,7 +82,7 @@
 }
 @include dark() {
 	.product-to-order {
-		border-color: var(--light-b);
+		background-color: var(--dark-grey);
 
 		.title {
 			color: var(--light);

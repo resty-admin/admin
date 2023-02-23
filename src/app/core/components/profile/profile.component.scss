@@ -65,4 +65,23 @@
 	}
 }
 @include dark() {
+	.user {
+		background-color: var(--dark-grey);
+		.name {
+			color: var(--light);
+		}
+		.description {
+			color: var(--light-t);
+		}
+		.sign-out {
+			background-color: var(--dark);
+			.icon {
+				@include icon () {
+					path {
+						fill: var(--light);
+					}
+				}
+			}
+		}
+	}
 }

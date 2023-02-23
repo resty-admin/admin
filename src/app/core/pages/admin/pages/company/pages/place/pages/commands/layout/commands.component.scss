@@ -17,6 +17,8 @@
 
 		.title {
 			grid-area: title;
+
+			@include noWrap ();
 		}
 		.add {
 			grid-area: add;

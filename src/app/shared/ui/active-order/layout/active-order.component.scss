@@ -62,3 +62,13 @@
 		}
 	}
 }
+@include dark() {
+	.active-order {
+		.divider {
+			background-color: var(--light-b);
+		}
+		.code {
+			color: var(--light);
+		}
+	}
+}

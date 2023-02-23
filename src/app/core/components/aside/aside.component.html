@@ -1,5 +1,10 @@
 <aside class="aside" *transloco="let t">
-	<app-profile class="profile" [user]="user" (signOutClicked)="emitSignOutClick()"></app-profile>
+	<app-profile
+		class="profile"
+		[user]="user"
+		(signOutClicked)="emitSignOutClick()"
+		(closeClicked)="emitCloseClick()"
+	></app-profile>
 
 	<app-company-select
 		class="company-select"

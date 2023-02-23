@@ -113,8 +113,11 @@ body {
 				.ng-value-container .ng-placeholder {
 					color: var(--light-t);
 				}
-				&.ng-has-value .ng-value .ng-option-label {
+				&.ng-has-value .ng-value {
 					color: var(--light);
+					.ng-option-label {
+						color: var(--light);
+					}
 				}
 			}
 			.ng-dropdown-panel .ng-dropdown-panel-items {

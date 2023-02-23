@@ -121,7 +121,14 @@
 	}
 }
 @include dark() {
-	.order-page .header .type {
-		color: var(--light);
+	.order-page {
+		.header .type {
+			color: var(--light);
+		}
+		.footer {
+			.text {
+				color: var(--light);
+			}
+		}
 	}
 }

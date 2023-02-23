@@ -43,6 +43,11 @@
 	.footer {
 		.back {
 			background-color: var(--dark-grey);
+			.icon {
+				@include icon () {
+					stroke: var(--light);
+				}
+			}
 		}
 	}
 }

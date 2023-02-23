@@ -100,10 +100,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	setSelectedUsers(usersIds: string[]) {
 		this.activeOrder$.pipe(take(1)).subscribe((order) => {
-			const { productsToOrders } = order!;
-
 			this.setSelected(
-				productsToOrders || [].filter((productToOrder: any) => usersIds.includes(productToOrder.user.id))
+				(order!.productsToOrders || []).filter((productToOrder: any) => usersIds.includes(productToOrder.user.id))
 			);
 		});
 	}

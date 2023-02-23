@@ -36,4 +36,11 @@
 	}
 }
 @include dark() {
+	.products-to-order-select {
+		.products-to-orders-by-status {
+			.status {
+				color: var(--light);
+			}
+		}
+	}
 }
