@@ -69,7 +69,7 @@ export class SignInComponent implements OnInit {
 						this._toastrService.error(undefined, { data: { title: "Немає такого користувач" } });
 					}
 					if (errorsCodes.includes("1015")) {
-						this._toastrService.error(undefined, { data: { title: "Немає такого користувач" } });
+						this._toastrService.error(undefined, { data: { title: "Занадто простий пароль" } });
 					}
 				}
 			);

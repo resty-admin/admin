@@ -81,8 +81,8 @@ export class SignUpComponent implements OnInit {
 				(error) => {
 					const errorsCodes = error?.graphQLErrors[0]?.extensions?.codes || [];
 
-					if (errorsCodes.includes("1006")) {
-						this._toastrService.error(undefined, { data: { title: "Немає такого користувач" } });
+					if (errorsCodes.includes("1005")) {
+						this._toastrService.error(undefined, { data: { title: "Такий користувач вже є" } });
 					}
 					if (errorsCodes.includes("1015")) {
 						this._toastrService.error(undefined, { data: { title: "Занадто простий пароль" } });
