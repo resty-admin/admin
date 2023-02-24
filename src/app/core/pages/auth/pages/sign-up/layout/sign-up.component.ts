@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
@@ -8,6 +9,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
 import { AUTH_TYPES } from "@shared/data";
 import { RouterService } from "@shared/modules/router";
+import { ToastrService } from "@shared/ui/toastr";
 import { take } from "rxjs";
 
 export interface ISignUp {
@@ -34,16 +36,17 @@ export class SignUpComponent implements OnInit {
 
 	readonly typeControl = new FormControl<IAuthType>("email");
 	readonly formGroup = this._formBuilder.group<ISignUp>({
-		email: "",
-		tel: "",
-		password: "",
+		email: ["", Validators.required] as any,
+		tel: ["", Validators.required] as any,
+		password: ["", Validators.required] as any,
 		role: UserRoleEnum.Admin
 	});
 
 	constructor(
 		private readonly _formBuilder: FormBuilder,
 		private readonly _authService: AuthService,
-		private readonly _routerService: RouterService
+		private readonly _routerService: RouterService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	ngOnInit() {
@@ -65,14 +68,26 @@ export class SignUpComponent implements OnInit {
 		this._authService
 			.signUp(body)
 			.pipe(take(1))
-			.subscribe(async (accessToken) => {
-				if (!accessToken) {
-					return;
-				}
+			.subscribe(
+				async (accessToken) => {
+					if (!accessToken) {
+						return;
+					}
 
-				await this._routerService.navigateByUrl(
-					ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
-				);
-			});
+					await this._routerService.navigateByUrl(
+						ADMIN_ROUTES.VERIFICATION_CODE.absolutePath.replace(DYNAMIC_TOKEN, accessToken)
+					);
+				},
+				(error) => {
+					const errorsCodes = error?.graphQLErrors[0]?.extensions?.codes || [];
+
+					if (errorsCodes.includes("1006")) {
+						this._toastrService.error(undefined, { data: { title: "Немає такого користувач" } });
+					}
+					if (errorsCodes.includes("1015")) {
+						this._toastrService.error(undefined, { data: { title: "Занадто простий пароль" } });
+					}
+				}
+			);
 	}
 }

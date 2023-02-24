@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
@@ -21,7 +22,7 @@ export class ResetPasswordComponent {
 
 	readonly typeControl = new FormControl<IAuthType>("email");
 	readonly formGroup = this._formBuilder.group<IResetPassword>({
-		password: ""
+		password: ["", Validators.required] as any
 	});
 
 	constructor(

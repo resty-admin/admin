@@ -14,7 +14,9 @@
 					<button class="resend">{{ t("VERIFIFICATION_CODE.SEND_AGAIN") }}</button>
 				</p>
 
-				<button appButton theme="1" class="submit">{{ t("VERIFIFICATION_CODE.SEND") }}</button>
+				<button appButton theme="1" class="submit" [disabled]="formGroup.invalid">
+					{{ t("VERIFIFICATION_CODE.SEND") }}
+				</button>
 			</form>
 		</div>
 	</app-card>

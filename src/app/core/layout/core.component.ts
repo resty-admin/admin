@@ -38,7 +38,9 @@ export class CoreComponent implements OnInit {
 
 	readonly user$ = this._authService.me$.pipe(filter((user) => Boolean(user)));
 
-	readonly companies$ = this._adminCompaniesQuery.valueChanges.pipe(map((result) => result.data.companies.data));
+	readonly companies$ = this.user$.pipe(
+		switchMap(() => this._adminCompaniesQuery.valueChanges.pipe(map((result) => result.data.companies.data)))
+	);
 
 	readonly companyId$ = this._routerService.selectParams().pipe(
 		map(({ companyId }) => companyId),
@@ -124,18 +126,18 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.user$.pipe(take(1)).subscribe(async (user) => {
+			if (!user || user.name) {
+				return;
+			}
+
+			await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
+		});
+
 		this._router.events.subscribe((event) => {
 			if (event instanceof NavigationStart) {
 				window.strum("routeChange", event.url);
 			}
-		});
-
-		this.user$.pipe(take(1)).subscribe(async (user) => {
-			if (user && !user.name) {
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.PROFILE.absolutePath);
-			}
-
-			await this._adminCompaniesQuery.refetch();
 		});
 
 		this._authService.language$.pipe(untilDestroyed(this)).subscribe((lang) => {

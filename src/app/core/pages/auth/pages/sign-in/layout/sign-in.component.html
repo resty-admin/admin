@@ -18,6 +18,7 @@
 				formControlName="email"
 				[label]="t('FORM.EMAIL_LABEL')"
 				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+				[errors]="formGroup.controls['email'].errors"
 			></app-input>
 			<app-input
 				*ngSwitchCase="'tel'"
@@ -26,6 +27,7 @@
 				formControlName="tel"
 				[label]="t('FORM.TEL_LABEL')"
 				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
+				[errors]="formGroup.controls['tel'].errors"
 			></app-input>
 			<app-input
 				class="input"
@@ -33,6 +35,7 @@
 				formControlName="password"
 				[label]="t('FORM.PASSWORD_LABEL')"
 				[placeholder]="t('FORM.PASSWORD_PLACEHOLDER')"
+				[errors]="formGroup.controls['password'].errors"
 			></app-input>
 
 			<div class="social-medias">
@@ -47,7 +50,7 @@
 				</button>
 			</div>
 
-			<button appButton class="submit">{{ t("AUTH.SIGN_IN") }}</button>
+			<button appButton class="submit" [disabled]="formGroup.invalid">{{ t("AUTH.SIGN_IN") }}</button>
 		</form>
 
 		<div class="links">
