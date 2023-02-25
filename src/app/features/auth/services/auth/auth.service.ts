@@ -101,7 +101,7 @@ export class AuthService {
 	}
 
 	resetPassword(body: ResetPasswordInput) {
-		return this._resetPasswordGQL.mutate({ body }).pipe(
+		return this._resetPasswordGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.resetPassword.accessToken),
 			this._updateAccessToken()
 		);
