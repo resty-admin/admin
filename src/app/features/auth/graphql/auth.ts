@@ -89,6 +89,13 @@ export interface DeleteMeMutation {
 	deleteMe: string;
 }
 
+export type SendAgainMutationVariables = Types.Exact<Record<string, never>>;
+
+export interface SendAgainMutation {
+	__typename?: "Mutation";
+	sendAgain: string;
+}
+
 export const SignInDocument = gql`
 	mutation SignIn($body: SignInInput!) {
 		signIn(body: $body) {
@@ -260,6 +267,22 @@ export const DeleteMeDocument = gql`
 })
 export class DeleteMeGQL extends Apollo.Mutation<DeleteMeMutation, DeleteMeMutationVariables> {
 	override document = DeleteMeDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const SendAgainDocument = gql`
+	mutation SendAgain {
+		sendAgain
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class SendAgainGQL extends Apollo.Mutation<SendAgainMutation, SendAgainMutationVariables> {
+	override document = SendAgainDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

@@ -81,11 +81,6 @@ export interface ActiveShiftEntityInput {
 	waiter?: InputMaybe<UserEntityInput>;
 }
 
-export interface AddEmployeeInput {
-	placeId: Scalars["String"];
-	userId: Scalars["String"];
-}
-
 export enum AttributeGroupTypeEnum {
 	Add = "ADD",
 	Remove = "REMOVE"
@@ -344,8 +339,8 @@ export interface FondyLink {
 }
 
 export interface ForgotPasswordInput {
-	email: Scalars["String"];
-	tel: Scalars["String"];
+	email?: InputMaybe<Scalars["String"]>;
+	tel?: InputMaybe<Scalars["String"]>;
 }
 
 export interface HallEntity {
@@ -449,9 +444,9 @@ export interface Mutation {
 	getTableByCode: TableEntity;
 	rejectOrder: ActiveOrderEntity;
 	rejectProductsInOrder: ProductToOrderEntity[];
-	removeEmployeeFromPlace: PlaceEntity;
 	removeTableFromOrder: ActiveOrderEntity;
 	resetPassword: AccessToken;
+	sendAgain: Scalars["String"];
 	setManualPayForProductsInOrder: ProductToOrderEntity[];
 	setPaidStatusForProductsInOrder: ProductToOrderEntity[];
 	signIn: AccessToken;
@@ -647,7 +642,7 @@ export interface MutationDeleteUserArgs {
 
 export interface MutationEmitCommandArgs {
 	commandId: Scalars["String"];
-	tableId: Scalars["String"];
+	orderId: Scalars["String"];
 }
 
 export interface MutationForgotPasswordArgs {
@@ -663,7 +658,7 @@ export interface MutationGetMerchantLoginAndCodeLinkArgs {
 }
 
 export interface MutationGetTableByCodeArgs {
-	code: Scalars["String"];
+	code: Scalars["Float"];
 	placeId: Scalars["String"];
 }
 
@@ -673,10 +668,6 @@ export interface MutationRejectOrderArgs {
 
 export interface MutationRejectProductsInOrderArgs {
 	productToOrderIds: Scalars["String"][];
-}
-
-export interface MutationRemoveEmployeeFromPlaceArgs {
-	employeeData: AddEmployeeInput;
 }
 
 export interface MutationRemoveTableFromOrderArgs {
@@ -958,7 +949,7 @@ export interface PlaceAccountingSystemEntityInput {
 
 export interface PlaceEntity {
 	__typename?: "PlaceEntity";
-	a11y: Scalars["String"];
+	a11y: Scalars["JSONObject"];
 	accountingSystems?: Maybe<PlaceToAccountingSystemEntity[]>;
 	address?: Maybe<Scalars["String"]>;
 	attrGroups: AttributesGroupEntity[];
@@ -967,7 +958,7 @@ export interface PlaceEntity {
 	company: CompanyEntity;
 	file?: Maybe<FileEntity>;
 	halls: HallEntity[];
-	holidayDays: Scalars["String"];
+	holidayDays: Scalars["JSONObject"];
 	id: Scalars["String"];
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
@@ -977,12 +968,12 @@ export interface PlaceEntity {
 	usersToPlaces?: Maybe<UserToPlaceEntity[]>;
 	verificationStatus: PlaceVerificationStatusEnum;
 	waiterCode?: Maybe<Scalars["Int"]>;
-	weekDays: Scalars["String"];
-	weekendDays: Scalars["String"];
+	weekDays: Scalars["JSONObject"];
+	weekendDays: Scalars["JSONObject"];
 }
 
 export interface PlaceEntityInput {
-	a11y: Scalars["String"];
+	a11y: Scalars["JSONObject"];
 	accountingSystems?: InputMaybe<PlaceAccountingSystemEntityInput[]>;
 	address?: InputMaybe<Scalars["String"]>;
 	attrGroups: AttributesGroupEntityInput[];
@@ -991,7 +982,7 @@ export interface PlaceEntityInput {
 	company: CompanyEntityInput;
 	file?: InputMaybe<FileEntityInput>;
 	halls: HallEntityInput[];
-	holidayDays: Scalars["String"];
+	holidayDays: Scalars["JSONObject"];
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orders?: InputMaybe<ActiveOrderEntityInput[]>;
@@ -1000,8 +991,8 @@ export interface PlaceEntityInput {
 	usersToPlaces?: InputMaybe<UserToPlaceEntityInput[]>;
 	verificationStatus: PlaceVerificationStatusEnum;
 	waiterCode?: InputMaybe<Scalars["Int"]>;
-	weekDays: Scalars["String"];
-	weekendDays: Scalars["String"];
+	weekDays: Scalars["JSONObject"];
+	weekendDays: Scalars["JSONObject"];
 }
 
 export enum PlaceStatusEnum {
@@ -1123,6 +1114,7 @@ export interface Query {
 	halls: PaginatedHall;
 	historyOrders: PaginatedHistoryOrder;
 	isTableAvailableForReserve: TableEntity;
+	isTimeAvailable: Scalars["Boolean"];
 	language: LanguageEntity;
 	languages: LanguageEntity;
 	order?: Maybe<ActiveOrderEntity>;
@@ -1236,6 +1228,11 @@ export interface QueryHistoryOrdersArgs {
 
 export interface QueryIsTableAvailableForReserveArgs {
 	body: IsTableAvailableInput;
+}
+
+export interface QueryIsTimeAvailableArgs {
+	date: Scalars["DateTime"];
+	placeId: Scalars["String"];
 }
 
 export interface QueryLanguageArgs {
@@ -1419,7 +1416,6 @@ export interface UpdateCategoryInput {
 	file?: InputMaybe<Scalars["String"]>;
 	id: Scalars["String"];
 	name?: InputMaybe<Scalars["String"]>;
-	place?: InputMaybe<Scalars["String"]>;
 }
 
 export interface UpdateCommandInput {

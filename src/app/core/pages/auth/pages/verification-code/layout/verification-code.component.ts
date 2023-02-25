@@ -39,6 +39,10 @@ export class VerificationCodeComponent implements OnInit {
 		await this._authService.updateAccessToken(dynamicToken);
 	}
 
+	sendAgain() {
+		this._authService.sendAgain().pipe(take(1)).subscribe();
+	}
+
 	verifyCode({ verificationCode }: IVerificationCode) {
 		this._authService
 			.verifyCode(verificationCode)

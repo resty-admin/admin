@@ -22,6 +22,7 @@ import {
 	GetMeGQL,
 	GoogleGQL,
 	ResetPasswordGQL,
+	SendAgainGQL,
 	SignInGQL,
 	SignUpGQL,
 	TelegramGQL,
@@ -49,6 +50,7 @@ export class AuthService {
 		private readonly _getMeGQL: GetMeGQL,
 		private readonly _updateMeGQL: UpdateMeGQL,
 		private readonly _deleteMeGQL: DeleteMeGQL,
+		private readonly _sendAgainGQL: SendAgainGQL,
 		private readonly _signInGQL: SignInGQL,
 		private readonly _signUpGQL: SignUpGQL,
 		private readonly _telegramGQL: TelegramGQL,
@@ -138,6 +140,10 @@ export class AuthService {
 
 	deleteMe() {
 		return this._deleteMeGQL.mutate();
+	}
+
+	sendAgain() {
+		return this._sendAgainGQL.mutate();
 	}
 
 	signOut() {

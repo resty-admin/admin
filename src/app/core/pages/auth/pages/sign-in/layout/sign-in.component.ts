@@ -1,6 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Validators } from "@angular/forms";
+import { environment } from "@env/environment";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
@@ -34,6 +35,8 @@ export class SignInComponent implements OnInit {
 		tel: ["", Validators.required] as any,
 		password: ["", Validators.required] as any
 	});
+
+	readonly googleUrl = `${environment.apiUrl}/auth/google`;
 
 	constructor(
 		private readonly _routerService: RouterService,

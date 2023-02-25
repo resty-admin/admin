@@ -11,7 +11,7 @@
 
 				<p appTypography theme="3" class="help">
 					{{ t("VERIFIFICATION_CODE.DIDNT_COME") }}
-					<button class="resend">{{ t("VERIFIFICATION_CODE.SEND_AGAIN") }}</button>
+					<button type="button" class="resend" (click)="sendAgain()">{{ t("VERIFIFICATION_CODE.SEND_AGAIN") }}</button>
 				</p>
 
 				<button appButton theme="1" class="submit" [disabled]="formGroup.invalid">
