@@ -67,7 +67,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			.fromEvents(Object.values(OrdersEvents))
 			.pipe(
 				untilDestroyed(this),
-				filter(({ order }: any) => order.id === orderId),
+				filter((order: any) => order.id === orderId),
 				switchMap(() => this._activeOrderPageQuery.refetch())
 			)
 			.subscribe((result) => {
@@ -123,6 +123,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			this.selectedUsers = Object.entries(productsByUser)
 				.filter(([_, value]) => value)
 				.map(([key]) => key);
+
+			this.setSelected(this.selectedProductsToOrders);
 		});
 	}
 
