@@ -33,7 +33,7 @@ export class ResetPasswordComponent implements OnInit {
 	) {}
 
 	async ngOnInit() {
-		const accessToken = this._routerService.getParams(DYNAMIC_TOKEN);
+		const accessToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
 
 		await this._authService.updateAccessToken(accessToken);
 	}
