@@ -15,7 +15,7 @@ export class TelegramComponent implements AfterViewInit {
 		const element = this.script.nativeElement;
 		const script = document.createElement("script");
 		script.src = "https://telegram.org/js/telegram-widget.js?5";
-		script.dataset["telegramLogin"] = "resty_admin_bot";
+		script.dataset["telegramLogin"] = "dev_resty_admin_bot";
 		script.dataset["size"] = "large";
 		// Callback function in global scope
 		// Callback function in global scope
