@@ -58,11 +58,30 @@
 			background-color: var(--light);
 			border-radius: rem(12);
 			.icon {
-				width: rem(32);
-				height: rem(32);
+				width: rem(21);
+				height: rem(21);
 			}
 		}
 	}
 }
 @include dark() {
+	.user {
+		background-color: var(--dark-grey);
+		.name {
+			color: var(--light);
+		}
+		.description {
+			color: var(--light-t);
+		}
+		.sign-out {
+			background-color: var(--dark);
+			.icon {
+				@include icon () {
+					path {
+						fill: var(--light);
+					}
+				}
+			}
+		}
+	}
 }

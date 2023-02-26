@@ -15,7 +15,7 @@ export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, 
 	@Output() valueChange = new EventEmitter<T>();
 
 	@Input() value?: T | null = null;
-	@Input() errors: ValidationErrors | null = null;
+	@Input() errors?: ValidationErrors | null = null;
 	@Input() disabled = false;
 	@Input() placeholder = "";
 
@@ -41,7 +41,7 @@ export abstract class ControlValueAccessor<T> implements _ControlValueAccessor, 
 
 	ngOnChanges(changes: ISimpleChanges<ControlValueAccessor<T>>) {
 		if (changes.errors) {
-			this.formControl.setErrors(changes.errors.currentValue);
+			this.formControl.setErrors(changes.errors?.currentValue || null);
 		}
 
 		if (changes.value) {

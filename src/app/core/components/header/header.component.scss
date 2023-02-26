@@ -130,6 +130,11 @@
 		.burger {
 			background-color: var(--dark);
 			.icon {
+				@include icon () {
+					path {
+						stroke: var(--light);
+					}
+				}
 			}
 		}
 	}

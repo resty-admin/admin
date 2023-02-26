@@ -53,3 +53,7 @@ mutation UpdateMe($user: UpdateMeInput!) {
 mutation DeleteMe {
 	deleteMe
 }
+
+mutation SendAgain {
+	sendAgain
+}

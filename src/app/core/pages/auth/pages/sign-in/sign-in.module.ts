@@ -8,9 +8,11 @@ import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { LinkModule } from "@shared/ui/link";
+import { LoginWithTelegramModule } from "@shared/ui/login-with-telegram";
 import { RadioButtonModule } from "@shared/ui/radio-button";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { TelegramModule } from "../telegram/telegram.module";
 import { SignInComponent } from "./layout/sign-in.component";
 import { SignInRoutingModule } from "./sign-in-routing.module";
 
@@ -28,7 +30,9 @@ import { SignInRoutingModule } from "./sign-in-routing.module";
 		LinkModule,
 		IconModule,
 		ImageModule,
-		CardModule
+		CardModule,
+		TelegramModule,
+		LoginWithTelegramModule
 	]
 })
 export class SignInModule {}

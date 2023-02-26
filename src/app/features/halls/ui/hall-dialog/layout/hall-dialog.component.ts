@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { HallEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
@@ -16,7 +17,7 @@ import type { IHallForm } from "../interfaces";
 })
 export class HallDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<IHallForm>({
-		name: "",
+		name: ["", Validators.required] as any,
 		file: null
 	});
 

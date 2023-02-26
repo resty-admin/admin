@@ -8,13 +8,14 @@ import type {
 	UpdateMeInput,
 	UserEntity
 } from "@graphql";
+import { ADMIN_ROUTES } from "@shared/constants";
 import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
+import { RouterService } from "@shared/modules/router";
 import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
-import { catchError, of } from "rxjs";
-import { map, tap } from "rxjs";
+import { catchError, map, of, switchMap } from "rxjs";
 
 import {
 	DeleteMeGQL,
@@ -22,6 +23,7 @@ import {
 	GetMeGQL,
 	GoogleGQL,
 	ResetPasswordGQL,
+	SendAgainGQL,
 	SignInGQL,
 	SignUpGQL,
 	TelegramGQL,
@@ -49,6 +51,7 @@ export class AuthService {
 		private readonly _getMeGQL: GetMeGQL,
 		private readonly _updateMeGQL: UpdateMeGQL,
 		private readonly _deleteMeGQL: DeleteMeGQL,
+		private readonly _sendAgainGQL: SendAgainGQL,
 		private readonly _signInGQL: SignInGQL,
 		private readonly _signUpGQL: SignUpGQL,
 		private readonly _telegramGQL: TelegramGQL,
@@ -58,25 +61,42 @@ export class AuthService {
 		private readonly _googleGQL: GoogleGQL,
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
-		private readonly _jwtService: JwtService
-	) {}
+		private readonly _jwtService: JwtService,
+		private readonly _routerService: RouterService
+	) {
+		// @ts-expect-error
+		window["loginViaTelegram"] = (loginData) => this.loginViaTelegram(loginData);
+	}
+
+	async refetch() {
+		await this._getMeQuery.refetch();
+	}
+
+	private async loginViaTelegram(telegramUser: any) {
+		await this._routerService.navigateByUrl(
+			`${ADMIN_ROUTES.TELEGRAM.absolutePath}#user=${JSON.stringify(telegramUser)}`
+		);
+	}
 
 	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
 		return { body: { ...body, password: this._cryptoService.encrypt(body.password) } };
 	}
 
 	private _updateAccessToken(): (source$: Observable<string | undefined>) => Observable<string | undefined> {
-		return (source$) => source$.pipe(tap((accessToken) => this.updateAccessToken(accessToken)));
+		return (source$) =>
+			source$.pipe(
+				switchMap((accessToken) => this.updateAccessToken(accessToken)),
+				map((result) => result.data.getMe.accessToken)
+			);
 	}
 
-	async updateAccessToken(accessToken?: string) {
+	updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
 
-		if (this._getMeQuery.getLastResult().errors) {
+		if (this._getMeQuery.getLastError()) {
 			this._getMeQuery.resetLastResults();
-		} else {
-			await this._getMeQuery.refetch();
 		}
+		return this._getMeQuery.refetch();
 	}
 
 	updateTheme(theme: ThemeEnum) {
@@ -102,7 +122,7 @@ export class AuthService {
 	}
 
 	resetPassword(body: ResetPasswordInput) {
-		return this._resetPasswordGQL.mutate({ body }).pipe(
+		return this._resetPasswordGQL.mutate(this._getBodyWithEncryptedPassword(body)).pipe(
 			map((result) => result.data?.resetPassword.accessToken),
 			this._updateAccessToken()
 		);
@@ -139,6 +159,10 @@ export class AuthService {
 
 	deleteMe() {
 		return this._deleteMeGQL.mutate();
+	}
+
+	sendAgain() {
+		return this._sendAgainGQL.mutate();
 	}
 
 	signOut() {

@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { CompanyEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
@@ -14,7 +15,7 @@ import type { ICompanyForm } from "../interfaces";
 })
 export class CompanyDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<ICompanyForm>({
-		name: ""
+		name: ["", Validators.required] as any
 	});
 
 	data?: CompanyEntity;

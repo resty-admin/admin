@@ -1,0 +1,9 @@
+<button appButton theme="2" class="button" type="button">
+	<app-icon class="icon" name="telegram"></app-icon>
+	<span class="text" *transloco="let t">{{ t("AUTH.TELEGRAM") }}</span>
+	<div class="content">
+		<span class="script" #script>
+			<ng-content></ng-content>
+		</span>
+	</div>
+</button>

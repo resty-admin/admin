@@ -2,7 +2,7 @@ import type { OnDestroy, OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActionsService } from "@features/app";
 import { OrdersService } from "@features/orders";
-import { OrdersEvents, ProductToOrderStatusEnum } from "@graphql";
+import { OrdersEvents, ProductToOrderPaidStatusEnum, ProductToOrderStatusEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants";
 import { BreadcrumbsService } from "@shared/modules/breadcrumbs";
@@ -30,6 +30,9 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	selectedUsers: string[] = [];
 	selectedProductsToOrders: { id: string }[] = [];
+
+	isPayActive = false;
+	isActionsActive = false;
 
 	constructor(
 		private readonly _activeOrderPageGQL: ActiveOrderPageGQL,
@@ -64,10 +67,28 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			.fromEvents(Object.values(OrdersEvents))
 			.pipe(
 				untilDestroyed(this),
-				filter(({ order }: any) => order.id === orderId),
+				filter((order: any) => order.id === orderId),
 				switchMap(() => this._activeOrderPageQuery.refetch())
 			)
-			.subscribe();
+			.subscribe((result) => {
+				const { productsToOrders } = result.data.order || {};
+
+				this.setSelected(
+					this.selectedProductsToOrders.map(({ id }) =>
+						(productsToOrders || []).find((productToOrder) => productToOrder.id === id)
+					)
+				);
+			});
+	}
+
+	setSelected(productsToOrders: any[]) {
+		this.selectedProductsToOrders = productsToOrders;
+		this.isActionsActive =
+			productsToOrders.length > 0 &&
+			productsToOrders.every((productToOrder) => productToOrder.status === ProductToOrderStatusEnum.WaitingForApprove);
+		this.isPayActive =
+			productsToOrders.length > 0 &&
+			productsToOrders.every((productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Waiting);
 	}
 
 	setPaidStatusForProductsInOrder() {
@@ -79,10 +100,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 
 	setSelectedUsers(usersIds: string[]) {
 		this.activeOrder$.pipe(take(1)).subscribe((order) => {
-			const { productsToOrders } = order!;
-
-			this.selectedProductsToOrders = (productsToOrders || []).filter((productToOrder: any) =>
-				usersIds.includes(productToOrder.user.id)
+			this.setSelected(
+				(order!.productsToOrders || []).filter((productToOrder: any) => usersIds.includes(productToOrder.user.id))
 			);
 		});
 	}
@@ -92,7 +111,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			const { productsToOrders, users } = order!;
 
 			const productsByUser = (users || []).reduce(
-				(usersMap: any, user: any) => ({
+				(usersMap, user) => ({
 					...usersMap,
 					[user.id]: (productsToOrders || [])
 						.filter((productToOrder: any) => productToOrder.user.id === user.id)
@@ -104,6 +123,8 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			this.selectedUsers = Object.entries(productsByUser)
 				.filter(([_, value]) => value)
 				.map(([key]) => key);
+
+			this.setSelected(this.selectedProductsToOrders);
 		});
 	}
 
@@ -155,7 +176,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 	}
 
 	selectChange({ selected }: any) {
-		this.selectedProductsToOrders = selected;
+		this.setSelected(selected);
 	}
 
 	ngOnDestroy() {

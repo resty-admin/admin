@@ -6,6 +6,7 @@
 			formControlName="name"
 			[label]="t('FORM.NAME_LABEL')"
 			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[errors]="formGroup.controls['name'].errors"
 		></app-input>
 		<app-textarea
 			formControlName="description"
@@ -13,6 +14,8 @@
 			[placeholder]="t('FORM.DESCRIPTION_PLACEHOLDER')"
 		></app-textarea>
 
-		<button class="submit" appButton type="submit">{{ t("COMMAND_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
+		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
+			{{ t("COMMAND_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
+		</button>
 	</form>
 </div>

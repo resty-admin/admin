@@ -129,7 +129,7 @@
 				color: var(--light);
 			}
 
-			.more {
+			.more::ng-deep .app-more {
 				background-color: var(--dark-grey);
 			}
 

@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder } from "@ngneat/reactive-forms";
 import { DYNAMIC_TOKEN } from "@shared/constants";
@@ -19,7 +20,7 @@ export interface IVerificationCode {
 })
 export class VerificationCodeComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<IVerificationCode>({
-		verificationCode: 0
+		verificationCode: [0, [Validators.required, Validators.min(1000), Validators.max(9999)]] as any
 	});
 
 	constructor(
@@ -36,6 +37,10 @@ export class VerificationCodeComponent implements OnInit {
 		}
 
 		await this._authService.updateAccessToken(dynamicToken);
+	}
+
+	sendAgain() {
+		this._authService.sendAgain().pipe(take(1)).subscribe();
 	}
 
 	verifyCode({ verificationCode }: IVerificationCode) {

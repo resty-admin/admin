@@ -17,6 +17,7 @@
 				*ngSwitchCase="'email'"
 				[label]="t('FORM.EMAIL_LABEL')"
 				[placeholder]="t('FORM.EMAIL_PLACEHOLDER')"
+				[errors]="formGroup.controls['email'].errors"
 			></app-input>
 			<app-input
 				class="input"
@@ -25,28 +26,27 @@
 				*ngSwitchCase="'tel'"
 				[label]="t('FORM.TEL_LABEL')"
 				[placeholder]="t('FORM.TEL_PLACEHOLDER')"
+				[errors]="formGroup.controls['tel'].errors"
 			></app-input>
 			<app-input
 				class="input"
 				type="password"
+				formControlName="password"
 				[label]="t('FORM.PASSWORD_LABEL')"
 				[placeholder]="t('FORM.PASSWORD_PLACEHOLDER')"
-				formControlName="password"
+				[errors]="formGroup.controls['password'].errors"
 			></app-input>
 
 			<div class="social-medias">
 				<p class="label">{{ t("AUTH.OR") }}</p>
-				<button appButton theme="2" class="button" type="button">
+				<a appButton theme="2" class="button" type="button" [href]="googleUrl">
 					<app-icon class="icon" name="google"></app-icon>
 					<span class="text">{{ t("AUTH.GOOGLE") }}</span>
-				</button>
-				<button appButton theme="2" class="button" type="button">
-					<app-icon class="icon" name="telegram"></app-icon>
-					<span class="text">{{ t("AUTH.TELEGRAM") }}</span>
-				</button>
+				</a>
+				<app-login-with-telegram class="button"></app-login-with-telegram>
 			</div>
 
-			<button appButton class="submit">{{ t("AUTH.SIGN_UP") }}</button>
+			<button appButton class="submit" [disabled]="formGroup.invalid">{{ t("AUTH.SIGN_UP") }}</button>
 		</form>
 
 		<div class="links">

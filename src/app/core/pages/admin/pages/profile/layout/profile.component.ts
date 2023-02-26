@@ -73,7 +73,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	}
 
 	updateMe(formValue: IProfileForm) {
-		this._authService.updateMe(formValue).pipe(take(1)).subscribe();
+		this._authService
+			.updateMe(formValue)
+			.pipe(
+				take(1),
+				switchMap(() => this._authService.refetch())
+			)
+			.subscribe();
 	}
 
 	deleteMe() {

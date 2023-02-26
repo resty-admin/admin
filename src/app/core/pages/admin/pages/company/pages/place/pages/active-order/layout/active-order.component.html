@@ -73,15 +73,15 @@
 			<p class="text">Кол-во: {{ selectedProductsToOrders.length }}</p>
 
 			<div class="actions">
-				<button class="approve" (click)="approveProductsInOrder()">
+				<button class="approve" (click)="approveProductsInOrder()" [disabled]="!isActionsActive">
 					{{ t("ACTIVE_ORDER.APPROVE") }}
 				</button>
-				<button class="reject" (click)="rejectProductsInOrder()">
+				<button class="reject" (click)="rejectProductsInOrder()" [disabled]="!isActionsActive">
 					{{ t("ACTIVE_ORDER.REJECT") }}
 				</button>
 			</div>
 
-			<button class="submit" appButton theme="1" (click)="setPaidStatusForProductsInOrder()">
+			<button class="submit" appButton theme="1" [disabled]="!isPayActive" (click)="setPaidStatusForProductsInOrder()">
 				{{ t("ACTIVE_ORDER.CONFIRM_PAYMENT") }}
 			</button>
 		</footer>

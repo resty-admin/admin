@@ -1,26 +1,7 @@
 <div class="product-dialog" *transloco="let t">
 	<h1 appTypography theme="2" class="title">{{ t("PRODUCT_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</h1>
 
-	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog(formGroup.value)">
-		<app-input
-			class="input"
-			formControlName="name"
-			[label]="t('FORM.NAME_LABEL')"
-			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
-		></app-input>
-		<app-textarea
-			class="input"
-			formControlName="description"
-			[label]="t('FORM.DESCRIPTION_LABEL')"
-			[placeholder]="t('FORM.DESCRIPTION_PLACEHOLDER')"
-		></app-textarea>
-		<app-input
-			class="input"
-			formControlName="price"
-			returnType="float"
-			[label]="t('FORM.PRICE_LABEL')"
-			[placeholder]="t('FORM.PRICE_PLACEHOLDER')"
-		></app-input>
+	<form class="form" [formGroup]="formGroup" (ngSubmit)="closeDialog($any(formGroup.value))">
 		<app-file
 			class="input"
 			formControlName="file"
@@ -28,6 +9,28 @@
 			[label]="t('FORM.FILE_LABEL')"
 			[placeholder]="t('FORM.FILE_PLACEHOLDER')"
 		></app-file>
+		<app-input
+			class="input"
+			formControlName="name"
+			[label]="t('FORM.NAME_LABEL')"
+			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[errors]="formGroup.controls['name'].errors"
+		></app-input>
+		<app-textarea
+			class="input"
+			formControlName="description"
+			[label]="t('FORM.DESCRIPTION_LABEL')"
+			[placeholder]="t('FORM.DESCRIPTION_PLACEHOLDER')"
+			[errors]="formGroup.controls['description'].errors"
+		></app-textarea>
+		<app-input
+			class="input"
+			formControlName="price"
+			returnType="float"
+			[label]="t('FORM.PRICE_LABEL')"
+			[placeholder]="t('FORM.PRICE_PLACEHOLDER')"
+			[errors]="formGroup.controls['price'].errors"
+		></app-input>
 		<app-select
 			class="input"
 			bindLabel="name"
@@ -38,6 +41,7 @@
 			[options]="categories$ | async"
 			[searchable]="true"
 			[addTag]="addCategoryTag"
+			[errors]="formGroup.controls['category']?.errors"
 		></app-select>
 		<app-select
 			class="input"
@@ -52,6 +56,8 @@
 			[addTag]="addAttributeGroupTag"
 		></app-select>
 
-		<button class="submit" appButton type="submit">{{ t("PRODUCT_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}</button>
+		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
+			{{ t("PRODUCT_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
+		</button>
 	</form>
 </div>

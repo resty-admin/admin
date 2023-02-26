@@ -100,6 +100,9 @@ body {
 			&:hover:not(.ng-select-disabled) .ng-select-container {
 				border-color: var(--primary);
 			}
+			&.ng-invalid.ng-touched .ng-select-container {
+				border-color: var(--danger);
+			}
 		}
 	}
 
@@ -110,8 +113,11 @@ body {
 				.ng-value-container .ng-placeholder {
 					color: var(--light-t);
 				}
-				&.ng-has-value .ng-value .ng-option-label {
+				&.ng-has-value .ng-value {
 					color: var(--light);
+					.ng-option-label {
+						color: var(--light);
+					}
 				}
 			}
 			.ng-dropdown-panel .ng-dropdown-panel-items {

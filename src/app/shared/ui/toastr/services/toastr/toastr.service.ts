@@ -14,17 +14,16 @@ export class ToastrService {
 	}
 
 	observe<T>(title?: string, message?: string): (source: Observable<T>) => Observable<T> {
-		return (source: Observable<T>) => {
-			const loadingRef = this.loading(undefined, { data: { title, message } });
+		return (source: Observable<T>) =>
+			// const loadingRef = this.loading(undefined, { data: { title, message } });
 
-			return source.pipe(
+			source.pipe(
 				tap({
 					next: () => this.success(undefined, { data: { title, message } }),
-					error: ({ error }) => this.error(undefined, { data: { title, messages: error.messages } }),
-					finalize: () => loadingRef.close()
+					error: ({ error }) => this.error(undefined, { data: { title, messages: error.messages } })
+					// finalize: () => loadingRef.close()
 				})
 			);
-		};
 	}
 
 	success<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {

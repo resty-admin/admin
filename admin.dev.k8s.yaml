@@ -7,7 +7,12 @@ spec:
   selector:
     matchLabels:
       app: dev-admin-k8s
-  replicas: 1
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -18,6 +23,17 @@ spec:
           image: registry.digitalocean.com/resty-registry/dev-admin:latest
           ports:
             - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/bash", "-c", "sleep 120"]
+      terminationGracePeriodSeconds: 60
 ---
 apiVersion: v1
 kind: Service

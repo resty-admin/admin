@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import { AttributesService } from "@features/attributes";
 import type { AttributesEntity, AttributesGroupEntity } from "@graphql";
 import { AttributeGroupTypeEnum } from "@graphql";
@@ -25,14 +26,14 @@ import type { IAttributeGroupForm } from "../interfaces/attribute-group-form.int
 })
 export class AttributeGroupDialogComponent implements OnInit {
 	readonly formGroup = buildForm<IAttributeGroupForm>({
-		name: [""],
-		attributes: [null],
-		maxItemsForPick: [0],
-		type: [AttributeGroupTypeEnum.Add]
+		name: ["", Validators.required],
+		attributes: [null, Validators.required],
+		maxItemsForPick: [0, [Validators.required, Validators.pattern(/^[1-9]$/)]],
+		type: [AttributeGroupTypeEnum.Add, Validators.required]
 	});
 
-	readonly attributeGroupTypes = Object.entries(AttributeGroupTypeEnum).map(([key, value]) => ({
-		name: key,
+	readonly attributeGroupTypes = Object.values(AttributeGroupTypeEnum).map((value) => ({
+		name: value,
 		value
 	}));
 

@@ -6,6 +6,7 @@ import { TelegramRoutingModule } from "./telegram-routing.module";
 
 @NgModule({
 	declarations: [TelegramComponent],
+	exports: [TelegramComponent],
 	imports: [CommonModule, TelegramRoutingModule]
 })
 export class TelegramModule {}

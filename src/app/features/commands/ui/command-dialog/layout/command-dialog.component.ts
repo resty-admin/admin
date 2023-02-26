@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { CommandEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder } from "@ngneat/reactive-forms";
@@ -15,7 +16,7 @@ import type { ICommandForm } from "../interfaces/command-form.interface";
 })
 export class CommandDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<ICommandForm>({
-		name: "",
+		name: ["", Validators.required] as any,
 		description: ""
 	});
 

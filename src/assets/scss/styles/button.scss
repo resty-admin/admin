@@ -27,8 +27,9 @@ body {
 			}
 
 			&:disabled {
-				background-color: var(--primary-d);
+				background-color: var(--light-primary-d);
 				color: var(--dark-d);
+				cursor: not-allowed;
 			}
 		}
 		&.theme-2 {
@@ -69,6 +70,12 @@ body {
 	}
 
 	&.dark .app-button {
+		&.theme-1 {
+			&:disabled {
+				background-color: var(--dark-primary-d);
+				color: var(--dark-d);
+			}
+		}
 		&.theme-2 {
 			background-color: var(--dark-grey);
 			color: var(--light);

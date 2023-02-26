@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
 import type { PaymentSystemEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
@@ -30,7 +31,7 @@ export class PaymentSystemDialogComponent implements OnInit {
 		this.fields = Object.keys(this.data.configFields || {});
 
 		for (const field of this.fields) {
-			this.formGroup.addControl(field, new FormControl(""));
+			this.formGroup.addControl(field, new FormControl("", Validators.required));
 		}
 	}
 

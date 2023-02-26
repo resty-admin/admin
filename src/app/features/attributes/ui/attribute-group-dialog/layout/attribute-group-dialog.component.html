@@ -7,6 +7,7 @@
 			formControlName="name"
 			[label]="t('FORM.NAME_LABEL')"
 			[placeholder]="t('FORM.NAME_PLACEHOLDER')"
+			[errors]="formGroup.controls['name'].errors"
 		></app-input>
 
 		<app-select
@@ -20,6 +21,7 @@
 			[searchable]="true"
 			[addTag]="addTag"
 			[multiple]="true"
+			[errors]="formGroup.controls['attributes']?.errors"
 		></app-select>
 
 		<app-select
@@ -30,7 +32,16 @@
 			[options]="attributeGroupTypes"
 			[label]="t('FORM.TYPE_LABEL')"
 			[placeholder]="t('FORM.TYPE_PLACEHOLDER')"
-		></app-select>
+			[errors]="formGroup.controls['type'].errors"
+		>
+			<ng-template #selectLabelTemplate let-value>
+				{{ t("FORM." + value.name) }}
+			</ng-template>
+
+			<ng-template #selectOptionTemplate let-value>
+				{{ t("FORM." + value.name) }}
+			</ng-template>
+		</app-select>
 
 		<app-input
 			class="input"
@@ -38,9 +49,10 @@
 			returnType="number"
 			[label]="t('FORM.MAX_ITEMS_LABEL')"
 			[placeholder]="t('FORM.MAX_ITEMS_PLACEHOLDER')"
+			[errors]="formGroup.controls['maxItemsForPick'].errors"
 		></app-input>
 
-		<button class="submit" appButton type="submit">
+		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
 			{{ t("ATTRIBUTE_GROUP_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
 		</button>
 	</form>

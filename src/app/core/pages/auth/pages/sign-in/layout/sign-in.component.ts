@@ -1,5 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Validators } from "@angular/forms";
+import { environment } from "@env/environment";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
@@ -7,6 +9,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES } from "@shared/constants";
 import { AUTH_TYPES } from "@shared/data";
 import { RouterService } from "@shared/modules/router";
+import { ToastrService } from "@shared/ui/toastr";
 import { take } from "rxjs";
 
 export interface ISignIn {
@@ -28,15 +31,18 @@ export class SignInComponent implements OnInit {
 
 	readonly typeControl = new FormControl<IAuthType>("email");
 	readonly formGroup = this._formBuilder.group<ISignIn>({
-		email: "",
-		tel: "",
-		password: ""
+		email: ["", Validators.required] as any,
+		tel: ["", Validators.required] as any,
+		password: ["", Validators.required] as any
 	});
+
+	readonly googleUrl = `${environment.apiUrl}/auth/google`;
 
 	constructor(
 		private readonly _routerService: RouterService,
 		private readonly _formBuilder: FormBuilder,
-		private readonly _authService: AuthService
+		private readonly _authService: AuthService,
+		private readonly _toastrService: ToastrService
 	) {}
 
 	ngOnInit() {
@@ -52,11 +58,23 @@ export class SignInComponent implements OnInit {
 		this._authService
 			.signIn(body)
 			.pipe(take(1))
-			.subscribe(async (accessToken) => {
-				if (!accessToken) {
-					return;
+			.subscribe(
+				async (accessToken) => {
+					if (!accessToken) {
+						return;
+					}
+					await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
+				},
+				(error) => {
+					const errorsCodes = error?.graphQLErrors[0]?.extensions?.codes || [];
+
+					if (errorsCodes.includes("1006")) {
+						this._toastrService.error(undefined, { data: { title: "Немає такого користувач" } });
+					}
+					if (errorsCodes.includes("1015")) {
+						this._toastrService.error(undefined, { data: { title: "Занадто простий пароль" } });
+					}
 				}
-				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
-			});
+			);
 	}
 }

@@ -17,7 +17,7 @@
 			.title {
 				flex: 1;
 
-				@include noWrap ();
+				@include noWrap();
 			}
 			.type {
 				@include hideOnMobile();
@@ -99,6 +99,11 @@
 						border-color: var(--danger);
 						color: var(--danger);
 					}
+
+					&:disabled {
+						cursor: not-allowed;
+						opacity: 50%;
+					}
 				}
 			}
 			.text {
@@ -116,7 +121,14 @@
 	}
 }
 @include dark() {
-	.order-page .header .type {
-		color: var(--light);
+	.order-page {
+		.header .type {
+			color: var(--light);
+		}
+		.footer {
+			.text {
+				color: var(--light);
+			}
+		}
 	}
 }
