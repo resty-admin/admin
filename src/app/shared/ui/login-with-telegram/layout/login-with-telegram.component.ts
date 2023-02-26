@@ -1,5 +1,6 @@
 import type { AfterViewInit, ElementRef } from "@angular/core";
 import { ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
+import { environment } from "@env/environment";
 
 @Component({
 	selector: "app-login-with-telegram",
@@ -15,7 +16,7 @@ export class LoginWithTelegramComponent implements AfterViewInit {
 		const element = this.script.nativeElement;
 		const script = document.createElement("script");
 		script.src = "https://telegram.org/js/telegram-widget.js?5";
-		script.dataset["telegramLogin"] = "dev_resty_admin_bot";
+		script.dataset["telegramLogin"] = environment.dev ? "dev_resty_admin_bot" : "resty_admin_bot";
 		script.dataset["size"] = "large";
 		// Callback function in global scope
 		// Callback function in global scope
