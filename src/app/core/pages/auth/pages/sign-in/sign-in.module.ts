@@ -11,6 +11,7 @@ import { LinkModule } from "@shared/ui/link";
 import { RadioButtonModule } from "@shared/ui/radio-button";
 import { TypographyModule } from "@shared/ui/typography";
 
+import { TelegramModule } from "../telegram/telegram.module";
 import { SignInComponent } from "./layout/sign-in.component";
 import { SignInRoutingModule } from "./sign-in-routing.module";
 
@@ -28,7 +29,8 @@ import { SignInRoutingModule } from "./sign-in-routing.module";
 		LinkModule,
 		IconModule,
 		ImageModule,
-		CardModule
+		CardModule,
+		TelegramModule
 	]
 })
 export class SignInModule {}

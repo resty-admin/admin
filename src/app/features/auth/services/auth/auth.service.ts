@@ -61,7 +61,16 @@ export class AuthService {
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
 		private readonly _jwtService: JwtService
-	) {}
+	) {
+		// @ts-expect-error
+		window["loginViaTelegram"] = (loginData) => this.loginViaTelegram(loginData);
+	}
+
+	private loginViaTelegram(loginData: any) {
+		console.log("loging data", loginData);
+		// If the login should trigger view changes, run it within the NgZone.
+		// this.ngZone.run(() => process(loginRequest));
+	}
 
 	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
 		return { body: { ...body, password: this._cryptoService.encrypt(body.password) } };

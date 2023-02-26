@@ -4,11 +4,14 @@ import { RouterModule } from "@angular/router";
 import { ACCESS_TOKEN } from "@shared/constants";
 import { ADMIN_ROUTES } from "@shared/constants";
 
+import { GoogleComponent } from "./layout/google.component";
+
 export const SIGN_IN_ROUTES: Route[] = [
 	{
 		path: `:${ACCESS_TOKEN}`,
+		component: GoogleComponent,
 		data: {
-			animation: "authPage"
+			animation: "googlePage"
 		}
 	},
 	{
