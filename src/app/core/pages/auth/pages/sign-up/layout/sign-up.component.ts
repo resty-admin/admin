@@ -1,6 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Validators } from "@angular/forms";
+import { environment } from "@env/environment";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { UserRoleEnum } from "@graphql";
@@ -27,6 +28,8 @@ export interface ISignUp {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnInit {
+	readonly googleUrl = `${environment.apiUrl}/auth/google`;
+
 	readonly adminRoutes = ADMIN_ROUTES;
 	readonly types = AUTH_TYPES;
 	readonly roles = [UserRoleEnum.Admin, UserRoleEnum.Hostess, UserRoleEnum.Waiter, UserRoleEnum.Hookah].map((role) => ({

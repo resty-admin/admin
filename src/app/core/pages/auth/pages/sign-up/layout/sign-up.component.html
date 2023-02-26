@@ -39,10 +39,10 @@
 
 			<div class="social-medias">
 				<p class="label">{{ t("AUTH.OR") }}</p>
-				<button appButton theme="2" class="button" type="button">
+				<a appButton theme="2" class="button" type="button" [href]="googleUrl">
 					<app-icon class="icon" name="google"></app-icon>
 					<span class="text">{{ t("AUTH.GOOGLE") }}</span>
-				</button>
+				</a>
 				<button appButton theme="2" class="button" type="button">
 					<app-icon class="icon" name="telegram"></app-icon>
 					<span class="text">{{ t("AUTH.TELEGRAM") }}</span>
