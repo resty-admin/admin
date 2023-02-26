@@ -8,13 +8,14 @@ import type {
 	UpdateMeInput,
 	UserEntity
 } from "@graphql";
+import { ADMIN_ROUTES } from "@shared/constants";
 import type { LanguagesEnum, ThemeEnum } from "@shared/enums";
 import { CryptoService } from "@shared/modules/crypto";
 import { JwtService } from "@shared/modules/jwt";
+import { RouterService } from "@shared/modules/router";
 import { resetStores } from "@shared/modules/store";
 import type { Observable } from "rxjs";
-import { catchError, of } from "rxjs";
-import { map, tap } from "rxjs";
+import { catchError, map, of, switchMap } from "rxjs";
 
 import {
 	DeleteMeGQL,
@@ -60,16 +61,21 @@ export class AuthService {
 		private readonly _googleGQL: GoogleGQL,
 		private readonly _cryptoService: CryptoService,
 		private readonly _authRepository: AuthRepository,
-		private readonly _jwtService: JwtService
+		private readonly _jwtService: JwtService,
+		private readonly _routerService: RouterService
 	) {
 		// @ts-expect-error
 		window["loginViaTelegram"] = (loginData) => this.loginViaTelegram(loginData);
 	}
 
-	private loginViaTelegram(loginData: any) {
-		console.log("loging data", loginData);
-		// If the login should trigger view changes, run it within the NgZone.
-		// this.ngZone.run(() => process(loginRequest));
+	async refetch() {
+		await this._getMeQuery.refetch();
+	}
+
+	private async loginViaTelegram(telegramUser: any) {
+		await this._routerService.navigateByUrl(
+			`${ADMIN_ROUTES.TELEGRAM.absolutePath}#user=${JSON.stringify(telegramUser)}`
+		);
 	}
 
 	private _getBodyWithEncryptedPassword<T extends { password: string }>(body: T) {
@@ -77,16 +83,20 @@ export class AuthService {
 	}
 
 	private _updateAccessToken(): (source$: Observable<string | undefined>) => Observable<string | undefined> {
-		return (source$) => source$.pipe(tap((accessToken) => this.updateAccessToken(accessToken)));
+		return (source$) =>
+			source$.pipe(
+				switchMap((accessToken) => this.updateAccessToken(accessToken)),
+				map((result) => result.data.getMe.accessToken)
+			);
 	}
 
-	async updateAccessToken(accessToken?: string) {
+	updateAccessToken(accessToken?: string) {
 		this._authRepository.updateAccessToken(accessToken);
 
 		if (this._getMeQuery.getLastError()) {
 			this._getMeQuery.resetLastResults();
 		}
-		await this._getMeQuery.refetch();
+		return this._getMeQuery.refetch();
 	}
 
 	updateTheme(theme: ThemeEnum) {

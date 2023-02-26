@@ -8,6 +8,7 @@ import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { LinkModule } from "@shared/ui/link";
+import { LoginWithTelegramModule } from "@shared/ui/login-with-telegram";
 import { RadioButtonModule } from "@shared/ui/radio-button";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -30,7 +31,8 @@ import { SignInRoutingModule } from "./sign-in-routing.module";
 		IconModule,
 		ImageModule,
 		CardModule,
-		TelegramModule
+		TelegramModule,
+		LoginWithTelegramModule
 	]
 })
 export class SignInModule {}

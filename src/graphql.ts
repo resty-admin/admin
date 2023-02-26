@@ -376,11 +376,6 @@ export interface HistoryOrderEntity {
 	users: Scalars["JSONObject"][];
 }
 
-export interface IsTableAvailableInput {
-	date: Scalars["DateTime"];
-	tableId: Scalars["String"];
-}
-
 export interface LanguageEntity {
 	__typename?: "LanguageEntity";
 	file: FileEntity;
@@ -1227,7 +1222,8 @@ export interface QueryHistoryOrdersArgs {
 }
 
 export interface QueryIsTableAvailableForReserveArgs {
-	body: IsTableAvailableInput;
+	date: Scalars["DateTime"];
+	tableId: Scalars["String"];
 }
 
 export interface QueryIsTimeAvailableArgs {
@@ -1441,6 +1437,7 @@ export interface UpdateHallInput {
 export interface UpdateMeInput {
 	email?: InputMaybe<Scalars["String"]>;
 	name?: InputMaybe<Scalars["String"]>;
+	role?: InputMaybe<UserRoleEnum>;
 	tel?: InputMaybe<Scalars["String"]>;
 }
 

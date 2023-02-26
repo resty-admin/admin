@@ -1,9 +1,9 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { AuthService } from "@features/auth/services";
-import { ADMIN_ROUTES } from "@shared/constants";
+import { ACCESS_TOKEN, ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { take } from "rxjs";
+import { switchMap, take } from "rxjs";
 
 @Component({
 	selector: "app-google",
@@ -14,12 +14,19 @@ import { take } from "rxjs";
 export class GoogleComponent implements OnInit {
 	constructor(private readonly _routerService: RouterService, private readonly _authService: AuthService) {}
 
-	ngOnInit() {
-		const googleUser = this._routerService.getParams();
+	async ngOnInit() {
+		const accessToken = this._routerService.getParams(ACCESS_TOKEN);
+
+		await this._authService.updateAccessToken(accessToken);
+
+		const role = this._routerService.getQueryParams("role");
 
 		this._authService
-			.google(googleUser)
-			.pipe(take(1))
+			.updateMe({ role })
+			.pipe(
+				take(1),
+				switchMap(() => this._authService.refetch())
+			)
 			.subscribe(async () => {
 				await this._routerService.navigateByUrl(ADMIN_ROUTES.ADMIN.absolutePath);
 			});

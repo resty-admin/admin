@@ -4,7 +4,7 @@ import { Validators } from "@angular/forms";
 import type { IAuthType } from "@features/auth/interfaces";
 import { AuthService } from "@features/auth/services";
 import { FormBuilder, FormControl } from "@ngneat/reactive-forms";
-import { ADMIN_ROUTES, DYNAMIC_TOKEN } from "@shared/constants";
+import { ACCESS_TOKEN, ADMIN_ROUTES } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
 import { take } from "rxjs";
 
@@ -33,7 +33,7 @@ export class ResetPasswordComponent implements OnInit {
 	) {}
 
 	async ngOnInit() {
-		const accessToken = this._routerService.getParams(DYNAMIC_TOKEN.slice(1));
+		const accessToken = this._routerService.getParams(ACCESS_TOKEN);
 
 		await this._authService.updateAccessToken(accessToken);
 	}
