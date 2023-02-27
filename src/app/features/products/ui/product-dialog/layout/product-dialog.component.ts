@@ -30,7 +30,7 @@ import type { IProductForm } from "../interfaces";
 export class ProductDialogComponent implements OnInit {
 	readonly formGroup = this._formBuilder.group<IProductForm>({
 		name: ["", Validators.required] as any,
-		description: ["", Validators.required] as any,
+		description: "",
 		price: ["", [Validators.required, Validators.pattern("^[0-9]*$")]] as any,
 		file: undefined,
 		category: [undefined, Validators.required] as any,
