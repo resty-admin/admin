@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: prod-admin-k8s-deployment
 spec:
+  sessionAffinity: ClientIP
   selector:
     matchLabels:
       app: prod-admin-k8s
