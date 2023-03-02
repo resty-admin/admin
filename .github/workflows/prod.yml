@@ -40,5 +40,5 @@ jobs:
             cd /home/resty/k8s
             kubectl apply -f cloudflared.yaml
             cd /home/resty/admin
-            kubectl delete -f admin.k8s.yaml
             kubectl apply -f admin.k8s.yaml
+            kubectl rollout restart deployment prod-admin-k8s-deployment
