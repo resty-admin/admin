@@ -25,6 +25,10 @@ query AdminPlaces($filtersArgs: [FiltersArgsDto!], $take: Int, $skip: Int) {
 			id
 			name
 			verificationStatus
+			address
+			weekDays
+			weekendDays
+			a11y
 			file {
 				id
 				url

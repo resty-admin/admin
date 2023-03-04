@@ -1398,6 +1398,22 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "orderNumber",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "place",
 						"description": null,
 						"args": [],
@@ -1494,6 +1510,22 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "orderNumber",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -2454,13 +2486,9 @@
 						"name": "description",
 						"description": null,
 						"type": {
-							"kind": "NON_NULL",
-							"name": null,
-							"ofType": {
-								"kind": "SCALAR",
-								"name": "String",
-								"ofType": null
-							}
+							"kind": "SCALAR",
+							"name": "String",
+							"ofType": null
 						},
 						"defaultValue": null,
 						"isDeprecated": false,
@@ -2652,6 +2680,18 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "startDate",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "DateTime",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "table",
 						"description": null,
 						"type": {
@@ -2717,6 +2757,18 @@
 				"description": null,
 				"fields": null,
 				"inputFields": [
+					{
+						"name": "a11y",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
 					{
 						"name": "address",
 						"description": null,
@@ -2790,7 +2842,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -2802,7 +2854,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -3458,6 +3510,22 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "orderNumber",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "place",
 						"description": null,
 						"args": [],
@@ -3554,6 +3622,22 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "orderNumber",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -8889,6 +8973,12 @@
 						"description": null,
 						"isDeprecated": false,
 						"deprecationReason": null
+					},
+					{
+						"name": "WAITING_FOR_APPROVE",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
 					}
 				],
 				"possibleTypes": null
@@ -9078,6 +9168,22 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "orderNumber",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "price",
 						"description": null,
 						"args": [],
@@ -9202,6 +9308,22 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "orderNumber",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -11806,6 +11928,22 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "orderNumber",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "orders",
 						"description": null,
 						"args": [],
@@ -11918,6 +12056,22 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "orderNumber",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},
@@ -12737,6 +12891,18 @@
 				"fields": null,
 				"inputFields": [
 					{
+						"name": "a11y",
+						"description": null,
+						"type": {
+							"kind": "SCALAR",
+							"name": "JSONObject",
+							"ofType": null
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "address",
 						"description": null,
 						"type": {
@@ -12805,7 +12971,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -12817,7 +12983,7 @@
 						"description": null,
 						"type": {
 							"kind": "INPUT_OBJECT",
-							"name": "WorkingHoursInput",
+							"name": "WorkingHoursDto",
 							"ofType": null
 						},
 						"defaultValue": null,
@@ -13794,6 +13960,49 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "String",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"interfaces": null,
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "WorkingHoursDto",
+				"description": null,
+				"fields": null,
+				"inputFields": [
+					{
+						"name": "end",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"defaultValue": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "start",
+						"description": null,
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
 								"ofType": null
 							}
 						},

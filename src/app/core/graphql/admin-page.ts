@@ -46,6 +46,10 @@ export interface AdminPlacesQuery {
 					id: string;
 					name: string;
 					verificationStatus: Types.PlaceVerificationStatusEnum;
+					address?: string | null;
+					weekDays: any;
+					weekendDays: any;
+					a11y: any;
 					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 			  }[]
 			| null;
@@ -104,6 +108,10 @@ export const AdminPlacesDocument = gql`
 				id
 				name
 				verificationStatus
+				address
+				weekDays
+				weekendDays
+				a11y
 				file {
 					id
 					url

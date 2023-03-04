@@ -24,6 +24,50 @@
 			[errors]="formGroup.controls['address'].errors"
 		></app-input>
 
+		<div class="weekdays" formGroupName="weekDays">
+			<app-input
+				formControlName="start"
+				class="input"
+				returnType="number"
+				[label]="t('FORM.WEEKDAY_START_LABEL')"
+				[placeholder]="t('FORM.WEEKDAY_START_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				formControlName="end"
+				class="input"
+				returnType="number"
+				[label]="t('FORM.WEEKDAY_END_LABEL')"
+				[placeholder]="t('FORM.WEEKDAY_END_PLACEHOLDER')"
+			></app-input>
+		</div>
+
+		<div class="weekends" formGroupName="weekendDays">
+			<app-input
+				formControlName="start"
+				class="input"
+				returnType="number"
+				[label]="t('FORM.WEEKEND_START_LABEL')"
+				[placeholder]="t('FORM.WEEKEND_START_PLACEHOLDER')"
+			></app-input>
+			<app-input
+				formControlName="end"
+				class="input"
+				returnType="number"
+				[label]="t('FORM.WEEKEND_END_LABEL')"
+				[placeholder]="t('FORM.WEEKEND_END_PLACEHOLDER')"
+			></app-input>
+		</div>
+
+		<div class="a11y" formGroupName="a11y">
+			<app-checkbox
+				*ngFor="let option of a11yOptions"
+				class="checkbox"
+				theme="2"
+				[formControlName]="option.value"
+				[label]="t('FORM.' + option.value.toUpperCase() + '_LABEL')"
+			></app-checkbox>
+		</div>
+
 		<button appButton class="submit" type="submit" [disabled]="formGroup.invalid">
 			{{ t("PLACE_DIALOG." + (data?.id ? "EDIT" : "CREATE")) }}
 		</button>

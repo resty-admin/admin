@@ -126,6 +126,8 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		console.log("NEW");
+
 		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (!user || user.name) {
 				return;
@@ -240,7 +242,15 @@ export class CoreComponent implements OnInit {
 				filter((place) => Boolean(place)),
 				switchMap((place) =>
 					this._placesService
-						.createPlace({ name: place.name, company, address: place.address, file: place.file?.id })
+						.createPlace({
+							name: place.name,
+							company,
+							address: place.address,
+							file: place.file?.id,
+							weekDays: place.weekDays,
+							weekendDays: place.weekendDays,
+							a11y: place.a11y
+						})
 						.pipe(
 							switchMap((result) => from(this._adminPlacesQuery.refetch()).pipe(map(() => result))),
 							this._toastrService.observe(this._i18nService.translate("PLACES.CREATE"))
@@ -266,7 +276,15 @@ export class CoreComponent implements OnInit {
 				filter((place) => Boolean(place)),
 				switchMap((place) =>
 					this._placesService
-						.updatePlace({ id: place.id, name: place.name, address: place.address, file: place.file?.id })
+						.updatePlace({
+							id: place.id,
+							name: place.name,
+							address: place.address,
+							file: place.file?.id,
+							weekDays: place.weekDays,
+							weekendDays: place.weekendDays,
+							a11y: place.a11y
+						})
 						.pipe(
 							switchMap(() => this._adminPlacesQuery.refetch()),
 							this._toastrService.observe(this._i18nService.translate("PLACES.UPDATE"))
