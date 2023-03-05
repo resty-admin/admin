@@ -126,8 +126,6 @@ export class CoreComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		console.log("NEW");
-
 		this.user$.pipe(take(1)).subscribe(async (user) => {
 			if (!user || user.name) {
 				return;
