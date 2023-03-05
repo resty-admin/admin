@@ -1,5 +1,5 @@
 <div class="company" *transloco="let t">
-	<p class="title" *ngIf="user?.role === 'ADMIN' || user?.role === 'MANAGER'">
+	<p class="title" *ngIf="isOwner">
 		<span class="text">{{ t("COMPANIES.ADD_COMPANY") }}</span>
 		<button appIconButton class="button" (click)="emitAddCompanyClick()">
 			<app-icon class="icon" name="add"></app-icon>
@@ -19,6 +19,7 @@
 		></app-select>
 
 		<app-more
+			*ngIf="isOwner"
 			class="more"
 			[disabled]="!companyId"
 			(editClicked)="emitEditClick(companyId)"

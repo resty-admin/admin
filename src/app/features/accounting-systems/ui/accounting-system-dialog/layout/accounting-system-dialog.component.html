@@ -6,8 +6,8 @@
 			*ngFor="let field of fields"
 			class="input"
 			[formControlName]="field"
-			[label]="t('FORM.' + field + '_LABEL')"
-			[placeholder]="t('FORM.' + field + '_PLACEHOLDER')"
+			[label]="t('FORM.' + field.toUpperCase() + '_LABEL')"
+			[placeholder]="t('FORM.' + field.toUpperCase() + '_PLACEHOLDER')"
 		></app-input>
 
 		<button appButton theme="1" class="submit">{{ t("FORM.CONNECT") }}</button>

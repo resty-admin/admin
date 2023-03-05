@@ -1,3 +1,20 @@
-<div @skeletonLeave class="places-skeleton">
-	<h1>Places skeleton</h1>
+<div @skeletonLeave class="active-order-skeleton">
+	<app-order-info-skeleton class="order-info"></app-order-info-skeleton>
+
+	<div class="actions">
+		<app-skeleton class="button approve"></app-skeleton>
+		<app-skeleton class="button reject"></app-skeleton>
+	</div>
+
+	<app-users-select-skeleton class="users-select"></app-users-select-skeleton>
+
+	<app-products-to-order-select-skeleton class="products-to-order-select"></app-products-to-order-select-skeleton>
+
+	<div class="actions">
+		<app-skeleton class="button approve"></app-skeleton>
+		<app-skeleton class="button reject"></app-skeleton>
+	</div>
+
+	<app-skeleton class="cancel"></app-skeleton>
+	<app-skeleton class="textarea"></app-skeleton>
 </div>

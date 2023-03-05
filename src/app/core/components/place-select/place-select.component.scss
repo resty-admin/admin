@@ -30,6 +30,19 @@
 					&:disabled {
 						background-color: rgb(0 0 0 / 1%);
 					}
+					&.link {
+						width: rem(28);
+						border-radius: rem(6);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						@include icon () {
+							path {
+								fill: var(--dark-t);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -44,6 +57,13 @@
 			background-color: var(--dark-grey);
 			&:disabled {
 				background-color: rgb(255 255 255 / 1%);
+			}
+			&.link {
+				@include icon () {
+					path {
+						fill: var(--light-t);
+					}
+				}
 			}
 		}
 	}

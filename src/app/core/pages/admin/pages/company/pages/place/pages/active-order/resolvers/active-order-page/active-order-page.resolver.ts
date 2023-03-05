@@ -3,7 +3,7 @@ import type { Resolve } from "@angular/router";
 import type { ActivatedRouteSnapshot } from "@angular/router";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
-import { catchError, of } from "rxjs";
+import { catchError, of, tap } from "rxjs";
 
 import { ActiveOrderPageGQL } from "../../graphql";
 
@@ -22,11 +22,13 @@ export class ActiveOrderPageResolver implements Resolve<unknown> {
 		}
 
 		return this._activeOrderPageGQL.fetch({ orderId }).pipe(
-			catchError(async () => {
-				await this._routerService.navigateByUrl(
-					ADMIN_ROUTES.ACTIVE_ORDERS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
-				);
-				return of(null);
+			catchError(() => of({ data: { order: null } })),
+			tap(async (result) => {
+				if (!result.data.order) {
+					await this._routerService.navigateByUrl(
+						ADMIN_ROUTES.ACTIVE_ORDERS.absolutePath.replace(COMPANY_ID, companyId).replace(PLACE_ID, placeId)
+					);
+				}
 			})
 		);
 	}

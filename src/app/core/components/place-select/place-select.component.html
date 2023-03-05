@@ -1,5 +1,5 @@
 <div class="place" *transloco="let t">
-	<p class="title" *ngIf="user?.role === 'ADMIN' || user?.role === 'MANAGER'">
+	<p class="title" *ngIf="isOwner">
 		<span class="text">{{ t("PLACES.ADD_PLACE") }}</span>
 		<button appIconButton [disabled]="disabled" class="button" (click)="emitAddPlaceClick()">
 			<app-icon class="icon" name="add"></app-icon>
@@ -18,10 +18,19 @@
 			[disabled]="disabled"
 		></app-select>
 		<app-more
+			*ngIf="isOwner; else connectToPlace"
 			class="more"
 			[disabled]="!placeId"
 			(editClicked)="emitEditClick(placeId)"
 			(deleteClicked)="emitDeleteClick(placeId)"
 		></app-more>
+
+		<ng-template #connectToPlace>
+			<div class="more">
+				<a type="button" class="app-more link" routerLink="connect-to-place">
+					<app-icon class="add" name="add"></app-icon>
+				</a>
+			</div>
+		</ng-template>
 	</div>
 </div>

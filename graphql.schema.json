@@ -3764,6 +3764,18 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "startDate",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "SCALAR",
+							"name": "DateTime",
+							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "status",
 						"description": null,
 						"args": [],
@@ -3963,6 +3975,29 @@
 				"inputFields": null,
 				"interfaces": [],
 				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "ENUM",
+				"name": "ManualPaymentEnum",
+				"description": null,
+				"fields": null,
+				"inputFields": null,
+				"interfaces": null,
+				"enumValues": [
+					{
+						"name": "CASH",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "TERMINAL",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
 				"possibleTypes": null
 			},
 			{
@@ -5752,6 +5787,22 @@
 						"name": "setManualPayForProductsInOrder",
 						"description": null,
 						"args": [
+							{
+								"name": "manualPaymentType",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "ENUM",
+										"name": "ManualPaymentEnum",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
 							{
 								"name": "productToOrderIds",
 								"description": null,
@@ -10499,6 +10550,39 @@
 						"deprecationReason": null
 					},
 					{
+						"name": "historyOrder",
+						"description": null,
+						"args": [
+							{
+								"name": "id",
+								"description": null,
+								"type": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "SCALAR",
+										"name": "String",
+										"ofType": null
+									}
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							}
+						],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "HistoryOrderEntity",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
 						"name": "historyOrders",
 						"description": null,
 						"args": [
@@ -11779,7 +11863,7 @@
 							"name": null,
 							"ofType": {
 								"kind": "SCALAR",
-								"name": "Int",
+								"name": "Float",
 								"ofType": null
 							}
 						},
@@ -11795,7 +11879,7 @@
 							"name": null,
 							"ofType": {
 								"kind": "SCALAR",
-								"name": "Int",
+								"name": "Float",
 								"ofType": null
 							}
 						},

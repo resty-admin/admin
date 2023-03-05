@@ -375,6 +375,7 @@ export interface HistoryOrderEntity {
 	orderNumber: Scalars["Int"];
 	place: PlaceEntity;
 	productsToOrders: Scalars["JSONObject"][];
+	startDate?: Maybe<Scalars["DateTime"]>;
 	status: OrderStatusEnum;
 	table?: Maybe<Scalars["JSONObject"]>;
 	totalPrice?: Maybe<Scalars["Int"]>;
@@ -392,6 +393,11 @@ export interface LanguageEntity {
 export interface Link {
 	__typename?: "Link";
 	link: Scalars["String"];
+}
+
+export enum ManualPaymentEnum {
+	Cash = "CASH",
+	Terminal = "TERMINAL"
 }
 
 export interface Mutation {
@@ -680,6 +686,7 @@ export interface MutationResetPasswordArgs {
 }
 
 export interface MutationSetManualPayForProductsInOrderArgs {
+	manualPaymentType: ManualPaymentEnum;
 	productToOrderIds: Scalars["String"][];
 }
 
@@ -1116,6 +1123,7 @@ export interface Query {
 	getPlaceStatistic: StatisticType;
 	hall: HallEntity;
 	halls: PaginatedHall;
+	historyOrder: HistoryOrderEntity;
 	historyOrders: PaginatedHistoryOrder;
 	isTableAvailableForReserve: TableEntity;
 	isTimeAvailable: Scalars["Boolean"];
@@ -1221,6 +1229,10 @@ export interface QueryHallsArgs {
 	filtersArgs?: InputMaybe<FiltersArgsDto[]>;
 	skip?: InputMaybe<Scalars["Int"]>;
 	take?: InputMaybe<Scalars["Int"]>;
+}
+
+export interface QueryHistoryOrderArgs {
+	id: Scalars["String"];
 }
 
 export interface QueryHistoryOrdersArgs {
@@ -1352,8 +1364,8 @@ export interface StatisticType {
 	guests: Scalars["Int"];
 	halls: Scalars["Int"];
 	tables: Scalars["Int"];
-	tax: Scalars["Int"];
-	totalAmount: Scalars["Int"];
+	tax: Scalars["Float"];
+	totalAmount: Scalars["Float"];
 }
 
 export interface TableEntity {

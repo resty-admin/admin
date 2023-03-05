@@ -112,7 +112,15 @@ export class TablesComponent implements OnInit, OnDestroy {
 	}
 
 	openTableQrCodeDialog(data: DeepPartial<TableEntity>) {
-		this._dialogService.open(TableQrCodeDialogComponent, { data }).afterClosed$.pipe(take(1)).subscribe();
+		this._dialogService
+			.open(TableQrCodeDialogComponent, {
+				data: {
+					...data,
+					placeId: this._routerService.getParams(PLACE_ID.slice(1))
+				}
+			})
+			.afterClosed$.pipe(take(1))
+			.subscribe();
 	}
 
 	ngOnDestroy() {

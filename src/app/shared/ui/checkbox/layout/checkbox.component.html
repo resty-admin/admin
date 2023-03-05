@@ -1,6 +1,8 @@
 <div [class]="className">
 	<input class="input" type="checkbox" [id]="id" [formControl]="formControl" />
-	<div class="box"></div>
+	<div class="box">
+		<app-icon class="icon" name="check"></app-icon>
+	</div>
 	<label class="label" [for]="id">
 		{{ label }}
 		<ng-content></ng-content>

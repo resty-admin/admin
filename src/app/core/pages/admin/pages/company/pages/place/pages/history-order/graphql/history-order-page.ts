@@ -4,107 +4,41 @@ import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../../../../../../../../graphql";
 export type HistoryOrderPageQueryVariables = Types.Exact<{
-	orderId: Types.Scalars["String"];
+	historyOrderId: Types.Scalars["String"];
 }>;
 
 export interface HistoryOrderPageQuery {
 	__typename?: "Query";
-	order?: {
-		__typename?: "ActiveOrderEntity";
+	historyOrder: {
+		__typename?: "HistoryOrderEntity";
 		id: string;
-		type: Types.OrderTypeEnum;
 		orderNumber: number;
-		code: number;
+		productsToOrders: any[];
 		status: Types.OrderStatusEnum;
+		table?: any | null;
 		totalPrice?: number | null;
-		startDate: any;
-		users?: { __typename?: "UserEntity"; id: string; name: string }[] | null;
-		table?: {
-			__typename?: "TableEntity";
-			id: string;
-			name: string;
-			hall: { __typename?: "HallEntity"; id: string; name: string };
-		} | null;
-		productsToOrders?:
-			| {
-					__typename?: "ProductToOrderEntity";
-					id: string;
-					count: number;
-					status: Types.ProductToOrderStatusEnum;
-					paidStatus: Types.ProductToOrderPaidStatusEnum;
-					product: {
-						__typename?: "ProductEntity";
-						id: string;
-						name: string;
-						description?: string | null;
-						price: number;
-						file?: { __typename?: "FileEntity"; id: string; url: string } | null;
-						attrsGroups?:
-							| {
-									__typename?: "AttributesGroupEntity";
-									id: string;
-									name: string;
-									attributes?: { __typename?: "AttributesEntity"; id: string; name: string }[] | null;
-							  }[]
-							| null;
-					};
-					user: { __typename?: "UserEntity"; id: string; name: string };
-			  }[]
-			| null;
-	} | null;
+		type: Types.OrderTypeEnum;
+		users: any[];
+		startDate?: any | null;
+		place: { __typename?: "PlaceEntity"; id: string };
+	};
 }
 
 export const HistoryOrderPageDocument = gql`
-	query HistoryOrderPage($orderId: String!) {
-		order(id: $orderId) {
+	query HistoryOrderPage($historyOrderId: String!) {
+		historyOrder(id: $historyOrderId) {
 			id
-			type
 			orderNumber
-			code
+			place {
+				id
+			}
+			productsToOrders
 			status
+			table
 			totalPrice
-			status
+			type
+			users
 			startDate
-			users {
-				id
-				name
-			}
-			table {
-				id
-				name
-				hall {
-					id
-					name
-				}
-			}
-			productsToOrders {
-				id
-				count
-				status
-				paidStatus
-				product {
-					id
-					name
-					description
-					price
-					file {
-						id
-						url
-					}
-					attrsGroups {
-						id
-						name
-						attributes {
-							id
-							name
-						}
-					}
-				}
-				user {
-					id
-					name
-				}
-			}
 		}
 	}
 `;

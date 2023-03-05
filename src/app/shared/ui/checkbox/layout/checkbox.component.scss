@@ -60,50 +60,69 @@
 					border-color: var(--dark-primary);
 				}
 
+				&:not(:checked) ~ .box .icon {
+					opacity: 0%;
+				}
+
 				&:checked ~ .box {
 					background-color: var(--primary);
 					border-color: var(--primary);
+				}
 
-					.check {
-						opacity: 100%;
-					}
+				&:disabled ~ .label {
+					color: var(--light-disable);
 				}
 			}
 			.label {
 				font-weight: 400;
 				font-size: rem(14);
 				line-height: rem(24);
+				color: var(--dark);
 			}
 			.box {
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				width: rem(20);
 				height: rem(20);
 				border-radius: rem(6);
 				background-color: var(--light-grey);
+				.icon {
+					width: rem(12);
+					height: rem(12);
+				}
 			}
 		}
 	}
+}
+@include dark () {
+	.app-checkbox {
+		&.theme-1 {
+			.input:disabled ~ .label {
+				color: var(--dark-disable);
+			}
 
-	&.light .app-checkbox.theme-1 {
-		.input:disabled ~ .label {
-			color: var(--light-disable);
-		}
-		.box {
-			border: rem(1) solid var(--dark-t);
-		}
-		.label {
-			color: var(--dark);
-		}
-	}
+			.box {
+				border: rem(1) solid var(--light-t);
+			}
 
-	&.dark .app-checkbox.theme-1 {
-		.input:disabled ~ .label {
-			color: var(--dark-disable);
+			.label {
+				color: var(--light);
+			}
 		}
-		.box {
-			border: rem(1) solid var(--light-t);
-		}
-		.label {
-			color: var(--light);
+
+		&.theme-2 {
+			.input:disabled ~ .label {
+				color: var(--dark-disable);
+			}
+
+			.box {
+				background-color: var(--dark-grey);
+			}
+
+			.label {
+				color: var(--light);
+			}
 		}
 	}
 }

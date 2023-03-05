@@ -9,6 +9,6 @@ export interface IOrderInfo {
 			name: HallEntity["name"];
 		};
 	} | null;
-	startDate: ActiveOrderEntity["startDate"];
+	startDate?: ActiveOrderEntity["startDate"];
 	status: ActiveOrderEntity["status"];
 }

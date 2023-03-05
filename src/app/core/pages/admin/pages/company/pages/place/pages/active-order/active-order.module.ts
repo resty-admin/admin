@@ -24,6 +24,7 @@ import { AttributesPipe } from "./pipes/attributes.pipe";
 
 @NgModule({
 	declarations: [ActiveOrderComponent, ...ACTIVE_ORDER_COMPONENTS, AttributesPipe],
+	exports: [AttributesPipe],
 	imports: [
 		CommonModule,
 		ActiveOrderRoutingModule,
