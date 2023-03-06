@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { UserEntity } from "@graphql";
+import { UserRoleEnum } from "@graphql";
 
 import type { AdminPlacesQuery } from "../../graphql";
 
@@ -18,6 +19,10 @@ export class PlaceSelectComponent {
 	@Input() placeId?: string | null;
 	@Input() disabled: boolean = false;
 	@Input() user?: UserEntity | null;
+
+	get isOwner() {
+		return [UserRoleEnum.Manager, UserRoleEnum.Admin].includes(this.user?.role!);
+	}
 
 	emitAddPlaceClick() {
 		this.addPlaceClicked.emit();

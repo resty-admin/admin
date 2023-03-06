@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { UserEntity } from "@graphql";
+import { UserRoleEnum } from "@graphql";
 
 import type { AdminCompaniesQuery } from "../../graphql";
 
@@ -17,6 +18,10 @@ export class CompanySelectComponent {
 	@Input() companies: AdminCompaniesQuery["companies"]["data"] = [];
 	@Input() companyId?: string | null;
 	@Input() user?: UserEntity | null;
+
+	get isOwner() {
+		return [UserRoleEnum.Manager, UserRoleEnum.Admin].includes(this.user?.role!);
+	}
 
 	emitAddCompanyClick() {
 		this.addCompanyClicked.emit();

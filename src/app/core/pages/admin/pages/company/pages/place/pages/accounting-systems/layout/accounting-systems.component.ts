@@ -5,7 +5,7 @@ import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, switchMap, take } from "rxjs";
+import { filter, map, switchMap, take, tap } from "rxjs";
 
 import { AccountingSystemsPageGQL } from "../graphql";
 
@@ -36,9 +36,12 @@ export class AccountingSystemsComponent {
 				take(1),
 				filter((accountingSystem) => Boolean(accountingSystem)),
 				switchMap((accountingSystem) =>
-					this._accountingSystemsService
-						.connectPaymentSystemToPlace(accountingSystem)
-						.pipe(this._toastrService.observe(this._i18nService.translate("ACCOUNTING_SYSTEMS.CONNECTED")))
+					this._accountingSystemsService.connectPaymentSystemToPlace(accountingSystem).pipe(
+						tap((data) => {
+							console.log(data);
+						}),
+						this._toastrService.observe(this._i18nService.translate("ACCOUNTING_SYSTEMS.CONNECTED"))
+					)
 				),
 				take(1)
 			)

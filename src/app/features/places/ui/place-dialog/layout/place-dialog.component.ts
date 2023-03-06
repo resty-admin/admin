@@ -16,10 +16,34 @@ import type { IPlaceForm } from "../interfaces";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlaceDialogComponent implements OnInit {
+	readonly a11yOptions = [
+		{ label: "Доставка", value: "delivery" },
+		{ label: "Бронирование", value: "booking" },
+		{ label: "С собой", value: "takeaway" },
+		{ label: "В заведении", value: "order" }
+	];
+
 	readonly formGroup = this._formBuilder.group<IPlaceForm>({
 		name: ["", Validators.required] as any,
 		address: ["", Validators.required] as any,
-		file: null
+		file: null,
+		weekDays: this._formBuilder.group({
+			start: "",
+			end: ""
+		}),
+		weekendDays: this._formBuilder.group({
+			start: "",
+			end: ""
+		}),
+		a11y: this._formBuilder.group(
+			this.a11yOptions.reduce(
+				(obj, option) => ({
+					...obj,
+					[option.value]: false
+				}),
+				{}
+			)
+		)
 	});
 
 	data?: PlaceEntity;

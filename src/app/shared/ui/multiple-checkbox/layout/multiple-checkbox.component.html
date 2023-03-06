@@ -1,9 +1,26 @@
-<ul [class]="className">
-	<li class="option" *ngFor="let option of options; trackBy: sharedService.trackByFn">
-		<span class="label">{{ option.label }}</span>
-		<input class="input" type="checkbox" [value]="value" [id]="id" [formControl]="formControl" />
-		<div class="decoration">
-			<!--			<app-icon></app-icon>-->
+<ul [class]="className" [formGroup]="formGroup">
+	<li class="option" *ngFor="let option of options; trackBy: sharedService.trackByFn; let i = index">
+		<input
+			class="input"
+			type="checkbox"
+			[name]="option.id"
+			[value]="option[bindValue]"
+			[id]="id + i"
+			[formControlName]="option[bindValue]"
+		/>
+		<div class="field">
+			<label class="label" [for]="id + i">
+				<ng-container *ngIf="labelTemplate; else defaultLable">
+					<ng-container *ngTemplateOutlet="labelTemplate; context: { $implicit: option }"></ng-container>
+				</ng-container>
+
+				<ng-template #defaultLable>
+					{{ option[bindLabel] }}
+				</ng-template>
+			</label>
+			<div class="decoration">
+				<app-icon class="icon" name="add"></app-icon>
+			</div>
 		</div>
 	</li>
 </ul>

@@ -1,7 +1,8 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { AuthService } from "@features/auth";
 import { PlacesService } from "@features/places";
-import { PlaceVerificationStatusEnum } from "@graphql";
+import { PlaceVerificationStatusEnum, UserRoleEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { PLACE_ID } from "@shared/constants";
 import { RouterService } from "@shared/modules/router";
@@ -22,6 +23,7 @@ export class StatisticComponent implements OnInit {
 	readonly statisticPage$ = this._statisticPageQuery.valueChanges.pipe(map((result) => result.data));
 
 	constructor(
+		private readonly _authService: AuthService,
 		private readonly _statisticPageGQL: StatisticPageGQL,
 		private readonly _routerService: RouterService,
 		private readonly _placesService: PlacesService
@@ -42,9 +44,15 @@ export class StatisticComponent implements OnInit {
 				? PlaceVerificationStatusEnum.Verified
 				: PlaceVerificationStatusEnum.NotVerified;
 
-		this._placesService
-			.updatePlaceVerification(this._routerService.getParams(PLACE_ID.slice(1)), newStatus)
+		this._authService.me$
 			.pipe(
+				switchMap((user) =>
+					this._placesService.updatePlaceVerification(
+						this._routerService.getParams(PLACE_ID.slice(1)),
+						user?.role === UserRoleEnum.Manager ? PlaceVerificationStatusEnum.WaitingForApprove : newStatus
+					)
+				),
+
 				take(1),
 				switchMap(() => this._statisticPageQuery.refetch())
 			)

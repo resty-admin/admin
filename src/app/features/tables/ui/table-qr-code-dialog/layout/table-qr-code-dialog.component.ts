@@ -1,5 +1,6 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
+import { environment } from "@env/environment";
 import type { TableEntity } from "@graphql";
 import { DialogRef } from "@ngneat/dialog";
 import type { DeepPartial } from "@shared/interfaces";
@@ -13,18 +14,18 @@ import { QrCodeComponent } from "@shared/ui/qr-code";
 })
 export class TableQrCodeDialogComponent implements OnInit {
 	@ViewChild("qrCodeComponent") qrCodeComponent?: QrCodeComponent;
-	data?: DeepPartial<TableEntity>;
+	data?: DeepPartial<TableEntity> & { placeId: string };
 	qrData = "";
 	constructor(private readonly _dialogRef: DialogRef) {}
 
 	ngOnInit() {
 		this.data = this._dialogRef.data;
 
-		if (!this.data) {
+		if (!this.data || !this.data.placeId) {
 			return;
 		}
 
-		this.qrData = `http://192.168.68.106:4201/places/f657841f-b153-4775-a060-17648ab51b88/connect-to-table?code=${this.data.code}`;
+		this.qrData = `${environment.clientUrl}?start=${this.data.placeId}_${this.data.code}`;
 	}
 
 	downloadQrCode() {

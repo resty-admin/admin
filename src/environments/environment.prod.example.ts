@@ -10,6 +10,7 @@ export const environment = {
 	graphqlUrl: "",
 	assetsUrl: "",
 	i18nUrl: "",
+	clientUrl: "",
 	cryptoSecret: ""
 };
 

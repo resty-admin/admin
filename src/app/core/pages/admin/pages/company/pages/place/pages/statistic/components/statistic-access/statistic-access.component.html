@@ -8,11 +8,15 @@
 		</button>
 	</p>
 
-	<div class="bots">
-		<a class="bot" href="https://t.me/resty_admin_bot">
-			<app-icon class="icon" name="bot"></app-icon>
-			<span class="text">Resty Admin Bot</span>
-		</a>
+	<div class="telegram-bots">
+		<p class="title">Телеграм боти</p>
+
+		<ul class="bots">
+			<li class="bot" *ngFor="let bot of telegramBots">
+				<app-icon class="icon" name="telegram"></app-icon>
+				<a class="link" [href]="bot.link">{{ bot.label }}</a>
+			</li>
+		</ul>
 	</div>
 
 	<app-image class="image" name="access"></app-image>

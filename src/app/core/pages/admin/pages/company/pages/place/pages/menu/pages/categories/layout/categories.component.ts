@@ -115,6 +115,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 					this._productsService
 						.updateProduct({
 							id: product.id,
+							name: product.name,
 							category: product.category.id,
 							attrsGroups: product.attrsGroups,
 							file: product.file?.id,

@@ -37,7 +37,7 @@
 				.social-medias {
 					display: flex;
 					flex-wrap: wrap;
-					gap: rem(8);
+					justify-content: space-between;
 					.label {
 						width: 100%;
 						font-weight: 600;
@@ -47,7 +47,7 @@
 						padding-left: rem(15);
 					}
 					.button {
-						flex: 1;
+						width: 49%;
 					}
 				}
 

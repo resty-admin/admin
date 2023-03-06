@@ -7,14 +7,8 @@
 		background: var(--light-grey);
 		border-radius: rem(24);
 		display: grid;
-		row-gap: rem(33);
-		grid-template-areas:
-			"description bots bots"
-			"code code code";
-		grid-template-columns: auto 1fr;
-		column-gap: rem(24);
+		row-gap: rem(24);
 		.description {
-			grid-area: description;
 			font-weight: 400;
 			font-size: rem(16);
 			line-height: rem(24);
@@ -22,7 +16,6 @@
 		}
 
 		.code {
-			grid-area: code;
 			display: flex;
 			align-items: center;
 			column-gap: rem(20);
@@ -47,29 +40,39 @@
 			}
 		}
 
-		.bots {
-			justify-self: end;
-			grid-area: bots;
-			display: flex;
-			align-items: center;
-			column-gap: rem(12);
-			.bot {
+		.telegram-bots {
+			display: grid;
+			row-gap: rem(8);
+			.title {
+				font-weight: 600;
+				font-size: rem(16);
+				line-height: rem(24);
+				color: var(--dark);
+			}
+
+			.bots {
 				display: flex;
-				column-gap: rem(5);
-				align-items: center;
-				background-color: var(--primary);
-				padding: 0 rem(11);
-				height: rem(32);
-				border-radius: rem(8);
-				.icon {
-					width: rem(24);
-					height: rem(24);
-				}
-				.text {
-					font-weight: 400;
-					font-size: rem(16);
-					line-height: rem(24);
-					color: var(--dark);
+				column-gap: rem(28);
+				.bot {
+					display: flex;
+					align-items: center;
+					column-gap: rem(12);
+					.icon {
+						width: rem(16);
+						height: rem(16);
+
+						@include icon () {
+							svg {
+								fill: var(--dark);
+							}
+						}
+					}
+					.link {
+						font-weight: 400;
+						font-size: rem(16);
+						line-height: rem(24);
+						color: var(--dark);
+					}
 				}
 			}
 		}
@@ -92,6 +95,24 @@
 			}
 			.copy {
 				background-color: var(--dark);
+			}
+		}
+
+		.telegram-bots {
+			.title {
+				color: var(--light);
+			}
+			.bots .bot {
+				.icon {
+					@include icon () {
+						path {
+							fill: var(--light);
+						}
+					}
+				}
+				.link {
+					color: var(--light);
+				}
 			}
 		}
 	}

@@ -1,52 +1,16 @@
-query HistoryOrderPage($orderId: String!) {
-	order(id: $orderId) {
+query HistoryOrderPage($historyOrderId: String!) {
+	historyOrder(id: $historyOrderId) {
 		id
-		type
 		orderNumber
-		code
+		place {
+			id
+		}
+		productsToOrders
 		status
+		table
 		totalPrice
-		status
+		type
+		users
 		startDate
-		users {
-			id
-			name
-		}
-		table {
-			id
-			name
-			hall {
-				id
-				name
-			}
-		}
-		productsToOrders {
-			id
-			count
-			status
-			paidStatus
-			product {
-				id
-				name
-				description
-				price
-				file {
-					id
-					url
-				}
-				attrsGroups {
-					id
-					name
-					attributes {
-						id
-						name
-					}
-				}
-			}
-			user {
-				id
-				name
-			}
-		}
 	}
 }

@@ -1,5 +1,11 @@
-mutation ConnectPaymentSystemToPlace($body: ConnectPaymentSystemToPlaceInput!) {
-	connectPaymentSystemToPlace(body: $body) {
+mutation ConnectAccountingSystemToPlace($body: ConnectAccountingSystemToPlaceInput!) {
+	connectAccountingSystemToPlace(body: $body) {
 		id
+	}
+}
+
+mutation GetMerchantLoginAndCodeLink($placeId: String!) {
+	getMerchantLoginAndCodeLink(placeId: $placeId) {
+		link
 	}
 }

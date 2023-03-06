@@ -1,17 +1,54 @@
-<div class="order-page" *transloco="let t">
-	<ng-container *ngIf="historyOrder$ | async as historyOrder">
-		<app-order-info [order]="historyOrder"></app-order-info>
+<ng-container *transloco="let t">
+	<div class="order-page" *ngIf="activeOrder$ | async as activeOrder">
+		<header class="header">
+			<h1 class="title" appTypography theme="1">{{ t("ACTIVE_ORDER.ORDER") }} {{ activeOrder.orderNumber }}</h1>
 
-		<app-users-select
-			class="users-select"
-			[users]="historyOrder.users"
-			[(selectedUsers)]="selectedUsers"
-		></app-users-select>
+			<span class="type">{{ t("ORDERS." + activeOrder.type) }}</span>
+		</header>
 
-		<app-products-to-order-select
-			class="products-select"
-			[productsToOrders]="historyOrder.productsToOrders"
-			[(selectedProductsToOrders)]="selectedProductsToOrders"
-		></app-products-to-order-select>
-	</ng-container>
-</div>
+		<main class="main">
+			<app-order-info class="order-info" [order]="activeOrder"></app-order-info>
+
+			<app-users-select class="users-select" [users]="activeOrder.users"></app-users-select>
+
+			<app-products-to-order-select
+				class="products-select"
+				[productsToOrders]="activeOrder.productsToOrders"
+			></app-products-to-order-select>
+
+			<app-datatable class="datatable" [rows]="activeOrder.productsToOrders">
+				<ng-container appColumn="product">
+					<ng-template #header>{{ t("ACTIVE_ORDER.NAME") }}</ng-template>
+					<ng-template #value let-value>{{ value.name }}</ng-template>
+				</ng-container>
+				<ng-container appColumn="attributes">
+					<ng-template #header>{{ t("ACTIVE_ORDER.ATTRIBUTES") }}</ng-template>
+					<ng-template #value let-row="row">{{ row.attributesToProduct | attributesPipe }}</ng-template>
+				</ng-container>
+				<ng-container appColumn="user">
+					<ng-template #header>{{ t("ACTIVE_ORDER.USER") }}</ng-template>
+					<ng-template #value let-value>{{ value.name }}</ng-template>
+				</ng-container>
+				<ng-container appColumn="price">
+					<ng-template #header>{{ t("ACTIVE_ORDER.COUNT_PRICE") }}</ng-template>
+					<ng-template #value let-row="row">
+						<span class="count">{{ row.count }}x </span>
+						<span class="price">{{ row.product.price }} {{ t("ACTIVE_ORDER.CURRENCY") }}</span>
+					</ng-template>
+				</ng-container>
+				<ng-container appColumn="status">
+					<ng-template #header>{{ t("ACTIVE_ORDER.STATUS") }}</ng-template>
+					<ng-template #value let-value>
+						{{ t("ACTIVE_ORDER." + value) }}
+					</ng-template>
+				</ng-container>
+				<ng-container appColumn="paidStatus">
+					<ng-template #header>{{ t("ACTIVE_ORDER.PAID_STATUS") }}</ng-template>
+					<ng-template #value let-row="row">
+						<app-icon [class]="'icon' + ' ' + row.paidStatus" name="paid"></app-icon>
+					</ng-template>
+				</ng-container>
+			</app-datatable>
+		</main>
+	</div>
+</ng-container>

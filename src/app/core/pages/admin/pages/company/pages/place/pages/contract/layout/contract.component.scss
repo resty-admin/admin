@@ -1,6 +1,7 @@
 @import "/src/assets/scss/abstractions";
 
 @include page() {
+	overflow: hidden;
 	.contract-page {
 		display: grid;
 		align-items: center;

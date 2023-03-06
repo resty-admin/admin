@@ -96,6 +96,7 @@ export class AuthService {
 		if (this._getMeQuery.getLastError()) {
 			this._getMeQuery.resetLastResults();
 		}
+
 		return this._getMeQuery.refetch();
 	}
 
