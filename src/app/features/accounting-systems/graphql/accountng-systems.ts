@@ -3,18 +3,27 @@ import { gql } from "apollo-angular";
 import * as Apollo from "apollo-angular";
 
 import type * as Types from "../../../../graphql";
-export type ConnectPaymentSystemToPlaceMutationVariables = Types.Exact<{
-	body: Types.ConnectPaymentSystemToPlaceInput;
+export type ConnectAccountingSystemToPlaceMutationVariables = Types.Exact<{
+	body: Types.ConnectAccountingSystemToPlaceInput;
 }>;
 
-export interface ConnectPaymentSystemToPlaceMutation {
+export interface ConnectAccountingSystemToPlaceMutation {
 	__typename?: "Mutation";
-	connectPaymentSystemToPlace: { __typename?: "PlaceToPaymentSystemEntity"; id: string };
+	connectAccountingSystemToPlace: { __typename?: "PlaceToAccountingSystemEntity"; id: string };
 }
 
-export const ConnectPaymentSystemToPlaceDocument = gql`
-	mutation ConnectPaymentSystemToPlace($body: ConnectPaymentSystemToPlaceInput!) {
-		connectPaymentSystemToPlace(body: $body) {
+export type GetMerchantLoginAndCodeLinkMutationVariables = Types.Exact<{
+	placeId: Types.Scalars["String"];
+}>;
+
+export interface GetMerchantLoginAndCodeLinkMutation {
+	__typename?: "Mutation";
+	getMerchantLoginAndCodeLink: { __typename?: "Link"; link: string };
+}
+
+export const ConnectAccountingSystemToPlaceDocument = gql`
+	mutation ConnectAccountingSystemToPlace($body: ConnectAccountingSystemToPlaceInput!) {
+		connectAccountingSystemToPlace(body: $body) {
 			id
 		}
 	}
@@ -23,11 +32,32 @@ export const ConnectPaymentSystemToPlaceDocument = gql`
 @Injectable({
 	providedIn: "root"
 })
-export class ConnectPaymentSystemToPlaceGQL extends Apollo.Mutation<
-	ConnectPaymentSystemToPlaceMutation,
-	ConnectPaymentSystemToPlaceMutationVariables
+export class ConnectAccountingSystemToPlaceGQL extends Apollo.Mutation<
+	ConnectAccountingSystemToPlaceMutation,
+	ConnectAccountingSystemToPlaceMutationVariables
 > {
-	override document = ConnectPaymentSystemToPlaceDocument;
+	override document = ConnectAccountingSystemToPlaceDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const GetMerchantLoginAndCodeLinkDocument = gql`
+	mutation GetMerchantLoginAndCodeLink($placeId: String!) {
+		getMerchantLoginAndCodeLink(placeId: $placeId) {
+			link
+		}
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class GetMerchantLoginAndCodeLinkGQL extends Apollo.Mutation<
+	GetMerchantLoginAndCodeLinkMutation,
+	GetMerchantLoginAndCodeLinkMutationVariables
+> {
+	override document = GetMerchantLoginAndCodeLinkDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);
