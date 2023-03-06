@@ -25,7 +25,7 @@ export class TableQrCodeDialogComponent implements OnInit {
 			return;
 		}
 
-		this.qrData = `${environment.clientUrl}?start=/places/${this.data.placeId}/connect-to-table?code=${this.data.code}`;
+		this.qrData = `${environment.clientUrl}?start=${this.data.placeId}_${this.data.code}`;
 	}
 
 	downloadQrCode() {
