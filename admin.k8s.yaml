@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: prod-admin-k8s
-  replicas: 3
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 1
