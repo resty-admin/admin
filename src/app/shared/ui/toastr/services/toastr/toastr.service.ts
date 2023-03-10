@@ -20,7 +20,7 @@ export class ToastrService {
 			source.pipe(
 				tap({
 					next: () => this.success(undefined, { data: { title, message } }),
-					error: ({ error }) => this.error(undefined, { data: { title, messages: error.messages } })
+					error: ({ error }) => (error ? this.error(undefined, { data: { title, messages: error?.messages } }) : null)
 					// finalize: () => loadingRef.close()
 				})
 			);

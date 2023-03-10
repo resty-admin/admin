@@ -11,7 +11,7 @@ import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, switchMap, take } from "rxjs";
+import { catchError, filter, map, switchMap, take, throwError } from "rxjs";
 
 import { TablesPageGQL } from "../graphql";
 
@@ -68,11 +68,23 @@ export class TablesComponent implements OnInit, OnDestroy {
 						.pipe(
 							take(1),
 							switchMap(() => this._tablesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("TABLES.CREATE"))
+							this._toastrService.observe(this._i18nService.translate("TABLES.CREATE")),
+							catchError((error) => throwError(error))
 						)
 				)
 			)
-			.subscribe();
+			.subscribe({
+				error: (error) => {
+					if (!error?.graphQLErrors) {
+						return;
+					}
+					const errorsCodes = error?.graphQLErrors[0]?.extensions?.codes || [];
+
+					if (errorsCodes.includes("1035")) {
+						this._toastrService.error(undefined, { data: { title: "Стіл з таким кодом вже існує" } });
+					}
+				}
+			});
 	}
 
 	openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {

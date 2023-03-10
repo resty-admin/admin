@@ -4,6 +4,8 @@ query HistoryOrdersPage($placeId: String!, $skip: Int, $take: Int, $filtersArgs:
 			id
 			orderNumber
 			status
+			startDate
+			type
 		}
 		page
 		totalCount

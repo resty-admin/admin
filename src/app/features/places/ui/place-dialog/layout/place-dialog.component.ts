@@ -28,12 +28,12 @@ export class PlaceDialogComponent implements OnInit {
 		address: ["", Validators.required] as any,
 		file: null,
 		weekDays: this._formBuilder.group({
-			start: "",
-			end: ""
+			start: ["", Validators.required],
+			end: ["", Validators.required]
 		}),
 		weekendDays: this._formBuilder.group({
-			start: "",
-			end: ""
+			start: ["", Validators.required],
+			end: ["", Validators.required]
 		}),
 		a11y: this._formBuilder.group(
 			this.a11yOptions.reduce(

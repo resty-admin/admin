@@ -1,3 +1,5 @@
+export * from "./directives";
+export * from "./directives";
 export * from "./guards";
 export * from "./interfaces";
 export * from "./providers";

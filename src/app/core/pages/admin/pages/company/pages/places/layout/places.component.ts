@@ -1,6 +1,7 @@
 import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { PlaceDialogComponent, PlacesService } from "@features/places";
+import { UserRoleEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID, PLACE_ID } from "@shared/constants";
 import { I18nService } from "@shared/modules/i18n";
@@ -22,6 +23,7 @@ import { PlacesPageGQL } from "../graphql";
 export class PlacesComponent implements OnInit {
 	private readonly _placesPageQuery = this._placesPageGQL.watch();
 	readonly places$ = this._placesPageQuery.valueChanges.pipe(map((result) => result.data.places.data));
+	userRoleEnum = UserRoleEnum;
 
 	constructor(
 		readonly sharedService: SharedService,

@@ -58,7 +58,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 				filter((employee) => Boolean(employee)),
 				switchMap((employee) =>
 					this._usersService
-						.addUserToPlaceGQL({
+						.addUserToPlace({
 							user: employee.id,
 							place: this._routerService.getParams(PLACE_ID.slice(1)),
 							role: UserRoleEnum.Waiter
@@ -100,7 +100,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
-					this._usersService.deleteUser(value.id).pipe(
+					this._usersService.removeUserFromPlace(value.id).pipe(
 						switchMap(() => this._employeesPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("EMPLOYEES.DELETE"))
 					)

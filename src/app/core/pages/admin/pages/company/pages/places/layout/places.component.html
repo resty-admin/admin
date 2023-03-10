@@ -10,7 +10,7 @@
 					{{ place.name | initials }}
 				</a>
 			</li>
-			<li class="place">
+			<li class="place" *appRole="[userRoleEnum.Admin, userRoleEnum.Manager]">
 				<button class="button" (click)="openCreatePlaceDialog()">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>

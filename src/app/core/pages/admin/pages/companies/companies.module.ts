@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { AuthModule } from "@features/auth/auth.module";
 import { CompanyDialogModule } from "@features/companies/ui/company-dialog/company-dialog.module";
 import { I18nModule } from "@shared/modules/i18n";
 import { PipesModule } from "@shared/modules/pipes";
@@ -23,7 +24,8 @@ import { CompaniesComponent } from "./layout/companies.component";
 		TypographyModule,
 		CompanyDialogModule,
 		I18nModule,
-		SkeletonModule
+		SkeletonModule,
+		AuthModule
 	]
 })
 export class CompaniesModule {}

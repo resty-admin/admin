@@ -2,6 +2,7 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { CompaniesService, CompanyDialogComponent } from "@features/companies";
 import type { CreateCommandInput } from "@graphql";
+import { UserRoleEnum } from "@graphql";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ADMIN_ROUTES, COMPANY_ID } from "@shared/constants";
 import { I18nService } from "@shared/modules/i18n";
@@ -21,6 +22,7 @@ import { CompaniesPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompaniesComponent implements OnInit {
+	readonly userRoleEnum = UserRoleEnum;
 	readonly _companiesPageQuery = this._companiesPageGQL.watch();
 	readonly companies$ = this._companiesPageQuery.valueChanges.pipe(map((result) => result.data.companies.data));
 

@@ -22,6 +22,8 @@ export interface HistoryOrdersPageQuery {
 					id: string;
 					orderNumber: number;
 					status: Types.OrderStatusEnum;
+					startDate?: any | null;
+					type: Types.OrderTypeEnum;
 			  }[]
 			| null;
 	};
@@ -34,6 +36,8 @@ export const HistoryOrdersPageDocument = gql`
 				id
 				orderNumber
 				status
+				startDate
+				type
 			}
 			page
 			totalCount

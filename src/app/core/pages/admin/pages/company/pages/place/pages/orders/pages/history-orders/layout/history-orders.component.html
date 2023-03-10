@@ -6,9 +6,13 @@
 			<ng-template #header>{{ t("DATATABLES.CODE") }}</ng-template>
 			<ng-template #value let-value>{{ value }}</ng-template>
 		</ng-container>
-		<ng-container appColumn="date">
+		<ng-container appColumn="type">
+			<ng-template #header>{{ t("DATATABLES.TYPE") }}</ng-template>
+			<ng-template #value let-value>{{ t("ORDERS." + value) }}</ng-template>
+		</ng-container>
+		<ng-container appColumn="startDate">
 			<ng-template #header>{{ t("DATATABLES.DATE") }}</ng-template>
-			<ng-template #value let-value>{{ value }}</ng-template>
+			<ng-template #value let-value>{{ value | date : "dd LLLL HH:mm" }}</ng-template>
 		</ng-container>
 		<ng-container appColumn="status">
 			<ng-template #header>{{ t("DATATABLES.STATUS") }}</ng-template>

@@ -452,6 +452,7 @@ export interface Mutation {
 	rejectOrder: ActiveOrderEntity;
 	rejectProductsInOrder: ProductToOrderEntity[];
 	removeTableFromOrder: ActiveOrderEntity;
+	removeUserFromPlace: Scalars["String"];
 	resetPassword: AccessToken;
 	sendAgain: Scalars["String"];
 	setManualPayForProductsInOrder: ProductToOrderEntity[];
@@ -460,6 +461,8 @@ export interface Mutation {
 	signUp: AccessToken;
 	syncCategories: Scalars["String"];
 	syncHalls: Scalars["String"];
+	syncHistoryOrders: Scalars["String"];
+	syncOrders: Scalars["String"];
 	syncProducts: Scalars["String"];
 	syncTables: Scalars["String"];
 	telegram: AccessToken;
@@ -681,6 +684,10 @@ export interface MutationRemoveTableFromOrderArgs {
 	orderId: Scalars["String"];
 }
 
+export interface MutationRemoveUserFromPlaceArgs {
+	userToPlaceId: Scalars["String"];
+}
+
 export interface MutationResetPasswordArgs {
 	body: ResetPasswordInput;
 }
@@ -707,6 +714,14 @@ export interface MutationSyncCategoriesArgs {
 }
 
 export interface MutationSyncHallsArgs {
+	placeId: Scalars["String"];
+}
+
+export interface MutationSyncHistoryOrdersArgs {
+	placeId: Scalars["String"];
+}
+
+export interface MutationSyncOrdersArgs {
 	placeId: Scalars["String"];
 }
 

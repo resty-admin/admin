@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -95,7 +95,7 @@ import { CoreComponent } from "./layout/core.component";
 		CompanyDialogModule,
 		PlaceDialogModule
 	],
-	providers: AUTH_PROVIDERS,
+	providers: [...AUTH_PROVIDERS, { provide: LOCALE_ID, useValue: "uk" }],
 	exports: [CoreComponent]
 })
 export class CoreModule {}
