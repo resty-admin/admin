@@ -47,7 +47,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
 		await this._productsPageQuery.setVariables({
 			filtersArgs: [
 				{ key: "category.place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }
-			]
+			],
+			take: 50,
+			skip: 0
 		});
 	}
 

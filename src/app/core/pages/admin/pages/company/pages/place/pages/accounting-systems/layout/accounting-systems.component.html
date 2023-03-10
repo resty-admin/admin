@@ -3,14 +3,11 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list
-		class="list"
-		[items]="accountingSystems$ | async"
-		[itemTemplate]="accountingSystemTemplate"
-		(clicked)="openAccountingSystemDialog($event)"
-	></app-list>
+	<app-list class="list" [items]="accountingSystems$ | async" [itemTemplate]="accountingSystemTemplate"></app-list>
 </div>
 
 <ng-template let-item #accountingSystemTemplate>
-	<app-accounting-system [accountingSystem]="item"></app-accounting-system>
+	<a [href]="item.configFields.connectUrl + redirectUrl">
+		<app-accounting-system [accountingSystem]="item"></app-accounting-system>
+	</a>
 </ng-template>

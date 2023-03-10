@@ -31,6 +31,11 @@ export interface AccountingSystemEntityInput {
 	name: Scalars["String"];
 }
 
+export enum AccountingSystemsEnum {
+	Poster = "POSTER",
+	Resty = "RESTY"
+}
+
 export interface ActiveOrderEntity {
 	__typename?: "ActiveOrderEntity";
 	code: Scalars["Int"];
@@ -43,7 +48,7 @@ export interface ActiveOrderEntity {
 	startDate: Scalars["DateTime"];
 	status: OrderStatusEnum;
 	table?: Maybe<TableEntity>;
-	totalPrice?: Maybe<Scalars["Int"]>;
+	totalPrice?: Maybe<Scalars["Float"]>;
 	type: OrderTypeEnum;
 	users?: Maybe<UserEntity[]>;
 	waiters?: Maybe<UserEntity[]>;
@@ -59,7 +64,7 @@ export interface ActiveOrderEntityInput {
 	startDate: Scalars["DateTime"];
 	status: OrderStatusEnum;
 	table?: InputMaybe<TableEntityInput>;
-	totalPrice?: InputMaybe<Scalars["Int"]>;
+	totalPrice?: InputMaybe<Scalars["Float"]>;
 	type: OrderTypeEnum;
 	users?: InputMaybe<UserEntityInput[]>;
 	waiters?: InputMaybe<UserEntityInput[]>;
@@ -102,6 +107,7 @@ export interface AttributeToProductEntityInput {
 
 export interface AttributesEntity {
 	__typename?: "AttributesEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	attributesGroup?: Maybe<AttributesGroupEntity[]>;
 	id: Scalars["String"];
 	name: Scalars["String"];
@@ -110,6 +116,7 @@ export interface AttributesEntity {
 }
 
 export interface AttributesEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	attributesGroup?: InputMaybe<AttributesGroupEntityInput[]>;
 	name: Scalars["String"];
 	place?: InputMaybe<PlaceEntityInput>;
@@ -118,6 +125,7 @@ export interface AttributesEntityInput {
 
 export interface AttributesGroupEntity {
 	__typename?: "AttributesGroupEntity";
+	accountingSystemsFields?: Maybe<Scalars["JSONObject"]>;
 	attributes?: Maybe<AttributesEntity[]>;
 	id: Scalars["String"];
 	maxItemsForPick: Scalars["Int"];
@@ -128,6 +136,7 @@ export interface AttributesGroupEntity {
 }
 
 export interface AttributesGroupEntityInput {
+	accountingSystemsFields?: InputMaybe<Scalars["JSONObject"]>;
 	attributes?: InputMaybe<AttributesEntityInput[]>;
 	maxItemsForPick: Scalars["Int"];
 	name: Scalars["String"];
@@ -371,14 +380,16 @@ export interface HallEntityInput {
 
 export interface HistoryOrderEntity {
 	__typename?: "HistoryOrderEntity";
+	accountingSystem: AccountingSystemsEnum;
+	accountingSystemId?: Maybe<Scalars["String"]>;
 	id: Scalars["String"];
-	orderNumber: Scalars["Int"];
+	orderNumber?: Maybe<Scalars["Int"]>;
 	place: PlaceEntity;
 	productsToOrders: Scalars["JSONObject"][];
 	startDate?: Maybe<Scalars["DateTime"]>;
 	status: OrderStatusEnum;
 	table?: Maybe<Scalars["JSONObject"]>;
-	totalPrice?: Maybe<Scalars["Int"]>;
+	totalPrice?: Maybe<Scalars["Float"]>;
 	type: OrderTypeEnum;
 	users: Scalars["JSONObject"][];
 }
@@ -459,12 +470,7 @@ export interface Mutation {
 	setPaidStatusForProductsInOrder: ProductToOrderEntity[];
 	signIn: AccessToken;
 	signUp: AccessToken;
-	syncCategories: Scalars["String"];
-	syncHalls: Scalars["String"];
-	syncHistoryOrders: Scalars["String"];
-	syncOrders: Scalars["String"];
-	syncProducts: Scalars["String"];
-	syncTables: Scalars["String"];
+	syncPoster: Scalars["String"];
 	telegram: AccessToken;
 	updateAccountingSystem: AccountingSystemEntity;
 	updateAttr: AttributesEntity;
@@ -709,27 +715,7 @@ export interface MutationSignUpArgs {
 	body: SignUpInput;
 }
 
-export interface MutationSyncCategoriesArgs {
-	placeId: Scalars["String"];
-}
-
-export interface MutationSyncHallsArgs {
-	placeId: Scalars["String"];
-}
-
-export interface MutationSyncHistoryOrdersArgs {
-	placeId: Scalars["String"];
-}
-
-export interface MutationSyncOrdersArgs {
-	placeId: Scalars["String"];
-}
-
-export interface MutationSyncProductsArgs {
-	placeId: Scalars["String"];
-}
-
-export interface MutationSyncTablesArgs {
+export interface MutationSyncPosterArgs {
 	placeId: Scalars["String"];
 }
 
@@ -818,6 +804,7 @@ export enum OrderStatusEnum {
 export enum OrderTypeEnum {
 	Delivery = "DELIVERY",
 	InPlace = "IN_PLACE",
+	OutOfPlace = "OUT_OF_PLACE",
 	Pickup = "PICKUP",
 	Reserve = "RESERVE"
 }
@@ -1068,7 +1055,7 @@ export interface ProductEntity {
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orderNumber: Scalars["Int"];
-	price: Scalars["Int"];
+	price: Scalars["Float"];
 }
 
 export interface ProductEntityInput {
@@ -1080,7 +1067,7 @@ export interface ProductEntityInput {
 	isHide: Scalars["Boolean"];
 	name: Scalars["String"];
 	orderNumber: Scalars["Int"];
-	price: Scalars["Int"];
+	price: Scalars["Float"];
 }
 
 export interface ProductToOrderEntity {

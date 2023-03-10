@@ -26,7 +26,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
 	readonly employees$ = this._employeesPageQuery.valueChanges.pipe(
-		map((result) => (result.data.usersToPlaces.data || []).map((userToPlace) => userToPlace.user))
+		map((result) => result.data.usersToPlaces.data || [])
 	);
 
 	constructor(
