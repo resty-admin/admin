@@ -9,6 +9,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, from, map, switchMap, take } from "rxjs";
 
@@ -23,7 +24,9 @@ import { HallsPageGQL } from "../graphql";
 export class HallsComponent implements OnInit, OnDestroy {
 	private readonly _hallsPageQuery = this._hallsPageGQL.watch();
 
-	readonly halls$ = this._hallsPageQuery.valueChanges.pipe(map((result) => result.data.halls.data));
+	readonly halls$ = this._hallsPageQuery.valueChanges.pipe(map((result) => result.data.halls));
+
+	readonly limit = 5;
 
 	constructor(
 		private readonly _routerService: RouterService,
@@ -39,7 +42,16 @@ export class HallsComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({ label: "ADD_HALL", func: () => this.openCreateHallDialog() });
 
 		await this._hallsPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }],
+			skip: 0,
+			take: this.limit
+		});
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._hallsPageQuery.setVariables({
+			...this._hallsPageQuery.variables,
+			skip: page.pageSize * page.offset
 		});
 	}
 

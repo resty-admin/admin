@@ -11,6 +11,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -25,9 +26,9 @@ import { EmployeesPageGQL } from "../graphql";
 export class EmployeesComponent implements OnDestroy, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
-	readonly employees$ = this._employeesPageQuery.valueChanges.pipe(
-		map((result) => result.data.usersToPlaces.data || [])
-	);
+	readonly employees$ = this._employeesPageQuery.valueChanges.pipe(map((result) => result.data.usersToPlaces));
+
+	readonly limit = 5;
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -45,10 +46,19 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 			filtersArgs: [
 				{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) },
 				{ key: "user.role", operator: "=", value: UserRoleEnum.Waiter }
-			]
+			],
+			skip: 0,
+			take: this.limit
 		});
 
 		this._actionsService.setAction({ label: "ADD_EMPLOYEE", func: () => this.openAddEmployeeDialog() });
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._employeesPageQuery.setVariables({
+			...this._employeesPageQuery.variables,
+			skip: page.pageSize * page.offset
+		});
 	}
 
 	openAddEmployeeDialog() {

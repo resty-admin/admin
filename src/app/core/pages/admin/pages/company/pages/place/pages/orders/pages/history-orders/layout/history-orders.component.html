@@ -1,34 +1,51 @@
 <div class="all-orders-page" *transloco="let t">
 	<app-filters class="filters"></app-filters>
 
-	<app-datatable class="datatable-desktop" [rows]="historyOrders$ | async" (clicked)="navigateToHitoryOrder($event)">
-		<ng-container appColumn="orderNumber">
-			<ng-template #header>{{ t("DATATABLES.CODE") }}</ng-template>
-			<ng-template #value let-value>{{ value }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="type">
-			<ng-template #header>{{ t("DATATABLES.TYPE") }}</ng-template>
-			<ng-template #value let-value>{{ t("ORDERS." + value) }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="startDate">
-			<ng-template #header>{{ t("DATATABLES.DATE") }}</ng-template>
-			<ng-template #value let-value>{{ value | date : "dd LLLL HH:mm" }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="status">
-			<ng-template #header>{{ t("DATATABLES.STATUS") }}</ng-template>
-			<ng-template #value let-value>{{ t("HISTORY_ORDER." + value) }}</ng-template>
-		</ng-container>
-	</app-datatable>
+	<ng-container *ngIf="historyOrders$ | async as historyOrdersData">
+		<app-datatable
+			class="datatable-desktop"
+			[rows]="historyOrdersData.data"
+			[count]="historyOrdersData.totalCount"
+			[offset]="historyOrdersData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+			(clicked)="navigateToHitoryOrder($event)"
+		>
+			<ng-container appColumn="orderNumber">
+				<ng-template #header>{{ t("DATATABLES.CODE") }}</ng-template>
+				<ng-template #value let-value>{{ value }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="type">
+				<ng-template #header>{{ t("DATATABLES.TYPE") }}</ng-template>
+				<ng-template #value let-value>{{ t("ORDERS." + value) }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="startDate">
+				<ng-template #header>{{ t("DATATABLES.DATE") }}</ng-template>
+				<ng-template #value let-value>{{ value | date : "dd LLLL HH:mm" }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="status">
+				<ng-template #header>{{ t("DATATABLES.STATUS") }}</ng-template>
+				<ng-template #value let-value>{{ t("HISTORY_ORDER." + value) }}</ng-template>
+			</ng-container>
+		</app-datatable>
 
-	<ul class="datatable-mobile">
-		<li class="order" *ngFor="let order of historyOrders$ | async; trackBy: sharedService.trackByFn">
-			<p class="code">{{ t("DATATABLES.CODE") }} {{ order.orderNumber }}</p>
+		<ul class="datatable-mobile">
+			<li class="order" *ngFor="let order of (historyOrders$ | async)?.data; trackBy: sharedService.trackByFn">
+				<p class="code">{{ t("DATATABLES.CODE") }} {{ order.orderNumber }}</p>
 
-			<p class="date-label">{{ t("DATATABLES.DATE") }}</p>
-			<p class="date-value"></p>
+				<p class="date-label">{{ t("DATATABLES.DATE") }}</p>
+				<p class="date-value"></p>
 
-			<p class="role-label">{{ t("DATATABLES.STATUS") }}</p>
-			<p [class]="'role-value' + ' ' + order.status">{{ t("HISTORY_ORDER." + order.status) }}</p>
-		</li>
-	</ul>
+				<p class="role-label">{{ t("DATATABLES.STATUS") }}</p>
+				<p [class]="'role-value' + ' ' + order.status">{{ t("HISTORY_ORDER." + order.status) }}</p>
+			</li>
+
+			<app-pager
+				[count]="historyOrdersData.totalCount"
+				[offset]="historyOrdersData.page - 1"
+				[limit]="limit"
+				(pageChanged)="updateQuery($event)"
+			></app-pager>
+		</ul>
+	</ng-container>
 </div>

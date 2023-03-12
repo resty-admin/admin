@@ -3,7 +3,16 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list class="list" [items]="accountingSystems$ | async" [itemTemplate]="accountingSystemTemplate"></app-list>
+	<ng-container *ngIf="accountingSystems$ | async as accountingSystemsData">
+		<app-list class="list" [items]="accountingSystemsData.data" [itemTemplate]="accountingSystemTemplate"></app-list>
+
+		<app-pager
+			[count]="accountingSystemsData.totalCount"
+			[offset]="accountingSystemsData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		></app-pager>
+	</ng-container>
 </div>
 
 <ng-template let-item #accountingSystemTemplate>

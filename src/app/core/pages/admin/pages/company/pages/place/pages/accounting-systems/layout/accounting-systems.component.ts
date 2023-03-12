@@ -7,6 +7,7 @@ import type { AtLeast } from "@shared/interfaces";
 import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -19,9 +20,11 @@ import { AccountingSystemsPageGQL } from "../graphql";
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountingSystemsComponent implements OnInit {
-	private readonly __accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
-	readonly accountingSystems$ = this.__accountingSystemsPageQuery.valueChanges.pipe(
-		map((result) => result.data.accountingSystems.data)
+	private readonly _accountingSystemsPageQuery = this._accountingSystemsPageGQL.watch();
+	readonly limit = 5;
+
+	readonly accountingSystems$ = this._accountingSystemsPageQuery.valueChanges.pipe(
+		map((result) => result.data.accountingSystems)
 	);
 
 	redirectUrl: string = "";
@@ -35,10 +38,22 @@ export class AccountingSystemsComponent implements OnInit {
 		private readonly _routerService: RouterService
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.redirectUrl = `&redirect_uri=http://localhost:3000/api/poster/auth-confirm?placeId=${this._routerService.getParams(
 			PLACE_ID.slice(1)
 		)}`;
+
+		await this._accountingSystemsPageQuery.setVariables({
+			skip: 0,
+			take: this.limit
+		});
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._accountingSystemsPageQuery.setVariables({
+			...this._accountingSystemsPageQuery.variables,
+			skip: page.pageSize * page.offset
+		});
 	}
 
 	openAccountingSystemDialog(data: AtLeast<AccountingSystemEntity, "id">) {

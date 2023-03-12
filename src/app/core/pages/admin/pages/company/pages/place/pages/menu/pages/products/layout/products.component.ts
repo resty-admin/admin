@@ -10,6 +10,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { SelectionType } from "@swimlane/ngx-datatable";
 import { filter, map, switchMap, take } from "rxjs";
@@ -28,7 +29,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
 	readonly SelectionType = SelectionType;
 
 	private readonly _productsPageQuery = this._productsPageGQL.watch();
-	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products.data));
+	readonly products$ = this._productsPageQuery.valueChanges.pipe(map((result) => result.data.products));
+
+	readonly limit = 5;
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -48,7 +51,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 			filtersArgs: [
 				{ key: "category.place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }
 			],
-			take: 50,
+			take: this.limit,
 			skip: 0
 		});
 	}
@@ -131,6 +134,13 @@ export class ProductsComponent implements OnInit, OnDestroy {
 				)
 			)
 			.subscribe();
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._productsPageQuery.setVariables({
+			...this._productsPageQuery.variables,
+			skip: page.pageSize * page.offset
+		});
 	}
 
 	ngOnDestroy() {

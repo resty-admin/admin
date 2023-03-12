@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import type { UserEntity } from "@graphql";
 import type { IAsidePage } from "@shared/interfaces";
 
-import type { AdminCompaniesQuery, AdminPlacesQuery } from "../../graphql";
+import type { AdminCompaniesQuery, AdminPlacesQuery } from "../../../../graphql";
 
 @Component({
 	selector: "app-aside",

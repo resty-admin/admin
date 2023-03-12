@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import type { UserEntity } from "@graphql";
 import { UserRoleEnum } from "@graphql";
 
-import type { AdminCompaniesQuery } from "../../graphql";
+import type { AdminCompaniesQuery } from "../../../../graphql";
 
 @Component({
 	selector: "app-company-select",

@@ -9,6 +9,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -24,7 +25,10 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	readonly adminRoutes = ADMIN_ROUTES;
 
 	private readonly _activeOrdersPageQuery = this._activeOrdersPageGQL.watch();
-	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders.data));
+
+	readonly activeOrders$ = this._activeOrdersPageQuery.valueChanges.pipe(map((result) => result.data.orders));
+
+	readonly limit = 5;
 
 	constructor(
 		private readonly _activeOrdersPageGQL: ActiveOrdersPageGQL,
@@ -39,10 +43,18 @@ export class ActiveOrdersComponent implements OnInit, OnDestroy {
 	async ngOnInit() {
 		await this._activeOrdersPageQuery.setVariables({
 			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }],
-			take: 50
+			take: this.limit,
+			skip: 0
 		});
 
 		this._actionsService.setAction({ label: "ADD_ORDER", func: () => this.openCreateOrderDialog() });
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._activeOrdersPageQuery.setVariables({
+			...this._activeOrdersPageQuery.variables,
+			skip: page.pageSize * page.offset
+		});
 	}
 
 	openCreateOrderDialog() {

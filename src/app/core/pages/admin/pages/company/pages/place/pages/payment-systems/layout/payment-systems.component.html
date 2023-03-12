@@ -3,12 +3,21 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list
-		class="list"
-		[items]="paymentSystems$ | async"
-		[itemTemplate]="paymentSystemTempalte"
-		(clicked)="openPaymentSystemDialog($event)"
-	></app-list>
+	<ng-container *ngIf="paymentSystems$ | async as paymentSystemsData">
+		<app-list
+			class="list"
+			[items]="paymentSystemsData.data"
+			[itemTemplate]="paymentSystemTempalte"
+			(clicked)="openPaymentSystemDialog($event)"
+		></app-list>
+
+		<app-pager
+			[count]="paymentSystemsData.totalCount"
+			[offset]="paymentSystemsData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		></app-pager>
+	</ng-container>
 </div>
 
 <ng-template let-item #paymentSystemTempalte>

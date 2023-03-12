@@ -10,6 +10,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -24,8 +25,13 @@ import { GuestsPageGQL } from "../graphql";
 export class GuestsComponent implements OnInit {
 	private readonly _guestsPageQuery = this._guestsPageGQL.watch();
 	readonly guests$ = this._guestsPageQuery.valueChanges.pipe(
-		map((result) => (result.data.usersToPlaces.data || []).map((userToPlace) => userToPlace.user))
+		map((result) => ({
+			...result.data.usersToPlaces,
+			data: (result.data.usersToPlaces.data || []).map((userToPlace) => userToPlace.user)
+		}))
 	);
+
+	readonly limit = 5;
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -42,7 +48,16 @@ export class GuestsComponent implements OnInit {
 			filtersArgs: [
 				{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) },
 				{ key: "user.role", operator: "=", value: UserRoleEnum.Client }
-			]
+			],
+			take: this.limit,
+			skip: 0
+		});
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._guestsPageQuery.setVariables({
+			...this._guestsPageQuery.variables,
+			skip: page.pageSize * page.offset
 		});
 	}
 

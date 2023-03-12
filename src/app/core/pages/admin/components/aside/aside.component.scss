@@ -20,7 +20,7 @@
 			overflow: hidden;
 		}
 
-		@include desktop () {
+		@include desktop() {
 			row-gap: rem(32);
 		}
 	}

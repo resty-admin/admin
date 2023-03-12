@@ -2,50 +2,67 @@
 	<app-add-button class="add" (clicked)="openAddEmployeeDialog()">{{ t("EMPLOYEES.ADD") }}</app-add-button>
 
 	<app-filters class="filters"></app-filters>
+
+	<ng-container *ngIf="employees$ | async as employeesData">
+		<app-datatable
+			class="datatable-desktop"
+			[rows]="employeesData.data"
+			[count]="employeesData.totalCount"
+			[offset]="employeesData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		>
+			<ng-container appColumn="name">
+				<ng-template #header>{{ t("EMPLOYEES.NAME") }}</ng-template>
+				<ng-template #value let-row="row">{{ row.user.name }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="email">
+				<ng-template #header>{{ t("EMPLOYEES.EMAIL") }}</ng-template>
+				<ng-template #value let-row="row">{{ row.user.email }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="tel">
+				<ng-template #header>{{ t("EMPLOYEES.TEL") }}</ng-template>
+				<ng-template #value let-row="row">{{ row.user.tel }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="role">
+				<ng-template #header>{{ t("EMPLOYEES.ROLE") }}</ng-template>
+				<ng-template #value let-row="row">{{ t("USERS." + row.user.role) }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="more">
+				<ng-template #header></ng-template>
+				<ng-template #value let-row="row">
+					<ng-container *ngTemplateOutlet="moreTemplate; context: { row }"></ng-container>
+				</ng-template>
+			</ng-container>
+		</app-datatable>
+
+		<!--mobile-->
+		<ul class="datatable-mobile">
+			<li class="user" *ngFor="let employee of (employees$ | async)?.data; trackBy: sharedService.trackByFn">
+				<ng-container *ngTemplateOutlet="moreTemplate; context: { row: employee }"></ng-container>
+
+				<p class="name-label">{{ t("EMPLOYEES.NAME") }}</p>
+				<p class="name-value">{{ employee.user.name }}</p>
+
+				<p class="email-label">{{ t("EMPLOYEES.EMAIL") }}</p>
+				<p class="email-value">{{ employee.user.email }}</p>
+
+				<p class="tel-label">{{ t("EMPLOYEES.TEL") }}</p>
+				<p class="tel-value">{{ employee.user.tel }}</p>
+
+				<p class="role-label">{{ t("EMPLOYEES.ROLE") }}</p>
+				<p class="role-value">{{ t("USERS." + employee.user.role) }}</p>
+			</li>
+
+			<app-pager
+				[count]="employeesData.totalCount"
+				[offset]="employeesData.page - 1"
+				[limit]="limit"
+				(pageChanged)="updateQuery($event)"
+			></app-pager>
+		</ul>
+	</ng-container>
 	<!--desktop-->
-	<app-datatable class="datatable-desktop" [rows]="employees$ | async">
-		<ng-container appColumn="name">
-			<ng-template #header>{{ t("EMPLOYEES.NAME") }}</ng-template>
-			<ng-template #value let-row="row">{{ row.user.name }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="email">
-			<ng-template #header>{{ t("EMPLOYEES.EMAIL") }}</ng-template>
-			<ng-template #value let-row="row">{{ row.user.email }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="tel">
-			<ng-template #header>{{ t("EMPLOYEES.TEL") }}</ng-template>
-			<ng-template #value let-row="row">{{ row.user.tel }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="role">
-			<ng-template #header>{{ t("EMPLOYEES.ROLE") }}</ng-template>
-			<ng-template #value let-row="row">{{ t("USERS." + row.user.role) }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="more">
-			<ng-template #header></ng-template>
-			<ng-template #value let-row="row">
-				<ng-container *ngTemplateOutlet="moreTemplate; context: { row }"></ng-container>
-			</ng-template>
-		</ng-container>
-	</app-datatable>
-
-	<!--mobile-->
-	<ul class="datatable-mobile">
-		<li class="user" *ngFor="let employee of employees$ | async; trackBy: sharedService.trackByFn">
-			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: employee }"></ng-container>
-
-			<p class="name-label">{{ t("EMPLOYEES.NAME") }}</p>
-			<p class="name-value">{{ employee.user.name }}</p>
-
-			<p class="email-label">{{ t("EMPLOYEES.EMAIL") }}</p>
-			<p class="email-value">{{ employee.user.email }}</p>
-
-			<p class="tel-label">{{ t("EMPLOYEES.TEL") }}</p>
-			<p class="tel-value">{{ employee.user.tel }}</p>
-
-			<p class="role-label">{{ t("EMPLOYEES.ROLE") }}</p>
-			<p class="role-value">{{ t("USERS." + employee.user.role) }}</p>
-		</li>
-	</ul>
 </div>
 
 <ng-template #moreTemplate let-row="row">

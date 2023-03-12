@@ -11,6 +11,7 @@ import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { InputModule } from "@shared/ui/input";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { PagerModule } from "@shared/ui/pager";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
@@ -37,7 +38,8 @@ import { HistoryOrdersComponent } from "./layout/history-orders.component";
 		TabsSkeletonModule,
 		FiltersSkeletonModule,
 		ListSkeletonModule,
-		DatatableSkeletonModule
+		DatatableSkeletonModule,
+		PagerModule
 	]
 })
 export class HistoryOrdersModule {}

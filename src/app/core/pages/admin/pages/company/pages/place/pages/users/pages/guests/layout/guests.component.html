@@ -1,43 +1,59 @@
 <div class="guests-page" *transloco="let t">
 	<app-filters class="filters"></app-filters>
 
-	<!--desktop-->
-	<app-datatable class="datatable-desktop" [rows]="guests$ | async">
-		<ng-container appColumn="name">
-			<ng-template #header>{{ t("GUESTS.NAME") }}</ng-template>
-			<ng-template #value let-value>{{ value }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="email">
-			<ng-template #header>{{ t("GUESTS.EMAIL") }}</ng-template>
-			<ng-template #value let-value>{{ value }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="tel">
-			<ng-template #header>{{ t("GUESTS.TEL") }}</ng-template>
-			<ng-template #value let-value>{{ value }}</ng-template>
-		</ng-container>
-		<ng-container appColumn="more">
-			<ng-template #header></ng-template>
-			<ng-template #value let-row="row">
-				<ng-container *ngTemplateOutlet="moreTemplate; context: { row }"></ng-container>
-			</ng-template>
-		</ng-container>
-	</app-datatable>
+	<ng-container *ngIf="guests$ | async as guests">
+		<!--desktop-->
+		<app-datatable
+			class="datatable-desktop"
+			[rows]="guests.data"
+			[count]="guests.totalCount"
+			[offset]="guests.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		>
+			<ng-container appColumn="name">
+				<ng-template #header>{{ t("GUESTS.NAME") }}</ng-template>
+				<ng-template #value let-value>{{ value }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="email">
+				<ng-template #header>{{ t("GUESTS.EMAIL") }}</ng-template>
+				<ng-template #value let-value>{{ value }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="tel">
+				<ng-template #header>{{ t("GUESTS.TEL") }}</ng-template>
+				<ng-template #value let-value>{{ value }}</ng-template>
+			</ng-container>
+			<ng-container appColumn="more">
+				<ng-template #header></ng-template>
+				<ng-template #value let-row="row">
+					<ng-container *ngTemplateOutlet="moreTemplate; context: { row }"></ng-container>
+				</ng-template>
+			</ng-container>
+		</app-datatable>
 
-	<!--mobile-->
-	<ul class="datatable-mobile">
-		<li class="user" *ngFor="let user of guests$ | async; trackBy: sharedService.trackByFn">
-			<ng-container *ngTemplateOutlet="moreTemplate; context: { row: user }"></ng-container>
+		<!--mobile-->
+		<ul class="datatable-mobile">
+			<li class="user" *ngFor="let user of (guests$ | async)?.data; trackBy: sharedService.trackByFn">
+				<ng-container *ngTemplateOutlet="moreTemplate; context: { row: user }"></ng-container>
 
-			<p class="name-label">{{ t("GUESTS.NAME") }}</p>
-			<p class="name-value">{{ user.name }}</p>
+				<p class="name-label">{{ t("GUESTS.NAME") }}</p>
+				<p class="name-value">{{ user.name }}</p>
 
-			<p class="email-label">{{ t("GUESTS.EMAIL") }}</p>
-			<p class="email-value">{{ user.email }}</p>
+				<p class="email-label">{{ t("GUESTS.EMAIL") }}</p>
+				<p class="email-value">{{ user.email }}</p>
 
-			<p class="tel-label">{{ t("GUESTS.TEL") }}</p>
-			<p class="tel-value">{{ user.tel }}</p>
-		</li>
-	</ul>
+				<p class="tel-label">{{ t("GUESTS.TEL") }}</p>
+				<p class="tel-value">{{ user.tel }}</p>
+			</li>
+
+			<app-pager
+				[count]="guests.totalCount"
+				[offset]="guests.page - 1"
+				[limit]="limit"
+				(pageChanged)="updateQuery($event)"
+			></app-pager>
+		</ul>
+	</ng-container>
 </div>
 
 <ng-template #moreTemplate let-row="row">

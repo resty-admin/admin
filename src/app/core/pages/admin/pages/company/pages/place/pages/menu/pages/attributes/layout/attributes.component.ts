@@ -15,6 +15,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -28,9 +29,9 @@ import { AttributesPageGQL } from "../graphql";
 })
 export class AttributesComponent implements OnInit, OnDestroy {
 	private readonly _attributesPageQuery = this._attributesPageGQL.watch();
-	readonly attributeGroups$ = this._attributesPageQuery.valueChanges.pipe(
-		map((result) => result.data.attributeGroups.data)
-	);
+	readonly attributeGroups$ = this._attributesPageQuery.valueChanges.pipe(map((result) => result.data.attributeGroups));
+
+	readonly limit = 5;
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -51,7 +52,16 @@ export class AttributesComponent implements OnInit, OnDestroy {
 		});
 
 		await this._attributesPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }],
+			skip: 0,
+			take: 5
+		});
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._attributesPageQuery.setVariables({
+			...this._attributesPageQuery.variables,
+			skip: page.pageSize * page.offset
 		});
 	}
 
