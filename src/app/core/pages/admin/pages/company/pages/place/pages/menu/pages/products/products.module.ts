@@ -16,6 +16,7 @@ import { IconModule } from "@shared/ui/icon";
 import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { MoreModule } from "@shared/ui/more";
+import { PagerModule } from "@shared/ui/pager";
 import { SelectModule } from "@shared/ui/select";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
@@ -51,7 +52,8 @@ import { ProductsRoutingModule } from "./products-routing.module";
 		DatatableSkeletonModule,
 		TabsSkeletonModule,
 		MoreModule,
-		AddButtonModule
+		AddButtonModule,
+		PagerModule
 	]
 })
 export class ProductsModule {}

@@ -12,6 +12,7 @@ import {
 import { ANY_SYMBOL, THEME } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import { ColumnDirective } from "@shared/ui/datatable/directives";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ColumnMode, SelectionType } from "@swimlane/ngx-datatable";
 
 import { DATATABLE_CONFIG } from "../injection-tokens";
@@ -27,6 +28,7 @@ import { IDatatableConfig, IDatatableTheme } from "../interfaces";
 export class DatatableComponent implements OnChanges {
 	@ContentChildren(ColumnDirective) appColumns!: QueryList<ColumnDirective>;
 
+	@Output() pageChanged = new EventEmitter<IPageInfo>();
 	@Output() clicked = new EventEmitter();
 	@Output() mouseEntered = new EventEmitter();
 	@Output() doubleClicked = new EventEmitter();
@@ -36,6 +38,11 @@ export class DatatableComponent implements OnChanges {
 	@Input() rows?: IDatatableRow<unknown>[] | null;
 	@Input() selected: unknown[] = [];
 	@Input() selectionType: SelectionType = SelectionType.single;
+	@Input() count = 0;
+	@Input() offset = 0;
+	@Input() limit?: number;
+
+	@Input() externalPaging: boolean = true;
 
 	_selected: unknown[] = [];
 
@@ -70,5 +77,9 @@ export class DatatableComponent implements OnChanges {
 		})[event.type].emit(event.row);
 
 		this.activated.emit(event);
+	}
+
+	emitPage(page: IPageInfo) {
+		this.pageChanged.emit(page);
 	}
 }

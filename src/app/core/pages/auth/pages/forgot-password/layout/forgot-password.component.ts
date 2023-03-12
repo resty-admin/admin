@@ -53,8 +53,20 @@ export class ForgotPasswordComponent implements OnInit {
 		this._authService
 			.forgotPassword(body)
 			.pipe(take(1))
-			.subscribe(() => {
-				this._toastrService.success(undefined, { data: { title: "Ми відіслали Вам ссилку на пошту" } });
-			});
+			.subscribe(
+				() => {
+					this._toastrService.success(undefined, { data: { title: "Ми відіслали Вам ссилку на пошту" } });
+				},
+				(error) => {
+					if (!error?.graphQLErrors) {
+						return;
+					}
+					const errorsCodes = error?.graphQLErrors[0]?.extensions?.codes || [];
+
+					if (errorsCodes.includes("1006")) {
+						this._toastrService.error(undefined, { data: { title: "Ми не знайшли користувача з такою поштою\n" } });
+					}
+				}
+			);
 	}
 }

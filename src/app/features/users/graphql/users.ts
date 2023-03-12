@@ -39,6 +39,15 @@ export interface AddUserToPlaceMutation {
 	addUserToPlace: { __typename?: "UserToPlaceEntity"; id: string };
 }
 
+export type RemoveUserFromPlaceMutationVariables = Types.Exact<{
+	userToPlaceId: Types.Scalars["String"];
+}>;
+
+export interface RemoveUserFromPlaceMutation {
+	__typename?: "Mutation";
+	removeUserFromPlace: string;
+}
+
 export const CreateUserDocument = gql`
 	mutation CreateUser($user: CreateUserInput!) {
 		createUser(user: $user) {
@@ -104,6 +113,25 @@ export const AddUserToPlaceDocument = gql`
 })
 export class AddUserToPlaceGQL extends Apollo.Mutation<AddUserToPlaceMutation, AddUserToPlaceMutationVariables> {
 	override document = AddUserToPlaceDocument;
+
+	constructor(apollo: Apollo.Apollo) {
+		super(apollo);
+	}
+}
+export const RemoveUserFromPlaceDocument = gql`
+	mutation RemoveUserFromPlace($userToPlaceId: String!) {
+		removeUserFromPlace(userToPlaceId: $userToPlaceId)
+	}
+`;
+
+@Injectable({
+	providedIn: "root"
+})
+export class RemoveUserFromPlaceGQL extends Apollo.Mutation<
+	RemoveUserFromPlaceMutation,
+	RemoveUserFromPlaceMutationVariables
+> {
+	override document = RemoveUserFromPlaceDocument;
 
 	constructor(apollo: Apollo.Apollo) {
 		super(apollo);

@@ -1,6 +1,7 @@
 import type { OnChanges } from "@angular/core";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { OrderStatusEnum } from "@graphql";
+import { DAYJS_DISPLAY_FORMAT } from "@shared/constants";
 import type { ISimpleChanges } from "@shared/interfaces";
 import dayjs from "dayjs";
 
@@ -31,7 +32,7 @@ export class OrderInfoComponent implements OnChanges {
 		const { table, startDate, status } = changes.order.currentValue;
 
 		const tableName = table ? `${table.hall?.name}, ${table.name}` : "";
-		const dateName = startDate ? dayjs(startDate).format("MM.DD.YYYY, HH:mm") : "";
+		const dateName = startDate ? dayjs(startDate).format(DAYJS_DISPLAY_FORMAT) : "";
 
 		this.tableInfo = tableName || "";
 		this.dateInfo = dateName || "";

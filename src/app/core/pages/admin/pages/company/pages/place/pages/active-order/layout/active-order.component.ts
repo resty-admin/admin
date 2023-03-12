@@ -58,10 +58,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 				.replace(PLACE_ID, this._routerService.getParams(PLACE_ID.slice(1)))
 		});
 
-		this._actionsService.setAction({
-			label: "CONFIRM_PAYMENT",
-			func: () => this.setPaidStatusForProductsInOrder()
-		});
+		this.setAction();
 
 		this._socketIoService
 			.fromEvents(Object.values(OrdersEvents))
@@ -81,6 +78,14 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	setAction() {
+		this._actionsService.setAction({
+			label: "CONFIRM_PAYMENT",
+			disabled: !this.isPayActive,
+			func: () => this.setPaidStatusForProductsInOrder()
+		});
+	}
+
 	setSelected(productsToOrders: any[]) {
 		this.selectedProductsToOrders = productsToOrders;
 		this.isActionsActive =
@@ -89,6 +94,7 @@ export class ActiveOrderComponent implements OnInit, OnDestroy {
 		this.isPayActive =
 			productsToOrders.length > 0 &&
 			productsToOrders.every((productToOrder) => productToOrder.paidStatus === ProductToOrderPaidStatusEnum.Waiting);
+		this.setAction();
 	}
 
 	setPaidStatusForProductsInOrder() {

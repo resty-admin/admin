@@ -10,7 +10,7 @@
 					{{ company.name | initials }}
 				</a>
 			</li>
-			<li class="company">
+			<li class="company" *appRole="[userRoleEnum.Admin, userRoleEnum.Manager]">
 				<button class="button" (click)="openCreateCompanyDialog()">
 					<app-icon class="icon" name="add"></app-icon>
 				</button>

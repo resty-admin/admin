@@ -10,8 +10,9 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
-import { filter, map, switchMap, take } from "rxjs";
+import { catchError, filter, map, switchMap, take, throwError } from "rxjs";
 
 import { TablesPageGQL } from "../graphql";
 
@@ -24,7 +25,9 @@ import { TablesPageGQL } from "../graphql";
 export class TablesComponent implements OnInit, OnDestroy {
 	private readonly _tablesPageQuery = this._tablesPageGQL.watch();
 
-	readonly tables$ = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables.data));
+	readonly tables$ = this._tablesPageQuery.valueChanges.pipe(map((result) => result.data.tables));
+
+	limit = 5;
 
 	constructor(
 		private readonly _tablesPageGQL: TablesPageGQL,
@@ -39,7 +42,9 @@ export class TablesComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		await this._tablesPageQuery.setVariables({
-			filtersArgs: [{ key: "hall.id", operator: "=", value: this._routerService.getParams(HALL_ID.slice(1)) }]
+			filtersArgs: [{ key: "hall.id", operator: "=", value: this._routerService.getParams(HALL_ID.slice(1)) }],
+			skip: 0,
+			take: this.limit
 		});
 
 		this._breadcrumbsService.setBreadcrumb({
@@ -49,6 +54,13 @@ export class TablesComponent implements OnInit, OnDestroy {
 		});
 
 		this._actionsService.setAction({ label: "ADD_TABLE", func: () => this.openCreateTableDialog() });
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._tablesPageQuery.setVariables({
+			...this._tablesPageQuery.variables,
+			skip: page.pageSize * page.offset
+		});
 	}
 
 	openCreateTableDialog() {
@@ -68,11 +80,23 @@ export class TablesComponent implements OnInit, OnDestroy {
 						.pipe(
 							take(1),
 							switchMap(() => this._tablesPageQuery.refetch()),
-							this._toastrService.observe(this._i18nService.translate("TABLES.CREATE"))
+							this._toastrService.observe(this._i18nService.translate("TABLES.CREATE")),
+							catchError((error) => throwError(error))
 						)
 				)
 			)
-			.subscribe();
+			.subscribe({
+				error: (error) => {
+					if (!error?.graphQLErrors) {
+						return;
+					}
+					const errorsCodes = error?.graphQLErrors[0]?.extensions?.codes || [];
+
+					if (errorsCodes.includes("1035")) {
+						this._toastrService.error(undefined, { data: { title: "Стіл з таким кодом вже існує" } });
+					}
+				}
+			});
 	}
 
 	openUpdateTableDialog(data: AtLeast<TableEntity, "id">) {

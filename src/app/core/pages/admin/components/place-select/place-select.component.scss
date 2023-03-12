@@ -37,7 +37,7 @@
 						align-items: center;
 						justify-content: center;
 
-						@include icon () {
+						@include icon() {
 							path {
 								fill: var(--dark-t);
 							}
@@ -59,7 +59,7 @@
 				background-color: rgb(255 255 255 / 1%);
 			}
 			&.link {
-				@include icon () {
+				@include icon() {
 					path {
 						fill: var(--light-t);
 					}

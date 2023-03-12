@@ -1,0 +1,43 @@
+@import "src/assets/scss/abstractions";
+
+@include component() {
+	.app-paginator.theme-1 {
+		display: flex;
+		justify-content: flex-end;
+		column-gap: rem(5);
+		.page-item {
+			.page {
+				font-size: rem(16);
+				width: rem(25);
+				height: rem(25);
+				border-radius: rem(6);
+				background-color: var(--light-grey);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border: rem(1) solid transparent;
+				color: var(--dark);
+				&:hover:not(.active) {
+					border-color: var(--primary);
+				}
+				&.active {
+					background-color: var(--primary);
+				}
+			}
+		}
+	}
+}
+@include dark() {
+	.app-pager.theme-1 {
+		.page-item .page {
+			background-color: var(--dark-grey);
+			color: var(--light);
+			&:hover:not(.active) {
+				border-color: var(--primary);
+			}
+			&.active {
+				background-color: var(--primary);
+			}
+		}
+	}
+}

@@ -19,3 +19,7 @@ mutation AddUserToPlace($data: UserToPlaceInput!) {
 		id
 	}
 }
+
+mutation RemoveUserFromPlace($userToPlaceId: String!) {
+	removeUserFromPlace(userToPlaceId: $userToPlaceId)
+}

@@ -11,6 +11,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -25,9 +26,9 @@ import { EmployeesPageGQL } from "../graphql";
 export class EmployeesComponent implements OnDestroy, OnInit {
 	@ViewChild("moreTemplate", { static: true }) moreTemplate!: TemplateRef<unknown>;
 	private readonly _employeesPageQuery = this._employeesPageGQL.watch();
-	readonly employees$ = this._employeesPageQuery.valueChanges.pipe(
-		map((result) => (result.data.usersToPlaces.data || []).map((userToPlace) => userToPlace.user))
-	);
+	readonly employees$ = this._employeesPageQuery.valueChanges.pipe(map((result) => result.data.usersToPlaces));
+
+	readonly limit = 5;
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -45,10 +46,19 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 			filtersArgs: [
 				{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) },
 				{ key: "user.role", operator: "=", value: UserRoleEnum.Waiter }
-			]
+			],
+			skip: 0,
+			take: this.limit
 		});
 
 		this._actionsService.setAction({ label: "ADD_EMPLOYEE", func: () => this.openAddEmployeeDialog() });
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._employeesPageQuery.setVariables({
+			...this._employeesPageQuery.variables,
+			skip: page.pageSize * page.offset
+		});
 	}
 
 	openAddEmployeeDialog() {
@@ -58,7 +68,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 				filter((employee) => Boolean(employee)),
 				switchMap((employee) =>
 					this._usersService
-						.addUserToPlaceGQL({
+						.addUserToPlace({
 							user: employee.id,
 							place: this._routerService.getParams(PLACE_ID.slice(1)),
 							role: UserRoleEnum.Waiter
@@ -100,7 +110,7 @@ export class EmployeesComponent implements OnDestroy, OnInit {
 			.afterClosed$.pipe(
 				filter((isConfirmed) => Boolean(isConfirmed)),
 				switchMap(() =>
-					this._usersService.deleteUser(value.id).pipe(
+					this._usersService.removeUserFromPlace(value.id).pipe(
 						switchMap(() => this._employeesPageQuery.refetch()),
 						this._toastrService.observe(this._i18nService.translate("EMPLOYEES.DELETE"))
 					)

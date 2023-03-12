@@ -28,6 +28,10 @@ query ShiftPage($hallsFiltersArgs: [FiltersArgsDto!], $tablesFiltersArgs: [Filte
 		data {
 			id
 			name
+			file {
+				id
+				url
+			}
 			hall {
 				id
 				name

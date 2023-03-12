@@ -12,7 +12,7 @@ export interface HistoryOrderPageQuery {
 	historyOrder: {
 		__typename?: "HistoryOrderEntity";
 		id: string;
-		orderNumber: number;
+		orderNumber?: number | null;
 		productsToOrders: any[];
 		status: Types.OrderStatusEnum;
 		table?: any | null;

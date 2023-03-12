@@ -10,5 +10,7 @@ query EmployeesPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 				role
 			}
 		}
+		totalCount
+		page
 	}
 }

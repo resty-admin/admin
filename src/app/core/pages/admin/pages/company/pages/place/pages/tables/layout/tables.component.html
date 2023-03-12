@@ -5,12 +5,21 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list
-		class="list"
-		[items]="tables$ | async"
-		[itemTemplate]="tableTemplate"
-		(clicked)="openTableQrCodeDialog($event)"
-	></app-list>
+	<ng-container *ngIf="tables$ | async as tablesData">
+		<app-list
+			class="list"
+			[items]="tablesData.data"
+			[itemTemplate]="tableTemplate"
+			(clicked)="openTableQrCodeDialog($event)"
+		></app-list>
+
+		<app-pager
+			[count]="tablesData.totalCount"
+			[offset]="tablesData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		></app-pager>
+	</ng-container>
 </div>
 
 <ng-template let-item #tableTemplate>

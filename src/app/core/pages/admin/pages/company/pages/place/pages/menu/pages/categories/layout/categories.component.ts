@@ -12,6 +12,7 @@ import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -25,8 +26,9 @@ import { CategoriesPageGQL } from "../graphql";
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
 	private readonly _categoriesPageQuery = this._categoriesPageGQL.watch();
-	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories.data));
+	readonly categories$ = this._categoriesPageQuery.valueChanges.pipe(map((result) => result.data.categories));
 
+	readonly limit = 5;
 	constructor(
 		readonly sharedService: SharedService,
 		private readonly _routerService: RouterService,
@@ -43,7 +45,16 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 		this._actionsService.setAction({ label: "ADD_CATEGORY", func: () => this.openCreateCategoryDialog() });
 
 		await this._categoriesPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }],
+			skip: 0,
+			take: 5
+		});
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._categoriesPageQuery.setVariables({
+			...this._categoriesPageQuery.variables,
+			skip: page.pageSize * page.offset
 		});
 	}
 

@@ -13,6 +13,8 @@ export interface GuestsPageQuery {
 	__typename?: "Query";
 	usersToPlaces: {
 		__typename?: "PaginatedUserToPlace";
+		totalCount: number;
+		page: number;
 		data?:
 			| {
 					__typename?: "UserToPlaceEntity";
@@ -43,6 +45,8 @@ export const GuestsPageDocument = gql`
 					role
 				}
 			}
+			totalCount
+			page
 		}
 	}
 `;

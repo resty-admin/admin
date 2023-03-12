@@ -13,6 +13,7 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { PagerModule } from "@shared/ui/pager";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -40,7 +41,8 @@ import { PaymentSystemsRoutingModule } from "./payment-systems-routing.module";
 		SkeletonModule,
 		FiltersSkeletonModule,
 		PaymentSystemSkeletonModule,
-		ListSkeletonModule
+		ListSkeletonModule,
+		PagerModule
 	]
 })
 export class PaymentSystemsModule {}

@@ -48,6 +48,7 @@ export interface ShiftPageQuery {
 					__typename?: "TableEntity";
 					id: string;
 					name: string;
+					file?: { __typename?: "FileEntity"; id: string; url: string } | null;
 					hall: { __typename?: "HallEntity"; id: string; name: string };
 			  }[]
 			| null;
@@ -97,6 +98,10 @@ export const ShiftPageDocument = gql`
 			data {
 				id
 				name
+				file {
+					id
+					url
+				}
 				hall {
 					id
 					name

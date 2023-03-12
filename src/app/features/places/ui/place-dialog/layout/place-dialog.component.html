@@ -31,6 +31,7 @@
 				returnType="number"
 				[label]="t('FORM.WEEKDAY_START_LABEL')"
 				[placeholder]="t('FORM.WEEKDAY_START_PLACEHOLDER')"
+				[errors]="formGroup.controls['weekDays'].get('start').errors"
 			></app-input>
 			<app-input
 				formControlName="end"
@@ -38,6 +39,7 @@
 				returnType="number"
 				[label]="t('FORM.WEEKDAY_END_LABEL')"
 				[placeholder]="t('FORM.WEEKDAY_END_PLACEHOLDER')"
+				[errors]="formGroup.controls['weekDays'].get('end').errors"
 			></app-input>
 		</div>
 
@@ -48,6 +50,7 @@
 				returnType="number"
 				[label]="t('FORM.WEEKEND_START_LABEL')"
 				[placeholder]="t('FORM.WEEKEND_START_PLACEHOLDER')"
+				[errors]="formGroup.controls['weekendDays'].get('start').errors"
 			></app-input>
 			<app-input
 				formControlName="end"
@@ -55,6 +58,7 @@
 				returnType="number"
 				[label]="t('FORM.WEEKEND_END_LABEL')"
 				[placeholder]="t('FORM.WEEKEND_END_PLACEHOLDER')"
+				[errors]="formGroup.controls['weekendDays'].get('end').errors"
 			></app-input>
 		</div>
 
