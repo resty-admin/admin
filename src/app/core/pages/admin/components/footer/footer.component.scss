@@ -44,7 +44,7 @@
 		.back {
 			background-color: var(--dark-grey);
 			.icon {
-				@include icon () {
+				@include icon() {
 					stroke: var(--light);
 				}
 			}

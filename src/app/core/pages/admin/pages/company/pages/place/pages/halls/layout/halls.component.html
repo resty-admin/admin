@@ -5,7 +5,16 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list class="list" [items]="halls$ | async" [itemTemplate]="hallTemplate" type="link"></app-list>
+	<ng-container *ngIf="halls$ | async as hallsData">
+		<app-list class="list" [items]="hallsData.data" [itemTemplate]="hallTemplate" type="link"></app-list>
+
+		<app-pager
+			[count]="hallsData.totalCount"
+			[offset]="hallsData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		></app-pager>
+	</ng-container>
 </div>
 
 <ng-template let-item #hallTemplate>

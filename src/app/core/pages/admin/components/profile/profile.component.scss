@@ -76,7 +76,7 @@
 		.sign-out {
 			background-color: var(--dark);
 			.icon {
-				@include icon () {
+				@include icon() {
 					path {
 						fill: var(--light);
 					}

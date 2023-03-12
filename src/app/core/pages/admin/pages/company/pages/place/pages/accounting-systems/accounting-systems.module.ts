@@ -13,6 +13,7 @@ import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { PagerModule } from "@shared/ui/pager";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TypographyModule } from "@shared/ui/typography";
 
@@ -37,7 +38,8 @@ import { AccountingSystemsComponent } from "./layout/accounting-systems.componen
 		AccountingSytemSkeletonModule,
 		SkeletonModule,
 		FiltersSkeletonModule,
-		ListSkeletonModule
+		ListSkeletonModule,
+		PagerModule
 	]
 })
 export class AccountingSystemsModule {}

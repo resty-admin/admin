@@ -14,6 +14,7 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { PagerModule } from "@shared/ui/pager";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
@@ -44,7 +45,8 @@ import { ActiveOrdersComponent } from "./layout/active-orders.component";
 		ListSkeletonModule,
 		OrderSkeletonModule,
 		ListModule,
-		AddButtonModule
+		AddButtonModule,
+		PagerModule
 	]
 })
 export class ActiveOrdersModule {}

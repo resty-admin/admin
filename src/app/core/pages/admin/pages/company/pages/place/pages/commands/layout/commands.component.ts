@@ -9,6 +9,7 @@ import { I18nService } from "@shared/modules/i18n";
 import { RouterService } from "@shared/modules/router";
 import { ConfirmationDialogComponent } from "@shared/ui/confirmation-dialog";
 import { DialogService } from "@shared/ui/dialog";
+import type { IPageInfo } from "@shared/ui/pager";
 import { ToastrService } from "@shared/ui/toastr";
 import { filter, map, switchMap, take } from "rxjs";
 
@@ -22,7 +23,9 @@ import { CommandsPageGQL } from "../graphql";
 })
 export class CommandsComponent implements OnInit, OnDestroy {
 	private readonly _commandsPageQuery = this._commandsPageGQL.watch();
-	readonly commands$ = this._commandsPageQuery.valueChanges.pipe(map((result) => result.data.commands.data));
+	readonly commands$ = this._commandsPageQuery.valueChanges.pipe(map((result) => result.data.commands));
+
+	readonly limit = 5;
 
 	constructor(
 		private readonly _actionsService: ActionsService,
@@ -36,10 +39,19 @@ export class CommandsComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		await this._commandsPageQuery.setVariables({
-			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }]
+			filtersArgs: [{ key: "place.id", operator: "=", value: this._routerService.getParams(PLACE_ID.slice(1)) }],
+			skip: 0,
+			take: this.limit
 		});
 
 		this._actionsService.setAction({ label: "ADD_COMMAND", func: () => this.openCreateCommandDialog() });
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._commandsPageQuery.setVariables({
+			...this._commandsPageQuery.variables,
+			skip: page.pageSize * page.offset
+		});
 	}
 
 	openCreateCommandDialog() {

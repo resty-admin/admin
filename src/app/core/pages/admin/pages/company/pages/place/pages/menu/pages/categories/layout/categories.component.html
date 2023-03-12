@@ -3,33 +3,42 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<ul class="categories">
-		<li class="category" *ngFor="let category of categories$ | async; trackBy: sharedService.trackByFn">
-			<div class="header">
-				<app-image class="image" [remote]="true" [name]="category.file?.url" placeholder="category"></app-image>
+	<ng-container *ngIf="categories$ | async as categoriesData">
+		<ul class="categories">
+			<li class="category" *ngFor="let category of categoriesData.data; trackBy: sharedService.trackByFn">
+				<div class="header">
+					<app-image class="image" [remote]="true" [name]="category.file?.url" placeholder="category"></app-image>
 
-				<h1 class="label">{{ category.name }}</h1>
+					<h1 class="label">{{ category.name }}</h1>
 
-				<app-more
-					class="more"
-					(editClicked)="openUpdateCategoryDialog(category)"
-					(deleteClicked)="openDeleteCategoryDialog(category)"
-				></app-more>
-			</div>
-
-			<ul class="products">
-				<li class="product" *ngFor="let product of category.products; trackBy: sharedService.trackByFn">
-					<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>
-					<p class="name">{{ product.name }}</p>
-					<p class="description">{{ product.description }}</p>
-					<p class="price">{{ product.price }} {{ t("PRODUCT.CURRENCY") }}</p>
 					<app-more
 						class="more"
-						(editClicked)="openUpdateProductDialog(product, category)"
-						(deleteClicked)="openDeleteProductDialog(product)"
+						(editClicked)="openUpdateCategoryDialog(category)"
+						(deleteClicked)="openDeleteCategoryDialog(category)"
 					></app-more>
-				</li>
-			</ul>
-		</li>
-	</ul>
+				</div>
+
+				<!--			<ul class="products">-->
+				<!--				<li class="product" *ngFor="let product of category.products; trackBy: sharedService.trackByFn">-->
+				<!--					<app-image class="image" [remote]="true" [name]="product.file?.url" placeholder="product"></app-image>-->
+				<!--					<p class="name">{{ product.name }}</p>-->
+				<!--					<p class="description">{{ product.description }}</p>-->
+				<!--					<p class="price">{{ product.price }} {{ t("PRODUCT.CURRENCY") }}</p>-->
+				<!--					<app-more-->
+				<!--						class="more"-->
+				<!--						(editClicked)="openUpdateProductDialog(product, category)"-->
+				<!--						(deleteClicked)="openDeleteProductDialog(product)"-->
+				<!--					></app-more>-->
+				<!--				</li>-->
+				<!--			</ul>-->
+			</li>
+		</ul>
+
+		<app-pager
+			[count]="categoriesData.totalCount"
+			[offset]="categoriesData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		></app-pager>
+	</ng-container>
 </div>

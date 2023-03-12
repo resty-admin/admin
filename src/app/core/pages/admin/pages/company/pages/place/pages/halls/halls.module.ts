@@ -15,6 +15,7 @@ import { ImageModule } from "@shared/ui/image";
 import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { PagerModule } from "@shared/ui/pager";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TooltipModule } from "@shared/ui/tooltip";
 import { TypographyModule } from "@shared/ui/typography";
@@ -46,7 +47,8 @@ import { HallsComponent } from "./layout/halls.component";
 		ListSkeletonModule,
 		HallSkeletonModule,
 		SkeletonModule,
-		AddButtonModule
+		AddButtonModule,
+		PagerModule
 	]
 })
 export class HallsModule {}

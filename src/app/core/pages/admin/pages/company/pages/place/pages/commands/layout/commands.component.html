@@ -5,7 +5,16 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<app-list class="list" [items]="commands$ | async" [itemTemplate]="commandTemplate"></app-list>
+	<ng-container *ngIf="commands$ | async as commandsData">
+		<app-list class="list" [items]="commandsData.data" [itemTemplate]="commandTemplate"></app-list>
+
+		<app-pager
+			[count]="commandsData.totalCount"
+			[offset]="commandsData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		></app-pager>
+	</ng-container>
 </div>
 
 <ng-template let-item #commandTemplate>

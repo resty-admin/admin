@@ -10,5 +10,7 @@ query GuestsPage($skip: Int, $take: Int, $filtersArgs: [FiltersArgsDto!]) {
 				role
 			}
 		}
+		totalCount
+		page
 	}
 }

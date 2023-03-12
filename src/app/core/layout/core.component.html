@@ -3,44 +3,7 @@
 	<app-progress-bar class="progress-bar"></app-progress-bar>
 	<app-theme class="theme"></app-theme>
 
-	<app-header
-		class="header"
-		*ngIf="isClient$ | async"
-		[user]="user$ | async"
-		(signOutClicked)="signOut()"
-		[activeOrder]="activeOrder$ | async"
-		(burgerClicked)="toggleAside()"
-	></app-header>
-
-	<main class="main">
-		<app-aside
-			class="aside"
-			*ngIf="isClient$ | async"
-			[class.open]="isAsideOpen$ | async"
-			[user]="user$ | async"
-			[pages]="pages$ | async"
-			[companies]="companies$ | async"
-			[places]="places$ | async"
-			[companyId]="companyId$ | async"
-			[placeId]="placeId$ | async"
-			(addCompanyClicked)="openCreateCompanyDialog()"
-			(editCompanyClicked)="openUpdateCompanyDialog($event)"
-			(deleteCompanyClicked)="openDeleteCompanyDialog($event)"
-			(addPlaceClicked)="openCreatePlaceDialog()"
-			(editPlaceClicked)="openUpdatePlaceDialog($event)"
-			(deletePlaceClicked)="openDeletePlaceDialog($event)"
-			(companyChanged)="navigateToCompany($event)"
-			(placeChanged)="navigateToPlace($event)"
-			(closeClicked)="toggleAside()"
-			(signOutClicked)="signOut()"
-		></app-aside>
-
-		<app-navigation-skeleton class="navigation-skeleton">
-			<div class="pages" [@routeAnimations]="getRouteAnimationData()">
-				<router-outlet></router-outlet>
-			</div>
-
-			<app-footer class="footer"></app-footer>
-		</app-navigation-skeleton>
-	</main>
+	<div class="pages" [@routeAnimations]="getRouteAnimationData()">
+		<router-outlet></router-outlet>
+	</div>
 </div>

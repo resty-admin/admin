@@ -34,6 +34,7 @@
 				[selected]="selectedProductsToOrders"
 				[selectionType]="SelectionType.multiClick"
 				(selectChange)="selectChange($event)"
+				[count]="(activeOrder.productsToOrders || []).length"
 			>
 				<ng-container appColumn="product">
 					<ng-template #header>{{ t("ACTIVE_ORDER.NAME") }}</ng-template>

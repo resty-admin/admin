@@ -13,6 +13,7 @@ import { FiltersSkeletonModule } from "@shared/ui/filters-skeleton";
 import { IconModule } from "@shared/ui/icon";
 import { InputModule } from "@shared/ui/input";
 import { MoreModule } from "@shared/ui/more";
+import { PagerModule } from "@shared/ui/pager";
 import { SelectModule } from "@shared/ui/select";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TabsSkeletonModule } from "@shared/ui/tabs-skeleton";
@@ -45,7 +46,8 @@ import { EmployeesComponent } from "./layout/employees.component";
 		FiltersSkeletonModule,
 		DatatableSkeletonModule,
 		MoreModule,
-		AddButtonModule
+		AddButtonModule,
+		PagerModule
 	]
 })
 export class EmployeesModule {}

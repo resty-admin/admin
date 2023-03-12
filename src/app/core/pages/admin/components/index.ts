@@ -7,7 +7,7 @@ import { PlaceSelectComponent } from "./place-select/place-select.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { SupportComponent } from "./support/support.component";
 
-export const CORE_COMPONENTS = [
+export const ADMIN_COMPONENTS = [
 	HeaderComponent,
 	AsideComponent,
 	FooterComponent,

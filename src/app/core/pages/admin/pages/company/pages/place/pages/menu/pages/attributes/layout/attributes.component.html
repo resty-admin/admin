@@ -3,34 +3,43 @@
 
 	<app-filters class="filters"></app-filters>
 
-	<ul class="attributes-groups">
-		<li
-			class="attributes-group"
-			*ngFor="let attributesGroup of attributeGroups$ | async; trackBy: sharedService.trackByFn"
-		>
-			<div class="header">
-				<h1 class="label">{{ attributesGroup.name }}</h1>
+	<ng-container *ngIf="attributeGroups$ | async as attributeGroupsData">
+		<ul class="attributes-groups">
+			<li
+				class="attributes-group"
+				*ngFor="let attributesGroup of attributeGroupsData.data; trackBy: sharedService.trackByFn"
+			>
+				<div class="header">
+					<h1 class="label">{{ attributesGroup.name }}</h1>
 
-				<app-more
-					class="more"
-					(editClicked)="openUpdateAttributeGroupDialog(attributesGroup)"
-					(deleteClicked)="openDeleteAttributeGroupDialog(attributesGroup)"
-				></app-more>
-			</div>
-
-			<ul class="attributes">
-				<li class="attribute" *ngFor="let attribute of attributesGroup.attributes; trackBy: sharedService.trackByFn">
-					<p class="name-label">{{ t("ATTRIBUTES.NAME") }}</p>
-					<p class="name-value">{{ attribute.name }}</p>
-					<p class="description-label">{{ t("ATTRIBUTES.DESCRIPTION") }}</p>
-					<p class="description-value">{{ attribute.price }}{{ t("ATTRIBUTES.CURRENCY") }}</p>
 					<app-more
 						class="more"
-						(editClicked)="openUpdateAttributeDialog(attribute)"
-						(deleteClicked)="openDeleteAttributeDialog(attribute)"
+						(editClicked)="openUpdateAttributeGroupDialog(attributesGroup)"
+						(deleteClicked)="openDeleteAttributeGroupDialog(attributesGroup)"
 					></app-more>
-				</li>
-			</ul>
-		</li>
-	</ul>
+				</div>
+
+				<ul class="attributes">
+					<li class="attribute" *ngFor="let attribute of attributesGroup.attributes; trackBy: sharedService.trackByFn">
+						<p class="name-label">{{ t("ATTRIBUTES.NAME") }}</p>
+						<p class="name-value">{{ attribute.name }}</p>
+						<p class="description-label">{{ t("ATTRIBUTES.DESCRIPTION") }}</p>
+						<p class="description-value">{{ attribute.price }}{{ t("ATTRIBUTES.CURRENCY") }}</p>
+						<app-more
+							class="more"
+							(editClicked)="openUpdateAttributeDialog(attribute)"
+							(deleteClicked)="openDeleteAttributeDialog(attribute)"
+						></app-more>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<app-pager
+			[count]="attributeGroupsData.totalCount"
+			[offset]="attributeGroupsData.page - 1"
+			[limit]="limit"
+			(pageChanged)="updateQuery($event)"
+		></app-pager>
+	</ng-container>
 </div>

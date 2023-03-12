@@ -5,6 +5,7 @@ import { ADMIN_ROUTES, COMPANY_ID, ORDER_ID, PLACE_ID } from "@shared/constants"
 import type { AtLeast } from "@shared/interfaces";
 import { RouterService } from "@shared/modules/router";
 import { SharedService } from "@shared/services";
+import type { IPageInfo } from "@shared/ui/pager";
 import { map } from "rxjs";
 
 import { HistoryOrdersPageGQL } from "../graphql";
@@ -17,9 +18,9 @@ import { HistoryOrdersPageGQL } from "../graphql";
 })
 export class HistoryOrdersComponent implements OnInit {
 	private readonly _historyOrdersPageQuery = this._historyOrdersPageGQL.watch();
-	readonly historyOrders$ = this._historyOrdersPageQuery.valueChanges.pipe(
-		map((result) => result.data.historyOrders.data)
-	);
+	readonly historyOrders$ = this._historyOrdersPageQuery.valueChanges.pipe(map((result) => result.data.historyOrders));
+
+	readonly limit = 5;
 
 	constructor(
 		readonly sharedService: SharedService,
@@ -29,7 +30,16 @@ export class HistoryOrdersComponent implements OnInit {
 
 	async ngOnInit() {
 		await this._historyOrdersPageQuery.setVariables({
-			placeId: this._routerService.getParams(PLACE_ID.slice(1))
+			placeId: this._routerService.getParams(PLACE_ID.slice(1)),
+			skip: 0,
+			take: this.limit
+		});
+	}
+
+	async updateQuery(page: IPageInfo) {
+		await this._historyOrdersPageQuery.setVariables({
+			...this._historyOrdersPageQuery.variables,
+			skip: page.pageSize * page.offset
 		});
 	}
 

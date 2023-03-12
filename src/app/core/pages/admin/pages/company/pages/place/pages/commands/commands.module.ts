@@ -13,6 +13,7 @@ import { IconModule } from "@shared/ui/icon";
 import { InputModule } from "@shared/ui/input";
 import { ListModule } from "@shared/ui/list";
 import { ListSkeletonModule } from "@shared/ui/list-skeleton";
+import { PagerModule } from "@shared/ui/pager";
 import { SkeletonModule } from "@shared/ui/skeleton";
 import { TextareaModule } from "@shared/ui/textarea";
 import { TooltipModule } from "@shared/ui/tooltip";
@@ -44,7 +45,8 @@ import { CommandsComponent } from "./layout/commands.component";
 		FiltersSkeletonModule,
 		ListSkeletonModule,
 		CommandSkeletonModule,
-		AddButtonModule
+		AddButtonModule,
+		PagerModule
 	]
 })
 export class CommandsModule {}
